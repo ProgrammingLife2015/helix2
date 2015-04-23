@@ -1,4 +1,4 @@
-package ti2806.data;
+package tudelft.ti2806.pl3.data;
 
 public enum Gene {
 	U(0), C(1), A(2), G(3);

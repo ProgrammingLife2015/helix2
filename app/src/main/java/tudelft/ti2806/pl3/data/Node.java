@@ -1,6 +1,6 @@
-package ti2806.data;
+package tudelft.ti2806.pl3.data;
 
-import ti2806.data.mutation.Mutation;
+import tudelft.ti2806.pl3.data.mutation.Mutation;
 
 import java.util.ArrayList;
 import java.util.Arrays;

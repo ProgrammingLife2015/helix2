@@ -1,10 +1,10 @@
-package ti2806.data;
+package tudelft.ti2806.pl3.data;
 
 import static org.junit.Assert.assertTrue;
-import static ti2806.data.Gene.A;
-import static ti2806.data.Gene.C;
-import static ti2806.data.Gene.G;
-import static ti2806.data.Gene.U;
+import static tudelft.ti2806.pl3.data.Gene.A;
+import static tudelft.ti2806.pl3.data.Gene.C;
+import static tudelft.ti2806.pl3.data.Gene.G;
+import static tudelft.ti2806.pl3.data.Gene.U;
 
 import org.junit.Test;
 
