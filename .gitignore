@@ -26,6 +26,10 @@ Thumbs.db
 target/
 bin/
 
+# IntelliJ project files
+*.iml
+.idea/
+
 # logs
 logs/
 
