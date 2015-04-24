@@ -15,10 +15,10 @@ public class Node {
 	protected List<Node> incommingConnections = new ArrayList<Node>();
 	protected List<Node> outgoingConnections = new ArrayList<Node>();
 	protected Mutation mutation;
-	
+
 	/**
 	 * Initialise a {@code Node}.
-	 * 
+	 *
 	 * @param nodeId
 	 *            the id of the node
 	 * @param source
@@ -39,22 +39,22 @@ public class Node {
 		this.refEndPoint = refEndPoint;
 		this.content = contentOfTheNode;
 	}
-	
+
 	public void addIncomming(Node from) {
 		incommingConnections.add(from);
 	}
-	
+
 	public void addOutgoing(Node to) {
 		outgoingConnections.add(to);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Node [nodeId=" + nodeId + ", source=" + Arrays.toString(source)
 				+ ", refStartPoint=" + refStartPoint + ", refEndPoint="
 				+ refEndPoint + ", content=" + Arrays.toString(content) + "]";
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -84,33 +84,43 @@ public class Node {
 		}
 		return true;
 	}
-	
-	public int getNodeId() {
+
+	@Override
+	public int hashCode() {
+		int result = nodeId;
+		result = 31 * result + Arrays.hashCode(source);
+		result = 31 * result + refStartPoint;
+		result = 31 * result + refEndPoint;
+		result = 31 * result + Arrays.hashCode(content);
+		return result;
+	}
+
+    public int getNodeId() {
 		return nodeId;
 	}
-	
+
 	public String[] getSource() {
 		return source;
 	}
-	
+
 	public int getRefStartPoint() {
 		return refStartPoint;
 	}
-	
+
 	public int getRefEndPoint() {
 		return refEndPoint;
 	}
-	
+
 	public Gene[] getContent() {
 		return content;
 	}
-	
+
 	public List<Node> getIncommingConnections() {
 		return incommingConnections;
 	}
-	
+
 	public List<Node> getOutgoingConnections() {
 		return outgoingConnections;
 	}
-	
+
 }
