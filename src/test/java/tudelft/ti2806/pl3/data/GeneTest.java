@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static tudelft.ti2806.pl3.data.Gene.A;
 import static tudelft.ti2806.pl3.data.Gene.C;
 import static tudelft.ti2806.pl3.data.Gene.G;
+import static tudelft.ti2806.pl3.data.Gene.N;
 import static tudelft.ti2806.pl3.data.Gene.U;
 
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class GeneTest {
 		assertTrue(Gene.getCodon(U, U, G) == 3);
 		assertTrue(Gene.getCodon(U, G, G) == 15);
 		assertTrue(Gene.getCodon(G, G, G) == 63);
+		assertTrue(Gene.getCodon(N, G, G) == -1);
 		
 		assertTrue(Gene.getCodon(Gene.getGeneString("UUA")) == 2);
 		assertTrue(Gene.getCodon(Gene.getGeneString("GGC")) == 61);
