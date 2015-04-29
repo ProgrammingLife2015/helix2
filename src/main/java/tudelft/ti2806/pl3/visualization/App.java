@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.data;
+package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
