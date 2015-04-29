@@ -9,7 +9,7 @@ public enum AminoAcid {
 	Arg, Gly, Ochre, Amber, Opal;
 	
 	private static final int CODON_SIZE = 3;
-	private static final int CODONS = (int) Math.pow(Gene.values().length - 1,
+	private static final int CODONS = (int) Math.pow(Gene.MAX_GENE,
 			CODON_SIZE);
 	private static final AminoAcid[] TRANSLATION_TABLE = fillTranslationTable();
 	private static final String TRANSLATION_TABLE_FILE = "data/translationTable";
