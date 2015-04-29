@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.data;
 
 public enum Gene {
-	N(-1), U(0), C(1), A(2), G(3);
+	N(-1), T(0), U(0), C(1), A(2), G(3);
 	
 	private int value;
 	
