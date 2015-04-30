@@ -91,23 +91,28 @@ public class SNode implements Node {
 		result = prime * result + Arrays.hashCode(source);
 		return result;
 	}
-	
+
+	@Override
 	public int getNodeId() {
 		return nodeId;
 	}
-	
+
+	@Override
 	public String[] getSource() {
 		return source;
 	}
-	
+
+	@Override
 	public int getRefStartPoint() {
 		return refStartPoint;
 	}
-	
+
+	@Override
 	public int getRefEndPoint() {
 		return refEndPoint;
 	}
-	
+
+	@Override
 	public Gene[] getContent() {
 		return content;
 	}
