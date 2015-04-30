@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.data;
 
 import java.util.Arrays;
 
-public class SNode extends Node {
+public class SNode implements Node {
 	protected int nodeId;
 	protected String[] source;
 	protected int refStartPoint;

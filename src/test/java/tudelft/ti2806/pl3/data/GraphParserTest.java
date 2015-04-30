@@ -1,16 +1,16 @@
 package tudelft.ti2806.pl3.data;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.SingleGraph;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class GraphParserTest {
@@ -19,35 +19,55 @@ public class GraphParserTest {
 	
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {
-		Graph graph = new SingleGraph("hi");
-		GraphParser.parseNode(graph, new Scanner(simpleNodeGraphFile));
-		Node node = graph.getNode("35");
-		assertNotNull(node);
-		assertTrue(new AttributeArray<String>(new String[] { "TKK-01-0029" })
-				.equals(node.getAttribute(NodeAttributes.SOURCE)));
-		assertTrue(new Integer(2609451).equals(node
-				.getAttribute(NodeAttributes.REF_START_POINT)));
-		assertTrue(new Integer(2609452).equals(node
-				.getAttribute(NodeAttributes.REF_END_POINT)));
-		assertTrue(new AttributeArray<Gene>(new Gene[] { Gene.A }).equals(node
-				.getAttribute(NodeAttributes.CONTENT)));
+		Node node = GraphParser.parseNode(new Scanner(simpleNodeGraphFile));
+		assertTrue(node.equals(new Node(35, new String[] { "TKK-01-0029" },
+				2609451, 2609452, new Gene[] { Gene.A })));
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Test
-	public void parseEdgeTest() throws FileNotFoundException {
-		Graph graph = GraphParser.parseGraph("hi", simpleNodeGraphFile,
-				simpleEdgeGraphFile);
-		
-		Node nodeA = graph.getNode("35");
-		assertTrue(((List<String>) nodeA
-				.getAttribute(NodeAttributes.OUTGOING_CONNECTIONS)).size() == 1);
-		assertTrue(nodeA.getAttribute(NodeAttributes.INCOMING_CONNECTIONS) == null);
-		
-		Node nodeB = graph.getNode("1");
-		assertTrue(nodeB.getAttribute(NodeAttributes.OUTGOING_CONNECTIONS) == null);
-		assertTrue(((List<String>) nodeB
-				.getAttribute(NodeAttributes.INCOMING_CONNECTIONS)).size() == 1);
-		
-	}
+//	@Test
+//	public void connectNodesTest() throws FileNotFoundException {
+//		Scanner scanner = new Scanner(simpleNodeGraphFile);
+//		Node nodeA = GraphParser.parseNode(scanner);
+//		Node nodeB = GraphParser.parseNode(scanner);
+//		
+//		GraphParser.connectNodes(nodeA, nodeB);
+//		
+//		assertTrue(nodeA.outgoingConnections.size() == 1);
+//		assertTrue(nodeA.incommingConnections.size() == 0);
+//		
+//		assertTrue(nodeB.outgoingConnections.size() == 0);
+//		assertTrue(nodeB.incommingConnections.size() == 1);
+//	}
+	
+//	@Test
+//	public void parseEdgeAndNodeTest() throws FileNotFoundException {
+//		Map<Integer, Node> nodeMap = GraphParser
+//				.parseNodes(simpleNodeGraphFile);
+//		GraphParser.parseEdges(simpleEdgeGraphFile, nodeMap);
+//		
+//		Node nodeA = nodeMap.get(35);
+//		assertTrue(nodeA.outgoingConnections.size() == 1);
+//		assertTrue(nodeA.incommingConnections.size() == 0);
+//		
+//		Node nodeB = nodeMap.get(1);
+//		assertTrue(nodeB.outgoingConnections.size() == 0);
+//		assertTrue(nodeB.incommingConnections.size() == 1);
+//	}
+	
+//	@Test
+//	public void parseGraphTest() throws FileNotFoundException {
+//		Collection<Node> collection = GraphParser.parseGraph(
+//				simpleNodeGraphFile, simpleEdgeGraphFile);
+//		
+//		List<Node> nodeList = new ArrayList<Node>();
+//		nodeList.addAll(collection);
+//		
+//		Node nodeA = nodeList.get(1);
+//		assertTrue(nodeA.outgoingConnections.size() == 1);
+//		assertTrue(nodeA.incommingConnections.size() == 0);
+//		
+//		Node nodeB = nodeList.get(0);
+//		assertTrue(nodeB.outgoingConnections.size() == 0);
+//		assertTrue(nodeB.incommingConnections.size() == 1);
+//	}
 }
