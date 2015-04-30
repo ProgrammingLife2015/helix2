@@ -54,7 +54,7 @@ public class DisplayModel {
 			
 			// init CNode
 			CNode combinedNode = new CNode(foundEdgeGroup);
-			nodes2.removeAll(combinedNode.getNodes());
+			nodes2.removeAll(combinedNode.getNodeList());
 			nodeReference.put(foundEdgeGroup.get(0).getFrom().getNodeId(),
 					combinedNode);
 			nodeReference.put(foundEdgeGroup.get(foundEdgeGroup.size() - 1)
@@ -201,8 +201,8 @@ public class DisplayModel {
 		Edge lastEdge = null;
 		boolean found = true;
 		for (Edge edge : edges) {
-			if (lastEdge != null && edge.getTo().getNodeId()
-					== lastEdge.getTo().getNodeId()) {
+			if (lastEdge != null
+					&& edge.getTo().getNodeId() == lastEdge.getTo().getNodeId()) {
 				found = true;
 			} else {
 				if (found == false) {
