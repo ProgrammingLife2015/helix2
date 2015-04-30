@@ -10,8 +10,8 @@ public class GenomeRepository {
 	
 	public void loadGraph() throws FileNotFoundException {
 		genome = new ArrayList<Node>();
-		genome.addAll(GraphParser.parseGraph(new File(
-				"data/10_strains_graph/simple_graph.node.graph"), new File(
-				"data/10_strains_graph/simple_graph.edge.graph")));
+//		genome.addAll(GraphParser.parseGraph(new File(
+//				"data/10_strains_graph/simple_graph.node.graph"), new File(
+//				"data/10_strains_graph/simple_graph.edge.graph")));
 	}
 }

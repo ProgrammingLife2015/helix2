@@ -3,7 +3,6 @@ package tudelft.ti2806.pl3.data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,25 +11,6 @@ import java.util.Scanner;
 public class GraphParser {
 	
 	private GraphParser() {
-	}
-	
-	/**
-	 * Parse the nodesFile and edgesFile into the graph.
-	 * 
-	 * @param nodesFile
-	 *            the file with nodes to be read
-	 * @param edgesFile
-	 *            the file with edges to be read
-	 * @return a collection of all nodes in the graph
-	 * @throws FileNotFoundException
-	 *             if one of the files is not found
-	 */
-	@Deprecated
-	public static Collection<Node> parseGraph(File nodesFile, File edgesFile)
-			throws FileNotFoundException {
-		Map<Integer, Node> nodes = parseNodes(nodesFile);
-		parseEdges(edgesFile, nodes);
-		return nodes.values();
 	}
 	
 	/**

@@ -2,30 +2,110 @@ package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
 
+import tudelft.ti2806.pl3.data.CNode;
 import tudelft.ti2806.pl3.data.Edge;
 import tudelft.ti2806.pl3.data.Node;
 import tudelft.ti2806.pl3.data.filter.Filter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DisplayModel {
 	protected List<Filter<Node>> nodeFilters = new ArrayList<Filter<Node>>();
 	protected List<Node> nodes;
 	protected List<Edge> edges;
 	
+	public DisplayModel(List<Edge> edgeList, List<Node> nodeList) {
+		this.edges = edgeList;
+		this.nodes = nodeList;
+	}
+	
 	public Graph produceGraph() {
-		List<Node> resultNodes = cloneNodeList(nodes);
+		List<Node> resultNodes = getNodeListClone();
 		filter(resultNodes);
-		List<Edge> resultEdges = cloneEdgeList(edges);
+		List<Edge> resultEdges = getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
-		findCombineableNodes(nodes, edges);
+		combineNodes(findCombineableNodes(resultNodes, resultEdges),
+				resultNodes, resultEdges);
 		// calculateNodePositions(); // view
 		return null;
+	}
+	
+	void combineNodes(List<Edge> edgesToCombine, List<Node> nodes2,
+			List<Edge> edges2) {
+		edges2.removeAll(edgesToCombine);
+		
+		// Hash all edges
+		Map<Integer, Edge> fromHash = new HashMap<Integer, Edge>();
+		Map<Integer, Edge> toHash = new HashMap<Integer, Edge>();
+		for (Edge edge : edgesToCombine) {
+			fromHash.put(edge.getFrom().getNodeId(), edge);
+			toHash.put(edge.getTo().getNodeId(), edge);
+		}
+		
+		Map<Integer, CNode> nodeReference = new HashMap<Integer, CNode>();
+		while (edgesToCombine.size() > 0) {
+			List<Edge> foundEdgeGroup = findEdgeGroups(fromHash, toHash,
+					edgesToCombine);
+			
+			// init CNode
+			CNode combinedNode = new CNode(foundEdgeGroup);
+			nodes2.removeAll(combinedNode.getNodes());
+			nodeReference.put(foundEdgeGroup.get(0).getFrom().getNodeId(),
+					combinedNode);
+			nodeReference.put(foundEdgeGroup.get(foundEdgeGroup.size() - 1)
+					.getTo().getNodeId(), combinedNode);
+		}
+		
+		// Remove and replace edges with combined nodes.
+		reconnectCombinedNodes(edges2, nodes2, nodeReference);
+	}
+	
+	void reconnectCombinedNodes(List<Edge> edges2, List<Node> nodes2,
+			Map<Integer, CNode> nodeReference) {
+		List<Edge> deadEdges = getAllDeadEdges(edges2, nodes2);
+		for (Edge edge : deadEdges) {
+			Node nodeFrom = edge.getFrom();
+			Node nodeTo = edge.getTo();
+			boolean containsFrom = nodes2.contains(nodeFrom);
+			boolean containsTo = nodes2.contains(nodeTo);
+			if (containsFrom || containsTo) {
+				if (containsFrom) {
+					nodeTo = nodeReference.get(nodeTo.getNodeId());
+				}
+				if (containsTo) {
+					nodeFrom = nodeReference.get(nodeFrom.getNodeId());
+				}
+				edges2.add(new Edge(nodeFrom, nodeTo));
+			}
+		}
+		edges2.removeAll(deadEdges);
+	}
+	
+	List<Edge> findEdgeGroups(Map<Integer, Edge> fromHash,
+			Map<Integer, Edge> toHash, List<Edge> edgesToCombine) {
+		Edge startEdge = edgesToCombine.remove(0);
+		List<Edge> edgeList = new ArrayList<Edge>();
+		edgeList.add(startEdge);
+		// Search to left
+		Edge searchEdge = fromHash.get(startEdge.getTo());
+		while (searchEdge != null) {
+			edgesToCombine.remove(searchEdge);
+			edgeList.add(0, searchEdge);
+			searchEdge = fromHash.get(searchEdge.getTo());
+		}
+		// Search to right
+		searchEdge = toHash.get(startEdge.getFrom());
+		while (searchEdge != null) {
+			edgesToCombine.remove(searchEdge);
+			edgeList.add(searchEdge);
+			searchEdge = toHash.get(searchEdge.getFrom());
+		}
+		return edgeList;
 	}
 	
 	/**
@@ -38,50 +118,15 @@ public class DisplayModel {
 	 *            the edges on the graph
 	 * @return a list of edges which could be combined
 	 */
-	public static List<Edge> findCombineableNodes(List<Node> nodes,
-			List<Edge> edges) {
-		// find all edges from nodes with only one input
+	List<Edge> findCombineableNodes(List<Node> nodes, List<Edge> edges) {
 		List<Edge> fromEdgesList = findFromEdges(edges);
-		sortEdgesOnTo(fromEdgesList);
-		Iterator<Edge> fromEdges = fromEdgesList.iterator();
-		Iterator<Edge> toEdges = findToEdges(edges).iterator();
-		
-		List<Edge> foundEdges = new ArrayList<Edge>();
-		if (!fromEdges.hasNext() || !toEdges.hasNext()) {
-			return foundEdges;
-		}
-		
-		Edge fromEdge = fromEdges.next();
-		Edge toEdge = toEdges.next();
-		while (true) {
-			System.out.println(fromEdge.toString() + " - " + toEdge.toString());
-			if (toEdge.getFrom() == fromEdge.getTo()) {
-				foundEdges.add(toEdge);
-				if (!fromEdges.hasNext() || !toEdges.hasNext()) {
-					break;
-				}
-				fromEdge = fromEdges.next();
-				toEdge = toEdges.next();
-			} else {
-				int dir = getDir(fromEdge, toEdge);
-				if (dir == -1) {
-					if (!fromEdges.hasNext()) {
-						break;
-					}
-					fromEdge = fromEdges.next();
-				} else {
-					if (!toEdges.hasNext()) {
-						break;
-					}
-					toEdge = toEdges.next();
-				}
-			}
-		}
-		return foundEdges;
+		List<Edge> toEdgesList = findToEdges(edges);
+		toEdgesList.retainAll(fromEdgesList);
+		return toEdgesList;
 	}
 	
-	private static void sortEdgesOnTo(List<Edge> _fromEdges) {
-		Collections.sort(_fromEdges, new Comparator<Edge>() {
+	void sortEdgesOnTo(List<Edge> fromEdges) {
+		Collections.sort(fromEdges, new Comparator<Edge>() {
 			@Override
 			public int compare(Edge o1, Edge o2) {
 				int dir = (int) Math.signum(o1.getTo().getNodeId()
@@ -96,7 +141,7 @@ public class DisplayModel {
 		});
 	}
 	
-	private static void sortEdgesOnFrom(List<Edge> edges2) {
+	void sortEdgesOnFrom(List<Edge> edges2) {
 		Collections.sort(edges2, new Comparator<Edge>() {
 			@Override
 			public int compare(Edge o1, Edge o2) {
@@ -112,18 +157,14 @@ public class DisplayModel {
 		});
 	}
 	
-	private static int getDir(Edge fromEdge, Edge toEdge) {
-		return (int) Math.signum(fromEdge.getTo().getNodeId()
-				- toEdge.getFrom().getNodeId());
-	}
-	
 	/**
 	 * Find all edges where their nodes have only one input.
 	 * 
 	 * @param edges
+	 *            the list of edges
 	 * @return a list of all edges of nodes with only one input
 	 */
-	private static List<Edge> findFromEdges(List<Edge> edges) {
+	List<Edge> findFromEdges(List<Edge> edges) {
 		sortEdgesOnFrom(edges);
 		List<Edge> foundEdges = new ArrayList<Edge>();
 		Edge lastEdge = null;
@@ -141,6 +182,9 @@ public class DisplayModel {
 				lastEdge = edge;
 			}
 		}
+		if (found == false) {
+			foundEdges.add(lastEdge);
+		}
 		return foundEdges;
 	}
 	
@@ -148,16 +192,17 @@ public class DisplayModel {
 	 * Find all edges where their nodes have only one output.
 	 * 
 	 * @param edges
+	 *            the list of edges
 	 * @return a list of all edges of nodes with only one output
 	 */
-	private static List<Edge> findToEdges(List<Edge> edges) {
+	List<Edge> findToEdges(List<Edge> edges) {
 		sortEdgesOnTo(edges);
 		List<Edge> foundEdges = new ArrayList<Edge>();
 		Edge lastEdge = null;
 		boolean found = true;
 		for (Edge edge : edges) {
-			if (lastEdge != null
-					&& edge.getTo().getNodeId() == lastEdge.getTo().getNodeId()) {
+			if (lastEdge != null && edge.getTo().getNodeId()
+					== lastEdge.getTo().getNodeId()) {
 				found = true;
 			} else {
 				if (found == false) {
@@ -167,10 +212,18 @@ public class DisplayModel {
 				lastEdge = edge;
 			}
 		}
+		
+		if (found == false) {
+			foundEdges.add(lastEdge);
+		}
 		return foundEdges;
 	}
 	
-	private void removeAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
+	void removeAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
+		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
+	}
+	
+	List<Edge> getAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
 		List<Edge> removeList = new ArrayList<Edge>();
 		for (Edge edge : edgeList) {
 			if ((!nodeList.contains(edge.getFrom()))
@@ -178,24 +231,24 @@ public class DisplayModel {
 				removeList.add(edge);
 			}
 		}
-		edgeList.removeAll(removeList);
+		return removeList;
 	}
 	
-	private List<Node> cloneNodeList(List<Node> list) {
-		List<Node> clone = new ArrayList<Node>();
-		clone.addAll(list);
-		return clone;
-	}
-	
-	private List<Edge> cloneEdgeList(List<Edge> list) {
-		List<Edge> clone = new ArrayList<Edge>();
-		clone.addAll(list);
-		return clone;
-	}
-	
-	private void filter(List<Node> list) {
+	void filter(List<Node> list) {
 		for (Filter<Node> filter : nodeFilters) {
 			filter.filter(list);
 		}
+	}
+	
+	List<Edge> getEdgeListClone() {
+		List<Edge> clone = new ArrayList<Edge>();
+		clone.addAll(edges);
+		return clone;
+	}
+	
+	List<Node> getNodeListClone() {
+		List<Node> clone = new ArrayList<Node>();
+		clone.addAll(nodes);
+		return clone;
 	}
 }

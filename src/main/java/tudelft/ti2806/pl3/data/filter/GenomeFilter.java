@@ -9,7 +9,6 @@ public class GenomeFilter extends Filter<Node> {
 	
 	public GenomeFilter(String genome) {
 		this.genome = genome;
-		
 	}
 	
 	@Override
