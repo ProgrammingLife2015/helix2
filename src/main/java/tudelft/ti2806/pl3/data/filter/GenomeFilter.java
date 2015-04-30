@@ -12,7 +12,7 @@ public class GenomeFilter extends Filter<Node> {
 	}
 	
 	@Override
-	protected void calculateFilter(List<Node> list) {
+	public void calculateFilter(List<Node> list) {
 		for (Node node : list) {
 			for (String source : node.getSource()) {
 				if (source.equals(genome)) {

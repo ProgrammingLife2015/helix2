@@ -22,7 +22,7 @@ public abstract class Filter<T> {
 	 * @param list
 	 *            a list of the entire data set to filter
 	 */
-	protected abstract void calculateFilter(List<T> list);
+	public abstract void calculateFilter(List<T> list);
 	
 	public final void filter(List<T> list) {
 		list.removeAll(filter);

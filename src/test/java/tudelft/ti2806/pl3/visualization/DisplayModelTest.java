@@ -10,7 +10,6 @@ import tudelft.ti2806.pl3.data.Edge;
 import tudelft.ti2806.pl3.data.Gene;
 import tudelft.ti2806.pl3.data.Node;
 import tudelft.ti2806.pl3.data.SNode;
-import tudelft.ti2806.pl3.data.filter.Filter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

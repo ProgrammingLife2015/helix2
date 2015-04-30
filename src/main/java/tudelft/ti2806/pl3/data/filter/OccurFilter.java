@@ -12,7 +12,7 @@ public class OccurFilter extends Filter<Node> {
 	}
 	
 	@Override
-	protected void calculateFilter(List<Node> list) {
+	public void calculateFilter(List<Node> list) {
 		for (Node node : list) {
 			if (node.getSource().length < this.occurCount) {
 				filter.add(node);
