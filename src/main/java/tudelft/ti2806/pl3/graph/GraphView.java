@@ -2,47 +2,53 @@ package tudelft.ti2806.pl3.graph;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.ui.swingViewer.Viewer;
-import tudelft.ti2806.pl3.data.GraphParser;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Render the sequence graph
  *
- * Created by borismattijssen on 30-04-15.
+ * Created by Boris Mattijssen on 30-04-15.
  */
-public class GraphView {
+public class GraphView extends JPanel {
 
+    private Graph graph;
+
+    /**
+     * Initialize graph view, give it a BorderLayout
+     */
     public GraphView() {
-
+        this.setLayout(new BorderLayout());
     }
 
     /**
-     * Render the sequence graph
-     *
-     * @return JPanel containing the graph
+     * Set the graph and render it into the view
+     * @param graph the graph from the graphstream library
      */
-    public JPanel render() {
-        Graph graph;
-        try {
-            graph = GraphParser.parseGraph("hello", new File(
-                    "data/10_strains_graph/simple_graph.node.graph"), new File(
-                    "data/10_strains_graph/simple_graph.edge.graph"));
-        } catch (FileNotFoundException e) {
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.add(new JLabel("The graph data file could not be found"));
-            return panel;
-        }
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+        renderGraph();
+    }
 
+    /**
+     * Render the sequence graph and add it to this panel
+     */
+    public void renderGraph() {
+        removeAll();
         graph.addAttribute("ui.antialias");
 
         Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
 
-        return viewer.addDefaultView(false);
+        this.add(viewer.addDefaultView(false));
     }
 
+    /**
+     * When the graph file was not found, show this message instead of the graph
+     */
+    public void showFileNotFound() {
+        removeAll();
+        add(new JLabel("The graph file could not be found"));
+    }
 }

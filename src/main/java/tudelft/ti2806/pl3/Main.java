@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3;
 
-import tudelft.ti2806.pl3.graph.GraphView;
+import tudelft.ti2806.pl3.graph.GraphController;
+import tudelft.ti2806.pl3.zoombar.ZoomBarController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,8 +42,10 @@ public class Main extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        GraphView graphView = new GraphView();
-        graphContainer.add(graphView.render());
+        GraphController graphController = new GraphController();
+        ZoomBarController zoombarController = new ZoomBarController();
+        graphContainer.add(graphController.getView());
+        zoombarContainer.add(zoombarController.getView());
     }
 
     private void onCancel() {
@@ -56,5 +59,4 @@ public class Main extends JDialog {
         dialog.setVisible(true);
         System.exit(0);
     }
-
 }
