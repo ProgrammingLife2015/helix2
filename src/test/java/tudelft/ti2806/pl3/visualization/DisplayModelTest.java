@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Edge;
+import tudelft.ti2806.pl3.data.Gene;
 import tudelft.ti2806.pl3.data.Node;
 import tudelft.ti2806.pl3.data.SNode;
 import tudelft.ti2806.pl3.data.filter.Filter;
@@ -27,12 +28,16 @@ public class DisplayModelTest {
 	@BeforeClass
 	public static void init() {
 		nodeList = new ArrayList<Node>();
-		nodes = new Node[] { new SNode(0, null, 0, 0, null),
-				new SNode(1, null, 0, 0, null), new SNode(2, null, 0, 0, null),
-				new SNode(3, null, 0, 0, null), new SNode(4, null, 0, 0, null),
-				new SNode(5, null, 0, 0, null), new SNode(6, null, 0, 0, null),
-				new SNode(7, null, 0, 0, null), new SNode(8, null, 0, 0, null),
-				new SNode(9, null, 0, 0, null) };
+		nodes = new Node[] { new SNode(0, null, 0, 0, new Gene[0]),
+		new SNode(1, null, 0, 0, new Gene[0]),
+		new SNode(2, null, 0, 0, new Gene[0]),
+		new SNode(3, null, 0, 0, new Gene[0]),
+		new SNode(4, null, 0, 0, new Gene[0]),
+		new SNode(5, null, 0, 0, new Gene[0]),
+		new SNode(6, null, 0, 0, new Gene[0]),
+		new SNode(7, null, 0, 0, new Gene[0]),
+		new SNode(8, null, 0, 0, new Gene[0]),
+		new SNode(9, null, 0, 0, new Gene[0]) };
 		
 		for (Node node : nodes) {
 			nodeList.add(node);
@@ -104,10 +109,10 @@ public class DisplayModelTest {
 	public void combineNodesTest() {
 		List<Node> nodeList = dpm.getNodeListClone();
 		List<Edge> edgeList = dpm.getEdgeListClone();
+		
 		dpm.combineNodes(dpm.findCombineableNodes(nodeList, edgeList),
 				nodeList, edgeList);
-		for (Edge edge : edgeList) {
-			System.out.println(edge.toString());
-		}
+		assertTrue(nodeList.size() == 6);
+		assertTrue(edgeList.size() == 6);
 	}
 }

@@ -48,38 +48,41 @@ public class DisplayModel {
 		}
 		
 		Map<Integer, CNode> nodeReference = new HashMap<Integer, CNode>();
+		List<Node> combinedNodes = new ArrayList<Node>();
+		
 		while (edgesToCombine.size() > 0) {
 			List<Edge> foundEdgeGroup = findEdgeGroups(fromHash, toHash,
 					edgesToCombine);
-			
 			// init CNode
 			CNode combinedNode = new CNode(foundEdgeGroup);
+			combinedNodes.add(combinedNode);
 			nodes2.removeAll(combinedNode.getNodeList());
 			nodeReference.put(foundEdgeGroup.get(0).getFrom().getNodeId(),
 					combinedNode);
 			nodeReference.put(foundEdgeGroup.get(foundEdgeGroup.size() - 1)
 					.getTo().getNodeId(), combinedNode);
 		}
-		
 		// Remove and replace edges with combined nodes.
 		reconnectCombinedNodes(edges2, nodes2, nodeReference);
+		nodes2.addAll(combinedNodes);
 	}
 	
 	void reconnectCombinedNodes(List<Edge> edges2, List<Node> nodes2,
 			Map<Integer, CNode> nodeReference) {
 		List<Edge> deadEdges = getAllDeadEdges(edges2, nodes2);
 		for (Edge edge : deadEdges) {
-			Node nodeFrom = edge.getFrom();
 			Node nodeTo = edge.getTo();
-			boolean containsFrom = nodes2.contains(nodeFrom);
-			boolean containsTo = nodes2.contains(nodeTo);
-			if (containsFrom || containsTo) {
-				if (containsFrom) {
-					nodeTo = nodeReference.get(nodeTo.getNodeId());
-				}
-				if (containsTo) {
-					nodeFrom = nodeReference.get(nodeFrom.getNodeId());
-				}
+			Node tempNode = nodeReference.get(nodeTo.getNodeId());
+			if (tempNode != null) {
+				nodeTo = tempNode;
+			}
+			
+			Node nodeFrom = edge.getFrom();
+			tempNode = nodeReference.get(nodeFrom.getNodeId());
+			if (tempNode != null) {
+				nodeFrom = tempNode;
+			}
+			if (nodeFrom != nodeTo) {
 				edges2.add(new Edge(nodeFrom, nodeTo));
 			}
 		}
@@ -92,18 +95,18 @@ public class DisplayModel {
 		List<Edge> edgeList = new ArrayList<Edge>();
 		edgeList.add(startEdge);
 		// Search to left
-		Edge searchEdge = fromHash.get(startEdge.getTo());
-		while (searchEdge != null) {
-			edgesToCombine.remove(searchEdge);
-			edgeList.add(0, searchEdge);
-			searchEdge = fromHash.get(searchEdge.getTo());
-		}
-		// Search to right
-		searchEdge = toHash.get(startEdge.getFrom());
+		Edge searchEdge = fromHash.get(startEdge.getTo().getNodeId());
 		while (searchEdge != null) {
 			edgesToCombine.remove(searchEdge);
 			edgeList.add(searchEdge);
-			searchEdge = toHash.get(searchEdge.getFrom());
+			searchEdge = fromHash.get(searchEdge.getTo().getNodeId());
+		}
+		// Search to right
+		searchEdge = toHash.get(startEdge.getFrom().getNodeId());
+		while (searchEdge != null) {
+			edgesToCombine.remove(searchEdge);
+			edgeList.add(0, searchEdge);
+			searchEdge = toHash.get(searchEdge.getFrom().getNodeId());
 		}
 		return edgeList;
 	}
@@ -202,7 +205,8 @@ public class DisplayModel {
 		boolean found = true;
 		for (Edge edge : edges) {
 			if (lastEdge != null
-					&& edge.getTo().getNodeId() == lastEdge.getTo().getNodeId()) {
+					&& edge.getTo().getNodeId() 
+					== lastEdge.getTo().getNodeId()) {
 				found = true;
 			} else {
 				if (found == false) {
