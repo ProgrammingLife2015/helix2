@@ -1,13 +1,17 @@
 package tudelft.ti2806.pl3.data;
 
-public enum Gene {
-	N(-1), T(0), U(0), C(1), A(2), G(3);
+public enum BasePair {
+	N(0, -1), T(1, 0), U(2, 0), C(3, 1), A(4, 2), G(5, 3);
 	
 	private int value;
+	public byte storeByte;
+	private static byte maxStoreByte = 5;
+	private static BasePair[] storeByteToGene = new BasePair[maxStoreByte];
 	public static final int MAX_GENE = 4;
 	
-	Gene(int value) {
+	BasePair(int storeByte, int value) {
 		this.value = value;
+		this.storeByte = (byte) storeByte;
 	}
 	
 	/**
@@ -19,7 +23,7 @@ public enum Gene {
 	 * @return the encoding of the three given gene bits <br>
 	 *         -1 if the codon contains an unknown gene (N)
 	 */
-	public static int getCodon(Gene... gene) {
+	public static int getCodon(BasePair... gene) {
 		if (gene[0] == N || gene[1] == N || gene[2] == N) {
 			return -1;
 		}
@@ -36,7 +40,7 @@ public enum Gene {
 	 * @return encoding of the three gene bits
 	 * @return -1 if the codon contains an unknown gene (N)
 	 */
-	public static int getCodon(Gene[] gene, int index) {
+	public static int getCodon(BasePair[] gene, int index) {
 		return getCodon(gene[index], gene[index + 1], gene[index + 2]);
 	}
 	
@@ -47,12 +51,25 @@ public enum Gene {
 	 *            string of gene characters
 	 * @return an array of genes
 	 */
-	public static Gene[] getGeneString(String string) {
+	public static byte[] getGeneString(String string) {
 		String[] charArray = string.split("");
-		Gene[] array = new Gene[charArray.length];
+		byte[] array = new byte[charArray.length];
 		for (int i = 0; i < charArray.length; i++) {
-			array[i] = valueOf(charArray[i]);
+			array[i] = valueOf(charArray[i]).storeByte;
 		}
 		return array;
+	}
+	
+	public static BasePair[] toEnumString(String string) {
+		byte[] str = getGeneString(string);
+		BasePair[] result = new BasePair[str.length];
+		for (int i = 0; i < str.length; i++) {
+			result[i] = getGene(str[i]);
+		}
+		return result;
+	}
+	
+	private static BasePair getGene(byte b) {
+		return storeByteToGene[b];
 	}
 }

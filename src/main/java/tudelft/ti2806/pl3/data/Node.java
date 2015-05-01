@@ -3,13 +3,13 @@ package tudelft.ti2806.pl3.data;
 public interface Node {
 	int getNodeId();
 	
-	String[] getSource();
+	Genome[] getSource();
 	
 	int getRefStartPoint();
 	
 	int getRefEndPoint();
 	
-	Gene[] getContent();
+	byte[] getContent();
 	
 	String toString();
 	

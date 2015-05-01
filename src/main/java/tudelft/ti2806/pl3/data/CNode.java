@@ -43,7 +43,7 @@ public class CNode implements Node {
 	}
 	
 	@Override
-	public String[] getSource() {
+	public Genome[] getSource() {
 		return getFirst().getSource();
 	}
 	
@@ -58,13 +58,13 @@ public class CNode implements Node {
 	}
 	
 	@Override
-	public Gene[] getContent() {
-		Gene[] res = new Gene[0];
+	public byte[] getContent() {
+		byte[] res = new byte[0];
 		for (Node node : nodeList) {
-			Gene[] next = node.getContent();
+			byte[] next = node.getContent();
 			int resLen = res.length;
 			int nextLen = next.length;
-			Gene[] geneArray = new Gene[resLen + nextLen];
+			byte[] geneArray = new byte[resLen + nextLen];
 			System.arraycopy(res, 0, geneArray, 0, resLen);
 			System.arraycopy(node.getContent(), 0, geneArray, resLen, nextLen);
 			res = geneArray;

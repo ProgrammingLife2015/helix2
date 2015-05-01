@@ -17,8 +17,9 @@ public class GraphParserTest {
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {
 		Node node = GraphParser.parseNode(new Scanner(simpleNodeGraphFile));
-		assertTrue(node.equals(new SNode(35, new String[] { "TKK-01-0029" },
-				2609451, 2609452, new Gene[] { Gene.A })));
+		assertTrue(node.equals(new SNode(35, new Genome[] { new Genome(
+				"TKK-01-0029") }, 2609451, 2609452,
+				new byte[] { BasePair.A.storeByte })));
 	}
 	
 	@Test

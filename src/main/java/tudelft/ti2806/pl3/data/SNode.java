@@ -4,13 +4,10 @@ import java.util.Arrays;
 
 public class SNode implements Node {
 	protected int nodeId;
-	protected String[] source;
+	protected Genome[] source;
 	protected int refStartPoint;
 	protected int refEndPoint;
-	protected Gene[] content;
-	
-	// protected List<Node> incommingConnections = new ArrayList<Node>();
-	// protected List<Node> outgoingConnections = new ArrayList<Node>();
+	protected byte[] content;
 	
 	/**
 	 * Initialise a {@code Node}.
@@ -26,8 +23,8 @@ public class SNode implements Node {
 	 * @param contentOfTheNode
 	 *            the size of this {@code Node}
 	 */
-	public SNode(int nodeId, String[] source, int refStartPoint,
-			int refEndPoint, Gene[] contentOfTheNode) {
+	public SNode(int nodeId, Genome[] source, int refStartPoint,
+			int refEndPoint, byte[] contentOfTheNode) {
 		this.nodeId = nodeId;
 		this.source = source;
 		this.refStartPoint = refStartPoint;
@@ -35,19 +32,12 @@ public class SNode implements Node {
 		this.content = contentOfTheNode;
 	}
 	
-	// public void addIncomming(Node from) {
-	// incommingConnections.add(from);
-	// }
-	
-	// public void addOutgoing(Node to) {
-	// outgoingConnections.add(to);
-	// }
-	
 	@Override
 	public String toString() {
-		return "SingleNode [nodeId=" + nodeId + ", source=" + Arrays.toString(source)
-				+ ", refStartPoint=" + refStartPoint + ", refEndPoint="
-				+ refEndPoint + ", content=" + Arrays.toString(content) + "]";
+		return "SingleNode [nodeId=" + nodeId + ", source="
+				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
+				+ ", refEndPoint=" + refEndPoint + ", content="
+				+ Arrays.toString(content) + "]";
 	}
 	
 	@Override
@@ -91,38 +81,30 @@ public class SNode implements Node {
 		result = prime * result + Arrays.hashCode(source);
 		return result;
 	}
-
+	
 	@Override
 	public int getNodeId() {
 		return nodeId;
 	}
-
+	
 	@Override
-	public String[] getSource() {
+	public Genome[] getSource() {
 		return source;
 	}
-
+	
 	@Override
 	public int getRefStartPoint() {
 		return refStartPoint;
 	}
-
+	
 	@Override
 	public int getRefEndPoint() {
 		return refEndPoint;
 	}
-
+	
 	@Override
-	public Gene[] getContent() {
+	public byte[] getContent() {
 		return content;
 	}
-	
-	// public List<Node> getIncommingConnections() {
-	// return incommingConnections;
-	// }
-	//
-	// public List<Node> getOutgoingConnections() {
-	// return outgoingConnections;
-	// }
 	
 }

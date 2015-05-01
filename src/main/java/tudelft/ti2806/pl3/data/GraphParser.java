@@ -22,7 +22,7 @@ public class GraphParser {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	protected static Map<Integer, Node> parseNodes(File nodesFile)
+	public static Map<Integer, Node> parseNodes(File nodesFile)
 			throws FileNotFoundException {
 		Scanner scanner = new Scanner(nodesFile);
 		Map<Integer, Node> nodes = new HashMap<Integer, Node>();
@@ -41,15 +41,29 @@ public class GraphParser {
 	 *            the scanner with two available lines to read
 	 * @return the read node
 	 */
-	protected static Node parseNode(Scanner scanner) {
+	static Node parseNode(Scanner scanner) {
 		String[] indexData = scanner.nextLine().replaceAll("[> ]", "")
 				.split("\\|");
-		
+		Map<String, Genome> genomes = new HashMap<String, Genome>();
 		Node node = new SNode(Integer.parseInt(indexData[0]),
-				indexData[1].split(","), Integer.parseInt(indexData[2]),
-				Integer.parseInt(indexData[3]), Gene.getGeneString(scanner
-						.nextLine()));
+				parseGenomeIdentifiers(indexData[1].split(","), genomes),
+				Integer.parseInt(indexData[2]), Integer.parseInt(indexData[3]),
+				BasePair.getGeneString(scanner.nextLine()));
 		return node;
+	}
+	
+	private static Genome[] parseGenomeIdentifiers(String[] identifiers,
+			Map<String, Genome> genomes) {
+		Genome[] result = new Genome[identifiers.length];
+		for (int i = 0; i < identifiers.length; i++) {
+			Genome genome = genomes.get(identifiers[i]);
+			if (genome == null) {
+				genome = new Genome(identifiers[i]);
+				genomes.put(identifiers[i], genome);
+			}
+			result[i] = genome;
+		}
+		return result;
 	}
 	
 	/**
@@ -62,8 +76,8 @@ public class GraphParser {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	protected static List<Edge> parseEdges(File edgesFile,
-			Map<Integer, Node> nodes) throws FileNotFoundException {
+	public static List<Edge> parseEdges(File edgesFile, Map<Integer, Node> nodes)
+			throws FileNotFoundException {
 		Scanner scanner = new Scanner(edgesFile);
 		List<Edge> list = new ArrayList<Edge>();
 		while (scanner.hasNext()) {

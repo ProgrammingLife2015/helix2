@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Edge;
-import tudelft.ti2806.pl3.data.Gene;
+import tudelft.ti2806.pl3.data.GraphData;
 import tudelft.ti2806.pl3.data.Node;
 import tudelft.ti2806.pl3.data.SNode;
 
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class DisplayModelTest {
 	private static Node[] nodes;
-	private static DisplayModel dpm;
+	private static GraphModel dpm;
 	
 	private static List<Node> nodeList;
 	private static List<Edge> edgeList;
@@ -27,16 +27,16 @@ public class DisplayModelTest {
 	@BeforeClass
 	public static void init() {
 		nodeList = new ArrayList<Node>();
-		nodes = new Node[] { new SNode(0, null, 0, 0, new Gene[0]),
-		new SNode(1, null, 0, 0, new Gene[0]),
-		new SNode(2, null, 0, 0, new Gene[0]),
-		new SNode(3, null, 0, 0, new Gene[0]),
-		new SNode(4, null, 0, 0, new Gene[0]),
-		new SNode(5, null, 0, 0, new Gene[0]),
-		new SNode(6, null, 0, 0, new Gene[0]),
-		new SNode(7, null, 0, 0, new Gene[0]),
-		new SNode(8, null, 0, 0, new Gene[0]),
-		new SNode(9, null, 0, 0, new Gene[0]) };
+		nodes = new Node[] { new SNode(0, null, 0, 0, new byte[0]),
+		new SNode(1, null, 0, 0, new byte[0]),
+		new SNode(2, null, 0, 0, new byte[0]),
+		new SNode(3, null, 0, 0, new byte[0]),
+		new SNode(4, null, 0, 0, new byte[0]),
+		new SNode(5, null, 0, 0, new byte[0]),
+		new SNode(6, null, 0, 0, new byte[0]),
+		new SNode(7, null, 0, 0, new byte[0]),
+		new SNode(8, null, 0, 0, new byte[0]),
+		new SNode(9, null, 0, 0, new byte[0]) };
 		
 		for (Node node : nodes) {
 			nodeList.add(node);
@@ -55,7 +55,7 @@ public class DisplayModelTest {
 		edgeList = new ArrayList<Edge>();
 		edgeList.addAll(map.values());
 		
-		dpm = new DisplayModel(edgeList, nodeList);
+		dpm = new GraphModel(new GraphData(nodeList, edgeList));
 	}
 	
 	@Test
