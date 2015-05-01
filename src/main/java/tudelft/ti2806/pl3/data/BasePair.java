@@ -5,8 +5,8 @@ public enum BasePair {
 	
 	private int value;
 	public byte storeByte;
-	private static byte maxStoreByte = 5;
-	private static BasePair[] storeByteToGene = new BasePair[maxStoreByte];
+	private static BasePair[] storeByteToGene = new BasePair[] { N, T, U, C, A,
+			G };
 	public static final int MAX_GENE = 4;
 	
 	BasePair(int storeByte, int value) {
@@ -23,7 +23,7 @@ public enum BasePair {
 	 * @return the encoding of the three given gene bits <br>
 	 *         -1 if the codon contains an unknown gene (N)
 	 */
-	public static int getCodon(BasePair... gene) {
+	public static int getCodon(BasePair[] gene) {
 		if (gene[0] == N || gene[1] == N || gene[2] == N) {
 			return -1;
 		}
@@ -41,7 +41,8 @@ public enum BasePair {
 	 * @return -1 if the codon contains an unknown gene (N)
 	 */
 	public static int getCodon(BasePair[] gene, int index) {
-		return getCodon(gene[index], gene[index + 1], gene[index + 2]);
+		return getCodon(new BasePair[] { gene[index], gene[index + 1],
+				gene[index + 2] });
 	}
 	
 	/**

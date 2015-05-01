@@ -26,7 +26,6 @@ public enum AminoAcid {
 		if (index == -1) {
 			return null;
 		}
-		System.out.println(CODONS + " - " + CODON_SIZE);
 		return TRANSLATION_TABLE[index];
 	}
 	

@@ -11,9 +11,9 @@ public class AminoAcidTest {
 	
 	@Test
 	public void getAcidsTest() {
-		assertTrue(Arrays.equals(
-				AminoAcid.getAcids(BasePair.toEnumString("GGG")),
-				new AminoAcid[] { AminoAcid.get(BasePair.getCodon(G, G, G)) }));
+		assertTrue(Arrays.equals(AminoAcid.getAcids(BasePair
+				.toEnumString("GGG")), new AminoAcid[] { AminoAcid.get(BasePair
+				.getCodon(new BasePair[] { G, G, G })) }));
 		assertTrue(Arrays.equals(
 				AminoAcid.getAcids(BasePair.toEnumString("NGG")),
 				new AminoAcid[] { null }));

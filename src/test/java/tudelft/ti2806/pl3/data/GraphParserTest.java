@@ -30,7 +30,6 @@ public class GraphParserTest {
 		
 		Node nodeA = nodeMap.get(35);
 		Node nodeB = nodeMap.get(1);
-		System.out.println(edges.get(0).toString());
 		assertTrue(edges.get(0).equals(new Edge(nodeA, nodeB)));
 		
 	}
