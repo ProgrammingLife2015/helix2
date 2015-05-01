@@ -1,4 +1,6 @@
-package tudelft.ti2806.pl3.data;
+package tudelft.ti2806.pl3.data.graph;
+
+import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +9,7 @@ import java.util.List;
 /**
  * Created by Mathieu Post on 30-4-15.
  */
-public class CNode implements Node {
+public class CombinedNode implements Node {
 	List<Node> nodeList;
 	
 	/**
@@ -16,7 +18,7 @@ public class CNode implements Node {
 	 * @param edgeList
 	 *            a connected and sorted list of edges.
 	 */
-	public CNode(List<Edge> edgeList) {
+	public CombinedNode(List<Edge> edgeList) {
 		nodeList = new ArrayList<>(edgeList.size());
 		
 		nodeList.add(edgeList.get(0).getFrom());

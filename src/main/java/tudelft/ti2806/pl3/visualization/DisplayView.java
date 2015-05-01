@@ -3,8 +3,8 @@ package tudelft.ti2806.pl3.visualization;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
-import tudelft.ti2806.pl3.data.Edge;
-import tudelft.ti2806.pl3.data.Node;
+import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.util.List;
 

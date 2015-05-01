@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.data.filter;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.Node;
+import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.util.List;
 

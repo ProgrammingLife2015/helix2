@@ -1,8 +1,10 @@
-package tudelft.ti2806.pl3.data;
+package tudelft.ti2806.pl3.data.graph;
+
+import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.Arrays;
 
-public class SNode implements Node {
+public class SingleNode implements Node {
 	protected int nodeId;
 	protected Genome[] source;
 	protected int refStartPoint;
@@ -23,7 +25,7 @@ public class SNode implements Node {
 	 * @param contentOfTheNode
 	 *            the size of this {@code Node}
 	 */
-	public SNode(int nodeId, Genome[] source, int refStartPoint,
+	public SingleNode(int nodeId, Genome[] source, int refStartPoint,
 			int refEndPoint, byte[] contentOfTheNode) {
 		this.nodeId = nodeId;
 		this.source = source;
@@ -51,7 +53,7 @@ public class SNode implements Node {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		SNode other = (SNode) obj;
+		SingleNode other = (SingleNode) obj;
 		if (!Arrays.equals(content, other.content)) {
 			return false;
 		}

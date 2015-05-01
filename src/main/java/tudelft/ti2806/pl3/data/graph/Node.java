@@ -1,4 +1,6 @@
-package tudelft.ti2806.pl3.data;
+package tudelft.ti2806.pl3.data.graph;
+
+import tudelft.ti2806.pl3.data.Genome;
 
 public interface Node {
 	int getNodeId();

@@ -1,4 +1,7 @@
-package tudelft.ti2806.pl3.data;
+package tudelft.ti2806.pl3.data.graph;
+
+import tudelft.ti2806.pl3.data.BasePair;
+import tudelft.ti2806.pl3.data.Genome;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,9 +11,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class GraphParser {
+public class GraphData {
+	private List<Node> nodes;
+	private List<Edge> edges;
+	private List<Genome> genomes;
 	
-	private GraphParser() {
+	public GraphData(List<Node> nodes, List<Edge> edges, List<Genome> genomes) {
+		this.nodes = nodes;
+		this.edges = edges;
+		this.genomes = genomes;
+	}
+	
+	public List<Node> getNodes() {
+		return nodes;
+	}
+	
+	public List<Edge> getEdges() {
+		return edges;
+	}
+	
+	public List<Genome> getGenomes() {
+		return genomes;
+	}
+	
+	/**
+	 * Parse a node and edge file of a graph into a {@code GraphData}.
+	 * 
+	 * @param nodesFile
+	 *            the file of nodes to be read
+	 * @param edgesFile
+	 *            the file of edges to be read
+	 * @return the parsed {@code GraphData}
+	 * @throws FileNotFoundException
+	 *             if the file is not found
+	 */
+	public static GraphData parseGraph(File nodesFile, File edgesFile)
+			throws FileNotFoundException {
+		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
+		Map<Integer, Node> nodeMap = parseNodes(nodesFile, genomeMap);
+		List<Node> nodeList = new ArrayList<Node>();
+		nodeList.addAll(nodeMap.values());
+		List<Genome> genomeList = new ArrayList<Genome>();
+		genomeList.addAll(genomeMap.values());
+		return new GraphData(nodeList, parseEdges(edgesFile, nodeMap),
+				genomeList);
 	}
 	
 	/**
@@ -18,16 +62,18 @@ public class GraphParser {
 	 * 
 	 * @param nodesFile
 	 *            the file of nodes to be read
+	 * @param genomeMap
+	 *            {@link Genome} mapped on their identifier
 	 * @return a list of all nodes, mapped by their node id
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static Map<Integer, Node> parseNodes(File nodesFile)
-			throws FileNotFoundException {
+	public static Map<Integer, Node> parseNodes(File nodesFile,
+			Map<String, Genome> genomeMap) throws FileNotFoundException {
 		Scanner scanner = new Scanner(nodesFile);
 		Map<Integer, Node> nodes = new HashMap<Integer, Node>();
 		while (scanner.hasNext()) {
-			Node node = parseNode(scanner);
+			Node node = parseNode(scanner, genomeMap);
 			nodes.put(node.getNodeId(), node);
 		}
 		scanner.close();
@@ -41,11 +87,10 @@ public class GraphParser {
 	 *            the scanner with two available lines to read
 	 * @return the read node
 	 */
-	static Node parseNode(Scanner scanner) {
+	protected static Node parseNode(Scanner scanner, Map<String, Genome> genomes) {
 		String[] indexData = scanner.nextLine().replaceAll("[> ]", "")
 				.split("\\|");
-		Map<String, Genome> genomes = new HashMap<String, Genome>();
-		Node node = new SNode(Integer.parseInt(indexData[0]),
+		Node node = new SingleNode(Integer.parseInt(indexData[0]),
 				parseGenomeIdentifiers(indexData[1].split(","), genomes),
 				Integer.parseInt(indexData[2]), Integer.parseInt(indexData[3]),
 				BasePair.getGeneString(scanner.nextLine()));
@@ -76,8 +121,8 @@ public class GraphParser {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static List<Edge> parseEdges(File edgesFile, Map<Integer, Node> nodes)
-			throws FileNotFoundException {
+	protected static List<Edge> parseEdges(File edgesFile,
+			Map<Integer, Node> nodes) throws FileNotFoundException {
 		Scanner scanner = new Scanner(edgesFile);
 		List<Edge> list = new ArrayList<Edge>();
 		while (scanner.hasNext()) {

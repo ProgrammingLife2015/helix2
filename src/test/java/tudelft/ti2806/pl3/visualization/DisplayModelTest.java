@@ -6,10 +6,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import tudelft.ti2806.pl3.data.Edge;
-import tudelft.ti2806.pl3.data.GraphData;
-import tudelft.ti2806.pl3.data.Node;
-import tudelft.ti2806.pl3.data.SNode;
+import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.data.graph.Node;
+import tudelft.ti2806.pl3.data.graph.SingleNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,16 +27,16 @@ public class DisplayModelTest {
 	@BeforeClass
 	public static void init() {
 		nodeList = new ArrayList<Node>();
-		nodes = new Node[] { new SNode(0, null, 0, 0, new byte[0]),
-		new SNode(1, null, 0, 0, new byte[0]),
-		new SNode(2, null, 0, 0, new byte[0]),
-		new SNode(3, null, 0, 0, new byte[0]),
-		new SNode(4, null, 0, 0, new byte[0]),
-		new SNode(5, null, 0, 0, new byte[0]),
-		new SNode(6, null, 0, 0, new byte[0]),
-		new SNode(7, null, 0, 0, new byte[0]),
-		new SNode(8, null, 0, 0, new byte[0]),
-		new SNode(9, null, 0, 0, new byte[0]) };
+		nodes = new Node[] { new SingleNode(0, null, 0, 0, new byte[0]),
+				new SingleNode(1, null, 0, 0, new byte[0]),
+				new SingleNode(2, null, 0, 0, new byte[0]),
+				new SingleNode(3, null, 0, 0, new byte[0]),
+				new SingleNode(4, null, 0, 0, new byte[0]),
+				new SingleNode(5, null, 0, 0, new byte[0]),
+				new SingleNode(6, null, 0, 0, new byte[0]),
+				new SingleNode(7, null, 0, 0, new byte[0]),
+				new SingleNode(8, null, 0, 0, new byte[0]),
+				new SingleNode(9, null, 0, 0, new byte[0]) };
 		
 		for (Node node : nodes) {
 			nodeList.add(node);
@@ -55,7 +55,7 @@ public class DisplayModelTest {
 		edgeList = new ArrayList<Edge>();
 		edgeList.addAll(map.values());
 		
-		dpm = new GraphModel(new GraphData(nodeList, edgeList));
+		dpm = new GraphModel(new GraphData(nodeList, edgeList, null));
 	}
 	
 	@Test
@@ -97,7 +97,7 @@ public class DisplayModelTest {
 	
 	@Test
 	public void removeDeadEdgesTest() {
-		Edge deadEdge = new Edge(nodes[0], new SNode(-1, null, 0, 0, null));
+		Edge deadEdge = new Edge(nodes[0], new SingleNode(-1, null, 0, 0, null));
 		List<Edge> edgeList = dpm.getEdgeListClone();
 		edgeList.add(deadEdge);
 		dpm.removeAllDeadEdges(edgeList, dpm.getNodeListClone());

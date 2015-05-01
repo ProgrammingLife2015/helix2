@@ -1,12 +1,11 @@
 package tudelft.ti2806.pl3.visualization;
 
-import tudelft.ti2806.pl3.data.CNode;
-import tudelft.ti2806.pl3.data.Edge;
-import tudelft.ti2806.pl3.data.BasePair;
-import tudelft.ti2806.pl3.data.GraphData;
-import tudelft.ti2806.pl3.data.Node;
-import tudelft.ti2806.pl3.data.SNode;
 import tudelft.ti2806.pl3.data.filter.Filter;
+import tudelft.ti2806.pl3.data.graph.CombinedNode;
+import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.data.graph.Node;
+import tudelft.ti2806.pl3.data.graph.SingleNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,22 +47,23 @@ public class GraphModel {
 		removeAllDeadEdges(resultEdges, resultNodes);
 		combineNodes(findCombineableNodes(resultNodes, resultEdges),
 				resultNodes, resultEdges);
-		graph = new GraphData(resultNodes, resultEdges);
+		graph = new GraphData(resultNodes, resultEdges,
+				originalGraph.getGenomes());
 	}
 	
 	// demo
 	public static void main(String[] s) {
 		ArrayList<Node> nodeList = new ArrayList<Node>();
-		Node[] nodes = new Node[] { new SNode(0, null, 0, 0, new byte[0]),
-				new SNode(1, null, 0, 0, new byte[0]),
-				new SNode(2, null, 0, 0, new byte[0]),
-				new SNode(3, null, 0, 0, new byte[0]),
-				new SNode(4, null, 0, 0, new byte[0]),
-				new SNode(5, null, 0, 0, new byte[0]),
-				new SNode(6, null, 0, 0, new byte[0]),
-				new SNode(7, null, 0, 0, new byte[0]),
-				new SNode(8, null, 0, 0, new byte[0]),
-				new SNode(9, null, 0, 0, new byte[0]) };
+		Node[] nodes = new Node[] { new SingleNode(0, null, 0, 0, new byte[0]),
+				new SingleNode(1, null, 0, 0, new byte[0]),
+				new SingleNode(2, null, 0, 0, new byte[0]),
+				new SingleNode(3, null, 0, 0, new byte[0]),
+				new SingleNode(4, null, 0, 0, new byte[0]),
+				new SingleNode(5, null, 0, 0, new byte[0]),
+				new SingleNode(6, null, 0, 0, new byte[0]),
+				new SingleNode(7, null, 0, 0, new byte[0]),
+				new SingleNode(8, null, 0, 0, new byte[0]),
+				new SingleNode(9, null, 0, 0, new byte[0]) };
 		
 		for (Node node : nodes) {
 			nodeList.add(node);
@@ -82,7 +82,7 @@ public class GraphModel {
 		List<Edge> edgeList = new ArrayList<Edge>();
 		edgeList.addAll(map.values());
 		
-		GraphModel dm = new GraphModel(new GraphData(nodeList, edgeList));
+		GraphModel dm = new GraphModel(new GraphData(nodeList, edgeList, null));
 		dm.produceGraph(new ArrayList<Filter<Node>>());
 		DisplayView.getGraph("", dm.getGraph().getNodes(),
 				dm.getGraph().getEdges()).display();
@@ -93,9 +93,9 @@ public class GraphModel {
 	}
 	
 	/**
-	 * Combines all {@link Node}s in the given edges list into {@link CNode}s,
-	 * reconnects the {@link CNode}s in the graph and remove all {@link Node}s
-	 * which are combined.
+	 * Combines all {@link Node}s in the given edges list into
+	 * {@link CombinedNode}s, reconnects the {@link CombinedNode}s in the graph
+	 * and remove all {@link Node}s which are combined.
 	 * 
 	 * @param edgesToCombine
 	 *            the edges with nodes to combine.
@@ -116,14 +116,14 @@ public class GraphModel {
 			toHash.put(edge.getTo().getNodeId(), edge);
 		}
 		
-		Map<Integer, CNode> nodeReference = new HashMap<Integer, CNode>();
+		Map<Integer, CombinedNode> nodeReference = new HashMap<Integer, CombinedNode>();
 		List<Node> combinedNodes = new ArrayList<Node>();
 		
 		while (edgesToCombine.size() > 0) {
 			List<Edge> foundEdgeGroup = findEdgeGroups(fromHash, toHash,
 					edgesToCombine);
 			// init CNode
-			CNode combinedNode = new CNode(foundEdgeGroup);
+			CombinedNode combinedNode = new CombinedNode(foundEdgeGroup);
 			combinedNodes.add(combinedNode);
 			nodes.removeAll(combinedNode.getNodeList());
 			nodeReference.put(foundEdgeGroup.get(0).getFrom().getNodeId(),
@@ -145,10 +145,10 @@ public class GraphModel {
 	 *            the nodes in the graph
 	 * @param nodeReference
 	 *            a map of references of the removed nodes to their new
-	 *            {@link CNode}s which contain them.
+	 *            {@link CombinedNode}s which contain them.
 	 */
 	void reconnectCombinedNodes(List<Edge> edges, List<Node> nodes,
-			Map<Integer, CNode> nodeReference) {
+			Map<Integer, CombinedNode> nodeReference) {
 		List<Edge> deadEdges = getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
 			Node nodeTo = edge.getTo();
