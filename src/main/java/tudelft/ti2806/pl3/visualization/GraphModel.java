@@ -23,8 +23,8 @@ public class GraphModel {
 	
 	/**
 	 * Filters a copy of the {@link GraphData} and combines all nodes which can
-	 * be combined without losing data and removes all dead edges.
-	 * The result is saved as {@code graph}.
+	 * be combined without losing data and removes all dead edges. The result is
+	 * saved as {@code graph}.
 	 * 
 	 * @param filters
 	 *            the filters to be applied.
@@ -264,8 +264,8 @@ public class GraphModel {
 		Edge lastEdge = null;
 		boolean found = true;
 		for (Edge edge : edges) {
-			if (lastEdge != null && edge.getTo().getNodeId()
-					== lastEdge.getTo().getNodeId()) {
+			if (lastEdge != null
+					&& edge.getTo().getNodeId() == lastEdge.getTo().getNodeId()) {
 				found = true;
 			} else {
 				if (found == false) {
@@ -309,8 +309,8 @@ public class GraphModel {
 			List<Node> nodeList) {
 		List<Edge> removeList = new ArrayList<Edge>();
 		for (Edge edge : edgeList) {
-			if ((!nodeList.contains(edge.getFrom()))
-					|| (!nodeList.contains(edge.getTo()))) {
+			if (!nodeList.contains(edge.getFrom())
+					|| !nodeList.contains(edge.getTo())) {
 				removeList.add(edge);
 			}
 		}
