@@ -1,21 +1,16 @@
-package tudelft.ti2806.pl3.data;
+package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.data.mutation.Mutation;
+import tudelft.ti2806.pl3.data.Genome;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class Node {
+public class SingleNode implements Node {
 	protected int nodeId;
-	protected String[] source;
+	protected Genome[] source;
 	protected int refStartPoint;
 	protected int refEndPoint;
-	protected Gene[] content;
-	protected List<Node> incommingConnections = new ArrayList<Node>();
-	protected List<Node> outgoingConnections = new ArrayList<Node>();
-	protected Mutation mutation;
-
+	protected byte[] content;
+	
 	/**
 	 * Initialise a {@code Node}.
 	 *
@@ -30,31 +25,23 @@ public class Node {
 	 * @param contentOfTheNode
 	 *            the size of this {@code Node}
 	 */
-	public Node(int nodeId, String[] source, int refStartPoint,
-			int refEndPoint, Gene[] contentOfTheNode) {
-		super();
+	public SingleNode(int nodeId, Genome[] source, int refStartPoint,
+			int refEndPoint, byte[] contentOfTheNode) {
 		this.nodeId = nodeId;
 		this.source = source;
 		this.refStartPoint = refStartPoint;
 		this.refEndPoint = refEndPoint;
 		this.content = contentOfTheNode;
 	}
-
-	public void addIncomming(Node from) {
-		incommingConnections.add(from);
-	}
-
-	public void addOutgoing(Node to) {
-		outgoingConnections.add(to);
-	}
-
+	
 	@Override
 	public String toString() {
-		return "Node [nodeId=" + nodeId + ", source=" + Arrays.toString(source)
-				+ ", refStartPoint=" + refStartPoint + ", refEndPoint="
-				+ refEndPoint + ", content=" + Arrays.toString(content) + "]";
+		return "SingleNode [nodeId=" + nodeId + ", source="
+				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
+				+ ", refEndPoint=" + refEndPoint + ", content="
+				+ Arrays.toString(content) + "]";
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -66,7 +53,7 @@ public class Node {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Node other = (Node) obj;
+		SingleNode other = (SingleNode) obj;
 		if (!Arrays.equals(content, other.content)) {
 			return false;
 		}
@@ -84,43 +71,42 @@ public class Node {
 		}
 		return true;
 	}
-
+	
 	@Override
 	public int hashCode() {
-		int result = nodeId;
-		result = 31 * result + Arrays.hashCode(source);
-		result = 31 * result + refStartPoint;
-		result = 31 * result + refEndPoint;
-		result = 31 * result + Arrays.hashCode(content);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(content);
+		result = prime * result + nodeId;
+		result = prime * result + refEndPoint;
+		result = prime * result + refStartPoint;
+		result = prime * result + Arrays.hashCode(source);
 		return result;
 	}
-
-    public int getNodeId() {
+	
+	@Override
+	public int getNodeId() {
 		return nodeId;
 	}
-
-	public String[] getSource() {
+	
+	@Override
+	public Genome[] getSource() {
 		return source;
 	}
-
+	
+	@Override
 	public int getRefStartPoint() {
 		return refStartPoint;
 	}
-
+	
+	@Override
 	public int getRefEndPoint() {
 		return refEndPoint;
 	}
-
-	public Gene[] getContent() {
+	
+	@Override
+	public byte[] getContent() {
 		return content;
 	}
-
-	public List<Node> getIncommingConnections() {
-		return incommingConnections;
-	}
-
-	public List<Node> getOutgoingConnections() {
-		return outgoingConnections;
-	}
-
+	
 }

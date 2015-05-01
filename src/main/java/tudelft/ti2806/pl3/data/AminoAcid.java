@@ -9,7 +9,7 @@ public enum AminoAcid {
 	Arg, Gly, Ochre, Amber, Opal;
 	
 	private static final int CODON_SIZE = 3;
-	private static final int CODONS = (int) Math.pow(Gene.values().length - 1,
+	private static final int CODONS = (int) Math.pow(BasePair.MAX_GENE,
 			CODON_SIZE);
 	private static final AminoAcid[] TRANSLATION_TABLE = fillTranslationTable();
 	private static final String TRANSLATION_TABLE_FILE = "data/translationTable";
@@ -26,7 +26,6 @@ public enum AminoAcid {
 		if (index == -1) {
 			return null;
 		}
-		System.out.println(CODONS + " - " + CODON_SIZE);
 		return TRANSLATION_TABLE[index];
 	}
 	
@@ -43,7 +42,7 @@ public enum AminoAcid {
 			for (int i = 0; i < CODONS; i++) {
 				String[] data = scanner.nextLine().split(" ");
 				if (!data[0].startsWith("#")) {
-					table[Gene.getCodon(Gene.getGeneString(data[0]))]
+					table[BasePair.getCodon(BasePair.toEnumString(data[0]))]
 							= valueOf(data[1]);
 				}
 			}
@@ -61,11 +60,11 @@ public enum AminoAcid {
 	 *            an array of the genes to be read
 	 * @return an array of all acids read
 	 */
-	public static AminoAcid[] getAcids(Gene[] gene) {
+	public static AminoAcid[] getAcids(BasePair[] gene) {
 		int size = gene.length / 3;
 		AminoAcid[] array = new AminoAcid[size];
 		for (int i = 0; i < size; i++) {
-			array[i] = get(Gene.getCodon(gene, i * 3));
+			array[i] = get(BasePair.getCodon(gene, i * 3));
 		}
 		return array;
 	}

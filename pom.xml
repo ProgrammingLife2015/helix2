@@ -14,6 +14,11 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.graphstream</groupId>
+          <artifactId>gs-core</artifactId>
+          <version>1.2</version>
+      </dependency>
   </dependencies>
   <build>
     <plugins>
