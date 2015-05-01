@@ -264,8 +264,8 @@ public class GraphModel {
 		Edge lastEdge = null;
 		boolean found = true;
 		for (Edge edge : edges) {
-			if (lastEdge != null
-					&& edge.getTo().getNodeId() == lastEdge.getTo().getNodeId()) {
+			if (lastEdge != null && edge.getTo().getNodeId()
+					== lastEdge.getTo().getNodeId()) {
 				found = true;
 			} else {
 				if (found == false) {

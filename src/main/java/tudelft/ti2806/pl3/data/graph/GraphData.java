@@ -16,18 +16,38 @@ public class GraphData {
 	private List<Edge> edges;
 	private List<Genome> genomes;
 	
+	/**
+	 * Initiate a instance of {@code GraphData}.
+	 * 
+	 * @param nodes
+	 *            the nodes of the graph
+	 * @param edges
+	 *            the edges of the graph
+	 * @param genomes
+	 *            all {@link Genome} that are in the graph
+	 */
 	public GraphData(List<Node> nodes, List<Edge> edges, List<Genome> genomes) {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
 	}
 	
+	/**
+	 * Creates a clone of the edge list without cloning its elements.
+	 * 
+	 * @return a clone of the edge list of this graph
+	 */
 	public List<Edge> getEdgeListClone() {
 		List<Edge> clone = new ArrayList<Edge>();
 		clone.addAll(edges);
 		return clone;
 	}
 	
+	/**
+	 * Creates a clone of the node list without cloning its elements.
+	 * 
+	 * @return a clone of the node list
+	 */
 	public List<Node> getNodeListClone() {
 		List<Node> clone = new ArrayList<Node>();
 		clone.addAll(nodes);
