@@ -5,7 +5,6 @@ import tudelft.ti2806.pl3.data.graph.CombinedNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.Node;
-import tudelft.ti2806.pl3.data.graph.SingleNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,15 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class GraphModel {
-	// protected List<Filter<Node>> nodeFilters = new ArrayList<Filter<Node>>();
-	// protected List<Node> nodes;
-	// protected List<Edge> edges;
-	
-	// public GraphModel(List<Edge> edgeList, List<Node> nodeList) {
-	// this.edges = edgeList;
-	// this.nodes = nodeList;
-	// }
-	
 	protected GraphData originalGraph;
 	protected GraphData graph;
 	
@@ -34,58 +24,20 @@ public class GraphModel {
 	/**
 	 * Filters a copy of the {@link GraphData} and combines all nodes which can
 	 * be combined without losing data and removes all dead edges.
-	 * 
 	 * The result is saved as {@code graph}.
 	 * 
 	 * @param filters
 	 *            the filters to be applied.
 	 */
 	public void produceGraph(List<Filter<Node>> filters) {
-		List<Node> resultNodes = getNodeListClone();
+		List<Node> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
-		List<Edge> resultEdges = getEdgeListClone();
+		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		combineNodes(findCombineableNodes(resultNodes, resultEdges),
 				resultNodes, resultEdges);
 		graph = new GraphData(resultNodes, resultEdges,
 				originalGraph.getGenomes());
-	}
-	
-	// demo
-	public static void main(String[] s) {
-		ArrayList<Node> nodeList = new ArrayList<Node>();
-		Node[] nodes = new Node[] { new SingleNode(0, null, 0, 0, new byte[0]),
-				new SingleNode(1, null, 0, 0, new byte[0]),
-				new SingleNode(2, null, 0, 0, new byte[0]),
-				new SingleNode(3, null, 0, 0, new byte[0]),
-				new SingleNode(4, null, 0, 0, new byte[0]),
-				new SingleNode(5, null, 0, 0, new byte[0]),
-				new SingleNode(6, null, 0, 0, new byte[0]),
-				new SingleNode(7, null, 0, 0, new byte[0]),
-				new SingleNode(8, null, 0, 0, new byte[0]),
-				new SingleNode(9, null, 0, 0, new byte[0]) };
-		
-		for (Node node : nodes) {
-			nodeList.add(node);
-		}
-		Map<String, Edge> map = new HashMap<String, Edge>();
-		map.put("0-1", new Edge(nodes[0], nodes[1]));
-		map.put("0-2", new Edge(nodes[0], nodes[2]));
-		map.put("1-3", new Edge(nodes[1], nodes[3]));
-		map.put("2-3", new Edge(nodes[2], nodes[3]));
-		map.put("3-4", new Edge(nodes[3], nodes[4]));
-		map.put("4-5", new Edge(nodes[4], nodes[5]));
-		map.put("5-6", new Edge(nodes[5], nodes[6]));
-		map.put("5-7", new Edge(nodes[5], nodes[7]));
-		map.put("7-8", new Edge(nodes[7], nodes[8]));
-		map.put("8-9", new Edge(nodes[8], nodes[9]));
-		List<Edge> edgeList = new ArrayList<Edge>();
-		edgeList.addAll(map.values());
-		
-		GraphModel dm = new GraphModel(new GraphData(nodeList, edgeList, null));
-		dm.produceGraph(new ArrayList<Filter<Node>>());
-		DisplayView.getGraph("", dm.getGraph().getNodes(),
-				dm.getGraph().getEdges()).display();
 	}
 	
 	public GraphData getGraph() {
@@ -104,7 +56,7 @@ public class GraphModel {
 	 * @param edges
 	 *            the list of edges in the graph
 	 */
-	void combineNodes(List<Edge> edgesToCombine, List<Node> nodes,
+	protected void combineNodes(List<Edge> edgesToCombine, List<Node> nodes,
 			List<Edge> edges) {
 		edges.removeAll(edgesToCombine);
 		
@@ -147,7 +99,7 @@ public class GraphModel {
 	 *            a map of references of the removed nodes to their new
 	 *            {@link CombinedNode}s which contain them.
 	 */
-	void reconnectCombinedNodes(List<Edge> edges, List<Node> nodes,
+	protected void reconnectCombinedNodes(List<Edge> edges, List<Node> nodes,
 			Map<Integer, CombinedNode> nodeReference) {
 		List<Edge> deadEdges = getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
@@ -183,7 +135,7 @@ public class GraphModel {
 	 *            the search list with all edges who needs to be grouped.
 	 * @return an {@link List}<{@link Node}> of a complete group of edges.
 	 */
-	List<Edge> findEdgeGroups(Map<Integer, Edge> fromHash,
+	protected List<Edge> findEdgeGroups(Map<Integer, Edge> fromHash,
 			Map<Integer, Edge> toHash, List<Edge> edgesToCombine) {
 		Edge startEdge = edgesToCombine.remove(0);
 		List<Edge> edgeList = new ArrayList<Edge>();
@@ -215,7 +167,7 @@ public class GraphModel {
 	 *            the edges on the graph
 	 * @return a list of edges which could be combined
 	 */
-	List<Edge> findCombineableNodes(List<Node> nodes, List<Edge> edges) {
+	protected List<Edge> findCombineableNodes(List<Node> nodes, List<Edge> edges) {
 		List<Edge> fromEdgesList = findFromEdges(edges);
 		List<Edge> toEdgesList = findToEdges(edges);
 		toEdgesList.retainAll(fromEdgesList);
@@ -229,7 +181,7 @@ public class GraphModel {
 	 * @param fromEdges
 	 *            the edges to be sorted
 	 */
-	void sortEdgesOnTo(List<Edge> fromEdges) {
+	protected void sortEdgesOnTo(List<Edge> fromEdges) {
 		Collections.sort(fromEdges, new Comparator<Edge>() {
 			@Override
 			public int compare(Edge o1, Edge o2) {
@@ -252,7 +204,7 @@ public class GraphModel {
 	 * @param fromEdges
 	 *            the edges to be sorted
 	 */
-	void sortEdgesOnFrom(List<Edge> edges2) {
+	protected void sortEdgesOnFrom(List<Edge> edges2) {
 		Collections.sort(edges2, new Comparator<Edge>() {
 			@Override
 			public int compare(Edge o1, Edge o2) {
@@ -275,7 +227,7 @@ public class GraphModel {
 	 *            the list of edges
 	 * @return a list of all edges of nodes with only one input
 	 */
-	List<Edge> findFromEdges(List<Edge> edges) {
+	protected List<Edge> findFromEdges(List<Edge> edges) {
 		sortEdgesOnFrom(edges);
 		List<Edge> foundEdges = new ArrayList<Edge>();
 		Edge lastEdge = null;
@@ -306,14 +258,14 @@ public class GraphModel {
 	 *            the list of edges
 	 * @return a list of all edges of nodes with only one output
 	 */
-	List<Edge> findToEdges(List<Edge> edges) {
+	protected List<Edge> findToEdges(List<Edge> edges) {
 		sortEdgesOnTo(edges);
 		List<Edge> foundEdges = new ArrayList<Edge>();
 		Edge lastEdge = null;
 		boolean found = true;
 		for (Edge edge : edges) {
-			if (lastEdge != null
-					&& edge.getTo().getNodeId() == lastEdge.getTo().getNodeId()) {
+			if (lastEdge != null && edge.getTo().getNodeId()
+					== lastEdge.getTo().getNodeId()) {
 				found = true;
 			} else {
 				if (found == false) {
@@ -330,11 +282,31 @@ public class GraphModel {
 		return foundEdges;
 	}
 	
-	void removeAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
+	/**
+	 * Removes all edges of which one or both of their nodes is not on the
+	 * graph.
+	 * 
+	 * @param edgeList
+	 *            the list of edges in the graph
+	 * @param nodeList
+	 *            the list of nodes in the graph
+	 */
+	protected void removeAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
 		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
 	}
 	
-	List<Edge> getAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
+	/**
+	 * Finds all the edges on the graph which have one or two nodes which are
+	 * not on the graph.
+	 * 
+	 * @param edgeList
+	 *            the list of edges in the graph
+	 * @param nodeList
+	 *            the list of nodes in the graph
+	 * @return a list of all dead edges
+	 */
+	protected List<Edge> getAllDeadEdges(List<Edge> edgeList,
+			List<Node> nodeList) {
 		List<Edge> removeList = new ArrayList<Edge>();
 		for (Edge edge : edgeList) {
 			if ((!nodeList.contains(edge.getFrom()))
@@ -345,21 +317,17 @@ public class GraphModel {
 		return removeList;
 	}
 	
-	void filter(List<Node> list, List<Filter<Node>> filters) {
+	/**
+	 * Apply all filters.
+	 * 
+	 * @param list
+	 *            the list of nodes to be filtered
+	 * @param filters
+	 *            the list of filters to be applied
+	 */
+	protected void filter(List<Node> list, List<Filter<Node>> filters) {
 		for (Filter<Node> filter : filters) {
 			filter.filter(list);
 		}
-	}
-	
-	List<Edge> getEdgeListClone() {
-		List<Edge> clone = new ArrayList<Edge>();
-		clone.addAll(originalGraph.getEdges());
-		return clone;
-	}
-	
-	List<Node> getNodeListClone() {
-		List<Node> clone = new ArrayList<Node>();
-		clone.addAll(originalGraph.getNodes());
-		return clone;
 	}
 }

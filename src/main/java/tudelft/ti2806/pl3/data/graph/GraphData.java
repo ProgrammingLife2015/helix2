@@ -22,6 +22,18 @@ public class GraphData {
 		this.genomes = genomes;
 	}
 	
+	public List<Edge> getEdgeListClone() {
+		List<Edge> clone = new ArrayList<Edge>();
+		clone.addAll(edges);
+		return clone;
+	}
+	
+	public List<Node> getNodeListClone() {
+		List<Node> clone = new ArrayList<Node>();
+		clone.addAll(nodes);
+		return clone;
+	}
+	
 	public List<Node> getNodes() {
 		return nodes;
 	}

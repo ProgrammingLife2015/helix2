@@ -23,6 +23,7 @@ public class DisplayModelTest {
 	private static List<Node> nodeList;
 	private static List<Edge> edgeList;
 	private static Map<String, Edge> map;
+	private static GraphData gd;
 	
 	@BeforeClass
 	public static void init() {
@@ -54,13 +55,13 @@ public class DisplayModelTest {
 		map.put("8-9", new Edge(nodes[8], nodes[9]));
 		edgeList = new ArrayList<Edge>();
 		edgeList.addAll(map.values());
-		
-		dpm = new GraphModel(new GraphData(nodeList, edgeList, null));
+		gd = new GraphData(nodeList, edgeList, null);
+		dpm = new GraphModel(gd);
 	}
 	
 	@Test
 	public void findFromEdgesTest() {
-		List<Edge> list = dpm.findFromEdges(dpm.getEdgeListClone());
+		List<Edge> list = dpm.findFromEdges(gd.getEdgeListClone());
 		assertTrue(list.contains(map.get("1-3")));
 		assertTrue(list.contains(map.get("2-3")));
 		assertTrue(list.contains(map.get("3-4")));
@@ -72,7 +73,7 @@ public class DisplayModelTest {
 	
 	@Test
 	public void findToEdgesTest() {
-		List<Edge> list = dpm.findToEdges(dpm.getEdgeListClone());
+		List<Edge> list = dpm.findToEdges(gd.getEdgeListClone());
 		assertTrue(list.contains(map.get("0-1")));
 		assertTrue(list.contains(map.get("0-2")));
 		assertTrue(list.contains(map.get("3-4")));
@@ -86,8 +87,8 @@ public class DisplayModelTest {
 	
 	@Test
 	public void findCombinableNodesTest() {
-		List<Edge> list = dpm.findCombineableNodes(dpm.getNodeListClone(),
-				dpm.getEdgeListClone());
+		List<Edge> list = dpm.findCombineableNodes(gd.getNodeListClone(),
+				gd.getEdgeListClone());
 		assertTrue(list.contains(map.get("3-4")));
 		assertTrue(list.contains(map.get("4-5")));
 		assertTrue(list.contains(map.get("7-8")));
@@ -98,16 +99,16 @@ public class DisplayModelTest {
 	@Test
 	public void removeDeadEdgesTest() {
 		Edge deadEdge = new Edge(nodes[0], new SingleNode(-1, null, 0, 0, null));
-		List<Edge> edgeList = dpm.getEdgeListClone();
+		List<Edge> edgeList = gd.getEdgeListClone();
 		edgeList.add(deadEdge);
-		dpm.removeAllDeadEdges(edgeList, dpm.getNodeListClone());
+		dpm.removeAllDeadEdges(edgeList, gd.getNodeListClone());
 		assertFalse(edgeList.contains(deadEdge));
 	}
 	
 	@Test
 	public void combineNodesTest() {
-		List<Node> nodeList = dpm.getNodeListClone();
-		List<Edge> edgeList = dpm.getEdgeListClone();
+		List<Node> nodeList = gd.getNodeListClone();
+		List<Edge> edgeList = gd.getEdgeListClone();
 		
 		dpm.combineNodes(dpm.findCombineableNodes(nodeList, edgeList),
 				nodeList, edgeList);
