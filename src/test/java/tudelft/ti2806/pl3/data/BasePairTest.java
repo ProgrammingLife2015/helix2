@@ -16,7 +16,7 @@ public class BasePairTest {
 	@Test
 	public void geneStringTest() {
 		assertTrue(Arrays.equals(BasePair.toEnumString("UCAG"), new BasePair[] {
-				U, C, A, G }));
+		 U, C, A, G }));
 	}
 	
 	@Test

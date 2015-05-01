@@ -93,7 +93,7 @@ public class GraphData {
 		Node node = new SingleNode(Integer.parseInt(indexData[0]),
 				parseGenomeIdentifiers(indexData[1].split(","), genomes),
 				Integer.parseInt(indexData[2]), Integer.parseInt(indexData[3]),
-				BasePair.getGeneString(scanner.nextLine()));
+				BasePair.getBasePairString(scanner.nextLine()));
 		return node;
 	}
 	

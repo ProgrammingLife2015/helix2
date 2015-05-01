@@ -28,15 +28,15 @@ public class DisplayModelTest {
 	public static void init() {
 		nodeList = new ArrayList<Node>();
 		nodes = new Node[] { new SingleNode(0, null, 0, 0, new byte[0]),
-				new SingleNode(1, null, 0, 0, new byte[0]),
-				new SingleNode(2, null, 0, 0, new byte[0]),
-				new SingleNode(3, null, 0, 0, new byte[0]),
-				new SingleNode(4, null, 0, 0, new byte[0]),
-				new SingleNode(5, null, 0, 0, new byte[0]),
-				new SingleNode(6, null, 0, 0, new byte[0]),
-				new SingleNode(7, null, 0, 0, new byte[0]),
-				new SingleNode(8, null, 0, 0, new byte[0]),
-				new SingleNode(9, null, 0, 0, new byte[0]) };
+		new SingleNode(1, null, 0, 0, new byte[0]),
+		new SingleNode(2, null, 0, 0, new byte[0]),
+		new SingleNode(3, null, 0, 0, new byte[0]),
+		new SingleNode(4, null, 0, 0, new byte[0]),
+		new SingleNode(5, null, 0, 0, new byte[0]),
+		new SingleNode(6, null, 0, 0, new byte[0]),
+		new SingleNode(7, null, 0, 0, new byte[0]),
+		new SingleNode(8, null, 0, 0, new byte[0]),
+		new SingleNode(9, null, 0, 0, new byte[0]) };
 		
 		for (Node node : nodes) {
 			nodeList.add(node);
