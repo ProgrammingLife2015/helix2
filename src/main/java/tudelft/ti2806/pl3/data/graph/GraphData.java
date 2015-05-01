@@ -153,8 +153,8 @@ public class GraphData {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	protected static List<Edge> parseEdges(File edgesFile,
-			Map<Integer, Node> nodes) throws FileNotFoundException {
+	public static List<Edge> parseEdges(File edgesFile, Map<Integer, Node> nodes)
+			throws FileNotFoundException {
 		Scanner scanner = new Scanner(edgesFile);
 		List<Edge> list = new ArrayList<Edge>();
 		while (scanner.hasNext()) {
