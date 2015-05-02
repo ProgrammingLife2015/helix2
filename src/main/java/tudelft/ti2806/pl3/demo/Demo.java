@@ -1,12 +1,18 @@
 package tudelft.ti2806.pl3.demo;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 
+import tudelft.ti2806.pl3.data.filter.Filter;
+import tudelft.ti2806.pl3.data.filter.ViewFilter;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.visualization.DisplayView;
+import tudelft.ti2806.pl3.visualization.GraphModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -31,9 +37,21 @@ public class Demo {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		Graph displayGraph = DisplayView.getGraph("", graph.getNodes(),
-				graph.getEdges());
-		displayGraph.display();
+		GraphModel gm = new GraphModel(graph);
+		List<Filter<tudelft.ti2806.pl3.data.graph.Node>> filters =
+				new ArrayList<Filter<tudelft.ti2806.pl3.data.graph.Node>>();
+		Filter<tudelft.ti2806.pl3.data.graph.Node> viewFilter = new ViewFilter(
+				0, 25000);
+		viewFilter.calculateFilter(graph.getNodes());
+		filters.add(viewFilter);
+		gm.produceGraph(filters);
+		Graph displayGraph = DisplayView.getGraph("", gm.getGraph().getNodes(),
+				gm.getGraph().getEdges());
+		for (Node node : displayGraph) {
+			node.setAttribute("xy", ((tudelft.ti2806.pl3.data.graph.Node) node
+					.getAttribute("Node")).getRefStartPoint(), 0);
+		}
+		displayGraph.display(false);
 	}
 	
 	private static File selectFile(String title, JFrame frame, String filter) {

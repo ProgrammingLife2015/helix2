@@ -17,7 +17,7 @@ public class ViewFilter extends Filter<Node> {
 	@Override
 	public void calculateFilter(List<Node> list) {
 		for (Node node : list) {
-			if (node.getRefEndPoint() <= min && node.getRefStartPoint() >= max) {
+			if (node.getRefEndPoint() < min || node.getRefStartPoint() > max) {
 				filter.add(node);
 			}
 		}

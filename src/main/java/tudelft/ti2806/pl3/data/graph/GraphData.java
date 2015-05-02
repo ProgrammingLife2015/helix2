@@ -80,7 +80,7 @@ public class GraphData {
 	public static GraphData parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
-		Map<Integer, Node> nodeMap = parseNodes(nodesFile, genomeMap);
+		Map<Integer, SingleNode> nodeMap = parseNodes(nodesFile, genomeMap);
 		List<Node> nodeList = new ArrayList<Node>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<Genome>();
@@ -100,12 +100,12 @@ public class GraphData {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static Map<Integer, Node> parseNodes(File nodesFile,
+	public static Map<Integer, SingleNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
 		Scanner scanner = new Scanner(nodesFile);
-		Map<Integer, Node> nodes = new HashMap<Integer, Node>();
+		Map<Integer, SingleNode> nodes = new HashMap<Integer, SingleNode>();
 		while (scanner.hasNext()) {
-			Node node = parseNode(scanner, genomeMap);
+			SingleNode node = parseNode(scanner, genomeMap);
 			nodes.put(node.getNodeId(), node);
 		}
 		scanner.close();
@@ -119,10 +119,11 @@ public class GraphData {
 	 *            the scanner with two available lines to read
 	 * @return the read node
 	 */
-	protected static Node parseNode(Scanner scanner, Map<String, Genome> genomes) {
+	protected static SingleNode parseNode(Scanner scanner,
+			Map<String, Genome> genomes) {
 		String[] indexData = scanner.nextLine().replaceAll("[> ]", "")
 				.split("\\|");
-		Node node = new SingleNode(Integer.parseInt(indexData[0]),
+		SingleNode node = new SingleNode(Integer.parseInt(indexData[0]),
 				parseGenomeIdentifiers(indexData[1].split(","), genomes),
 				Integer.parseInt(indexData[2]), Integer.parseInt(indexData[3]),
 				BasePair.getBasePairString(scanner.nextLine()));
@@ -153,14 +154,17 @@ public class GraphData {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static List<Edge> parseEdges(File edgesFile, Map<Integer, Node> nodes)
-			throws FileNotFoundException {
+	public static List<Edge> parseEdges(File edgesFile,
+			Map<Integer, SingleNode> nodes) throws FileNotFoundException {
 		Scanner scanner = new Scanner(edgesFile);
 		List<Edge> list = new ArrayList<Edge>();
 		while (scanner.hasNext()) {
 			String[] index = scanner.nextLine().split(" ");
-			list.add(new Edge(nodes.get(Integer.parseInt(index[0])), nodes
-					.get(Integer.parseInt(index[1]))));
+			SingleNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
+			SingleNode nodeTo = nodes.get(Integer.parseInt(index[1]));
+			list.add(new Edge(nodeFrom, nodeTo));
+			nodeTo.getIncoming().add(nodeFrom);
+			nodeFrom.getOutgoing().add(nodeTo);
 		}
 		scanner.close();
 		return list;
