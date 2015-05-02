@@ -29,13 +29,18 @@ public class GraphParserTest {
 	
 	@Test
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
-		Map<Integer, Node> nodeMap = GraphData.parseNodes(simpleNodeGraphFile,
-				new HashMap<String, Genome>());
+		Map<Integer, SingleNode> nodeMap = GraphData.parseNodes(
+				simpleNodeGraphFile, new HashMap<String, Genome>());
 		List<Edge> edges = GraphData.parseEdges(simpleEdgeGraphFile, nodeMap);
 		
 		Node nodeA = nodeMap.get(35);
 		Node nodeB = nodeMap.get(1);
 		assertTrue(edges.get(0).equals(new Edge(nodeA, nodeB)));
-		
+		assertTrue(nodeA instanceof SingleNode);
+		assertTrue(((SingleNode) nodeA).getIncoming().size() == 0);
+		assertTrue(((SingleNode) nodeA).getOutgoing().size() == 1);
+		assertTrue(nodeB instanceof SingleNode);
+		assertTrue(((SingleNode) nodeB).getIncoming().size() == 1);
+		assertTrue(((SingleNode) nodeB).getOutgoing().size() == 0);
 	}
 }
