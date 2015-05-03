@@ -169,4 +169,41 @@ public class GraphData {
 		scanner.close();
 		return list;
 	}
+	
+	/**
+	 * Search for the node in the graph with the given id.
+	 * 
+	 * @param id
+	 *            the id of the node to search
+	 * @return the found node<br>
+	 *         {@code null} if there is no node with this id in the graph
+	 */
+	public Node getNodeByNodeId(int id) {
+		for (Node node : nodes) {
+			if (node.getNodeId() == id) {
+				return node;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Search for the edge in the graph with the given from and to id.
+	 * 
+	 * @param fromId
+	 *            the id of the from node on the edge
+	 * @param toId
+	 *            the id of the to node on the edge
+	 * @return the found edge<br>
+	 *         {@code null} if there is no node with this id in the graph
+	 */
+	public Edge getEdge(int fromId, int toId) {
+		for (Edge edge : edges) {
+			if (edge.getFrom().getNodeId() == fromId
+					&& edge.getTo().getNodeId() == toId) {
+				return edge;
+			}
+		}
+		return null;
+	}
 }

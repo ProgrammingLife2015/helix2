@@ -41,17 +41,17 @@ public class SingleNodeTest {
 	@Test
 	public void calculateStartXTest() {
 		assertTrue(s0.getXaxisStart() == 0);
-		assertTrue(s1.getXaxisStart() == 5);
-		assertTrue(s2.getXaxisStart() == 15);
-		assertTrue(s3.getXaxisStart() == 5);
+		assertTrue(s1.getXaxisStart() == 6);
+		assertTrue(s2.getXaxisStart() == 17);
+		assertTrue(s3.getXaxisStart() == 6);
 	}
 	
 	@Test
 	public void calculateWhitespaceOnRightSideTest() {
-		assertTrue(s0.calculateWhitespaceOnRightSide() == 0);
-		assertTrue(s1.calculateWhitespaceOnRightSide() == 0);
+		assertTrue(s0.calculateWhitespaceOnRightSide() == 1);
+		assertTrue(s1.calculateWhitespaceOnRightSide() == 1);
 		assertTrue(s2.calculateWhitespaceOnRightSide() == Long.MAX_VALUE
 				- s2.getXEnd());
-		assertTrue(s3.calculateWhitespaceOnRightSide() == 8);
+		assertTrue(s3.calculateWhitespaceOnRightSide() == 9);
 	}
 }

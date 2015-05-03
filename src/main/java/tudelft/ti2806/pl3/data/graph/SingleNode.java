@@ -97,11 +97,7 @@ public class SingleNode implements Node {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(content);
-		result = prime * result
-				+ ((incoming == null) ? 0 : incoming.hashCode());
 		result = prime * result + nodeId;
-		result = prime * result
-				+ ((outgoing == null) ? 0 : outgoing.hashCode());
 		result = prime * result + refEndPoint;
 		result = prime * result + refStartPoint;
 		result = prime * result + Arrays.hashCode(source);
@@ -198,7 +194,9 @@ public class SingleNode implements Node {
 	}
 	
 	/**
-	 * Recursive method for calculating the axis start.
+	 * Recursive method for calculating the axis start.<br>
+	 * The space between nodes has a minimum of 1, because we have to reserve
+	 * space for the edges.
 	 * 
 	 * @return the calculated startX value.
 	 */
@@ -209,7 +207,9 @@ public class SingleNode implements Node {
 		long max = 0;
 		for (SingleNode incomingNode : this.getIncoming()) {
 			max = Math.max(max,
-					incomingNode.calculateStartX() + incomingNode.getWidth());
+					incomingNode.calculateStartX() + incomingNode.getWidth()
+							+ 1);
+			// We want one extra space for the edges.
 		}
 		this.xaxisStart = max;
 		return max;
