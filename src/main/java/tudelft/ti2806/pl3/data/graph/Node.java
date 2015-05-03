@@ -21,7 +21,7 @@ public interface Node {
 	
 	int getYaxisOrder();
 	
-	long getXStart();
+	long getXaxisStart();
 	
 	long getXEnd();
 	

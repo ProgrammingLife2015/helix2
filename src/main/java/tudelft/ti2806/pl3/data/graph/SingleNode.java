@@ -15,7 +15,7 @@ public class SingleNode implements Node {
 	protected byte[] content;
 	
 	// Location data
-	protected long xStart;
+	protected long xaxisStart = -1;
 	protected int yaxisOrder;
 	
 	/**
@@ -23,7 +23,7 @@ public class SingleNode implements Node {
 	 * 
 	 * @see getIncoming
 	 */
-	private List<Node> incoming = new ArrayList<Node>();
+	private List<SingleNode> incoming = new ArrayList<SingleNode>();
 	
 	/**
 	 * {@link #incoming} is a list of all incoming connections from this node.
@@ -34,7 +34,7 @@ public class SingleNode implements Node {
 	 * This field is not interesting for {@link CombinedNode}, because these
 	 * nodes only appear after filtering of a graph.
 	 */
-	public List<Node> getIncoming() {
+	public List<SingleNode> getIncoming() {
 		return incoming;
 	}
 	
@@ -43,7 +43,7 @@ public class SingleNode implements Node {
 	 * 
 	 * @see #getOutgoing
 	 */
-	private List<Node> outgoing = new ArrayList<Node>();
+	private List<SingleNode> outgoing = new ArrayList<SingleNode>();
 	
 	/**
 	 * {@link #outgoing} is a list of all outgoing connections from this node.
@@ -56,7 +56,7 @@ public class SingleNode implements Node {
 	 * 
 	 * @return the list of all nodes from outgoing edges from this node
 	 */
-	public List<Node> getOutgoing() {
+	public List<SingleNode> getOutgoing() {
 		return outgoing;
 	}
 	
@@ -183,13 +183,13 @@ public class SingleNode implements Node {
 	}
 	
 	@Override
-	public long getXStart() {
-		return xStart;
+	public long getXaxisStart() {
+		return xaxisStart;
 	}
 	
 	@Override
 	public long getXEnd() {
-		return xStart + this.getWidth();
+		return xaxisStart + this.getWidth();
 	}
 	
 	@Override
@@ -197,4 +197,35 @@ public class SingleNode implements Node {
 		return content.length;
 	}
 	
+	/**
+	 * Recursive method for calculating the axis start.
+	 * 
+	 * @return the calculated startX value.
+	 */
+	public long calculateStartX() {
+		if (this.getXaxisStart() != -1) {
+			return this.getXaxisStart();
+		}
+		long max = 0;
+		for (SingleNode incomingNode : this.getIncoming()) {
+			max = Math.max(max,
+					incomingNode.calculateStartX() + incomingNode.getWidth());
+		}
+		this.xaxisStart = max;
+		return max;
+	}
+	
+	/**
+	 * Calculates the whitespace available on the right side of this node.
+	 * 
+	 * @return the number of base pairs that fit in the whitespace on the right
+	 *         side of the node.
+	 */
+	public long calculateWhitespaceOnRightSide() {
+		long min = Long.MAX_VALUE;
+		for (SingleNode incomingNode : this.getOutgoing()) {
+			min = Math.min(min, incomingNode.getXaxisStart());
+		}
+		return min - this.getXEnd();
+	}
 }
