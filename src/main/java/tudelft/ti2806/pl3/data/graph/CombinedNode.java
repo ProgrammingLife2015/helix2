@@ -108,8 +108,8 @@ public class CombinedNode implements Node {
 	}
 	
 	@Override
-	public long getXStart() {
-		return nodeList.get(0).getXStart();
+	public long getXaxisStart() {
+		return nodeList.get(0).getXaxisStart();
 	}
 	
 	@Override
@@ -119,6 +119,6 @@ public class CombinedNode implements Node {
 	
 	@Override
 	public long getWidth() {
-		return getXEnd() - getXStart();
+		return getXEnd() - getXaxisStart();
 	}
 }
