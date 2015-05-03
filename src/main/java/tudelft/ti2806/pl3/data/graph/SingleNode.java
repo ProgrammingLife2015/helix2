@@ -7,11 +7,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SingleNode implements Node {
+	// Parse data
 	protected int nodeId;
 	protected Genome[] source;
 	protected int refStartPoint;
 	protected int refEndPoint;
 	protected byte[] content;
+	
+	// Location data
+	protected long xStart;
+	protected int yaxisOrder;
 	
 	/**
 	 * A list of all nodes from incoming connections from this node.
@@ -170,6 +175,26 @@ public class SingleNode implements Node {
 	@Override
 	public byte[] getContent() {
 		return content;
+	}
+	
+	@Override
+	public int getYaxisOrder() {
+		return yaxisOrder;
+	}
+	
+	@Override
+	public long getXStart() {
+		return xStart;
+	}
+	
+	@Override
+	public long getXEnd() {
+		return xStart + this.getWidth();
+	}
+	
+	@Override
+	public long getWidth() {
+		return content.length;
 	}
 	
 }

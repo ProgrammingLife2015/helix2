@@ -18,4 +18,12 @@ public interface Node {
 	boolean equals(Object obj);
 	
 	int hashCode();
+	
+	int getYaxisOrder();
+	
+	long getXStart();
+	
+	long getXEnd();
+	
+	long getWidth();
 }

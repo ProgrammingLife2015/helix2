@@ -4,13 +4,16 @@ import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Mathieu Post on 30-4-15.
+ * 
  */
 public class CombinedNode implements Node {
-	List<Node> nodeList;
+	private List<Node> nodeList;
+	private int yaxisOrder = -1;
 	
 	/**
 	 * An collection of {@link SNodes} which can be used as a single SNode.
@@ -19,12 +22,29 @@ public class CombinedNode implements Node {
 	 *            a connected and sorted list of edges.
 	 */
 	public CombinedNode(List<Edge> edgeList) {
-		nodeList = new ArrayList<>(edgeList.size());
+		this.nodeList = new ArrayList<>(edgeList.size());
 		
-		nodeList.add(edgeList.get(0).getFrom());
+		this.nodeList.add(edgeList.get(0).getFrom());
 		for (int i = 0; i < edgeList.size(); i++) {
-			nodeList.add(edgeList.get(i).getTo());
+			this.nodeList.add(edgeList.get(i).getTo());
 		}
+		
+		calculateYaxisOrder();
+	}
+	
+	/**
+	 * Calculates the median of the list of all yaxisOrder values of the
+	 * CombinedNode containing nodes.
+	 * 
+	 * @return the median yaxisOrder
+	 */
+	private void calculateYaxisOrder() {
+		List<Integer> list = new ArrayList<Integer>(nodeList.size());
+		for (Node node : nodeList) {
+			list.add(node.getYaxisOrder());
+		}
+		Collections.sort(list);
+		yaxisOrder = list.get(nodeList.size() / 2);
 	}
 	
 	public Node getFirst() {
@@ -80,5 +100,25 @@ public class CombinedNode implements Node {
 				+ Arrays.toString(getSource()) + ", refStartPoint="
 				+ getRefStartPoint() + ", refEndPoint=" + getRefEndPoint()
 				+ ", content=" + Arrays.toString(getContent()) + "]";
+	}
+	
+	@Override
+	public int getYaxisOrder() {
+		return yaxisOrder;
+	}
+	
+	@Override
+	public long getXStart() {
+		return nodeList.get(0).getXStart();
+	}
+	
+	@Override
+	public long getXEnd() {
+		return nodeList.get(0).getXEnd();
+	}
+	
+	@Override
+	public long getWidth() {
+		return getXEnd() - getXStart();
 	}
 }
