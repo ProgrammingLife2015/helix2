@@ -106,7 +106,7 @@ public class GraphData {
 		Map<Integer, SingleNode> nodes = new HashMap<Integer, SingleNode>();
 		while (scanner.hasNext()) {
 			SingleNode node = parseNode(scanner, genomeMap);
-			nodes.put(node.getNodeId(), node);
+			nodes.put(node.getId(), node);
 		}
 		scanner.close();
 		return nodes;
@@ -136,7 +136,7 @@ public class GraphData {
 		for (int i = 0; i < identifiers.length; i++) {
 			Genome genome = genomes.get(identifiers[i]);
 			if (genome == null) {
-				genome = new Genome(identifiers[i]);
+				genome = new Genome(identifiers[i], genomes.size());
 				genomes.put(identifiers[i], genome);
 			}
 			result[i] = genome;
@@ -180,7 +180,7 @@ public class GraphData {
 	 */
 	public Node getNodeByNodeId(int id) {
 		for (Node node : nodes) {
-			if (node.getNodeId() == id) {
+			if (node.getId() == id) {
 				return node;
 			}
 		}
@@ -199,8 +199,8 @@ public class GraphData {
 	 */
 	public Edge getEdge(int fromId, int toId) {
 		for (Edge edge : edges) {
-			if (edge.getFrom().getNodeId() == fromId
-					&& edge.getTo().getNodeId() == toId) {
+			if (edge.getFrom().getId() == fromId
+					&& edge.getTo().getId() == toId) {
 				return edge;
 			}
 		}

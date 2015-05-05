@@ -16,6 +16,10 @@ public class SingleNode implements Node {
 	
 	// Location data
 	protected long xaxisStart = -1;
+	/**
+	 * The number of nodes on the longest path to this node.
+	 */
+	protected int previousNodesCount = -1;
 	protected int yaxisOrder;
 	
 	/**
@@ -149,7 +153,7 @@ public class SingleNode implements Node {
 	}
 	
 	@Override
-	public int getNodeId() {
+	public int getId() {
 		return nodeId;
 	}
 	
@@ -179,7 +183,7 @@ public class SingleNode implements Node {
 	}
 	
 	@Override
-	public long getXaxisStart() {
+	public long getXStart() {
 		return xaxisStart;
 	}
 	
@@ -193,26 +197,44 @@ public class SingleNode implements Node {
 		return content.length;
 	}
 	
+	@Override
+	public int getPreviousNodesCount() {
+		return previousNodesCount;
+	}
+	
 	/**
-	 * Recursive method for calculating the axis start.<br>
-	 * The space between nodes has a minimum of 1, because we have to reserve
-	 * space for the edges.
+	 * Recursive method for calculating the axis start.
 	 * 
 	 * @return the calculated startX value.
 	 */
 	public long calculateStartX() {
-		if (this.getXaxisStart() != -1) {
-			return this.getXaxisStart();
+		if (this.getXStart() != -1) {
+			return this.getXStart();
 		}
 		long max = 0;
 		for (SingleNode incomingNode : this.getIncoming()) {
 			max = Math.max(max,
-					incomingNode.calculateStartX() + incomingNode.getWidth()
-							+ 1);
-			// We want one extra space for the edges.
+					incomingNode.calculateStartX() + incomingNode.getWidth());
 		}
 		this.xaxisStart = max;
 		return max;
+	}
+	
+	/**
+	 * Calculate the number of nodes on the longest path to this node.
+	 * 
+	 * @return the number of nodes on the longest path to this node
+	 */
+	public int calculatePreviousNodesCount() {
+		if (this.getPreviousNodesCount() != -1) {
+			return this.getPreviousNodesCount();
+		}
+		int max = 0;
+		for (SingleNode incomingNode : this.getIncoming()) {
+			max = Math.max(max, incomingNode.calculatePreviousNodesCount() + 1);
+		}
+		this.previousNodesCount = max;
+		return this.previousNodesCount;
 	}
 	
 	/**
@@ -224,7 +246,7 @@ public class SingleNode implements Node {
 	public long calculateWhitespaceOnRightSide() {
 		long min = Long.MAX_VALUE;
 		for (SingleNode incomingNode : this.getOutgoing()) {
-			min = Math.min(min, incomingNode.getXaxisStart());
+			min = Math.min(min, incomingNode.getXStart());
 		}
 		return min - this.getXEnd();
 	}
