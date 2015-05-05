@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EdgeTargetTest {
+public class TargetTest {
 	private File nodesFile = new File("data/7TestNodes.node.graph");
 	private File edgesFile = new File("data/7TestNodes.edge.graph");
 	
@@ -39,6 +39,7 @@ public class EdgeTargetTest {
 		for (Node node : gd.getNodes()) {
 			SingleNode snode = (SingleNode) node;
 			snode.calculateStartX();
+			snode.calculatePreviousNodesCount();
 			targets.add(new NodeTarget(snode));
 		}
 		Map<Edge, EdgeTarget> testTargets = new HashMap<Edge, EdgeTarget>();

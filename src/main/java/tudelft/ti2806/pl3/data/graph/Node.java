@@ -3,7 +3,7 @@ package tudelft.ti2806.pl3.data.graph;
 import tudelft.ti2806.pl3.data.Genome;
 
 public interface Node {
-	int getNodeId();
+	int getId();
 	
 	Genome[] getSource();
 	
@@ -21,9 +21,11 @@ public interface Node {
 	
 	int getYaxisOrder();
 	
-	long getXaxisStart();
+	long getXStart();
 	
 	long getXEnd();
 	
 	long getWidth();
+	
+	int getPreviousNodesCount();
 }

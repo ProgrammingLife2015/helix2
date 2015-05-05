@@ -68,8 +68,8 @@ public class GraphModel {
 		Map<Integer, Edge> fromHash = new HashMap<Integer, Edge>();
 		Map<Integer, Edge> toHash = new HashMap<Integer, Edge>();
 		for (Edge edge : edgesToCombine) {
-			fromHash.put(edge.getFrom().getNodeId(), edge);
-			toHash.put(edge.getTo().getNodeId(), edge);
+			fromHash.put(edge.getFrom().getId(), edge);
+			toHash.put(edge.getTo().getId(), edge);
 		}
 		
 		Map<Integer, CombinedNode> nodeReference = new HashMap<Integer, CombinedNode>();
@@ -82,10 +82,10 @@ public class GraphModel {
 			CombinedNode combinedNode = new CombinedNode(foundEdgeGroup);
 			combinedNodes.add(combinedNode);
 			nodes.removeAll(combinedNode.getNodeList());
-			nodeReference.put(foundEdgeGroup.get(0).getFrom().getNodeId(),
+			nodeReference.put(foundEdgeGroup.get(0).getFrom().getId(),
 					combinedNode);
 			nodeReference.put(foundEdgeGroup.get(foundEdgeGroup.size() - 1)
-					.getTo().getNodeId(), combinedNode);
+					.getTo().getId(), combinedNode);
 		}
 		// Remove and replace edges with combined nodes.
 		reconnectCombinedNodes(edges, nodes, nodeReference);
@@ -108,13 +108,13 @@ public class GraphModel {
 		List<Edge> deadEdges = getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
 			Node nodeTo = edge.getTo();
-			Node tempNode = nodeReference.get(nodeTo.getNodeId());
+			Node tempNode = nodeReference.get(nodeTo.getId());
 			if (tempNode != null) {
 				nodeTo = tempNode;
 			}
 			
 			Node nodeFrom = edge.getFrom();
-			tempNode = nodeReference.get(nodeFrom.getNodeId());
+			tempNode = nodeReference.get(nodeFrom.getId());
 			if (tempNode != null) {
 				nodeFrom = tempNode;
 			}
@@ -145,18 +145,18 @@ public class GraphModel {
 		List<Edge> edgeList = new ArrayList<Edge>();
 		edgeList.add(startEdge);
 		// Search to left
-		Edge searchEdge = fromHash.get(startEdge.getTo().getNodeId());
+		Edge searchEdge = fromHash.get(startEdge.getTo().getId());
 		while (searchEdge != null) {
 			edgesToCombine.remove(searchEdge);
 			edgeList.add(searchEdge);
-			searchEdge = fromHash.get(searchEdge.getTo().getNodeId());
+			searchEdge = fromHash.get(searchEdge.getTo().getId());
 		}
 		// Search to right
-		searchEdge = toHash.get(startEdge.getFrom().getNodeId());
+		searchEdge = toHash.get(startEdge.getFrom().getId());
 		while (searchEdge != null) {
 			edgesToCombine.remove(searchEdge);
 			edgeList.add(0, searchEdge);
-			searchEdge = toHash.get(searchEdge.getFrom().getNodeId());
+			searchEdge = toHash.get(searchEdge.getFrom().getId());
 		}
 		return edgeList;
 	}
@@ -214,8 +214,8 @@ public class GraphModel {
 		boolean found = true;
 		for (Edge edge : edges) {
 			if (lastEdge != null
-					&& edge.getFrom().getNodeId() == lastEdge.getFrom()
-							.getNodeId()) {
+					&& edge.getFrom().getId() == lastEdge.getFrom()
+							.getId()) {
 				found = true;
 			} else {
 				if (found == false) {
@@ -245,8 +245,8 @@ public class GraphModel {
 		boolean found = true;
 		for (Edge edge : edges) {
 			if (lastEdge != null
-					&& edge.getTo().getNodeId()
-					== lastEdge.getTo().getNodeId()) {
+					&& edge.getTo().getId()
+					== lastEdge.getTo().getId()) {
 				found = true;
 			} else {
 				if (found == false) {

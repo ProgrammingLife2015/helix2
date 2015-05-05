@@ -40,18 +40,18 @@ public class SingleNodeTest {
 	
 	@Test
 	public void calculateStartXTest() {
-		assertTrue(s0.getXaxisStart() == 0);
-		assertTrue(s1.getXaxisStart() == 6);
-		assertTrue(s2.getXaxisStart() == 17);
-		assertTrue(s3.getXaxisStart() == 6);
+		assertTrue(s0.getXStart() == 0);
+		assertTrue(s1.getXStart() == 5);
+		assertTrue(s2.getXStart() == 15);
+		assertTrue(s3.getXStart() == 5);
 	}
 	
 	@Test
 	public void calculateWhitespaceOnRightSideTest() {
-		assertTrue(s0.calculateWhitespaceOnRightSide() == 1);
-		assertTrue(s1.calculateWhitespaceOnRightSide() == 1);
+		assertTrue(s0.calculateWhitespaceOnRightSide() == 0);
+		assertTrue(s1.calculateWhitespaceOnRightSide() == 0);
 		assertTrue(s2.calculateWhitespaceOnRightSide() == Long.MAX_VALUE
 				- s2.getXEnd());
-		assertTrue(s3.calculateWhitespaceOnRightSide() == 9);
+		assertTrue(s3.calculateWhitespaceOnRightSide() == 8);
 	}
 }

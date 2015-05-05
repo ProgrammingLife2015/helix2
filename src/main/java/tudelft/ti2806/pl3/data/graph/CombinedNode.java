@@ -60,8 +60,8 @@ public class CombinedNode implements Node {
 	}
 	
 	@Override
-	public int getNodeId() {
-		return getFirst().getNodeId();
+	public int getId() {
+		return getFirst().getId();
 	}
 	
 	@Override
@@ -96,7 +96,7 @@ public class CombinedNode implements Node {
 	
 	@Override
 	public String toString() {
-		return "CombinedNode [nodeId=" + getNodeId() + ", source="
+		return "CombinedNode [nodeId=" + getId() + ", source="
 				+ Arrays.toString(getSource()) + ", refStartPoint="
 				+ getRefStartPoint() + ", refEndPoint=" + getRefEndPoint()
 				+ ", content=" + Arrays.toString(getContent()) + "]";
@@ -108,17 +108,22 @@ public class CombinedNode implements Node {
 	}
 	
 	@Override
-	public long getXaxisStart() {
-		return nodeList.get(0).getXaxisStart();
+	public long getXStart() {
+		return getFirst().getXStart();
 	}
 	
 	@Override
 	public long getXEnd() {
-		return nodeList.get(0).getXEnd();
+		return getFirst().getXEnd();
 	}
 	
 	@Override
 	public long getWidth() {
-		return getXEnd() - getXaxisStart();
+		return getXEnd() - getXStart();
+	}
+
+	@Override
+	public int getPreviousNodesCount() {
+		return getFirst().getPreviousNodesCount();
 	}
 }

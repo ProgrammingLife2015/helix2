@@ -20,7 +20,7 @@ public class Edge {
 	
 	@Override
 	public String toString() {
-		return "Edge [from=" + from.getNodeId() + ", to=" + to.getNodeId()
+		return "Edge [from=" + from.getId() + ", to=" + to.getId()
 				+ "]";
 	}
 	

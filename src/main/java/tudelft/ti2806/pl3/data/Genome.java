@@ -1,10 +1,12 @@
 package tudelft.ti2806.pl3.data;
 
 public class Genome {
+	protected int yposition;
 	public final String identifier;
 	
-	public Genome(String identifier) {
+	public Genome(String identifier, int yposition) {
 		this.identifier = identifier;
+		this.yposition = yposition;
 	}
 	
 	@Override
@@ -36,6 +38,14 @@ public class Genome {
 			return false;
 		}
 		return true;
+	}
+	
+	public int getYposition() {
+		return yposition;
+	}
+	
+	public void setYposition(int yposition) {
+		this.yposition = yposition;
 	}
 	
 }

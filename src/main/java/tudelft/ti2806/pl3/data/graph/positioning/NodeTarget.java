@@ -11,18 +11,17 @@ public class NodeTarget implements Target {
 	
 	@Override
 	public long getEnd() {
-		return node.getXEnd();
+		return node.getXEnd() + node.getPreviousNodesCount();
 	}
 	
 	@Override
 	public long getStart() {
-		return node.getXaxisStart();
+		return node.getXStart() + node.getPreviousNodesCount();
 	}
 	
 	@Override
 	public Line getLine(int[] order) {
-		return new Line(this.getStart(), this.getEnd(), 0f,
-				order[node.getNodeId()]);
+		return new Line(this.getStart(), this.getEnd(), 0f, order[node.getId()]);
 	}
 	
 }

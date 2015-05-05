@@ -51,15 +51,15 @@ public class EdgeTarget implements Target {
 	@Override
 	public Line getLine(int[] order) {
 		return new Line(this.getStart(),
-				order[this.edge.getFrom().getNodeId()], this.getEnd(),
-				order[this.edge.getTo().getNodeId()]);
+				order[this.edge.getFrom().getId()], this.getEnd(),
+				order[this.edge.getTo().getId()]);
 	}
 	
 	public long getStart() {
-		return edge.getFrom().getXEnd();
+		return edge.getFrom().getXEnd() + edge.getFrom().getPreviousNodesCount();
 	}
 	
 	public long getEnd() {
-		return edge.getTo().getXaxisStart();
+		return edge.getTo().getXStart() + edge.getTo().getPreviousNodesCount();
 	}
 }
