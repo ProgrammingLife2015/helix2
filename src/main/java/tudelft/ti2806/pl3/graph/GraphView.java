@@ -1,9 +1,13 @@
 package tudelft.ti2806.pl3.graph;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.Viewer;
+import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.awt.BorderLayout;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,35 +18,67 @@ import javax.swing.JPanel;
  */
 public class GraphView extends JPanel {
 
-	private Graph graph;
+	private List<Node> nodes;
+	private List<Edge> edges;
+
 
 	/**
-	 * Initialize graph view, give it a BorderLayout.
+	 * Construct empty graph view.
 	 */
 	public GraphView() {
-		this.setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 	}
 
 	/**
-	 * Set the graph and render it into the view.
-	 * @param graph the graph from the graphstream library
+	 * Construct a graph view containing nodes and edges.
+	 * The constructor will automatically make the graph render.
+	 * @param nodes the graph's nodes
+	 * @param edges the graph's edges
 	 */
-	public void setGraph(Graph graph) {
-		this.graph = graph;
+	public GraphView(List<Node> nodes, List<Edge> edges) {
+		this.nodes = nodes;
+		this.edges = edges;
+		setLayout(new BorderLayout());
 		renderGraph();
 	}
+
 
 	/**
 	 * Render the sequence graph and add it to this panel.
 	 */
 	public void renderGraph() {
 		removeAll();
-		graph.addAttribute("ui.antialias");
+		Graph graph = new SingleGraph("");
+		for (Node node : nodes) {
+			org.graphstream.graph.Node graphNode = graph.addNode(node
+					.getNodeId() + "");
+			graphNode.addAttribute("Node", node);
+		}
+		for (Edge edge : edges) {
+			graph.addEdge(edge.toString(), edge.getFrom().getNodeId() + "",
+					edge.getTo().getNodeId() + "");
+		}
 
 		Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		viewer.enableAutoLayout();
 
 		this.add(viewer.addDefaultView(false));
+	}
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(List<Node> nodes) {
+		this.nodes = nodes;
+	}
+
+	public List<Edge> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(List<Edge> edges) {
+		this.edges = edges;
 	}
 
 	/**

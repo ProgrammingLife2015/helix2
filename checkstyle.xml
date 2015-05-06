@@ -112,7 +112,7 @@ Checkstyle configurartion that checks the Google coding conventions (https://goo
       <property name="basicOffset" value="8"/>
       <property name="caseIndent" value="1"/>
       <property name="throwsIndent" value="1"/>
-      <property name="arrayInitIndent" value="1"/>
+      <property name="arrayInitIndent" value="16"/>
       <property name="lineWrappingIndentation" value="1"/>
     </module>
     <module name="AbbreviationAsWordInName">

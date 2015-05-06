@@ -1,8 +1,7 @@
 package tudelft.ti2806.pl3.graph;
 
-import org.graphstream.graph.Graph;
 import tudelft.ti2806.pl3.Controller;
-import tudelft.ti2806.pl3.data.GraphParser;
+import tudelft.ti2806.pl3.data.graph.GraphData;
 
 import java.awt.Component;
 import java.io.File;
@@ -20,14 +19,13 @@ public class GraphController implements Controller {
 	 * Initialize view and pass the graph to it.
 	 */
 	public GraphController() {
-		view = new GraphView();
-
 		try {
-			Graph graph = GraphParser.parseGraph("hello", new File(
+			GraphData graphData = GraphData.parseGraph(new File(
 					"data/10_strains_graph/simple_graph.node.graph"), new File(
 					"data/10_strains_graph/simple_graph.edge.graph"));
-			view.setGraph(graph);
+			view = new GraphView(graphData.getNodes(), graphData.getEdges());
 		} catch (FileNotFoundException e) {
+			view = new GraphView();
 			view.showFileNotFound();
 		}
 	}
