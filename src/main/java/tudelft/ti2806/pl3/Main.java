@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3;
 
 import tudelft.ti2806.pl3.graph.GraphController;
-import tudelft.ti2806.pl3.zoombar.ZoomBarController;
+import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
 import javax.swing.*;
 import java.awt.*;
