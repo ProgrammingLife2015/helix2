@@ -9,5 +9,5 @@ import java.awt.*;
  */
 public interface Controller {
 
-    public Component getView();
+    Component getView();
 }

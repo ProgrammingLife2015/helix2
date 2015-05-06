@@ -12,7 +12,7 @@ import java.awt.Component;
  */
 public class ZoomBarController implements Controller {
 
-	private GraphController graphController;
+	public GraphController graphController;
 	private ZoomBarView zoomBarView;
 
 	/**

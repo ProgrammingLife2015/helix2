@@ -27,5 +27,9 @@ public class AttributeArray<T> {
 		}
 		return true;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(array);
+	}
 }
