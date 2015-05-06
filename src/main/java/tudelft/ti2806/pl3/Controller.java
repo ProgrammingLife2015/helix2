@@ -10,5 +10,5 @@ import java.awt.Component;
  */
 public interface Controller {
 	
-	public Component getView();
+	Component getView();
 }
