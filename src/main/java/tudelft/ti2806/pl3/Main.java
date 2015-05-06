@@ -42,11 +42,9 @@ public class Main extends JDialog {
 		});
 
 		// call onCancel() on ESCAPE
-		contentPane.registerKeyboardAction(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				onCancel();
-			}
-		}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+		contentPane.registerKeyboardAction(
+				event -> onCancel(),
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
 		GraphController graphController = new GraphController();
