@@ -20,6 +20,8 @@ public class FileSelector {
      */
     public static File selectFile(String title, JFrame frame, String filter) {
         JFileChooser chooser = new JFileChooser();
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        chooser.setCurrentDirectory(workingDirectory);
         chooser.setMultiSelectionEnabled(true);
         chooser.setDialogTitle(title);
         chooser.setFileFilter(new FileFilter() {

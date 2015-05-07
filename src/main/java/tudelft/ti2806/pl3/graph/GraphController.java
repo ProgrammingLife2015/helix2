@@ -3,7 +3,7 @@ package tudelft.ti2806.pl3.graph;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
