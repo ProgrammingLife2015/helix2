@@ -201,11 +201,11 @@ public class GraphModel {
 	 * Sorts the edges on their {@code from} {@link Node} and after that on
 	 * their {@code to} {@link Node}.
 	 * 
-	 * @param fromEdges
+	 * @param edges
 	 *            the edges to be sorted
 	 */
-	protected void sortEdgesOnFrom(List<Edge> edges2) {
-		Collections.sort(edges2, new Comparator<Edge>() {
+	protected void sortEdgesOnFrom(List<Edge> edges) {
+		Collections.sort(edges, new Comparator<Edge>() {
 			@Override
 			public int compare(Edge o1, Edge o2) {
 				int dir = (int) Math.signum(o1.getFrom().getNodeId()
