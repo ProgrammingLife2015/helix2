@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.graph;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 
+import javax.swing.*;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,10 +20,12 @@ public class GraphController implements Controller {
 	 * Initialize view and pass the graph to it.
 	 */
 	public GraphController() {
+        JFrame frame = new JFrame();
+        File nodeFile = FileSelector.selectFile("Select node file", frame, ".node.graph");
+        File edgeFile = FileSelector.selectFile("Select edge file", frame, ".edge.graph");
+
 		try {
-			GraphData graphData = GraphData.parseGraph(new File(
-					"data/10_strains_graph/simple_graph.node.graph"), new File(
-					"data/10_strains_graph/simple_graph.edge.graph"));
+			GraphData graphData = GraphData.parseGraph(nodeFile,edgeFile);
 			view = new GraphView(graphData.getNodes(), graphData.getEdges());
 		} catch (FileNotFoundException e) {
 			view = new GraphView();
