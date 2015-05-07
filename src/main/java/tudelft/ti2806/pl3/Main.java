@@ -3,14 +3,10 @@ package tudelft.ti2806.pl3;
 import tudelft.ti2806.pl3.graph.GraphController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
-import java.awt.Dimension;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 /**
  * Main application launcher.
@@ -19,16 +15,18 @@ import javax.swing.KeyStroke;
  */
 public class Main extends JDialog {
 
-	private JPanel contentPane;
-	private JPanel graphContainer;
-	private JPanel zoomBarContainer;
-
 	/**
 	 * Start up the main application window.
+	 * Adds the graph and zoom bar view to the main application view.
 	 */
 	public Main() {
-		setContentPane(contentPane);
-		contentPane.setPreferredSize(new Dimension(1800, 1000));
+		GraphController graphController = new GraphController();
+		ZoomBarController zoomBarController = new ZoomBarController(graphController);
+		Application application = new Application();
+		application.setGraphView(graphController.getView());
+		application.setZoomBarView(zoomBarController.getView());
+
+		setContentPane(application);
 		setModal(true);
 
 		// call onCancel() when cross is clicked
@@ -40,15 +38,10 @@ public class Main extends JDialog {
 		});
 
 		// call onCancel() on ESCAPE
-		contentPane.registerKeyboardAction(
+		application.registerKeyboardAction(
 				event -> onCancel(),
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
-		GraphController graphController = new GraphController();
-		ZoomBarController zoombarController = new ZoomBarController(graphController);
-		graphContainer.add(graphController.getView());
-		zoomBarContainer.add(zoombarController.getView());
 	}
 
 	/**
