@@ -3,8 +3,8 @@ package tudelft.ti2806.pl3.data;
 public enum BasePair {
 	N(0, -1), T(1, 0), U(2, 0), C(3, 1), A(4, 2), G(5, 3);
 	
-	private int value;
-	public byte storeByte;
+	private final int value;
+	public final byte storeByte;
 	private static BasePair[] storeByteToBasePair = new BasePair[] { N, T, U, C, A, G };
 	public static final int MAX_GENE = 4;
 	
