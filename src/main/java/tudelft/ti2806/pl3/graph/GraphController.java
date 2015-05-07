@@ -22,7 +22,7 @@ public class GraphController implements Controller {
 	public GraphController() {
         JFrame frame = new JFrame();
         File nodeFile = FileSelector.selectFile("Select node file", frame, ".node.graph");
-        File edgeFile = FileSelector.selectFile("Select edge file", frame, ".edge.graph");
+		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 
 		try {
 			GraphData graphData = GraphData.parseGraph(nodeFile,edgeFile);
