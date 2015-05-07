@@ -11,6 +11,13 @@ import java.io.File;
  */
 public class FileSelector {
 
+    /**
+     * Selects a file
+     * @param title of the file chooser
+     * @param frame in which file chooser must be shown
+     * @param filter of the files
+     * @return File that is chosen
+     */
     public static File selectFile(String title, JFrame frame, String filter) {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(true);
