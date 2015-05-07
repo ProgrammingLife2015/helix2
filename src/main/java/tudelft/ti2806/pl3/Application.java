@@ -10,12 +10,13 @@ import javax.swing.JSplitPane;
 /**
  * The main application view.
  *
+ * <p>
  * Created by Boris Mattijssen on 07-05-15.
  */
 public class Application extends JPanel {
-
+	
 	private JPanel right = new JPanel();
-
+	
 	/**
 	 * Construct the main application view.
 	 */
@@ -24,25 +25,29 @@ public class Application extends JPanel {
 		setPreferredSize(new Dimension(1800, 1000));
 		JPanel left = new JPanel();
 		right.setLayout(new BorderLayout());
-
-		JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
-		jSplitPane.setDividerLocation(200);
-
-		add(jSplitPane);
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				left, right);
+		splitPane.setDividerLocation(200);
+		
+		add(splitPane);
 	}
-
-
+	
 	/**
 	 * Add the graph view to the layout.
-	 * @param view the graph view panel
+	 * 
+	 * @param view
+	 *            the graph view panel
 	 */
 	public void setGraphView(Component view) {
 		right.add(view, BorderLayout.CENTER);
 	}
-
+	
 	/**
 	 * Add the zoom bar view to the layout.
-	 * @param view the zoom bar view panel
+	 * 
+	 * @param view
+	 *            the zoom bar view panel
 	 */
 	public void setZoomBarView(Component view) {
 		right.add(view, BorderLayout.SOUTH);
