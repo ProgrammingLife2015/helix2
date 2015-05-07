@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * GraphData parses the data as nodes,edges and genomes.
+ */
 public class GraphData {
 	private List<Node> nodes;
 	private List<Edge> edges;

@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * GraphModel reads GraphData and makes a new graph of it.
+ */
 public class GraphModel {
 	protected GraphData originalGraph;
 	protected GraphData graph;
