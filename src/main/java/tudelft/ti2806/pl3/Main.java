@@ -3,10 +3,13 @@ package tudelft.ti2806.pl3;
 import tudelft.ti2806.pl3.graph.GraphController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.KeyStroke;
 
 /**
  * Main application launcher.
