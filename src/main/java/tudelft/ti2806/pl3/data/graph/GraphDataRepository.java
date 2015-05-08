@@ -122,7 +122,7 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static Map<Integer, SingleNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
-		Scanner scanner = new Scanner(nodesFile);
+		Scanner scanner = new Scanner(nodesFile, "UTF-8");
 		Map<Integer, SingleNode> nodes = new HashMap<Integer, SingleNode>();
 		while (scanner.hasNext()) {
 			SingleNode node = parseNode(scanner, genomeMap);
@@ -176,7 +176,7 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static List<Edge> parseEdges(File edgesFile,
 			Map<Integer, SingleNode> nodes) throws FileNotFoundException {
-		Scanner scanner = new Scanner(edgesFile);
+		Scanner scanner = new Scanner(edgesFile, "UTF-8");
 		List<Edge> list = new ArrayList<Edge>();
 		while (scanner.hasNext()) {
 			String[] index = scanner.nextLine().split(" ");
