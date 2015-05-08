@@ -185,19 +185,7 @@ public class GraphModel {
 	 *            the edges to be sorted
 	 */
 	protected void sortEdgesOnTo(List<Edge> fromEdges) {
-		Collections.sort(fromEdges, new Comparator<Edge>() {
-			@Override
-			public int compare(Edge o1, Edge o2) {
-				int dir = (int) Math.signum(o1.getTo().getNodeId()
-						- o2.getTo().getNodeId());
-				if (dir == 0) {
-					return (int) Math.signum(o1.getFrom().getNodeId()
-							- o2.getFrom().getNodeId());
-				} else {
-					return dir;
-				}
-			}
-		});
+		Collections.sort(fromEdges, new SortEdgesToComparator());
 	}
 	
 	/**
@@ -208,19 +196,7 @@ public class GraphModel {
 	 *            the edges to be sorted
 	 */
 	protected void sortEdgesOnFrom(List<Edge> edges) {
-		Collections.sort(edges, new Comparator<Edge>() {
-			@Override
-			public int compare(Edge o1, Edge o2) {
-				int dir = (int) Math.signum(o1.getFrom().getNodeId()
-						- o2.getFrom().getNodeId());
-				if (dir == 0) {
-					return (int) Math.signum(o1.getTo().getNodeId()
-							- o2.getTo().getNodeId());
-				} else {
-					return dir;
-				}
-			}
-		});
+		Collections.sort(edges, new SortEdgesFromComparator());
 	}
 	
 	/**
@@ -331,6 +307,40 @@ public class GraphModel {
 	protected void filter(List<Node> list, List<Filter<Node>> filters) {
 		for (Filter<Node> filter : filters) {
 			filter.filter(list);
+		}
+	}
+
+	/**
+	 * Comparator to sort edges on to field.
+	 */
+	static class SortEdgesToComparator implements Comparator<Edge> {
+		@Override
+		public int compare(Edge o1, Edge o2) {
+			int dir = (int) Math.signum(o1.getTo().getNodeId()
+					- o2.getTo().getNodeId());
+			if (dir == 0) {
+				return (int) Math.signum(o1.getFrom().getNodeId()
+						- o2.getFrom().getNodeId());
+			} else {
+				return dir;
+			}
+		}
+	}
+
+	/**
+	 * Comparator to sort edges on from field.
+	 */
+	static class SortEdgesFromComparator implements Comparator<Edge> {
+		@Override
+		public int compare(Edge o1, Edge o2) {
+			int dir = (int) Math.signum(o1.getFrom().getNodeId()
+					- o2.getFrom().getNodeId());
+			if (dir == 0) {
+				return (int) Math.signum(o1.getTo().getNodeId()
+						- o2.getTo().getNodeId());
+			} else {
+				return dir;
+			}
 		}
 	}
 }

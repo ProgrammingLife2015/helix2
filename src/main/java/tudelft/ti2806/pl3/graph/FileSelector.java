@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
+import java.util.Locale;
 
 /**
  * Let the user select the correct node and egdes files.
@@ -30,7 +31,7 @@ public class FileSelector {
                 if (file.isDirectory()) {
                     return true;
                 } else {
-                    String path = file.getAbsolutePath().toLowerCase();
+                    String path = file.getAbsolutePath().toLowerCase(Locale.ENGLISH);
                     if (path.endsWith(filter)) {
                         return true;
                     }
