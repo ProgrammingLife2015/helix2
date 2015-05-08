@@ -13,6 +13,9 @@ public class SingleNodeTest {
 	private static SingleNode s2;
 	private static SingleNode s3;
 	
+	/**
+	 * Run before tests.
+	 */
 	@BeforeClass
 	public static void init() {
 		s0 = new SingleNode(0, new Genome[0], 0, 0, new byte[5]);
