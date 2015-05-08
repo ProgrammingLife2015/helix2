@@ -14,11 +14,26 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>org.graphstream</groupId>
-          <artifactId>gs-core</artifactId>
-          <version>1.2</version>
-      </dependency>
+    <dependency>
+      <groupId>org.graphstream</groupId>
+      <artifactId>gs-core</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.graphstream</groupId>
+      <artifactId>gs-ui</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.graphstream</groupId>
+      <artifactId>gs-algo</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>findbugs</artifactId>
+      <version>3.0.1</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

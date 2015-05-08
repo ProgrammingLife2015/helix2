@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.Arrays;
@@ -28,10 +29,18 @@ public class SingleNode implements Node {
 	public SingleNode(int nodeId, Genome[] source, int refStartPoint,
 			int refEndPoint, byte[] contentOfTheNode) {
 		this.nodeId = nodeId;
-		this.source = source;
+		if (source == null) {
+			this.source = null;
+		} else {
+			this.source = source.clone();
+		}
 		this.refStartPoint = refStartPoint;
 		this.refEndPoint = refEndPoint;
-		this.content = contentOfTheNode;
+		if (contentOfTheNode == null) {
+			this.content = null;
+		} else {
+			this.content = contentOfTheNode.clone();
+		}
 	}
 	
 	@Override
@@ -88,7 +97,9 @@ public class SingleNode implements Node {
 	public int getNodeId() {
 		return nodeId;
 	}
-	
+
+	// Suppressed in the interest of space and time
+	@SuppressFBWarnings({"EI_EXPOSE_REP"})
 	@Override
 	public Genome[] getSource() {
 		return source;
@@ -103,7 +114,9 @@ public class SingleNode implements Node {
 	public int getRefEndPoint() {
 		return refEndPoint;
 	}
-	
+
+	// Suppressed in the interest of space and time
+	@SuppressFBWarnings({"EI_EXPOSE_REP"})
 	@Override
 	public byte[] getContent() {
 		return content;

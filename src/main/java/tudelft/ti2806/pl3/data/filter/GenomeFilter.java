@@ -6,9 +6,9 @@ import tudelft.ti2806.pl3.data.graph.Node;
 import java.util.List;
 
 public class GenomeFilter extends Filter<Node> {
-	protected final String genome;
+	protected final Genome genome;
 	
-	public GenomeFilter(String genome) {
+	public GenomeFilter(Genome genome) {
 		this.genome = genome;
 	}
 	

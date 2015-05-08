@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * GraphData parses the data as nodes,edges and genomes.
+ */
 public class GraphData {
 	private List<Node> nodes;
 	private List<Edge> edges;
@@ -102,7 +105,7 @@ public class GraphData {
 	 */
 	public static Map<Integer, Node> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
-		Scanner scanner = new Scanner(nodesFile);
+		Scanner scanner = new Scanner(nodesFile, "UTF-8");
 		Map<Integer, Node> nodes = new HashMap<Integer, Node>();
 		while (scanner.hasNext()) {
 			Node node = parseNode(scanner, genomeMap);
@@ -155,7 +158,7 @@ public class GraphData {
 	 */
 	public static List<Edge> parseEdges(File edgesFile, Map<Integer, Node> nodes)
 			throws FileNotFoundException {
-		Scanner scanner = new Scanner(edgesFile);
+		Scanner scanner = new Scanner(edgesFile, "UTF-8");
 		List<Edge> list = new ArrayList<Edge>();
 		while (scanner.hasNext()) {
 			String[] index = scanner.nextLine().split(" ");
