@@ -1,8 +1,8 @@
 package tudelft.ti2806.pl3.data;
 
 public class Genome {
-	protected int yposition;
-	public final String identifier;
+	private final String identifier;
+	private int yposition;
 	
 	public Genome(String identifier, int yposition) {
 		this.identifier = identifier;
@@ -48,4 +48,7 @@ public class Genome {
 		this.yposition = yposition;
 	}
 	
+	public String getIdentifier() {
+		return identifier;
+	}
 }
