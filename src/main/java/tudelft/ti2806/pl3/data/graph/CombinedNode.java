@@ -121,9 +121,29 @@ public class CombinedNode implements Node {
 	public long getWidth() {
 		return getXEnd() - getXStart();
 	}
-
+	
 	@Override
 	public int getPreviousNodesCount() {
 		return getFirst().getPreviousNodesCount();
+	}
+	
+	@Override
+	public List<SingleNode> getIncoming() {
+		return getFirst().getIncoming();
+	}
+	
+	@Override
+	public List<SingleNode> getOutgoing() {
+		return getLast().getOutgoing();
+	}
+	
+	@Override
+	public long calculateStartX() {
+		return getFirst().calculateStartX();
+	}
+	
+	@Override
+	public int calculatePreviousNodesCount() {
+		return getFirst().calculatePreviousNodesCount();
 	}
 }

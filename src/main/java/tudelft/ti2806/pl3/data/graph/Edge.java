@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.data.graph;
 
-
 public class Edge {
 	public Edge(Node from, Node to) {
 		this.from = from;
@@ -20,8 +19,7 @@ public class Edge {
 	
 	@Override
 	public String toString() {
-		return "Edge [from=" + from.getId() + ", to=" + to.getId()
-				+ "]";
+		return "Edge [from=" + from.getId() + ", to=" + to.getId() + "]";
 	}
 	
 	@Override
@@ -60,6 +58,10 @@ public class Edge {
 			return false;
 		}
 		return true;
+	}
+	
+	public String getName() {
+		return this.from.getId() + "_" + this.to.getId();
 	}
 	
 }

@@ -2,6 +2,8 @@ package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.Genome;
 
+import java.util.List;
+
 public interface Node {
 	int getId();
 	
@@ -28,4 +30,12 @@ public interface Node {
 	long getWidth();
 	
 	int getPreviousNodesCount();
+	
+	List<SingleNode> getIncoming();
+	
+	List<SingleNode> getOutgoing();
+	
+	long calculateStartX();
+	
+	int calculatePreviousNodesCount();
 }

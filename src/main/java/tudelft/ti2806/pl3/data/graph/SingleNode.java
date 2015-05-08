@@ -91,9 +91,8 @@ public class SingleNode implements Node {
 	public String toString() {
 		return "SingleNode [nodeId=" + nodeId + ", source="
 				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
-				+ ", refEndPoint=" + refEndPoint + ", content="
-				+ Arrays.toString(content) + ", incoming=" + incoming
-				+ ", outgoing=" + outgoing + "]";
+				+ ", refEndPoint=" + refEndPoint + ", content.lenght="
+				+ content.length + "]";
 	}
 	
 	@Override
