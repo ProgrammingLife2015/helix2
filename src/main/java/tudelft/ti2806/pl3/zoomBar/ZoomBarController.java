@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.zoomBar;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.graph.GraphController;
 
@@ -19,6 +20,7 @@ public class ZoomBarController implements Controller {
 	 * Construct a new controller for the zoom bar.
 	 * @param graphController instance of the graph controller to update its view
 	 */
+	@SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
 	public ZoomBarController(GraphController graphController) {
 		this.graphController = graphController;
 		zoomBarView = new ZoomBarView();
