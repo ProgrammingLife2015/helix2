@@ -28,12 +28,12 @@ public class Demo {
 		GraphData graph = null;
 		try {
 			graph = GraphData.parseGraph(nodeFile, edgeFile);
-			Graph displayGraph = DisplayView.getGraph("", graph.getNodes(),
-					graph.getEdges());
-			displayGraph.display();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		Graph displayGraph = DisplayView.getGraph("", graph.getNodes(),
+				graph.getEdges());
+		displayGraph.display();
 	}
 	
 	private static File selectFile(String title, JFrame frame, String filter) {
