@@ -4,6 +4,9 @@ import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.List;
 
+/**
+ * GraphData parses the data as nodes,edges and genomes.
+ */
 public class GraphData extends AbstractGraphData {
 	AbstractGraphData origin;
 	
@@ -57,5 +60,4 @@ public class GraphData extends AbstractGraphData {
 	public long getSize() {
 		return origin.getSize();
 	}
-	
 }

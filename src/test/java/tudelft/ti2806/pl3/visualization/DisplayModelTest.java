@@ -1,8 +1,6 @@
 package tudelft.ti2806.pl3.visualization;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -11,6 +9,7 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.Node;
 import tudelft.ti2806.pl3.data.graph.SingleNode;
+import tudelft.ti2806.pl3.visualization.GraphModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 public class DisplayModelTest {
-	private static SingleNode[] nodes;
 	private static GraphModel dpm;
 	
+	private static SingleNode[] nodes;
 	private static List<Node> nodeList;
 	private static List<Edge> edgeList;
 	private static Map<String, Edge> map;
@@ -32,8 +31,9 @@ public class DisplayModelTest {
 	@BeforeClass
 	public static void init() {
 		nodeList = new ArrayList<Node>();
-		Genome[] genome = new Genome[]{new Genome("hi", 0)};
-		nodes = new SingleNode[] { new SingleNode(0, genome, 0, 0, new byte[0]),
+		Genome[] genome = new Genome[] { new Genome("hi", 0) };
+		nodes = new SingleNode[] {
+		new SingleNode(0, genome, 0, 0, new byte[0]),
 		new SingleNode(1, genome, 0, 0, new byte[0]),
 		new SingleNode(2, genome, 0, 0, new byte[0]),
 		new SingleNode(3, genome, 0, 0, new byte[0]),
@@ -68,38 +68,38 @@ public class DisplayModelTest {
 	@Test
 	public void findFromEdgesTest() {
 		List<Edge> list = dpm.findFromEdges(gd.getEdgeListClone());
-		assertTrue(list.contains(map.get("1-3")));
-		assertTrue(list.contains(map.get("2-3")));
-		assertTrue(list.contains(map.get("3-4")));
-		assertTrue(list.contains(map.get("4-5")));
-		assertTrue(list.contains(map.get("7-8")));
-		assertTrue(list.contains(map.get("8-9")));
-		assertTrue(list.size() == 6);
+		Assert.assertTrue(list.contains(map.get("1-3")));
+		Assert.assertTrue(list.contains(map.get("2-3")));
+		Assert.assertTrue(list.contains(map.get("3-4")));
+		Assert.assertTrue(list.contains(map.get("4-5")));
+		Assert.assertTrue(list.contains(map.get("7-8")));
+		Assert.assertTrue(list.contains(map.get("8-9")));
+		Assert.assertTrue(list.size() == 6);
 	}
 	
 	@Test
 	public void findToEdgesTest() {
 		List<Edge> list = dpm.findToEdges(gd.getEdgeListClone());
-		assertTrue(list.contains(map.get("0-1")));
-		assertTrue(list.contains(map.get("0-2")));
-		assertTrue(list.contains(map.get("3-4")));
-		assertTrue(list.contains(map.get("4-5")));
-		assertTrue(list.contains(map.get("5-6")));
-		assertTrue(list.contains(map.get("5-7")));
-		assertTrue(list.contains(map.get("7-8")));
-		assertTrue(list.contains(map.get("8-9")));
-		assertTrue(list.size() == 8);
+		Assert.assertTrue(list.contains(map.get("0-1")));
+		Assert.assertTrue(list.contains(map.get("0-2")));
+		Assert.assertTrue(list.contains(map.get("3-4")));
+		Assert.assertTrue(list.contains(map.get("4-5")));
+		Assert.assertTrue(list.contains(map.get("5-6")));
+		Assert.assertTrue(list.contains(map.get("5-7")));
+		Assert.assertTrue(list.contains(map.get("7-8")));
+		Assert.assertTrue(list.contains(map.get("8-9")));
+		Assert.assertTrue(list.size() == 8);
 	}
 	
 	@Test
 	public void findCombinableNodesTest() {
 		List<Edge> list = dpm.findCombineableNodes(gd.getNodeListClone(),
 				gd.getEdgeListClone());
-		assertTrue(list.contains(map.get("3-4")));
-		assertTrue(list.contains(map.get("4-5")));
-		assertTrue(list.contains(map.get("7-8")));
-		assertTrue(list.contains(map.get("8-9")));
-		assertTrue(list.size() == 4);
+		Assert.assertTrue(list.contains(map.get("3-4")));
+		Assert.assertTrue(list.contains(map.get("4-5")));
+		Assert.assertTrue(list.contains(map.get("7-8")));
+		Assert.assertTrue(list.contains(map.get("8-9")));
+		Assert.assertTrue(list.size() == 4);
 	}
 	
 	@Test
@@ -108,7 +108,7 @@ public class DisplayModelTest {
 		List<Edge> edgeList = gd.getEdgeListClone();
 		edgeList.add(deadEdge);
 		dpm.removeAllDeadEdges(edgeList, gd.getNodeListClone());
-		assertFalse(edgeList.contains(deadEdge));
+		Assert.assertFalse(edgeList.contains(deadEdge));
 	}
 	
 	@Test
@@ -118,7 +118,7 @@ public class DisplayModelTest {
 		
 		dpm.combineNodes(dpm.findCombineableNodes(nodeList, edgeList),
 				nodeList, edgeList);
-		assertTrue(nodeList.size() == 6);
-		assertTrue(edgeList.size() == 6);
+		Assert.assertTrue(nodeList.size() == 6);
+		Assert.assertTrue(edgeList.size() == 6);
 	}
 }

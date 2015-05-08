@@ -1,13 +1,14 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.CombinedNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * GraphModel reads GraphData and makes a new graph of it.
+ */
 public class GraphModel {
 	protected AbstractGraphData originalGraph;
 	protected AbstractGraphData graph;
@@ -185,42 +189,18 @@ public class GraphModel {
 	 *            the edges to be sorted
 	 */
 	protected void sortEdgesOnTo(List<Edge> fromEdges) {
-		Collections.sort(fromEdges, new Comparator<Edge>() {
-			@Override
-			public int compare(Edge o1, Edge o2) {
-				int dir = (int) Math.signum(o1.getTo().getId()
-						- o2.getTo().getId());
-				if (dir == 0) {
-					return (int) Math.signum(o1.getFrom().getId()
-							- o2.getFrom().getId());
-				} else {
-					return dir;
-				}
-			}
-		});
+		Collections.sort(fromEdges, new SortEdgesToComparator());
 	}
 	
 	/**
 	 * Sorts the edges on their {@code from} {@link Node} and after that on
 	 * their {@code to} {@link Node}.
 	 * 
-	 * @param fromEdges
+	 * @param edges
 	 *            the edges to be sorted
 	 */
-	protected void sortEdgesOnFrom(List<Edge> edges2) {
-		Collections.sort(edges2, new Comparator<Edge>() {
-			@Override
-			public int compare(Edge o1, Edge o2) {
-				int dir = (int) Math.signum(o1.getFrom().getId()
-						- o2.getFrom().getId());
-				if (dir == 0) {
-					return (int) Math.signum(o1.getTo().getId()
-							- o2.getTo().getId());
-				} else {
-					return dir;
-				}
-			}
-		});
+	protected void sortEdgesOnFrom(List<Edge> edges) {
+		Collections.sort(edges, new SortEdgesFromComparator());
 	}
 	
 	/**
@@ -260,7 +240,7 @@ public class GraphModel {
 	 *            the list of edges
 	 * @return a list of all edges of nodes with only one output
 	 */
-	protected List<Edge> findToEdges(List<Edge> edges) {
+	List<Edge> findToEdges(List<Edge> edges) {
 		sortEdgesOnTo(edges);
 		List<Edge> foundEdges = new ArrayList<Edge>();
 		Edge lastEdge = null;
@@ -330,6 +310,40 @@ public class GraphModel {
 	protected void filter(List<Node> list, List<Filter<Node>> filters) {
 		for (Filter<Node> filter : filters) {
 			filter.filter(list);
+		}
+	}
+
+	/**
+	 * Comparator to sort edges on to field.
+	 */
+	static class SortEdgesToComparator implements Comparator<Edge>, Serializable {
+		@Override
+		public int compare(Edge o1, Edge o2) {
+			int dir = (int) Math.signum(o1.getTo().getId()
+					- o2.getTo().getId());
+			if (dir == 0) {
+				return (int) Math.signum(o1.getFrom().getId()
+						- o2.getFrom().getId());
+			} else {
+				return dir;
+			}
+		}
+	}
+
+	/**
+	 * Comparator to sort edges on from field.
+	 */
+	static class SortEdgesFromComparator implements Comparator<Edge>, Serializable {
+		@Override
+		public int compare(Edge o1, Edge o2) {
+			int dir = (int) Math.signum(o1.getFrom().getId()
+					- o2.getFrom().getId());
+			if (dir == 0) {
+				return (int) Math.signum(o1.getTo().getId()
+						- o2.getTo().getId());
+			} else {
+				return dir;
+			}
 		}
 	}
 }

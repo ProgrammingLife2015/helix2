@@ -1,14 +1,13 @@
 package tudelft.ti2806.pl3.demo;
 
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.graph.FileSelector;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.filechooser.FileFilter;
 
 public class Demo {
 	/**
@@ -22,9 +21,9 @@ public class Demo {
 		System.setProperty("org.graphstream.ui.renderer",
 				"org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		JFrame frame = new JFrame();
-		File nodeFile = Demo.selectFile("Select node file", frame,
+		File nodeFile = FileSelector.selectFile("Select node file", frame,
 				".node.graph");
-		File edgeFile = Demo.selectFile("Select edge file", frame,
+		File edgeFile = FileSelector.selectFile("Select edge file", frame,
 				".edge.graph");
 		try {
 			GraphController gc = new GraphController(
@@ -47,38 +46,5 @@ public class Demo {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static File selectFile(String title, JFrame frame, String filter) {
-		JFileChooser chooser = new JFileChooser();
-		chooser.setMultiSelectionEnabled(true);
-		chooser.setDialogTitle(title);
-		chooser.setFileFilter(new FileFilter() {
-			@Override
-			public boolean accept(File file) {
-				if (file.isDirectory()) {
-					return true;
-				} else {
-					String path = file.getAbsolutePath().toLowerCase();
-					if (path.endsWith(filter)) {
-						return true;
-					}
-				}
-				return false;
-			}
-			
-			@Override
-			public String getDescription() {
-				return filter;
-			}
-		});
-		int option = chooser.showOpenDialog(frame);
-		if (option == JFileChooser.APPROVE_OPTION) {
-			File[] sf = chooser.getSelectedFiles();
-			if (sf.length == 1) {
-				return sf[0];
-			}
-		}
-		return null;
 	}
 }
