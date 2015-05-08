@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3;
 
 import tudelft.ti2806.pl3.graph.GraphController;
+import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
 import javax.swing.*;
@@ -22,7 +23,9 @@ public class Main extends JDialog {
 	public Main() {
 		GraphController graphController = new GraphController();
 		ZoomBarController zoomBarController = new ZoomBarController(graphController);
+        SideBarController sideBarController = new SideBarController(graphController);
 		Application application = new Application();
+        application.setSideBarView(sideBarController.getView());
 		application.setGraphView(graphController.getView());
 		application.setZoomBarView(zoomBarController.getView());
 
