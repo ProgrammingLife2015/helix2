@@ -4,6 +4,8 @@ import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.CombinedNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.io.Serializable;
@@ -18,33 +20,34 @@ import java.util.Map;
  * GraphModel reads GraphData and makes a new graph of it.
  */
 public class GraphModel {
-	protected GraphData originalGraph;
-	protected GraphData graph;
+	protected AbstractGraphData originalGraph;
+	protected AbstractGraphData graph;
 	
-	public GraphModel(GraphData graph) {
-		this.originalGraph = graph;
+	public GraphModel(AbstractGraphData graphData) {
+		this.originalGraph = graphData;
 	}
 	
 	/**
-	 * Filters a copy of the {@link GraphData} and combines all nodes which can
-	 * be combined without losing data and removes all dead edges. The result is
-	 * saved as {@code graph}.
+	 * Filters a copy of the {@link GraphDataRepository} and combines all nodes
+	 * which can be combined without losing data and removes all dead edges. The
+	 * result is saved as {@code graph}.
 	 * 
 	 * @param filters
 	 *            the filters to be applied.
 	 */
 	public void produceGraph(List<Filter<Node>> filters) {
+		graph = new GraphData(originalGraph);
 		List<Node> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		combineNodes(findCombineableNodes(resultNodes, resultEdges),
 				resultNodes, resultEdges);
-		graph = new GraphData(resultNodes, resultEdges,
+		graph = new GraphData(originalGraph, resultNodes, resultEdges,
 				originalGraph.getGenomes());
 	}
 	
-	public GraphData getGraph() {
+	public AbstractGraphData getGraphData() {
 		return graph;
 	}
 	
@@ -214,8 +217,7 @@ public class GraphModel {
 		boolean found = true;
 		for (Edge edge : edges) {
 			if (lastEdge != null
-					&& edge.getFrom().getId() == lastEdge.getFrom()
-							.getId()) {
+					&& edge.getFrom().getId() == lastEdge.getFrom().getId()) {
 				found = true;
 			} else {
 				if (found == false) {
@@ -245,8 +247,7 @@ public class GraphModel {
 		boolean found = true;
 		for (Edge edge : edges) {
 			if (lastEdge != null
-					&& edge.getTo().getId()
-					== lastEdge.getTo().getId()) {
+					&& edge.getTo().getId() == lastEdge.getTo().getId()) {
 				found = true;
 			} else {
 				if (found == false) {
