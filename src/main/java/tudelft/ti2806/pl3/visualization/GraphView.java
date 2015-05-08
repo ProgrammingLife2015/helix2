@@ -2,16 +2,20 @@ package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Node;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GraphView {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
@@ -24,22 +28,27 @@ public class GraphView {
 	/**
 	 * The space reserved for drawing the base pairs characters. It should be
 	 * equal to the font it's char width.<br>
-	 * Generate a new view to have the changes take effect.
+	 * Set the zoom to have changes take effect.
 	 */
-	private int basePairDisplayWidth;
+	private int basePairDisplayWidth = 10;
 	/**
 	 * The space left between nodes for drawing the edges between the nodes.<br>
-	 * Generate a new view to have the changes take effect.
+	 * Set the zoom to have changes take effect.
 	 */
-	private int nodeSpacing;
+	private int nodeJumpSize = 20;
 	/**
+	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
-	 * be readable. A zoom level of 2.0 shows the graph with each pase pair
-	 * using the twice the space as with a zoom level op 1.0.
+	 * be readable, each with {@link #basePairDisplayWidth} pixels to draw its
+	 * value as text. A zoom level of 2.0 shows the graph with each base pair
+	 * using the half this size.
 	 */
-	private double zoomLevel;
-	
-	private Viewer viewer;
+	private double zoomLevel = 1.0;
+	/**
+	 * The center position of the view.<br>
+	 * The position on the x axis.
+	 */
+	private long zoomCenter;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
@@ -47,71 +56,74 @@ public class GraphView {
 	 */
 	private String styleSheet = DEFAULT_STYLESHEET;
 	
+	private AbstractGraphData graphData;
+	private Graph graph = new SingleGraph("");
+	private Viewer viewer;
+	private View panel;
+	
+	private List<org.graphstream.graph.Node> nodeStartList;
+	private List<org.graphstream.graph.Node> nodeEndList;
+	private List<org.graphstream.graph.Edge> nodeEdgeList;
+	
+	private long[] spaceStarters;
+	
+	/**
+	 * Initialise an instance of GraphView.
+	 * 
+	 * <p>
+	 * Automatically generates the graph and viewer from the given
+	 * {@link AbstractGraphData} and calculates the positions of the nodes on
+	 * the graph for the default zoom.
+	 * 
+	 * @param graphDataInterface
+	 *            the {@link AbstractGraphData} to generate the graph from.
+	 */
+	public GraphView(AbstractGraphData graphDataInterface) {
+		this.graphData = graphDataInterface;
+		generateViewer();
+		calculateGraphPositions();
+	}
+	
 	/**
 	 * Generates a {@link Viewer} for the graph with the given {@code zoomLevel}
 	 * . A new Viewer should be constructed every time the graphData or
 	 * zoomLevel updates.
-	 * 
-	 * @param graphData
-	 *            the graph data to construct the graph from
-	 * @param zoomLevel
-	 *            the new {@link zoomLevel}
 	 */
-	public void generateViewer(GraphData graphData, double zoomLevel) {
-		this.zoomLevel = zoomLevel;
-		Graph graph = generateGraph(graphData);
-		setGraphPropertys(graph);
+	private void generateViewer() {
+		generateGraph();
 		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
+		panel = viewer.addDefaultView(false);
+		panel.getCamera().setAutoFitView(false);
 	}
 	
-	private void setGraphPropertys(Graph graph) {
+	/**
+	 * Sets the graph its drawing properties.
+	 */
+	private void setGraphPropertys() {
 		graph.addAttribute("ui.stylesheet", styleSheet);
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 	}
 	
 	/**
-	 * Centers the view on the {@code zoomCenter} and sets the views borders so
-	 * that the view fits with the current {@link #zoomLevel}.
+	 * Generates a Graph from the current graphData.
 	 * 
-	 * @param zoomCenter
-	 *            the center of the screen on the x axis
-	 * @param windowWidth
-	 *            the width of the window to draw on
+	 * @return a graph with all nodes from the given graphData
 	 */
-	public void changeView(long zoomCenter, long windowWidth) {
-		double halfViewWidth = (windowWidth / zoomLevel) / 2;
-		viewer.getDefaultView()
-				.getCamera()
-				.setBounds(zoomCenter - halfViewWidth, 1.0, 0,
-						zoomCenter + halfViewWidth, -1.0, 0);
-	}
-	
-	/**
-	 * Generates a Graph from the given graphData, where each Node is set to a
-	 * calculated position.
-	 * 
-	 * <p>
-	 * This position is based on the level of zoom
-	 * 
-	 * @param graphData
-	 *            the graph data to construct the graph from
-	 * @return a graph with all nodes from the given graphData, each with a
-	 *         calculated position
-	 */
-	public Graph generateGraph(GraphData graphData) {
-		Graph graph = new SingleGraph("");
-		double genomeHeight = 2.0 / graphData.getGenomes().size();
+	public Graph generateGraph() {
+		graph.clear();
+		setGraphPropertys();
+		nodeStartList = new ArrayList<org.graphstream.graph.Node>(graphData
+				.getNodes().size());
+		nodeEndList = new ArrayList<org.graphstream.graph.Node>(graphData
+				.getNodes().size());
+		nodeEdgeList = new ArrayList<org.graphstream.graph.Edge>(graphData
+				.getNodes().size());
 		for (Node node : graphData.getNodes()) {
-			int nodeSpace = node.getPreviousNodesCount() * nodeSpacing;
-			double y = calculateYPosition(node) * genomeHeight - 1.0;
-			
 			String nodeName = node.getId() + "";
-			addNode(graph, node, "[" + nodeName, node.getXStart()
-					* basePairDisplayWidth * zoomLevel + nodeSpace, y);
-			addNode(graph, node, nodeName + "]", node.getXEnd()
-					* basePairDisplayWidth * zoomLevel + nodeSpace, y);
-			addNodeEdge(graph, nodeName, node);
+			nodeStartList.add(addNode(graph, node, "[" + nodeName));
+			nodeEndList.add(addNode(graph, node, nodeName + "]"));
+			nodeEdgeList.add(addNodeEdge(graph, nodeName, node));
 		}
 		for (Edge edge : graphData.getEdges()) {
 			addNormalEdge(graph, edge);
@@ -128,7 +140,7 @@ public class GraphView {
 	 *            the edge to represent
 	 */
 	private static void addNormalEdge(Graph graph, Edge edge) {
-		org.graphstream.graph.Edge gedge = graph.addEdge(edge.toString(), edge
+		org.graphstream.graph.Edge gedge = graph.addEdge(edge.getName(), edge
 				.getFrom().getId() + "]", "[" + edge.getTo().getId());
 		gedge.addAttribute("ui.class", "normalEdge");
 		gedge.addAttribute("edge", edge);
@@ -144,11 +156,13 @@ public class GraphView {
 	 * @param node
 	 *            the node to represent
 	 */
-	private static void addNodeEdge(Graph graph, String nodeName, Node node) {
+	private static org.graphstream.graph.Edge addNodeEdge(Graph graph,
+			String nodeName, Node node) {
 		org.graphstream.graph.Edge edge = graph.addEdge("[" + nodeName + "]",
 				"[" + nodeName, nodeName + "]");
 		edge.addAttribute("ui.class", "nodeEdge");
 		edge.addAttribute("node", node);
+		return edge;
 	}
 	
 	/**
@@ -160,16 +174,79 @@ public class GraphView {
 	 *            the node to add to the graph
 	 * @param nodeName
 	 *            the name of the node
-	 * @param x
-	 *            the position of the node on the x axis
-	 * @param y
-	 *            the position of the node on the y axis
 	 */
-	private static void addNode(Graph graph, Node node, String nodeName,
-			double x, double y) {
+	private static org.graphstream.graph.Node addNode(Graph graph, Node node,
+			String nodeName) {
 		org.graphstream.graph.Node graphNode = graph.addNode(nodeName);
-		graphNode.setAttribute("xy", x, y);
 		graphNode.addAttribute("node", node);
+		return graphNode;
+	}
+	
+	/**
+	 * Calculates all positions for the current graph and zoom.
+	 */
+	private void calculateGraphPositions() {
+		double genomeHeight = 1.0 / graphData.getGenomes().size();
+		spaceStarters = new long[graphData.getOrigin().getLongestNodePath() + 1];
+		Map<Node, double[]> map = new HashMap<Node, double[]>();
+		for (Node node : graphData.getNodes()) {
+			double nodeSpace = node.getPreviousNodesCount() * nodeJumpSize
+					* zoomLevel;
+			// { y, startX, endX }
+			double[] position = new double[3];
+			
+			position[0] = (calculateYPosition(node) * genomeHeight - 0.5)
+					* panel.getHeight() * zoomLevel;
+			
+			position[1] = node.getXStart() * basePairDisplayWidth + nodeSpace;
+			
+			position[2] = node.getXEnd() * basePairDisplayWidth + nodeSpace;
+			map.put(node, position);
+			spaceStarters[node.getPreviousNodesCount()] = Math.min(
+					spaceStarters[node.getPreviousNodesCount()],
+					(long) position[1]);
+		}
+		for (org.graphstream.graph.Node graphNode : nodeStartList) {
+			double[] position = map.get(graphNode.getAttribute("node"));
+			graphNode.setAttribute("xy", position[1], position[0]);
+		}
+		for (org.graphstream.graph.Node graphNode : nodeEndList) {
+			double[] position = map.get(graphNode.getAttribute("node"));
+			graphNode.setAttribute("xy", position[2], position[0]);
+		}
+	}
+	
+	/**
+	 * Changes the zoom level and apply it.
+	 * 
+	 * @param zoomLevel
+	 *            the new zoom level
+	 */
+	public void zoom(double zoomLevel) {
+		this.zoomLevel = zoomLevel;
+		calculateGraphPositions();
+		panel.getCamera().setViewPercent(
+				zoomLevel / (getGraphWidth() / panel.getWidth()));
+	}
+	
+	private double getGraphWidth() {
+		return graphData.getSize() * basePairDisplayWidth
+				+ graphData.getLongestNodePath() * nodeJumpSize * zoomLevel;
+	}
+	
+	/**
+	 * Moves the view to the given position on the x axis.
+	 * 
+	 * @param newCenter
+	 *            the new center of view
+	 */
+	public void moveView(long newCenter) {
+		this.zoomCenter = newCenter;
+		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
+	}
+	
+	public Component getPanel() {
+		return panel;
 	}
 	
 	/**
@@ -186,45 +263,5 @@ public class GraphView {
 		}
 		Collections.sort(yposition);
 		return yposition.get(yposition.size() / 2);
-	}
-	
-	public int getBasePairDisplayWidth() {
-		return basePairDisplayWidth;
-	}
-	
-	public void setBasePairDisplayWidth(int basePairDisplayWidth) {
-		this.basePairDisplayWidth = basePairDisplayWidth;
-	}
-	
-	public int getNodeSpacing() {
-		return nodeSpacing;
-	}
-	
-	public void setNodeSpacing(int nodeSpacing) {
-		this.nodeSpacing = nodeSpacing;
-	}
-	
-	public double getZoomLevel() {
-		return zoomLevel;
-	}
-	
-	public void setZoomLevel(double zoomLevel) {
-		this.zoomLevel = zoomLevel;
-	}
-	
-	public Viewer getViewer() {
-		return viewer;
-	}
-	
-	public void setViewer(Viewer viewer) {
-		this.viewer = viewer;
-	}
-	
-	public String getStyleSheet() {
-		return styleSheet;
-	}
-	
-	public void setStyleSheet(String styleSheet) {
-		this.styleSheet = styleSheet;
 	}
 }

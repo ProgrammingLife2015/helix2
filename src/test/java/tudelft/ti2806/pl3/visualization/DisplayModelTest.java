@@ -6,8 +6,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.Node;
 import tudelft.ti2806.pl3.data.graph.SingleNode;
 
@@ -17,29 +18,33 @@ import java.util.List;
 import java.util.Map;
 
 public class DisplayModelTest {
-	private static Node[] nodes;
+	private static SingleNode[] nodes;
 	private static GraphModel dpm;
 	
 	private static List<Node> nodeList;
 	private static List<Edge> edgeList;
 	private static Map<String, Edge> map;
-	private static GraphData gd;
+	private static GraphDataRepository gd;
 	
+	/**
+	 * Run before tests.
+	 */
 	@BeforeClass
 	public static void init() {
 		nodeList = new ArrayList<Node>();
-		nodes = new Node[] { new SingleNode(0, null, 0, 0, new byte[0]),
-		new SingleNode(1, null, 0, 0, new byte[0]),
-		new SingleNode(2, null, 0, 0, new byte[0]),
-		new SingleNode(3, null, 0, 0, new byte[0]),
-		new SingleNode(4, null, 0, 0, new byte[0]),
-		new SingleNode(5, null, 0, 0, new byte[0]),
-		new SingleNode(6, null, 0, 0, new byte[0]),
-		new SingleNode(7, null, 0, 0, new byte[0]),
-		new SingleNode(8, null, 0, 0, new byte[0]),
-		new SingleNode(9, null, 0, 0, new byte[0]) };
+		Genome[] genome = new Genome[]{new Genome("hi", 0)};
+		nodes = new SingleNode[] { new SingleNode(0, genome, 0, 0, new byte[0]),
+		new SingleNode(1, genome, 0, 0, new byte[0]),
+		new SingleNode(2, genome, 0, 0, new byte[0]),
+		new SingleNode(3, genome, 0, 0, new byte[0]),
+		new SingleNode(4, genome, 0, 0, new byte[0]),
+		new SingleNode(5, genome, 0, 0, new byte[0]),
+		new SingleNode(6, genome, 0, 0, new byte[0]),
+		new SingleNode(7, genome, 0, 0, new byte[0]),
+		new SingleNode(8, genome, 0, 0, new byte[0]),
+		new SingleNode(9, genome, 0, 0, new byte[0]) };
 		
-		for (Node node : nodes) {
+		for (SingleNode node : nodes) {
 			nodeList.add(node);
 		}
 		map = new HashMap<String, Edge>();
@@ -55,7 +60,8 @@ public class DisplayModelTest {
 		map.put("8-9", new Edge(nodes[8], nodes[9]));
 		edgeList = new ArrayList<Edge>();
 		edgeList.addAll(map.values());
-		gd = new GraphData(nodeList, edgeList, null);
+		gd = new GraphDataRepository(nodeList, edgeList,
+				new ArrayList<Genome>());
 		dpm = new GraphModel(gd);
 	}
 	
