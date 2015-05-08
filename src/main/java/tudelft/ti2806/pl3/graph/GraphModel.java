@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -185,19 +186,7 @@ public class GraphModel {
 	 *            the edges to be sorted
 	 */
 	protected void sortEdgesOnTo(List<Edge> fromEdges) {
-		Collections.sort(fromEdges, new Comparator<Edge>() {
-			@Override
-			public int compare(Edge o1, Edge o2) {
-				int dir = (int) Math.signum(o1.getTo().getNodeId()
-						- o2.getTo().getNodeId());
-				if (dir == 0) {
-					return (int) Math.signum(o1.getFrom().getNodeId()
-							- o2.getFrom().getNodeId());
-				} else {
-					return dir;
-				}
-			}
-		});
+		Collections.sort(fromEdges, new SortEdgesToComparator());
 	}
 	
 	/**
@@ -208,19 +197,7 @@ public class GraphModel {
 	 *            the edges to be sorted
 	 */
 	protected void sortEdgesOnFrom(List<Edge> edges) {
-		Collections.sort(edges, new Comparator<Edge>() {
-			@Override
-			public int compare(Edge o1, Edge o2) {
-				int dir = (int) Math.signum(o1.getFrom().getNodeId()
-						- o2.getFrom().getNodeId());
-				if (dir == 0) {
-					return (int) Math.signum(o1.getTo().getNodeId()
-							- o2.getTo().getNodeId());
-				} else {
-					return dir;
-				}
-			}
-		});
+		Collections.sort(edges, new SortEdgesFromComparator());
 	}
 	
 	/**
@@ -331,6 +308,40 @@ public class GraphModel {
 	protected void filter(List<Node> list, List<Filter<Node>> filters) {
 		for (Filter<Node> filter : filters) {
 			filter.filter(list);
+		}
+	}
+
+	/**
+	 * Comparator to sort edges on to field.
+	 */
+	static class SortEdgesToComparator implements Comparator<Edge>, Serializable {
+		@Override
+		public int compare(Edge o1, Edge o2) {
+			int dir = (int) Math.signum(o1.getTo().getNodeId()
+					- o2.getTo().getNodeId());
+			if (dir == 0) {
+				return (int) Math.signum(o1.getFrom().getNodeId()
+						- o2.getFrom().getNodeId());
+			} else {
+				return dir;
+			}
+		}
+	}
+
+	/**
+	 * Comparator to sort edges on from field.
+	 */
+	static class SortEdgesFromComparator implements Comparator<Edge>, Serializable {
+		@Override
+		public int compare(Edge o1, Edge o2) {
+			int dir = (int) Math.signum(o1.getFrom().getNodeId()
+					- o2.getFrom().getNodeId());
+			if (dir == 0) {
+				return (int) Math.signum(o1.getTo().getNodeId()
+						- o2.getTo().getNodeId());
+			} else {
+				return dir;
+			}
 		}
 	}
 }
