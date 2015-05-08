@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -313,7 +314,7 @@ public class GraphModel {
 	/**
 	 * Comparator to sort edges on to field.
 	 */
-	static class SortEdgesToComparator implements Comparator<Edge> {
+	static class SortEdgesToComparator implements Comparator<Edge>, Serializable {
 		@Override
 		public int compare(Edge o1, Edge o2) {
 			int dir = (int) Math.signum(o1.getTo().getNodeId()
@@ -330,7 +331,7 @@ public class GraphModel {
 	/**
 	 * Comparator to sort edges on from field.
 	 */
-	static class SortEdgesFromComparator implements Comparator<Edge> {
+	static class SortEdgesFromComparator implements Comparator<Edge>, Serializable {
 		@Override
 		public int compare(Edge o1, Edge o2) {
 			int dir = (int) Math.signum(o1.getFrom().getNodeId()
