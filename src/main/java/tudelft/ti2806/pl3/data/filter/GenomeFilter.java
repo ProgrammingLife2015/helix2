@@ -16,7 +16,7 @@ public class GenomeFilter extends Filter<Node> {
 	public void calculateFilter(List<Node> list) {
 		for (Node node : list) {
 			for (Genome source : node.getSource()) {
-				if (source.equals(genome)) {
+				if (source.identifier.equals(genome)) {
 					filter.add(node);
 				}
 			}
