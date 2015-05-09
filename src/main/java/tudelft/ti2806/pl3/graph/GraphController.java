@@ -19,10 +19,10 @@ public class GraphController implements Controller {
 	/**
 	 * Initialize view and pass the graph to it.
 	 */
-	public GraphController() {
-        JFrame frame = new JFrame();
+	public GraphController(JFrame frame) {
         File nodeFile = FileSelector.selectFile("Select node file", frame, ".node.graph");
 		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+
 
 		try {
 			GraphData graphData = GraphData.parseGraph(nodeFile,edgeFile);

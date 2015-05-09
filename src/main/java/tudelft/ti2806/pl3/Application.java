@@ -1,79 +1,128 @@
 package tudelft.ti2806.pl3;
 
-import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
+import tudelft.ti2806.pl3.graph.GraphController;
+import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * The main application view.
- *
+ * <p>
  * <p>
  * Created by Boris Mattijssen on 07-05-15.
  */
-public class Application extends JPanel {
+public class Application extends JFrame {
+	static final Integer LOWEST_LAYER = 1;
+	static final Integer MIDDEL_LAYER = 50;
+	static final Integer HIGHEST_LAYER = 100;
 
-    private int width = 1800;
-    private int height = 1000;
-	private JPanel bottom = new JPanel();
-    private JLayeredPane main = new JLayeredPane();
+	private JLayeredPane main;
+	private ScreenSize size;
 
 	/**
 	 * Construct the main application view.
 	 */
 	public Application() {
-		setLayout(new GridLayout());
-		setPreferredSize(new Dimension(width, height));
-        main.setPreferredSize(new Dimension(width, height - 200));
-        bottom.setPreferredSize(new Dimension(width,200));
-        add(main);
-        add(bottom);
-//        add(main);
-//        add(right);
+		super("DNA Bazen");
+		// set the size and save it in the singleton
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-//		right.setLayout(new BorderLayout());
-//        main.setLayout(new BorderLayout());
+		main = getLayeredPane();
+		closeBind();
+		keyBinds();
+	}
 
-//		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-//				main, right);
-//		splitPane.setDividerLocation(200);
-//
-//		add(splitPane);
+	public void make() {
+		this.setVisible(true);
+		size = ScreenSize.getInstance();
+		size.setHeight(this.getHeight());
+		size.setWidth(this.getWidth());
+		size.calculate();
+	}
 
+	public void start() {
+		GraphController graphController = new GraphController(this);
+		ZoomBarController zoomBarController = new ZoomBarController(graphController);
+		SideBarController sideBarController = new SideBarController(graphController);
+
+		setSideBarView(sideBarController.getView());
+		setGraphView(graphController.getView());
+		setZoomBarView(zoomBarController.getView());
 
 	}
 
-    /**
-     *
-     */
-	public void setSideBarView(Component view) {
-        main.add(view, JLayeredPane.PALETTE_LAYER);
-        view.setBounds(0,0,200,1000);
-    }
+	public void stop() {
+		// save data or do something else here
+		this.dispose();
+		System.exit(0);
+	}
 
-    /**
+	public boolean confirm() {
+		int answer = JOptionPane.showConfirmDialog(main, "You want to quit?", "Quit",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		return answer == JOptionPane.YES_OPTION;
+	}
+
+	public void closeBind() {
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (confirm()) stop();
+			}
+		});
+	}
+
+	public void keyBinds() {
+		// add key binds for the app here
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					if (confirm()) stop();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+		});
+	}
+
+	public void setSideBarView(Component view) {
+		view.setBounds(0, 0, size.getSidebarWidth(), size.getHeight());
+		main.add(view, HIGHEST_LAYER);
+	}
+
+	/**
 	 * Add the graph view to the layout.
 	 *
-	 * @param view
-	 *            the graph view panel
+	 * @param view the graph view panel
 	 */
 	public void setGraphView(Component view) {
-		main.add(view, JLayeredPane.DEFAULT_LAYER);
-        view.setBounds(200,0,1600,1000);
+		view.setBounds(0, 0, size.getWidth(), size.getHeight() - size.getZoombarHeight());
+		main.add(view, MIDDEL_LAYER);
 	}
 
 	/**
 	 * Add the zoom bar view to the layout.
 	 *
-	 * @param view
-	 *            the zoom bar view panel
+	 * @param view the zoom bar view panel
 	 */
 	public void setZoomBarView(Component view) {
-		bottom.add(view, BorderLayout.SOUTH);
-//        view.setBounds(200,1600,1600,200);
+		view.setBounds(0, size.getHeight() - size.getZoombarHeight(), size.getWidth(), size.getZoombarHeight());
+		main.add(view, MIDDEL_LAYER);
 	}
 }

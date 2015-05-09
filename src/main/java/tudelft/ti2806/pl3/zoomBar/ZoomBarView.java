@@ -1,7 +1,9 @@
 package tudelft.ti2806.pl3.zoomBar;
 
+import tudelft.ti2806.pl3.ScreenSize;
+
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JPanel;
 
 
 /**
@@ -10,24 +12,15 @@ import javax.swing.JPanel;
  * Created by Boris Mattijssen on 06-05-15.
  */
 public class ZoomBarView extends JPanel {
-
-    private int width = 1600;
-    private int height = 200;
+    public static final double ZOOMBAR_FACTOR = 0.1;
 
 	/**
 	 * Construct a zoom bar view with a fixed height.
 	 */
 	public ZoomBarView() {
 		this.setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(width,height));
-        setBackground(Color.black);
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+		setPreferredSize(new Dimension(
+				ScreenSize.getInstance().getWidth(),
+				ScreenSize.getInstance().getZoombarHeight()));
     }
 }
