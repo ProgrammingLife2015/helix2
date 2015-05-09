@@ -1,17 +1,13 @@
 package tudelft.ti2806.pl3;
 
+import tudelft.ti2806.pl3.controls.KeyController;
+import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.graph.GraphController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import java.awt.Component;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * The main application view.
@@ -40,8 +36,6 @@ public class Application extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		main = getLayeredPane();
-		closeBind();
-		keyBinds();
 	}
 
 	/**
@@ -57,8 +51,12 @@ public class Application extends JFrame {
 
 	/**
 	 * Get the views and set them to the application
+	 * Set the key and window controllers.
 	 */
 	public void start() {
+		addWindowListener(new WindowController(this));
+		addKeyListener(new KeyController(this));
+
 		GraphController graphController = new GraphController(this);
 		ZoomBarController zoomBarController = new ZoomBarController(graphController);
 		SideBarController sideBarController = new SideBarController(graphController);
@@ -66,6 +64,7 @@ public class Application extends JFrame {
 		setSideBarView(sideBarController.getView());
 		setGraphView(graphController.getView());
 		setZoomBarView(zoomBarController.getView());
+
 
 	}
 
@@ -86,57 +85,6 @@ public class Application extends JFrame {
 		int answer = JOptionPane.showConfirmDialog(main, "You want to quit?", "Quit",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
-	}
-
-	/**
-	 * If the user clicks exit cross the application stops.
-	 */
-	public void closeBind() {
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				if (confirm()){
-					stop();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Bind keys in the application
-	 */
-	public void keyBinds() {
-		// add key binds for the app here
-		this.addKeyListener(new KeyListener() {
-			/**
-			 * Keys typed
-			 * @param e keyevent
-			 */
-			@Override
-			public void keyTyped(KeyEvent e) {
-
-			}
-
-			/**
-			 *  Keys pressed
-			 * @param e keyevent
-			 */
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && confirm()) {
-					stop();
-				}
-			}
-
-			/**
-			 * Key released
-			 * @param e keyevent
-			 */
-			@Override
-			public void keyReleased(KeyEvent e) {
-
-			}
-		});
 	}
 
 	/**
@@ -166,5 +114,9 @@ public class Application extends JFrame {
 	public void setZoomBarView(Component view) {
 		view.setBounds(0, size.getHeight() - size.getZoombarHeight(), size.getWidth(), size.getZoombarHeight());
 		main.add(view, MIDDEL_LAYER);
+	}
+
+	public JLayeredPane getMain() {
+		return main;
 	}
 }
