@@ -40,6 +40,10 @@ public class KeyController implements KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE && app.confirm()){
 			app.stop();
 		}
+
+		if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			app.toggleSideBar();
+		}
 	}
 
 	/**

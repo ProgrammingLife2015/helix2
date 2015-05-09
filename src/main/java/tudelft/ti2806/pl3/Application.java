@@ -6,8 +6,10 @@ import tudelft.ti2806.pl3.graph.GraphController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import java.awt.Component;
 
 /**
  * The main application view.
@@ -19,12 +21,18 @@ public class Application extends JFrame {
 	/**
 	 * The value of the layers used in the view
 	 */
-	//private static final Integer LOWEST_LAYER = 1;
 	private static final Integer MIDDEL_LAYER = 50;
 	private static final Integer HIGHEST_LAYER = 100;
 
 	private JLayeredPane main;
 	private ScreenSize size;
+
+	/**
+	 * The controllers of the application
+	 */
+	private GraphController graphController;
+	private SideBarController sideBarController;
+	private ZoomBarController zoomBarController;
 
 	/**
 	 * Construct the main application view.
@@ -57,15 +65,13 @@ public class Application extends JFrame {
 		addWindowListener(new WindowController(this));
 		addKeyListener(new KeyController(this));
 
-		GraphController graphController = new GraphController(this);
-		ZoomBarController zoomBarController = new ZoomBarController(graphController);
-		SideBarController sideBarController = new SideBarController(graphController);
+		graphController = new GraphController(this);
+		zoomBarController = new ZoomBarController(graphController);
+		sideBarController = new SideBarController(graphController);
 
 		setSideBarView(sideBarController.getView());
 		setGraphView(graphController.getView());
 		setZoomBarView(zoomBarController.getView());
-
-
 	}
 
 	/**
@@ -94,6 +100,7 @@ public class Application extends JFrame {
 	public void setSideBarView(Component view) {
 		view.setBounds(0, 0, size.getSidebarWidth(), size.getHeight());
 		main.add(view, HIGHEST_LAYER);
+		view.setVisible(true);
 	}
 
 	/**
@@ -104,6 +111,7 @@ public class Application extends JFrame {
 	public void setGraphView(Component view) {
 		view.setBounds(0, 0, size.getWidth(), size.getHeight() - size.getZoombarHeight());
 		main.add(view, MIDDEL_LAYER);
+		view.setVisible(true);
 	}
 
 	/**
@@ -114,9 +122,16 @@ public class Application extends JFrame {
 	public void setZoomBarView(Component view) {
 		view.setBounds(0, size.getHeight() - size.getZoombarHeight(), size.getWidth(), size.getZoombarHeight());
 		main.add(view, MIDDEL_LAYER);
+		view.setVisible(true);
 	}
 
-	public JLayeredPane getMain() {
-		return main;
+
+	public void toggleSideBar(){
+		Component sidebar = sideBarController.getView();
+		if(sidebar.isVisible()){
+			sidebar.setVisible(false);
+		}else{
+			sidebar.setVisible(true);
+		}
 	}
 }
