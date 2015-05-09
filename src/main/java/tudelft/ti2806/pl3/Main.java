@@ -21,7 +21,7 @@ public class Main {
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, you can set the GUI to another look and feel.
+			System.out.println("The Nimbus theme is not found, so the standard theme is used");
 		}
 		Application app = new Application();
 		app.make();
