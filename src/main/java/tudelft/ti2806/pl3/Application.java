@@ -20,9 +20,12 @@ import java.awt.event.WindowEvent;
  * Created by Boris Mattijssen on 07-05-15.
  */
 public class Application extends JFrame {
-	static final Integer LOWEST_LAYER = 1;
-	static final Integer MIDDEL_LAYER = 50;
-	static final Integer HIGHEST_LAYER = 100;
+	/**
+	 * The value of the layers used in the view
+	 */
+	private static final Integer LOWEST_LAYER = 1;
+	private static final Integer MIDDEL_LAYER = 50;
+	private static final Integer HIGHEST_LAYER = 100;
 
 	private JLayeredPane main;
 	private ScreenSize size;
@@ -41,6 +44,9 @@ public class Application extends JFrame {
 		keyBinds();
 	}
 
+	/**
+	 * Make the window visible and set the sizes
+	 */
 	public void make() {
 		this.setVisible(true);
 		size = ScreenSize.getInstance();
@@ -49,6 +55,9 @@ public class Application extends JFrame {
 		size.calculate();
 	}
 
+	/**
+	 * Get the views and set them to the application
+	 */
 	public void start() {
 		GraphController graphController = new GraphController(this);
 		ZoomBarController zoomBarController = new ZoomBarController(graphController);
@@ -60,42 +69,69 @@ public class Application extends JFrame {
 
 	}
 
+	/**
+	 * Stop the application and exit
+	 */
 	public void stop() {
 		// save data or do something else here
 		this.dispose();
 		System.exit(0);
 	}
 
+	/**
+	 * Asks the user to confirm his choose
+	 * @return true if yes, false otherwise
+	 */
 	public boolean confirm() {
 		int answer = JOptionPane.showConfirmDialog(main, "You want to quit?", "Quit",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
 	}
 
+	/**
+	 * If the user clicks exit cross the application stops.
+	 */
 	public void closeBind() {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (confirm()) stop();
+				if (confirm()){
+					stop();
+				}
 			}
 		});
 	}
 
+	/**
+	 * Bind keys in the application
+	 */
 	public void keyBinds() {
 		// add key binds for the app here
 		this.addKeyListener(new KeyListener() {
+			/**
+			 * Keys typed
+			 * @param e keyevent
+			 */
 			@Override
 			public void keyTyped(KeyEvent e) {
 
 			}
 
+			/**
+			 *  Keys pressed
+			 * @param e keyevent
+			 */
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					if (confirm()) stop();
+				if ((e.getKeyCode() == KeyEvent.VK_ESCAPE) && confirm()) {
+					stop();
 				}
 			}
 
+			/**
+			 * Key released
+			 * @param e keyevent
+			 */
 			@Override
 			public void keyReleased(KeyEvent e) {
 
@@ -103,6 +139,10 @@ public class Application extends JFrame {
 		});
 	}
 
+	/**
+	 * Add the sidebar view to the layout
+	 * @param view the sidebar view panel
+	 */
 	public void setSideBarView(Component view) {
 		view.setBounds(0, 0, size.getSidebarWidth(), size.getHeight());
 		main.add(view, HIGHEST_LAYER);
