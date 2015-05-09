@@ -23,7 +23,7 @@ public class Application extends JFrame {
 	/**
 	 * The value of the layers used in the view
 	 */
-	private static final Integer LOWEST_LAYER = 1;
+	//private static final Integer LOWEST_LAYER = 1;
 	private static final Integer MIDDEL_LAYER = 50;
 	private static final Integer HIGHEST_LAYER = 100;
 
@@ -123,7 +123,7 @@ public class Application extends JFrame {
 			 */
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if ((e.getKeyCode() == KeyEvent.VK_ESCAPE) && confirm()) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && confirm()) {
 					stop();
 				}
 			}
