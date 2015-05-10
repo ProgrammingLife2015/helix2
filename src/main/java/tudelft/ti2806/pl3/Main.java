@@ -1,6 +1,8 @@
 package tudelft.ti2806.pl3;
 
 import javax.swing.UIManager;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 
 /**
  * Main application launcher.
@@ -23,8 +25,12 @@ public class Main {
 		} catch (Exception e) {
 			System.out.println("The Nimbus theme is not found, so the standard theme is used");
 		}
-		Application app = new Application();
-		app.make();
+
+		// get the size of the screen
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle bounds = ge.getMaximumWindowBounds();
+
+		Application app = new Application((int)bounds.getWidth(),(int)bounds.getHeight());
 		app.start();
 	}
 }

@@ -37,23 +37,23 @@ public class Application extends JFrame {
 	/**
 	 * Construct the main application view.
 	 */
-	public Application() {
+	public Application(int width,int height) {
 		super("DNA Bazen");
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		main = getLayeredPane();
+		this.make(width,height);
 	}
 
 	/**
 	 * Make the window visible and set the sizes
 	 */
-	public void make() {
-		this.setVisible(true);
+	public void make(int width, int height) {
 		size = ScreenSize.getInstance();
-		size.setHeight(this.getHeight());
-		size.setWidth(this.getWidth());
+		size.setHeight(height);
+		size.setWidth(width);
 		size.calculate();
 	}
 
@@ -72,6 +72,7 @@ public class Application extends JFrame {
 		setSideBarView(sideBarController.getView());
 		setGraphView(graphController.getView());
 		setZoomBarView(zoomBarController.getView());
+		this.setVisible(true);
 	}
 
 	/**
@@ -125,7 +126,9 @@ public class Application extends JFrame {
 		view.setVisible(true);
 	}
 
-
+	/**
+	 * Show the sidebar if hidden, hide if shown
+	 */
 	public void toggleSideBar(){
 		Component sidebar = sideBarController.getView();
 		if(sidebar.isVisible()){
