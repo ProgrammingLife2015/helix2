@@ -126,15 +126,15 @@ public class Application extends JFrame {
 		view.setVisible(true);
 	}
 
-	/**
-	 * Show the sidebar if hidden, hide if shown
-	 */
-	public void toggleSideBar(){
-		Component sidebar = sideBarController.getView();
-		if(sidebar.isVisible()){
-			sidebar.setVisible(false);
-		}else{
-			sidebar.setVisible(true);
-		}
+	public GraphController getGraphController() {
+		return graphController;
+	}
+
+	public SideBarController getSideBarController() {
+		return sideBarController;
+	}
+
+	public ZoomBarController getZoomBarController() {
+		return zoomBarController;
 	}
 }

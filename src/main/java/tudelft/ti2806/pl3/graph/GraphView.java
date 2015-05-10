@@ -6,10 +6,10 @@ import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.Node;
 
-import java.awt.BorderLayout;
-import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.util.List;
 
 
 /**

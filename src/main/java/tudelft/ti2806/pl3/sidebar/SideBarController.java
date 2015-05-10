@@ -24,4 +24,15 @@ public class SideBarController implements Controller {
     public Component getView() {
         return sideBarView;
     }
+
+    /**
+     * Show the sidebar if hidden, hide if shown
+     */
+    public void toggleSideBar(){
+        if(sideBarView.isVisible()){
+            sideBarView.setVisible(false);
+        }else{
+            sideBarView.setVisible(true);
+        }
+    }
 }

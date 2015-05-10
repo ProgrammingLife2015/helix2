@@ -42,7 +42,7 @@ public class KeyController implements KeyListener {
 		}
 
 		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			app.toggleSideBar();
+			app.getSideBarController().toggleSideBar();
 		}
 	}
 
