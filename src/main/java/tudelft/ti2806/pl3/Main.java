@@ -9,7 +9,7 @@ import javax.swing.UIManager;
  * Main application launcher. Created by Boris Mattijssen on 30-04-15.
  */
 public class Main {
-	
+
 	/**
 	 * Launch application.
 	 * 

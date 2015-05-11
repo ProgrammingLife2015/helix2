@@ -31,7 +31,7 @@ public class ZoomBarController implements Controller {
 	 * @return the view
 	 */
 	@Override
-	public Component getView() {
+	public Component getPanel() {
 		return zoomBarView;
 	}
 }

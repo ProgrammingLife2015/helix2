@@ -2,6 +2,8 @@ package tudelft.ti2806.pl3.demo;
 
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.visualization.GraphController;
+import tudelft.ti2806.pl3.visualization.GraphModel;
+import tudelft.ti2806.pl3.visualization.GraphView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,8 +29,10 @@ public class Demo {
 		File edgeFile = Demo.selectFile("Select edge file", frame,
 				".edge.graph");
 		try {
-			GraphController gc = new GraphController(
-					GraphDataRepository.parseGraph(nodeFile, edgeFile));
+			GraphDataRepository rep = GraphDataRepository.parseGraph(nodeFile,
+					edgeFile);
+			GraphController gc = new GraphController(new GraphView(),
+					new GraphModel(rep));
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.add(gc.getPanel());
 			gc.getPanel().setVisible(true);
