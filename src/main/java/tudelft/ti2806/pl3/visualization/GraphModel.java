@@ -1,10 +1,10 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.CombinedNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.Node;
 
@@ -240,7 +240,7 @@ public class GraphModel implements GraphModelInterface {
 	 *            the list of edges
 	 * @return a list of all edges of nodes with only one output
 	 */
-	protected List<Edge> findToEdges(List<Edge> edges) {
+	List<Edge> findToEdges(List<Edge> edges) {
 		sortEdgesOnTo(edges);
 		List<Edge> foundEdges = new ArrayList<Edge>();
 		Edge lastEdge = null;
