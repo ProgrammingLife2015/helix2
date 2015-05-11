@@ -55,3 +55,4 @@ hs_err_pid*
 *.gfasta
 *.rar
 data/geneAnnotations.txt
+data/
