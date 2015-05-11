@@ -7,14 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * Let the user select the correct node and egdes files. Created by Kasper on
- * 7-5-15.
+ * Let the user select the correct node and egdes files.
+ * Created by Kasper on 7-5-15.
  */
 public class FileSelector {
-	
+
 	/**
-	 * Selects a file.
-	 * 
+	 * Opens a file select window.
+	 *
 	 * @param title
 	 *            of the file chooser
 	 * @param frame
@@ -42,7 +42,7 @@ public class FileSelector {
 				}
 				return false;
 			}
-			
+
 			@Override
 			public String getDescription() {
 				return filter;
