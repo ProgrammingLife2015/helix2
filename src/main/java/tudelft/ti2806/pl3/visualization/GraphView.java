@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GraphView {
+public class GraphView implements GraphViewInterface {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
 			+ "fill-color: #00000070;}"
 			+ "edge.nodeEdge {fill-color: red;"
@@ -67,19 +67,21 @@ public class GraphView {
 	
 	private long[] spaceStarters;
 	
-	/**
-	 * Initialise an instance of GraphView.
-	 * 
-	 * <p>
-	 * Automatically generates the graph and viewer from the given
-	 * {@link AbstractGraphData} and calculates the positions of the nodes on
-	 * the graph for the default zoom.
-	 * 
-	 * @param graphDataInterface
-	 *            the {@link AbstractGraphData} to generate the graph from.
-	 */
-	public GraphView(AbstractGraphData graphDataInterface) {
-		this.graphData = graphDataInterface;
+	// /**
+	// * Initialise an instance of GraphView.
+	// *
+	// * <p>
+	// * Automatically generates the graph and viewer from the given
+	// * {@link AbstractGraphData} and calculates the positions of the nodes on
+	// * the graph for the default zoom.
+	// *
+	// * @param graphDataInterface
+	// * the {@link AbstractGraphData} to generate the graph from.
+	// */
+	// public GraphView()) {
+	// }
+	
+	public void init() {
 		generateViewer();
 		calculateGraphPositions();
 	}
@@ -263,5 +265,10 @@ public class GraphView {
 		}
 		Collections.sort(yposition);
 		return yposition.get(yposition.size() / 2);
+	}
+	
+	@Override
+	public void setGraphData(AbstractGraphData graphData) {
+		this.graphData = graphData;
 	}
 }

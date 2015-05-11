@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * GraphModel reads GraphData and makes a new graph of it.
  */
-public class GraphModel {
+public class GraphModel implements GraphModelInterface {
 	protected AbstractGraphData originalGraph;
 	protected AbstractGraphData graph;
 	
@@ -312,15 +312,16 @@ public class GraphModel {
 			filter.filter(list);
 		}
 	}
-
+	
 	/**
 	 * Comparator to sort edges on to field.
 	 */
-	static class SortEdgesToComparator implements Comparator<Edge>, Serializable {
+	static class SortEdgesToComparator implements Comparator<Edge>,
+			Serializable {
 		@Override
 		public int compare(Edge o1, Edge o2) {
-			int dir = (int) Math.signum(o1.getTo().getId()
-					- o2.getTo().getId());
+			int dir = (int) Math
+					.signum(o1.getTo().getId() - o2.getTo().getId());
 			if (dir == 0) {
 				return (int) Math.signum(o1.getFrom().getId()
 						- o2.getFrom().getId());
@@ -329,11 +330,12 @@ public class GraphModel {
 			}
 		}
 	}
-
+	
 	/**
 	 * Comparator to sort edges on from field.
 	 */
-	static class SortEdgesFromComparator implements Comparator<Edge>, Serializable {
+	static class SortEdgesFromComparator implements Comparator<Edge>,
+			Serializable {
 		@Override
 		public int compare(Edge o1, Edge o2) {
 			int dir = (int) Math.signum(o1.getFrom().getId()

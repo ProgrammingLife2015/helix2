@@ -26,8 +26,8 @@ public class Main extends JDialog {
 		GraphController graphController = new GraphController();
 		ZoomBarController zoomBarController = new ZoomBarController(graphController);
 		Application application = new Application();
-		application.setGraphView(graphController.getView());
-		application.setZoomBarView(zoomBarController.getView());
+		application.setGraphView(graphController.getPanel());
+		application.setZoomBarView(zoomBarController.getPanel());
 
 		setContentPane(application);
 		setModal(true);
