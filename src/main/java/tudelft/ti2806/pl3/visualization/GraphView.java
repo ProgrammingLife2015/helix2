@@ -6,8 +6,8 @@ import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.awt.Component;
@@ -21,10 +21,13 @@ public class GraphView implements GraphViewInterface {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
 			+ "fill-color: #00000070;}"
 			+ "edge.nodeEdge {fill-color: red;"
-			+ "stroke-width:3px;}"
+			+ "text-mode:normal;"
+			+ "stroke-width:3px;"
+			+ "text-alignment:above;}"
 			+ "node {stroke-mode: plain;"
-			+ "size: 0;"
-			+ "shape: freeplane;" + "fill-color: #00000000;}";
+			+ "size: 0;" 
+			+ "shape: freeplane;" 
+			+ "fill-color: #00000000;}";
 	/**
 	 * The space reserved for drawing the base pairs characters. It should be
 	 * equal to the font it's char width.<br>
@@ -66,20 +69,6 @@ public class GraphView implements GraphViewInterface {
 	private List<org.graphstream.graph.Edge> nodeEdgeList;
 	
 	private long[] spaceStarters;
-	
-	// /**
-	// * Initialise an instance of GraphView.
-	// *
-	// * <p>
-	// * Automatically generates the graph and viewer from the given
-	// * {@link AbstractGraphData} and calculates the positions of the nodes on
-	// * the graph for the default zoom.
-	// *
-	// * @param graphDataInterface
-	// * the {@link AbstractGraphData} to generate the graph from.
-	// */
-	// public GraphView()) {
-	// }
 	
 	public void init() {
 		generateViewer();
@@ -141,7 +130,7 @@ public class GraphView implements GraphViewInterface {
 	 * @param edge
 	 *            the edge to represent
 	 */
-	private static void addNormalEdge(Graph graph, Edge edge) {
+	private void addNormalEdge(Graph graph, Edge edge) {
 		org.graphstream.graph.Edge gedge = graph.addEdge(edge.getName(), edge
 				.getFrom().getId() + "]", "[" + edge.getTo().getId());
 		gedge.addAttribute("ui.class", "normalEdge");
@@ -158,12 +147,13 @@ public class GraphView implements GraphViewInterface {
 	 * @param node
 	 *            the node to represent
 	 */
-	private static org.graphstream.graph.Edge addNodeEdge(Graph graph,
+	private org.graphstream.graph.Edge addNodeEdge(Graph graph,
 			String nodeName, Node node) {
 		org.graphstream.graph.Edge edge = graph.addEdge("[" + nodeName + "]",
 				"[" + nodeName, nodeName + "]");
 		edge.addAttribute("ui.class", "nodeEdge");
 		edge.addAttribute("node", node);
+		edge.addAttribute("ui.label", node.getContentAsString());
 		return edge;
 	}
 	
@@ -229,6 +219,9 @@ public class GraphView implements GraphViewInterface {
 		calculateGraphPositions();
 		panel.getCamera().setViewPercent(
 				zoomLevel / (getGraphWidth() / panel.getWidth()));
+		for (org.graphstream.graph.Edge edge : nodeEdgeList) {
+			edge.setAttribute("text-size", basePairDisplayWidth / zoomLevel);
+		}
 	}
 	
 	private double getGraphWidth() {
@@ -258,7 +251,7 @@ public class GraphView implements GraphViewInterface {
 	 *            the node to calculate the position of
 	 * @return the position on the y axis
 	 */
-	private static double calculateYPosition(Node node) {
+	private double calculateYPosition(Node node) {
 		List<Integer> yposition = new ArrayList<Integer>();
 		for (Genome genome : node.getSource()) {
 			yposition.add(genome.getYposition());

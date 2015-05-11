@@ -9,7 +9,7 @@ import javax.swing.UIManager;
  * Main application launcher. Created by Boris Mattijssen on 30-04-15.
  */
 public class Main {
-
+	
 	/**
 	 * Launch application.
 	 * 
@@ -17,6 +17,8 @@ public class Main {
 	 *            input arguments
 	 */
 	public static void main(String[] args) {
+		System.setProperty("org.graphstream.ui.renderer",
+				"org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		try {
 			for (UIManager.LookAndFeelInfo info : UIManager
 					.getInstalledLookAndFeels()) {
