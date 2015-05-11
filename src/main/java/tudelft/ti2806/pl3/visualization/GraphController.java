@@ -58,4 +58,8 @@ public class GraphController implements GraphControllerInterface {
 	public Component getPanel() {
 		return view.getPanel();
 	}
+
+	public double getCurrentZoomLevel() {
+		return currentZoomLevel;
+	}
 }

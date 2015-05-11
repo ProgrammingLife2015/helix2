@@ -4,18 +4,15 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
-
+import tudelft.ti2806.pl3.Application;
+import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.awt.Component;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GraphView implements GraphViewInterface {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
@@ -270,5 +267,9 @@ public class GraphView implements GraphViewInterface {
 	@Override
 	public void setGraphData(AbstractGraphData graphData) {
 		this.graphData = graphData;
+	}
+
+	public void setKeyController(Application frame){
+		panel.addKeyListener(new KeyController(frame));
 	}
 }

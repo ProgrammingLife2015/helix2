@@ -3,19 +3,19 @@ package tudelft.ti2806.pl3;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphModel;
 import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
-import java.awt.Component;
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import java.awt.Component;
+import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * The main application view.
@@ -67,7 +67,8 @@ public class Application extends JFrame {
 	 */
 	public void start() {
 		addWindowListener(new WindowController(this));
-		addKeyListener(new KeyController(this));
+		KeyController keys = new KeyController(this);
+		addKeyListener(keys);
 
 		File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
@@ -80,6 +81,15 @@ public class Application extends JFrame {
 			setSideBarView(sideBarController.getPanel());
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
+			graphController.getPanel().addKeyListener(keys);
+
+
+			// debug
+			KeyListener[] listener = graphController.getPanel().getKeyListeners();
+			for (KeyListener keyListener : listener) {
+				System.out.println(keyListener.toString());
+			}
+
 			this.setVisible(true);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
