@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.List;
@@ -38,4 +39,8 @@ public interface Node {
 	long calculateStartX();
 	
 	int calculatePreviousNodesCount();
+	
+	default String getContentAsString() {
+		return BasePair.toString(getContent());
+	}
 }

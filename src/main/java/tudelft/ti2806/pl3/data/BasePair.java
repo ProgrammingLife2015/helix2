@@ -81,4 +81,20 @@ public enum BasePair {
 	private static BasePair getBasePair(byte pair) {
 		return storeByteToBasePair[pair];
 	}
+	
+	/**
+	 * Converts a {@code BasePair} array saved as a byte[] into a {@link String}
+	 * .
+	 * 
+	 * @param array
+	 *            the array to convert
+	 * @return the converted string
+	 */
+	public static String toString(byte[] array) {
+		String result = "";
+		for (byte pair : array) {
+			result += storeByteToBasePair[pair];
+		}
+		return result;
+	}
 }

@@ -164,9 +164,9 @@ public class SingleNode implements Node {
 	public int getId() {
 		return nodeId;
 	}
-
+	
 	// Suppressed in the interest of space and time
-	@SuppressFBWarnings({"EI_EXPOSE_REP"})
+	@SuppressFBWarnings({ "EI_EXPOSE_REP" })
 	@Override
 	public Genome[] getSource() {
 		return source;
@@ -181,9 +181,9 @@ public class SingleNode implements Node {
 	public int getRefEndPoint() {
 		return refEndPoint;
 	}
-
+	
 	// Suppressed in the interest of space and time
-	@SuppressFBWarnings({"EI_EXPOSE_REP"})
+	@SuppressFBWarnings({ "EI_EXPOSE_REP" })
 	@Override
 	public byte[] getContent() {
 		return content;
