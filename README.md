@@ -1,4 +1,4 @@
-# ProgrammingLife3 [![Build Status](https://travis-ci.org/ProgrammingLife3/ProgrammingLife3.svg)](https://travis-ci.org/ProgrammingLife3/ProgrammingLife3)
+# ProgrammingLife3 [![Build Status - Master](https://travis-ci.org/ProgrammingLife3/ProgrammingLife3.svg?branch=master)](https://travis-ci.org/ProgrammingLife3/ProgrammingLife3) [![Build Status - Latest](https://travis-ci.org/ProgrammingLife3/ProgrammingLife3.svg)](https://travis-ci.org/ProgrammingLife3/ProgrammingLife3)
 Programming Life 3
 
 | Name             | Student Number | E-mail                       |
