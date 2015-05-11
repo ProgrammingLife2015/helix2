@@ -1,19 +1,19 @@
 package tudelft.ti2806.pl3.graph;
 
+import java.io.File;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.JFrame;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import java.io.File;
 
 /**
  * Let the user select the correct node and egdes files.
  * Created by Kasper on 7-5-15.
  */
 public class FileSelector {
-	
+
 	/**
 	 * Opens a file select window.
-	 * 
+	 *
 	 * @param title
 	 *            of the file chooser
 	 * @param frame
@@ -41,7 +41,7 @@ public class FileSelector {
 				}
 				return false;
 			}
-			
+
 			@Override
 			public String getDescription() {
 				return filter;
