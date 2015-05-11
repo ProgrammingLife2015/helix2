@@ -37,7 +37,7 @@ public class Application extends JFrame {
 	/**
 	 * Construct the main application view.
 	 */
-	public Application() {
+	public Application(int width,int height) {
 		super("DNA Bazen");
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
