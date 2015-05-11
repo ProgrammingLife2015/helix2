@@ -1,0 +1,14 @@
+>1 | A | 0 | 4
+AAAAA
+>2 | B | 0 | 4
+AAAAA
+>3 | C | 0 | 4
+AAAAA
+>4 | A | 5 | 9
+CCCCC
+>5 | B | 5 | 9
+CCCCC
+>6 | C | 5 | 9
+CCCCC
+>7 | A, B, C | 10 | 14
+AAAAA

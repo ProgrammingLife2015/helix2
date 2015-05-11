@@ -2,8 +2,10 @@ package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.Genome;
 
+import java.util.List;
+
 public interface Node {
-	int getNodeId();
+	int getId();
 	
 	Genome[] getSource();
 	
@@ -18,4 +20,22 @@ public interface Node {
 	boolean equals(Object obj);
 	
 	int hashCode();
+	
+	int getYaxisOrder();
+	
+	long getXStart();
+	
+	long getXEnd();
+	
+	long getWidth();
+	
+	int getPreviousNodesCount();
+	
+	List<SingleNode> getIncoming();
+	
+	List<SingleNode> getOutgoing();
+	
+	long calculateStartX();
+	
+	int calculatePreviousNodesCount();
 }

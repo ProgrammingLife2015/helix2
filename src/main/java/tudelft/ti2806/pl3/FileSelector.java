@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.graph;
+package tudelft.ti2806.pl3;
 
 import java.io.File;
 

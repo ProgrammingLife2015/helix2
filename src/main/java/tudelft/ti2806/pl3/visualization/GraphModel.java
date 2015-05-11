@@ -1,9 +1,11 @@
-package tudelft.ti2806.pl3.graph;
+package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.CombinedNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.io.Serializable;
@@ -17,34 +19,35 @@ import java.util.Map;
 /**
  * GraphModel reads GraphData and makes a new graph of it.
  */
-public class GraphModel {
-	protected GraphData originalGraph;
-	protected GraphData graph;
+public class GraphModel implements GraphModelInterface {
+	protected AbstractGraphData originalGraph;
+	protected AbstractGraphData graph;
 	
-	public GraphModel(GraphData graph) {
-		this.originalGraph = graph;
+	public GraphModel(AbstractGraphData graphData) {
+		this.originalGraph = graphData;
 	}
 	
 	/**
-	 * Filters a copy of the {@link GraphData} and combines all nodes which can
-	 * be combined without losing data and removes all dead edges. The result is
-	 * saved as {@code graph}.
+	 * Filters a copy of the {@link GraphDataRepository} and combines all nodes
+	 * which can be combined without losing data and removes all dead edges. The
+	 * result is saved as {@code graph}.
 	 * 
 	 * @param filters
 	 *            the filters to be applied.
 	 */
 	public void produceGraph(List<Filter<Node>> filters) {
+		graph = new GraphData(originalGraph);
 		List<Node> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		combineNodes(findCombineableNodes(resultNodes, resultEdges),
 				resultNodes, resultEdges);
-		graph = new GraphData(resultNodes, resultEdges,
+		graph = new GraphData(originalGraph, resultNodes, resultEdges,
 				originalGraph.getGenomes());
 	}
 	
-	public GraphData getGraph() {
+	public AbstractGraphData getGraphData() {
 		return graph;
 	}
 	
@@ -68,8 +71,8 @@ public class GraphModel {
 		Map<Integer, Edge> fromHash = new HashMap<Integer, Edge>();
 		Map<Integer, Edge> toHash = new HashMap<Integer, Edge>();
 		for (Edge edge : edgesToCombine) {
-			fromHash.put(edge.getFrom().getNodeId(), edge);
-			toHash.put(edge.getTo().getNodeId(), edge);
+			fromHash.put(edge.getFrom().getId(), edge);
+			toHash.put(edge.getTo().getId(), edge);
 		}
 		
 		Map<Integer, CombinedNode> nodeReference = new HashMap<Integer, CombinedNode>();
@@ -82,10 +85,10 @@ public class GraphModel {
 			CombinedNode combinedNode = new CombinedNode(foundEdgeGroup);
 			combinedNodes.add(combinedNode);
 			nodes.removeAll(combinedNode.getNodeList());
-			nodeReference.put(foundEdgeGroup.get(0).getFrom().getNodeId(),
+			nodeReference.put(foundEdgeGroup.get(0).getFrom().getId(),
 					combinedNode);
 			nodeReference.put(foundEdgeGroup.get(foundEdgeGroup.size() - 1)
-					.getTo().getNodeId(), combinedNode);
+					.getTo().getId(), combinedNode);
 		}
 		// Remove and replace edges with combined nodes.
 		reconnectCombinedNodes(edges, nodes, nodeReference);
@@ -108,13 +111,13 @@ public class GraphModel {
 		List<Edge> deadEdges = getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
 			Node nodeTo = edge.getTo();
-			Node tempNode = nodeReference.get(nodeTo.getNodeId());
+			Node tempNode = nodeReference.get(nodeTo.getId());
 			if (tempNode != null) {
 				nodeTo = tempNode;
 			}
 			
 			Node nodeFrom = edge.getFrom();
-			tempNode = nodeReference.get(nodeFrom.getNodeId());
+			tempNode = nodeReference.get(nodeFrom.getId());
 			if (tempNode != null) {
 				nodeFrom = tempNode;
 			}
@@ -145,18 +148,18 @@ public class GraphModel {
 		List<Edge> edgeList = new ArrayList<Edge>();
 		edgeList.add(startEdge);
 		// Search to left
-		Edge searchEdge = fromHash.get(startEdge.getTo().getNodeId());
+		Edge searchEdge = fromHash.get(startEdge.getTo().getId());
 		while (searchEdge != null) {
 			edgesToCombine.remove(searchEdge);
 			edgeList.add(searchEdge);
-			searchEdge = fromHash.get(searchEdge.getTo().getNodeId());
+			searchEdge = fromHash.get(searchEdge.getTo().getId());
 		}
 		// Search to right
-		searchEdge = toHash.get(startEdge.getFrom().getNodeId());
+		searchEdge = toHash.get(startEdge.getFrom().getId());
 		while (searchEdge != null) {
 			edgesToCombine.remove(searchEdge);
 			edgeList.add(0, searchEdge);
-			searchEdge = toHash.get(searchEdge.getFrom().getNodeId());
+			searchEdge = toHash.get(searchEdge.getFrom().getId());
 		}
 		return edgeList;
 	}
@@ -214,8 +217,7 @@ public class GraphModel {
 		boolean found = true;
 		for (Edge edge : edges) {
 			if (lastEdge != null
-					&& edge.getFrom().getNodeId() == lastEdge.getFrom()
-							.getNodeId()) {
+					&& edge.getFrom().getId() == lastEdge.getFrom().getId()) {
 				found = true;
 			} else {
 				if (found == false) {
@@ -238,14 +240,14 @@ public class GraphModel {
 	 *            the list of edges
 	 * @return a list of all edges of nodes with only one output
 	 */
-	protected List<Edge> findToEdges(List<Edge> edges) {
+	List<Edge> findToEdges(List<Edge> edges) {
 		sortEdgesOnTo(edges);
 		List<Edge> foundEdges = new ArrayList<Edge>();
 		Edge lastEdge = null;
 		boolean found = true;
 		for (Edge edge : edges) {
-			if (lastEdge != null && edge.getTo().getNodeId()
-					== lastEdge.getTo().getNodeId()) {
+			if (lastEdge != null
+					&& edge.getTo().getId() == lastEdge.getTo().getId()) {
 				found = true;
 			} else {
 				if (found == false) {
@@ -310,35 +312,37 @@ public class GraphModel {
 			filter.filter(list);
 		}
 	}
-
+	
 	/**
 	 * Comparator to sort edges on to field.
 	 */
-	static class SortEdgesToComparator implements Comparator<Edge>, Serializable {
+	static class SortEdgesToComparator implements Comparator<Edge>,
+			Serializable {
 		@Override
 		public int compare(Edge o1, Edge o2) {
-			int dir = (int) Math.signum(o1.getTo().getNodeId()
-					- o2.getTo().getNodeId());
+			int dir = (int) Math
+					.signum(o1.getTo().getId() - o2.getTo().getId());
 			if (dir == 0) {
-				return (int) Math.signum(o1.getFrom().getNodeId()
-						- o2.getFrom().getNodeId());
+				return (int) Math.signum(o1.getFrom().getId()
+						- o2.getFrom().getId());
 			} else {
 				return dir;
 			}
 		}
 	}
-
+	
 	/**
 	 * Comparator to sort edges on from field.
 	 */
-	static class SortEdgesFromComparator implements Comparator<Edge>, Serializable {
+	static class SortEdgesFromComparator implements Comparator<Edge>,
+			Serializable {
 		@Override
 		public int compare(Edge o1, Edge o2) {
-			int dir = (int) Math.signum(o1.getFrom().getNodeId()
-					- o2.getFrom().getNodeId());
+			int dir = (int) Math.signum(o1.getFrom().getId()
+					- o2.getFrom().getId());
 			if (dir == 0) {
-				return (int) Math.signum(o1.getTo().getNodeId()
-						- o2.getTo().getNodeId());
+				return (int) Math.signum(o1.getTo().getId()
+						- o2.getTo().getId());
 			} else {
 				return dir;
 			}
