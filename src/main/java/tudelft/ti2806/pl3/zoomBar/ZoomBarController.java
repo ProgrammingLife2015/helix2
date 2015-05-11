@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.zoomBar;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.Controller;
-import tudelft.ti2806.pl3.graph.GraphController;
+import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
 

@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.graph;
+package tudelft.ti2806.pl3.visualization;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.*;
+import tudelft.ti2806.pl3.visualization.GraphModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

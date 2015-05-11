@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.sidebar;
 
 import tudelft.ti2806.pl3.Controller;
-import tudelft.ti2806.pl3.graph.GraphController;
+import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
 
@@ -20,7 +20,7 @@ public class SideBarController implements Controller {
 	}
 	
 	@Override
-	public Component getView() {
+	public Component getPanel() {
 		return sideBarView;
 	}
 	

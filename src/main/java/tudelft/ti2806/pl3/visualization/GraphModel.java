@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.graph;
+package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.CombinedNode;
@@ -323,8 +323,8 @@ public class GraphModel implements GraphModelInterface {
 			int dir = (int) Math
 					.signum(o1.getTo().getId() - o2.getTo().getId());
 			if (dir == 0) {
-				return (int) Math.signum(o1.getFrom().getNodeId()
-						- o2.getFrom().getNodeId());
+				return (int) Math.signum(o1.getFrom().getId()
+						- o2.getFrom().getId());
 			} else {
 				return dir;
 			}
@@ -338,11 +338,11 @@ public class GraphModel implements GraphModelInterface {
 			Serializable {
 		@Override
 		public int compare(Edge o1, Edge o2) {
-			int dir = (int) Math.signum(o1.getFrom().getNodeId()
-					- o2.getFrom().getNodeId());
+			int dir = (int) Math.signum(o1.getFrom().getId()
+					- o2.getFrom().getId());
 			if (dir == 0) {
-				return (int) Math.signum(o1.getTo().getNodeId()
-						- o2.getTo().getNodeId());
+				return (int) Math.signum(o1.getTo().getId()
+						- o2.getTo().getId());
 			} else {
 				return dir;
 			}

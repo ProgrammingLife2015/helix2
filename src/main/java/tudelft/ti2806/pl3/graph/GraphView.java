@@ -52,12 +52,12 @@ public class GraphView extends JPanel {
 		Graph graph = new SingleGraph("");
 		for (Node node : nodes) {
 			org.graphstream.graph.Node graphNode = graph.addNode(node
-					.getNodeId() + "");
+					.getId() + "");
 			graphNode.addAttribute("Node", node);
 		}
 		for (Edge edge : edges) {
-			graph.addEdge(edge.toString(), edge.getFrom().getNodeId() + "",
-					edge.getTo().getNodeId() + "");
+			graph.addEdge(edge.toString(), edge.getFrom().getId() + "",
+					edge.getTo().getId() + "");
 		}
 		
 		Viewer viewer = new Viewer(graph,
