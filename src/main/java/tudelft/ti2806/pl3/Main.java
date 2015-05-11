@@ -29,8 +29,10 @@ public class Main {
 		// get the size of the screen
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Rectangle bounds = ge.getMaximumWindowBounds();
+		ScreenSize.getInstance().setWidth((int) bounds.getWidth());
+		ScreenSize.getInstance().setHeight((int) bounds.getHeight());
 
-		Application app = new Application((int)bounds.getWidth(),(int)bounds.getHeight());
+		Application app = new Application();
 		app.start();
 	}
 }

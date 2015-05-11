@@ -37,23 +37,21 @@ public class Application extends JFrame {
 	/**
 	 * Construct the main application view.
 	 */
-	public Application(int width,int height) {
+	public Application() {
 		super("DNA Bazen");
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		main = getLayeredPane();
-		this.make(width,height);
+		this.make();
 	}
 
 	/**
 	 * Make the window visible and set the sizes
 	 */
-	public void make(int width, int height) {
+	public void make() {
 		size = ScreenSize.getInstance();
-		size.setHeight(height);
-		size.setWidth(width);
 		size.calculate();
 	}
 
