@@ -53,15 +53,17 @@ public class KeyController implements KeyListener {
 
 		if(event.getKeyCode() == KeyEvent.VK_EQUALS) {
 			double oldzoom = app.getGraphController().getCurrentZoomLevel();
-			double newzoom = oldzoom+1;
+			double newzoom = oldzoom *2;
 			app.getGraphController().changeZoom(newzoom);
+			app.getGraphController().moveView(10000L);
 			System.out.println("Zoom in - was: " + oldzoom + "| now: " + newzoom);
 		}
 
 		if(event.getKeyCode() == KeyEvent.VK_MINUS){
 			double oldzoom = app.getGraphController().getCurrentZoomLevel();
-			double newzoom = oldzoom - 1;
+			double newzoom = oldzoom / 2;
 			app.getGraphController().changeZoom(newzoom);
+			app.getGraphController().moveView(10000L);
 			System.out.println("Zoom out - was: " + oldzoom + "| now: " + newzoom);
 		}
 	}

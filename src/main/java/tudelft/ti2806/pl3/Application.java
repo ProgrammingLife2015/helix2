@@ -83,6 +83,7 @@ public class Application extends JFrame {
 			setZoomBarView(zoomBarController.getPanel());
 			graphController.getPanel().addKeyListener(keys);
 
+			graphController.changeZoom(1.0);
 
 			// debug
 			KeyListener[] listener = graphController.getPanel().getKeyListeners();

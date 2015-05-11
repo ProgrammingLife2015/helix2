@@ -4,8 +4,6 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
-import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
@@ -269,7 +267,4 @@ public class GraphView implements GraphViewInterface {
 		this.graphData = graphData;
 	}
 
-	public void setKeyController(Application frame){
-		panel.addKeyListener(new KeyController(frame));
-	}
 }
