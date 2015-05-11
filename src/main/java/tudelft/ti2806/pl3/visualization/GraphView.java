@@ -25,8 +25,8 @@ public class GraphView implements GraphViewInterface {
 			+ "stroke-width:3px;"
 			+ "text-alignment:above;}"
 			+ "node {stroke-mode: plain;"
-			+ "size: 0;"
-			+ "shape: freeplane;"
+			+ "size: 0;" 
+			+ "shape: freeplane;" 
 			+ "fill-color: #00000000;}";
 	/**
 	 * The space reserved for drawing the base pairs characters. It should be
@@ -69,20 +69,6 @@ public class GraphView implements GraphViewInterface {
 	private List<org.graphstream.graph.Edge> nodeEdgeList;
 	
 	private long[] spaceStarters;
-	
-	// /**
-	// * Initialise an instance of GraphView.
-	// *
-	// * <p>
-	// * Automatically generates the graph and viewer from the given
-	// * {@link AbstractGraphData} and calculates the positions of the nodes on
-	// * the graph for the default zoom.
-	// *
-	// * @param graphDataInterface
-	// * the {@link AbstractGraphData} to generate the graph from.
-	// */
-	// public GraphView()) {
-	// }
 	
 	public void init() {
 		generateViewer();
@@ -168,7 +154,6 @@ public class GraphView implements GraphViewInterface {
 		edge.addAttribute("ui.class", "nodeEdge");
 		edge.addAttribute("node", node);
 		edge.addAttribute("ui.label", node.getContentAsString());
-		edge.addAttribute("text-size", basePairDisplayWidth * zoomLevel);
 		return edge;
 	}
 	
@@ -234,6 +219,9 @@ public class GraphView implements GraphViewInterface {
 		calculateGraphPositions();
 		panel.getCamera().setViewPercent(
 				zoomLevel / (getGraphWidth() / panel.getWidth()));
+		for (org.graphstream.graph.Edge edge : nodeEdgeList) {
+			edge.setAttribute("text-size", basePairDisplayWidth / zoomLevel);
+		}
 	}
 	
 	private double getGraphWidth() {
