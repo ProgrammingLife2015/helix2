@@ -5,7 +5,13 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.Node;
 import tudelft.ti2806.pl3.data.graph.node.SingleNode;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

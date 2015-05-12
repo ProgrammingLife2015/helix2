@@ -177,11 +177,7 @@ public class GraphModel implements GraphModelInterface {
 	protected List<Edge> findCombineableNodes(List<Node> nodes, List<Edge> edges) {
 		List<Edge> fromEdgesList = findFromEdges(edges);
 		List<Edge> toEdgesList = findToEdges(edges);
-		System.out.println(Arrays.toString(fromEdgesList.toArray()));
-		System.out.println(Arrays.toString(toEdgesList.toArray()));
 		toEdgesList.retainAll(fromEdgesList);
-		System.out.println(Arrays.toString(fromEdgesList.toArray()));
-		System.out.println();
 		return toEdgesList;
 	}
 	
