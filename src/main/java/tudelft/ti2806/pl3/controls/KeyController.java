@@ -1,7 +1,5 @@
 package tudelft.ti2806.pl3.controls;
 
-import org.graphstream.ui.graphicGraph.GraphicGraph;
-import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.util.ShortcutManager;
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.visualization.GraphController;
@@ -13,7 +11,7 @@ import java.awt.event.KeyListener;
  * Controls the keys that are used in the application Created by Kasper on
  * 9-5-2015.
  */
-public class KeyController implements KeyListener,ShortcutManager {
+public class KeyController implements KeyListener {
 	/**
 	 * Percentage of the screen that is moved
 	 */
@@ -41,12 +39,6 @@ public class KeyController implements KeyListener,ShortcutManager {
 		graphController = app.getGraphController();
 	}
 
-	@Override
-	public void init(GraphicGraph graph, View view) {
-
-	}
-
-	@Override
 	public void release() {
 		app.removeKeyListener(this);
 	}
