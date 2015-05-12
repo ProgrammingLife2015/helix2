@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.*;
+import tudelft.ti2806.pl3.data.graph.node.Node;
+import tudelft.ti2806.pl3.data.graph.node.SingleNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

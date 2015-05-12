@@ -8,7 +8,7 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.Node;
+import tudelft.ti2806.pl3.data.graph.node.Node;
 
 import java.awt.Component;
 import java.util.ArrayList;

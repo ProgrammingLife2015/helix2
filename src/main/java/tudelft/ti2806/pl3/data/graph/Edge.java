@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import tudelft.ti2806.pl3.data.graph.node.Node;
+
 public class Edge {
 	public Edge(Node from, Node to) {
 		this.from = from;
