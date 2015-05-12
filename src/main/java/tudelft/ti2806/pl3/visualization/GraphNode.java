@@ -7,10 +7,19 @@ import org.graphstream.graph.Node;
 import tudelft.ti2806.pl3.visualization.node.NodePosition;
 
 public class GraphNode {
-	public GraphNode(Graph graph, String nodeName, NodePosition node) {
-		startOfNode = addNode(graph, "[" + nodeName);
-		endOfNode = addNode(graph, nodeName + "]");
-		nodeEdge = addNodeEdge(graph, nodeName);
+	/**
+	 * Initialises a instance of GraphNode and adds itself to the given
+	 * {@link Graph}.
+	 * 
+	 * @param graph
+	 *            the graph to draw itself on
+	 * @param node
+	 *            the node to represent on the graph
+	 */
+	public GraphNode(Graph graph, NodePosition node) {
+		startOfNode = addNode(graph, "[" + node.getId());
+		endOfNode = addNode(graph, node.getId() + "]");
+		nodeEdge = addNodeEdge(graph, node.getId() + "");
 		this.dataNode = node;
 	}
 	
@@ -67,10 +76,20 @@ public class GraphNode {
 		return nodeEdge;
 	}
 	
-	public void updatePosition(double jump, double y) {
+	/**
+	 * Updates the position, accordingly to the jump width.
+	 * 
+	 * @param jump
+	 *            the distance between nodes
+	 * @param panelHeight
+	 *            the maximum height of a position for the node to be visible
+	 */
+	public void updatePosition(double jump, double panelHeight) {
 		long nodeSpace = (long) (dataNode.getPreviousNodesCount() * jump);
-		startOfNode.setAttribute("xy", dataNode.getXStart() + nodeSpace, y);
-		endOfNode.setAttribute("xy", dataNode.getXEnd() + nodeSpace, y);
+		startOfNode.setAttribute("xy", dataNode.getXStart() + nodeSpace,
+				dataNode.getY());
+		endOfNode.setAttribute("xy", dataNode.getXEnd() + nodeSpace,
+				dataNode.getY() * panelHeight);
 	}
 	
 }

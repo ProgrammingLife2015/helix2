@@ -5,16 +5,13 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 
-import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
-import tudelft.ti2806.pl3.data.graph.node.Node;
 import tudelft.ti2806.pl3.visualization.node.NodePosition;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -65,20 +62,6 @@ public class GraphView implements GraphViewInterface {
 	
 	private List<GraphNode> graphNodeList;
 	
-	// /**
-	// * Initialise an instance of GraphView.
-	// *
-	// * <p>
-	// * Automatically generates the graph and viewer from the given
-	// * {@link AbstractGraphData} and calculates the positions of the nodes on
-	// * the graph for the default zoom.
-	// *
-	// * @param graphDataInterface
-	// * the {@link AbstractGraphData} to generate the graph from.
-	// */
-	// public GraphView()) {
-	// }
-	
 	public void init() {
 		generateViewer();
 		calculateGraphPositions();
@@ -116,7 +99,7 @@ public class GraphView implements GraphViewInterface {
 		graphNodeList = new ArrayList<GraphNode>(graphData.getPositionedNodes()
 				.size());
 		for (NodePosition node : graphData.getPositionedNodes()) {
-			graphNodeList.add(new GraphNode(graph, node.getId() + "", node));
+			graphNodeList.add(new GraphNode(graph, node));
 		}
 		for (Edge edge : graphData.getEdges()) {
 			addNormalEdge(graph, edge);
@@ -143,12 +126,10 @@ public class GraphView implements GraphViewInterface {
 	 * Calculates all positions for the current graph and zoom.
 	 */
 	private void calculateGraphPositions() {
-		double genomeHeight = 1.0 / graphData.getGenomes().size();
 		double jump = nodeJumpSize * zoomLevel;
+		double panelHeight = panel.getHeight() * zoomLevel;
 		for (GraphNode node : graphNodeList) {
-			node.updatePosition(jump, (calculateYPosition(node.getDataNode())
-					* genomeHeight - 0.5)
-					* panel.getHeight() * zoomLevel);
+			node.updatePosition(jump, panelHeight);
 		}
 	}
 	
@@ -183,22 +164,6 @@ public class GraphView implements GraphViewInterface {
 	
 	public Component getPanel() {
 		return panel;
-	}
-	
-	/**
-	 * Calculates the position of the node on the y axis.
-	 * 
-	 * @param node
-	 *            the node to calculate the position of
-	 * @return the position on the y axis
-	 */
-	private static double calculateYPosition(Node node) {
-		List<Integer> yposition = new ArrayList<Integer>();
-		for (Genome genome : node.getSource()) {
-			yposition.add(genome.getYposition());
-		}
-		Collections.sort(yposition);
-		return yposition.get(yposition.size() / 2);
 	}
 	
 	@Override

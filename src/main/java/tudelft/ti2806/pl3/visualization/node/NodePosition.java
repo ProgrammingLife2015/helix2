@@ -9,26 +9,53 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * NodePosition is used to store the position of nodes and the edges of nodes.
+ * This responsibility is separated from {@link Node} so that the same node can
+ * have different positions over different views without cloning the expensive
+ * Node instances which contain the original data.
+ * 
+ * @author Sam Smulders
+ *
+ */
 public class NodePosition implements Node {
 	private Node node;
 	private long startX = -1;
-	private int yy;
+	private double yy;
 	private List<NodePosition> incoming = new ArrayList<NodePosition>();
 	private List<NodePosition> outgoing = new ArrayList<NodePosition>();
 	private int previousNodesCount = -1;
 	
-	public static List<NodePosition> newNodePositionList(List<Node> nodes,
-			List<Edge> edges) {
+	/**
+	 * Construct a list with connected and fully initialised
+	 * {@code NodePosition}s.
+	 * 
+	 * @param nodeList
+	 *            the {@link List}<{@link Node}> of which the new {@link List}<
+	 *            {@link NodePosition}> is constructed from
+	 * @param edgeList
+	 *            the {@link List}<{@link Edge}> with the connections between
+	 *            the newly created {@link NodePosition}s
+	 * @return a {@link List}<{@link NodePosition}>, constructed from the
+	 *         {@code nodeList} and {@code edgeList}
+	 */
+	public static List<NodePosition> newNodePositionList(List<Node> nodeList,
+			List<Edge> edgeList) {
+		// Construct list
 		Map<Integer, NodePosition> map = new HashMap<Integer, NodePosition>();
-		for (Node node : nodes) {
+		for (Node node : nodeList) {
 			map.put(node.getId(), new NodePosition(node));
 		}
-		for (Edge edge : edges) {
+		
+		// Add connections from the edge list
+		for (Edge edge : edgeList) {
 			NodePosition from = map.get(edge.getFromId());
 			NodePosition to = map.get(edge.getToId());
 			from.outgoing.add(to);
 			to.incoming.add(from);
 		}
+		
+		// Calculate the x positions and the number previous node count
 		List<NodePosition> list = new ArrayList<NodePosition>(map.values());
 		for (NodePosition node : list) {
 			node.calculateStartX();
@@ -65,7 +92,7 @@ public class NodePosition implements Node {
 		return previousNodesCount;
 	}
 	
-	public int getY() {
+	public double getY() {
 		return yy;
 	}
 	
