@@ -8,15 +8,23 @@ import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
 import tudelft.ti2806.pl3.data.graph.node.Node;
+import tudelft.ti2806.pl3.visualization.node.NodePosition;
 
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * The GraphView is responsible for adding the nodes and edges to the graph,
+ * keeping the nodes and edges on the right positions and applying the right
+ * style to the graph.
+ * 
+ * @author Sam Smulders
+ *
+ */
 public class GraphView implements GraphViewInterface {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
 			+ "fill-color: #00000070;}"
@@ -25,12 +33,6 @@ public class GraphView implements GraphViewInterface {
 			+ "node {stroke-mode: plain;"
 			+ "size: 0;"
 			+ "shape: freeplane;" + "fill-color: #00000000;}";
-	/**
-	 * The space reserved for drawing the base pairs characters. It should be
-	 * equal to the font it's char width.<br>
-	 * Set the zoom to have changes take effect.
-	 */
-	private int basePairDisplayWidth = 10;
 	/**
 	 * The space left between nodes for drawing the edges between the nodes.<br>
 	 * Set the zoom to have changes take effect.
@@ -56,16 +58,12 @@ public class GraphView implements GraphViewInterface {
 	 */
 	private String styleSheet = DEFAULT_STYLESHEET;
 	
-	private AbstractGraphData graphData;
+	private PositionedGraphData graphData;
 	private Graph graph = new SingleGraph("");
 	private Viewer viewer;
 	private View panel;
 	
-	private List<org.graphstream.graph.Node> nodeStartList;
-	private List<org.graphstream.graph.Node> nodeEndList;
-	private List<org.graphstream.graph.Edge> nodeEdgeList;
-	
-	private long[] spaceStarters;
+	private List<GraphNode> graphNodeList;
 	
 	// /**
 	// * Initialise an instance of GraphView.
@@ -115,17 +113,10 @@ public class GraphView implements GraphViewInterface {
 	public Graph generateGraph() {
 		graph.clear();
 		setGraphPropertys();
-		nodeStartList = new ArrayList<org.graphstream.graph.Node>(graphData
-				.getNodes().size());
-		nodeEndList = new ArrayList<org.graphstream.graph.Node>(graphData
-				.getNodes().size());
-		nodeEdgeList = new ArrayList<org.graphstream.graph.Edge>(graphData
-				.getNodes().size());
-		for (Node node : graphData.getNodes()) {
-			String nodeName = node.getId() + "";
-			nodeStartList.add(addNode(graph, node, "[" + nodeName));
-			nodeEndList.add(addNode(graph, node, nodeName + "]"));
-			nodeEdgeList.add(addNodeEdge(graph, nodeName, node));
+		graphNodeList = new ArrayList<GraphNode>(graphData.getPositionedNodes()
+				.size());
+		for (NodePosition node : graphData.getPositionedNodes()) {
+			graphNodeList.add(new GraphNode(graph, node.getId() + "", node));
 		}
 		for (Edge edge : graphData.getEdges()) {
 			addNormalEdge(graph, edge);
@@ -149,72 +140,15 @@ public class GraphView implements GraphViewInterface {
 	}
 	
 	/**
-	 * Adds an edge representing a node on the graph.
-	 * 
-	 * @param graph
-	 *            the graph to add the edge to
-	 * @param nodeName
-	 *            the name of the node to represent
-	 * @param node
-	 *            the node to represent
-	 */
-	private static org.graphstream.graph.Edge addNodeEdge(Graph graph,
-			String nodeName, Node node) {
-		org.graphstream.graph.Edge edge = graph.addEdge("[" + nodeName + "]",
-				"[" + nodeName, nodeName + "]");
-		edge.addAttribute("ui.class", "nodeEdge");
-		edge.addAttribute("node", node);
-		return edge;
-	}
-	
-	/**
-	 * Adds a node to the graph.
-	 * 
-	 * @param graph
-	 *            the graph to add the node to
-	 * @param node
-	 *            the node to add to the graph
-	 * @param nodeName
-	 *            the name of the node
-	 */
-	private static org.graphstream.graph.Node addNode(Graph graph, Node node,
-			String nodeName) {
-		org.graphstream.graph.Node graphNode = graph.addNode(nodeName);
-		graphNode.addAttribute("node", node);
-		return graphNode;
-	}
-	
-	/**
 	 * Calculates all positions for the current graph and zoom.
 	 */
 	private void calculateGraphPositions() {
 		double genomeHeight = 1.0 / graphData.getGenomes().size();
-		spaceStarters = new long[graphData.getOrigin().getLongestNodePath() + 1];
-		Map<Node, double[]> map = new HashMap<Node, double[]>();
-		for (Node node : graphData.getNodes()) {
-			double nodeSpace = node.getPreviousNodesCount() * nodeJumpSize
-					* zoomLevel;
-			// { y, startX, endX }
-			double[] position = new double[3];
-			
-			position[0] = (calculateYPosition(node) * genomeHeight - 0.5)
-					* panel.getHeight() * zoomLevel;
-			
-			position[1] = node.getXStart() * basePairDisplayWidth + nodeSpace;
-			
-			position[2] = node.getXEnd() * basePairDisplayWidth + nodeSpace;
-			map.put(node, position);
-			spaceStarters[node.getPreviousNodesCount()] = Math.min(
-					spaceStarters[node.getPreviousNodesCount()],
-					(long) position[1]);
-		}
-		for (org.graphstream.graph.Node graphNode : nodeStartList) {
-			double[] position = map.get(graphNode.getAttribute("node"));
-			graphNode.setAttribute("xy", position[1], position[0]);
-		}
-		for (org.graphstream.graph.Node graphNode : nodeEndList) {
-			double[] position = map.get(graphNode.getAttribute("node"));
-			graphNode.setAttribute("xy", position[2], position[0]);
+		double jump = nodeJumpSize * zoomLevel;
+		for (GraphNode node : graphNodeList) {
+			node.updatePosition(jump, (calculateYPosition(node.getDataNode())
+					* genomeHeight - 0.5)
+					* panel.getHeight() * zoomLevel);
 		}
 	}
 	
@@ -232,8 +166,8 @@ public class GraphView implements GraphViewInterface {
 	}
 	
 	private double getGraphWidth() {
-		return graphData.getSize() * basePairDisplayWidth
-				+ graphData.getLongestNodePath() * nodeJumpSize * zoomLevel;
+		return graphData.getSize() + graphData.getLongestNodePath()
+				* nodeJumpSize * zoomLevel;
 	}
 	
 	/**
@@ -269,6 +203,6 @@ public class GraphView implements GraphViewInterface {
 	
 	@Override
 	public void setGraphData(AbstractGraphData graphData) {
-		this.graphData = graphData;
+		this.graphData = new PositionedGraphData(graphData);
 	}
 }

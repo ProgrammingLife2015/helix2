@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 public class GraphDataRepository extends AbstractGraphData {
 	private int longestNodePath;
-	private long size;
 	
 	/**
 	 * Construct a instance of {@code GraphDataRepository}.
@@ -40,26 +39,10 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * Calculates the longestNodePath, size and genome order.
 	 */
 	private void init() {
-		calculateStartX(nodes);
-		this.longestNodePath = calculateNodeLongestPath(nodes);
-		this.size = calculateSize();
 		int index = 0;
 		for (Genome genome : genomes) {
 			genome.setYposition(index++);
 		}
-	}
-	
-	/**
-	 * Calculates the size of the longest path on the graph.
-	 * 
-	 * @return the longest path in base pair count
-	 */
-	private long calculateSize() {
-		long max = 0;
-		for (Node node : nodes) {
-			max = Math.max(max, node.getXEnd());
-		}
-		return max;
 	}
 	
 	public List<Node> getNodes() {
@@ -95,20 +78,6 @@ public class GraphDataRepository extends AbstractGraphData {
 		genomeList.addAll(genomeMap.values());
 		return new GraphDataRepository(nodeList,
 				parseEdges(edgesFile, nodeMap), genomeList);
-	}
-	
-	private static int calculateNodeLongestPath(List<Node> nodes) {
-		int max = 0;
-		for (Node node : nodes) {
-			max = Math.max(node.calculatePreviousNodesCount(), max);
-		}
-		return max;
-	}
-	
-	private static void calculateStartX(List<Node> nodes) {
-		for (Node node : nodes) {
-			node.calculateStartX();
-		}
 	}
 	
 	/**
@@ -185,8 +154,6 @@ public class GraphDataRepository extends AbstractGraphData {
 			SingleNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
 			SingleNode nodeTo = nodes.get(Integer.parseInt(index[1]));
 			list.add(new Edge(nodeFrom, nodeTo));
-			nodeTo.getIncoming().add(nodeFrom);
-			nodeFrom.getOutgoing().add(nodeTo);
 		}
 		scanner.close();
 		return list;
@@ -236,9 +203,4 @@ public class GraphDataRepository extends AbstractGraphData {
 	public AbstractGraphData getOrigin() {
 		return this;
 	}
-	
-	public long getSize() {
-		return size;
-	}
-	
 }

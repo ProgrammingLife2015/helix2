@@ -22,8 +22,8 @@ public class GraphParserTest {
 	
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {
-		Node node = GraphDataRepository.parseNode(new Scanner(simpleNodeGraphFile),
-				new HashMap<String, Genome>());
+		Node node = GraphDataRepository.parseNode(new Scanner(
+				simpleNodeGraphFile), new HashMap<String, Genome>());
 		assertTrue(node.equals(new SingleNode(35, new Genome[] { new Genome(
 				"TKK-01-0029", 0) }, 2609451, 2609452,
 				new byte[] { BasePair.A.storeByte })));
@@ -33,16 +33,11 @@ public class GraphParserTest {
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
 		Map<Integer, SingleNode> nodeMap = GraphDataRepository.parseNodes(
 				simpleNodeGraphFile, new HashMap<String, Genome>());
-		List<Edge> edges = GraphDataRepository.parseEdges(simpleEdgeGraphFile, nodeMap);
+		List<Edge> edges = GraphDataRepository.parseEdges(simpleEdgeGraphFile,
+				nodeMap);
 		
 		Node nodeA = nodeMap.get(35);
 		Node nodeB = nodeMap.get(1);
 		assertTrue(edges.get(0).equals(new Edge(nodeA, nodeB)));
-		assertTrue(nodeA instanceof SingleNode);
-		assertTrue(((SingleNode) nodeA).getIncoming().size() == 0);
-		assertTrue(((SingleNode) nodeA).getOutgoing().size() == 1);
-		assertTrue(nodeB instanceof SingleNode);
-		assertTrue(((SingleNode) nodeB).getIncoming().size() == 1);
-		assertTrue(((SingleNode) nodeB).getOutgoing().size() == 0);
 	}
 }

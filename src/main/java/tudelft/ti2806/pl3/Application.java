@@ -3,8 +3,8 @@ package tudelft.ti2806.pl3;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphModel;
 import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
  * <p>
  * Created by Boris Mattijssen on 07-05-15.
  */
+@SuppressWarnings("serial")
 public class Application extends JFrame {
 	/**
 	 * The value of the layers used in the view.

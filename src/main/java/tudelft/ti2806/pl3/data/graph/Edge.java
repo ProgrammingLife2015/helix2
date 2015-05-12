@@ -66,4 +66,12 @@ public class Edge {
 		return this.from.getId() + "_" + this.to.getId();
 	}
 	
+	public int getFromId() {
+		return getFrom().getId();
+	}
+	
+	public int getToId() {
+		return getTo().getId();
+	}
+	
 }
