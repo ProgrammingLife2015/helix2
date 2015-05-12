@@ -36,7 +36,6 @@ public class GraphModel implements GraphModelInterface {
 	 *            the filters to be applied.
 	 */
 	public void produceGraph(List<Filter<Node>> filters) {
-		graph = new GraphData(originalGraph);
 		List<Node> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
@@ -273,7 +272,7 @@ public class GraphModel implements GraphModelInterface {
 	 * @param nodeList
 	 *            the list of nodes in the graph
 	 */
-	protected void removeAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
+	static void removeAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
 		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
 	}
 	
@@ -287,8 +286,7 @@ public class GraphModel implements GraphModelInterface {
 	 *            the list of nodes in the graph
 	 * @return a list of all dead edges
 	 */
-	protected List<Edge> getAllDeadEdges(List<Edge> edgeList,
-			List<Node> nodeList) {
+	static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<Node> nodeList) {
 		List<Edge> removeList = new ArrayList<Edge>();
 		for (Edge edge : edgeList) {
 			if (!nodeList.contains(edge.getFrom())
@@ -316,6 +314,7 @@ public class GraphModel implements GraphModelInterface {
 	/**
 	 * Comparator to sort edges on to field.
 	 */
+	@SuppressWarnings("serial")
 	static class SortEdgesToComparator implements Comparator<Edge>,
 			Serializable {
 		@Override
@@ -334,6 +333,7 @@ public class GraphModel implements GraphModelInterface {
 	/**
 	 * Comparator to sort edges on from field.
 	 */
+	@SuppressWarnings("serial")
 	static class SortEdgesFromComparator implements Comparator<Edge>,
 			Serializable {
 		@Override
