@@ -10,6 +10,7 @@ import tudelft.ti2806.pl3.data.graph.node.Node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -176,7 +177,11 @@ public class GraphModel implements GraphModelInterface {
 	protected List<Edge> findCombineableNodes(List<Node> nodes, List<Edge> edges) {
 		List<Edge> fromEdgesList = findFromEdges(edges);
 		List<Edge> toEdgesList = findToEdges(edges);
+		System.out.println(Arrays.toString(fromEdgesList.toArray()));
+		System.out.println(Arrays.toString(toEdgesList.toArray()));
 		toEdgesList.retainAll(fromEdgesList);
+		System.out.println(Arrays.toString(fromEdgesList.toArray()));
+		System.out.println();
 		return toEdgesList;
 	}
 	
