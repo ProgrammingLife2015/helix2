@@ -29,10 +29,9 @@ public class GraphNode {
 	 * @param node
 	 *            the node to represent
 	 */
-	private static org.graphstream.graph.Edge addNodeEdge(Graph graph,
-			String nodeName) {
-		org.graphstream.graph.Edge edge = graph.addEdge("[" + nodeName + "]",
-				"[" + nodeName, nodeName + "]");
+	private static Edge addNodeEdge(Graph graph, String nodeName) {
+		Edge edge = graph.addEdge("[" + nodeName + "]", "[" + nodeName,
+				nodeName + "]");
 		edge.addAttribute("ui.class", "nodeEdge");
 		return edge;
 	}
@@ -47,9 +46,8 @@ public class GraphNode {
 	 * @param nodeName
 	 *            the name of the node
 	 */
-	private static org.graphstream.graph.Node addNode(Graph graph,
-			String nodeName) {
-		org.graphstream.graph.Node graphNode = graph.addNode(nodeName);
+	private static Node addNode(Graph graph, String nodeName) {
+		Node graphNode = graph.addNode(nodeName);
 		return graphNode;
 	}
 	
