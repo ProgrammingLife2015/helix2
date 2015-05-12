@@ -1,6 +1,7 @@
-package tudelft.ti2806.pl3.data.graph;
+package tudelft.ti2806.pl3.data.graph.node;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.Edge;
 
 import java.util.ArrayList;
 import java.util.Arrays;

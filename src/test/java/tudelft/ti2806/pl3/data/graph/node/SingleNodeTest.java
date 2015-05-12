@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.data.graph;
+package tudelft.ti2806.pl3.data.graph.node;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.node.SingleNode;
 
 public class SingleNodeTest {
 	private static SingleNode s0;

@@ -2,6 +2,8 @@ package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.node.Node;
+import tudelft.ti2806.pl3.data.graph.node.SingleNode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
