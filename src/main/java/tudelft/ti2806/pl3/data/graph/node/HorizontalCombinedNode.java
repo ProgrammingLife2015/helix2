@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Mathieu Post on 30-4-15.
  * 
  */
-public class CombinedNode implements Node {
+public class HorizontalCombinedNode implements Node {
 	private List<Node> nodeList;
 	
 	/**
@@ -20,7 +20,7 @@ public class CombinedNode implements Node {
 	 * @param edgeList
 	 *            a connected and sorted list of edges.
 	 */
-	public CombinedNode(List<Edge> edgeList) {
+	public HorizontalCombinedNode(List<Edge> edgeList) {
 		this.nodeList = new ArrayList<>(edgeList.size());
 		
 		this.nodeList.add(edgeList.get(0).getFrom());
@@ -60,21 +60,6 @@ public class CombinedNode implements Node {
 	public int getRefEndPoint() {
 		return getLast().getRefEndPoint();
 	}
-	
-	// @Override
-	// public byte[] getContent() {
-	// byte[] res = new byte[0];
-	// for (Node node : nodeList) {
-	// byte[] next = node.getContent();
-	// int resLen = res.length;
-	// int nextLen = next.length;
-	// byte[] geneArray = new byte[resLen + nextLen];
-	// System.arraycopy(res, 0, geneArray, 0, resLen);
-	// System.arraycopy(node.getContent(), 0, geneArray, resLen, nextLen);
-	// res = geneArray;
-	// }
-	// return res;
-	// }
 	
 	@Override
 	public String toString() {

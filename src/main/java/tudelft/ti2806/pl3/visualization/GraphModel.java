@@ -5,7 +5,7 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.data.graph.node.CombinedNode;
+import tudelft.ti2806.pl3.data.graph.node.HorizontalCombinedNode;
 import tudelft.ti2806.pl3.data.graph.node.Node;
 
 import java.io.Serializable;
@@ -52,8 +52,9 @@ public class GraphModel implements GraphModelInterface {
 	
 	/**
 	 * Combines all {@link Node}s in the given edges list into
-	 * {@link CombinedNode}s, reconnects the {@link CombinedNode}s in the graph
-	 * and remove all {@link Node}s which are combined.
+	 * {@link HorizontalCombinedNode}s, reconnects the
+	 * {@link HorizontalCombinedNode}s in the graph and remove all {@link Node}s
+	 * which are combined.
 	 * 
 	 * @param edgesToCombine
 	 *            the edges with nodes to combine.
@@ -74,14 +75,16 @@ public class GraphModel implements GraphModelInterface {
 			toHash.put(edge.getTo().getId(), edge);
 		}
 		
-		Map<Integer, CombinedNode> nodeReference = new HashMap<Integer, CombinedNode>();
+		Map<Integer, HorizontalCombinedNode> nodeReference
+				= new HashMap<Integer, HorizontalCombinedNode>();
 		List<Node> combinedNodes = new ArrayList<Node>();
 		
 		while (edgesToCombine.size() > 0) {
 			List<Edge> foundEdgeGroup = findEdgeGroups(fromHash, toHash,
 					edgesToCombine);
 			// init CNode
-			CombinedNode combinedNode = new CombinedNode(foundEdgeGroup);
+			HorizontalCombinedNode combinedNode = new HorizontalCombinedNode(
+					foundEdgeGroup);
 			combinedNodes.add(combinedNode);
 			nodes.removeAll(combinedNode.getNodeList());
 			nodeReference.put(foundEdgeGroup.get(0).getFrom().getId(),
@@ -103,10 +106,10 @@ public class GraphModel implements GraphModelInterface {
 	 *            the nodes in the graph
 	 * @param nodeReference
 	 *            a map of references of the removed nodes to their new
-	 *            {@link CombinedNode}s which contain them.
+	 *            {@link HorizontalCombinedNode}s which contain them.
 	 */
 	protected void reconnectCombinedNodes(List<Edge> edges, List<Node> nodes,
-			Map<Integer, CombinedNode> nodeReference) {
+			Map<Integer, HorizontalCombinedNode> nodeReference) {
 		List<Edge> deadEdges = getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
 			Node nodeTo = edge.getTo();
