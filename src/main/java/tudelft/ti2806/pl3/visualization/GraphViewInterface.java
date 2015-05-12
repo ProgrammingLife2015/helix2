@@ -28,7 +28,7 @@ public interface GraphViewInterface extends ViewInterface {
 	 */
 	Graph generateGraph();
 	
-	void setGraphData(AbstractGraphData graphData);
+	void setGraphData(AbstractGraphData abstractGraphData);
 	
 	void init();
 }

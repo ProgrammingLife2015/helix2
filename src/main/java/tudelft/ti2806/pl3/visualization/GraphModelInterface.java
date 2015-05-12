@@ -9,6 +9,6 @@ import java.util.List;
 public interface GraphModelInterface {
 	
 	void produceGraph(List<Filter<Node>> filters);
-
+	
 	AbstractGraphData getGraphData();
 }

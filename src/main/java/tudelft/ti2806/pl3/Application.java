@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
  * <p>
  * Created by Boris Mattijssen on 07-05-15.
  */
+@SuppressWarnings("serial")
 public class Application extends JFrame {
 	/**
 	 * The value of the layers used in the view.
