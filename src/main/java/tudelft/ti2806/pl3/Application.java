@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import java.awt.Component;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -66,31 +65,32 @@ public class Application extends JFrame {
 	 * controllers.
 	 */
 	public void start() {
-		addWindowListener(new WindowController(this));
-		KeyController keys = new KeyController(this);
-		addKeyListener(keys);
-
 		File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 		try {
+			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 			graphController = new GraphController(new GraphView(), new GraphModel(gd));
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController);
 
+			// set the views
 			setSideBarView(sideBarController.getPanel());
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
-			graphController.getPanel().addKeyListener(keys);
 
-			graphController.changeZoom(1.0);
+			// set default zoom & default view
+			graphController.changeZoom(10);
+			graphController.moveView(1);
 
-			// debug
-			KeyListener[] listener = graphController.getPanel().getKeyListeners();
-			for (KeyListener keyListener : listener) {
-				System.out.println(keyListener.toString());
-			}
+			// set the controls.
+			// This is done last so we can remove the default libary keycontroller
+			WindowController windowController = new WindowController(this);
+			KeyController keys = new KeyController(this);
+			addKeyListener(keys);
+			addWindowListener(windowController);
 
+			this.setFocusable(true);
 			this.setVisible(true);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

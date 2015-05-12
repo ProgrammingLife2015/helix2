@@ -4,6 +4,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
+import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
@@ -91,6 +92,8 @@ public class GraphView implements GraphViewInterface {
 		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
 		panel = viewer.addDefaultView(false);
 		panel.getCamera().setAutoFitView(false);
+
+		panel.setShortcutManager(new DefaultShortcutManager());
 	}
 	
 	/**
@@ -267,4 +270,7 @@ public class GraphView implements GraphViewInterface {
 		this.graphData = graphData;
 	}
 
+	public Viewer getViewer() {
+		return viewer;
+	}
 }

@@ -11,6 +11,7 @@ public class GraphController implements GraphControllerInterface {
 	private GraphModelInterface model;
 	private GraphViewInterface view;
 	private double currentZoomLevel;
+	private long currentZoomCenter;
 	private List<Filter<Node>> filters = new ArrayList<Filter<Node>>();
 	
 	/**
@@ -28,16 +29,18 @@ public class GraphController implements GraphControllerInterface {
 		model.produceGraph(new ArrayList<Filter<Node>>());
 		view.setGraphData(model.getGraphData());
 		view.init();
+
 	}
 	
 	/**
 	 * Moves the view to a new center position.
 	 * 
-	 * @param zoomCenter
+	 * @param newZoomCenter
 	 *            the new center of zoom
 	 */
-	public void moveView(long zoomCenter) {
-		view.moveView(zoomCenter);
+	public void moveView(long newZoomCenter) {
+		currentZoomCenter = newZoomCenter;
+		view.moveView(currentZoomCenter);
 	}
 	
 	/**
@@ -54,12 +57,20 @@ public class GraphController implements GraphControllerInterface {
 		currentZoomLevel = newZoomLevel;
 		view.zoom(newZoomLevel);
 	}
-	
+
+	public GraphViewInterface getView() {
+		return view;
+	}
+
 	public Component getPanel() {
 		return view.getPanel();
 	}
 
 	public double getCurrentZoomLevel() {
 		return currentZoomLevel;
+	}
+
+	public long getCurrentZoomCenter() {
+		return currentZoomCenter;
 	}
 }
