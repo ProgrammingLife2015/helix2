@@ -11,15 +11,14 @@ import java.util.Map;
 
 public class NodePosition implements Node {
 	private Node node;
-	private long startX;
+	private long startX = -1;
 	private int yy;
 	private List<NodePosition> incoming = new ArrayList<NodePosition>();
 	private List<NodePosition> outgoing = new ArrayList<NodePosition>();
-	private int previousNodesCount;
+	private int previousNodesCount = -1;
 	
 	public static List<NodePosition> newNodePositionList(List<Node> nodes,
 			List<Edge> edges) {
-		// GraphModel.removeAllDeadEdges(edges, nodes);
 		Map<Integer, NodePosition> map = new HashMap<Integer, NodePosition>();
 		for (Node node : nodes) {
 			map.put(node.getId(), new NodePosition(node));
@@ -27,12 +26,8 @@ public class NodePosition implements Node {
 		for (Edge edge : edges) {
 			NodePosition from = map.get(edge.getFromId());
 			NodePosition to = map.get(edge.getToId());
-			// if (from == null || to == null) {
-			// System.out.println(edge.toString());
-			// } else {
 			from.outgoing.add(to);
 			to.incoming.add(from);
-			// }
 		}
 		List<NodePosition> list = new ArrayList<NodePosition>(map.values());
 		for (NodePosition node : list) {

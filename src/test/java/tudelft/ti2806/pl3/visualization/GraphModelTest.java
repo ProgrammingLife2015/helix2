@@ -115,7 +115,6 @@ public class GraphModelTest {
 	public void combineNodesTest() {
 		List<Node> nodeList = gd.getNodeListClone();
 		List<Edge> edgeList = gd.getEdgeListClone();
-		
 		dpm.combineNodes(dpm.findCombineableNodes(nodeList, edgeList),
 				nodeList, edgeList);
 		Assert.assertTrue(nodeList.size() == 6);

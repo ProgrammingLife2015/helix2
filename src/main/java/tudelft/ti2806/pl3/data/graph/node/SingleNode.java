@@ -82,6 +82,9 @@ public class SingleNode implements Node {
 			return false;
 		}
 		SingleNode other = (SingleNode) obj;
+		if (nodeId != other.nodeId) {
+			return false;
+		}
 		if (!Arrays.equals(content, other.content)) {
 			return false;
 		}
