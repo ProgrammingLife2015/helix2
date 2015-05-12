@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphModel;
 import tudelft.ti2806.pl3.visualization.GraphView;
