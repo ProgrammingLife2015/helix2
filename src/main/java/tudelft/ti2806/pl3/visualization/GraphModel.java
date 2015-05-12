@@ -10,7 +10,6 @@ import tudelft.ti2806.pl3.data.graph.node.Node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
