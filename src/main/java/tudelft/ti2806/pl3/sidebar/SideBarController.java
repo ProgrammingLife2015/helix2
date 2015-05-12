@@ -1,9 +1,11 @@
 package tudelft.ti2806.pl3.sidebar;
 
 import tudelft.ti2806.pl3.Controller;
+import tudelft.ti2806.pl3.sidebar.genomeFilter.GenomeFilterController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
+import java.util.ArrayList;
 
 /**
  * Controller that controls the sidebar. The user can select options in the
@@ -16,7 +18,10 @@ public class SideBarController implements Controller {
 	
 	public SideBarController(GraphController graphController) {
 		this.graphController = graphController;
-		sideBarView = new SideBarView();
+		GenomeFilterController genomeFilterController = new GenomeFilterController();
+		ArrayList<Component> viewList = new ArrayList<>();
+		viewList.add(genomeFilterController.getPanel());
+		sideBarView = new SideBarView(viewList);
 	}
 	
 	@Override

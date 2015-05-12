@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.sidebar.genomeFilter;
 
 import tudelft.ti2806.pl3.Controller;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -9,12 +10,14 @@ import java.awt.*;
  */
 public class GenomeFilterController implements Controller {
 
-	public GenomeFilterController() {
+	JPanel view;
 
+	public GenomeFilterController() {
+		view = new GenomeFilterView();
 	}
 
 	@Override
 	public Component getPanel() {
-		return null;
+		return view;
 	}
 }
