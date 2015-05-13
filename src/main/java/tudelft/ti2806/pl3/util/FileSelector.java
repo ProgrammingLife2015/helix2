@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3;
+package tudelft.ti2806.pl3.util;
 
 import java.io.File;
 

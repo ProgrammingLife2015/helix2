@@ -165,6 +165,8 @@ Checkstyle configurartion that checks the Google coding conventions (https://goo
     <module name="JavadocStyle">
       <property name="tokens" value="INTERFACE_DEF,CLASS_DEF,METHOD_DEF,CTOR_DEF"/>
     </module>
-    <module name="MissingOverride"/>
+    <module name="MissingOverride">
+      <property name="severity" value="error"/>
+    </module>
   </module>
 </module>

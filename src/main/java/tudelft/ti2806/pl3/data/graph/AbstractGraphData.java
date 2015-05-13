@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.node.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +60,11 @@ public abstract class AbstractGraphData {
 	 */
 	public abstract int getLongestNodePath();
 	
-	/**
-	 * Get the length of the longest path on the graph, using the number of base
-	 * pairs as distance measure.
-	 * 
-	 * @return the number of base pairs on the longest path on the graph.
-	 */
-	public abstract long getSize();
+//	/**
+//	 * Get the length of the longest path on the graph, using the number of base
+//	 * pairs as distance measure.
+//	 * 
+//	 * @return the number of base pairs on the longest path on the graph.
+//	 */
+//	public abstract long getSize();
 }

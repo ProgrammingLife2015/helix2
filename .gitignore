@@ -52,7 +52,9 @@ hs_err_pid*
 *.zip
 *.gz
 *.graph
+*.graph
 *.gfasta
 *.rar
-data/geneAnnotations.txt
-data/
+
+/data/*
+/local/*
