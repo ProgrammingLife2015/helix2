@@ -1,25 +1,46 @@
 package tudelft.ti2806.pl3.controls;
 
+import org.graphstream.ui.swingViewer.util.ShortcutManager;
 import tudelft.ti2806.pl3.Application;
+import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Controls the keys that are used in the application Created by Kasper on
- * 9-5-2015.
+ * Controls the keys that are used in the application.
+ * Created by Kasper on 9-5-2015.
  */
 public class KeyController implements KeyListener {
-	private Application app;
-	
 	/**
-	 * Constructor.
+	 * Percentage of the screen that is moved.
+	 */
+	private static final double MOVE_FACTOR = 10.0;
+
+	private Application app;
+	private GraphController graphController;
+
+	/**
+	 * Constructor removes the old keylisteners and makes our own.
 	 * 
 	 * @param app
 	 *            that is controlled
 	 */
 	public KeyController(Application app) {
+		// remove the default keylistener
+		KeyListener[] keyListeners = app.getGraphController().getPanel().getKeyListeners();
+		ShortcutManager graphkeys = (ShortcutManager)keyListeners[0];
+		graphkeys.release();
+		// add our keylistener
 		this.app = app;
+		graphController = app.getGraphController();
+	}
+
+	/**
+	 * Removes the keylistener from the application.
+	 */
+	public void release() {
+		app.removeKeyListener(this);
 	}
 	
 	/**
@@ -46,10 +67,40 @@ public class KeyController implements KeyListener {
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE && app.confirm()) {
 			app.stop();
 		}
-		
+
 		if (event.getKeyCode() == KeyEvent.VK_SPACE) {
 			app.getSideBarController().toggleSideBar();
 		}
+
+		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
+			double oldzoom = graphController.getCurrentZoomLevel();
+			double newzoom = oldzoom * 2;
+			graphController.changeZoom(newzoom);
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
+			double oldzoom = app.getGraphController().getCurrentZoomLevel();
+			double newzoom = oldzoom / 2;
+			app.getGraphController().changeZoom(newzoom);
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+			long oldViewCenter = graphController.getCurrentZoomCenter();
+			double move = (graphController.getPanel().getWidth() / MOVE_FACTOR)
+					* graphController.getCurrentZoomLevel();
+			long newViewCenter = (long)(oldViewCenter + move);
+			graphController.moveView(newViewCenter);
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+			long oldViewCenter = graphController.getCurrentZoomCenter();
+			double move = (graphController.getPanel().getWidth() / MOVE_FACTOR)
+					* graphController.getCurrentZoomLevel();
+			long newViewCenter = (long)(oldViewCenter - move);
+			graphController.moveView(newViewCenter);
+		}
+
+
 	}
 	
 	/**

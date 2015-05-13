@@ -3,8 +3,8 @@ package tudelft.ti2806.pl3;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphModel;
 import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
@@ -12,7 +12,6 @@ import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -66,20 +65,32 @@ public class Application extends JFrame {
 	 * controllers.
 	 */
 	public void start() {
-		addWindowListener(new WindowController(this));
-		addKeyListener(new KeyController(this));
-
 		File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 		try {
+			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 			graphController = new GraphController(new GraphView(), new GraphModel(gd));
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController);
 
+			// set the views
 			setSideBarView(sideBarController.getPanel());
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
+
+			// set default zoom & default view
+			graphController.changeZoom(10);
+			graphController.moveView(1);
+
+			// set the controls.
+			// This is done last so we can remove the default libary keycontroller
+			WindowController windowController = new WindowController(this);
+			KeyController keys = new KeyController(this);
+			addKeyListener(keys);
+			addWindowListener(windowController);
+
+			this.setFocusable(true);
 			this.setVisible(true);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
