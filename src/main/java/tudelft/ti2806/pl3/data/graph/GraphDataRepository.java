@@ -3,13 +3,11 @@ package tudelft.ti2806.pl3.data.graph;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class GraphDataRepository extends AbstractGraphData {
 	private int longestNodePath;
@@ -122,31 +120,44 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static Map<Integer, SingleNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
-		Scanner scanner = new Scanner(nodesFile, "UTF-8");
+		BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, SingleNode> nodes = new HashMap<Integer, SingleNode>();
-		while (scanner.hasNext()) {
-			SingleNode node = parseNode(scanner, genomeMap);
-			nodes.put(node.getId(), node);
+		try {
+			while (br.ready()) {
+				SingleNode node = parseNode(br, genomeMap);
+				nodes.put(node.getId(), node);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		scanner.close();
 		return nodes;
 	}
 	
 	/**
 	 * Parses the next two lines of the scanner into a Node.
 	 * 
-	 * @param scanner
-	 *            the scanner with two available lines to read
+	 * @param br
+	 *            the BufferedReader with two available lines to read
 	 * @return the read node
 	 */
-	protected static SingleNode parseNode(Scanner scanner,
+	protected static SingleNode parseNode(BufferedReader br,
 			Map<String, Genome> genomes) {
-		String[] indexData = scanner.nextLine().replaceAll("[> ]", "")
-				.split("\\|");
-		SingleNode node = new SingleNode(Integer.parseInt(indexData[0]),
-				parseGenomeIdentifiers(indexData[1].split(","), genomes),
-				Integer.parseInt(indexData[2]), Integer.parseInt(indexData[3]),
-				BasePair.getBasePairString(scanner.nextLine()));
+		String[] indexData = new String[0];
+		try {
+			indexData = br.readLine().replaceAll("[> ]", "")
+					.split("\\|");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		SingleNode node = null;
+		try {
+			node = new SingleNode(Integer.parseInt(indexData[0]),
+					parseGenomeIdentifiers(indexData[1].split(","), genomes),
+					Integer.parseInt(indexData[2]), Integer.parseInt(indexData[3]),
+					BasePair.getBasePairString(br.readLine()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return node;
 	}
 	
@@ -176,17 +187,20 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static List<Edge> parseEdges(File edgesFile,
 			Map<Integer, SingleNode> nodes) throws FileNotFoundException {
-		Scanner scanner = new Scanner(edgesFile, "UTF-8");
+		BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
-		while (scanner.hasNext()) {
-			String[] index = scanner.nextLine().split(" ");
-			SingleNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
-			SingleNode nodeTo = nodes.get(Integer.parseInt(index[1]));
-			list.add(new Edge(nodeFrom, nodeTo));
-			nodeTo.getIncoming().add(nodeFrom);
-			nodeFrom.getOutgoing().add(nodeTo);
+		try {
+			while (br.ready()) {
+				String[] index = br.readLine().split(" ");
+				SingleNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
+				SingleNode nodeTo = nodes.get(Integer.parseInt(index[1]));
+				list.add(new Edge(nodeFrom, nodeTo));
+				nodeTo.getIncoming().add(nodeFrom);
+				nodeFrom.getOutgoing().add(nodeTo);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		scanner.close();
 		return list;
 	}
 	

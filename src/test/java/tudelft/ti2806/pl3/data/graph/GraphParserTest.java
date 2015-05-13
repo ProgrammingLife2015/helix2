@@ -7,8 +7,7 @@ import org.junit.Test;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ public class GraphParserTest {
 	
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {
-		Node node = GraphDataRepository.parseNode(new Scanner(simpleNodeGraphFile),
+		Node node = GraphDataRepository.parseNode(new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream((simpleNodeGraphFile))))),
 				new HashMap<String, Genome>());
 		assertTrue(node.equals(new SingleNode(35, new Genome[] { new Genome(
 				"TKK-01-0029", 0) }, 2609451, 2609452,
