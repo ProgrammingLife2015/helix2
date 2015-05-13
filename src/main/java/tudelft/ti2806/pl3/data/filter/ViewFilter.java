@@ -2,9 +2,10 @@ package tudelft.ti2806.pl3.data.filter;
 
 import tudelft.ti2806.pl3.data.graph.Node;
 
+import java.util.Collection;
 import java.util.List;
 
-public class ViewFilter extends Filter<Node> {
+public class ViewFilter implements Filter<Node> {
 	
 	private int min;
 	private int max;
@@ -13,13 +14,9 @@ public class ViewFilter extends Filter<Node> {
 		this.min = min;
 		this.max = max;
 	}
-	
+
 	@Override
-	public void calculateFilter(List<Node> list) {
-		for (Node node : list) {
-			if (node.getXEnd() < min || node.getXStart() > max) {
-				filter.add(node);
-			}
-		}
+	public void filter(Collection<Node> list) {
+
 	}
 }
