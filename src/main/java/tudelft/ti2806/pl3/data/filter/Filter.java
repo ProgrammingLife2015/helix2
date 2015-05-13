@@ -1,7 +1,5 @@
 package tudelft.ti2806.pl3.data.filter;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,5 +14,5 @@ import java.util.List;
  */
 public interface Filter<T> {
 	
-	void filter(Collection<T> list);
+	void filter(List<T> list);
 }

@@ -4,8 +4,9 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GenomeFilter implements Filter<Node> {
 	protected final List<String> genomes;
@@ -15,15 +16,20 @@ public class GenomeFilter implements Filter<Node> {
 	}
 
 	@Override
-	public void filter(Collection<Node> nodes) {
-		List<Node> newList = new ArrayList<>();
+	public void filter(List<Node> nodes) {
+		List<Node> remove = new ArrayList<>();
 		for (Node node : nodes) {
-			for(int j = 0; j< node.getSource().length; j++) {
-				if(genomes.contains(node.getSource()[j].getIdentifier())) {
-					newList.add(node);
+			for(String genome : genomes) {
+				if(!Arrays.asList(node.getSource())
+						.stream()
+						.map(Genome::getIdentifier)
+						.collect(Collectors.toList())
+							.contains(genome)) {
+					remove.add(node);
 					break;
 				}
 			}
 		}
+		nodes.removeAll(remove);
 	}
 }
