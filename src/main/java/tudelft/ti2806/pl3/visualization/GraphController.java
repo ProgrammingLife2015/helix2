@@ -5,14 +5,16 @@ import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GraphController implements GraphControllerInterface {
 	private GraphModelInterface model;
 	private GraphViewInterface view;
 	private double currentZoomLevel;
 	private long currentZoomCenter;
-	private List<Filter<Node>> filters = new ArrayList<Filter<Node>>();
+	private Map<String, Filter<Node>> filters = new HashMap<>();
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -26,10 +28,17 @@ public class GraphController implements GraphControllerInterface {
 	public GraphController(GraphViewInterface view, GraphModelInterface model) {
 		this.model = model;
 		this.view = view;
-		model.produceGraph(new ArrayList<Filter<Node>>());
+		model.produceGraph(filters.values());
 		view.setGraphData(model.getGraphData());
 		view.init();
 
+	}
+
+	public void addFilter(String name, Filter<Node> filter) {
+		filters.put(name, filter);
+		model.produceGraph(filters.values());
+		view.setGraphData(model.getGraphData());
+		view.generateGraph();
 	}
 	
 	/**
@@ -52,7 +61,7 @@ public class GraphController implements GraphControllerInterface {
 	public void changeZoom(double newZoomLevel) {
 		if (Math.round(newZoomLevel) != Math.round(currentZoomLevel)
 				&& filters.size() != 0) {
-			model.produceGraph(filters);
+			model.produceGraph(filters.values());
 		}
 		currentZoomLevel = newZoomLevel;
 		view.zoom(newZoomLevel);
