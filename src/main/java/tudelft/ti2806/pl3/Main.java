@@ -4,6 +4,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Main application launcher. Created by Boris Mattijssen on 30-04-15.
@@ -17,17 +18,24 @@ public class Main {
 	 *            input arguments
 	 */
 	public static void main(String[] args) {
-		try {
-			for (UIManager.LookAndFeelInfo info : UIManager
-					.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
+
+		// set the Nimbus Theme
+		for (UIManager.LookAndFeelInfo info : UIManager
+				.getInstalledLookAndFeels()) {
+			if ("Nimbus".equals(info.getName())) {
+				try {
 					UIManager.setLookAndFeel(info.getClassName());
-					break;
+				} catch (ClassNotFoundException e) {
+					System.out.println("Theme is not found, default theme is used");
+				} catch (InstantiationException e) {
+					System.out.println("Theme is not instantiated, default theme is used");
+				} catch (IllegalAccessException e) {
+					System.out.println("Theme is not accessible, default theme is used");;
+				} catch (UnsupportedLookAndFeelException e) {
+					System.out.println("Theme is not supported, default theme is used");
 				}
+				break;
 			}
-		} catch (Exception e) {
-			System.out.println("The Nimbus theme is not found, "
-					+ "so the standard theme is used");
 		}
 		
 		// get the size of the screen
