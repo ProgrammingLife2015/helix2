@@ -1,10 +1,8 @@
-package tudelft.ti2806.pl3.visualization;
+package tudelft.ti2806.pl3.visualization.node;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-
-import tudelft.ti2806.pl3.visualization.node.NodePosition;
 
 public class GraphNode {
 	/**

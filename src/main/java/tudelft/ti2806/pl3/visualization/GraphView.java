@@ -9,6 +9,7 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
+import tudelft.ti2806.pl3.visualization.node.GraphNode;
 import tudelft.ti2806.pl3.visualization.node.NodePosition;
 
 import java.awt.Component;
