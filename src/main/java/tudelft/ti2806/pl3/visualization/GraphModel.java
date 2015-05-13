@@ -33,6 +33,7 @@ public class GraphModel implements GraphModelInterface {
 	public void produceGraph(Collection<Filter<Node>> filters) {
 		List<Node> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
+		System.out.println(resultNodes.size());
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		combineNodes(findCombineableNodes(resultNodes, resultEdges),

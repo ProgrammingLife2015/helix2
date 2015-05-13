@@ -106,7 +106,7 @@ public class Application extends JFrame {
 			// This is done last so we can remove the default libary keycontroller
 			WindowController windowController = new WindowController(this);
 			KeyController keys = new KeyController(this);
-			addKeyListener(keys);
+			graphController.getPanel().addKeyListener(keys);
 			addWindowListener(windowController);
 
 			this.setFocusable(true);

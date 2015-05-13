@@ -189,7 +189,7 @@ public class GraphView implements GraphViewInterface {
 	/**
 	 * Calculates all positions for the current graph and zoom.
 	 */
-	private void calculateGraphPositions() {
+	public void calculateGraphPositions() {
 		double genomeHeight = 1.0 / graphData.getGenomes().size();
 		spaceStarters = new long[graphData.getOrigin().getLongestNodePath() + 1];
 		Map<Node, double[]> map = new HashMap<Node, double[]>();

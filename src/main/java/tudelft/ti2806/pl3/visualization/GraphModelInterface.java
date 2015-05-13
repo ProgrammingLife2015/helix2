@@ -5,7 +5,6 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface GraphModelInterface {
 	
