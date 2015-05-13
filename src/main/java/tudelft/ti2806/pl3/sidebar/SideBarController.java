@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.sidebar;
 
 import tudelft.ti2806.pl3.Controller;
+import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.sidebar.genomeFilter.GenomeFilterController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
@@ -16,9 +17,9 @@ public class SideBarController implements Controller {
 	public GraphController graphController;
 	private SideBarView sideBarView;
 	
-	public SideBarController(GraphController graphController) {
+	public SideBarController(GraphController graphController, GraphDataRepository gd) {
 		this.graphController = graphController;
-		GenomeFilterController genomeFilterController = new GenomeFilterController();
+		GenomeFilterController genomeFilterController = new GenomeFilterController(graphController, gd);
 		ArrayList<Component> viewList = new ArrayList<>();
 		viewList.add(genomeFilterController.getPanel());
 		sideBarView = new SideBarView(viewList);
