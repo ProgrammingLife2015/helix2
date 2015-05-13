@@ -9,13 +9,14 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.node.Node;
 import tudelft.ti2806.pl3.data.graph.node.SingleNode;
+import tudelft.ti2806.pl3.visualization.node.NodePosition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HorizontalNodeCombineUtilTest {
+public class NodeCombineUtilTest {
 	private static SingleNode[] nodes;
 	private static List<Node> nodeList;
 	private static List<Edge> edgeList;
@@ -109,5 +110,21 @@ public class HorizontalNodeCombineUtilTest {
 				.findCombineableNodes(nodeList, edgeList), nodeList, edgeList);
 		Assert.assertTrue(nodeList.size() == 6);
 		Assert.assertTrue(edgeList.size() == 6);
+	}
+	
+	@Test
+	public void verticalCombineTest() {
+		List<Edge> edgeList = gd.getEdgeListClone();
+		List<Node> nodeList = gd.getNodeListClone();
+		List<NodePosition> nodePosList = NodePosition.newNodePositionList(
+				gd.getNodes(), edgeList);
+		
+		List<List<NodePosition>> list = VerticalNodeCombineUtil
+				.findCombineableNodes(nodePosList);
+		Assert.assertTrue(list.size() == 1);
+		Assert.assertTrue(nodeList.size() == 10);
+		VerticalNodeCombineUtil.combineNodes(list, nodeList, edgeList);
+		Assert.assertTrue(nodeList.size() == 9);
+		Assert.assertTrue(DeadEdgeUtil.getAllDeadEdges(edgeList, nodeList).size() == 0);
 	}
 }

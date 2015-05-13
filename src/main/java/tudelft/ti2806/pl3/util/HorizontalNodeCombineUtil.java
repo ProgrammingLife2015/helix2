@@ -17,7 +17,7 @@ public class HorizontalNodeCombineUtil {
 	 * Combines all {@link Node}s in the given edges list into
 	 * {@link HorizontalCombinedNode}s, reconnects the
 	 * {@link HorizontalCombinedNode}s in the graph and remove all {@link Node}s
-	 * which are combined.
+	 * which are combined from the graph.
 	 * 
 	 * @param edgesToCombine
 	 *            the edges with nodes to combine.
@@ -26,8 +26,8 @@ public class HorizontalNodeCombineUtil {
 	 * @param edges
 	 *            the list of edges in the graph
 	 */
-	public static void combineNodes(List<Edge> edgesToCombine, List<Node> nodes,
-			List<Edge> edges) {
+	public static void combineNodes(List<Edge> edgesToCombine,
+			List<Node> nodes, List<Edge> edges) {
 		edges.removeAll(edgesToCombine);
 		
 		// Hash all edges
@@ -71,8 +71,8 @@ public class HorizontalNodeCombineUtil {
 	 *            a map of references of the removed nodes to their new
 	 *            {@link HorizontalCombinedNode}s which contain them.
 	 */
-	public static void reconnectCombinedNodes(List<Edge> edges, List<Node> nodes,
-			Map<Integer, HorizontalCombinedNode> nodeReference) {
+	public static void reconnectCombinedNodes(List<Edge> edges,
+			List<Node> nodes, Map<Integer, HorizontalCombinedNode> nodeReference) {
 		List<Edge> deadEdges = DeadEdgeUtil.getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
 			Node nodeTo = edge.getTo();
@@ -139,33 +139,12 @@ public class HorizontalNodeCombineUtil {
 	 *            the edges on the graph
 	 * @return a list of edges which could be combined
 	 */
-	public static List<Edge> findCombineableNodes(List<Node> nodes, List<Edge> edges) {
+	public static List<Edge> findCombineableNodes(List<Node> nodes,
+			List<Edge> edges) {
 		List<Edge> fromEdgesList = findFromEdges(edges);
 		List<Edge> toEdgesList = findToEdges(edges);
 		toEdgesList.retainAll(fromEdgesList);
 		return toEdgesList;
-	}
-	
-	/**
-	 * Sorts the edges on their {@code to} {@link Node} and after that on their
-	 * {@code from} {@link Node}.
-	 * 
-	 * @param fromEdges
-	 *            the edges to be sorted
-	 */
-	public static void sortEdgesOnTo(List<Edge> fromEdges) {
-		Collections.sort(fromEdges, new SortEdgesToComparator());
-	}
-	
-	/**
-	 * Sorts the edges on their {@code from} {@link Node} and after that on
-	 * their {@code to} {@link Node}.
-	 * 
-	 * @param edges
-	 *            the edges to be sorted
-	 */
-	public static void sortEdgesOnFrom(List<Edge> edges) {
-		Collections.sort(edges, new SortEdgesFromComparator());
 	}
 	
 	/**
@@ -227,6 +206,28 @@ public class HorizontalNodeCombineUtil {
 			foundEdges.add(lastEdge);
 		}
 		return foundEdges;
+	}
+	
+	/**
+	 * Sorts the edges on their {@code to} {@link Node} and after that on their
+	 * {@code from} {@link Node}.
+	 * 
+	 * @param fromEdges
+	 *            the edges to be sorted
+	 */
+	public static void sortEdgesOnTo(List<Edge> fromEdges) {
+		Collections.sort(fromEdges, new SortEdgesToComparator());
+	}
+	
+	/**
+	 * Sorts the edges on their {@code from} {@link Node} and after that on
+	 * their {@code to} {@link Node}.
+	 * 
+	 * @param edges
+	 *            the edges to be sorted
+	 */
+	public static void sortEdgesOnFrom(List<Edge> edges) {
+		Collections.sort(edges, new SortEdgesFromComparator());
 	}
 	
 	/**
