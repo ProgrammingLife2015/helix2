@@ -11,7 +11,11 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.awt.Component;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GraphView implements GraphViewInterface {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
