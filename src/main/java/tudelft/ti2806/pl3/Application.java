@@ -81,7 +81,7 @@ public class Application extends JFrame {
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 			graphController = new GraphController(new GraphView(), new GraphModel(gd));
 			zoomBarController = new ZoomBarController(graphController);
-			sideBarController = new SideBarController(graphController);
+			sideBarController = new SideBarController(graphController, gd);
 
 			// parse the phylogenetic tree
 			BufferedReader br = new BufferedReader(new InputStreamReader(
