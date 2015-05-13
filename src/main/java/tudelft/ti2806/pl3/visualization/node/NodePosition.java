@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Sam Smulders
  *
  */
-public class NodePosition implements Node {
+public class NodePosition {
 	private Node node;
 	private long startX = -1;
 	private double yy;
@@ -72,11 +72,11 @@ public class NodePosition implements Node {
 		return node;
 	}
 	
-	List<NodePosition> getIncoming() {
+	public List<NodePosition> getIncoming() {
 		return incoming;
 	}
 	
-	List<NodePosition> getOutgoing() {
+	public List<NodePosition> getOutgoing() {
 		return outgoing;
 	}
 	
@@ -149,22 +149,18 @@ public class NodePosition implements Node {
 		return node.getWidth();
 	}
 	
-	@Override
 	public int getId() {
 		return node.getId();
 	}
 	
-	@Override
 	public Genome[] getSource() {
 		return node.getSource();
 	}
 	
-	@Override
 	public int getRefStartPoint() {
 		return node.getRefStartPoint();
 	}
 	
-	@Override
 	public int getRefEndPoint() {
 		return node.getRefEndPoint();
 	}

@@ -58,5 +58,9 @@ public class VerticalCombinedNode implements Node {
 		}
 		return max;
 	}
+
+	public List<Node> getNodes() {
+		return nodeList;
+	}
 	
 }
