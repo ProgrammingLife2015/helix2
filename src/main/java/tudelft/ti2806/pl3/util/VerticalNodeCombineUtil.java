@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
 import tudelft.ti2806.pl3.data.graph.node.Node;
 import tudelft.ti2806.pl3.data.graph.node.VerticalCombinedNode;
 import tudelft.ti2806.pl3.visualization.node.NodePosition;
@@ -53,7 +54,8 @@ public class VerticalNodeCombineUtil {
 	 */
 	static void reconnectCombinedNodes(List<Edge> edges, List<Node> nodes,
 			List<VerticalCombinedNode> combinedNodes) {
-		Map<Integer, VerticalCombinedNode> map = new HashMap<Integer, VerticalCombinedNode>();
+		Map<Integer, VerticalCombinedNode> map
+				= new HashMap<Integer, VerticalCombinedNode>();
 		for (VerticalCombinedNode node : combinedNodes) {
 			for (Node subNode : node.getNodes()) {
 				map.put(subNode.getId(), node);
@@ -62,15 +64,22 @@ public class VerticalNodeCombineUtil {
 		List<Edge> deadEdges = DeadEdgeUtil.getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
 			Node fromNode = map.get(edge.getFromId());
-			if (fromNode != null) {
+			if (fromNode == null) {
 				fromNode = edge.getFrom();
+				if (!nodes.contains(fromNode)) {
+					continue;
+				}
 			}
 			Node toNode = map.get(edge.getToId());
-			if (toNode != null) {
+			if (toNode == null) {
 				toNode = edge.getTo();
+				if (!nodes.contains(toNode)) {
+					continue;
+				}
 			}
-			if (toNode != null && fromNode != null) {
-				edges.add(new Edge(toNode, fromNode));
+			Edge newEdge = new Edge(toNode, fromNode);
+			if (toNode != null && fromNode != null && !edges.contains(newEdge)) {
+				edges.add(newEdge);
 			}
 		}
 		edges.removeAll(deadEdges);
@@ -91,23 +100,18 @@ public class VerticalNodeCombineUtil {
 		Map<Pair<HashableList<NodePosition>, HashableList<NodePosition>>, List<NodePosition>> map
 				= new HashMap<Pair<HashableList<NodePosition>, HashableList<NodePosition>>, List<NodePosition>>();
 		for (NodePosition node : nodes) {
-			if (node.getIncoming().size() == 1
-					&& node.getOutgoing().size() == 1) {
-				List<NodePosition> list = map
-						.get(new Pair<HashableList<NodePosition>, HashableList<NodePosition>>(
-								new HashableList<NodePosition>(node
-										.getIncoming()),
-								new HashableList<NodePosition>(node
-										.getOutgoing())));
-				if (list == null) {
-					list = new ArrayList<NodePosition>();
-					map.put(new Pair<HashableList<NodePosition>, HashableList<NodePosition>>(
+			List<NodePosition> list = map
+					.get(new Pair<HashableList<NodePosition>, HashableList<NodePosition>>(
 							new HashableList<NodePosition>(node.getIncoming()),
-							new HashableList<NodePosition>(node.getOutgoing())),
-							list);
-				}
-				list.add(node);
+							new HashableList<NodePosition>(node.getOutgoing())));
+			if (list == null) {
+				list = new ArrayList<NodePosition>();
+				map.put(new Pair<HashableList<NodePosition>, HashableList<NodePosition>>(
+						new HashableList<NodePosition>(node.getIncoming()),
+						new HashableList<NodePosition>(node.getOutgoing())),
+						list);
 			}
+			list.add(node);
 		}
 		List<List<NodePosition>> combineAbleNodes = new ArrayList<List<NodePosition>>();
 		for (List<NodePosition> list : map.values()) {
@@ -116,5 +120,10 @@ public class VerticalNodeCombineUtil {
 			}
 		}
 		return combineAbleNodes;
+	}
+	
+	public static void findAndCombineNodes(PositionedGraphData gd) {
+		combineNodes(findCombineableNodes(gd.getPositionedNodes()),
+				gd.getNodes(), gd.getEdges());
 	}
 }

@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.util;
 
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.node.HorizontalCombinedNode;
 import tudelft.ti2806.pl3.data.graph.node.Node;
@@ -266,5 +267,10 @@ public class HorizontalNodeCombineUtil {
 				return dir;
 			}
 		}
+	}
+	
+	public static void findAndCombineNodes(AbstractGraphData gd) {
+		combineNodes(findCombineableNodes(gd.getNodes(), gd.getEdges()),
+				gd.getNodes(), gd.getEdges());
 	}
 }
