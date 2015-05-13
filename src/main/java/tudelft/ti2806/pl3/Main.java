@@ -30,7 +30,7 @@ public class Main {
 				} catch (InstantiationException e) {
 					System.out.println("Theme is not instantiated, default theme is used");
 				} catch (IllegalAccessException e) {
-					System.out.println("Theme is not accessible, default theme is used");;
+					System.out.println("Theme is not accessible, default theme is used");
 				} catch (UnsupportedLookAndFeelException e) {
 					System.out.println("Theme is not supported, default theme is used");
 				}
