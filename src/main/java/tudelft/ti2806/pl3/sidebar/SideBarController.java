@@ -13,12 +13,10 @@ import java.util.ArrayList;
  * sidebar. Created by Kasper on 7-5-15.
  */
 public class SideBarController implements Controller {
-	
-	public GraphController graphController;
+
 	private SideBarView sideBarView;
 	
 	public SideBarController(GraphController graphController, GraphDataRepository gd) {
-		this.graphController = graphController;
 		GenomeFilterController genomeFilterController = new GenomeFilterController(graphController, gd);
 		ArrayList<Component> viewList = new ArrayList<>();
 		viewList.add(genomeFilterController.getPanel());

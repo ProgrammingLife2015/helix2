@@ -6,9 +6,6 @@ import tudelft.ti2806.pl3.sidebar.SideBarView;
 import tudelft.ti2806.pl3.sidebar.SideBarViewInterface;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
 import java.util.List;
 import javax.swing.*;
 
