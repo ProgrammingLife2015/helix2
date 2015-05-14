@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.Node;
-import tudelft.ti2806.pl3.data.graph.node.SingleNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -25,24 +25,24 @@ public class GraphParserTest {
 	
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {
-		Node node = GraphDataRepository.parseNode(new BufferedReader(
+		DataNodeInterface node = GraphDataRepository.parseNode(new BufferedReader(
 				new InputStreamReader(new BufferedInputStream(
 						new FileInputStream((simpleNodeGraphFile))))),
 				new HashMap<String, Genome>());
-		assertTrue(node.equals(new SingleNode(35, new Genome[] { new Genome(
+		assertTrue(node.equals(new DataNode(35, new Genome[] { new Genome(
 				"TKK-01-0029", 0) }, 2609451, 2609452,
 				new byte[] { BasePair.A.storeByte })));
 	}
 	
 	@Test
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
-		Map<Integer, SingleNode> nodeMap = GraphDataRepository.parseNodes(
+		Map<Integer, DataNode> nodeMap = GraphDataRepository.parseNodes(
 				simpleNodeGraphFile, new HashMap<String, Genome>());
 		List<Edge> edges = GraphDataRepository.parseEdges(simpleEdgeGraphFile,
 				nodeMap);
 		
-		Node nodeA = nodeMap.get(35);
-		Node nodeB = nodeMap.get(1);
+		DataNodeInterface nodeA = nodeMap.get(35);
+		DataNodeInterface nodeB = nodeMap.get(1);
 		assertTrue(edges.get(0).equals(new Edge(nodeA, nodeB)));
 	}
 }

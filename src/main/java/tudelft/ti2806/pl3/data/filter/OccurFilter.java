@@ -1,10 +1,10 @@
 package tudelft.ti2806.pl3.data.filter;
 
-import tudelft.ti2806.pl3.data.graph.node.Node;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 
 import java.util.List;
 
-public class OccurFilter extends Filter<Node> {
+public class OccurFilter extends Filter<DataNodeInterface> {
 	protected final int occurCount;
 	
 	public OccurFilter(int occurCount) {
@@ -12,8 +12,8 @@ public class OccurFilter extends Filter<Node> {
 	}
 	
 	@Override
-	public void calculateFilter(List<Node> list) {
-		for (Node node : list) {
+	public void calculateFilter(List<DataNodeInterface> list) {
+		for (DataNodeInterface node : list) {
 			if (node.getSource().length < this.occurCount) {
 				filter.add(node);
 			}

@@ -1,17 +1,17 @@
 package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.Node;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGraphData {
-	List<Node> nodes;
+	List<DataNodeInterface> nodes;
 	List<Edge> edges;
 	List<Genome> genomes;
 	
-	public abstract List<Node> getNodes();
+	public abstract List<DataNodeInterface> getNodes();
 	
 	public abstract List<Edge> getEdges();
 	
@@ -46,8 +46,8 @@ public abstract class AbstractGraphData {
 	 * 
 	 * @return a clone of the node list
 	 */
-	public List<Node> getNodeListClone() {
-		List<Node> clone = new ArrayList<Node>();
+	public List<DataNodeInterface> getNodeListClone() {
+		List<DataNodeInterface> clone = new ArrayList<DataNodeInterface>();
 		clone.addAll(nodes);
 		return clone;
 	}

@@ -2,8 +2,8 @@ package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.Node;
-import tudelft.ti2806.pl3.data.graph.node.SingleNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -30,7 +30,7 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @param genomes
 	 *            all {@link Genome} that are present in the graph
 	 */
-	public GraphDataRepository(List<Node> nodes, List<Edge> edges,
+	public GraphDataRepository(List<DataNodeInterface> nodes, List<Edge> edges,
 			List<Genome> genomes) {
 		this.nodes = nodes;
 		this.edges = edges;
@@ -49,7 +49,7 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 	}
 	
-	public List<Node> getNodes() {
+	public List<DataNodeInterface> getNodes() {
 		return this.getNodeListClone();
 	}
 	
@@ -75,8 +75,8 @@ public class GraphDataRepository extends AbstractGraphData {
 	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
-		Map<Integer, SingleNode> nodeMap = parseNodes(nodesFile, genomeMap);
-		List<Node> nodeList = new ArrayList<Node>();
+		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
+		List<DataNodeInterface> nodeList = new ArrayList<DataNodeInterface>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<Genome>();
 		genomeList.addAll(genomeMap.values());
@@ -95,14 +95,14 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static Map<Integer, SingleNode> parseNodes(File nodesFile,
+	public static Map<Integer, DataNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
-		Map<Integer, SingleNode> nodes = new HashMap<Integer, SingleNode>();
+		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
 		try {
 			while (br.ready()) {
-				SingleNode node = parseNode(br, genomeMap);
+				DataNode node = parseNode(br, genomeMap);
 				nodes.put(node.getId(), node);
 			}
 		} catch (IOException e) {
@@ -118,7 +118,7 @@ public class GraphDataRepository extends AbstractGraphData {
 	 *            the BufferedReader with two available lines to read
 	 * @return the read node
 	 */
-	protected static SingleNode parseNode(BufferedReader br,
+	protected static DataNode parseNode(BufferedReader br,
 			Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
@@ -126,9 +126,9 @@ public class GraphDataRepository extends AbstractGraphData {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		SingleNode node = null;
+		DataNode node = null;
 		try {
-			node = new SingleNode(Integer.parseInt(indexData[0]),
+			node = new DataNode(Integer.parseInt(indexData[0]),
 					parseGenomeIdentifiers(indexData[1].split(","), genomes),
 					Integer.parseInt(indexData[2]),
 					Integer.parseInt(indexData[3]),
@@ -164,15 +164,15 @@ public class GraphDataRepository extends AbstractGraphData {
 	 *             if the file is not found
 	 */
 	public static List<Edge> parseEdges(File edgesFile,
-			Map<Integer, SingleNode> nodes) throws FileNotFoundException {
+			Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
 		try {
 			while (br.ready()) {
 				String[] index = br.readLine().split(" ");
-				SingleNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
-				SingleNode nodeTo = nodes.get(Integer.parseInt(index[1]));
+				DataNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
+				DataNode nodeTo = nodes.get(Integer.parseInt(index[1]));
 				list.add(new Edge(nodeFrom, nodeTo));
 			}
 		} catch (IOException e) {
@@ -189,8 +189,8 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @return the found node<br>
 	 *         {@code null} if there is no node with this id in the graph
 	 */
-	public Node getNodeByNodeId(int id) {
-		for (Node node : nodes) {
+	public DataNodeInterface getNodeByNodeId(int id) {
+		for (DataNodeInterface node : nodes) {
 			if (node.getId() == id) {
 				return node;
 			}

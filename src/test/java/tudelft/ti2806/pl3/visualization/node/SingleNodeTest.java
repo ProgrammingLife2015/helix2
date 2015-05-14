@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.SingleNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 public class SingleNodeTest {
 	private static NodePosition s0;
@@ -19,13 +19,13 @@ public class SingleNodeTest {
 	 */
 	@BeforeClass
 	public static void init() {
-		s0 = new NodePosition(new SingleNode(0, new Genome[0], 0, 0,
+		s0 = new NodePosition(new DataNode(0, new Genome[0], 0, 0,
 				new byte[5]));
-		s1 = new NodePosition(new SingleNode(1, new Genome[0], 0, 0,
+		s1 = new NodePosition(new DataNode(1, new Genome[0], 0, 0,
 				new byte[10]));
-		s2 = new NodePosition(new SingleNode(2, new Genome[0], 0, 0,
+		s2 = new NodePosition(new DataNode(2, new Genome[0], 0, 0,
 				new byte[20]));
-		s3 = new NodePosition(new SingleNode(3, new Genome[0], 0, 0,
+		s3 = new NodePosition(new DataNode(3, new Genome[0], 0, 0,
 				new byte[2]));
 		
 		s0.getOutgoing().add(s1);

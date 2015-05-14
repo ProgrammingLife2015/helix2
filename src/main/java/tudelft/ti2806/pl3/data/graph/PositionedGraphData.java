@@ -1,22 +1,25 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.Node;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.visualization.node.NodePosition;
+import tudelft.ti2806.pl3.visualization.node.NodePositionWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The {@link PositionedGraphData} is a {@link GraphData} class which also keeps
- * track of a {@link List}<{@link NodePosition}>.
+ * track of a {@link List}<{@link NodePosition}>. {@link PositionedGraphData}
+ * instance never loses any nodes or edges which are given by initialisation.
  * 
  * @author Sam Smulders
  *
  */
-public class PositionedGraphData extends GraphData {
+public class PositionedGraphData {
 	
-	private List<NodePosition> nodePositions;
+	private List<NodePositionWrapper> nodeWrappers;
 	private long size;
+	private AbstractGraphData origin;
 	
 	/**
 	 * Initialises an instance of {@link PositionedGraphData}.
@@ -27,31 +30,32 @@ public class PositionedGraphData extends GraphData {
 	 *            the nodes of on the graph
 	 * @param edges
 	 *            the edges of on the graph
-	 * @param genomes
-	 *            the genomes on the graph
 	 */
-	public PositionedGraphData(AbstractGraphData origin, List<Node> nodes,
-			List<Edge> edges, List<Genome> genomes) {
-		super(origin, nodes, edges, genomes);
-		this.nodePositions = NodePosition.newNodePositionList(nodes, edges);
-		calculateMaxSize();
-	}
-	
-	private void calculateMaxSize() {
+	public PositionedGraphData(AbstractGraphData origin,
+			List<DataNodeInterface> nodes, List<Edge> edges) {
+		this.origin = origin;
+		List<NodePosition> nodePosition = NodePosition.newNodePositionList(
+				nodes, edges);
 		long max = 0;
-		for (NodePosition node : this.nodePositions) {
+		nodeWrappers = new ArrayList<NodePositionWrapper>(nodePosition);
+		for (NodePosition node : nodePosition) {
 			max = Math.max(node.getXEnd(), max);
 		}
 		this.size = max;
 	}
 	
-	public PositionedGraphData(AbstractGraphData graphData) {
-		this(graphData, graphData.getNodeListClone(), graphData
-				.getEdgeListClone(), graphData.getGenomeClone());
+	public PositionedGraphData(PositionedGraphData origin,
+			List<NodePositionWrapper> nodeWrappers) {
+//		this.origin = origin; TODO
+		this.nodeWrappers = nodeWrappers;
 	}
 	
-	public List<NodePosition> getPositionedNodes() {
-		return nodePositions;
+	public PositionedGraphData(AbstractGraphData gd) {
+		this(gd, gd.getNodes(), gd.getEdges());
+	}
+
+	public List<NodePositionWrapper> getPositionedNodes() {
+		return nodeWrappers;
 	}
 	
 	public long getSize() {

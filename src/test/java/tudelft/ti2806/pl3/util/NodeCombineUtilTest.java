@@ -8,45 +8,47 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
-import tudelft.ti2806.pl3.data.graph.node.Node;
-import tudelft.ti2806.pl3.data.graph.node.SingleNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.visualization.node.NodePosition;
+import tudelft.ti2806.pl3.visualization.node.NodePositionWrapper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class NodeCombineUtilTest {
-	private static SingleNode[] nodes;
-	private static List<Node> nodeList;
+	private static DataNode[] nodes;
+	private static List<DataNodeInterface> nodeList;
 	private static List<Edge> edgeList;
 	private static Map<String, Edge> map;
-	private static GraphDataRepository gd;
+	private static GraphDataRepository gdr;
+	private static PositionedGraphData pgd;
 	
 	/**
 	 * Run before tests.
 	 */
 	@BeforeClass
 	public static void init() {
-		nodeList = new ArrayList<Node>();
+		nodeList = new ArrayList<DataNodeInterface>();
 		
 		Genome[] genome = new Genome[] { new Genome("hi", 0) };
-		nodes = new SingleNode[] {
-		new SingleNode(0, genome, 0, 0, new byte[0]),
-		new SingleNode(1, genome, 0, 0, new byte[0]),
-		new SingleNode(2, genome, 0, 0, new byte[0]),
-		new SingleNode(3, genome, 0, 0, new byte[0]),
-		new SingleNode(4, genome, 0, 0, new byte[0]),
-		new SingleNode(5, genome, 0, 0, new byte[0]),
-		new SingleNode(6, genome, 0, 0, new byte[0]),
-		new SingleNode(7, genome, 0, 0, new byte[0]),
-		new SingleNode(8, genome, 0, 0, new byte[0]),
-		new SingleNode(9, genome, 0, 0, new byte[0]) };
-	
-		for (SingleNode node : nodes) {
+		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0]),
+		new DataNode(1, genome, 0, 0, new byte[0]),
+		new DataNode(2, genome, 0, 0, new byte[0]),
+		new DataNode(3, genome, 0, 0, new byte[0]),
+		new DataNode(4, genome, 0, 0, new byte[0]),
+		new DataNode(5, genome, 0, 0, new byte[0]),
+		new DataNode(6, genome, 0, 0, new byte[0]),
+		new DataNode(7, genome, 0, 0, new byte[0]),
+		new DataNode(8, genome, 0, 0, new byte[0]),
+		new DataNode(9, genome, 0, 0, new byte[0]) };
+		
+		for (DataNode node : nodes) {
 			nodeList.add(node);
 		}
 		map = new HashMap<String, Edge>();
@@ -62,74 +64,53 @@ public class NodeCombineUtilTest {
 		map.put("8-9", new Edge(nodes[8], nodes[9]));
 		edgeList = new ArrayList<Edge>();
 		edgeList.addAll(map.values());
-		gd = new GraphDataRepository(nodeList, edgeList,
+		gdr = new GraphDataRepository(nodeList, edgeList,
 				new ArrayList<Genome>());
+		pgd = new PositionedGraphData(gdr);
 	}
 	
-	@Test
-	public void findFromEdgesTest() {
-		List<Edge> list = HorizontalNodeCombineUtil.findFromEdges(gd
-				.getEdgeListClone());
-		Assert.assertTrue(list.contains(map.get("1-3")));
-		Assert.assertTrue(list.contains(map.get("2-3")));
-		Assert.assertTrue(list.contains(map.get("3-4")));
-		Assert.assertTrue(list.contains(map.get("4-5")));
-		Assert.assertTrue(list.contains(map.get("7-8")));
-		Assert.assertTrue(list.contains(map.get("8-9")));
-		Assert.assertTrue(list.size() == 6);
-	}
-	
-	@Test
-	public void findToEdgesTest() {
-		List<Edge> list = HorizontalNodeCombineUtil.findToEdges(gd
-				.getEdgeListClone());
-		Assert.assertTrue(list.contains(map.get("0-1")));
-		Assert.assertTrue(list.contains(map.get("0-2")));
-		Assert.assertTrue(list.contains(map.get("3-4")));
-		Assert.assertTrue(list.contains(map.get("4-5")));
-		Assert.assertTrue(list.contains(map.get("5-6")));
-		Assert.assertTrue(list.contains(map.get("5-7")));
-		Assert.assertTrue(list.contains(map.get("7-8")));
-		Assert.assertTrue(list.contains(map.get("8-9")));
-		Assert.assertTrue(list.size() == 8);
-	}
-	
+	/**
+	 * Tests if the HorizontalWrapUtil finds the horizontal combine-able groups
+	 * {3,4,5} and {7,8,9}. The data nodes should be in this order, however the
+	 * order of groups should not matter.
+	 */
 	@Test
 	public void findCombinableNodesTest() {
-		List<Edge> list = HorizontalNodeCombineUtil.findCombineableNodes(
-				gd.getNodeListClone(), gd.getEdgeListClone());
-		Assert.assertTrue(list.contains(map.get("3-4")));
-		Assert.assertTrue(list.contains(map.get("4-5")));
-		Assert.assertTrue(list.contains(map.get("7-8")));
-		Assert.assertTrue(list.contains(map.get("8-9")));
-		Assert.assertTrue(list.size() == 4);
+		List<List<NodePositionWrapper>> list = HorizontalWrapUtil
+				.findCombineableNodes(pgd.getPositionedNodes());
+		Assert.assertTrue(list.size() == 2);
+		Assert.assertTrue(list.get(0).size() == 3);
+		Assert.assertTrue(list.get(1).size() == 3);
+		// Test order
+		int[] order;
+		order = getIdList(list.get(0));
+		Assert.assertTrue(Arrays.equals(order, new int[] { 3, 4, 5 })
+				|| Arrays.equals(order, new int[] { 7, 8, 9 }));
+		order = getIdList(list.get(1));
+		Assert.assertTrue(Arrays.equals(order, new int[] { 3, 4, 5 })
+				|| Arrays.equals(order, new int[] { 7, 8, 9 }));
+		// Guaranty existence of both groups.
+		Assert.assertFalse(Arrays.equals(getIdList(list.get(0)),
+				getIdList(list.get(1))));
 	}
 	
-	@Test
-	public void combineNodesTest() {
-		List<Node> nodeList = gd.getNodeListClone();
-		List<Edge> edgeList = gd.getEdgeListClone();
-		HorizontalNodeCombineUtil.combineNodes(HorizontalNodeCombineUtil
-				.findCombineableNodes(nodeList, edgeList), nodeList, edgeList);
-		Assert.assertTrue(nodeList.size() == 6);
-		Assert.assertTrue(edgeList.size() == 6);
+	private int[] getIdList(List<NodePositionWrapper> group) {
+		int[] idList = new int[group.size()];
+		for (int i = 0; i < group.size(); i++) {
+			idList[i] = ((NodePosition) group.get(i)).getNode().getId();
+		}
+		return idList;
 	}
 	
 	@Test
 	public void verticalCombineTest() {
-		List<Edge> edgeList = gd.getEdgeListClone();
-		List<Node> nodeList = gd.getNodeListClone();
-		List<NodePosition> nodePosList = NodePosition.newNodePositionList(
-				gd.getNodes(), edgeList);
-		
-		List<List<NodePosition>> list = VerticalNodeCombineUtil
-				.findCombineableNodes(nodePosList);
+		PositionedGraphData pgd = new PositionedGraphData(gdr);
+		List<List<NodePositionWrapper>> list = VerticalWrapUtil
+				.findCombineableNodes(pgd.getPositionedNodes());
 		Assert.assertTrue(list.size() == 1);
-		Assert.assertTrue(nodeList.size() == 10);
-		VerticalNodeCombineUtil.combineNodes(list, nodeList, edgeList);
-		Assert.assertTrue(nodeList.size() == 9);
-		Assert.assertTrue(DeadEdgeUtil.getAllDeadEdges(edgeList, nodeList)
-				.size() == 0);
+		PositionedGraphData newPgd = VerticalWrapUtil.collapseGraph(pgd);
+		Assert.assertTrue(pgd.getPositionedNodes().size() == 10);
+		Assert.assertTrue(newPgd.getPositionedNodes().size() == 9);
 	}
 	
 	@Test
@@ -139,21 +120,21 @@ public class NodeCombineUtilTest {
 		File edgesFile = new File("data/6TestCombineNodes.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
 				edgesFile);
-		PositionedGraphData pgd = new PositionedGraphData(gdr);
+		PositionedGraphData[] pgd = new PositionedGraphData[3];
+		pgd[0] = new PositionedGraphData(gdr);
 		
-		List<List<NodePosition>> list = VerticalNodeCombineUtil
-				.findCombineableNodes(pgd.getPositionedNodes());
+		List<List<NodePositionWrapper>> list = VerticalWrapUtil
+				.findCombineableNodes(pgd[0].getPositionedNodes());
 		Assert.assertTrue(list.size() == 3);
-		Assert.assertTrue(pgd.getNodes().size() == 6);
-		VerticalNodeCombineUtil.combineNodes(list, pgd.getNodes(),
-				pgd.getEdges());
-		Assert.assertTrue(pgd.getNodes().size() == 3);
-		Assert.assertTrue(DeadEdgeUtil.getAllDeadEdges(pgd.getEdges(),
-				pgd.getNodes()).size() == 0);
-		Assert.assertTrue(pgd.getEdges().size() == 2);
+		Assert.assertTrue(pgd[0].getPositionedNodes().size() == 6);
 		
-		HorizontalNodeCombineUtil.findAndCombineNodes(pgd);
-		Assert.assertTrue(pgd.getNodes().size() == 1);
-		Assert.assertTrue(pgd.getEdges().size() == 0);
+		pgd[1] = VerticalWrapUtil.collapseGraph(pgd[0]);
+		Assert.assertTrue(pgd[1].getPositionedNodes().size() == 3);
+		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[1]);
+		for (NodePositionWrapper some : pgd[2].getPositionedNodes()) {
+			System.out.println(some.getIncoming().size() + ":in - out:" + some.getOutgoing().size());
+			System.out.println(some.getIdString());
+		}
+		Assert.assertTrue(pgd[2].getPositionedNodes().size() == 1);
 	}
 }

@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author Sam Smulders
  *
  */
-public class SingleNode implements Node {
+public class DataNode implements DataNodeInterface {
 	protected final int nodeId;
 	protected final Genome[] source;
 	protected final int refStartPoint;
@@ -33,7 +33,7 @@ public class SingleNode implements Node {
 	 * @param contentOfTheNode
 	 *            the size of this {@code Node}
 	 */
-	public SingleNode(int nodeId, Genome[] source, int refStartPoint,
+	public DataNode(int nodeId, Genome[] source, int refStartPoint,
 			int refEndPoint, byte[] contentOfTheNode) {
 		this.nodeId = nodeId;
 		if (source == null) {
@@ -81,7 +81,7 @@ public class SingleNode implements Node {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		SingleNode other = (SingleNode) obj;
+		DataNode other = (DataNode) obj;
 		if (nodeId != other.nodeId) {
 			return false;
 		}

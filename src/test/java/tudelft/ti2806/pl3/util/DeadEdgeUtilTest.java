@@ -7,8 +7,8 @@ import org.junit.Test;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.data.graph.node.Node;
-import tudelft.ti2806.pl3.data.graph.node.SingleNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DeadEdgeUtilTest {
-	private static SingleNode[] nodes;
-	private static List<Node> nodeList;
+	private static DataNode[] nodes;
+	private static List<DataNodeInterface> nodeList;
 	private static List<Edge> edgeList;
 	private static Map<String, Edge> map;
 	private static GraphDataRepository gd;
@@ -27,22 +27,22 @@ public class DeadEdgeUtilTest {
 	 */
 	@BeforeClass
 	public static void init() {
-		nodeList = new ArrayList<Node>();
+		nodeList = new ArrayList<DataNodeInterface>();
 		
 		Genome[] genome = new Genome[] { new Genome("hi", 0) };
-		nodes = new SingleNode[] {
-		new SingleNode(0, genome, 0, 0, new byte[0]),
-		new SingleNode(1, genome, 0, 0, new byte[0]),
-		new SingleNode(2, genome, 0, 0, new byte[0]),
-		new SingleNode(3, genome, 0, 0, new byte[0]),
-		new SingleNode(4, genome, 0, 0, new byte[0]),
-		new SingleNode(5, genome, 0, 0, new byte[0]),
-		new SingleNode(6, genome, 0, 0, new byte[0]),
-		new SingleNode(7, genome, 0, 0, new byte[0]),
-		new SingleNode(8, genome, 0, 0, new byte[0]),
-		new SingleNode(9, genome, 0, 0, new byte[0]) };
+		nodes = new DataNode[] {
+		new DataNode(0, genome, 0, 0, new byte[0]),
+		new DataNode(1, genome, 0, 0, new byte[0]),
+		new DataNode(2, genome, 0, 0, new byte[0]),
+		new DataNode(3, genome, 0, 0, new byte[0]),
+		new DataNode(4, genome, 0, 0, new byte[0]),
+		new DataNode(5, genome, 0, 0, new byte[0]),
+		new DataNode(6, genome, 0, 0, new byte[0]),
+		new DataNode(7, genome, 0, 0, new byte[0]),
+		new DataNode(8, genome, 0, 0, new byte[0]),
+		new DataNode(9, genome, 0, 0, new byte[0]) };
 		
-		for (SingleNode node : nodes) {
+		for (DataNode node : nodes) {
 			nodeList.add(node);
 		}
 		map = new HashMap<String, Edge>();
@@ -64,7 +64,7 @@ public class DeadEdgeUtilTest {
 	
 	@Test
 	public void removeDeadEdgesTest() {
-		Edge deadEdge = new Edge(nodes[0], new SingleNode(-1, null, 0, 0, null));
+		Edge deadEdge = new Edge(nodes[0], new DataNode(-1, null, 0, 0, null));
 		List<Edge> edgeList = gd.getEdgeListClone();
 		edgeList.add(deadEdge);
 		DeadEdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());

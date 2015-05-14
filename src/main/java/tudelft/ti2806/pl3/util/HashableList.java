@@ -34,7 +34,8 @@ public class HashableList<T> {
 			if (other.list != null) {
 				return false;
 			}
-		} else if (!list.equals(other.list)) {
+		}
+		if (list.size() != other.list.size()) {
 			return false;
 		}
 		return list.containsAll(other.list);

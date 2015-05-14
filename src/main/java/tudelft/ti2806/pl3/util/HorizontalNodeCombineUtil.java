@@ -2,8 +2,9 @@ package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.node.HorizontalCombinedNode;
-import tudelft.ti2806.pl3.data.graph.node.Node;
+import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.visualization.node.HorizontalWrapper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import java.util.Map;
 
 public class HorizontalNodeCombineUtil {
 	/**
-	 * Combines all {@link Node}s in the given edges list into
-	 * {@link HorizontalCombinedNode}s, reconnects the
-	 * {@link HorizontalCombinedNode}s in the graph and remove all {@link Node}s
+	 * Combines all {@link DataNodeInterface}s in the given edges list into
+	 * {@link HorizontalWrapper}s, reconnects the
+	 * {@link HorizontalWrapper}s in the graph and remove all {@link DataNodeInterface}s
 	 * which are combined from the graph.
 	 * 
 	 * @param edgesToCombine
@@ -28,7 +29,7 @@ public class HorizontalNodeCombineUtil {
 	 *            the list of edges in the graph
 	 */
 	public static void combineNodes(List<Edge> edgesToCombine,
-			List<Node> nodes, List<Edge> edges) {
+			List<DataNodeInterface> nodes, List<Edge> edges) {
 		edges.removeAll(edgesToCombine);
 		
 		// Hash all edges
@@ -39,15 +40,15 @@ public class HorizontalNodeCombineUtil {
 			toHash.put(edge.getTo().getId(), edge);
 		}
 		
-		Map<Integer, HorizontalCombinedNode> nodeReference
-				= new HashMap<Integer, HorizontalCombinedNode>();
-		List<Node> combinedNodes = new ArrayList<Node>();
+		Map<Integer, HorizontalWrapper> nodeReference
+				= new HashMap<Integer, HorizontalWrapper>();
+		List<DataNodeInterface> combinedNodes = new ArrayList<DataNodeInterface>();
 		
 		while (edgesToCombine.size() > 0) {
 			List<Edge> foundEdgeGroup = findEdgeGroups(fromHash, toHash,
 					edgesToCombine);
 			// init CNode
-			HorizontalCombinedNode combinedNode = new HorizontalCombinedNode(
+			HorizontalWrapper combinedNode = new HorizontalWrapper(
 					foundEdgeGroup);
 			combinedNodes.add(combinedNode);
 			nodes.removeAll(combinedNode.getNodeList());
@@ -62,7 +63,7 @@ public class HorizontalNodeCombineUtil {
 	}
 	
 	/**
-	 * Reconnects all combined {@link Node}s with the graph.
+	 * Reconnects all combined {@link DataNodeInterface}s with the graph.
 	 * 
 	 * @param edges
 	 *            the edges in the graph
@@ -70,19 +71,19 @@ public class HorizontalNodeCombineUtil {
 	 *            the nodes in the graph
 	 * @param nodeReference
 	 *            a map of references of the removed nodes to their new
-	 *            {@link HorizontalCombinedNode}s which contain them.
+	 *            {@link HorizontalWrapper}s which contain them.
 	 */
 	public static void reconnectCombinedNodes(List<Edge> edges,
-			List<Node> nodes, Map<Integer, HorizontalCombinedNode> nodeReference) {
+			List<DataNodeInterface> nodes, Map<Integer, HorizontalWrapper> nodeReference) {
 		List<Edge> deadEdges = DeadEdgeUtil.getAllDeadEdges(edges, nodes);
 		for (Edge edge : deadEdges) {
-			Node nodeTo = edge.getTo();
-			Node tempNode = nodeReference.get(nodeTo.getId());
+			DataNodeInterface nodeTo = edge.getTo();
+			DataNodeInterface tempNode = nodeReference.get(nodeTo.getId());
 			if (tempNode != null) {
 				nodeTo = tempNode;
 			}
 			
-			Node nodeFrom = edge.getFrom();
+			DataNodeInterface nodeFrom = edge.getFrom();
 			tempNode = nodeReference.get(nodeFrom.getId());
 			if (tempNode != null) {
 				nodeFrom = tempNode;
@@ -100,13 +101,13 @@ public class HorizontalNodeCombineUtil {
 	 * 
 	 * @param fromHash
 	 *            a map of all edges, where each is referenced by their
-	 *            {@code from} {@link Node}
+	 *            {@code from} {@link DataNodeInterface}
 	 * @param toHash
 	 *            a map of all edges, where each is referenced by their
-	 *            {@code to} {@link Node}
+	 *            {@code to} {@link DataNodeInterface}
 	 * @param edgesToCombine
 	 *            the search list with all edges who needs to be grouped.
-	 * @return an {@link List}<{@link Node}> of a complete group of edges.
+	 * @return an {@link List}<{@link DataNodeInterface}> of a complete group of edges.
 	 */
 	static List<Edge> findEdgeGroups(Map<Integer, Edge> fromHash,
 			Map<Integer, Edge> toHash, List<Edge> edgesToCombine) {
@@ -140,7 +141,7 @@ public class HorizontalNodeCombineUtil {
 	 *            the edges on the graph
 	 * @return a list of edges which could be combined
 	 */
-	public static List<Edge> findCombineableNodes(List<Node> nodes,
+	public static List<Edge> findCombineableNodes(List<DataNodeInterface> nodes,
 			List<Edge> edges) {
 		List<Edge> fromEdgesList = findFromEdges(edges);
 		List<Edge> toEdgesList = findToEdges(edges);
@@ -210,8 +211,8 @@ public class HorizontalNodeCombineUtil {
 	}
 	
 	/**
-	 * Sorts the edges on their {@code to} {@link Node} and after that on their
-	 * {@code from} {@link Node}.
+	 * Sorts the edges on their {@code to} {@link DataNodeInterface} and after that on their
+	 * {@code from} {@link DataNodeInterface}.
 	 * 
 	 * @param fromEdges
 	 *            the edges to be sorted
@@ -221,8 +222,8 @@ public class HorizontalNodeCombineUtil {
 	}
 	
 	/**
-	 * Sorts the edges on their {@code from} {@link Node} and after that on
-	 * their {@code to} {@link Node}.
+	 * Sorts the edges on their {@code from} {@link DataNodeInterface} and after that on
+	 * their {@code to} {@link DataNodeInterface}.
 	 * 
 	 * @param edges
 	 *            the edges to be sorted
@@ -272,5 +273,11 @@ public class HorizontalNodeCombineUtil {
 	public static void findAndCombineNodes(AbstractGraphData gd) {
 		combineNodes(findCombineableNodes(gd.getNodes(), gd.getEdges()),
 				gd.getNodes(), gd.getEdges());
+	}
+
+	public static PositionedGraphData horizontalCollapseGraph(
+			PositionedGraphData positionedGraphData) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

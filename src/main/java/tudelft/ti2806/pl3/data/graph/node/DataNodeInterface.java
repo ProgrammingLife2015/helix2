@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.data.graph.node;
 
 import tudelft.ti2806.pl3.data.Genome;
 
-public interface Node {
+public interface DataNodeInterface {
 	int getId();
 	
 	Genome[] getSource();
