@@ -14,14 +14,25 @@ import java.util.Map;
 public class VerticalWrapUtil extends WrapUtil {
 	private VerticalWrapUtil() {
 	}
-	
-	public static PositionedGraphData collapseGraph(PositionedGraphData pgd) {
-		List<NodePositionWrapper> result = combineNodes(pgd
+
+	/**
+	 * Constructs a {@link PositionedGraphData} instance which contains the
+	 * vertical collapsed graph of the given graph.
+	 * 
+	 * <p>
+	 * After construction the new previous node count is updated.
+	 * 
+	 * @param original
+	 *            the original graph
+	 * @return the collapsed version of the given graph
+	 */
+	public static PositionedGraphData collapseGraph(PositionedGraphData original) {
+		List<NodePositionWrapper> result = combineNodes(original
 				.getPositionedNodes());
 		for (NodePositionWrapper node : result) {
 			node.calculatePreviousNodesCount();
 		}
-		return new PositionedGraphData(pgd, result);
+		return new PositionedGraphData(original, result);
 	}
 	
 	/**
@@ -57,7 +68,8 @@ public class VerticalWrapUtil extends WrapUtil {
 	 */
 	static List<List<NodePositionWrapper>> findCombineableNodes(
 			List<NodePositionWrapper> nodes) {
-		Map<Pair<HashableList<NodePositionWrapper>, HashableList<NodePositionWrapper>>, List<NodePositionWrapper>> map = new HashMap<Pair<HashableList<NodePositionWrapper>, HashableList<NodePositionWrapper>>, List<NodePositionWrapper>>();
+		Map<Pair<HashableList<NodePositionWrapper>, HashableList<NodePositionWrapper>>, List<NodePositionWrapper>> map
+				= new HashMap<Pair<HashableList<NodePositionWrapper>, HashableList<NodePositionWrapper>>, List<NodePositionWrapper>>();
 		for (NodePositionWrapper node : nodes) {
 			List<NodePositionWrapper> list = map
 					.get(new Pair<HashableList<NodePositionWrapper>, HashableList<NodePositionWrapper>>(
