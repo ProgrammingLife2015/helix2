@@ -1,8 +1,8 @@
 package tudelft.ti2806.pl3.util;
 
-import tudelft.ti2806.pl3.visualization.node.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.node.NodePositionWrapper;
-import tudelft.ti2806.pl3.visualization.node.SingleWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.SingleWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

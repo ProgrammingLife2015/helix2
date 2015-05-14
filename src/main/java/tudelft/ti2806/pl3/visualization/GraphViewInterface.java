@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
 
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
 
 public interface GraphViewInterface extends ViewInterface {
 	/**
@@ -28,7 +28,7 @@ public interface GraphViewInterface extends ViewInterface {
 	 */
 	Graph generateGraph();
 	
-	void setGraphData(AbstractGraphData abstractGraphData);
+	void setGraphData(WrappedGraphData abstractGraphData);
 	
 	void init();
 }

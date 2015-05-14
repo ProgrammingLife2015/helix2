@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.visualization.node;
+package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 public class SingleWrapper extends NodePositionWrapper {
 	
@@ -9,17 +9,17 @@ public class SingleWrapper extends NodePositionWrapper {
 	}
 	
 	@Override
-	long getXStart() {
+	public long getXStart() {
 		return target.getXStart();
 	}
 	
 	@Override
-	long getXEnd() {
+	public long getXEnd() {
 		return target.getXEnd();
 	}
 	
 	@Override
-	long getWidth() {
+	public long getWidth() {
 		return target.getWidth();
 	}
 	

@@ -1,8 +1,10 @@
-package tudelft.ti2806.pl3.visualization.node;
+package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
+
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
 
 public class GraphNode {
 	/**
@@ -14,14 +16,14 @@ public class GraphNode {
 	 * @param node
 	 *            the node to represent on the graph
 	 */
-	public GraphNode(Graph graph, NodePosition node) {
+	public GraphNode(Graph graph, NodePositionWrapper node) {
 		startOfNode = addNode(graph, "[" + node.getId());
 		endOfNode = addNode(graph, node.getId() + "]");
 		nodeEdge = addNodeEdge(graph, node.getId() + "");
 		this.dataNode = node;
 	}
 	
-	NodePosition dataNode;
+	NodePositionWrapper dataNode;
 	Node startOfNode;
 	Node endOfNode;
 	Edge nodeEdge;
@@ -56,10 +58,6 @@ public class GraphNode {
 	private static Node addNode(Graph graph, String nodeName) {
 		Node graphNode = graph.addNode(nodeName);
 		return graphNode;
-	}
-	
-	public NodePosition getDataNode() {
-		return dataNode;
 	}
 	
 	public Node getStartOfNode() {

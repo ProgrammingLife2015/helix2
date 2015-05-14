@@ -8,9 +8,9 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
-import tudelft.ti2806.pl3.visualization.node.GraphNode;
-import tudelft.ti2806.pl3.visualization.node.NodePosition;
+import tudelft.ti2806.pl3.visualization.position.NodePosition;
+import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class GraphView implements GraphViewInterface {
 	 */
 	private String styleSheet = DEFAULT_STYLESHEET;
 	
-	private PositionedGraphData graphData;
+	private WrappedGraphData graphData;
 	private Graph graph = new SingleGraph("");
 	private Viewer viewer;
 	private View panel;
@@ -102,7 +102,7 @@ public class GraphView implements GraphViewInterface {
 		setGraphPropertys();
 		graphNodeList = new ArrayList<GraphNode>(graphData.getPositionedNodes()
 				.size());
-		for (NodePosition node : graphData.getPositionedNodes()) {
+		for (NodePositionWrapper node : graphData.getPositionedNodes()) {
 			graphNodeList.add(new GraphNode(graph, node));
 		}
 		for (Edge edge : graphData.getEdges()) {
@@ -171,8 +171,8 @@ public class GraphView implements GraphViewInterface {
 	}
 	
 	@Override
-	public void setGraphData(AbstractGraphData graphData) {
-		this.graphData = new PositionedGraphData(graphData);
+	public void setGraphData(WrappedGraphData graphData) {
+		this.graphData = graphData;
 	}
 	
 	public Viewer getViewer() {

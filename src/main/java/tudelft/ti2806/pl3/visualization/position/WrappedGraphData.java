@@ -1,28 +1,31 @@
-package tudelft.ti2806.pl3.data.graph;
+package tudelft.ti2806.pl3.visualization.position;
 
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.visualization.node.NodePosition;
-import tudelft.ti2806.pl3.visualization.node.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The {@link PositionedGraphData} is a {@link GraphData} class which also keeps
- * track of a {@link List}<{@link NodePosition}>. {@link PositionedGraphData}
+ * The {@link WrappedGraphData} is a {@link GraphData} class which also keeps
+ * track of a {@link List}<{@link NodePosition}>. {@link WrappedGraphData}
  * instance never loses any nodes or edges which are given by initialisation.
  * 
  * @author Sam Smulders
  *
  */
-public class PositionedGraphData {
+public class WrappedGraphData {
 	
 	private List<NodePositionWrapper> nodeWrappers;
 	private long size;
 	private AbstractGraphData origin;
+	private int longestNodePath;
 	
 	/**
-	 * Initialises an instance of {@link PositionedGraphData}.
+	 * Initialises an instance of {@link WrappedGraphData}.
 	 * 
 	 * @param origin
 	 *            the original
@@ -31,7 +34,7 @@ public class PositionedGraphData {
 	 * @param edges
 	 *            the edges of on the graph
 	 */
-	public PositionedGraphData(AbstractGraphData origin,
+	public WrappedGraphData(AbstractGraphData origin,
 			List<DataNodeInterface> nodes, List<Edge> edges) {
 		this.origin = origin;
 		List<NodePosition> nodePosition = NodePosition.newNodePositionList(
@@ -44,22 +47,30 @@ public class PositionedGraphData {
 		this.size = max;
 	}
 	
-	public PositionedGraphData(PositionedGraphData origin,
+	public WrappedGraphData(WrappedGraphData origin,
 			List<NodePositionWrapper> nodeWrappers) {
-//		this.origin = origin; TODO
+		// this.origin = origin; TODO
 		this.nodeWrappers = nodeWrappers;
+		for (NodePositionWrapper node : nodeWrappers) {
+			longestNodePath = Math.max(longestNodePath,
+					node.calculatePreviousNodesCount());
+		}
 	}
 	
-	public PositionedGraphData(AbstractGraphData gd) {
+	public WrappedGraphData(AbstractGraphData gd) {
 		this(gd, gd.getNodes(), gd.getEdges());
 	}
-
+	
 	public List<NodePositionWrapper> getPositionedNodes() {
 		return nodeWrappers;
 	}
 	
 	public long getSize() {
 		return size;
+	}
+	
+	public int getLongestNodePath() {
+		return longestNodePath;
 	}
 	
 }

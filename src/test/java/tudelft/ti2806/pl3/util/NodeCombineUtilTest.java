@@ -7,11 +7,11 @@ import org.junit.Test;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.visualization.node.NodePosition;
-import tudelft.ti2806.pl3.visualization.node.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.NodePosition;
+import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +27,7 @@ public class NodeCombineUtilTest {
 	private static List<Edge> edgeList;
 	private static Map<String, Edge> map;
 	private static GraphDataRepository gdr;
-	private static PositionedGraphData pgd;
+	private static WrappedGraphData pgd;
 	
 	/**
 	 * Run before tests.
@@ -66,7 +66,7 @@ public class NodeCombineUtilTest {
 		edgeList.addAll(map.values());
 		gdr = new GraphDataRepository(nodeList, edgeList,
 				new ArrayList<Genome>());
-		pgd = new PositionedGraphData(gdr);
+		pgd = new WrappedGraphData(gdr);
 	}
 	
 	/**
@@ -104,11 +104,11 @@ public class NodeCombineUtilTest {
 	
 	@Test
 	public void verticalCombineTest() {
-		PositionedGraphData pgd = new PositionedGraphData(gdr);
+		WrappedGraphData pgd = new WrappedGraphData(gdr);
 		List<List<NodePositionWrapper>> list = VerticalWrapUtil
 				.findCombineableNodes(pgd.getPositionedNodes());
 		Assert.assertTrue(list.size() == 1);
-		PositionedGraphData newPgd = VerticalWrapUtil.collapseGraph(pgd);
+		WrappedGraphData newPgd = VerticalWrapUtil.collapseGraph(pgd);
 		Assert.assertTrue(pgd.getPositionedNodes().size() == 10);
 		Assert.assertTrue(newPgd.getPositionedNodes().size() == 9);
 	}
@@ -120,8 +120,8 @@ public class NodeCombineUtilTest {
 		File edgesFile = new File("data/6TestCombineNodes.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
 				edgesFile);
-		PositionedGraphData[] pgd = new PositionedGraphData[3];
-		pgd[0] = new PositionedGraphData(gdr);
+		WrappedGraphData[] pgd = new WrappedGraphData[3];
+		pgd[0] = new WrappedGraphData(gdr);
 		
 		List<List<NodePositionWrapper>> list = VerticalWrapUtil
 				.findCombineableNodes(pgd[0].getPositionedNodes());

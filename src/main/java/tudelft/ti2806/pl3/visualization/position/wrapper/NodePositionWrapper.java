@@ -1,20 +1,20 @@
-package tudelft.ti2806.pl3.visualization.node;
+package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class NodePositionWrapper {
 	
-	private double yy;
+	protected double yy;
 	protected List<NodePositionWrapper> incoming = new ArrayList<NodePositionWrapper>();
 	protected List<NodePositionWrapper> outgoing = new ArrayList<NodePositionWrapper>();
 	protected int previousNodesCount = -1;
 	
-	abstract long getXStart();
+	public abstract long getXStart();
 	
-	abstract long getXEnd();
+	public abstract long getXEnd();
 	
-	abstract long getWidth();
+	public abstract long getWidth();
 	
 	public int getPreviousNodesCount() {
 		return previousNodesCount;

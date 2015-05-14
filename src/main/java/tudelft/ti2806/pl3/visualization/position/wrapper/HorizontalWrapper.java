@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.visualization.node;
+package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import java.util.List;
 
@@ -30,12 +30,12 @@ public class HorizontalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	long getXStart() {
+	public long getXStart() {
 		return getFirst().getXStart();
 	}
 	
 	@Override
-	long getXEnd() {
+	public long getXEnd() {
 		return getLast().getXEnd();
 	}
 }

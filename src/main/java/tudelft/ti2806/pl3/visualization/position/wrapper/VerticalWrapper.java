@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.visualization.node;
+package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import java.util.List;
 

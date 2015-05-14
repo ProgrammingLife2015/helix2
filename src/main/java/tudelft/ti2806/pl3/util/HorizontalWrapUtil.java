@@ -1,9 +1,9 @@
 package tudelft.ti2806.pl3.util;
 
-import tudelft.ti2806.pl3.data.graph.PositionedGraphData;
-import tudelft.ti2806.pl3.visualization.node.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.node.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.node.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
+import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class HorizontalWrapUtil extends WrapUtil {
 	}
 	
 	/**
-	 * Constructs a {@link PositionedGraphData} instance which contains the
+	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * horizontal collapsed graph of the given graph.
 	 * 
 	 * <p>
@@ -23,13 +23,9 @@ public class HorizontalWrapUtil extends WrapUtil {
 	 *            the original graph
 	 * @return the collapsed version of the given graph
 	 */
-	public static PositionedGraphData collapseGraph(PositionedGraphData original) {
-		List<NodePositionWrapper> result = collapseNodeList(original
-				.getPositionedNodes());
-		for (NodePositionWrapper node : result) {
-			node.calculatePreviousNodesCount();
-		}
-		return new PositionedGraphData(original, result);
+	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
+		return new WrappedGraphData(original,
+				collapseNodeList(original.getPositionedNodes()));
 	}
 	
 	/**
