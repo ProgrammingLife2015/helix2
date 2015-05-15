@@ -1,14 +1,24 @@
-package tudelft.ti2806.pl3.util;
+package tudelft.ti2806.pl3.util.wrap;
 
+import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.util.HashableList;
 import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
 import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.position.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.VerticalWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HorizontalWrapUtil extends WrapUtil {
+/**
+ * An utility class to find and combine nodes which can be combined into
+ * {@link HorizontalWrapper}.
+ * 
+ * @author Sam Smulders
+ */
+public final class HorizontalWrapUtil {
 	private HorizontalWrapUtil() {
 	}
 	
@@ -16,27 +26,32 @@ public class HorizontalWrapUtil extends WrapUtil {
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * horizontal collapsed graph of the given graph.
 	 * 
-	 * <p>
-	 * After construction the new previous node count is updated.
-	 * 
 	 * @param original
 	 *            the original graph
-	 * @return the collapsed version of the given graph
+	 * @return the collapsed version of the given graph <br>
+	 *         {@code null} if nothing could be collapsed
 	 */
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		return new WrappedGraphData(original,
-				collapseNodeList(original.getPositionedNodes()));
+		List<NodePositionWrapper> newLayer = combineNodes(original
+				.getPositionedNodes());
+		if (newLayer == null) {
+			return null;
+		}
+		return new WrappedGraphData(original, newLayer);
 	}
-	
+
 	/**
-	 * Constructs a new layer of {@link NodePositionWrapper}s containing the
-	 * previous layer. The new layer is collapsed where possible.
+	 * Combines nodes vertically. Combines all {@link DataNodeInterface}s in the
+	 * given list of node into {@link VerticalWrapper}s, reconnects the
+	 * {@link VerticalWrapper}s in the graph and remove all
+	 * {@link DataNodeInterface}s which are combined from the graph.
 	 * 
-	 * @param parentLayer
-	 *            the parent layer
-	 * @return the new layer over the given parent layer
+	 * @param nodes
+	 *            the nodes to combine
+	 * @return the collapsed version of the given graph<br>
+	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<NodePositionWrapper> collapseNodeList(
+	static List<NodePositionWrapper> combineNodes(
 			List<NodePositionWrapper> parentLayer) {
 		List<NodePositionWrapper> nonWrappedNodes = new ArrayList<NodePositionWrapper>(
 				parentLayer);
@@ -46,7 +61,10 @@ public class HorizontalWrapUtil extends WrapUtil {
 			combinedNodes.add(newNode);
 			nonWrappedNodes.removeAll(list);
 		}
-		return wrapNodes(nonWrappedNodes, combinedNodes);
+		if (combinedNodes.size() == 0) {
+			return null;
+		}
+		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
 	}
 	
 	/**
@@ -81,7 +99,10 @@ public class HorizontalWrapUtil extends WrapUtil {
 				// Add all nodes to the left which can be combined.
 				node = startNode;
 				while (node.getIncoming().size() == 1
-						&& node.getIncoming().get(0).getOutgoing().size() == 1) {
+						&& node.getIncoming().get(0).getOutgoing().size() == 1
+						&& new HashableList<Genome>(node.getGenome())
+								.equals(new HashableList<Genome>(node
+										.getIncoming().get(0).getGenome()))) {
 					node = node.getIncoming().get(0);
 					foundGroup.add(0, node);
 				}

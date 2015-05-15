@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.visualization.position;
 
+import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
@@ -101,5 +102,14 @@ public class NodePosition extends NodePositionWrapper {
 	@Override
 	public String getIdString() {
 		return node.getId() + "";
+	}
+	
+	@Override
+	public List<Genome> getGenome() {
+		List<Genome> list = new ArrayList<Genome>();
+		for (Genome genome : node.getSource()) {
+			list.add(genome);
+		}
+		return list;
 	}
 }

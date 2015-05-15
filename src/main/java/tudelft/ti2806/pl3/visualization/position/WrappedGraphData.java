@@ -49,7 +49,7 @@ public class WrappedGraphData {
 	
 	public WrappedGraphData(WrappedGraphData origin,
 			List<NodePositionWrapper> nodeWrappers) {
-		// this.origin = origin; TODO
+		this.origin = origin.origin;
 		this.nodeWrappers = nodeWrappers;
 		for (NodePositionWrapper node : nodeWrappers) {
 			longestNodePath = Math.max(longestNodePath,
@@ -71,6 +71,10 @@ public class WrappedGraphData {
 	
 	public int getLongestNodePath() {
 		return longestNodePath;
+	}
+	
+	public AbstractGraphData getOrigin() {
+		return origin;
 	}
 	
 }

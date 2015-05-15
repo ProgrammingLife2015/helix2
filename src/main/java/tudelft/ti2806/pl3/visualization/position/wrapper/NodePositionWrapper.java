@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.visualization.position.wrapper;
 
+import tudelft.ti2806.pl3.data.Genome;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,4 +66,6 @@ public abstract class NodePositionWrapper {
 	}
 
 	public abstract String getIdString();
+
+	public abstract List<Genome> getGenome();
 }

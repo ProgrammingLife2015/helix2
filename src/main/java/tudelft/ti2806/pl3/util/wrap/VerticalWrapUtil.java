@@ -1,6 +1,8 @@
-package tudelft.ti2806.pl3.util;
+package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.util.HashableList;
+import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
 import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
@@ -11,7 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VerticalWrapUtil extends WrapUtil {
+/**
+ * An utility class to find and combine nodes which can be combined into
+ * {@link VerticalWrapper}.
+ * 
+ * @author Sam Smulders
+ */
+public final class VerticalWrapUtil {
 	private VerticalWrapUtil() {
 	}
 	
@@ -19,16 +27,18 @@ public class VerticalWrapUtil extends WrapUtil {
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * vertical collapsed graph of the given graph.
 	 * 
-	 * <p>
-	 * After construction the new previous node count is updated.
-	 * 
 	 * @param original
 	 *            the original graph
-	 * @return the collapsed version of the given graph
+	 * @return the collapsed version of the given graph <br>
+	 *         {@code null} if nothing could be collapsed
 	 */
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		return new WrappedGraphData(original,
-				combineNodes(original.getPositionedNodes()));
+		List<NodePositionWrapper> newLayer = combineNodes(original
+				.getPositionedNodes());
+		if (newLayer == null) {
+			return null;
+		}
+		return new WrappedGraphData(original, newLayer);
 	}
 	
 	/**
@@ -39,6 +49,8 @@ public class VerticalWrapUtil extends WrapUtil {
 	 * 
 	 * @param nodes
 	 *            the nodes to combine
+	 * @return the collapsed version of the given graph<br>
+	 *         {@code null} if nothing could be collapsed
 	 */
 	static List<NodePositionWrapper> combineNodes(
 			List<NodePositionWrapper> nodes) {
@@ -46,11 +58,14 @@ public class VerticalWrapUtil extends WrapUtil {
 				nodes);
 		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
 		for (List<NodePositionWrapper> list : findCombineableNodes(nodes)) {
-			VerticalWrapper newNode = new VerticalWrapper(list);
+			CombineWrapper newNode = new VerticalWrapper(list);
 			combinedNodes.add(newNode);
 			nonWrappedNodes.removeAll(list);
 		}
-		return wrapNodes(nonWrappedNodes, combinedNodes);
+		if (combinedNodes.size() == 0) {
+			return null;
+		}
+		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
 	}
 	
 	/**

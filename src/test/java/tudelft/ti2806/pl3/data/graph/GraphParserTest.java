@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GraphParserTest {
-	private File simpleNodeGraphFile = new File("data/TestNodeGraphFile");
-	private File simpleEdgeGraphFile = new File("data/TestEdgeFraphFile");
+	private File simpleNodeGraphFile = new File("data/testdata/TestNodeGraphFile");
+	private File simpleEdgeGraphFile = new File("data/testdata/TestEdgeFraphFile");
 	
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {

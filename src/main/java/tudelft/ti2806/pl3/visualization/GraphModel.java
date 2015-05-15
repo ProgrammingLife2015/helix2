@@ -5,8 +5,9 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.util.HorizontalWrapUtil;
-import tudelft.ti2806.pl3.util.VerticalWrapUtil;
+import tudelft.ti2806.pl3.util.wrap.HorizontalWrapUtil;
+import tudelft.ti2806.pl3.util.wrap.VerticalWrapUtil;
+import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
 
 import java.util.ArrayList;
@@ -39,20 +40,7 @@ public class GraphModel implements GraphModelInterface {
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		graph = new WrappedGraphData(originalGraph, resultNodes, resultEdges);
-		collapseGraph(10);
-	}
-	
-	private void collapseGraph(int maxIterations) {
-		WrappedGraphData lastGraph = null;
-		int iterations = 0;
-		while (iterations++ < maxIterations
-				&& (lastGraph == null || lastGraph.getPositionedNodes().size() != graph
-						.getPositionedNodes().size())) {
-			lastGraph = graph;
-			graph = VerticalWrapUtil.collapseGraph(graph);
-			graph = HorizontalWrapUtil.collapseGraph(graph);
-		}
-		System.out.println(iterations);
+		graph = WrapUtil.collapseGraph(graph, 10);
 	}
 	
 	@Override
