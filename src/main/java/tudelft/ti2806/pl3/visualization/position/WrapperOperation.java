@@ -18,6 +18,7 @@ import tudelft.ti2806.pl3.visualization.position.wrapper.VerticalWrapper;
  * <ul>
  * <li>Calculating which {@link NodeWrapper} should collapse.
  * <li>Calculating the order of the nodes within a {@link CombineWrapper}.
+ * <li>Calculating the y position of a {@link NodeWrapper}.
  * </ul>
  * 
  * @author Sam Smulders
