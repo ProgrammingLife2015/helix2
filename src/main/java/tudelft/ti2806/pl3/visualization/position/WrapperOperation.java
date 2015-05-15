@@ -13,6 +13,13 @@ import tudelft.ti2806.pl3.visualization.position.wrapper.VerticalWrapper;
  * implementations of {@link NodeWrapper} in a different way without identifying
  * and casting the objects.
  * 
+ * <p>
+ * Examples of usage:
+ * <ul>
+ * <li>Calculating which {@link NodeWrapper} should collapse.
+ * <li>Calculating the order of the nodes within a {@link CombineWrapper}.
+ * </ul>
+ * 
  * @author Sam Smulders
  *
  */
