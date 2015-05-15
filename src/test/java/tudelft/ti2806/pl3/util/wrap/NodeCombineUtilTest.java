@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.visualization.position.NodePosition;
 import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +28,7 @@ public class NodeCombineUtilTest {
 		File edgesFile = new File("data/testdata/wrapTest.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
 				edgesFile);
-		List<List<NodePositionWrapper>> list = HorizontalWrapUtil
+		List<List<NodeWrapper>> list = HorizontalWrapUtil
 				.findCombineableNodes(new WrappedGraphData(gdr)
 						.getPositionedNodes());
 		Assert.assertTrue(list.size() == 2);
@@ -55,7 +55,7 @@ public class NodeCombineUtilTest {
 		Assert.assertTrue(newPgd.getPositionedNodes().size() == 9);
 	}
 	
-	private int[] getIdList(List<NodePositionWrapper> group) {
+	private int[] getIdList(List<NodeWrapper> group) {
 		int[] idList = new int[group.size()];
 		for (int i = 0; i < group.size(); i++) {
 			idList[i] = ((NodePosition) group.get(i)).getNode().getId();
@@ -72,7 +72,7 @@ public class NodeCombineUtilTest {
 		pgd[0] = new WrappedGraphData(GraphDataRepository.parseGraph(nodesFile,
 				edgesFile));
 		
-		List<List<NodePositionWrapper>> list = VerticalWrapUtil
+		List<List<NodeWrapper>> list = VerticalWrapUtil
 				.findCombineableNodes(pgd[0].getPositionedNodes());
 		Assert.assertTrue(list.size() == 3);
 		Assert.assertTrue(pgd[0].getPositionedNodes().size() == 6);
@@ -97,7 +97,7 @@ public class NodeCombineUtilTest {
 		Assert.assertTrue(original.getPositionedNodes().size() == 7);
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(HorizontalWrapUtil.collapseGraph(original));
-		List<List<NodePositionWrapper>> combineableNodes = SpaceWrapUtil
+		List<List<NodeWrapper>> combineableNodes = SpaceWrapUtil
 				.findCombineableNodes(original.getPositionedNodes());
 		Assert.assertTrue(combineableNodes.size() == 1);
 		WrappedGraphData nwgd = SpaceWrapUtil.collapseGraph(original);

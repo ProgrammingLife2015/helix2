@@ -4,7 +4,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
 
 public class GraphNode {
 	/**
@@ -16,14 +16,14 @@ public class GraphNode {
 	 * @param node
 	 *            the node to represent on the graph
 	 */
-	public GraphNode(Graph graph, NodePositionWrapper node) {
+	public GraphNode(Graph graph, NodeWrapper node) {
 		startOfNode = addNode(graph, "[" + node.getId());
 		endOfNode = addNode(graph, node.getId() + "]");
 		nodeEdge = addNodeEdge(graph, node.getId() + "");
 		this.dataNode = node;
 	}
 	
-	NodePositionWrapper dataNode;
+	NodeWrapper dataNode;
 	Node startOfNode;
 	Node endOfNode;
 	Edge nodeEdge;

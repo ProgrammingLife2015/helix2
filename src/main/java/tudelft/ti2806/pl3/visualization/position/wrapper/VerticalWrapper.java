@@ -1,20 +1,21 @@
 package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.visualization.position.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class VerticalWrapper extends CombineWrapper {
 	
-	public VerticalWrapper(List<NodePositionWrapper> nodeList) {
+	public VerticalWrapper(List<NodeWrapper> nodeList) {
 		super(nodeList);
 	}
 	
 	@Override
 	public long getWidth() {
 		long max = Integer.MIN_VALUE;
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			max = Math.max(max, node.getWidth());
 		}
 		return max;
@@ -23,7 +24,7 @@ public class VerticalWrapper extends CombineWrapper {
 	@Override
 	public long getXStart() {
 		long min = Long.MAX_VALUE;
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			min = Math.min(node.getXStart(), min);
 		}
 		return min;
@@ -32,7 +33,7 @@ public class VerticalWrapper extends CombineWrapper {
 	@Override
 	public long getXEnd() {
 		long max = Long.MIN_VALUE;
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			max = Math.max(node.getXEnd(), max);
 		}
 		return max;
@@ -41,9 +42,14 @@ public class VerticalWrapper extends CombineWrapper {
 	@Override
 	public List<Genome> getGenome() {
 		List<Genome> genome = new ArrayList<Genome>();
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			genome.addAll(node.getGenome());
 		}
 		return genome;
+	}
+
+	@Override
+	public void calculate(WrapperOperation wrapperOperation) {
+		wrapperOperation.calculate(this);
 	}
 }

@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.visualization.position.WrapperOperation;
 
 import java.util.List;
 
@@ -19,14 +20,14 @@ public class HorizontalWrapper extends CombineWrapper {
 	 * @param nodePosList
 	 *            a connected and sorted list of edges.
 	 */
-	public HorizontalWrapper(List<NodePositionWrapper> nodePosList) {
+	public HorizontalWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
 	
 	@Override
 	public long getWidth() {
 		long sum = 0;
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			sum += node.getWidth();
 		}
 		return sum;
@@ -45,5 +46,10 @@ public class HorizontalWrapper extends CombineWrapper {
 	@Override
 	public List<Genome> getGenome() {
 		return getFirst().getGenome();
+	}
+	
+	@Override
+	public void calculate(WrapperOperation wrapperSequencer) {
+		wrapperSequencer.calculate(this);
 	}
 }

@@ -1,9 +1,9 @@
-package tudelft.ti2806.pl3.visualization.position;
+package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Sam Smulders
  *
  */
-public class NodePosition extends NodePositionWrapper {
+public class NodePosition extends NodeWrapper {
 	private DataNodeInterface node;
 	private long startX = -1;
 	
@@ -71,7 +71,7 @@ public class NodePosition extends NodePositionWrapper {
 			return this.getXStart();
 		}
 		long max = 0;
-		for (NodePositionWrapper incomingNode : incoming) {
+		for (NodeWrapper incomingNode : incoming) {
 			max = Math.max(max, ((NodePosition) incomingNode).calculateStartX()
 					+ incomingNode.getWidth());
 		}
@@ -111,5 +111,10 @@ public class NodePosition extends NodePositionWrapper {
 			list.add(genome);
 		}
 		return list;
+	}
+
+	@Override
+	public void calculate(WrapperOperation wrapperOperation) {
+		wrapperOperation.calculate(this);
 	}
 }

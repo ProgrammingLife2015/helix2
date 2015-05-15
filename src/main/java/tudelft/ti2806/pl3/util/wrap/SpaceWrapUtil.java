@@ -5,7 +5,7 @@ import tudelft.ti2806.pl3.util.HashableList;
 import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
 import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.position.wrapper.SpaceWrapper;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public final class SpaceWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<NodePositionWrapper> newLayer = combineNodes(original
+		List<NodeWrapper> newLayer = combineNodes(original
 				.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
@@ -62,12 +62,12 @@ public final class SpaceWrapUtil {
 	 * @return a new layer of nodes <br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<NodePositionWrapper> combineNodes(
-			List<NodePositionWrapper> nodes) {
-		List<NodePositionWrapper> nonWrappedNodes = new ArrayList<NodePositionWrapper>(
+	static List<NodeWrapper> combineNodes(
+			List<NodeWrapper> nodes) {
+		List<NodeWrapper> nonWrappedNodes = new ArrayList<NodeWrapper>(
 				nodes);
 		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
-		for (List<NodePositionWrapper> list : findCombineableNodes(nodes)) {
+		for (List<NodeWrapper> list : findCombineableNodes(nodes)) {
 			CombineWrapper newNode = new SpaceWrapper(list);
 			combinedNodes.add(newNode);
 			nonWrappedNodes.removeAll(list);
@@ -86,8 +86,8 @@ public final class SpaceWrapUtil {
 	 *            the nodes to search through
 	 * @return a list of spatial combine able nodes.
 	 */
-	static List<List<NodePositionWrapper>> findCombineableNodes(
-			List<NodePositionWrapper> nodes) {
+	static List<List<NodeWrapper>> findCombineableNodes(
+			List<NodeWrapper> nodes) {
 		return filterCandidates(computeAllCandidates(nodes));
 	}
 	
@@ -101,23 +101,23 @@ public final class SpaceWrapUtil {
 	 *            the list of candidates to filter
 	 * @return a list of all combine able groups found
 	 */
-	static List<List<NodePositionWrapper>> filterCandidates(
-			List<Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>> candidateList) {
+	static List<List<NodeWrapper>> filterCandidates(
+			List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList) {
 		/*
 		 * The found group of nodes may not contain a smaller group of nodes, or
 		 * else we would duplicate them.
 		 */
-		Set<NodePositionWrapper> blackList = new HashSet<NodePositionWrapper>();
-		List<List<NodePositionWrapper>> foundSets = new ArrayList<List<NodePositionWrapper>>();
-		for (Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>> candidate : candidateList) {
-			NodePositionWrapper startNode = candidate.getSecond().getFirst();
-			NodePositionWrapper endNode = candidate.getSecond().getSecond();
+		Set<NodeWrapper> blackList = new HashSet<NodeWrapper>();
+		List<List<NodeWrapper>> foundSets = new ArrayList<List<NodeWrapper>>();
+		for (Pair<Integer, Pair<NodeWrapper, NodeWrapper>> candidate : candidateList) {
+			NodeWrapper startNode = candidate.getSecond().getFirst();
+			NodeWrapper endNode = candidate.getSecond().getSecond();
 			if (blackList.contains(startNode) || blackList.contains(endNode)) {
 				continue;
 			}
 			
-			Set<NodePositionWrapper> rightGroup = new HashSet<NodePositionWrapper>();
-			Set<NodePositionWrapper> leftGroup = new HashSet<NodePositionWrapper>();
+			Set<NodeWrapper> rightGroup = new HashSet<NodeWrapper>();
+			Set<NodeWrapper> leftGroup = new HashSet<NodeWrapper>();
 			/*
 			 * Each path from the startNode to the right must lead to the
 			 * endNode.
@@ -136,7 +136,7 @@ public final class SpaceWrapUtil {
 			 * To fulfil the preconditions of CombineWrapper we add the start on
 			 * the start and the end on the end of the list.
 			 */
-			List<NodePositionWrapper> foundList = new ArrayList<NodePositionWrapper>(
+			List<NodeWrapper> foundList = new ArrayList<NodeWrapper>(
 					rightGroup);
 			foundList.add(0, startNode);
 			foundList.add(endNode);
@@ -154,10 +154,10 @@ public final class SpaceWrapUtil {
 	 * @return a sorted list of all possible combine candidates, sorted on
 	 *         distance between the candidate nodes
 	 */
-	static List<Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>> computeAllCandidates(
-			List<NodePositionWrapper> nodes) {
-		List<Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>> candidateList
-				= new ArrayList<Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>>();
+	static List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> computeAllCandidates(
+			List<NodeWrapper> nodes) {
+		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList
+				= new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
 		/*
 		 * If a node doesn't contain the same genomes, it is impossible for them
 		 * to be a candidate, because every node in the group between a
@@ -166,12 +166,12 @@ public final class SpaceWrapUtil {
 		 * out the group. Thats why we only use nodes with the same set of
 		 * genomes to create candidates.
 		 */
-		for (Pair<List<Genome>, List<NodePositionWrapper>> bucket : getNodesByGenome(nodes)) {
+		for (Pair<List<Genome>, List<NodeWrapper>> bucket : getNodesByGenome(nodes)) {
 			// There should be at least two nodes with the same genome list.
 			if (bucket.getSecond().size() <= 1) {
 				continue;
 			}
-			List<NodePositionWrapper> nodeList = new ArrayList<NodePositionWrapper>(
+			List<NodeWrapper> nodeList = new ArrayList<NodeWrapper>(
 					bucket.getSecond());
 			for (int i = bucket.getSecond().size() - 1; i > 0; i--) {
 				nodeList.remove(nodeList.size() - 1);
@@ -190,11 +190,11 @@ public final class SpaceWrapUtil {
 	 *            the nodes to map
 	 * @return a collection of buckets
 	 */
-	static Collection<Pair<List<Genome>, List<NodePositionWrapper>>> getNodesByGenome(
-			List<NodePositionWrapper> nodes) {
-		Map<HashableList<Genome>, Pair<List<Genome>, List<NodePositionWrapper>>> searchMap
-				= new HashMap<HashableList<Genome>, Pair<List<Genome>, List<NodePositionWrapper>>>();
-		for (NodePositionWrapper node : nodes) {
+	static Collection<Pair<List<Genome>, List<NodeWrapper>>> getNodesByGenome(
+			List<NodeWrapper> nodes) {
+		Map<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>> searchMap
+				= new HashMap<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>>();
+		for (NodeWrapper node : nodes) {
 			List<Genome> genome = node.getGenome();
 			/*
 			 * There should be at least two genomes on a node to be a end or
@@ -203,11 +203,11 @@ public final class SpaceWrapUtil {
 			if (genome.size() <= 1) {
 				continue;
 			}
-			Pair<List<Genome>, List<NodePositionWrapper>> pair = searchMap
+			Pair<List<Genome>, List<NodeWrapper>> pair = searchMap
 					.get(new HashableList<Genome>(genome));
 			if (pair == null) {
-				pair = new Pair<List<Genome>, List<NodePositionWrapper>>(
-						genome, new ArrayList<NodePositionWrapper>());
+				pair = new Pair<List<Genome>, List<NodeWrapper>>(
+						genome, new ArrayList<NodeWrapper>());
 				searchMap.put(new HashableList<Genome>(genome), pair);
 			}
 			pair.getSecond().add(node);
@@ -236,9 +236,9 @@ public final class SpaceWrapUtil {
 	 *         the startNode.<br>
 	 *         {@code false} otherwise
 	 */
-	static boolean searchLeft(NodePositionWrapper to,
-			Set<NodePositionWrapper> track, Integer steps,
-			NodePositionWrapper startNode, Set<NodePositionWrapper> blackList) {
+	static boolean searchLeft(NodeWrapper to,
+			Set<NodeWrapper> track, Integer steps,
+			NodeWrapper startNode, Set<NodeWrapper> blackList) {
 		if (to == startNode) {
 			return true;
 		}
@@ -246,7 +246,7 @@ public final class SpaceWrapUtil {
 				|| to.getIncoming().size() == 0) {
 			return false;
 		}
-		for (NodePositionWrapper from : to.getIncoming()) {
+		for (NodeWrapper from : to.getIncoming()) {
 			if (!track.contains(from)) {
 				track.add(from);
 				if (!searchLeft(from, track, steps - 1, startNode, blackList)) {
@@ -280,9 +280,9 @@ public final class SpaceWrapUtil {
 	 *         to the endNode.<br>
 	 *         {@code false} otherwise
 	 */
-	static boolean searchRight(NodePositionWrapper from,
-			Set<NodePositionWrapper> track, Integer steps,
-			NodePositionWrapper endNode, Set<NodePositionWrapper> blackList) {
+	static boolean searchRight(NodeWrapper from,
+			Set<NodeWrapper> track, Integer steps,
+			NodeWrapper endNode, Set<NodeWrapper> blackList) {
 		if (from == endNode) {
 			return true;
 		}
@@ -290,7 +290,7 @@ public final class SpaceWrapUtil {
 				|| from.getOutgoing().size() == 0) {
 			return false;
 		}
-		for (NodePositionWrapper to : from.getOutgoing()) {
+		for (NodeWrapper to : from.getOutgoing()) {
 			if (!track.contains(to)) {
 				track.add(to);
 				if (!searchRight(to, track, steps - 1, endNode, blackList)) {
@@ -315,19 +315,19 @@ public final class SpaceWrapUtil {
 	 *            a candidate node
 	 * @return an ordered candidate pair.
 	 */
-	static Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>> newCandidatePair(
-			NodePositionWrapper node1, NodePositionWrapper node2) {
+	static Pair<Integer, Pair<NodeWrapper, NodeWrapper>> newCandidatePair(
+			NodeWrapper node1, NodeWrapper node2) {
 		int distance = node1.getPreviousNodesCount()
 				- node2.getPreviousNodesCount();
 		if (distance > 0) {
-			return new Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>(
+			return new Pair<Integer, Pair<NodeWrapper, NodeWrapper>>(
 					distance,
-					new Pair<NodePositionWrapper, NodePositionWrapper>(node2,
+					new Pair<NodeWrapper, NodeWrapper>(node2,
 							node1));
 		} else if (distance < 0) {
-			return new Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>(
+			return new Pair<Integer, Pair<NodeWrapper, NodeWrapper>>(
 					-distance,
-					new Pair<NodePositionWrapper, NodePositionWrapper>(node1,
+					new Pair<NodeWrapper, NodeWrapper>(node1,
 							node2));
 		}
 		return null;
@@ -341,7 +341,7 @@ public final class SpaceWrapUtil {
 	 *            the list to sort
 	 */
 	static void sortOnLenght(
-			List<Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>> candidateList) {
+			List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList) {
 		Collections.sort(candidateList, new LenghtPairSort());
 	}
 	
@@ -351,11 +351,11 @@ public final class SpaceWrapUtil {
 	 */
 	static class LenghtPairSort
 			implements
-			Comparator<Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>>> {
+			Comparator<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> {
 		@Override
 		public int compare(
-				Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>> o1,
-				Pair<Integer, Pair<NodePositionWrapper, NodePositionWrapper>> o2) {
+				Pair<Integer, Pair<NodeWrapper, NodeWrapper>> o1,
+				Pair<Integer, Pair<NodeWrapper, NodeWrapper>> o2) {
 			return (int) Math.signum(o1.getFirst() - o2.getFirst());
 		}
 	}

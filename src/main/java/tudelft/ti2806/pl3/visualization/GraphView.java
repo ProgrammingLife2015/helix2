@@ -8,9 +8,9 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.visualization.position.NodePosition;
 import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -102,7 +102,7 @@ public class GraphView implements GraphViewInterface {
 		setGraphPropertys();
 		graphNodeList = new ArrayList<GraphNode>(graphData.getPositionedNodes()
 				.size());
-		for (NodePositionWrapper node : graphData.getPositionedNodes()) {
+		for (NodeWrapper node : graphData.getPositionedNodes()) {
 			graphNodeList.add(new GraphNode(graph, node));
 		}
 		for (Edge edge : graphData.getEdges()) {

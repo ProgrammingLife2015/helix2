@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.visualization.position;
+package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
-import tudelft.ti2806.pl3.visualization.position.NodePosition;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
 
 public class SingleNodeTest {
 	private static NodePosition s0;
@@ -20,14 +20,12 @@ public class SingleNodeTest {
 	 */
 	@BeforeClass
 	public static void init() {
-		s0 = new NodePosition(new DataNode(0, new Genome[0], 0, 0,
-				new byte[5]));
-		s1 = new NodePosition(new DataNode(1, new Genome[0], 0, 0,
-				new byte[10]));
-		s2 = new NodePosition(new DataNode(2, new Genome[0], 0, 0,
-				new byte[20]));
-		s3 = new NodePosition(new DataNode(3, new Genome[0], 0, 0,
-				new byte[2]));
+		s0 = new NodePosition(new DataNode(0, new Genome[0], 0, 0, new byte[5]));
+		s1 = new NodePosition(
+				new DataNode(1, new Genome[0], 0, 0, new byte[10]));
+		s2 = new NodePosition(
+				new DataNode(2, new Genome[0], 0, 0, new byte[20]));
+		s3 = new NodePosition(new DataNode(3, new Genome[0], 0, 0, new byte[2]));
 		
 		s0.getOutgoing().add(s1);
 		s1.getIncoming().add(s0);

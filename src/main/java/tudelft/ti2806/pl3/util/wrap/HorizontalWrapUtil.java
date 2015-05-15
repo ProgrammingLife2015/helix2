@@ -6,7 +6,7 @@ import tudelft.ti2806.pl3.util.HashableList;
 import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
 import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.position.wrapper.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.position.wrapper.VerticalWrapper;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public final class HorizontalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<NodePositionWrapper> newLayer = combineNodes(original
+		List<NodeWrapper> newLayer = combineNodes(original
 				.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
@@ -51,12 +51,12 @@ public final class HorizontalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<NodePositionWrapper> combineNodes(
-			List<NodePositionWrapper> parentLayer) {
-		List<NodePositionWrapper> nonWrappedNodes = new ArrayList<NodePositionWrapper>(
+	static List<NodeWrapper> combineNodes(
+			List<NodeWrapper> parentLayer) {
+		List<NodeWrapper> nonWrappedNodes = new ArrayList<NodeWrapper>(
 				parentLayer);
 		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
-		for (List<NodePositionWrapper> list : findCombineableNodes(parentLayer)) {
+		for (List<NodeWrapper> list : findCombineableNodes(parentLayer)) {
 			HorizontalWrapper newNode = new HorizontalWrapper(list);
 			combinedNodes.add(newNode);
 			nonWrappedNodes.removeAll(list);
@@ -74,23 +74,23 @@ public final class HorizontalWrapUtil {
 	 *            the nodes on the graph
 	 * @return a list of horizontal wrap-able nodes.
 	 */
-	static List<List<NodePositionWrapper>> findCombineableNodes(
-			List<NodePositionWrapper> nodes) {
-		List<List<NodePositionWrapper>> foundCombineableNodes = new ArrayList<List<NodePositionWrapper>>();
-		List<NodePositionWrapper> iterateList = new ArrayList<NodePositionWrapper>(
+	static List<List<NodeWrapper>> findCombineableNodes(
+			List<NodeWrapper> nodes) {
+		List<List<NodeWrapper>> foundCombineableNodes = new ArrayList<List<NodeWrapper>>();
+		List<NodeWrapper> iterateList = new ArrayList<NodeWrapper>(
 				nodes);
-		List<NodePositionWrapper> removeFromIterateList = new ArrayList<NodePositionWrapper>();
+		List<NodeWrapper> removeFromIterateList = new ArrayList<NodeWrapper>();
 		/*
 		 * Here we iterate over each element in iterateList and over each
 		 * element only once, because we keep track of a list of all elements we
 		 * iterate over.
 		 */
 		while (iterateList.size() > 0) {
-			for (NodePositionWrapper startNode : iterateList) {
-				List<NodePositionWrapper> foundGroup = new ArrayList<NodePositionWrapper>();
+			for (NodeWrapper startNode : iterateList) {
+				List<NodeWrapper> foundGroup = new ArrayList<NodeWrapper>();
 				foundGroup.add(startNode);
 				// Add all nodes to the right which can be combined.
-				NodePositionWrapper node = startNode;
+				NodeWrapper node = startNode;
 				while (node.getOutgoing().size() == 1
 						&& node.getOutgoing().get(0).getIncoming().size() == 1) {
 					node = node.getOutgoing().get(0);

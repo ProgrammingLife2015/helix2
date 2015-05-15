@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.visualization.position.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.visualization.position.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,14 @@ import java.util.List;
  */
 public class SpaceWrapper extends CombineWrapper {
 	
-	public SpaceWrapper(List<NodePositionWrapper> nodeList) {
+	public SpaceWrapper(List<NodeWrapper> nodeList) {
 		super(nodeList);
 	}
 	
 	@Override
 	public long getXStart() {
 		long min = Long.MAX_VALUE;
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			min = Math.min(node.getXStart(), min);
 		}
 		return min;
@@ -47,7 +48,7 @@ public class SpaceWrapper extends CombineWrapper {
 	@Override
 	public long getXEnd() {
 		long max = Long.MIN_VALUE;
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			max = Math.max(node.getXEnd(), max);
 		}
 		return max;
@@ -61,7 +62,7 @@ public class SpaceWrapper extends CombineWrapper {
 	@Override
 	public List<Genome> getGenome() {
 		List<Genome> genomes = new ArrayList<Genome>();
-		for (NodePositionWrapper node : nodeList) {
+		for (NodeWrapper node : nodeList) {
 			for (Genome genome : node.getGenome()) {
 				if (!genomes.contains(genome)) {
 					genomes.add(genome);
@@ -70,5 +71,9 @@ public class SpaceWrapper extends CombineWrapper {
 		}
 		return genomes;
 	}
-	
+
+	@Override
+	public void calculate(WrapperOperation wrapperOperation) {
+		wrapperOperation.calculate(this);
+	}
 }

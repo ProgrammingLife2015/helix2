@@ -4,7 +4,8 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePositionWrapper;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class WrappedGraphData {
 	
-	private List<NodePositionWrapper> nodeWrappers;
+	private List<NodeWrapper> nodeWrappers;
 	private long size;
 	private AbstractGraphData origin;
 	private int longestNodePath;
@@ -40,7 +41,7 @@ public class WrappedGraphData {
 		List<NodePosition> nodePosition = NodePosition.newNodePositionList(
 				nodes, edges);
 		long max = 0;
-		nodeWrappers = new ArrayList<NodePositionWrapper>(nodePosition);
+		nodeWrappers = new ArrayList<NodeWrapper>(nodePosition);
 		for (NodePosition node : nodePosition) {
 			max = Math.max(node.getXEnd(), max);
 		}
@@ -48,10 +49,10 @@ public class WrappedGraphData {
 	}
 	
 	public WrappedGraphData(WrappedGraphData origin,
-			List<NodePositionWrapper> nodeWrappers) {
+			List<NodeWrapper> nodeWrappers) {
 		this.origin = origin.origin;
 		this.nodeWrappers = nodeWrappers;
-		for (NodePositionWrapper node : nodeWrappers) {
+		for (NodeWrapper node : nodeWrappers) {
 			longestNodePath = Math.max(longestNodePath,
 					node.calculatePreviousNodesCount());
 		}
@@ -61,7 +62,7 @@ public class WrappedGraphData {
 		this(gd, gd.getNodes(), gd.getEdges());
 	}
 	
-	public List<NodePositionWrapper> getPositionedNodes() {
+	public List<NodeWrapper> getPositionedNodes() {
 		return nodeWrappers;
 	}
 	
