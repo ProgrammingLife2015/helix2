@@ -74,11 +74,11 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		int best = Integer.MAX_VALUE;
 		int bestConfig = 0;
 		for (int i = 0; i < direction.getSecond(); i++) {
-//			int found = countIntersections(i, wrapper.getNodeList(), order);
-//			if (found < best) {
-//				best = found;
-//				bestConfig = i;
-//			}
+			// int found = countIntersections(i, wrapper.getNodeList(), order);
+			// if (found < best) {
+			// best = found;
+			// bestConfig = i;
+			// }
 		}
 		// TODO:
 		// For every configuration
@@ -108,8 +108,9 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	}
 	
 	void applyOrder(SpaceWrapper wrapper) {
-		collapseIntoList(wrapper);
+		List<NodeWrapper> list = collapseIntoList(wrapper);
 		wrapper.getNodeList().get(0).setY(0f);
+		
 		// wrapper.get
 		// wrapper.getNodeList().get(0).setSpace(1f);
 		// for (int i = 0; i < wrapper.getNodeList().size() - 1; i++) {
@@ -149,7 +150,8 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 * </ul>
 	 * 
 	 * @param listsToMergePar
-	 *            the list of lists to merge
+	 *            the list of lists to merge. Each list should at least contain
+	 *            one element
 	 * @return a list containing all elements of the given lists without
 	 *         violating the order of any of the given lists<br>
 	 *         {@code null} if the lists could not be merged without violating

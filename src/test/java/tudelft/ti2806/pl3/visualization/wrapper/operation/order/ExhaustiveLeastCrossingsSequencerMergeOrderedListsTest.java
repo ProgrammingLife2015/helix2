@@ -26,7 +26,7 @@ public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		listsToCombine = new ArrayList<List<NodeWrapper>>(4);
+		listsToCombine = new ArrayList<List<NodeWrapper>>(5);
 		ordersToTest = new ArrayList<NodeWrapper[]>(5);
 		List<NodeWrapper> list = new ArrayList<NodeWrapper>(3);
 		list.add(new TestWrapper("A"));
@@ -53,10 +53,10 @@ public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
 		list.add(new TestWrapper("D"));
 		listsToCombine.add(list);
 		ordersToTest.add(list.toArray(new NodeWrapper[3]));
-	}
-	
-	@After
-	public void tearDown() throws Exception {
+		list = new ArrayList<NodeWrapper>(1);
+		list.add(new TestWrapper("P"));
+		listsToCombine.add(list);
+		ordersToTest.add(list.toArray(new NodeWrapper[1]));
 	}
 	
 	@Test
