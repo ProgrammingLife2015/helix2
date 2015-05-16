@@ -6,7 +6,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NodeWrapper {
+public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	
 	protected float yy;
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
@@ -65,10 +65,19 @@ public abstract class NodeWrapper {
 	public List<NodeWrapper> getOutgoing() {
 		return outgoing;
 	}
-
+	
 	public abstract String getIdString();
-
+	
 	public abstract List<Genome> getGenome();
-
+	
 	public abstract void calculate(WrapperOperation wrapperSequencer);
+	
+	/**
+	 * NodeWrapper is only comparable when the {@link #previousNodesCount} is
+	 * calculated.
+	 */
+	@Override
+	public int compareTo(NodeWrapper other) {
+		return this.previousNodesCount - other.previousNodesCount;
+	}
 }

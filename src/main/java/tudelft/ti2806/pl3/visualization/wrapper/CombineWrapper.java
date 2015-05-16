@@ -14,10 +14,8 @@ public abstract class CombineWrapper extends NodeWrapper {
 	 * fullfill the following conditions. <br>
 	 * Preconditions:<br>
 	 * <ul>
-	 * <li>The first node in the list should at least contain all incoming nodes
-	 * which come from outside the graph.<br>
-	 * <li>The last node in the list should at least contain all outgoing nodes
-	 * which go outside the graph.<br>
+	 * <li>The list should be sorted on previousNodesCount, with the smallest
+	 * value first and the largest last.
 	 * <li>All incoming nodes from outside the graph should never be an outgoing
 	 * node within the list. And the outgoing nodes from outside the graph
 	 * should never be an incoming node within the list.
