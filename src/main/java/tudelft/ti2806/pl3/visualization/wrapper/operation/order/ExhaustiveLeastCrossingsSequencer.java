@@ -6,7 +6,11 @@ import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Searches for the order with the least number of edge crossings, to increase
@@ -26,6 +30,12 @@ import java.util.List;
  * @author Sam Smulders
  */
 public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
+	private final int maxIterations;
+	
+	public ExhaustiveLeastCrossingsSequencer(int maxIterations) {
+		this.maxIterations = maxIterations;
+	}
+	
 	/**
 	 * Calculate the order for {@link SpaceWrapper}.
 	 * 
@@ -41,23 +51,35 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		// true is left to right
 		// false is right to left
 		Pair<Boolean, Long> direction = getBestDirection(wrapper.getNodeList());
+		if (direction.getSecond() < maxIterations) {
+			// TODO: must calculate sub layer first
+			return;
+		}
 		List<List<NodeWrapper>> currentOrder;
 		if (direction.getFirst()) {
 			currentOrder = getOutgoingList(wrapper.getNodeList());
 		} else {
 			currentOrder = getIncomingList(wrapper.getNodeList());
 		}
-		int best = Integer.MAX_VALUE;
-		int score = countIntersections(getIncomingLines(wrapper.getNodeList()));
-		List<NodeWrapper[]> order = new ArrayList<NodeWrapper[]>();
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
 		for (List<NodeWrapper> list : currentOrder) {
 			NodeWrapper[] connections = new NodeWrapper[list.size()];
 			for (int i = list.size() - 1; i >= 0; i--) {
 				connections[i] = list.get(i);
 			}
-			order.add(connections);
+			order.add(new Pair<List<NodeWrapper>, NodeWrapper[]>(list,
+					connections));
 		}
 		
+		int best = Integer.MAX_VALUE;
+		int bestConfig = 0;
+		for (int i = 0; i < direction.getSecond(); i++) {
+//			int found = countIntersections(i, wrapper.getNodeList(), order);
+//			if (found < best) {
+//				best = found;
+//				bestConfig = i;
+//			}
+		}
 		// TODO:
 		// For every configuration
 		// - Apply configuration
@@ -70,7 +92,179 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		}
 	}
 	
-	void applyOrder(int orderConfiguration,
+	int countIntersections(int configuration,
+			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order,
+			SpaceWrapper wrapper) {
+		applyConfiguration(configuration, order, wrapper);
+		
+		return countIntersections(getIncomingLines(wrapper.getNodeList()));
+	}
+	
+	void applyConfiguration(int configuration,
+			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order,
+			SpaceWrapper wrapper) {
+		applyOrderConfiguration(configuration, order);
+		applyOrder(wrapper);
+	}
+	
+	void applyOrder(SpaceWrapper wrapper) {
+		collapseIntoList(wrapper);
+		wrapper.getNodeList().get(0).setY(0f);
+		// wrapper.get
+		// wrapper.getNodeList().get(0).setSpace(1f);
+		// for (int i = 0; i < wrapper.getNodeList().size() - 1; i++) {
+		// NodeWrapper node = wrapper.getNodeList().get(i);
+		// node.setY(node.getY() / node.getSpace());
+		// int size = node.getIncoming().size();
+		// float space = node.getSpace() / size;
+		// }
+	}
+	
+	static List<NodeWrapper> collapseIntoList(SpaceWrapper wrapper) {
+		List<List<NodeWrapper>> listsToCombine = new ArrayList<List<NodeWrapper>>();
+		for (int n = wrapper.getNodeList().size() - 2; n >= 0; n--) {
+			NodeWrapper node = wrapper.getNodeList().get(n);
+			if (node.getOutgoing().size() > 1) {
+				listsToCombine.add(new ArrayList<NodeWrapper>(node
+						.getOutgoing()));
+			}
+		}
+		return mergeOrderedLists(listsToCombine);
+	}
+	
+	/**
+	 * Merges all given lists together without violating any of the given lists
+	 * their element order.
+	 * 
+	 * <p>
+	 * Warning, all elements and lists are removed from their lists after
+	 * executing this method, or some of them when the method returns
+	 * {@code null}.
+	 * 
+	 * <p>
+	 * Method cost O(nm)
+	 * <ul>
+	 * <li>n being equal to the number of unique elements.
+	 * <li>m being equal to the number of elements left in all lists together.
+	 * </ul>
+	 * 
+	 * @param listsToMergePar
+	 *            the list of lists to merge
+	 * @return a list containing all elements of the given lists without
+	 *         violating the order of any of the given lists<br>
+	 *         {@code null} if the lists could not be merged without violating
+	 *         one of the lists its orders
+	 */
+	static List<NodeWrapper> mergeOrderedLists(
+			List<List<NodeWrapper>> listsToMerge) {
+		List<NodeWrapper> lastElements = new ArrayList<NodeWrapper>(
+				listsToMerge.size());
+		for (List<NodeWrapper> list : listsToMerge) {
+			lastElements.add(list.remove(list.size() - 1));
+		}
+		List<NodeWrapper> result = new ArrayList<NodeWrapper>();
+		int lastResultSize = -1;
+		while (listsToMerge.size() > 0) {
+			/*
+			 * If the result size doesn't grow, there is a conflict.
+			 */
+			if (lastResultSize == result.size()) {
+				System.out.println("#");
+				return null;
+			}
+			lastResultSize = result.size();
+			for (int i = listsToMerge.size() - 1; i >= 0; i--) {
+				if (!listContainsElement(listsToMerge, lastElements.get(i))) {
+					int size = listsToMerge.get(i).size();
+					if (size == 0) {
+						NodeWrapper element = lastElements.remove(i);
+						if (!result.contains(element)) {
+							result.add(element);
+							System.out.println("+@" + element + i);
+						} else {
+							System.out.println("-@" + element + i);
+						}
+						listsToMerge.remove(i);
+					} else {
+						/*
+						 * Adds the last element to the result list. This
+						 * element is replaced on the lastElements list by the
+						 * new last element on the list from the listsToCombine
+						 * bound to this index. This last element again removed
+						 * from that list.
+						 */
+						NodeWrapper element = lastElements.set(i, listsToMerge
+								.get(i).remove(size - 1));
+						if (!result.contains(element)) {
+							result.add(element);
+							System.out.println("+#" + element + i);
+						} else {
+							System.out.println("-#" + element + i);
+						}
+					}
+				} else {
+					System.out.println("!" + lastElements.get(i));
+				}
+			}
+		}
+		Collections.reverse(result);
+		return result;
+	}
+	
+	/**
+	 * Checks if the given {@code element} is in one of the {@code lists}.
+	 * 
+	 * @param lists
+	 *            the lists to search trough
+	 * @param element
+	 *            the element to search for
+	 * @return {@code true} if the given {@code element} is in one of the
+	 *         {@code lists}<br>
+	 *         {@code false} otherwise
+	 */
+	static boolean listContainsElement(List<List<NodeWrapper>> lists,
+			NodeWrapper element) {
+		for (List<NodeWrapper> list : lists) {
+			if (list.contains(element)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Constructs a map with for each node in the NodeWrapper which requires to
+	 * be ordered a key. Each key lead to a {@link Pair} with as first value a
+	 * set of all nodes which should come before this node and as second a set
+	 * of all nodes which should come after this node.
+	 * 
+	 * @param wrapper
+	 *            the wrapper
+	 * @return a constructed map holding all conditions for each key.
+	 */
+	Map<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>> constructConditionMap(
+			SpaceWrapper wrapper) {
+		Map<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>> map = new HashMap<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>>();
+		List<NodeWrapper> nodeList = wrapper.getNodeList();
+		for (int n = nodeList.size() - 2; n >= 0; n--) {
+			NodeWrapper node = nodeList.get(n);
+			if (node.getOutgoing().size() > 1) {
+				int listSize = node.getOutgoing().size() - 1;
+				for (int i = 0; i < listSize; i++) {
+					NodeWrapper out = node.getOutgoing().get(i);
+					Pair<Set<NodeWrapper>, Set<NodeWrapper>> goal = map
+							.get(out);
+					goal.getFirst()
+							.addAll(node.getOutgoing().subList(0, i - 1));
+					goal.getSecond().addAll(
+							node.getOutgoing().subList(i + 1, listSize));
+				}
+			}
+		}
+		return map;
+	}
+	
+	void applyOrderConfiguration(int orderConfiguration,
 			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order) {
 		int orderConfig = orderConfiguration;
 		for (Pair<List<NodeWrapper>, NodeWrapper[]> pair : order) {
@@ -82,14 +276,14 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 			 * orderConfiguration modulus the number of possible configurations
 			 * on this position.
 			 */
-			applyOrder(orderConfig % factorialLength, pair.getFirst(),
-					pair.getSecond());
+			applyOrderConfiguration(orderConfig % factorialLength,
+					pair.getFirst(), pair.getSecond());
 			orderConfig /= factorialLength;
 		}
 	}
 	
-	void applyOrder(int localConfiguration, List<NodeWrapper> currentOrder,
-			NodeWrapper[] dictionary) {
+	void applyOrderConfiguration(int localConfiguration,
+			List<NodeWrapper> currentOrder, NodeWrapper[] dictionary) {
 		List<NodeWrapper> newOrder = new ArrayList<NodeWrapper>(
 				dictionary.length);
 		newOrder.add(dictionary[0]);

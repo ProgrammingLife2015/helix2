@@ -27,6 +27,10 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 		return yy;
 	}
 	
+	public void setY(float yy) {
+		this.yy = yy;
+	}
+	
 	/**
 	 * Calculate the number of nodes on the longest path to this node.
 	 * 
