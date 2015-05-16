@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
 
-import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 public interface GraphViewInterface extends ViewInterface {
 	/**

@@ -1,9 +1,9 @@
 package tudelft.ti2806.pl3.util.wrap;
 
-import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
-import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.SingleWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.util.ArrayList;
 import java.util.HashMap;

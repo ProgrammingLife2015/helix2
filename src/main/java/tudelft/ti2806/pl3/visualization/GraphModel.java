@@ -8,7 +8,7 @@ import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.util.wrap.HorizontalWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.VerticalWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.WrapUtil;
-import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.util.ArrayList;
 import java.util.List;

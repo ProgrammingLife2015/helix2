@@ -1,11 +1,9 @@
-package tudelft.ti2806.pl3.visualization.position;
+package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

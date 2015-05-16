@@ -1,9 +1,9 @@
-package tudelft.ti2806.pl3.visualization.position.wrapper;
+package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.visualization.position.WrapperOperation;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.HashMap;

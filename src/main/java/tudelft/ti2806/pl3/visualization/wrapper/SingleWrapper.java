@@ -1,7 +1,7 @@
-package tudelft.ti2806.pl3.visualization.position.wrapper;
+package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.visualization.position.WrapperOperation;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.List;
 

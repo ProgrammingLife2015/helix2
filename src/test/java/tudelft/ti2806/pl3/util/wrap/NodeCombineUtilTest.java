@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.io.File;
 import java.io.FileNotFoundException;

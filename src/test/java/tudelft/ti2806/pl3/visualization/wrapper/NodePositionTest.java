@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.visualization.position.wrapper;
+package tudelft.ti2806.pl3.visualization.wrapper;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
 
-public class SingleNodeTest {
+public class NodePositionTest {
 	private static NodePosition s0;
 	private static NodePosition s1;
 	private static NodePosition s2;

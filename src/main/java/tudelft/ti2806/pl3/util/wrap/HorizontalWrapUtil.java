@@ -3,11 +3,11 @@ package tudelft.ti2806.pl3.util.wrap;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.util.HashableList;
-import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
-import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.util.ArrayList;
 import java.util.List;

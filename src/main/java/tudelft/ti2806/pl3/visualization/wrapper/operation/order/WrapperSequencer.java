@@ -1,10 +1,11 @@
-package tudelft.ti2806.pl3.visualization.position;
+package tudelft.ti2806.pl3.visualization.wrapper.operation.order;
 
-import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.SpaceWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 /**
  * A {@link WrapperSequencer} is used to calculate the order of each
@@ -18,7 +19,7 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * Calculate the order for {@link HorizontalWrapper}.
 	 * 
 	 * <p>
-	 * Change the order of the nodes of the {@link SpaceWrapper} its list.
+	 * Change the order of the nodes of the {@link HorizontalWrapper} its list.
 	 * 
 	 * <p>
 	 * The default method just calls the {@link #calculate(NodeWrapper)} for
@@ -27,6 +28,7 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 */
+	@Override
 	default void calculate(HorizontalWrapper wrapper) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node);
@@ -37,7 +39,7 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * Calculate the order for {@link VerticalWrapper}.
 	 * 
 	 * <p>
-	 * Change the order of the nodes of the {@link SpaceWrapper} its list.
+	 * Change the order of the nodes of the {@link VericalWrapper} its list.
 	 * 
 	 * <p>
 	 * The default method just calls the {@link #calculate(NodeWrapper)} for
@@ -46,6 +48,7 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 */
+	@Override
 	default void calculate(VerticalWrapper wrapper) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node);
@@ -68,6 +71,7 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 */
+	@Override
 	default void calculate(SpaceWrapper wrapper) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node);

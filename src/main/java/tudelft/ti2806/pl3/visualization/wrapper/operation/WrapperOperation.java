@@ -1,12 +1,12 @@
-package tudelft.ti2806.pl3.visualization.position;
+package tudelft.ti2806.pl3.visualization.wrapper.operation;
 
-import tudelft.ti2806.pl3.visualization.position.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.SingleWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.SpaceWrapper;
-import tudelft.ti2806.pl3.visualization.position.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 
 /**
  * A {@link WrapperOperation} is used to when we want to handle different

@@ -1,14 +1,14 @@
-package tudelft.ti2806.pl3.visualization.position.wrapper;
+package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.visualization.position.WrapperOperation;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class NodeWrapper {
 	
-	protected double yy;
+	protected float yy;
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
 	protected List<NodeWrapper> outgoing = new ArrayList<NodeWrapper>();
 	protected int previousNodesCount = -1;
@@ -23,7 +23,7 @@ public abstract class NodeWrapper {
 		return previousNodesCount;
 	}
 	
-	public double getY() {
+	public float getY() {
 		return yy;
 	}
 	

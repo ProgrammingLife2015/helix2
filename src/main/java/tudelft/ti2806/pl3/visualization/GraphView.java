@@ -8,9 +8,9 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.visualization.position.WrappedGraphData;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodePosition;
-import tudelft.ti2806.pl3.visualization.position.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.awt.Component;
 import java.util.ArrayList;
