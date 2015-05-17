@@ -6,10 +6,6 @@ import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
-import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.awt.Component;
@@ -102,12 +98,13 @@ public class GraphView implements GraphViewInterface {
 		setGraphPropertys();
 		graphNodeList = new ArrayList<GraphNode>(graphData.getPositionedNodes()
 				.size());
-		for (NodeWrapper node : graphData.getPositionedNodes()) {
-			graphNodeList.add(new GraphNode(graph, node));
-		}
-		for (Edge edge : graphData.getEdges()) {
-			addNormalEdge(graph, edge);
-		}
+		// TODO, get this working again
+		// for (NodeWrapper node : graphData.getPositionedNodes()) {
+		// graphNodeList.add(new GraphNode(graph, node));
+		// }
+		// for (Edge edge : graphData.getEdges()) {
+		// addNormalEdge(graph, edge);
+		// }
 		return graph;
 	}
 	
@@ -119,12 +116,12 @@ public class GraphView implements GraphViewInterface {
 	 * @param edge
 	 *            the edge to represent
 	 */
-	private static void addNormalEdge(Graph graph, Edge edge) {
-		org.graphstream.graph.Edge gedge = graph.addEdge(edge.getName(), edge
-				.getFrom().getId() + "]", "[" + edge.getTo().getId());
-		gedge.addAttribute("ui.class", "normalEdge");
-		gedge.addAttribute("edge", edge);
-	}
+	// private static void addNormalEdge(Graph graph, Edge edge) {
+	// org.graphstream.graph.Edge gedge = graph.addEdge(edge.getName(), edge
+	// .getFrom().getId() + "]", "[" + edge.getTo().getId());
+	// gedge.addAttribute("ui.class", "normalEdge");
+	// gedge.addAttribute("edge", edge);
+	// }
 	
 	/**
 	 * Calculates all positions for the current graph and zoom.

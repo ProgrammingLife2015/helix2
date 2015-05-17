@@ -65,7 +65,7 @@ public class Line {
 			return false;
 		}
 		if (this.slope == other.slope) {
-			return (this.constant == other.constant);
+			return this.constant == other.constant;
 		}
 		float hit = getXOfIntersection(other);
 		return isWithinDomain(hit) && other.isWithinDomain(hit);

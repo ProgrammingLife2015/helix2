@@ -4,6 +4,7 @@ import java.util.List;
 
 public abstract class CombineWrapper extends NodeWrapper {
 	protected List<NodeWrapper> nodeList;
+	private boolean collapsed;
 	
 	/**
 	 * CombineWrapper is an abstract class which should not be constructed
@@ -38,6 +39,10 @@ public abstract class CombineWrapper extends NodeWrapper {
 	
 	public List<NodeWrapper> getNodeList() {
 		return nodeList;
+	}
+	
+	public boolean isCollapsed() {
+		return collapsed;
 	}
 	
 	@Override

@@ -16,11 +16,14 @@ public class GraphNode {
 	 * @param node
 	 *            the node to represent on the graph
 	 */
-	public GraphNode(Graph graph, NodeWrapper node) {
-		startOfNode = addNode(graph, "[" + node.getId());
-		endOfNode = addNode(graph, node.getId() + "]");
-		nodeEdge = addNodeEdge(graph, node.getId() + "");
-		this.dataNode = node;
+	// public GraphNode(Graph graph, NodeWrapper node) {
+	// startOfNode = addNode(graph, "[" + node.getId());
+	// endOfNode = addNode(graph, node.getId() + "]");
+	// nodeEdge = addNodeEdge(graph, node.getId() + "");
+	// this.dataNode = node;
+	// }
+	// TODO, get this working again
+	private GraphNode() {
 	}
 	
 	NodeWrapper dataNode;
@@ -38,12 +41,12 @@ public class GraphNode {
 	 * @param node
 	 *            the node to represent
 	 */
-	private static Edge addNodeEdge(Graph graph, String nodeName) {
-		Edge edge = graph.addEdge("[" + nodeName + "]", "[" + nodeName,
-				nodeName + "]");
-		edge.addAttribute("ui.class", "nodeEdge");
-		return edge;
-	}
+	// private static Edge addNodeEdge(Graph graph, String nodeName) {
+	// Edge edge = graph.addEdge("[" + nodeName + "]", "[" + nodeName,
+	// nodeName + "]");
+	// edge.addAttribute("ui.class", "nodeEdge");
+	// return edge;
+	// }
 	
 	/**
 	 * Adds a node to the graph.
@@ -55,10 +58,10 @@ public class GraphNode {
 	 * @param nodeName
 	 *            the name of the node
 	 */
-	private static Node addNode(Graph graph, String nodeName) {
-		Node graphNode = graph.addNode(nodeName);
-		return graphNode;
-	}
+	// private static Node addNode(Graph graph, String nodeName) {
+	// Node graphNode = graph.addNode(nodeName);
+	// return graphNode;
+	// }
 	
 	public Node getStartOfNode() {
 		return startOfNode;

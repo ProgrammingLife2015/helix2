@@ -23,6 +23,7 @@ public final class VerticalWrapUtil {
 	private VerticalWrapUtil() {
 	}
 	
+	@SuppressWarnings("CPD-START")
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * vertical collapsed graph of the given graph.
@@ -33,8 +34,7 @@ public final class VerticalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<NodeWrapper> newLayer = combineNodes(original
-				.getPositionedNodes());
+		List<NodeWrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
 		}
@@ -52,10 +52,8 @@ public final class VerticalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<NodeWrapper> combineNodes(
-			List<NodeWrapper> nodes) {
-		List<NodeWrapper> nonWrappedNodes = new ArrayList<NodeWrapper>(
-				nodes);
+	static List<NodeWrapper> combineNodes(List<NodeWrapper> nodes) {
+		List<NodeWrapper> nonWrappedNodes = new ArrayList<NodeWrapper>(nodes);
 		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
 		for (List<NodeWrapper> list : findCombineableNodes(nodes)) {
 			CombineWrapper newNode = new VerticalWrapper(list);
@@ -68,6 +66,7 @@ public final class VerticalWrapUtil {
 		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
 	}
 	
+	@SuppressWarnings("CPD-END")
 	/**
 	 * Finds all nodes in the graph which could be combined vertically.
 	 * 
@@ -77,24 +76,20 @@ public final class VerticalWrapUtil {
 	 * 
 	 * @return a list of edges which could be combined
 	 */
-	static List<List<NodeWrapper>> findCombineableNodes(
-			List<NodeWrapper> nodes) {
+	static List<List<NodeWrapper>> findCombineableNodes(List<NodeWrapper> nodes) {
 		Map<Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>, List<NodeWrapper>> map
 				= new HashMap<Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>, List<NodeWrapper>>();
 		for (NodeWrapper node : nodes) {
 			List<NodeWrapper> list = map
 					.get(new Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>(
-							new HashableList<NodeWrapper>(node
-									.getIncoming()),
-							new HashableList<NodeWrapper>(node
-									.getOutgoing())));
+							new HashableList<NodeWrapper>(node.getIncoming()),
+							new HashableList<NodeWrapper>(node.getOutgoing())));
 			if (list == null) {
 				list = new ArrayList<NodeWrapper>();
 				map.put(new Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>(
-						new HashableList<NodeWrapper>(node
-								.getIncoming()),
-						new HashableList<NodeWrapper>(node
-								.getOutgoing())), list);
+						new HashableList<NodeWrapper>(node.getIncoming()),
+						new HashableList<NodeWrapper>(node.getOutgoing())),
+						list);
 			}
 			list.add(node);
 		}

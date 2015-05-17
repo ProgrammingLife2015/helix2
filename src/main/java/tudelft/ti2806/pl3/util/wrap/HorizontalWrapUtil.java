@@ -21,7 +21,8 @@ import java.util.List;
 public final class HorizontalWrapUtil {
 	private HorizontalWrapUtil() {
 	}
-	
+
+	@SuppressWarnings("CPD-START")
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * horizontal collapsed graph of the given graph.
@@ -32,14 +33,13 @@ public final class HorizontalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<NodeWrapper> newLayer = combineNodes(original
-				.getPositionedNodes());
+		List<NodeWrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
 		}
 		return new WrappedGraphData(original, newLayer);
 	}
-
+	
 	/**
 	 * Combines nodes vertically. Combines all {@link DataNodeInterface}s in the
 	 * given list of node into {@link VerticalWrapper}s, reconnects the
@@ -51,8 +51,7 @@ public final class HorizontalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<NodeWrapper> combineNodes(
-			List<NodeWrapper> parentLayer) {
+	static List<NodeWrapper> combineNodes(List<NodeWrapper> parentLayer) {
 		List<NodeWrapper> nonWrappedNodes = new ArrayList<NodeWrapper>(
 				parentLayer);
 		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
@@ -67,6 +66,7 @@ public final class HorizontalWrapUtil {
 		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
 	}
 	
+	@SuppressWarnings("CPD-END")
 	/**
 	 * Finds all groups of nodes which can be wrapped horizontal.
 	 * 
@@ -74,11 +74,9 @@ public final class HorizontalWrapUtil {
 	 *            the nodes on the graph
 	 * @return a list of horizontal wrap-able nodes.
 	 */
-	static List<List<NodeWrapper>> findCombineableNodes(
-			List<NodeWrapper> nodes) {
+	static List<List<NodeWrapper>> findCombineableNodes(List<NodeWrapper> nodes) {
 		List<List<NodeWrapper>> foundCombineableNodes = new ArrayList<List<NodeWrapper>>();
-		List<NodeWrapper> iterateList = new ArrayList<NodeWrapper>(
-				nodes);
+		List<NodeWrapper> iterateList = new ArrayList<NodeWrapper>(nodes);
 		List<NodeWrapper> removeFromIterateList = new ArrayList<NodeWrapper>();
 		/*
 		 * Here we iterate over each element in iterateList and over each

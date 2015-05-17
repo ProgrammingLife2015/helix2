@@ -354,7 +354,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		newOrder.add(dictionary[0]);
 		for (int i = 1; i < dictionary.length; i++) {
 			newOrder.add(localConfiguration % (i + 1), dictionary[i]);
-			localConfiguration /= (i + 1);
+			localConfiguration /= i + 1;
 		}
 		currentOrder.clear();
 		currentOrder.addAll(newOrder);

@@ -28,7 +28,8 @@ import java.util.Set;
 public final class SpaceWrapUtil {
 	private SpaceWrapUtil() {
 	}
-	
+
+	@SuppressWarnings("CPD-START")
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the spatial
 	 * collapsed graph of the given graph.
@@ -76,6 +77,7 @@ public final class SpaceWrapUtil {
 		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
 	}
 	
+	@SuppressWarnings("CPD-END")
 	/**
 	 * Finds the groups of spatial combine able nodes, prioritising the smaller
 	 * groups. If a bigger group contains a smaller group, it will be let out.
@@ -153,8 +155,7 @@ public final class SpaceWrapUtil {
 	 */
 	static List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> computeAllCandidates(
 			List<NodeWrapper> nodes) {
-		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList
-				= new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
+		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList = new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
 		/*
 		 * If a node doesn't contain the same genomes, it is impossible for them
 		 * to be a candidate, because every node in the group between a
@@ -189,8 +190,7 @@ public final class SpaceWrapUtil {
 	 */
 	static Collection<Pair<List<Genome>, List<NodeWrapper>>> getNodesByGenome(
 			List<NodeWrapper> nodes) {
-		Map<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>> searchMap
-				= new HashMap<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>>();
+		Map<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>> searchMap = new HashMap<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>>();
 		for (NodeWrapper node : nodes) {
 			List<Genome> genome = node.getGenome();
 			/*

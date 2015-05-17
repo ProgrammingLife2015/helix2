@@ -8,7 +8,7 @@ public class HashableList<T> {
 	public HashableList(List<T> list) {
 		this.list = list;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -31,7 +31,9 @@ public class HashableList<T> {
 		@SuppressWarnings("unchecked")
 		HashableList<T> other = (HashableList<T>) obj;
 		if (list == null) {
-			if (other.list != null) {
+			if (other.list == null) {
+				return true;
+			} else {
 				return false;
 			}
 		}
