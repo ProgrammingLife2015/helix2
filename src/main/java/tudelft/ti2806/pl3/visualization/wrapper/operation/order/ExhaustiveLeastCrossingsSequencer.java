@@ -216,7 +216,6 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 			 * If the result size doesn't grow, there is a conflict.
 			 */
 			if (lastResultSize == result.size()) {
-				System.out.println("#");
 				return null;
 			}
 			lastResultSize = result.size();
@@ -227,9 +226,6 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 						NodeWrapper element = lastElements.remove(i);
 						if (!result.contains(element)) {
 							result.add(element);
-							System.out.println("+@" + element + i);
-						} else {
-							System.out.println("-@" + element + i);
 						}
 						listsToMerge.remove(i);
 					} else {
@@ -244,13 +240,8 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 								.get(i).remove(size - 1));
 						if (!result.contains(element)) {
 							result.add(element);
-							System.out.println("+#" + element + i);
-						} else {
-							System.out.println("-#" + element + i);
 						}
 					}
-				} else {
-					System.out.println("!" + lastElements.get(i));
 				}
 			}
 		}

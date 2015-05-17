@@ -10,7 +10,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
@@ -62,7 +61,6 @@ public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
 	public void mergeSuccesTest() {
 		List<NodeWrapper> list = ExhaustiveLeastCrossingsSequencer
 				.mergeOrderedLists(listsToCombine);
-		System.out.println(Arrays.toString(list.toArray()));
 		ArrayOrderMatcher matcher = new ArrayOrderMatcher(
 				list.toArray(new NodeWrapper[8]));
 		for (NodeWrapper[] order : ordersToTest) {
@@ -70,7 +68,7 @@ public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
 		}
 		// Test for the Matcher itself
 		Assert.assertThat(new NodeWrapper[] { new TestWrapper("B"),
-				new TestWrapper("A") }, new IsNot<NodeWrapper[]>(matcher));
+					new TestWrapper("A") }, new IsNot<NodeWrapper[]>(matcher));
 	}
 	
 	@Test

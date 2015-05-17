@@ -27,8 +27,6 @@ public class ExhaustiveLeastCrossingSequencerApplyOrder {
 		
 		// Test if test data is correct
 		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
-		System.out
-				.println(wgd.getPositionedNodes().get(0).getClass().getName());
 		Assert.assertTrue(wgd.getPositionedNodes().get(0) instanceof SpaceWrapper);
 		SpaceWrapper wrapper = (SpaceWrapper) wgd.getPositionedNodes().get(0);
 		Assert.assertTrue(wrapper.getNodeList().size() == 7);
@@ -46,7 +44,6 @@ public class ExhaustiveLeastCrossingSequencerApplyOrder {
 				.getOrder(ExhaustiveLeastCrossingsSequencer
 						.getOutgoingList(wrapper.getNodeList()));
 		for (int i = 0; i < outgoingDirection; i++) {
-			System.out.println(i);
 			Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
 					.applyConfiguration(i, order, wrapper));
 		}
@@ -69,8 +66,6 @@ public class ExhaustiveLeastCrossingSequencerApplyOrder {
 		
 		// Test if test data is correct
 		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
-		System.out
-				.println(wgd.getPositionedNodes().get(0).getClass().getName());
 		Assert.assertTrue(wgd.getPositionedNodes().get(0) instanceof SpaceWrapper);
 		SpaceWrapper wrapper = (SpaceWrapper) wgd.getPositionedNodes().get(0);
 		Assert.assertTrue(wrapper.getNodeList().size() == 7);
