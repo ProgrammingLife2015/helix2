@@ -7,9 +7,8 @@ import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -61,15 +60,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		} else {
 			currentOrder = getIncomingList(wrapper.getNodeList());
 		}
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
-		for (List<NodeWrapper> list : currentOrder) {
-			NodeWrapper[] connections = new NodeWrapper[list.size()];
-			for (int i = list.size() - 1; i >= 0; i--) {
-				connections[i] = list.get(i);
-			}
-			order.add(new Pair<List<NodeWrapper>, NodeWrapper[]>(list,
-					connections));
-		}
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = getOrder(currentOrder);
 		
 		int best = Integer.MAX_VALUE;
 		int bestConfig = 0;
@@ -92,6 +83,21 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		}
 	}
 	
+	static List<Pair<List<NodeWrapper>, NodeWrapper[]>> getOrder(
+			List<List<NodeWrapper>> currentOrder) {
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order
+				= new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
+		for (List<NodeWrapper> list : currentOrder) {
+			NodeWrapper[] connections = new NodeWrapper[list.size()];
+			for (int i = list.size() - 1; i >= 0; i--) {
+				connections[i] = list.get(i);
+			}
+			order.add(new Pair<List<NodeWrapper>, NodeWrapper[]>(list,
+					connections));
+		}
+		return order;
+	}
+	
 	int countIntersections(int configuration,
 			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order,
 			SpaceWrapper wrapper) {
@@ -100,25 +106,64 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		return countIntersections(getIncomingLines(wrapper.getNodeList()));
 	}
 	
-	void applyConfiguration(int configuration,
+	static boolean applyConfiguration(int configuration,
 			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order,
 			SpaceWrapper wrapper) {
 		applyOrderConfiguration(configuration, order);
-		applyOrder(wrapper);
+		return applyOrder(wrapper);
 	}
 	
-	void applyOrder(SpaceWrapper wrapper) {
+	/**
+	 * TODO
+	 * 
+	 * @param wrapper
+	 * @return
+	 * @throws IndexOutOfBoundsException
+	 *             if the {@link SpaceWrapper} is not constructed following its
+	 *             preconditions.
+	 */
+	static boolean applyOrder(SpaceWrapper wrapper) {
 		List<NodeWrapper> list = collapseIntoList(wrapper);
-		wrapper.getNodeList().get(0).setY(0f);
+		if (list == null) {
+			return false;
+		}
+		Set<NodeWrapper> remainingNodes = new HashSet<NodeWrapper>(
+				wrapper.getNodeList());
+		remainingNodes.removeAll(list);
 		
-		// wrapper.get
-		// wrapper.getNodeList().get(0).setSpace(1f);
-		// for (int i = 0; i < wrapper.getNodeList().size() - 1; i++) {
-		// NodeWrapper node = wrapper.getNodeList().get(i);
-		// node.setY(node.getY() / node.getSpace());
-		// int size = node.getIncoming().size();
-		// float space = node.getSpace() / size;
-		// }
+		NodeWrapper firstNode = wrapper.getNodeList().get(0);
+		firstNode.setY(0f);
+		remainingNodes.remove(firstNode);
+		
+		int remainingNodesSize = remainingNodes.size();
+		List<NodeWrapper> passedNodes = new ArrayList<NodeWrapper>(
+				remainingNodesSize);
+		for (int i = list.size() - 1; i >= 0; i--) {
+			list.get(i).setY(i);
+			for (NodeWrapper node : list.get(i).getOutgoing()) {
+				if (remainingNodes.contains(node)) {
+					node.setY(i);
+					remainingNodes.remove(node);
+					passedNodes.add(node);
+				}
+			}
+		}
+		/*
+		 * Because all nodes in the SpaceWrapper are connected at some point in
+		 * the chosen direction with one of the nodes out of the collapsed list,
+		 * we can assume that we can iterate until all remaining nodes are in
+		 * the list.
+		 */
+		for (int i = 0; i < remainingNodesSize; i++) {
+			for (NodeWrapper node : passedNodes.get(i).getOutgoing()) {
+				if (remainingNodes.contains(node)) {
+					node.setY(passedNodes.get(i).getY());
+					remainingNodes.remove(node);
+					passedNodes.add(node);
+				}
+			}
+		}
+		return true;
 	}
 	
 	static List<NodeWrapper> collapseIntoList(SpaceWrapper wrapper) {
@@ -244,29 +289,31 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 *            the wrapper
 	 * @return a constructed map holding all conditions for each key.
 	 */
-	Map<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>> constructConditionMap(
-			SpaceWrapper wrapper) {
-		Map<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>> map = new HashMap<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>>();
-		List<NodeWrapper> nodeList = wrapper.getNodeList();
-		for (int n = nodeList.size() - 2; n >= 0; n--) {
-			NodeWrapper node = nodeList.get(n);
-			if (node.getOutgoing().size() > 1) {
-				int listSize = node.getOutgoing().size() - 1;
-				for (int i = 0; i < listSize; i++) {
-					NodeWrapper out = node.getOutgoing().get(i);
-					Pair<Set<NodeWrapper>, Set<NodeWrapper>> goal = map
-							.get(out);
-					goal.getFirst()
-							.addAll(node.getOutgoing().subList(0, i - 1));
-					goal.getSecond().addAll(
-							node.getOutgoing().subList(i + 1, listSize));
-				}
-			}
-		}
-		return map;
-	}
+	// Map<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>>
+	// constructConditionMap(
+	// SpaceWrapper wrapper) {
+	// Map<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>> map = new
+	// HashMap<NodeWrapper, Pair<Set<NodeWrapper>, Set<NodeWrapper>>>();
+	// List<NodeWrapper> nodeList = wrapper.getNodeList();
+	// for (int n = nodeList.size() - 2; n >= 0; n--) {
+	// NodeWrapper node = nodeList.get(n);
+	// if (node.getOutgoing().size() > 1) {
+	// int listSize = node.getOutgoing().size() - 1;
+	// for (int i = 0; i < listSize; i++) {
+	// NodeWrapper out = node.getOutgoing().get(i);
+	// Pair<Set<NodeWrapper>, Set<NodeWrapper>> goal = map
+	// .get(out);
+	// goal.getFirst()
+	// .addAll(node.getOutgoing().subList(0, i - 1));
+	// goal.getSecond().addAll(
+	// node.getOutgoing().subList(i + 1, listSize));
+	// }
+	// }
+	// }
+	// return map;
+	// }
 	
-	void applyOrderConfiguration(int orderConfiguration,
+	static void applyOrderConfiguration(int orderConfiguration,
 			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order) {
 		int orderConfig = orderConfiguration;
 		for (Pair<List<NodeWrapper>, NodeWrapper[]> pair : order) {
@@ -284,7 +331,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		}
 	}
 	
-	void applyOrderConfiguration(int localConfiguration,
+	static void applyOrderConfiguration(int localConfiguration,
 			List<NodeWrapper> currentOrder, NodeWrapper[] dictionary) {
 		List<NodeWrapper> newOrder = new ArrayList<NodeWrapper>(
 				dictionary.length);
@@ -297,7 +344,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		currentOrder.addAll(newOrder);
 	}
 	
-	List<List<NodeWrapper>> getIncomingList(List<NodeWrapper> nodes) {
+	static List<List<NodeWrapper>> getIncomingList(List<NodeWrapper> nodes) {
 		List<List<NodeWrapper>> list = new ArrayList<List<NodeWrapper>>();
 		for (int i = nodes.size() - 1; i >= 0; i--) {
 			list.add(nodes.get(i).getIncoming());
@@ -305,9 +352,9 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		return list;
 	}
 	
-	List<List<NodeWrapper>> getOutgoingList(List<NodeWrapper> nodes) {
+	static List<List<NodeWrapper>> getOutgoingList(List<NodeWrapper> nodes) {
 		List<List<NodeWrapper>> list = new ArrayList<List<NodeWrapper>>();
-		for (int i = nodes.size() - 1; i >= 0; i--) {
+		for (int i = nodes.size() - 2; i >= 0; i--) {
 			list.add(nodes.get(i).getOutgoing());
 		}
 		return list;
@@ -337,7 +384,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		return count;
 	}
 	
-	long getOptionCountFromLeftToRight(List<NodeWrapper> nodeList) {
+	static long getOptionCountFromLeftToRight(List<NodeWrapper> nodeList) {
 		long out = 1;
 		for (int i = nodeList.size() - 2; i >= 0; i--) {
 			out *= factorial(nodeList.get(i).getOutgoing().size());
@@ -345,7 +392,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		return out;
 	}
 	
-	long getOptionCountFromRightToLeft(List<NodeWrapper> nodeList) {
+	static long getOptionCountFromRightToLeft(List<NodeWrapper> nodeList) {
 		long in = 1;
 		for (int i = nodeList.size() - 1; i >= 1; i--) {
 			in *= factorial(nodeList.get(i).getIncoming().size());
@@ -353,7 +400,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		return in;
 	}
 	
-	private int factorial(int n) {
+	private static int factorial(int n) {
 		if (n == 0) {
 			return 1;
 		}
@@ -369,7 +416,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 * @return {@code true} if the best direction is from left to right<br>
 	 *         {@code false} if the best direction is from right to left
 	 */
-	Pair<Boolean, Long> getBestDirection(List<NodeWrapper> nodeList) {
+	static Pair<Boolean, Long> getBestDirection(List<NodeWrapper> nodeList) {
 		long leftToRight = getOptionCountFromLeftToRight(nodeList);
 		long rightToLeft = getOptionCountFromRightToLeft(nodeList);
 		if (leftToRight <= rightToLeft) {

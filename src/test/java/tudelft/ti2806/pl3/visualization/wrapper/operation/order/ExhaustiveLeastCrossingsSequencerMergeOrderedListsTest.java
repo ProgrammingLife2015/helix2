@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.order;
 
 import org.hamcrest.core.IsNot;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

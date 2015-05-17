@@ -22,16 +22,23 @@ import java.util.List;
  * With left- and rightGraph as an continuing graph.
  * 
  * <p>
- * These nodes can't be combined into a {@link VerticalWrapper} or
- * {@link HorizontalWrapper}, but all nodes end and start on the same node at
- * some point, because all nodes start in leftGraph and all nodes end in
- * rightGraph.
+ * These nodes can't and may not be able to be combined into a
+ * {@link VerticalWrapper} or {@link HorizontalWrapper}, but all nodes end and
+ * start on the same node at some point, because all nodes start in leftGraph
+ * and all nodes end in rightGraph.
  * 
  * @author Sam Smulders
  *
  */
 public class SpaceWrapper extends CombineWrapper {
-	
+	/**
+	 * Construct an instance of {@link SpaceWrapper}.
+	 * 
+	 * <p>
+	 * As additional precondition to the super class its preconditions, the nodes
+	 * within the {@code nodeList} should not be able to be wrapped into a
+	 * {@link VerticalWrapper} or {@link HorizontalWrapper}.
+	 */
 	public SpaceWrapper(List<NodeWrapper> nodeList) {
 		super(nodeList);
 	}
@@ -71,7 +78,7 @@ public class SpaceWrapper extends CombineWrapper {
 		}
 		return genomes;
 	}
-
+	
 	@Override
 	public void calculate(WrapperOperation wrapperOperation) {
 		wrapperOperation.calculate(this);

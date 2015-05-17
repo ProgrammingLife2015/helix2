@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.exeption.DuplicateGenomeNameException;
 import tudelft.ti2806.pl3.util.HashableList;
 import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
@@ -152,8 +153,7 @@ public final class SpaceWrapUtil {
 	 */
 	static List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> computeAllCandidates(
 			List<NodeWrapper> nodes) {
-		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList
-				= new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
+		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList = new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
 		/*
 		 * If a node doesn't contain the same genomes, it is impossible for them
 		 * to be a candidate, because every node in the group between a
@@ -188,8 +188,7 @@ public final class SpaceWrapUtil {
 	 */
 	static Collection<Pair<List<Genome>, List<NodeWrapper>>> getNodesByGenome(
 			List<NodeWrapper> nodes) {
-		Map<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>> searchMap
-				= new HashMap<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>>();
+		Map<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>> searchMap = new HashMap<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>>();
 		for (NodeWrapper node : nodes) {
 			List<Genome> genome = node.getGenome();
 			/*
@@ -307,7 +306,10 @@ public final class SpaceWrapUtil {
 	 *            a candidate node
 	 * @param node2
 	 *            a candidate node
-	 * @return an ordered candidate pair.
+	 * @return an ordered candidate pair
+	 * @throws DuplicateGenomeNameException
+	 *             if the distance between two nodes with the same genome is
+	 *             zero.
 	 */
 	static Pair<Integer, Pair<NodeWrapper, NodeWrapper>> newCandidatePair(
 			NodeWrapper node1, NodeWrapper node2) {
@@ -319,6 +321,15 @@ public final class SpaceWrapUtil {
 		} else if (distance < 0) {
 			return new Pair<Integer, Pair<NodeWrapper, NodeWrapper>>(-distance,
 					new Pair<NodeWrapper, NodeWrapper>(node1, node2));
+		}
+		// TODO: Handle the exceptions correctly
+		try {
+			throw new DuplicateGenomeNameException(
+					"The graph consists of two genome with the same name.",
+					"Two posible routes are found with the same genome name, "
+							+ "or the order of the nodes was not correctly calculated.");
+		} catch (DuplicateGenomeNameException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
