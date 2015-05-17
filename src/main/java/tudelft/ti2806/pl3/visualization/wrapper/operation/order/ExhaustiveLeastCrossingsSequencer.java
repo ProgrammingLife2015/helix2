@@ -33,7 +33,7 @@ import java.util.Set;
  */
 public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	// TODO: Temp. solution. Is a problem with a node count of (1/AFJUSTMENT).
-	private static final float ADJUSTMENT = 0.001f;
+	private static final float ADJUSTMENT = 0.01f;
 	private final int maxIterations;
 	
 	public ExhaustiveLeastCrossingsSequencer(int maxIterations) {
@@ -163,9 +163,9 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		int remainingNodesSize = remainingNodes.size();
 		List<NodeWrapper> passedNodes = new ArrayList<NodeWrapper>(
 				remainingNodesSize);
+		int adjustment = 0;
 		for (int i = list.size() - 1; i >= 0; i--) {
 			list.get(i).setY(i);
-			int adjustment = 0;
 			for (NodeWrapper node : getEdgeTargets(list.get(i), leftToRight)) {
 				if (remainingNodes.contains(node)) {
 					node.setY(i + ADJUSTMENT * adjustment++);
@@ -184,7 +184,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 			for (NodeWrapper node : getEdgeTargets(passedNodes.get(i),
 					leftToRight)) {
 				if (remainingNodes.contains(node)) {
-					node.setY(passedNodes.get(i).getY() + ADJUSTMENT * i++);
+					node.setY(passedNodes.get(i).getY() + ADJUSTMENT * adjustment++);
 					remainingNodes.remove(node);
 					passedNodes.add(node);
 				}
@@ -373,17 +373,20 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 * Calculates the direction with the least number of options. TODO: Return
 	 * type in doc is wrong
 	 * 
+	 * <p>
+	 * TODO: Quick fix; do we want to choose a direction?
+	 * 
 	 * @return {@code true} if the best direction is from left to right<br>
 	 *         {@code false} if the best direction is from right to left
 	 */
 	static Pair<Boolean, Long> getBestDirection(List<NodeWrapper> nodeList) {
 		long leftToRight = getOptionCountFromLeftToRight(nodeList);
-		long rightToLeft = getOptionCountFromRightToLeft(nodeList);
-		if (leftToRight <= rightToLeft) {
+//		long rightToLeft = getOptionCountFromRightToLeft(nodeList);
+//		if (leftToRight <= rightToLeft) {
 			return new Pair<Boolean, Long>(true, leftToRight);
-		} else {
-			return new Pair<Boolean, Long>(false, rightToLeft);
-		}
+//		} else {
+//			return new Pair<Boolean, Long>(false, rightToLeft);
+//		}
 	}
 	
 	static long getOptionCountFromLeftToRight(List<NodeWrapper> nodeList) {
