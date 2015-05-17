@@ -49,44 +49,61 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	public void calculate(SpaceWrapper wrapper) {
 		// true is left to right
 		// false is right to left
-		Pair<Boolean, Long> direction = getBestDirection(wrapper.getNodeList());
+		// TODO: Incoming option is not implemented yet.
+		Pair<Boolean, Long> direction = new Pair<Boolean, Long>(true,
+				getOptionCountFromLeftToRight(wrapper.getNodeList()));
+		// = getBestDirection(wrapper.getNodeList());
 		if (direction.getSecond() < maxIterations) {
-			// TODO: must calculate sub layer first
+			// TODO: leave default order or use genetic algorithm?
 			return;
 		}
 		List<List<NodeWrapper>> currentOrder;
-		if (direction.getFirst()) {
-			currentOrder = getOutgoingList(wrapper.getNodeList());
-		} else {
-			currentOrder = getIncomingList(wrapper.getNodeList());
-		}
+		// TODO: Incoming option is not implemented yet.
+		// if (direction.getFirst()) {
+		// currentOrder = getOutgoingList(wrapper.getNodeList());
+		// } else {
+		currentOrder = getIncomingList(wrapper.getNodeList());
+		// }
 		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = getOrder(currentOrder);
-		
-		int best = Integer.MAX_VALUE;
-		int bestConfig = 0;
-		for (int i = 0; i < direction.getSecond(); i++) {
-			// int found = countIntersections(i, wrapper.getNodeList(), order);
-			// if (found < best) {
-			// best = found;
-			// bestConfig = i;
-			// }
-		}
-		// TODO:
-		// For every configuration
-		// - Apply configuration
-		// - Apply order -> y
-		// - Calculate crossings
-		// then choose best
-		
+		int best = calculateBestConfig(wrapper, direction, order);
+		applyOrderConfiguration(best, order);
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node);
 		}
 	}
 	
+	private int calculateBestConfig(SpaceWrapper wrapper,
+			Pair<Boolean, Long> direction,
+			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order) {
+		int best = Integer.MAX_VALUE;
+		int bestConfig = 0;
+		for (int i = 0; i < direction.getSecond(); i++) {
+			applyConfiguration(i, order, wrapper);
+			int found = countIntersections(wrapper);
+			if (found < best) {
+				// There is no better configuration to search for
+				if (best == 0) {
+					return i;
+				}
+				best = found;
+				bestConfig = i;
+			}
+		}
+		return bestConfig;
+	}
+	
+	/**
+	 * TODO
+	 * 
+	 * <p>
+	 * Direction independent method.
+	 * 
+	 * @param currentOrder
+	 * @return
+	 */
 	static List<Pair<List<NodeWrapper>, NodeWrapper[]>> getOrder(
 			List<List<NodeWrapper>> currentOrder) {
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order
-				= new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
 		for (List<NodeWrapper> list : currentOrder) {
 			NodeWrapper[] connections = new NodeWrapper[list.size()];
 			for (int i = list.size() - 1; i >= 0; i--) {
@@ -98,11 +115,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		return order;
 	}
 	
-	int countIntersections(int configuration,
-			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order,
-			SpaceWrapper wrapper) {
-		applyConfiguration(configuration, order, wrapper);
-		
+	int countIntersections(SpaceWrapper wrapper) {
 		return countIntersections(getIncomingLines(wrapper.getNodeList()));
 	}
 	
