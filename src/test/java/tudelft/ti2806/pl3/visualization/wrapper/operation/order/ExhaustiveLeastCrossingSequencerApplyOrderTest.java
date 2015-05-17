@@ -1,5 +1,12 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.order;
 
+import static tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer.applyConfiguration;
+import static tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer.applyOrderConfigurationOnBothDirections;
+import static tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer.calculateBestConfig;
+import static tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer.countIntersections;
+import static tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer.getConnectionsList;
+import static tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer.getOrder;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +37,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	 *             if test file was not found
 	 */
 	@Before
-	public void init() throws FileNotFoundException {
+	public void applyOrderTestData() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/applyOrderTest.node.graph");
 		File edgesFile = new File("data/testdata/applyOrderTest.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
@@ -85,17 +92,16 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	
 	@Test
 	public void applyOrderTest() {
-		
 		// applyOrder tests
-		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
-				.applyOrder(applyOrderTestGraphwrapper));
+		Assert.assertNotNull(ExhaustiveLeastCrossingsSequencer.applyOrderToY(
+				applyOrderTestGraphwrapper, true));
 		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = ExhaustiveLeastCrossingsSequencer
-				.getOrder(ExhaustiveLeastCrossingsSequencer
-						.getOutgoingList(applyOrderTestGraphwrapper
-								.getNodeList()));
+				.getOrder(ExhaustiveLeastCrossingsSequencer.getConnectionsList(
+						applyOrderTestGraphwrapper.getNodeList(), true));
 		for (int i = 0; i < EXPECTED_APPLY_ORDER_TEST_GRAPH_OUTGOING_SIZE; i++) {
-			Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
-					.applyConfiguration(i, order, applyOrderTestGraphwrapper));
+			Assert.assertNotNull(ExhaustiveLeastCrossingsSequencer
+					.applyConfiguration(i, order, applyOrderTestGraphwrapper,
+							true));
 		}
 	}
 	
@@ -108,16 +114,13 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	@Test
 	public void applyOrderTestWithWrongOrders() throws FileNotFoundException {
 		// applyOrder tests
-		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
-				.applyOrder(alwaysCrossTestGraphwrapper));
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = ExhaustiveLeastCrossingsSequencer
-				.getOrder(ExhaustiveLeastCrossingsSequencer
-						.getOutgoingList(alwaysCrossTestGraphwrapper
-								.getNodeList()));
+		Assert.assertNotNull(ExhaustiveLeastCrossingsSequencer.applyOrderToY(
+				alwaysCrossTestGraphwrapper, true));
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = getOrder(getConnectionsList(
+				alwaysCrossTestGraphwrapper.getNodeList(), true));
 		int invalidConfigurationCount = 0;
 		for (int i = 0; i < EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE; i++) {
-			if (ExhaustiveLeastCrossingsSequencer.applyConfiguration(i, order,
-					alwaysCrossTestGraphwrapper)) {
+			if (!applyConfiguration(i, order, alwaysCrossTestGraphwrapper, true)) {
 				invalidConfigurationCount++;
 			}
 		}
@@ -130,5 +133,19 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		 * which leads to 24/2 = 12 conflicts.
 		 */
 		Assert.assertTrue(invalidConfigurationCount == EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE / 2);
+	}
+	
+	@Test
+	public void calculateBestConfigTest() {
+		Pair<Boolean, Long> direction = new Pair(true, new Long(
+				EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE));
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = getOrder(getConnectionsList(
+				alwaysCrossTestGraphwrapper.getNodeList(), true));
+		int bestConfig = calculateBestConfig(alwaysCrossTestGraphwrapper,
+				EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE, true, order);
+		applyOrderConfigurationOnBothDirections(bestConfig, true, order,
+				alwaysCrossTestGraphwrapper);
+		int crossingsFound = countIntersections(alwaysCrossTestGraphwrapper);
+		Assert.assertEquals(1, crossingsFound, 1 - crossingsFound);
 	}
 }

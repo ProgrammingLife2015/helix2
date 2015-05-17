@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.order;
 
+import static tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer.mergeOrderedLists;
+
 import org.hamcrest.core.IsNot;
 import org.junit.Assert;
 import org.junit.Before;
@@ -59,8 +61,7 @@ public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
 	
 	@Test
 	public void mergeSuccesTest() {
-		List<NodeWrapper> list = ExhaustiveLeastCrossingsSequencer
-				.mergeOrderedLists(listsToCombine);
+		List<NodeWrapper> list = mergeOrderedLists(listsToCombine);
 		ArrayOrderMatcher matcher = new ArrayOrderMatcher(
 				list.toArray(new NodeWrapper[8]));
 		for (NodeWrapper[] order : ordersToTest) {
@@ -68,7 +69,7 @@ public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
 		}
 		// Test for the Matcher itself
 		Assert.assertThat(new NodeWrapper[] { new TestWrapper("B"),
-					new TestWrapper("A") }, new IsNot<NodeWrapper[]>(matcher));
+				new TestWrapper("A") }, new IsNot<NodeWrapper[]>(matcher));
 	}
 	
 	@Test
@@ -77,8 +78,7 @@ public class ExhaustiveLeastCrossingsSequencerMergeOrderedListsTest {
 		list.add(new TestWrapper("D"));
 		list.add(new TestWrapper("A"));
 		listsToCombine.add(list);
-		Assert.assertNull(ExhaustiveLeastCrossingsSequencer
-				.mergeOrderedLists(listsToCombine));
+		Assert.assertNull(mergeOrderedLists(listsToCombine));
 	}
 	
 	private static class TestWrapper extends NodeWrapper {
