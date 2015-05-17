@@ -7,10 +7,9 @@ public class LineTest {
 	@Test
 	public void getYTest() {
 		Line line = new Line(-5, 5, 1f, 0f);
-		Assert.assertEquals(5, line.getY(5), 5 - line.getY(5));
-		Assert.assertEquals(-10.5f, line.getY(-10.5f),
-				-10.5f - line.getY(-10.5f));
-		Assert.assertEquals(0, line.getY(0), line.getY(0));
+		Assert.assertEquals(5, line.getY(5), 0);
+		Assert.assertEquals(-10.5f, line.getY(-10.5f), 0);
+		Assert.assertEquals(0, line.getY(0), 0);
 	}
 	
 	@Test

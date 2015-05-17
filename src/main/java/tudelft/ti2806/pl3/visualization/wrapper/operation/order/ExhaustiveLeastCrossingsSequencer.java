@@ -32,6 +32,8 @@ import java.util.Set;
  * @author Sam Smulders
  */
 public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
+	// TODO: Temp. solution. Is a problem with a node count of (1/AFJUSTMENT).
+	private static final float ADJUSTMENT = 0.001f;
 	private final int maxIterations;
 	
 	public ExhaustiveLeastCrossingsSequencer(int maxIterations) {
@@ -53,7 +55,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		Pair<Boolean, Long> direction = getBestDirection(wrapper.getNodeList());
 		boolean leftToRight = direction.getFirst();
 		long posibleConfigurations = direction.getSecond();
-		if (direction.getSecond() < maxIterations) {
+		if (direction.getSecond() > maxIterations) {
 			// TODO: leave default order or use genetic algorithm?
 			return;
 		}
@@ -96,7 +98,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		for (int i = nodes.size() - 1; i > 0; i--) {
 			list.add(nodes.get(i).getIncoming());
 		}
-		return null;
+		return list;
 	}
 	
 	/**
@@ -137,7 +139,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	}
 	
 	/**
-	 * TODO
+	 * TODO Bad method, is able to set nodes on the same position
 	 * 
 	 * @param wrapper
 	 * @return
@@ -146,7 +148,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 *             preconditions.
 	 */
 	static boolean applyOrderToY(SpaceWrapper wrapper, boolean leftToRight) {
-		List<NodeWrapper> list = collapseIntoList(wrapper);
+		List<NodeWrapper> list = collapseIntoList(wrapper, leftToRight);
 		if (list == null) {
 			return false;
 		}
@@ -163,9 +165,10 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 				remainingNodesSize);
 		for (int i = list.size() - 1; i >= 0; i--) {
 			list.get(i).setY(i);
+			int adjustment = 0;
 			for (NodeWrapper node : getEdgeTargets(list.get(i), leftToRight)) {
 				if (remainingNodes.contains(node)) {
-					node.setY(i);
+					node.setY(i + ADJUSTMENT * adjustment++);
 					remainingNodes.remove(node);
 					passedNodes.add(node);
 				}
@@ -181,7 +184,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 			for (NodeWrapper node : getEdgeTargets(passedNodes.get(i),
 					leftToRight)) {
 				if (remainingNodes.contains(node)) {
-					node.setY(passedNodes.get(i).getY());
+					node.setY(passedNodes.get(i).getY() + ADJUSTMENT * i++);
 					remainingNodes.remove(node);
 					passedNodes.add(node);
 				}
@@ -199,11 +202,12 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		}
 	}
 	
-	static List<NodeWrapper> collapseIntoList(SpaceWrapper wrapper) {
+	static List<NodeWrapper> collapseIntoList(SpaceWrapper wrapper,
+			boolean leftToRight) {
 		List<List<NodeWrapper>> listsToCombine = new ArrayList<List<NodeWrapper>>();
 		for (int n = wrapper.getNodeList().size() - 2; n >= 0; n--) {
 			NodeWrapper node = wrapper.getNodeList().get(n);
-			if (node.getOutgoing().size() > 1) {
+			if (getEdgeTargets(node, leftToRight).size() > 1) {
 				listsToCombine.add(new ArrayList<NodeWrapper>(node
 						.getOutgoing()));
 			}
@@ -222,8 +226,9 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 *            from
 	 * @return the number of intersections counted
 	 */
-	static int countIntersections(SpaceWrapper wrapper) {
-		return countIntersections(getLinesForSpaceWrapperIntersectionTest(wrapper));
+	static int countIntersections(SpaceWrapper wrapper, boolean leftToRight) {
+		return countIntersections(getLinesForSpaceWrapperIntersectionTest(
+				wrapper, leftToRight));
 	}
 	
 	static int countIntersections(List<Line> lines) {
@@ -257,13 +262,13 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 *         {@link SpaceWrapper}.
 	 */
 	static List<Line> getLinesForSpaceWrapperIntersectionTest(
-			SpaceWrapper wrapper) {
+			SpaceWrapper wrapper, boolean leftToRight) {
 		List<Line> lines = new ArrayList<Line>();
 		for (int i = wrapper.getNodeList().size() - 2; i >= 1; i--) {
-			NodeWrapper to = wrapper.getNodeList().get(i);
-			for (NodeWrapper from : to.getOutgoing()) {
-				lines.add(new Line(from.getPreviousNodesCount(), from.getY(),
-						to.getPreviousNodesCount(), to.getY()));
+			NodeWrapper from = wrapper.getNodeList().get(i);
+			for (NodeWrapper to : getEdgeTargets(from, leftToRight)) {
+				lines.add(new Line(from.getPreviousNodesCount(), to.getY(),
+						to.getPreviousNodesCount(), from.getY()));
 			}
 		}
 		return lines;
@@ -281,10 +286,10 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 			if (!applyConfiguration(i, order, wrapper, leftToRight)) {
 				continue;
 			}
-			int found = countIntersections(wrapper);
+			int found = countIntersections(wrapper, leftToRight);
 			if (found < best) {
 				// There is no better configuration to search for
-				if (best == 0) {
+				if (found == 0) {
 					return i;
 				}
 				best = found;
