@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.order;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
@@ -15,9 +16,21 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 public class ExhaustiveLeastCrossingSequencerApplyOrder {
+	private static final int EXPECTED_APPLY_ORDER_TEST_GRAPH_OUTGOING_SIZE = 12;
+	private static final int EXPECTED_APPLY_ORDER_TEST_GRAPH_INCOMING_SIZE = 8;
+	private static final int EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE = 24;
+	private static final int EXPECTED_ALWAYS_CROSS_TEST_GRAPH_INCOMING_SIZE = 24;
+	private SpaceWrapper applyOrderTestGraphwrapper;
+	private SpaceWrapper alwaysCrossTestGraphwrapper;
 	
-	@Test
-	public void applyOrderTest() throws FileNotFoundException {
+	/**
+	 * Run before tests, parsing the applyOrderTest graph.
+	 * 
+	 * @throws FileNotFoundException
+	 *             if test file was not found
+	 */
+	@Before
+	public void init() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/applyOrderTest.node.graph");
 		File edgesFile = new File("data/testdata/applyOrderTest.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
@@ -28,24 +41,61 @@ public class ExhaustiveLeastCrossingSequencerApplyOrder {
 		// Test if test data is correct
 		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
 		Assert.assertTrue(wgd.getPositionedNodes().get(0) instanceof SpaceWrapper);
-		SpaceWrapper wrapper = (SpaceWrapper) wgd.getPositionedNodes().get(0);
-		Assert.assertTrue(wrapper.getNodeList().size() == 7);
+		applyOrderTestGraphwrapper = (SpaceWrapper) wgd.getPositionedNodes()
+				.get(0);
+		Assert.assertTrue(applyOrderTestGraphwrapper.getNodeList().size() == 7);
 		Pair<Boolean, Long> direction = ExhaustiveLeastCrossingsSequencer
-				.getBestDirection(wrapper.getNodeList());
-		Assert.assertTrue(direction.getSecond() == 8);
+				.getBestDirection(applyOrderTestGraphwrapper.getNodeList());
+		Assert.assertTrue(direction.getSecond() == EXPECTED_APPLY_ORDER_TEST_GRAPH_INCOMING_SIZE);
 		Assert.assertFalse(direction.getFirst());
 		long outgoingDirection = ExhaustiveLeastCrossingsSequencer
-				.getOptionCountFromLeftToRight(wrapper.getNodeList());
-		Assert.assertTrue(outgoingDirection == 12);
+				.getOptionCountFromLeftToRight(applyOrderTestGraphwrapper
+						.getNodeList());
+		Assert.assertTrue(outgoingDirection == EXPECTED_APPLY_ORDER_TEST_GRAPH_OUTGOING_SIZE);
+	}
+	
+	/**
+	 * Run before tests, parsing the alwaysCrossTest graph.
+	 * 
+	 * @throws FileNotFoundException
+	 *             if test file was not found
+	 */
+	@Before
+	public void init2() throws FileNotFoundException {
+		File nodesFile = new File("data/testdata/alwaysCrossTest.node.graph");
+		File edgesFile = new File("data/testdata/alwaysCrossTest.edge.graph");
+		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
+				edgesFile);
+		WrappedGraphData wgd = WrapUtil.collapseGraph(
+				new WrappedGraphData(gdr), 1);
+		
+		// Test if test data is correct
+		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
+		Assert.assertTrue(wgd.getPositionedNodes().get(0) instanceof SpaceWrapper);
+		alwaysCrossTestGraphwrapper = (SpaceWrapper) wgd.getPositionedNodes()
+				.get(0);
+		Assert.assertTrue(alwaysCrossTestGraphwrapper.getNodeList().size() == 7);
+		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
+				.getOptionCountFromRightToLeft(alwaysCrossTestGraphwrapper
+						.getNodeList()) == EXPECTED_ALWAYS_CROSS_TEST_GRAPH_INCOMING_SIZE);
+		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
+				.getOptionCountFromRightToLeft(alwaysCrossTestGraphwrapper
+						.getNodeList()) == EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE);
+	}
+	
+	@Test
+	public void applyOrderTest() {
 		
 		// applyOrder tests
-		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer.applyOrder(wrapper));
+		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
+				.applyOrder(applyOrderTestGraphwrapper));
 		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = ExhaustiveLeastCrossingsSequencer
 				.getOrder(ExhaustiveLeastCrossingsSequencer
-						.getOutgoingList(wrapper.getNodeList()));
-		for (int i = 0; i < outgoingDirection; i++) {
+						.getOutgoingList(applyOrderTestGraphwrapper
+								.getNodeList()));
+		for (int i = 0; i < EXPECTED_APPLY_ORDER_TEST_GRAPH_OUTGOING_SIZE; i++) {
 			Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
-					.applyConfiguration(i, order, wrapper));
+					.applyConfiguration(i, order, applyOrderTestGraphwrapper));
 		}
 	}
 	
@@ -57,33 +107,17 @@ public class ExhaustiveLeastCrossingSequencerApplyOrder {
 	 */
 	@Test
 	public void applyOrderTestWithWrongOrders() throws FileNotFoundException {
-		File nodesFile = new File("data/testdata/alwaysCrossTest.node.graph");
-		File edgesFile = new File("data/testdata/alwaysCrossTest.edge.graph");
-		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
-		WrappedGraphData wgd = WrapUtil.collapseGraph(
-				new WrappedGraphData(gdr), 1);
-		
-		// Test if test data is correct
-		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
-		Assert.assertTrue(wgd.getPositionedNodes().get(0) instanceof SpaceWrapper);
-		SpaceWrapper wrapper = (SpaceWrapper) wgd.getPositionedNodes().get(0);
-		Assert.assertTrue(wrapper.getNodeList().size() == 7);
-		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
-				.getOptionCountFromRightToLeft(wrapper.getNodeList()) == 24);
-		long outgoingDirection = ExhaustiveLeastCrossingsSequencer
-				.getOptionCountFromLeftToRight(wrapper.getNodeList());
-		Assert.assertTrue(outgoingDirection == 24);
-		
 		// applyOrder tests
-		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer.applyOrder(wrapper));
+		Assert.assertTrue(ExhaustiveLeastCrossingsSequencer
+				.applyOrder(alwaysCrossTestGraphwrapper));
 		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = ExhaustiveLeastCrossingsSequencer
 				.getOrder(ExhaustiveLeastCrossingsSequencer
-						.getOutgoingList(wrapper.getNodeList()));
+						.getOutgoingList(alwaysCrossTestGraphwrapper
+								.getNodeList()));
 		int invalidConfigurationCount = 0;
-		for (int i = 0; i < outgoingDirection; i++) {
+		for (int i = 0; i < EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE; i++) {
 			if (ExhaustiveLeastCrossingsSequencer.applyConfiguration(i, order,
-					wrapper)) {
+					alwaysCrossTestGraphwrapper)) {
 				invalidConfigurationCount++;
 			}
 		}
@@ -95,6 +129,6 @@ public class ExhaustiveLeastCrossingSequencerApplyOrder {
 		 * Because they can't appear on the same time, they add up to 1/2 times,
 		 * which leads to 24/2 = 12 conflicts.
 		 */
-		Assert.assertTrue(invalidConfigurationCount == 12);
+		Assert.assertTrue(invalidConfigurationCount == EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE / 2);
 	}
 }
