@@ -39,11 +39,11 @@ public final class WrapUtil {
 		while (iterations++ < maxIterations && graph != null) {
 			while (graph != null) {
 				lastGraph = graph;
-				graph = VerticalWrapUtil.collapseGraph(graph);
+				graph = HorizontalWrapUtil.collapseGraph(graph);
 				if (graph == null) {
 					graph = lastGraph;
 				}
-				graph = HorizontalWrapUtil.collapseGraph(graph);
+				graph = VerticalWrapUtil.collapseGraph(graph);
 			}
 			graph = SpaceWrapUtil.collapseGraph(lastGraph);
 		}
