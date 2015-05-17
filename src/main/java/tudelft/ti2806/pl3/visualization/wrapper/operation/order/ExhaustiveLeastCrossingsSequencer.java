@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.order;
 
 import tudelft.ti2806.pl3.math.Line;
-import tudelft.ti2806.pl3.util.MathUtil;
+import tudelft.ti2806.pl3.math.MathUtil;
 import tudelft.ti2806.pl3.util.OrderedListUtil;
 import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
