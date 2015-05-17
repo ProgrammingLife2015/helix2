@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public class ExhaustiveLeastCrossingSequencerApplyOrder {
+public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	private static final int EXPECTED_APPLY_ORDER_TEST_GRAPH_OUTGOING_SIZE = 12;
 	private static final int EXPECTED_APPLY_ORDER_TEST_GRAPH_INCOMING_SIZE = 8;
 	private static final int EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE = 24;
