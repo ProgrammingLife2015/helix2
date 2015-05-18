@@ -10,6 +10,7 @@ import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -35,10 +36,10 @@ public class GraphModel implements GraphModelInterface {
 	 * @param filters
 	 *            the filters to be applied.
 	 */
-	public void produceGraph(List<Filter<Node>> filters) {
-		graph = new GraphData(originalGraph);
+	public void produceGraph(Collection<Filter<Node>> filters) {
 		List<Node> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
+		System.out.println(resultNodes.size());
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		combineNodes(findCombineableNodes(resultNodes, resultEdges),
@@ -46,7 +47,7 @@ public class GraphModel implements GraphModelInterface {
 		graph = new GraphData(originalGraph, resultNodes, resultEdges,
 				originalGraph.getGenomes());
 	}
-	
+
 	public AbstractGraphData getGraphData() {
 		return graph;
 	}
@@ -307,7 +308,7 @@ public class GraphModel implements GraphModelInterface {
 	 * @param filters
 	 *            the list of filters to be applied
 	 */
-	protected void filter(List<Node> list, List<Filter<Node>> filters) {
+	protected void filter(List<Node> list, Collection<Filter<Node>> filters) {
 		for (Filter<Node> filter : filters) {
 			filter.filter(list);
 		}

@@ -4,15 +4,15 @@ import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.Node;
 
 import java.awt.Component;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GraphController implements GraphControllerInterface {
 	private GraphModelInterface model;
-	private GraphViewInterface view;
+	private GraphView view;
 	private double currentZoomLevel;
 	private long currentZoomCenter;
-	private List<Filter<Node>> filters = new ArrayList<Filter<Node>>();
+	private Map<String, Filter<Node>> filters = new HashMap<>();
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -23,13 +23,30 @@ public class GraphController implements GraphControllerInterface {
 	 * @param model
 	 *            the model to use
 	 */
-	public GraphController(GraphViewInterface view, GraphModelInterface model) {
+	public GraphController(GraphView view, GraphModelInterface model) {
 		this.model = model;
 		this.view = view;
-		model.produceGraph(new ArrayList<Filter<Node>>());
+		model.produceGraph(filters.values());
 		view.setGraphData(model.getGraphData());
 		view.init();
 
+	}
+
+	/**
+	 * Adds a node filter to the graph.
+	 * The filters will be put in a HashMap, so adding a filter with
+	 * the same name will override the older one.
+	 * @param name
+	 *          the filter name
+	 * @param filter Filter
+	 *          the filter itself
+	 */
+	public void addFilter(String name, Filter<Node> filter) {
+		filters.put(name, filter);
+		model.produceGraph(filters.values());
+		view.setGraphData(model.getGraphData());
+		view.generateGraph();
+		view.calculateGraphPositions();
 	}
 	
 	/**
@@ -50,10 +67,6 @@ public class GraphController implements GraphControllerInterface {
 	 *            the new level of zoom to apply
 	 */
 	public void changeZoom(double newZoomLevel) {
-		if (Math.round(newZoomLevel) != Math.round(currentZoomLevel)
-				&& filters.size() != 0) {
-			model.produceGraph(filters);
-		}
 		currentZoomLevel = newZoomLevel;
 		view.zoom(newZoomLevel);
 	}

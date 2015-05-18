@@ -26,7 +26,7 @@ public class ScreenSize {
 	 * 
 	 * @return screensize instance
 	 */
-	public synchronized static ScreenSize getInstance() {
+	public static synchronized ScreenSize getInstance() {
 		if (size == null) {
 			size = new ScreenSize();
 		}
@@ -56,6 +56,14 @@ public class ScreenSize {
 	public int getSidebarWidth() {
 		return sidebarWidth;
 	}
+
+	/**
+	 * Calculate the sizes of the windows.
+	 */
+	public void calculate() {
+		zoombarHeight = calculate(ZoomBarView.ZOOMBAR_FACTOR, getHeight());
+		sidebarWidth = calculate(SideBarView.SIDEBAR_FACTOR, getWidth());
+	}
 	
 	/**
 	 * Get the percentage of the size as a integer.
@@ -69,12 +77,12 @@ public class ScreenSize {
 	public int calculate(double percentage, int integer) {
 		return (int) (percentage * integer);
 	}
-	
-	/**
-	 * Calculate the sizes of the windows.
-	 */
-	public void calculate() {
-		zoombarHeight = calculate(ZoomBarView.ZOOMBAR_FACTOR, getHeight());
-		sidebarWidth = calculate(SideBarView.SIDEBAR_FACTOR, getWidth());
+
+	public int calculateHeight(double percentage) {
+		return calculate(percentage, height);
+	}
+
+	public int calculateWidth(double percentage) {
+		return calculate(percentage, width);
 	}
 }
