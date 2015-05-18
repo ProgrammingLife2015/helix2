@@ -15,9 +15,19 @@ import java.util.ArrayList;
 public class SideBarController implements Controller {
 
 	private SideBarView sideBarView;
-	
-	public SideBarController(GraphController graphController, GraphDataRepository gd) {
-		GenomeFilterController genomeFilterController = new GenomeFilterController(graphController, gd);
+
+
+	/**
+	 * Construct the side bar controller and add all filters to its view.
+	 * @param graphController
+	 *          the graph controller
+	 * @param gd
+	 *          the graph data
+	 */
+	public SideBarController(GraphController graphController,
+	                         GraphDataRepository gd) {
+		GenomeFilterController genomeFilterController = new GenomeFilterController(
+				graphController, gd);
 		ArrayList<Component> viewList = new ArrayList<>();
 		viewList.add(genomeFilterController.getPanel());
 		sideBarView = new SideBarView(viewList);
