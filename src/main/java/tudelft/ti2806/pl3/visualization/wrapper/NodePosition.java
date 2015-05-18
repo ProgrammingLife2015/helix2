@@ -88,15 +88,18 @@ public class NodePosition extends NodeWrapper {
 	public DataNodeInterface getNode() {
 		return node;
 	}
-	
+
+	@Override
 	public long getXStart() {
 		return startX;
 	}
-	
+
+	@Override
 	public long getXEnd() {
 		return startX + getWidth();
 	}
-	
+
+	@Override
 	public long getWidth() {
 		return node.getWidth();
 	}

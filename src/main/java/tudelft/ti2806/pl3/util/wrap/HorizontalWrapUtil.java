@@ -95,7 +95,6 @@ public final class HorizontalWrapUtil {
 					node = node.getOutgoing().get(0);
 					foundGroup.add(node);
 				}
-				new HashSet();
 				// Add all nodes to the left which can be combined.
 				node = startNode;
 				while (node.getIncoming().size() == 1

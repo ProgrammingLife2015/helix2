@@ -49,14 +49,17 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 	}
 	
+	@Override
 	public List<DataNodeInterface> getNodes() {
 		return this.getNodeListClone();
 	}
-	
+
+	@Override
 	public List<Edge> getEdges() {
 		return this.getEdgeListClone();
 	}
-	
+
+	@Override
 	public List<Genome> getGenomes() {
 		return this.getGenomeClone();
 	}
@@ -217,11 +220,13 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 		return null;
 	}
-	
+
+	@Override
 	public int getLongestNodePath() {
 		return longestNodePath;
 	}
-	
+
+	@Override
 	public AbstractGraphData getOrigin() {
 		return this;
 	}

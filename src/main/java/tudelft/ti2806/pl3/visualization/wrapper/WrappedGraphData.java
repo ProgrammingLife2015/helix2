@@ -56,7 +56,6 @@ public class WrappedGraphData {
 		for (NodeWrapper node : nodeWrappers) {
 			longestNodePath = Math.max(longestNodePath,
 					node.calculatePreviousNodesCount());
-			// System.out.println(node.previousNodesCount);
 		}
 	}
 	
