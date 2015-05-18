@@ -5,8 +5,10 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.sidebar.SideBarView;
 import tudelft.ti2806.pl3.sidebar.SideBarViewInterface;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -105,5 +107,10 @@ public class GenomeFilterView extends JPanel implements SideBarViewInterface {
 	 */
 	public List getSelected() {
 		return list.getSelectedValuesList();
+	}
+
+	@Override
+	public Component getPanel() {
+		return this;
 	}
 }
