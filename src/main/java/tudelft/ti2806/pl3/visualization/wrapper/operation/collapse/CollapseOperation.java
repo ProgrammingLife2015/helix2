@@ -46,7 +46,7 @@ public class CollapseOperation extends WrapperOperation {
 		}
 	}
 	
-	private boolean isIntresting(CombineWrapper wrapper) {
+	boolean isIntresting(CombineWrapper wrapper) {
 		Set<Genome> genome = wrapper.getGenome();
 		boolean found = false;
 		for (Set<Genome> group : groups) {
