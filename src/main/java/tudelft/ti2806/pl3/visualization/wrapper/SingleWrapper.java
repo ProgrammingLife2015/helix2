@@ -12,7 +12,7 @@ public class SingleWrapper extends NodeWrapper {
 	public SingleWrapper(NodeWrapper target) {
 		this.target = target;
 	}
-	
+
 	@Override
 	public long getXStart() {
 		return target.getXStart();
@@ -45,5 +45,15 @@ public class SingleWrapper extends NodeWrapper {
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
 		wrapperOperation.calculate(this, container);
+	}
+
+	@Override
+	public NodeWrapper deepClone() {
+		return new SingleWrapper(target.deepClone());
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return new SingleWrapper(target);
 	}
 }

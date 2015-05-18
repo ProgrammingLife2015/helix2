@@ -39,8 +39,8 @@ public class SpaceWrapper extends CombineWrapper {
 	 * within the {@code nodeList} should not be able to be wrapped into a
 	 * {@link VerticalWrapper} or {@link HorizontalWrapper}.
 	 */
-	public SpaceWrapper(List<NodeWrapper> nodeList) {
-		super(nodeList);
+	public SpaceWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
+		super(nodePosList, collapsed);
 	}
 	
 	@Override
@@ -78,9 +78,21 @@ public class SpaceWrapper extends CombineWrapper {
 		}
 		return genomes;
 	}
-	
+
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
 		wrapperOperation.calculate(this, container);
+	}
+
+	@Override
+	public SpaceWrapper deepClone() {
+		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
+		nodeList.forEach(s -> clonedList.add(s.deepClone()));
+		return new SpaceWrapper(clonedList,isCollapsed());
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return new SpaceWrapper(nodeList,isCollapsed());
 	}
 }

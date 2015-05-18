@@ -6,7 +6,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NodeWrapper implements Comparable<NodeWrapper> {
+public abstract class NodeWrapper implements Comparable<NodeWrapper>, Cloneable {
 	
 	protected float yy;
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
@@ -73,7 +73,7 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public abstract String getIdString();
 	
 	public abstract List<Genome> getGenome();
-	
+
 	public abstract void calculate(WrapperOperation wrapperSequencer, NodeWrapper container);
 	
 	/**
@@ -84,4 +84,6 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public int compareTo(NodeWrapper other) {
 		return this.previousNodesCount - other.previousNodesCount;
 	}
+
+	public abstract NodeWrapper deepClone();
 }

@@ -117,4 +117,14 @@ public class NodePosition extends NodeWrapper {
 	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
+
+	@Override
+	public NodeWrapper deepClone() {
+		return new NodePosition(node);
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return new NodePosition(node);
+	}
 }
