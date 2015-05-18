@@ -157,7 +157,7 @@ public class OrderedListUtilTest {
 		}
 
 		@Override
-		public Object clone() throws CloneNotSupportedException {
+		public NodeWrapper shallowClone() {
 			return new TestWrapper(name);
 		}
 	}
