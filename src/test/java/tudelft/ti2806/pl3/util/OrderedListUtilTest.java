@@ -150,5 +150,15 @@ public class OrderedListUtilTest {
 			}
 			return true;
 		}
+
+		@Override
+		public TestWrapper deepClone() {
+			return new TestWrapper(name);
+		}
+
+		@Override
+		public Object clone() throws CloneNotSupportedException {
+			return new TestWrapper(name);
+		}
 	}
 }

@@ -11,6 +11,10 @@ public class VerticalWrapper extends CombineWrapper {
 	public VerticalWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
 	}
+
+	public VerticalWrapper(List<NodeWrapper> nodePosList) {
+		super(nodePosList);
+	}
 	
 	@Override
 	public long getWidth() {

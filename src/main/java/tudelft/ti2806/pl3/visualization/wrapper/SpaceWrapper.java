@@ -42,6 +42,10 @@ public class SpaceWrapper extends CombineWrapper {
 	public SpaceWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
 	}
+
+	public SpaceWrapper(List<NodeWrapper> nodePosList) {
+		super(nodePosList);
+	}
 	
 	@Override
 	public long getXStart() {

@@ -24,6 +24,10 @@ public class HorizontalWrapper extends CombineWrapper {
 	public HorizontalWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
 	}
+
+	public HorizontalWrapper(List<NodeWrapper> nodePosList) {
+		super(nodePosList);
+	}
 	
 	@Override
 	public long getWidth() {

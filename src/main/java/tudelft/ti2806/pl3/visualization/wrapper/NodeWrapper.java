@@ -85,5 +85,8 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper>, Cloneable 
 		return this.previousNodesCount - other.previousNodesCount;
 	}
 
+	@Override
+	public abstract Object clone() throws CloneNotSupportedException;
+
 	public abstract NodeWrapper deepClone();
 }
