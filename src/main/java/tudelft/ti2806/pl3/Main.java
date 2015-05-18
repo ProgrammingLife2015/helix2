@@ -19,25 +19,19 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		// set the Nimbus Theme
-		for (UIManager.LookAndFeelInfo info : UIManager
-				.getInstalledLookAndFeels()) {
-			if ("Nimbus".equals(info.getName())) {
-				try {
-					UIManager.setLookAndFeel(info.getClassName());
-				} catch (ClassNotFoundException e) {
-					System.out.println("Theme is not found, default theme is used");
-				} catch (InstantiationException e) {
-					System.out.println("Theme is not instantiated, default theme is used");
-				} catch (IllegalAccessException e) {
-					System.out.println("Theme is not accessible, default theme is used");
-				} catch (UnsupportedLookAndFeelException e) {
-					System.out.println("Theme is not supported, default theme is used");
-				}
-				break;
-			}
+		// set native look and feel
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e) {
+			System.out.println("Theme is not found, default theme is used");
+		} catch (InstantiationException e) {
+			System.out.println("Theme is not instantiated, default theme is used");
+		} catch (IllegalAccessException e) {
+			System.out.println("Theme is not accessible, default theme is used");
+		} catch (UnsupportedLookAndFeelException e) {
+			System.out.println("Theme is not supported, default theme is used");
 		}
-		
+
 		// get the size of the screen
 		GraphicsEnvironment ge = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
