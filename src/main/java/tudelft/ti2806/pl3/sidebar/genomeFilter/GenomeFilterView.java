@@ -22,7 +22,7 @@ import javax.swing.ListSelectionModel;
  */
 public class GenomeFilterView extends JPanel implements SideBarViewInterface {
 
-	private JList list;
+	private JList<String> list;
 
 	public static final double GENOME_FILTER_FACTOR = 0.8;
 	public static final double GENOME_FILTER_HEIGHT = 0.2;
@@ -77,11 +77,11 @@ public class GenomeFilterView extends JPanel implements SideBarViewInterface {
 	 *          the list of all genomes
 	 */
 	private void createList(List<Genome> genomes) {
-		list = new JList(genomes
+		list = new JList<>(genomes
 				.stream()
-				.map(i -> i.getIdentifier())
+				.map(Genome::getIdentifier)
 				.sorted()
-				.toArray());
+				.toArray(String[]::new));
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
@@ -105,7 +105,7 @@ public class GenomeFilterView extends JPanel implements SideBarViewInterface {
 	 * @return
 	 *          the selected items in the list
 	 */
-	public List getSelected() {
+	public List<String> getSelected() {
 		return list.getSelectedValuesList();
 	}
 
