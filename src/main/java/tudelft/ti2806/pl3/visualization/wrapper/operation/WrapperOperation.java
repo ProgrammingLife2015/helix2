@@ -8,7 +8,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 /**
  * A {@link WrapperOperation} is used to when we want to handle different
