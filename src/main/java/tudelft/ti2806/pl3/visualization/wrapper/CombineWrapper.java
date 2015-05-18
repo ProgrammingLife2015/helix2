@@ -29,7 +29,7 @@ public abstract class CombineWrapper extends NodeWrapper {
 		this.nodeList = nodeList;
 		this.collapsed = collapsed;
 	}
-
+	
 	public CombineWrapper(List<NodeWrapper> nodeList) {
 		this.nodeList = nodeList;
 		this.collapsed = false;
@@ -49,6 +49,10 @@ public abstract class CombineWrapper extends NodeWrapper {
 	
 	public boolean isCollapsed() {
 		return collapsed;
+	}
+	
+	public void setCollapse(boolean collapsed) {
+		this.collapsed = collapsed;
 	}
 	
 	@Override
