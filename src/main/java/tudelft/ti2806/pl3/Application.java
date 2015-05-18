@@ -12,6 +12,7 @@ import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
 import java.awt.Component;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -90,8 +91,6 @@ public class Application extends JFrame {
 						.replaceAll("(\\d)\\.(\\d*)e-05", "0.0000$1$2")
 						.replaceAll("(\\d)\\.(\\d*)e-06", "0.00000$1$2")
 						.replaceAll("(\\d)\\.(\\d*)e-07", "0.000000$1$2")
-						.replaceAll("-", "_").getBytes()))
-						.tree();
 
 			// set the views
 			setSideBarView(sideBarController.getPanel());
