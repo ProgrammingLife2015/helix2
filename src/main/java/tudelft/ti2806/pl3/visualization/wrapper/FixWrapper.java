@@ -3,15 +3,14 @@ package tudelft.ti2806.pl3.visualization.wrapper;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
-import java.util.List;
+import java.util.Set;
 
 public class FixWrapper extends NodeWrapper {
 	
-	List<Genome> genome;
+	Set<Genome> genome;
 	long pos;
 	
-	public FixWrapper(List<Genome> genome, long pos) {
-		this.genome = genome;
+	public FixWrapper(long pos) {
 		this.pos = pos;
 	}
 	
@@ -32,17 +31,21 @@ public class FixWrapper extends NodeWrapper {
 	
 	@Override
 	public String getIdString() {
-		return "[FIX]";
+		return "[FIX" + pos + "]";
 	}
 	
 	@Override
-	public List<Genome> getGenome() {
+	public Set<Genome> getGenome() {
 		return genome;
 	}
 	
 	@Override
 	public void calculate(WrapperOperation operation, NodeWrapper container) {
 		operation.calculate(this, container);
+	}
+	
+	public void setGenome(Set<Genome> genome) {
+		this.genome = genome;
 	}
 	
 }

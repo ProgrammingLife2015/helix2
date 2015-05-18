@@ -51,8 +51,12 @@ public class WrappedGraphData {
 		this.origin = origin.origin;
 		this.nodeWrappers = nodeWrappers;
 		for (NodeWrapper node : nodeWrappers) {
+			node.resetPreviousNodesCount();
+		}
+		for (NodeWrapper node : nodeWrappers) {
 			longestNodePath = Math.max(longestNodePath,
 					node.calculatePreviousNodesCount());
+			// System.out.println(node.previousNodesCount);
 		}
 	}
 	

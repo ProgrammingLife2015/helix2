@@ -5,6 +5,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	
@@ -72,9 +73,10 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	
 	public abstract String getIdString();
 	
-	public abstract List<Genome> getGenome();
+	public abstract Set<Genome> getGenome();
 	
-	public abstract void calculate(WrapperOperation wrapperSequencer, NodeWrapper container);
+	public abstract void calculate(WrapperOperation wrapperSequencer,
+			NodeWrapper container);
 	
 	/**
 	 * NodeWrapper is only comparable when the {@link #previousNodesCount} is
@@ -83,5 +85,9 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	@Override
 	public int compareTo(NodeWrapper other) {
 		return this.previousNodesCount - other.previousNodesCount;
+	}
+	
+	public void resetPreviousNodesCount() {
+		this.previousNodesCount = -1;
 	}
 }

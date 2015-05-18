@@ -6,12 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.util.OrderedListUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class OrderedListUtilTest {
 	private static List<List<NodeWrapper>> listsToCombine;
@@ -113,8 +114,8 @@ public class OrderedListUtilTest {
 		}
 		
 		@Override
-		public List<Genome> getGenome() {
-			return null;
+		public Set<Genome> getGenome() {
+			return new HashSet<Genome>();
 		}
 		
 		@Override

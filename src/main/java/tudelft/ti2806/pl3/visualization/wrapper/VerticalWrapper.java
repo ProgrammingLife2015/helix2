@@ -3,8 +3,9 @@ package tudelft.ti2806.pl3.visualization.wrapper;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class VerticalWrapper extends CombineWrapper {
 	
@@ -40,8 +41,8 @@ public class VerticalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public List<Genome> getGenome() {
-		List<Genome> genome = new ArrayList<Genome>();
+	public Set<Genome> getGenome() {
+		Set<Genome> genome = new HashSet<Genome>();
 		for (NodeWrapper node : nodeList) {
 			genome.addAll(node.getGenome());
 		}

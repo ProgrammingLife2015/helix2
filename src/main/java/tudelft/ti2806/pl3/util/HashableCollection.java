@@ -1,11 +1,11 @@
 package tudelft.ti2806.pl3.util;
 
-import java.util.List;
+import java.util.Collection;
 
-public class HashableList<T> {
-	List<T> list;
+public class HashableCollection<T> {
+	Collection<T> list;
 	
-	public HashableList(List<T> list) {
+	public HashableCollection(Collection<T> list) {
 		this.list = list;
 	}
 	
@@ -29,7 +29,7 @@ public class HashableList<T> {
 			return false;
 		}
 		@SuppressWarnings("unchecked")
-		HashableList<T> other = (HashableList<T>) obj;
+		HashableCollection<T> other = (HashableCollection<T>) obj;
 		if (list == null) {
 			if (other.list == null) {
 				return true;

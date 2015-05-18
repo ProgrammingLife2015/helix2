@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.util.HashableList;
+import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
@@ -77,18 +77,18 @@ public final class VerticalWrapUtil {
 	 * @return a list of edges which could be combined
 	 */
 	static List<List<NodeWrapper>> findCombineableNodes(List<NodeWrapper> nodes) {
-		Map<Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>, List<NodeWrapper>> map
-				= new HashMap<Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>, List<NodeWrapper>>();
+		Map<Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>, List<NodeWrapper>> map
+				= new HashMap<Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>, List<NodeWrapper>>();
 		for (NodeWrapper node : nodes) {
 			List<NodeWrapper> list = map
-					.get(new Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>(
-							new HashableList<NodeWrapper>(node.getIncoming()),
-							new HashableList<NodeWrapper>(node.getOutgoing())));
+					.get(new Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>(
+							new HashableCollection<NodeWrapper>(node.getIncoming()),
+							new HashableCollection<NodeWrapper>(node.getOutgoing())));
 			if (list == null) {
 				list = new ArrayList<NodeWrapper>();
-				map.put(new Pair<HashableList<NodeWrapper>, HashableList<NodeWrapper>>(
-						new HashableList<NodeWrapper>(node.getIncoming()),
-						new HashableList<NodeWrapper>(node.getOutgoing())),
+				map.put(new Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>(
+						new HashableCollection<NodeWrapper>(node.getIncoming()),
+						new HashableCollection<NodeWrapper>(node.getOutgoing())),
 						list);
 			}
 			list.add(node);
