@@ -67,6 +67,10 @@ public class GraphController implements GraphControllerInterface {
 	 *            the new level of zoom to apply
 	 */
 	public void changeZoom(double newZoomLevel) {
+//		if (Math.round(newZoomLevel) != Math.round(currentZoomLevel)
+//				&& filters.size() != 0) {
+//			model.produceGraph(filters.values());
+//		}
 		currentZoomLevel = newZoomLevel;
 		view.zoom(newZoomLevel);
 	}
