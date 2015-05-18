@@ -25,8 +25,14 @@ public abstract class CombineWrapper extends NodeWrapper {
 	 * @param nodeList
 	 *            a list of nodes
 	 */
+	public CombineWrapper(List<NodeWrapper> nodeList, boolean collapsed) {
+		this.nodeList = nodeList;
+		this.collapsed = collapsed;
+	}
+
 	public CombineWrapper(List<NodeWrapper> nodeList) {
 		this.nodeList = nodeList;
+		this.collapsed = false;
 	}
 	
 	public NodeWrapper getFirst() {

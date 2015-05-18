@@ -47,5 +47,15 @@ public class FixWrapper extends NodeWrapper {
 	public void setGenome(Set<Genome> genome) {
 		this.genome = genome;
 	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return null;
+	}
+
+	@Override
+	public NodeWrapper deepClone() {
+		return null;
+	}
 	
 }

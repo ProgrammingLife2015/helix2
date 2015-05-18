@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.visualization.wrapper;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,10 @@ public class HorizontalWrapper extends CombineWrapper {
 	 * @param nodePosList
 	 *            a connected and sorted list of edges.
 	 */
+	public HorizontalWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
+		super(nodePosList, collapsed);
+	}
+
 	public HorizontalWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
@@ -57,5 +62,17 @@ public class HorizontalWrapper extends CombineWrapper {
 	@Override
 	public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
 		wrapperSequencer.calculate(this, container);
+	}
+
+	@Override
+	public HorizontalWrapper deepClone() {
+		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
+		nodeList.forEach(s -> clonedList.add(s.deepClone()));
+		return new HorizontalWrapper(clonedList,isCollapsed());
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return new HorizontalWrapper(nodeList,isCollapsed());
 	}
 }

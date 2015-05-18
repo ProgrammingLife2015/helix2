@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public abstract class NodeWrapper implements Comparable<NodeWrapper> {
+public abstract class NodeWrapper implements Comparable<NodeWrapper>, Cloneable {
 	
 	protected float yy;
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
@@ -90,4 +90,9 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public void resetPreviousNodesCount() {
 		this.previousNodesCount = -1;
 	}
+	
+	@Override
+	public abstract Object clone() throws CloneNotSupportedException;
+	
+	public abstract NodeWrapper deepClone();
 }

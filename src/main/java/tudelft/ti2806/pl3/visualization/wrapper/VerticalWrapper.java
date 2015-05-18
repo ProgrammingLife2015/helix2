@@ -3,14 +3,19 @@ package tudelft.ti2806.pl3.visualization.wrapper;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class VerticalWrapper extends CombineWrapper {
 	
-	public VerticalWrapper(List<NodeWrapper> nodeList) {
-		super(nodeList);
+	public VerticalWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
+		super(nodePosList, collapsed);
+	}
+
+	public VerticalWrapper(List<NodeWrapper> nodePosList) {
+		super(nodePosList);
 	}
 	
 	@Override
@@ -52,5 +57,17 @@ public class VerticalWrapper extends CombineWrapper {
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
 		wrapperOperation.calculate(this, container);
+	}
+
+	@Override
+	public VerticalWrapper deepClone() {
+		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
+		nodeList.forEach(s -> clonedList.add(s.deepClone()));
+		return new VerticalWrapper(clonedList,isCollapsed());
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return new VerticalWrapper(nodeList,isCollapsed());
 	}
 }
