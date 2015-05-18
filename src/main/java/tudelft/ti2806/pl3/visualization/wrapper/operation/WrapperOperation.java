@@ -24,7 +24,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
  * @author Sam Smulders
  *
  */
-public interface WrapperOperation {
+public abstract class WrapperOperation {
 	
 	/**
 	 * This method makes the node call back to prevent identifying the class
@@ -36,7 +36,7 @@ public interface WrapperOperation {
 	 * @param container
 	 *            the wrapper containing this node
 	 */
-	default void calculate(NodeWrapper node, NodeWrapper container) {
+	public void calculate(NodeWrapper node, NodeWrapper container) {
 		node.calculate(this, container);
 	}
 	
@@ -44,8 +44,8 @@ public interface WrapperOperation {
 	 * Executes the operation for {@link HorizontalWrapper}.
 	 * 
 	 * <p>
-	 * The default method just calls the {@link #calculate(NodeWrapper)} for
-	 * each {@link NodeWrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(NodeWrapper)} for each
+	 * {@link NodeWrapper} within this {@link CombineWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
@@ -53,7 +53,7 @@ public interface WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
+	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node, container);
 		}
@@ -63,8 +63,8 @@ public interface WrapperOperation {
 	 * Executes the operation for {@link VerticalWrapper}.
 	 * 
 	 * <p>
-	 * The default method just calls the {@link #calculate(NodeWrapper)} for
-	 * each {@link NodeWrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(NodeWrapper)} for each
+	 * {@link NodeWrapper} within this {@link CombineWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
@@ -72,7 +72,7 @@ public interface WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(VerticalWrapper wrapper, NodeWrapper container) {
+	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node, container);
 		}
@@ -82,8 +82,8 @@ public interface WrapperOperation {
 	 * Executes the operation for {@link SpaceWrapper}.
 	 * 
 	 * <p>
-	 * The default method just calls the {@link #calculate(NodeWrapper)} for
-	 * each {@link NodeWrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(NodeWrapper)} for each
+	 * {@link NodeWrapper} within this {@link CombineWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
@@ -91,7 +91,7 @@ public interface WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(SpaceWrapper wrapper, NodeWrapper container) {
+	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node, container);
 		}
@@ -101,7 +101,7 @@ public interface WrapperOperation {
 	 * Executes the operation for {@link SingleWrapper}.
 	 * 
 	 * <p>
-	 * The default method just calls the {@link #calculate(NodeWrapper)} for the
+	 * The public method just calls the {@link #calculate(NodeWrapper)} for the
 	 * {@link NodeWrapper} within this {@link SingleWrapper}.
 	 * 
 	 * @param wrapper
@@ -110,7 +110,7 @@ public interface WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(SingleWrapper wrapper, NodeWrapper container) {
+	public void calculate(SingleWrapper wrapper, NodeWrapper container) {
 		calculate(wrapper.getNode(), container);
 	}
 	
@@ -118,7 +118,7 @@ public interface WrapperOperation {
 	 * Executes the operation for {@link NodePosition}.
 	 * 
 	 * <p>
-	 * The default method is empty.
+	 * The public method is empty.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
@@ -126,7 +126,7 @@ public interface WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(NodePosition wrapper, NodeWrapper container) {
+	public void calculate(NodePosition wrapper, NodeWrapper container) {
 		
 	}
 }

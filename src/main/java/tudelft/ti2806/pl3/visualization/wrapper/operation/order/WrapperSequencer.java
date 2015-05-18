@@ -14,7 +14,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
  * @author Sam_
  *
  */
-public interface WrapperSequencer extends WrapperOperation {
+public abstract class WrapperSequencer extends WrapperOperation {
 	/**
 	 * Calculate the order for {@link HorizontalWrapper}.
 	 * 
@@ -22,14 +22,14 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * Change the order of the nodes of the {@link HorizontalWrapper} its list.
 	 * 
 	 * <p>
-	 * The default method just calls the {@link #calculate(NodeWrapper)} for
-	 * each {@link NodeWrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(NodeWrapper)} for each
+	 * {@link NodeWrapper} within this {@link CombineWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 */
 	@Override
-	default void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
+	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node, container);
 		}
@@ -42,14 +42,14 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * Change the order of the nodes of the {@link VericalWrapper} its list.
 	 * 
 	 * <p>
-	 * The default method just calls the {@link #calculate(NodeWrapper)} for
-	 * each {@link NodeWrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(NodeWrapper)} for each
+	 * {@link NodeWrapper} within this {@link CombineWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 */
 	@Override
-	default void calculate(VerticalWrapper wrapper, NodeWrapper container) {
+	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node, container);
 		}
@@ -65,14 +65,14 @@ public interface WrapperSequencer extends WrapperOperation {
 	 * {@link CombineWrapper}.
 	 * 
 	 * <p>
-	 * The default method just calls the {@link #calculate(NodeWrapper)} for
-	 * each {@link NodeWrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(NodeWrapper)} for each
+	 * {@link NodeWrapper} within this {@link CombineWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 */
 	@Override
-	default void calculate(SpaceWrapper wrapper, NodeWrapper container) {
+	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node, container);
 		}

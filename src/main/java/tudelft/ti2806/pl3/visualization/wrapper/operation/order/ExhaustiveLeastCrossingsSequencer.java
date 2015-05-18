@@ -31,7 +31,7 @@ import java.util.Set;
  * 
  * @author Sam Smulders
  */
-public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
+public class ExhaustiveLeastCrossingsSequencer extends WrapperSequencer {
 	// TODO: Temp. solution. Is a problem with a node count of (1/AFJUSTMENT).
 	private static final float ADJUSTMENT = 0.01f;
 	private final int maxIterations;

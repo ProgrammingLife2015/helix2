@@ -8,7 +8,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
-public class DemoGraphDrawing implements WrapperOperation {
+public class DemoGraphDrawing extends WrapperOperation {
 	// private Graph graph;
 	
 	// public DemoGraphDrawing(Graph graph) {
