@@ -29,9 +29,9 @@ public interface WrapperSequencer extends WrapperOperation {
 	 *            the node to perform the operation on
 	 */
 	@Override
-	default void calculate(HorizontalWrapper wrapper) {
+	default void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	
@@ -49,9 +49,9 @@ public interface WrapperSequencer extends WrapperOperation {
 	 *            the node to perform the operation on
 	 */
 	@Override
-	default void calculate(VerticalWrapper wrapper) {
+	default void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	
@@ -72,9 +72,9 @@ public interface WrapperSequencer extends WrapperOperation {
 	 *            the node to perform the operation on
 	 */
 	@Override
-	default void calculate(SpaceWrapper wrapper) {
+	default void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 }

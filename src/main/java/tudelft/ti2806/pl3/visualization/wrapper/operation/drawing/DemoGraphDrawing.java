@@ -16,35 +16,35 @@ public class DemoGraphDrawing implements WrapperOperation {
 	// }
 	
 	@Override
-	public void calculate(HorizontalWrapper wrapper) {
+	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		if (!wrapper.isCollapsed()) {
 			for (NodeWrapper node : wrapper.getNodeList()) {
-				calculate(node);
+				calculate(node, container);
 			}
 		}
 	}
 	
 	@Override
-	public void calculate(VerticalWrapper wrapper) {
+	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	
 	@Override
-	public void calculate(SpaceWrapper wrapper) {
+	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	
 	@Override
-	public void calculate(SingleWrapper wrapper) {
-		calculate(wrapper.getNode());
+	public void calculate(SingleWrapper wrapper, NodeWrapper container) {
+		calculate(wrapper.getNode(), container);
 	}
 	
 	@Override
-	public void calculate(NodePosition wrapper) {
+	public void calculate(NodePosition wrapper, NodeWrapper container) {
 		
 	}
 }

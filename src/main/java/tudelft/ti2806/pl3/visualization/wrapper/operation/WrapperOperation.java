@@ -32,10 +32,12 @@ public interface WrapperOperation {
 	 * This method should most likely be left untouched.
 	 * 
 	 * @param node
-	 *            the node which is called to make a call back.
+	 *            the node which is called to make a call back
+	 * @param container
+	 *            the wrapper containing this node
 	 */
-	default void calculate(NodeWrapper node) {
-		node.calculate(this);
+	default void calculate(NodeWrapper node, NodeWrapper container) {
+		node.calculate(this, container);
 	}
 	
 	/**
@@ -47,10 +49,13 @@ public interface WrapperOperation {
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
+	 * @param container
+	 *            the wrapper containing this node<br>
+	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(HorizontalWrapper wrapper) {
+	default void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	
@@ -63,10 +68,13 @@ public interface WrapperOperation {
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
+	 * @param container
+	 *            the wrapper containing this node<br>
+	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(VerticalWrapper wrapper) {
+	default void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	
@@ -79,10 +87,13 @@ public interface WrapperOperation {
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
+	 * @param container
+	 *            the wrapper containing this node<br>
+	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(SpaceWrapper wrapper) {
+	default void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	
@@ -95,9 +106,12 @@ public interface WrapperOperation {
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
+	 * @param container
+	 *            the wrapper containing this node<br>
+	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(SingleWrapper wrapper) {
-		calculate(wrapper.getNode());
+	default void calculate(SingleWrapper wrapper, NodeWrapper container) {
+		calculate(wrapper.getNode(), container);
 	}
 	
 	/**
@@ -108,8 +122,11 @@ public interface WrapperOperation {
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
+	 * @param container
+	 *            the wrapper containing this node<br>
+	 *            {@code null} if this node isn't wrapped
 	 */
-	default void calculate(NodePosition wrapper) {
+	default void calculate(NodePosition wrapper, NodeWrapper container) {
 		
 	}
 }

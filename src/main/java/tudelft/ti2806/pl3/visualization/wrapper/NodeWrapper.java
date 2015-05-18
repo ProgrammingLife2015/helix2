@@ -74,7 +74,7 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	
 	public abstract List<Genome> getGenome();
 	
-	public abstract void calculate(WrapperOperation wrapperSequencer);
+	public abstract void calculate(WrapperOperation wrapperSequencer, NodeWrapper container);
 	
 	/**
 	 * NodeWrapper is only comparable when the {@link #previousNodesCount} is

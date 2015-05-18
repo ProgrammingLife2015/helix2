@@ -51,7 +51,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 	 *            the node to perform the operation on
 	 */
 	@Override
-	public void calculate(SpaceWrapper wrapper) {
+	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		Pair<Boolean, Long> direction = getBestDirection(wrapper.getNodeList());
 		boolean leftToRight = direction.getFirst();
 		long posibleConfigurations = direction.getSecond();
@@ -67,7 +67,7 @@ public class ExhaustiveLeastCrossingsSequencer implements WrapperSequencer {
 		applyOrderConfigurationOnBothDirections(bestConfig, true, order,
 				wrapper);
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node);
+			calculate(node, container);
 		}
 	}
 	

@@ -118,7 +118,7 @@ public class OrderedListUtilTest {
 		}
 		
 		@Override
-		public void calculate(WrapperOperation wrapperSequencer) {
+		public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
 		}
 		
 		@Override

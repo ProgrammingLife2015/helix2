@@ -43,7 +43,7 @@ public class SingleWrapper extends NodeWrapper {
 	}
 
 	@Override
-	public void calculate(WrapperOperation wrapperOperation) {
-		wrapperOperation.calculate(this);
+	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
+		wrapperOperation.calculate(this, container);
 	}
 }

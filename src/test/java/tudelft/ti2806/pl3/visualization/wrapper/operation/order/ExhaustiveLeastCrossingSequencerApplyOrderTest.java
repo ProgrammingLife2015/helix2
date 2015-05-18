@@ -185,7 +185,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		Assert.assertNotEquals(0,
 				countIntersections(applyOrderTestGraphWrapper, true));
 		new ExhaustiveLeastCrossingsSequencer(100)
-				.calculate(applyOrderTestGraphWrapper);
+				.calculate(applyOrderTestGraphWrapper, null);
 //		displayGraph(applyOrderTestGraphWrapper);
 		Assert.assertEquals(0,
 				countIntersections(applyOrderTestGraphWrapper, true));

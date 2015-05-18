@@ -49,7 +49,7 @@ public class HorizontalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public void calculate(WrapperOperation wrapperSequencer) {
-		wrapperSequencer.calculate(this);
+	public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
+		wrapperSequencer.calculate(this, container);
 	}
 }
