@@ -27,18 +27,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
  *
  */
 public abstract class WrapperOperation {
-	/**
-	 * Executes the WrapperOperation on all nodes within the given
-	 * {@link WrappedGraphData}.
-	 * 
-	 * @param wgd
-	 *            the {@link WrappedGraphData} to perform this operation on
-	 */
-	public void excecuteOn(WrappedGraphData wgd) {
-		for (NodeWrapper node : wgd.getPositionedNodes()) {
-			calculate(node, null);
-		}
-	}
 	
 	/**
 	 * This method makes the node call back to prevent identifying the class
