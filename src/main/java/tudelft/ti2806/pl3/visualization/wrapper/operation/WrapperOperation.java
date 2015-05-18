@@ -7,6 +7,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 /**
  * A {@link WrapperOperation} is used to when we want to handle different
@@ -25,6 +26,18 @@ import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
  *
  */
 public abstract class WrapperOperation {
+	/**
+	 * Executes the WrapperOperation on all nodes within the given
+	 * {@link WrappedGraphData}.
+	 * 
+	 * @param wgd
+	 *            the {@link WrappedGraphData} to perform this operation on
+	 */
+	public void excecuteOn(WrappedGraphData wgd) {
+		for (NodeWrapper node : wgd.getPositionedNodes()) {
+			calculate(node, null);
+		}
+	}
 	
 	/**
 	 * This method makes the node call back to prevent identifying the class
