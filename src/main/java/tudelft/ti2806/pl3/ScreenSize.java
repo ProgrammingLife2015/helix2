@@ -26,7 +26,7 @@ public class ScreenSize {
 	 * 
 	 * @return screensize instance
 	 */
-	public synchronized static ScreenSize getInstance() {
+	public static synchronized ScreenSize getInstance() {
 		if (size == null) {
 			size = new ScreenSize();
 		}

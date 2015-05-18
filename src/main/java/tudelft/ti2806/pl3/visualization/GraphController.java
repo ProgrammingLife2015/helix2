@@ -32,6 +32,15 @@ public class GraphController implements GraphControllerInterface {
 
 	}
 
+	/**
+	 * Adds a node filter to the graph.
+	 * The filters will be put in a HashMap, so adding a filter with
+	 * the same name will override the older one.
+	 * @param name
+	 *          the filter name
+	 * @param filter Filter
+	 *          the filter itself
+	 */
 	public void addFilter(String name, Filter<Node> filter) {
 		filters.put(name, filter);
 		model.produceGraph(filters.values());

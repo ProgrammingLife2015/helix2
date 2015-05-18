@@ -2,10 +2,13 @@ package tudelft.ti2806.pl3.sidebar;
 
 import tudelft.ti2806.pl3.ScreenSize;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 /**
  * The view for the sidebar. The user can select options in the sidebar. Created
@@ -17,6 +20,7 @@ public class SideBarView extends JPanel {
 	/**
 	 * Constructs the sidebar view with a fixed width.
 	 * @param viewList
+	 *          the list of all views
 	 */
 	public SideBarView(ArrayList<Component> viewList) {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
