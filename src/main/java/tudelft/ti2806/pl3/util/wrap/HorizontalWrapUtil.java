@@ -10,7 +10,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ import java.util.List;
 public final class HorizontalWrapUtil {
 	private HorizontalWrapUtil() {
 	}
-
+	
 	@SuppressWarnings("CPD-START")
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
