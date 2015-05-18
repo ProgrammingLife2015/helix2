@@ -46,6 +46,10 @@ public class SpaceWrapper extends CombineWrapper {
 	public SpaceWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
+
+	public SpaceWrapper(List<NodeWrapper> nodePosList, boolean collapsed, List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
+		super(nodePosList, collapsed, incoming, outgoing);
+	}
 	
 	@Override
 	public long getXStart() {
@@ -92,11 +96,11 @@ public class SpaceWrapper extends CombineWrapper {
 	public SpaceWrapper deepClone() {
 		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
 		nodeList.forEach(s -> clonedList.add(s.deepClone()));
-		return new SpaceWrapper(clonedList,isCollapsed());
+		return new SpaceWrapper(clonedList,isCollapsed(),getIncoming(),getOutgoing());
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return new SpaceWrapper(nodeList,isCollapsed());
+	public NodeWrapper shallowClone() {
+		return new SpaceWrapper(nodeList,isCollapsed(),getIncoming(),getOutgoing());
 	}
 }

@@ -28,6 +28,10 @@ public class HorizontalWrapper extends CombineWrapper {
 	public HorizontalWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
+
+	public HorizontalWrapper(List<NodeWrapper> nodePosList, boolean collapsed, List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
+		super(nodePosList, collapsed, incoming, outgoing);
+	}
 	
 	@Override
 	public long getWidth() {
@@ -62,11 +66,11 @@ public class HorizontalWrapper extends CombineWrapper {
 	public HorizontalWrapper deepClone() {
 		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
 		nodeList.forEach(s -> clonedList.add(s.deepClone()));
-		return new HorizontalWrapper(clonedList,isCollapsed());
+		return new HorizontalWrapper(clonedList,isCollapsed(),getIncoming(),getOutgoing());
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return new HorizontalWrapper(nodeList,isCollapsed());
+	public NodeWrapper shallowClone() {
+		return new HorizontalWrapper(nodeList,isCollapsed(),getIncoming(),getOutgoing());
 	}
 }

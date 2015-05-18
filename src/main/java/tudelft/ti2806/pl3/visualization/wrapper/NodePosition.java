@@ -79,7 +79,7 @@ public class NodePosition extends NodeWrapper {
 		return max;
 	}
 	
-	protected NodePosition(DataNodeInterface node) {
+	public NodePosition(DataNodeInterface node) {
 		this.node = node;
 	}
 	
@@ -124,7 +124,7 @@ public class NodePosition extends NodeWrapper {
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
+	public NodeWrapper shallowClone() {
 		return new NodePosition(node);
 	}
 }

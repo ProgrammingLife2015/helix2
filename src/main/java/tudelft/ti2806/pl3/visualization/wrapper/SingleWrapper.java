@@ -53,7 +53,7 @@ public class SingleWrapper extends NodeWrapper {
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
+	public NodeWrapper shallowClone() {
 		return new SingleWrapper(target);
 	}
 }

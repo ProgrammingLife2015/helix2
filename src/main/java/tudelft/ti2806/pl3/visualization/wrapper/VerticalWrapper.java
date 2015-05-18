@@ -15,6 +15,10 @@ public class VerticalWrapper extends CombineWrapper {
 	public VerticalWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
+
+	public VerticalWrapper(List<NodeWrapper> nodePosList, boolean collapsed, List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
+		super(nodePosList, collapsed, incoming, outgoing);
+	}
 	
 	@Override
 	public long getWidth() {
@@ -61,11 +65,11 @@ public class VerticalWrapper extends CombineWrapper {
 	public VerticalWrapper deepClone() {
 		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
 		nodeList.forEach(s -> clonedList.add(s.deepClone()));
-		return new VerticalWrapper(clonedList,isCollapsed());
+		return new VerticalWrapper(clonedList,isCollapsed(),getIncoming(),getOutgoing());
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return new VerticalWrapper(nodeList,isCollapsed());
+	public NodeWrapper shallowClone() {
+		return new VerticalWrapper(nodeList,isCollapsed(),getIncoming(),getOutgoing());
 	}
 }
