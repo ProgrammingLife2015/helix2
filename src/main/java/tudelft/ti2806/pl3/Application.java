@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3;
 
+import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
@@ -8,10 +9,10 @@ import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphModel;
 import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
+import newick.NewickParser;
 
 import java.awt.Component;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -67,12 +68,20 @@ public class Application extends JFrame {
 	public void start() {
 		File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+		File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
 		try {
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 			graphController = new GraphController(new GraphView(), new GraphModel(gd));
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController);
+
+			// parse the phylogenetic tree
+			BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream(treeFile))));
+			NewickParser.TreeNode tree = new NewickParser(new ByteArrayInputStream(br.readLine()
+						.replaceAll("(\\d)\\.(\\d*)e-05", "0.0000$1$2")
+						.replaceAll("-", "_").getBytes()))
+						.tree();
 
 			// set the views
 			setSideBarView(sideBarController.getPanel());
@@ -93,6 +102,12 @@ public class Application extends JFrame {
 			this.setFocusable(true);
 			this.setVisible(true);
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			this.stop();
+		} catch (ParseException e) {
+			e.printStackTrace();
+			this.stop();
+		} catch (IOException e) {
 			e.printStackTrace();
 			this.stop();
 		}
