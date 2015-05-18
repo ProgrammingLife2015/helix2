@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.util.OrderedListUtil;
 import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +32,7 @@ import java.util.Set;
  * 
  * @author Sam Smulders
  */
-public class ExhaustiveLeastCrossingsSequencer extends WrapperSequencer {
+public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	// TODO: Temp. solution. Is a problem with a node count of (1/AFJUSTMENT).
 	private static final float ADJUSTMENT = 0.01f;
 	private final int maxIterations;
@@ -67,7 +68,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperSequencer {
 		applyOrderConfigurationOnBothDirections(bestConfig, true, order,
 				wrapper);
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node, container);
+			calculate(node, wrapper);
 		}
 	}
 	

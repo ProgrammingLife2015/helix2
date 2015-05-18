@@ -55,7 +55,7 @@ public abstract class WrapperOperation {
 	 */
 	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node, container);
+			calculate(node, wrapper);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public abstract class WrapperOperation {
 	 */
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node, container);
+			calculate(node, wrapper);
 		}
 	}
 	
@@ -93,7 +93,7 @@ public abstract class WrapperOperation {
 	 */
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node, container);
+			calculate(node, wrapper);
 		}
 	}
 	
@@ -111,7 +111,7 @@ public abstract class WrapperOperation {
 	 *            {@code null} if this node isn't wrapped
 	 */
 	public void calculate(SingleWrapper wrapper, NodeWrapper container) {
-		calculate(wrapper.getNode(), container);
+		calculate(wrapper.getNode(), wrapper);
 	}
 	
 	/**

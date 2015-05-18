@@ -19,7 +19,7 @@ public class DemoGraphDrawing extends WrapperOperation {
 	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		if (!wrapper.isCollapsed()) {
 			for (NodeWrapper node : wrapper.getNodeList()) {
-				calculate(node, container);
+				calculate(node, wrapper);
 			}
 		}
 	}
@@ -27,20 +27,20 @@ public class DemoGraphDrawing extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node, container);
+			calculate(node, wrapper);
 		}
 	}
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node, container);
+			calculate(node, wrapper);
 		}
 	}
 	
 	@Override
 	public void calculate(SingleWrapper wrapper, NodeWrapper container) {
-		calculate(wrapper.getNode(), container);
+		calculate(wrapper.getNode(), wrapper);
 	}
 	
 	@Override
