@@ -9,7 +9,8 @@ import java.util.List;
 /**
  * Some node groups can't be wrapped inside a {@link VerticalWrapper} or
  * {@link HorizontalWrapper}. The {@link SpaceWrapper} wraps a group of nodes
- * where all nodes end and start at some point on the same nodes.
+ * where all nodes end and start at some point on the same nodes and both, the
+ * start and end node, contain the same set of genome.
  * 
  * <p>
  * An example of a group of nodes which can be wrapped inside a
@@ -35,8 +36,8 @@ public class SpaceWrapper extends CombineWrapper {
 	 * Construct an instance of {@link SpaceWrapper}.
 	 * 
 	 * <p>
-	 * As additional precondition to the super class its preconditions, the nodes
-	 * within the {@code nodeList} should not be able to be wrapped into a
+	 * As additional precondition to the super class its preconditions, the
+	 * nodes within the {@code nodeList} should not be able to be wrapped into a
 	 * {@link VerticalWrapper} or {@link HorizontalWrapper}.
 	 */
 	public SpaceWrapper(List<NodeWrapper> nodeList) {
