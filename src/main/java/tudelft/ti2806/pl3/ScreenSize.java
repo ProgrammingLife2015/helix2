@@ -56,6 +56,14 @@ public class ScreenSize {
 	public int getSidebarWidth() {
 		return sidebarWidth;
 	}
+
+	/**
+	 * Calculate the sizes of the windows.
+	 */
+	public void calculate() {
+		zoombarHeight = calculate(ZoomBarView.ZOOMBAR_FACTOR, getHeight());
+		sidebarWidth = calculate(SideBarView.SIDEBAR_FACTOR, getWidth());
+	}
 	
 	/**
 	 * Get the percentage of the size as a integer.
@@ -76,13 +84,5 @@ public class ScreenSize {
 
 	public int calculateWidth(double percentage) {
 		return calculate(percentage, width);
-	}
-	
-	/**
-	 * Calculate the sizes of the windows.
-	 */
-	public void calculate() {
-		zoombarHeight = calculate(ZoomBarView.ZOOMBAR_FACTOR, getHeight());
-		sidebarWidth = calculate(SideBarView.SIDEBAR_FACTOR, getWidth());
 	}
 }
