@@ -1,12 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>tudelft.ti2806.pl3</groupId>
+    <artifactId>app</artifactId>
+    <version>0.1</version>
+  </parent>
   <groupId>tudelft.ti2806.pl3</groupId>
-  <artifactId>app</artifactId>
-  <packaging>jar</packaging>
-  <version>0.1</version>
-  <name>app</name>
-  <url>http://maven.apache.org</url>
+  <artifactId>main</artifactId>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -40,9 +41,9 @@
       <version>3.0.1</version>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.9.5</version>
+      <groupId>tudelft.ti2806.pl3</groupId>
+      <artifactId>dep1</artifactId>
+      <version>0.1</version>
     </dependency>
   </dependencies>
   <build>
