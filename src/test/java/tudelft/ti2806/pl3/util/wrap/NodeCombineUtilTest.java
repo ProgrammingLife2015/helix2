@@ -4,12 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.testutil.UtilTest;
 import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,5 +109,18 @@ public class NodeCombineUtilTest {
 		nwgd = SpaceWrapUtil.collapseGraph(nwgd);
 		Assert.assertTrue(nwgd.getPositionedNodes().size() == 1);
 		
+	}
+	
+	@Test
+	public void privateConstructorTest() throws NoSuchMethodException,
+			IllegalAccessException, InvocationTargetException,
+			InstantiationException {
+		new UtilTest<SpaceWrapUtil>(SpaceWrapUtil.class)
+				.testConstructorIsPrivate();
+		new UtilTest<VerticalWrapUtil>(VerticalWrapUtil.class)
+				.testConstructorIsPrivate();
+		new UtilTest<HorizontalWrapUtil>(HorizontalWrapUtil.class)
+				.testConstructorIsPrivate();
+		new UtilTest<WrapUtil>(WrapUtil.class).testConstructorIsPrivate();
 	}
 }
