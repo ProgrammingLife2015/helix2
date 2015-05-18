@@ -37,7 +37,7 @@ public abstract class CombineWrapper extends NodeWrapper {
 
 	public CombineWrapper(List<NodeWrapper> nodeList, boolean collapsed, List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
 		this.nodeList = nodeList;
-		this.collapsed = false;
+		this.collapsed = collapsed;
 		this.incoming = incoming;
 		this.outgoing = outgoing;
 	}
