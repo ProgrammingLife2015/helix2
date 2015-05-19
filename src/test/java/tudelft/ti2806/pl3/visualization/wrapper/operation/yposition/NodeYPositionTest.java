@@ -172,6 +172,7 @@ public class NodeYPositionTest {
 		readSpaceWrapped();
 
 		NodeYPosition.init(spaceWrapper);
+
 	}
 
 	@Test
@@ -179,6 +180,9 @@ public class NodeYPositionTest {
 		readSpaceWrapped();
 
 		NodeYPosition.init(spaceWrapper,container);
+
+
+
 	}
 
 	private void displayGraph(CombineWrapper wrapper) {
