@@ -93,4 +93,8 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public int compareTo(NodeWrapper other) {
 		return this.previousNodesCount - other.previousNodesCount;
 	}
+
+	public long compareXStart(NodeWrapper other) {
+		return this.getXStart() - other.getXStart();
+	}
 }
