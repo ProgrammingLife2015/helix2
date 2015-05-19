@@ -11,7 +11,12 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.util.wrap.HorizontalWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.SpaceWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.VerticalWrapUtil;
-import tudelft.ti2806.pl3.visualization.wrapper.*;
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,9 +51,10 @@ public class NodeYPositionTest {
 
 	/**
 	 * Reads the graph and constructs a vertical wrapped object
+	 *
 	 * @throws FileNotFoundException
 	 */
-	public void readVerticalWrapper() throws FileNotFoundException{
+	public void readVerticalWrapper() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/NodeYPosition/verticalWrapped.node.graph");
 		File edgesFile = new File("data/testdata/NodeYPosition/verticalWrapped.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
@@ -70,7 +76,7 @@ public class NodeYPositionTest {
 	}
 
 	@Test
-	public void testVerticalWrappedWithNullContainer() throws FileNotFoundException{
+	public void testVerticalWrappedWithNullContainer() throws FileNotFoundException {
 		readVerticalWrapper();
 
 		NodeYPosition.init(verticalWrapper);
@@ -86,7 +92,6 @@ public class NodeYPositionTest {
 		assertEquals(0.7f, verticalWrapper.getNodeList().get(1).getY(), DELTA);
 		assertEquals(0.1f, verticalWrapper.getNodeList().get(2).getySpace(), DELTA);
 		assertEquals(0.95f, verticalWrapper.getNodeList().get(2).getY(), DELTA);
-
 	}
 
 	@Test
@@ -111,9 +116,10 @@ public class NodeYPositionTest {
 
 	/**
 	 * Reads the horizontal wrapped data.
+	 *
 	 * @throws FileNotFoundException
 	 */
-	public void readHorizontalWrapped() throws FileNotFoundException{
+	public void readHorizontalWrapped() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/NodeYPosition/horizontalWrapped.node.graph");
 		File edgesFile = new File("data/testdata/NodeYPosition/horizontalWrapped.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
@@ -133,7 +139,7 @@ public class NodeYPositionTest {
 		NodeYPosition.init(horizontalWrapper);
 
 		for (NodeWrapper nodeWrapper : horizontalWrapper.getNodeList()) {
-			assertEquals(0.5f, nodeWrapper.getY(), 0.0f);
+			assertEquals(0.0f, nodeWrapper.getY(), 0.0f);
 			assertEquals(1.0f, nodeWrapper.getySpace(), 0.0f);
 		}
 	}
@@ -152,9 +158,10 @@ public class NodeYPositionTest {
 
 	/**
 	 * Reads the horizontal wrapped data.
+	 *
 	 * @throws FileNotFoundException
 	 */
-	public void readSpaceWrapped() throws FileNotFoundException{
+	public void readSpaceWrapped() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/NodeYPosition/spaceWrappedSimple.node.graph");
 		File edgesFile = new File("data/testdata/NodeYPosition/spaceWrappedSimple.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
@@ -167,22 +174,98 @@ public class NodeYPositionTest {
 
 	}
 
-	@Test
-	public void testSpaceWrappedWithNullContainer() throws Exception {
+	public SpaceWrapper readSpaceWrappedHard() throws FileNotFoundException {
+		SpaceWrapper spaceWrapper;
+		File nodesFile = new File("data/testdata/NodeYPosition/spaceWrappedHard.node.graph");
+		File edgesFile = new File("data/testdata/NodeYPosition/spaceWrappedHard.edge.graph");
+		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
+				edgesFile);
+		WrappedGraphData wgd = SpaceWrapUtil.collapseGraph(
+				new WrappedGraphData(gdr));
+		assertEquals(wgd.getPositionedNodes().size(), 1);
+		spaceWrapper = (SpaceWrapper) wgd.getPositionedNodes().get(0);
+		assertEquals(spaceWrapper.getNodeList().size(), 5);
+
+		return spaceWrapper;
+
+	}
+
+
+	public void testSpaceWrappedWithNullContainer() throws FileNotFoundException {
 		readSpaceWrapped();
 
 		NodeYPosition.init(spaceWrapper);
 
+		// first and last node
+		assertEquals(0.0f, spaceWrapper.getNodeList().get(0).getY(), 0.0f);
+		assertEquals(1.0f, spaceWrapper.getNodeList().get(0).getySpace(), 0.0f);
+		assertEquals(0.0f, spaceWrapper.getNodeList().get(1).getY(), 0.0f);
+		assertEquals(1.0f, spaceWrapper.getNodeList().get(1).getySpace(), 0.0f);
+
+		// space node
+		assertEquals(0.25f, spaceWrapper.getNodeList().get(2).getY(), 0.0f);
+		assertEquals(0.5f, spaceWrapper.getNodeList().get(2).getySpace(), 0.0f);
 	}
 
 	@Test
-	public void testSpaceWrappedWithContainer() throws Exception {
+	public void testSpaceWrappedWithContainer() throws FileNotFoundException {
 		readSpaceWrapped();
 
-		NodeYPosition.init(spaceWrapper,container);
+		NodeYPosition.init(spaceWrapper, container);
+
+		// first and last node
+		assertEquals(0.8f, spaceWrapper.getNodeList().get(0).getY(), 0.0f);
+		assertEquals(0.6f, spaceWrapper.getNodeList().get(0).getySpace(), 0.0f);
+		assertEquals(0.8f, spaceWrapper.getNodeList().get(1).getY(), 0.0f);
+		assertEquals(0.6f, spaceWrapper.getNodeList().get(1).getySpace(), 0.0f);
+
+		// space node
+		assertEquals(0.95f, spaceWrapper.getNodeList().get(2).getY(), DELTA);
+		assertEquals(0.3f, spaceWrapper.getNodeList().get(2).getySpace(), DELTA);
+
+	}
 
 
+	@Test
+	public void testSpaceWrappedHardWithNull() throws FileNotFoundException {
+		SpaceWrapper spaceWrapper = readSpaceWrappedHard();
 
+		NodeYPosition.init(spaceWrapper);
+
+		// first and last node
+		assertEquals(0.0f, spaceWrapper.getNodeList().get(0).getY(), 0.0f);
+		assertEquals(1.0f, spaceWrapper.getNodeList().get(0).getySpace(), 0.0f);
+		assertEquals(0.0f, spaceWrapper.getNodeList().get(1).getY(), 0.0f);
+		assertEquals(1.0f, spaceWrapper.getNodeList().get(1).getySpace(), 0.0f);
+
+		// space nodes
+		assertEquals(0.1666f, spaceWrapper.getNodeList().get(2).getY(), DELTA);
+		assertEquals(0.5f, spaceWrapper.getNodeList().get(3).getY(), DELTA);
+		assertEquals(0.75f, spaceWrapper.getNodeList().get(4).getY(), DELTA);
+		assertEquals(0.3333f, spaceWrapper.getNodeList().get(2).getySpace(), DELTA);
+		assertEquals(0.3333f, spaceWrapper.getNodeList().get(3).getySpace(), DELTA);
+		assertEquals(0.1666f, spaceWrapper.getNodeList().get(4).getySpace(), DELTA);
+	}
+
+	@Test
+	public void testSpaceWrappedHardWithContainer() throws FileNotFoundException {
+		SpaceWrapper spaceWrapper = readSpaceWrappedHard();
+
+		NodeYPosition.init(spaceWrapper, container);
+
+		// first and last node
+		assertEquals(0.8f, spaceWrapper.getNodeList().get(0).getY(), 0.0f);
+		assertEquals(0.6f, spaceWrapper.getNodeList().get(0).getySpace(), 0.0f);
+		assertEquals(0.8f, spaceWrapper.getNodeList().get(1).getY(), 0.0f);
+		assertEquals(0.6f, spaceWrapper.getNodeList().get(1).getySpace(), 0.0f);
+
+		// space nodes
+		assertEquals(0.90f, spaceWrapper.getNodeList().get(2).getY(), DELTA);
+		assertEquals(0.2f, spaceWrapper.getNodeList().get(2).getySpace(), DELTA);
+		assertEquals(1.1f, spaceWrapper.getNodeList().get(3).getY(), DELTA);
+		assertEquals(0.2f, spaceWrapper.getNodeList().get(3).getySpace(), DELTA);
+		assertEquals(1.25f, spaceWrapper.getNodeList().get(4).getY(), DELTA);
+		assertEquals(0.1f, spaceWrapper.getNodeList().get(4).getySpace(), DELTA);
 	}
 
 	private void displayGraph(CombineWrapper wrapper) {

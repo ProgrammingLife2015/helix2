@@ -1,11 +1,16 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.yposition;
 
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ListIterator;
 
 /**
  * This class calculates the y position of the Nodes that are inside a Wrapper.
@@ -17,7 +22,7 @@ public class NodeYPosition extends WrapperOperation {
 	/**
 	 * The start values of the y-space and beginpostion on the y-scale.
 	 */
-	private static final float Y_START = 0.5f;
+	private static final float Y_START = 0.0f;
 	private static final float Y_SPACE = 1f;
 
 	/**
@@ -68,13 +73,15 @@ public class NodeYPosition extends WrapperOperation {
 	 */
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
-		double totalGenomes = wrapper.getGenome().size();
 		double lastspace = 0.0;
+
+		this.sortOnAmountOfGenomes(wrapper);
+
 		for (NodeWrapper nodeWrapper : wrapper.getNodeList()) {
 			// the node is in the middle of his yspace.
-			double yspace = (nodeWrapper.getGenome().size() / totalGenomes)
-					* wrapper.getySpace();
-			double ypos = yspace / 2 + lastspace;
+			double yspace = this.calculateYSpace(nodeWrapper.getGenome().size()
+					, wrapper.getGenome().size(), wrapper.getySpace());
+			double ypos = this.calculateYPos(yspace, lastspace);
 
 			// set the y values
 			nodeWrapper.setySpace((float) yspace);
@@ -88,6 +95,7 @@ public class NodeYPosition extends WrapperOperation {
 
 	/**
 	 * Sets the y-position of the nodes that are inside the {@link SpaceWrapper}	 *
+	 *
 	 * @param wrapper
 	 * 		the node to perform the operation on
 	 * @param container
@@ -95,23 +103,40 @@ public class NodeYPosition extends WrapperOperation {
 	 */
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
-//		double totalGenomes = wrapper.getGenome().size();
-//		double lastpace = 0.0;
-//		for (NodeWrapper nodeWrapper : wrapper.getNodeList()) {
-//			double yspace = nodeWrapper.getGenome().size() / totalGenomes
-//					* wrapper.getySpace();
-//			double ypos = yspace / 2 + lastpace;
-//
-//			nodeWrapper.setySpace((float) yspace);
-//			nodeWrapper.setY((float) ypos);
-//
-//			lastpace += yspace;
-//			calculate(nodeWrapper, wrapper);
-//		}
+		double lastspace = 0.0;
+		this.sortOnAmountOfGenomes(wrapper);
+
+		// after sorting the first and second in the list must be the
+		// first and last node.
+
+		ListIterator<NodeWrapper> nodeWrapperIt = wrapper.getNodeList().listIterator();
+		// first and last node should be on the level that the parent gives them
+		NodeWrapper first = nodeWrapperIt.next();
+		NodeWrapper last = nodeWrapperIt.next();
+		first.setY(wrapper.getY());
+		first.setySpace(wrapper.getySpace());
+		last.setY(wrapper.getY());
+		last.setySpace(wrapper.getySpace());
+		calculate(first, wrapper);
+		calculate(last, wrapper);
+
+		while (nodeWrapperIt.hasNext()) {
+			NodeWrapper nodeWrapper = nodeWrapperIt.next();
+			double yspace = this.calculateYSpace(nodeWrapper.getGenome().size()
+					, wrapper.getGenome().size(), wrapper.getySpace());
+			double ypos = this.calculateYPos(yspace, lastspace + wrapper.getY() );
+
+			nodeWrapper.setySpace((float) yspace);
+			nodeWrapper.setY((float) ypos);
+			lastspace += yspace;
+
+			calculate(nodeWrapper, wrapper);
+		}
 	}
 
 	/**
 	 * Sets the y-position of the nodes that are inside the {@link SingleWrapper}
+	 *
 	 * @param wrapper
 	 * 		the node to perform the operation on
 	 * @param container
@@ -140,5 +165,29 @@ public class NodeYPosition extends WrapperOperation {
 			nodeWrapper.setySpace(wrapper.getySpace());
 			calculate(nodeWrapper, wrapper);
 		}
+	}
+
+	private double calculateYSpace(double amountofGenomes, double totalGenomes, double parentSpace) {
+		double space = (amountofGenomes / totalGenomes) * parentSpace;
+		return space;
+	}
+
+	private double calculateYPos(double yspace, double leftspace) {
+		return (yspace / 2) + leftspace;
+	}
+
+	/**
+	 * Sort the nodes in the combinewrapper on their amount of genomes.
+	 * The first element has the highest genome amount.
+	 *
+	 * @param nodeWrapper
+	 */
+	private void sortOnAmountOfGenomes(CombineWrapper nodeWrapper) {
+		Collections.sort(nodeWrapper.getNodeList(), new Comparator<NodeWrapper>() {
+			@Override
+			public int compare(NodeWrapper o1, NodeWrapper o2) {
+				return o2.getGenome().size() - o1.getGenome().size();
+			}
+		});
 	}
 }

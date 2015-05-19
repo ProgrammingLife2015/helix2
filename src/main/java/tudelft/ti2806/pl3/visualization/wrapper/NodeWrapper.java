@@ -104,4 +104,8 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper>, Cloneable 
 	public abstract Object clone() throws CloneNotSupportedException;
 	
 	public abstract NodeWrapper deepClone();
+
+	public long compareXStart(NodeWrapper other) {
+		return this.getXStart() - other.getXStart();
+	}
 }
