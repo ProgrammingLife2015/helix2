@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3;
 
+import newick.NewickParser;
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
@@ -9,10 +10,16 @@ import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphModel;
 import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
-import newick.NewickParser;
 
 import java.awt.Component;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -77,7 +84,8 @@ public class Application extends JFrame {
 			sideBarController = new SideBarController(graphController, gd);
 
 			// parse the phylogenetic tree
-			BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream(treeFile))));
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					new BufferedInputStream(new FileInputStream(treeFile))));
 			NewickParser.TreeNode tree = new NewickParser(new ByteArrayInputStream(br.readLine()
 						.replaceAll("(\\d)\\.(\\d*)e-05", "0.0000$1$2")
 						.replaceAll("-", "_").getBytes()))
