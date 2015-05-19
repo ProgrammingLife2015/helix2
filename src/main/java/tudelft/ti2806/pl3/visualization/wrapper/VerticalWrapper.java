@@ -8,8 +8,6 @@ import java.util.List;
 
 public class VerticalWrapper extends CombineWrapper {
 
-	private float ySpace;
-	
 	public VerticalWrapper(List<NodeWrapper> nodeList) {
 		super(nodeList);
 	}
