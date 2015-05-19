@@ -6,9 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.testutil.UtilTest;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -61,7 +63,8 @@ public class OrderedListUtilTest {
 	
 	@Test
 	public void mergeSuccesTest() {
-		List<NodeWrapper> list = OrderedListUtil.mergeOrderedLists(listsToCombine);
+		List<NodeWrapper> list = OrderedListUtil
+				.mergeOrderedLists(listsToCombine);
 		ArrayOrderMatcher matcher = new ArrayOrderMatcher(
 				list.toArray(new NodeWrapper[8]));
 		for (NodeWrapper[] order : ordersToTest) {
@@ -79,6 +82,13 @@ public class OrderedListUtilTest {
 		list.add(new TestWrapper("A"));
 		listsToCombine.add(list);
 		Assert.assertNull(OrderedListUtil.mergeOrderedLists(listsToCombine));
+	}
+	
+	@Test
+	public void utilConstructorTest() throws NoSuchMethodException,
+			IllegalAccessException, InvocationTargetException,
+			InstantiationException {
+		new UtilTest(OrderedListUtil.class).testConstructorIsPrivate();
 	}
 	
 	private static class TestWrapper extends NodeWrapper {
@@ -119,7 +129,8 @@ public class OrderedListUtilTest {
 		}
 		
 		@Override
-		public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
+		public void calculate(WrapperOperation wrapperSequencer,
+				NodeWrapper container) {
 		}
 		
 		@Override
@@ -151,12 +162,12 @@ public class OrderedListUtilTest {
 			}
 			return true;
 		}
-
+		
 		@Override
 		public TestWrapper deepClone() {
 			return new TestWrapper(name);
 		}
-
+		
 		@Override
 		public Object clone() throws CloneNotSupportedException {
 			return new TestWrapper(name);
