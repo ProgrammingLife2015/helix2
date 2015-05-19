@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeadEdgeUtil {
+	private DeadEdgeUtil(){
+	}
 	
 	/**
 	 * Removes all edges of which one or both of their nodes is not on the
