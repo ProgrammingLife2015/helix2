@@ -9,7 +9,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.ListIterator;
 
 /**
@@ -168,12 +167,12 @@ public class NodeYPosition extends WrapperOperation {
 	}
 
 	private double calculateYSpace(double amountofGenomes, double totalGenomes, double parentSpace) {
-		double space = (amountofGenomes / totalGenomes) * parentSpace;
+		double space = amountofGenomes / totalGenomes * parentSpace;
 		return space;
 	}
 
 	private double calculateYPos(double yspace, double leftspace) {
-		return (yspace / 2) + leftspace;
+		return yspace / 2 + leftspace;
 	}
 
 	/**
@@ -183,11 +182,7 @@ public class NodeYPosition extends WrapperOperation {
 	 * @param nodeWrapper
 	 */
 	private void sortOnAmountOfGenomes(CombineWrapper nodeWrapper) {
-		Collections.sort(nodeWrapper.getNodeList(), new Comparator<NodeWrapper>() {
-			@Override
-			public int compare(NodeWrapper o1, NodeWrapper o2) {
-				return o2.getGenome().size() - o1.getGenome().size();
-			}
-		});
+		Collections.sort(nodeWrapper.getNodeList(),
+				(o1, o2) -> o2.getGenome().size() - o1.getGenome().size());
 	}
 }
