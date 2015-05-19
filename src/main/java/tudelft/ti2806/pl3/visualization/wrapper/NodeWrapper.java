@@ -12,7 +12,16 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
 	protected List<NodeWrapper> outgoing = new ArrayList<NodeWrapper>();
 	protected int previousNodesCount = -1;
-	
+	protected float ySpace;
+
+	public float getySpace() {
+		return ySpace;
+	}
+
+	public void setySpace(float ySpace) {
+		this.ySpace = ySpace;
+	}
+
 	public abstract long getXStart();
 	
 	public abstract long getXEnd();

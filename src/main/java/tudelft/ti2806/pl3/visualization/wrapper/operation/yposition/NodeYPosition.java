@@ -13,31 +13,60 @@ public class NodeYPosition extends WrapperOperation {
 	private static final float Y_START = 0.5f;
 	private static final float Y_SPACE = 1f;
 
+	/**
+	 * Calculate the y-position of the nodes in {@link NodeWrapper}.
+	 * This constructor assumes that {@link NodeWrapper} is the highest parent.
+	 * @param nodeWrapper
+	 * 			the wrapper containing the nodes.
+	 */
+	public static void init(NodeWrapper nodeWrapper) {
+		nodeWrapper.setY(Y_START);
+		nodeWrapper.setySpace(Y_SPACE);
+		NodeYPosition nodeYPosition = new NodeYPosition();
+		nodeYPosition.calculate(nodeWrapper,null);
+	}
+
+	public static void init(NodeWrapper nodeWrapper,NodeWrapper container){
+		nodeWrapper.setY(container.getY());
+		nodeWrapper.setySpace(container.getySpace());
+		NodeYPosition nodeYPosition = new NodeYPosition();
+		nodeYPosition.calculate(nodeWrapper,container);
+	}
+
+	private NodeYPosition() {
+	}
+
+	/**
+	 * Sets the y-space and y-position of the nodes in {@link VerticalWrapper}.
+	 * The y-space is based on the amount of genomes in the node, the y-position
+	 * is in the middle of the y-space of the node.
+	 * @param wrapper
+	 *            the node to perform the operation on
+	 * @param container
+	 *            the wrapper containing this node<br>
+	 */
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
-		if ( container == null ) {
-			wrapper.setY(Y_START);
-		}else{
-			wrapper.setY(container.getY());
-		}
-		int totalGenomes = wrapper.getGenome().size();
-		int counter = 0;
+		double totalGenomes = wrapper.getGenome().size();
+		double lastspace = 0.0;
 		for ( NodeWrapper nodeWrapper : wrapper.getNodeList() ) {
-			counter += nodeWrapper.getGenome().size();
-			// y position is in the middle of the genome space
-			float ypos = ((counter / totalGenomes) * Y_SPACE ) / 2;
-			nodeWrapper.setY(ypos);
+			// the node is in the middle of his yspace.
+			double yspace = (nodeWrapper.getGenome().size() / totalGenomes) * wrapper.getySpace();
+			double ypos2 = (yspace / 2) + lastspace;
+
+			// set the y values
+			nodeWrapper.setySpace((float) yspace);
+			nodeWrapper.setY((float) ypos2);
+
+			// keep track of the yspace already used.
+			lastspace += yspace;
 			calculate(nodeWrapper, wrapper);
 		}
 	}
 
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
-		if ( container == null ) {
-			wrapper.setY(Y_START);
-		}
 
-		// do something here
 	}
 
 	/**
@@ -49,25 +78,19 @@ public class NodeYPosition extends WrapperOperation {
 	 */
 	@Override
 	public void calculate(SingleWrapper wrapper, NodeWrapper container) {
-		if ( container == null ) {
-			wrapper.setY(Y_START);
-		}
-
-		NodeWrapper nodeWrapper = wrapper.getNode();
-		nodeWrapper.setY(wrapper.getY());
-		calculate(nodeWrapper,wrapper);
+		wrapper.getNode().setY(wrapper.getY());
+		calculate(wrapper.getNode(), wrapper);
 	}
 
 	@Override
 	public void calculate(NodePosition wrapper, NodeWrapper container) {
-		if (container == null) {
-			wrapper.setY(Y_START);
-		}
+
 	}
 
 	/**
 	 * Calculate the position of all the nodes in the {@link HorizontalWrapper}.
-	 * If {@link @NodeWrapper} is {@link null} then the nodes are not wrapped.
+	 * The y-position of a node is the same as his parent since the nodes are
+	 * horizontally wrapped.
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 * @param container
@@ -75,16 +98,9 @@ public class NodeYPosition extends WrapperOperation {
 	 */
 	@Override
 	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
-		if ( container == null ) {
-			// nodes are not wrapped.
-			wrapper.setY(Y_START);
-		}else{
-			wrapper.setY(container.getY());
-		}
-
-
 		for (NodeWrapper nodeWrapper : wrapper.getNodeList()) {
 			nodeWrapper.setY(wrapper.getY());
+			nodeWrapper.setySpace(wrapper.getySpace());
 			calculate(nodeWrapper, wrapper);
 		}
 	}
