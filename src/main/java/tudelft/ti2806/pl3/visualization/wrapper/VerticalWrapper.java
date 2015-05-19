@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 public class VerticalWrapper extends CombineWrapper {
+
+	private float ySpace;
 	
 	public VerticalWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
