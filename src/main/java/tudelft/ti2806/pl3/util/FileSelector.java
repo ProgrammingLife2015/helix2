@@ -11,6 +11,8 @@ import javax.swing.filechooser.FileFilter;
  * Created by Kasper on 7-5-15.
  */
 public class FileSelector {
+	private FileSelector(){
+	}
 
 	/**
 	 * Opens a file select window.
