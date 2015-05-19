@@ -55,9 +55,6 @@ hs_err_pid*
 *.gfasta
 *.rar
 
-!data/
-data/*
-/local/
-!data/testdata/
-!data/testdata/*
-
+/data/*
+/local/*
+!/data/testdata/
