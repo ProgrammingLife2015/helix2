@@ -155,8 +155,7 @@ public final class SpaceWrapUtil {
 	 */
 	static List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> computeAllCandidates(
 			List<NodeWrapper> nodes) {
-		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList
-				= new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
+		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList = new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
 		/*
 		 * If a node doesn't contain the same genomes, it is impossible for them
 		 * to be a candidate, because every node in the group between a
@@ -191,8 +190,7 @@ public final class SpaceWrapUtil {
 	 */
 	static Collection<Pair<Set<Genome>, List<NodeWrapper>>> getNodesByGenome(
 			List<NodeWrapper> nodes) {
-		Map<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>> searchMap
-				= new HashMap<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>>();
+		Map<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>> searchMap = new HashMap<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>>();
 		for (NodeWrapper node : nodes) {
 			Set<Genome> genome = node.getGenome();
 			/*
@@ -240,8 +238,8 @@ public final class SpaceWrapUtil {
 		if (to == startNode) {
 			return true;
 		}
-		if (steps == 0 || blackList.contains(to)
-				|| to.getIncoming().size() == 0) {
+		if (steps == 0 || to.getIncoming().size() == 0
+				|| blackList.contains(to)) {
 			return false;
 		}
 		for (NodeWrapper from : to.getIncoming()) {
