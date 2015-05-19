@@ -81,6 +81,7 @@
         <configuration>
           <failOnViolation>false</failOnViolation>
           <configLocation>checkstyle.xml</configLocation>
+          <excludes>**/newick/**</excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -97,6 +98,9 @@
         </executions>
         <configuration>
           <format>xml</format>
+          <excludes>
+            <exclude>**/newick/**</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -107,11 +111,14 @@
           <effort>Max</effort>
           <threshold>Low</threshold>
           <xmlOutput>true</xmlOutput>
+          <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
           <failOnError>false</failOnError>
+          <excludeFilterFile>findbugs-ex.xml</excludeFilterFile>
         </configuration>
         <executions>
           <execution>
-            <phase>verify</phase>
+            <id>analyze-compile</id>
+            <phase>compile</phase>
             <goals>
               <goal>check</goal>
             </goals>
