@@ -58,4 +58,4 @@ hs_err_pid*
 
 /data/*
 /local/*
-!/data/testdata/
+!/data/testdata/*
