@@ -39,7 +39,7 @@ public class WrappedGraphData {
 		List<NodePosition> nodePosition = NodePosition.newNodePositionList(
 				nodes, edges);
 		long max = 0;
-		nodeWrappers = new ArrayList<NodeWrapper>(nodePosition);
+		nodeWrappers = new ArrayList<>(nodePosition);
 		for (NodePosition node : nodePosition) {
 			max = Math.max(node.getXEnd(), max);
 		}
