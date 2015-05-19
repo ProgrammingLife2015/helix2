@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper;
 
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+
 import java.util.List;
 
 public abstract class CombineWrapper extends NodeWrapper {
@@ -66,4 +68,10 @@ public abstract class CombineWrapper extends NodeWrapper {
 		}
 		return str + "}";
 	}
+
+	@Override
+	public void collectDataNodes(List<DataNodeInterface> list) {
+		nodeList.forEach(n -> n.collectDataNodes(list));
+	}
+
 }

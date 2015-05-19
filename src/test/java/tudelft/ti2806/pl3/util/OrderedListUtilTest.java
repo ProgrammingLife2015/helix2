@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.util.OrderedListUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
@@ -120,7 +121,12 @@ public class OrderedListUtilTest {
 		@Override
 		public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
 		}
-		
+
+		@Override
+		public void collectDataNodes(List<DataNodeInterface> list) {
+
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;

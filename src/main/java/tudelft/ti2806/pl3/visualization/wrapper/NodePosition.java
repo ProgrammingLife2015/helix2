@@ -119,6 +119,11 @@ public class NodePosition extends NodeWrapper {
 	}
 
 	@Override
+	public void collectDataNodes(List<DataNodeInterface> list) {
+		list.add(node);
+	}
+
+	@Override
 	public NodeWrapper deepClone() {
 		return new NodePosition(node);
 	}
