@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -75,15 +74,7 @@ public class SpaceWrapper extends CombineWrapper {
 	
 	@Override
 	public Set<Genome> getGenome() {
-		Set<Genome> genomes = new HashSet<Genome>();
-		for (NodeWrapper node : nodeList) {
-			for (Genome genome : node.getGenome()) {
-				if (!genomes.contains(genome)) {
-					genomes.add(genome);
-				}
-			}
-		}
-		return genomes;
+		return this.getFirst().getGenome();
 	}
 
 	@Override
