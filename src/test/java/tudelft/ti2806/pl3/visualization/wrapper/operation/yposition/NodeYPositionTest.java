@@ -170,11 +170,15 @@ public class NodeYPositionTest {
 	@Test
 	public void testSpaceWrappedWithNullContainer() throws Exception {
 		readSpaceWrapped();
+
+		NodeYPosition.init(spaceWrapper);
 	}
 
 	@Test
 	public void testSpaceWrappedWithContainer() throws Exception {
 		readSpaceWrapped();
+
+		NodeYPosition.init(spaceWrapper,container);
 	}
 
 	private void displayGraph(CombineWrapper wrapper) {
