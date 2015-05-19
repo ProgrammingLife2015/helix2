@@ -29,14 +29,12 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 			0);
 	
 	@Mock
-	ExhaustiveLeastCrossingsSequencer sequencer;
+	SpaceWrapper mockedSpaceWrapper;
 	
 	@Test
-	public void someTest() throws FileNotFoundException {
-		SpaceWrapper wrapper = applyOrderTestData();
-		sequencer.calculate(wrapper, null);
-		Mockito.verify(sequencer, Mockito.times(0)).getOutgoingLists(
-				wrapper.getNodeList());
+	public void maxIterationTest() throws FileNotFoundException {
+		testObject.calculate(mockedSpaceWrapper, null);
+		Mockito.verify(mockedSpaceWrapper, Mockito.times(1)).getNodeList();
 	}
 	
 	/**

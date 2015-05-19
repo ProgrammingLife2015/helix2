@@ -9,7 +9,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -96,7 +95,8 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 */
 	List<Pair<List<NodeWrapper>, NodeWrapper[]>> getOrder(
 			List<List<NodeWrapper>> currentOrder) {
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order
+				= new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
 		for (List<NodeWrapper> list : currentOrder) {
 			NodeWrapper[] connections = new NodeWrapper[list.size()];
 			for (int i = list.size() - 1; i >= 0; i--) {
@@ -292,16 +292,6 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 			}
 		}
 		return bestConfig;
-	}
-	
-	/**
-	 * Sorts the nodes on their y position.
-	 */
-	class YNodeSort implements Comparator<NodeWrapper> {
-		@Override
-		public int compare(NodeWrapper o1, NodeWrapper o2) {
-			return (int) (o1.getY() - o2.getY());
-		}
 	}
 	
 	void applyConfigurationToOrder(int orderConfiguration,
