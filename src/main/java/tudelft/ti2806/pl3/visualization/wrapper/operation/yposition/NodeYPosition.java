@@ -74,11 +74,11 @@ public class NodeYPosition extends WrapperOperation {
 			// the node is in the middle of his yspace.
 			double yspace = (nodeWrapper.getGenome().size() / totalGenomes)
 					* wrapper.getySpace();
-			double ypos2 = yspace / 2 + lastspace;
+			double ypos = yspace / 2 + lastspace;
 
 			// set the y values
 			nodeWrapper.setySpace((float) yspace);
-			nodeWrapper.setY((float) ypos2);
+			nodeWrapper.setY((float) ypos);
 
 			// keep track of the yspace already used.
 			lastspace += yspace;
@@ -100,9 +100,12 @@ public class NodeYPosition extends WrapperOperation {
 //		for (NodeWrapper nodeWrapper : wrapper.getNodeList()) {
 //			double yspace = nodeWrapper.getGenome().size() / totalGenomes
 //					* wrapper.getySpace();
+//			double ypos = yspace / 2 + lastpace;
 //
+//			nodeWrapper.setySpace((float) yspace);
+//			nodeWrapper.setY((float) ypos);
 //
-//
+//			lastpace += yspace;
 //			calculate(nodeWrapper, wrapper);
 //		}
 	}
