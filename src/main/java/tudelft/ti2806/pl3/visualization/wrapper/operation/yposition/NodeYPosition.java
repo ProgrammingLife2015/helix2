@@ -95,7 +95,12 @@ public class NodeYPosition extends WrapperOperation {
 	 */
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
-
+//		double totalgenomes = wrapper.getGenome().size();
+//		for (NodeWrapper nodeWrapper : wrapper.getNodeList()) {
+//
+//
+//			calculate(nodeWrapper, wrapper);
+//		}
 	}
 
 	/**
