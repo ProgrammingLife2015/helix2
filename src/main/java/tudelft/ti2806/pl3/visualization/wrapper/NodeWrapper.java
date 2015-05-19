@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	
-	protected float yy;
+	protected float y;
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
 	protected List<NodeWrapper> outgoing = new ArrayList<NodeWrapper>();
 	protected int previousNodesCount = -1;
@@ -25,11 +25,11 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	}
 	
 	public float getY() {
-		return yy;
+		return y;
 	}
 	
-	public void setY(float yy) {
-		this.yy = yy;
+	public void setY(float y) {
+		this.y = y;
 	}
 	
 	/**
