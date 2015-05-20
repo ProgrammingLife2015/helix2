@@ -88,6 +88,11 @@ public class HorizontalWrappedUnwrapTest {
 		assertEquals(4, unwrap.getDataNodeWrappers().size());
 	}
 
+	@Test
+	public void testNoMorePlaceholders() {
+		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());
+	}
+
 	private HorizontalWrapper getHorizontalWrapper(NodeWrapper wrapper1, NodeWrapper wrapper2) {
 		List<NodeWrapper> list = new ArrayList<>(2);
 		list.add(wrapper1);

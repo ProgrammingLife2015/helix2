@@ -103,4 +103,9 @@ public class SpaceWrapperUnwrapTest {
 	public void dataNodeWrapperCount() {
 		assertEquals(4, unwrap.getDataNodeWrappers().size());
 	}
+
+	@Test
+	public void testNoMorePlaceholders() {
+		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());
+	}
 }
