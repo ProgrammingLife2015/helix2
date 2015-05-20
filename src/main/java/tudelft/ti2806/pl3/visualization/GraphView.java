@@ -25,7 +25,7 @@ import java.util.Observer;
  * @author Sam Smulders
  *
  */
-public class GraphView implements GraphViewInterface {
+public class GraphView implements Observer, ViewInterface {
 	/**
 	 * The space left between nodes for drawing the edges between the nodes.<br>
 	 * Set the zoom to have changes take effect.
@@ -168,7 +168,8 @@ public class GraphView implements GraphViewInterface {
 //		this.zoomCenter = newCenter;
 //		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
-	
+
+	@Override
 	public Component getPanel() {
 		return panel;
 	}
