@@ -61,6 +61,10 @@ public abstract class CombineWrapper extends NodeWrapper {
 		return collapsed;
 	}
 	
+	public void setCollapse(boolean collapsed) {
+		this.collapsed = collapsed;
+	}
+	
 	@Override
 	public String getIdString() {
 		String str = "{";

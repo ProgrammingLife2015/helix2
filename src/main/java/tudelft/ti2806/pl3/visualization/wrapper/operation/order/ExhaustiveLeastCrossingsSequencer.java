@@ -9,8 +9,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,62 +51,31 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 */
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
-		Pair<Boolean, Long> direction = getBestDirection(wrapper.getNodeList());
-		boolean leftToRight = direction.getFirst();
-		long posibleConfigurations = direction.getSecond();
-		if (direction.getSecond() > maxIterations) {
+		long posibleConfigurations = getOptionCountFromLeftToRight(wrapper
+				.getNodeList());
+		if (posibleConfigurations > maxIterations) {
 			// TODO: leave default order or use genetic algorithm?
 			return;
 		}
-		List<List<NodeWrapper>> currentOrder = getConnectionsList(
-				wrapper.getNodeList(), leftToRight);
+		List<List<NodeWrapper>> currentOrder = getOutgoingLists(wrapper
+				.getNodeList());
 		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = getOrder(currentOrder);
 		int bestConfig = calculateBestConfig(wrapper,
-				(int) posibleConfigurations, leftToRight, order);
-		applyOrderConfigurationOnBothDirections(bestConfig, true, order,
-				wrapper);
+				(int) posibleConfigurations, order);
+		applyConfigurationToOrder(bestConfig, order);
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			calculate(node, wrapper);
 		}
 	}
 	
 	/**
-	 * TODO
+	 * Get a list of all outgoing lists of all nodes in the given list.
 	 * 
 	 * @param nodes
-	 * @param leftToRight
-	 * @return
+	 *            the nodes to obtain the outgoing lists from
+	 * @return a list with a the outgoing node list of every node
 	 */
-	static List<List<NodeWrapper>> getConnectionsList(List<NodeWrapper> nodes,
-			boolean leftToRight) {
-		if (leftToRight) {
-			return getOutgoingLists(nodes);
-		} else {
-			return getIncomingLists(nodes);
-		}
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	static List<List<NodeWrapper>> getIncomingLists(List<NodeWrapper> nodes) {
-		List<List<NodeWrapper>> list = new ArrayList<List<NodeWrapper>>();
-		for (int i = nodes.size() - 1; i > 0; i--) {
-			list.add(nodes.get(i).getIncoming());
-		}
-		return list;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @param nodes
-	 * @return
-	 */
-	static List<List<NodeWrapper>> getOutgoingLists(List<NodeWrapper> nodes) {
+	List<List<NodeWrapper>> getOutgoingLists(List<NodeWrapper> nodes) {
 		List<List<NodeWrapper>> list = new ArrayList<List<NodeWrapper>>();
 		for (int i = nodes.size() - 2; i >= 0; i--) {
 			list.add(nodes.get(i).getOutgoing());
@@ -117,17 +84,19 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	}
 	
 	/**
-	 * TODO
-	 * 
-	 * <p>
-	 * Direction independent method.
+	 * Get a list of pairs with as first value the list of the node and as
+	 * second a array copy of this list to store the original order of this
+	 * list.
 	 * 
 	 * @param currentOrder
-	 * @return
+	 *            the list of lists of which to store the original.
+	 * @return a list with as first value the list of the node and as second the
+	 *         orignal order of this list
 	 */
-	static List<Pair<List<NodeWrapper>, NodeWrapper[]>> getOrder(
+	List<Pair<List<NodeWrapper>, NodeWrapper[]>> getOrder(
 			List<List<NodeWrapper>> currentOrder) {
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order
+				= new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
 		for (List<NodeWrapper> list : currentOrder) {
 			NodeWrapper[] connections = new NodeWrapper[list.size()];
 			for (int i = list.size() - 1; i >= 0; i--) {
@@ -140,16 +109,25 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	}
 	
 	/**
-	 * TODO Bad method, is able to set nodes on the same position
+	 * Applies the y-order to the node its position on the y-axis.
+	 * 
+	 * <p>
+	 * This positioning is not suited for display, and is only used to calculate
+	 * if the edges between the nodes cross.
 	 * 
 	 * @param wrapper
-	 * @return
+	 *            the wrapper of which its containing nodes require their order
+	 *            applied to their y position
+	 * @return {@code true} if the operation was successful<br>
+	 *         {@code false} if the operation was unsuccessful due to an
+	 *         conflicting order of nodes
 	 * @throws IndexOutOfBoundsException
 	 *             if the {@link SpaceWrapper} is not constructed following its
-	 *             preconditions.
+	 *             preconditions.<br>
+	 *             TODO throws in doc if exception is not caught or expected?
 	 */
-	static boolean applyOrderToY(SpaceWrapper wrapper, boolean leftToRight) {
-		List<NodeWrapper> list = collapseIntoList(wrapper, leftToRight);
+	boolean applyOrderToY(SpaceWrapper wrapper) {
+		List<NodeWrapper> list = collapseIntoList(wrapper);
 		if (list == null) {
 			return false;
 		}
@@ -167,7 +145,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		int adjustment = 0;
 		for (int i = list.size() - 1; i >= 0; i--) {
 			list.get(i).setY(i);
-			for (NodeWrapper node : getEdgeTargets(list.get(i), leftToRight)) {
+			for (NodeWrapper node : list.get(i).getOutgoing()) {
 				if (remainingNodes.contains(node)) {
 					node.setY(i + ADJUSTMENT * adjustment++);
 					remainingNodes.remove(node);
@@ -182,10 +160,10 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		 * the list.
 		 */
 		for (int i = 0; i < remainingNodesSize; i++) {
-			for (NodeWrapper node : getEdgeTargets(passedNodes.get(i),
-					leftToRight)) {
+			for (NodeWrapper node : passedNodes.get(i).getOutgoing()) {
 				if (remainingNodes.contains(node)) {
-					node.setY(passedNodes.get(i).getY() + ADJUSTMENT * adjustment++);
+					node.setY(passedNodes.get(i).getY() + ADJUSTMENT
+							* adjustment++);
 					remainingNodes.remove(node);
 					passedNodes.add(node);
 				}
@@ -194,21 +172,19 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		return true;
 	}
 	
-	static List<NodeWrapper> getEdgeTargets(NodeWrapper nodeWrapper,
-			boolean leftToRight) {
-		if (leftToRight) {
-			return nodeWrapper.getOutgoing();
-		} else {
-			return nodeWrapper.getIncoming();
-		}
-	}
-	
-	static List<NodeWrapper> collapseIntoList(SpaceWrapper wrapper,
-			boolean leftToRight) {
+	/**
+	 * Collapses the order of the nodes within the {@link SpaceWrapper} into a
+	 * ordered list.
+	 * 
+	 * @param wrapper
+	 *            the wrapper of which its node order should be calculated
+	 * @return {@code null} if there is a conflict in node order
+	 */
+	List<NodeWrapper> collapseIntoList(SpaceWrapper wrapper) {
 		List<List<NodeWrapper>> listsToCombine = new ArrayList<List<NodeWrapper>>();
 		for (int n = wrapper.getNodeList().size() - 2; n >= 0; n--) {
 			NodeWrapper node = wrapper.getNodeList().get(n);
-			if (getEdgeTargets(node, leftToRight).size() > 1) {
+			if (node.getOutgoing().size() > 1) {
 				listsToCombine.add(new ArrayList<NodeWrapper>(node
 						.getOutgoing()));
 			}
@@ -227,12 +203,11 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 *            from
 	 * @return the number of intersections counted
 	 */
-	static int countIntersections(SpaceWrapper wrapper, boolean leftToRight) {
-		return countIntersections(getLinesForSpaceWrapperIntersectionTest(
-				wrapper, leftToRight));
+	int countIntersections(SpaceWrapper wrapper) {
+		return countIntersections(getLinesForSpaceWrapperIntersectionTest(wrapper));
 	}
 	
-	static int countIntersections(List<Line> lines) {
+	int countIntersections(List<Line> lines) {
 		int count = 0;
 		for (int x = lines.size() - 1; x >= 1; x--) {
 			for (int y = x - 1; y >= 0; y--) {
@@ -262,14 +237,13 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 * @return a list of lines, representing the nodes within the
 	 *         {@link SpaceWrapper}.
 	 */
-	static List<Line> getLinesForSpaceWrapperIntersectionTest(
-			SpaceWrapper wrapper, boolean leftToRight) {
+	List<Line> getLinesForSpaceWrapperIntersectionTest(SpaceWrapper wrapper) {
 		List<Line> lines = new ArrayList<Line>();
 		for (int i = wrapper.getNodeList().size() - 2; i >= 1; i--) {
 			NodeWrapper from = wrapper.getNodeList().get(i);
-			for (NodeWrapper to : getEdgeTargets(from, leftToRight)) {
-				lines.add(new Line(from.getPreviousNodesCount(), to.getY(),
-						to.getPreviousNodesCount(), from.getY()));
+			for (NodeWrapper to : from.getOutgoing()) {
+				lines.add(new Line(from.getPreviousNodesCount(), to.getY(), to
+						.getPreviousNodesCount(), from.getY()));
 			}
 		}
 		return lines;
@@ -278,16 +252,36 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	/*
 	 * Configuration block
 	 */
-	static int calculateBestConfig(SpaceWrapper wrapper, int iterations,
-			boolean leftToRight,
+	/**
+	 * Calculates a best configuration of node orders by trying all possible
+	 * configurations until all configurations are tested, or a perfect
+	 * configuration is found.
+	 * 
+	 * <p>
+	 * A best configuration is the configuration with the least number of
+	 * crossings. There could be multiple best configurations, but only the
+	 * first best configuration found will be given as result.
+	 * 
+	 * @param wrapper
+	 *            the wrapper of which to calculate its best order configuration
+	 * @param iterations
+	 *            the number of configurations to test, this should be equal to
+	 *            the number of possible configurations
+	 * @param order
+	 *            the order pair list of which to compute the order with for
+	 *            each configuration
+	 * @return the best configuration for this wrapper
+	 */
+	int calculateBestConfig(SpaceWrapper wrapper, int iterations,
 			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order) {
 		int best = Integer.MAX_VALUE;
 		int bestConfig = 0;
 		for (int i = 0; i < iterations; i++) {
-			if (!applyConfiguration(i, order, wrapper, leftToRight)) {
+			applyConfigurationToOrder(i, order);
+			if (!applyOrderToY(wrapper)) {
 				continue;
 			}
-			int found = countIntersections(wrapper, leftToRight);
+			int found = countIntersections(wrapper);
 			if (found < best) {
 				// There is no better configuration to search for
 				if (found == 0) {
@@ -300,41 +294,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		return bestConfig;
 	}
 	
-	static boolean applyConfiguration(int configuration,
-			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order,
-			SpaceWrapper wrapper, boolean leftToRight) {
-		applyOrderConfiguration(configuration, order);
-		return applyOrderToY(wrapper, leftToRight);
-	}
-	
-	static void applyOrderConfigurationOnBothDirections(int bestConfig,
-			boolean leftToRight,
-			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order,
-			SpaceWrapper wrapper) {
-		applyOrderConfiguration(bestConfig, order);
-		applyOrderToY(wrapper, leftToRight);
-		applyOrderByCurrentNodePosition(wrapper, leftToRight);
-	}
-	
-	static void applyOrderByCurrentNodePosition(SpaceWrapper wrapper,
-			boolean leftToRight) {
-		for (NodeWrapper node : wrapper.getNodeList()) {
-			sortNodesOnY(getEdgeTargets(node, !leftToRight));
-		}
-	}
-	
-	static void sortNodesOnY(List<NodeWrapper> edgeTargets) {
-		Collections.sort(edgeTargets, new YNodeSort());
-	}
-	
-	static class YNodeSort implements Comparator<NodeWrapper> {
-		@Override
-		public int compare(NodeWrapper o1, NodeWrapper o2) {
-			return (int) (o1.getY() - o2.getY());
-		}
-	}
-	
-	static void applyOrderConfiguration(int orderConfiguration,
+	void applyConfigurationToOrder(int orderConfiguration,
 			List<Pair<List<NodeWrapper>, NodeWrapper[]>> order) {
 		int orderConfig = orderConfiguration;
 		for (Pair<List<NodeWrapper>, NodeWrapper[]> pair : order) {
@@ -353,7 +313,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		}
 	}
 	
-	static void applyOrderConfiguration(int localConfiguration,
+	void applyOrderConfiguration(int localConfiguration,
 			List<NodeWrapper> currentOrder, NodeWrapper[] dictionary) {
 		List<NodeWrapper> newOrder = new ArrayList<NodeWrapper>(
 				dictionary.length);
@@ -370,41 +330,12 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 * Direction block
 	 */
 	
-	/**
-	 * Calculates the direction with the least number of options. TODO: Return
-	 * type in doc is wrong
-	 * 
-	 * <p>
-	 * TODO: Quick fix; do we want to choose a direction?
-	 * 
-	 * @return {@code true} if the best direction is from left to right<br>
-	 *         {@code false} if the best direction is from right to left
-	 */
-	static Pair<Boolean, Long> getBestDirection(List<NodeWrapper> nodeList) {
-		long leftToRight = getOptionCountFromLeftToRight(nodeList);
-//		long rightToLeft = getOptionCountFromRightToLeft(nodeList);
-//		if (leftToRight <= rightToLeft) {
-			return new Pair<Boolean, Long>(true, leftToRight);
-//		} else {
-//			return new Pair<Boolean, Long>(false, rightToLeft);
-//		}
-	}
-	
-	static long getOptionCountFromLeftToRight(List<NodeWrapper> nodeList) {
+	long getOptionCountFromLeftToRight(List<NodeWrapper> nodeList) {
 		long out = 1;
 		for (int i = nodeList.size() - 2; i >= 0; i--) {
 			out *= MathUtil.integerFactorial(nodeList.get(i).getOutgoing()
 					.size());
 		}
 		return out;
-	}
-	
-	static long getOptionCountFromRightToLeft(List<NodeWrapper> nodeList) {
-		long in = 1;
-		for (int i = nodeList.size() - 1; i >= 1; i--) {
-			in *= MathUtil.integerFactorial(nodeList.get(i).getIncoming()
-					.size());
-		}
-		return in;
 	}
 }

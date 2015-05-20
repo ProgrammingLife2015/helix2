@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
-import tudelft.ti2806.pl3.util.HashableList;
+import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
@@ -21,7 +21,7 @@ import java.util.List;
 public final class HorizontalWrapUtil {
 	private HorizontalWrapUtil() {
 	}
-
+	
 	@SuppressWarnings("CPD-START")
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
@@ -98,8 +98,8 @@ public final class HorizontalWrapUtil {
 				node = startNode;
 				while (node.getIncoming().size() == 1
 						&& node.getIncoming().get(0).getOutgoing().size() == 1
-						&& new HashableList<Genome>(node.getGenome())
-								.equals(new HashableList<Genome>(node
+						&& new HashableCollection<Genome>(node.getGenome())
+								.equals(new HashableCollection<Genome>(node
 										.getIncoming().get(0).getGenome()))) {
 					node = node.getIncoming().get(0);
 					foundGroup.add(0, node);

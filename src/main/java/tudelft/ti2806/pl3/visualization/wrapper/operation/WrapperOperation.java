@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation;
 
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
@@ -129,6 +130,22 @@ public abstract class WrapperOperation {
 	 *            {@code null} if this node isn't wrapped
 	 */
 	public void calculate(NodePosition wrapper, NodeWrapper container) {
+		
+	}
+	
+	/**
+	 * Executes the operation for {@link FixWrapper}.
+	 * 
+	 * <p>
+	 * The public method is empty.
+	 * 
+	 * @param wrapper
+	 *            the node to perform the operation on
+	 * @param container
+	 *            the wrapper containing this node<br>
+	 *            {@code null} if this node isn't wrapped
+	 */
+	public void calculate(FixWrapper wrapper, NodeWrapper container) {
 		
 	}
 

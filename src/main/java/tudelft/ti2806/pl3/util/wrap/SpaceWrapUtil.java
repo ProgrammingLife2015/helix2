@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.exeption.DuplicateGenomeNameException;
-import tudelft.ti2806.pl3.util.HashableList;
+import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
@@ -28,7 +28,7 @@ import java.util.Set;
 public final class SpaceWrapUtil {
 	private SpaceWrapUtil() {
 	}
-
+	
 	@SuppressWarnings("CPD-START")
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the spatial
@@ -164,7 +164,7 @@ public final class SpaceWrapUtil {
 		 * out the group. Thats why we only use nodes with the same set of
 		 * genomes to create candidates.
 		 */
-		for (Pair<List<Genome>, List<NodeWrapper>> bucket : getNodesByGenome(nodes)) {
+		for (Pair<Set<Genome>, List<NodeWrapper>> bucket : getNodesByGenome(nodes)) {
 			// There should be at least two nodes with the same genome list.
 			if (bucket.getSecond().size() <= 1) {
 				continue;
@@ -188,11 +188,11 @@ public final class SpaceWrapUtil {
 	 *            the nodes to map
 	 * @return a collection of buckets
 	 */
-	static Collection<Pair<List<Genome>, List<NodeWrapper>>> getNodesByGenome(
+	static Collection<Pair<Set<Genome>, List<NodeWrapper>>> getNodesByGenome(
 			List<NodeWrapper> nodes) {
-		Map<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>> searchMap = new HashMap<HashableList<Genome>, Pair<List<Genome>, List<NodeWrapper>>>();
+		Map<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>> searchMap = new HashMap<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>>();
 		for (NodeWrapper node : nodes) {
-			List<Genome> genome = node.getGenome();
+			Set<Genome> genome = node.getGenome();
 			/*
 			 * There should be at least two genomes on a node to be a end or
 			 * start node.
@@ -200,12 +200,12 @@ public final class SpaceWrapUtil {
 			if (genome.size() <= 1) {
 				continue;
 			}
-			Pair<List<Genome>, List<NodeWrapper>> pair = searchMap
-					.get(new HashableList<Genome>(genome));
+			Pair<Set<Genome>, List<NodeWrapper>> pair = searchMap
+					.get(new HashableCollection<Genome>(genome));
 			if (pair == null) {
-				pair = new Pair<List<Genome>, List<NodeWrapper>>(genome,
+				pair = new Pair<Set<Genome>, List<NodeWrapper>>(genome,
 						new ArrayList<NodeWrapper>());
-				searchMap.put(new HashableList<Genome>(genome), pair);
+				searchMap.put(new HashableCollection<Genome>(genome), pair);
 			}
 			pair.getSecond().add(node);
 		}
@@ -238,8 +238,8 @@ public final class SpaceWrapUtil {
 		if (to == startNode) {
 			return true;
 		}
-		if (steps == 0 || blackList.contains(to)
-				|| to.getIncoming().size() == 0) {
+		if (steps == 0 || to.getIncoming().size() == 0
+				|| blackList.contains(to)) {
 			return false;
 		}
 		for (NodeWrapper from : to.getIncoming()) {

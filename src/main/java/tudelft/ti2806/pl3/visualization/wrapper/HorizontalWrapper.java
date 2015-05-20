@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * A collection of horizontal combine able nodes. All nodes should be in a row
@@ -48,8 +49,8 @@ public class HorizontalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public List<Genome> getGenome() {
-		return getFirst().getGenome();
+	public Set<Genome> getGenome() {
+		return this.getFirst().getGenome();
 	}
 	
 	@Override

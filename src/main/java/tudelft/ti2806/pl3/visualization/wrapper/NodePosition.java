@@ -7,8 +7,10 @@ import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * NodePosition is used to store the position of nodes and the edges of nodes.
@@ -86,15 +88,18 @@ public class NodePosition extends NodeWrapper {
 	public DataNodeInterface getNode() {
 		return node;
 	}
-	
+
+	@Override
 	public long getXStart() {
 		return startX;
 	}
-	
+
+	@Override
 	public long getXEnd() {
 		return startX + getWidth();
 	}
-	
+
+	@Override
 	public long getWidth() {
 		return node.getWidth();
 	}
@@ -105,8 +110,8 @@ public class NodePosition extends NodeWrapper {
 	}
 	
 	@Override
-	public List<Genome> getGenome() {
-		List<Genome> list = new ArrayList<Genome>();
+	public Set<Genome> getGenome() {
+		Set<Genome> list = new HashSet<Genome>();
 		for (Genome genome : node.getSource()) {
 			list.add(genome);
 		}

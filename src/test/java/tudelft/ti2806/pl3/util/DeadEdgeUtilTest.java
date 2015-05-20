@@ -9,7 +9,10 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.testutil.UtilTest;
+import tudelft.ti2806.pl3.util.wrap.SpaceWrapUtil;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,17 +33,16 @@ public class DeadEdgeUtilTest {
 		nodeList = new ArrayList<DataNodeInterface>();
 		
 		Genome[] genome = new Genome[] { new Genome("hi", 0) };
-		nodes = new DataNode[] {
-		new DataNode(0, genome, 0, 0, new byte[0]),
-		new DataNode(1, genome, 0, 0, new byte[0]),
-		new DataNode(2, genome, 0, 0, new byte[0]),
-		new DataNode(3, genome, 0, 0, new byte[0]),
-		new DataNode(4, genome, 0, 0, new byte[0]),
-		new DataNode(5, genome, 0, 0, new byte[0]),
-		new DataNode(6, genome, 0, 0, new byte[0]),
-		new DataNode(7, genome, 0, 0, new byte[0]),
-		new DataNode(8, genome, 0, 0, new byte[0]),
-		new DataNode(9, genome, 0, 0, new byte[0]) };
+		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0]),
+				new DataNode(1, genome, 0, 0, new byte[0]),
+				new DataNode(2, genome, 0, 0, new byte[0]),
+				new DataNode(3, genome, 0, 0, new byte[0]),
+				new DataNode(4, genome, 0, 0, new byte[0]),
+				new DataNode(5, genome, 0, 0, new byte[0]),
+				new DataNode(6, genome, 0, 0, new byte[0]),
+				new DataNode(7, genome, 0, 0, new byte[0]),
+				new DataNode(8, genome, 0, 0, new byte[0]),
+				new DataNode(9, genome, 0, 0, new byte[0]) };
 		
 		for (DataNode node : nodes) {
 			nodeList.add(node);
@@ -69,5 +71,13 @@ public class DeadEdgeUtilTest {
 		edgeList.add(deadEdge);
 		DeadEdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());
 		Assert.assertFalse(edgeList.contains(deadEdge));
+	}
+	
+	@Test
+	public void privateConstructorTest() throws NoSuchMethodException,
+			IllegalAccessException, InvocationTargetException,
+			InstantiationException {
+		new UtilTest<DeadEdgeUtil>(DeadEdgeUtil.class)
+				.testConstructorIsPrivate();
 	}
 }

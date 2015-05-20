@@ -4,7 +4,7 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
-import java.util.List;
+import java.util.Set;
 
 public class SingleWrapper extends NodeWrapper {
 	
@@ -35,7 +35,7 @@ public class SingleWrapper extends NodeWrapper {
 	}
 	
 	@Override
-	public List<Genome> getGenome() {
+	public Set<Genome> getGenome() {
 		return target.getGenome();
 	}
 	

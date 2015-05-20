@@ -1,6 +1,8 @@
 package tudelft.ti2806.pl3.util.wrap;
 
+import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * An utility class to collapse graphs into smaller graphs.
@@ -48,9 +51,38 @@ public final class WrapUtil {
 			graph = SpaceWrapUtil.collapseGraph(lastGraph);
 		}
 		if (graph == null) {
-			return lastGraph;
+			graph = lastGraph;
+		}
+		if (graph.getPositionedNodes().size() > 1) {
+			graph = applyFixNode(graph);
 		}
 		return graph;
+	}
+	
+	public static WrappedGraphData applyFixNode(WrappedGraphData graph) {
+		List<NodeWrapper> nodes = graph.getPositionedNodes();
+		FixWrapper startFix = new FixWrapper(-1);
+		FixWrapper endFix = new FixWrapper(Long.MAX_VALUE);
+		startFix.getOutgoing().add(endFix);
+		endFix.getIncoming().add(startFix);
+		Set<Genome> genomeSet = new HashSet<Genome>();
+		for (NodeWrapper node : nodes) {
+			if (node.getIncoming().size() == 0) {
+				node.getIncoming().add(startFix);
+				startFix.getOutgoing().add(node);
+				genomeSet.addAll(node.getGenome());
+			}
+			if (node.getOutgoing().size() == 0) {
+				node.getOutgoing().add(endFix);
+				endFix.getIncoming().add(node);
+				genomeSet.addAll(node.getGenome());
+			}
+		}
+		startFix.setGenome(genomeSet);
+		endFix.setGenome(genomeSet);
+		nodes.add(startFix);
+		nodes.add(endFix);
+		return WrapUtil.collapseGraph(new WrappedGraphData(graph, nodes), 2);
 	}
 	
 	/**
@@ -65,10 +97,11 @@ public final class WrapUtil {
 	protected static List<NodeWrapper> wrapAndReconnect(
 			List<NodeWrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
-		Map<NodeWrapper, NodeWrapper> map = wrapList(
-				nonCombinedNodes, combinedNodes);
+		Map<NodeWrapper, NodeWrapper> map = wrapList(nonCombinedNodes,
+				combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
-		return new ArrayList<NodeWrapper>(new HashSet<NodeWrapper>(map.values()));
+		return new ArrayList<NodeWrapper>(
+				new HashSet<NodeWrapper>(map.values()));
 	}
 	
 	/**
@@ -126,8 +159,7 @@ public final class WrapUtil {
 	static Map<NodeWrapper, NodeWrapper> wrapList(
 			List<NodeWrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
-		Map<NodeWrapper, NodeWrapper> map
-				= new HashMap<NodeWrapper, NodeWrapper>();
+		Map<NodeWrapper, NodeWrapper> map = new HashMap<NodeWrapper, NodeWrapper>();
 		for (NodeWrapper node : nonCombinedNodes) {
 			SingleWrapper newWrapper = new SingleWrapper(node);
 			map.put(node, newWrapper);

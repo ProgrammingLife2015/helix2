@@ -37,6 +37,7 @@ public class DataNode implements DataNodeInterface {
 			int refEndPoint, byte[] contentOfTheNode) {
 		this.nodeId = nodeId;
 		if (source == null) {
+			// TODO: Bad data, throw exception
 			this.source = null;
 		} else {
 			this.source = source.clone();

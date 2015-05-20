@@ -32,6 +32,7 @@ public class GraphModel implements GraphModelInterface {
 	 * @param filters
 	 *            the filters to be applied.
 	 */
+	@Override
 	public void produceGraph(List<Filter<DataNodeInterface>> filters) {
 		List<DataNodeInterface> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
