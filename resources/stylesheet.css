@@ -1,0 +1,18 @@
+edge.normalEdge {
+    shape: freeplane;
+    fill-color: #00000070;
+}
+
+edge.nodeEdge {
+    fill-color: red;
+    stroke-width: 3px;
+}
+
+node {
+    fill-mode: image-scaled;
+}
+
+graph {
+    fill-mode:gradient-diagonal1;
+    fill-color: rgb(108,121,151), rgb(231, 233, 237);
+}

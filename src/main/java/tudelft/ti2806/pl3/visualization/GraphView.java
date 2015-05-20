@@ -9,6 +9,9 @@ import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.awt.Component;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -22,14 +25,7 @@ import java.util.Observer;
  * @author Sam Smulders
  *
  */
-public class GraphView implements Observer {
-	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
-			+ "fill-color: #00000070;}"
-			+ "edge.nodeEdge {fill-color: red;"
-			+ "stroke-width:3px;}";
-//			+ "node {stroke-mode: plain;"
-//			+ "size: 0;"
-//			+ "shape: freeplane;" + "fill-color: #00000000;}"
+public class GraphView implements GraphViewInterface {
 	/**
 	 * The space left between nodes for drawing the edges between the nodes.<br>
 	 * Set the zoom to have changes take effect.
@@ -53,7 +49,6 @@ public class GraphView implements Observer {
 	 * The css style sheet used drawing the graph.<br>
 	 * Generate a new view to have the changes take effect.
 	 */
-	private String styleSheet = DEFAULT_STYLESHEET;
 
 	private WrappedGraphData graphData;
 	private Graph graph = new SingleGraph("");
@@ -90,7 +85,20 @@ public class GraphView implements Observer {
 	 * Sets the graph its drawing properties.
 	 */
 	private void setGraphPropertys() {
-		graph.addAttribute("ui.stylesheet", styleSheet);
+		String url = "resources/stylesheet.css";
+		try {
+			List<String> lines = Files.readAllLines(Paths.get(url));
+
+			String stylesheet = "";
+			for (String line : lines) {
+				stylesheet += line + " ";
+			}
+
+			graph.addAttribute("ui.stylesheet", stylesheet);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 	}
@@ -138,7 +146,6 @@ public class GraphView implements Observer {
 	 *            the new zoom level
 	 */
 	public void zoom(double zoomLevel) {
-
 //		this.zoomLevel = zoomLevel;
 //		panel.getCamera().setViewPercent(
 //				zoomLevel / (getGraphWidth() / panel.getWidth()));
