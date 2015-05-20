@@ -11,6 +11,7 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.util.wrap.HorizontalWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.SpaceWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.VerticalWrapUtil;
+import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
@@ -107,11 +108,11 @@ public class NodeYPositionTest {
 		assertEquals(1, verticalWrapper.getNodeList().get(2).getGenome().size());
 
 		assertEquals(0.3f, verticalWrapper.getNodeList().get(0).getySpace(), DELTA);
-		assertEquals(0.15f, verticalWrapper.getNodeList().get(0).getY(), DELTA);
+		assertEquals(0.95f, verticalWrapper.getNodeList().get(0).getY(), DELTA);
 		assertEquals(0.24f, verticalWrapper.getNodeList().get(1).getySpace(), DELTA);
-		assertEquals(0.42f, verticalWrapper.getNodeList().get(1).getY(), DELTA);
+		assertEquals(1.22f, verticalWrapper.getNodeList().get(1).getY(), DELTA);
 		assertEquals(0.06f, verticalWrapper.getNodeList().get(2).getySpace(), DELTA);
-		assertEquals(0.57f, verticalWrapper.getNodeList().get(2).getY(), DELTA);
+		assertEquals(1.37f, verticalWrapper.getNodeList().get(2).getY(), DELTA);
 
 	}
 
@@ -273,14 +274,19 @@ public class NodeYPositionTest {
 	private void displayGraph(CombineWrapper wrapper) {
 		Graph graph = new SingleGraph("");
 		for (NodeWrapper node : wrapper.getNodeList()) {
+
 			graph.addNode(node.getIdString()).setAttribute("xy",
 					node.getPreviousNodesCount(), node.getY());
+			graph.getNode(node.getIdString()).addAttribute("ui.label", "     " +node.getIdString());
 		}
 		for (NodeWrapper node : wrapper.getNodeList()) {
 			for (NodeWrapper to : node.getOutgoing()) {
 				graph.addEdge(node.getIdString() + "-" + to.getIdString(),
 						node.getIdString(), to.getIdString());
 			}
+		}
+		for (NodeWrapper node : wrapper.getNodeList()) {
+
 		}
 		graph.display(false);
 		while (true) {
@@ -291,4 +297,22 @@ public class NodeYPositionTest {
 			}
 		}
 	}
+
+	public void readfullgraph() throws FileNotFoundException{
+		File nodesFile = new File("data/testdata/NodeYPosition/fullgraph.node.graph");
+		File edgesFile = new File("data/testdata/NodeYPosition/fullgraph.edge.graph");
+		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
+				edgesFile);
+		WrappedGraphData wgd = WrapUtil.collapseGraph(
+				new WrappedGraphData(gdr),Integer.MAX_VALUE);
+
+		assertEquals(wgd.getPositionedNodes().size(), 1);
+		System.out.println(wgd.getPositionedNodes().get(0).getClass());
+		SpaceWrapper nodeWrapper = (SpaceWrapper)wgd.getPositionedNodes().get(0);
+		NodeYPosition.init(nodeWrapper);
+		displayGraph(nodeWrapper);
+
+	}
+
+
 }
