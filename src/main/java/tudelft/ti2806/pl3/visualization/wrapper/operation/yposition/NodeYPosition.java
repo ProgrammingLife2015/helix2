@@ -93,7 +93,6 @@ public class NodeYPosition extends WrapperOperation {
 
 	/**
 	 * Sets the y-position of the nodes that are inside the {@link SpaceWrapper}	 *
-	 *
 	 * @param wrapper
 	 * 		the node to perform the operation on
 	 * @param container
@@ -120,8 +119,8 @@ public class NodeYPosition extends WrapperOperation {
 
 		while (nodeWrapperIt.hasNext()) {
 			NodeWrapper nodeWrapper = nodeWrapperIt.next();
-			double yspace = calculateYSpace(nodeWrapper.getGenome().size()
-					, wrapper.getGenome().size(), wrapper.getySpace());
+			double yspace = calculateYSpace(nodeWrapper.getGenome().size(),
+					wrapper.getGenome().size(), wrapper.getySpace());
 			double ypos = calculateYPos(yspace, lastspace + wrapper.getY());
 
 			nodeWrapper.setySpace((float) yspace);
@@ -133,8 +132,7 @@ public class NodeYPosition extends WrapperOperation {
 	}
 
 	/**
-	 * Sets the y-position of the nodes that are inside the {@link SingleWrapper}
-	 *
+	 * Sets the y-position of the nodes that are inside the {@link SingleWrapper}	 *
 	 * @param wrapper
 	 * 		the node to perform the operation on
 	 * @param container
