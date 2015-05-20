@@ -73,8 +73,7 @@ public class NodeYPosition extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		double lastspace = 0.0;
-
-		this.sortOnAmountOfGenomes(wrapper);
+		sortOnAmountOfGenomes(wrapper);
 
 		for (NodeWrapper nodeWrapper : wrapper.getNodeList()) {
 			// the node is in the middle of his yspace.
@@ -103,7 +102,7 @@ public class NodeYPosition extends WrapperOperation {
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		double lastspace = 0.0;
-		this.sortOnAmountOfGenomes(wrapper);
+		sortOnAmountOfGenomes(wrapper);
 
 		// after sorting the first and second in the list must be the
 		// first and last node.
@@ -121,9 +120,9 @@ public class NodeYPosition extends WrapperOperation {
 
 		while (nodeWrapperIt.hasNext()) {
 			NodeWrapper nodeWrapper = nodeWrapperIt.next();
-			double yspace = this.calculateYSpace(nodeWrapper.getGenome().size()
+			double yspace = calculateYSpace(nodeWrapper.getGenome().size()
 					, wrapper.getGenome().size(), wrapper.getySpace());
-			double ypos = this.calculateYPos(yspace, lastspace + wrapper.getY() );
+			double ypos = calculateYPos(yspace, lastspace + wrapper.getY());
 
 			nodeWrapper.setySpace((float) yspace);
 			nodeWrapper.setY((float) ypos);
@@ -166,11 +165,33 @@ public class NodeYPosition extends WrapperOperation {
 		}
 	}
 
+	/**
+	 * Calculate the yspace.
+	 * This is based on the fraction of the genomes in the node with the total genomes.
+	 *
+	 * @param amountofGenomes
+	 * 		amount of genomes in the node
+	 * @param totalGenomes
+	 * 		total genomes of the parent
+	 * @param parentSpace
+	 * 		yspace of the parent
+	 * @return yspace of the node
+	 */
 	private double calculateYSpace(double amountofGenomes, double totalGenomes, double parentSpace) {
 		double space = amountofGenomes / totalGenomes * parentSpace;
 		return space;
 	}
 
+	/**
+	 * Calculate the ypos of the node.
+	 * The node will be in the middle of his yspace.
+	 *
+	 * @param yspace
+	 * 		yspace of the node
+	 * @param leftspace
+	 * 		space already used
+	 * @return ypos of the node
+	 */
 	private double calculateYPos(double yspace, double leftspace) {
 		return yspace / 2 + leftspace;
 	}
@@ -180,7 +201,9 @@ public class NodeYPosition extends WrapperOperation {
 	 * The first element has the highest genome amount.
 	 *
 	 * @param nodeWrapper
+	 * 		wrapper with the nodes.
 	 */
+	@SuppressWarnings("unused")
 	private void sortOnAmountOfGenomes(CombineWrapper nodeWrapper) {
 		Collections.sort(nodeWrapper.getNodeList(),
 				(o1, o2) -> o2.getGenome().size() - o1.getGenome().size());

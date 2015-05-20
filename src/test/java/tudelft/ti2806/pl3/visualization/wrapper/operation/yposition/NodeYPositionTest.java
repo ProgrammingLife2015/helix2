@@ -190,7 +190,7 @@ public class NodeYPositionTest {
 
 	}
 
-
+	@Test
 	public void testSpaceWrappedWithNullContainer() throws FileNotFoundException {
 		readSpaceWrapped();
 
@@ -245,6 +245,7 @@ public class NodeYPositionTest {
 		assertEquals(0.3333f, spaceWrapper.getNodeList().get(2).getySpace(), DELTA);
 		assertEquals(0.3333f, spaceWrapper.getNodeList().get(3).getySpace(), DELTA);
 		assertEquals(0.1666f, spaceWrapper.getNodeList().get(4).getySpace(), DELTA);
+
 	}
 
 	@Test
