@@ -13,7 +13,8 @@ import java.util.ListIterator;
 
 /**
  * This class calculates the y position of the Nodes that are inside a Wrapper.
- * The y-scale is from 0 to 1, where 0.5 is the middle of the y pos.
+ * The nodes start at Y_START which is 0.0. Nodes are then stacked based on their yspace.
+ * Node with a high genome amount will be displayed lowest.
  * Created by Kasper on 18-5-2015.
  */
 public class NodeYPosition extends WrapperOperation {
@@ -79,7 +80,7 @@ public class NodeYPosition extends WrapperOperation {
 			// the node is in the middle of his yspace.
 			double yspace = this.calculateYSpace(nodeWrapper.getGenome().size()
 					, wrapper.getGenome().size(), wrapper.getySpace());
-			double ypos = this.calculateYPos(yspace, lastspace);
+			double ypos = this.calculateYPos(yspace, lastspace );
 
 			// set the y values
 			nodeWrapper.setySpace((float) yspace);
@@ -101,7 +102,6 @@ public class NodeYPosition extends WrapperOperation {
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		double lastspace = 0.0;
-		sortOnAmountOfGenomes(wrapper);
 
 		// after sorting the first and second in the list must be the
 		// first and last node.
@@ -121,7 +121,7 @@ public class NodeYPosition extends WrapperOperation {
 			NodeWrapper nodeWrapper = nodeWrapperIt.next();
 			double yspace = calculateYSpace(nodeWrapper.getGenome().size(),
 					wrapper.getGenome().size(), wrapper.getySpace());
-			double ypos = calculateYPos(yspace, lastspace + wrapper.getY());
+			double ypos = calculateYPos(yspace, lastspace );
 
 			nodeWrapper.setySpace((float) yspace);
 			nodeWrapper.setY((float) ypos);
