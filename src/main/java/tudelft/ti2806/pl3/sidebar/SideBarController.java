@@ -1,8 +1,10 @@
 package tudelft.ti2806.pl3.sidebar;
 
+import newick.NewickParser;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.sidebar.genomeFilter.GenomeFilterController;
+import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
@@ -15,7 +17,8 @@ import java.util.ArrayList;
 public class SideBarController implements Controller {
 
 	private SideBarView sideBarView;
-
+	private GenomeFilterController genomeFilterController;
+	private PhyloController phyloController;
 
 	/**
 	 * Construct the side bar controller and add all filters to its view.
@@ -25,11 +28,15 @@ public class SideBarController implements Controller {
 	 *          the graph data
 	 */
 	public SideBarController(GraphController graphController,
-	                         GraphDataRepository gd) {
-		GenomeFilterController genomeFilterController = new GenomeFilterController(
+	                         GraphDataRepository gd, NewickParser.TreeNode tree) {
+		genomeFilterController = new GenomeFilterController(
 				graphController, gd);
+		phyloController = new PhyloController(graphController,tree);
+
 		ArrayList<Component> viewList = new ArrayList<>();
 		viewList.add(genomeFilterController.getPanel());
+		viewList.add(phyloController.getPanel());
+
 		sideBarView = new SideBarView(viewList);
 	}
 	

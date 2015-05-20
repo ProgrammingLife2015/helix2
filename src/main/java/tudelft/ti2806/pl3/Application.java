@@ -12,14 +12,9 @@ import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
 import java.awt.Component;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -79,17 +74,10 @@ public class Application extends JFrame {
 		try {
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
+			NewickParser.TreeNode tree = FileSelector.parseTreeFile(treeFile);
 			graphController = new GraphController(new GraphView(), new GraphModel(gd));
 			zoomBarController = new ZoomBarController(graphController);
-			sideBarController = new SideBarController(graphController, gd);
-
-			// parse the phylogenetic tree
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					new BufferedInputStream(new FileInputStream(treeFile))));
-			NewickParser.TreeNode tree = new NewickParser(new ByteArrayInputStream(br.readLine()
-						.replaceAll("(\\d)\\.(\\d*)e-05", "0.0000$1$2")
-						.replaceAll("(\\d)\\.(\\d*)e-06", "0.00000$1$2")
-						.replaceAll("(\\d)\\.(\\d*)e-07", "0.000000$1$2")
+			sideBarController = new SideBarController(graphController, gd, tree);
 
 			// set the views
 			setSideBarView(sideBarController.getPanel());
