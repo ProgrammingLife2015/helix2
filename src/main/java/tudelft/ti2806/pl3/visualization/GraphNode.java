@@ -18,8 +18,9 @@ public class GraphNode {
 	 *            the node to represent on the graph
 	 */
 	public GraphNode(Graph graph, NodeWrapper node) {
-		this.gNode = graph.addNode(node.getIdString());
 		this.dataNode = node;
+		this.gNode = graph.addNode(node.getIdString());
+		this.gNode.addAttribute("ui.class", node.getClass().getSimpleName());
 	}
 
 	public Node getNode() {
