@@ -36,8 +36,8 @@ public class PlaceholderWrapper extends NodeWrapper {
 	}
 
 	@Override
-	public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
-
+	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
+		wrapperOperation.calculate(this, container);
 	}
 
 	@Override
