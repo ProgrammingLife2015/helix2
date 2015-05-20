@@ -29,10 +29,6 @@ public class HorizontalWrapper extends CombineWrapper {
 		super(nodePosList);
 	}
 
-	public HorizontalWrapper(List<NodeWrapper> nodePosList, boolean collapsed, List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
-		super(nodePosList, collapsed, incoming, outgoing);
-	}
-	
 	@Override
 	public long getWidth() {
 		long sum = 0;
@@ -60,17 +56,5 @@ public class HorizontalWrapper extends CombineWrapper {
 	@Override
 	public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
 		wrapperSequencer.calculate(this, container);
-	}
-
-	@Override
-	public HorizontalWrapper deepClone() {
-		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
-		nodeList.forEach(s -> clonedList.add(s.deepClone()));
-		return new HorizontalWrapper(clonedList,isCollapsed(),getIncoming(),getOutgoing());
-	}
-
-	@Override
-	public NodeWrapper shallowClone() {
-		return new HorizontalWrapper(nodeList,isCollapsed(),getIncoming(),getOutgoing());
 	}
 }

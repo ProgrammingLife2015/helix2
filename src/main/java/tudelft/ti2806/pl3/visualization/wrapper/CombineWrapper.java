@@ -44,9 +44,6 @@ public abstract class CombineWrapper extends NodeWrapper {
 		this.nodeList = nodeList;
 		this.collapsed = false;
 	}
-	public CombineWrapper(List<NodeWrapper> nodeList, boolean collapsed, List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
-
-	}
 	
 	public NodeWrapper getFirst() {
 		return nodeList.get(0);

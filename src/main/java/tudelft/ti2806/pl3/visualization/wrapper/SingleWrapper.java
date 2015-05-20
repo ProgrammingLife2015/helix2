@@ -52,14 +52,4 @@ public class SingleWrapper extends NodeWrapper {
 	public void collectDataNodes(List<DataNodeInterface> list) {
 		target.collectDataNodes(list);
 	}
-
-	@Override
-	public NodeWrapper deepClone() {
-		return new SingleWrapper(target.deepClone());
-	}
-
-	@Override
-	public NodeWrapper shallowClone() {
-		return new SingleWrapper(target);
-	}
 }

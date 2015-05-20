@@ -57,14 +57,4 @@ public class DataNodeWrapper extends NodeWrapper {
 	public void collectDataNodes(List<DataNodeInterface> list) {
 		list.addAll(dataNodeList);
 	}
-
-	@Override
-	public NodeWrapper shallowClone() {
-		return null;
-	}
-
-	@Override
-	public NodeWrapper deepClone() {
-		return null;
-	}
 }

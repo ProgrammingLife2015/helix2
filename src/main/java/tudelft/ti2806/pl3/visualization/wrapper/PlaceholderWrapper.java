@@ -44,14 +44,4 @@ public class PlaceholderWrapper extends NodeWrapper {
 	public void collectDataNodes(List<DataNodeInterface> list) {
 	}
 
-	@Override
-	public NodeWrapper shallowClone() {
-		return null;
-	}
-
-	@Override
-	public NodeWrapper deepClone() {
-		return null;
-	}
-
 }

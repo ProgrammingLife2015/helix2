@@ -106,8 +106,4 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 		collectDataNodes(dataNodeList);
 		return dataNodeList;
 	}
-
-	public abstract NodeWrapper shallowClone();
-
-	public abstract NodeWrapper deepClone();
 }

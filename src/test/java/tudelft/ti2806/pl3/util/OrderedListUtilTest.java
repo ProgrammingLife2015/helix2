@@ -156,15 +156,5 @@ public class OrderedListUtilTest {
 			}
 			return true;
 		}
-
-		@Override
-		public TestWrapper deepClone() {
-			return new TestWrapper(name);
-		}
-
-		@Override
-		public NodeWrapper shallowClone() {
-			return new TestWrapper(name);
-		}
 	}
 }
