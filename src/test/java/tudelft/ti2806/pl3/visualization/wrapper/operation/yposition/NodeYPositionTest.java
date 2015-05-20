@@ -70,6 +70,7 @@ public class NodeYPositionTest {
 				verticalWrapper = (VerticalWrapper) nodeWrapper;
 			}
 		}
+
 		assertTrue(verticalWrapper != null);
 		assertTrue(verticalWrapper.getNodeList().size() == 3);
 		// we now know that 3 nodes are Vertical wrapped.

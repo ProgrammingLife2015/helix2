@@ -1,0 +1,10 @@
+>1 | A,B,C,D,E,F | 0 | 4
+AAAAA
+>2 | B,C | 0 | 4
+AAAAA
+>3 | D,E | 5 | 9
+CCCCC
+>4 | F | 5 | 9
+CCCCC
+>5 | A,B,C,D,E,F | 5 | 9
+CCCCC
