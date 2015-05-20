@@ -11,6 +11,8 @@ import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * The GraphView is responsible for adding the nodes and edges to the graph,
@@ -20,7 +22,7 @@ import java.util.List;
  * @author Sam Smulders
  *
  */
-public class GraphView {
+public class GraphView implements Observer {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
 			+ "fill-color: #00000070;}"
 			+ "edge.nodeEdge {fill-color: red;"
@@ -59,10 +61,15 @@ public class GraphView {
 	private View panel;
 	
 	private List<GraphNode> graphNodeList;
-	
+
+	private ZoomedGraphModel zoomedGraphModel;
+
+	public GraphView(ZoomedGraphModel zoomedGraphModel) {
+		this.zoomedGraphModel = zoomedGraphModel;
+	}
+
 	public void init() {
 		generateViewer();
-//		calculateGraphPositions();
 	}
 	
 	/**
@@ -158,12 +165,16 @@ public class GraphView {
 	public Component getPanel() {
 		return panel;
 	}
-	
-	public void setGraphData(WrappedGraphData graphData) {
-		this.graphData = graphData;
-	}
-	
+
 	public Viewer getViewer() {
 		return viewer;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o == zoomedGraphModel) {
+			graphData = zoomedGraphModel.getWrappedGraphData();
+			// TODO: draw graph with the newly retrieved graphData
+		}
 	}
 }

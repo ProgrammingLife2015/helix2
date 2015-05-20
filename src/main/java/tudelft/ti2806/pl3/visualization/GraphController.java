@@ -1,34 +1,50 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.awt.Component;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GraphController {
-	private GraphModel model;
-	private GraphView view;
+	private FilteredGraphModel filteredGraphModel;
+	private ZoomedGraphModel zoomedGraphModel;
+	private GraphView graphView;
 	private double currentZoomLevel;
 	private long currentZoomCenter;
-	private List<Filter<DataNode>> filters = new ArrayList<>();
-	
+	private Map<String, Filter<DataNode>> filters = new HashMap<>();
 	/**
 	 * Initialise an instance of GraphControler.<br>
-	 * Also initialises the {@link GraphModel} and {@link GraphView}.
-	 * 
-	 * @param view
-	 *            the view to use
-	 * @param model
-	 *            the model to use
+	 * It will also create the view and models.
+	 * @param abstractGraphData
+	 *          The parsed graph data
 	 */
-	public GraphController(GraphView view, GraphModel model) {
-		this.model = model;
-		this.view = view;
-		model.produceGraph(new ArrayList<>());
-		//view.setGraphData(model.getGraphData());
-		view.init();
+	public GraphController(AbstractGraphData abstractGraphData) {
+		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
+		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
+		graphView = new GraphView(zoomedGraphModel);
+
+		filteredGraphModel.addObserver(zoomedGraphModel);
+		zoomedGraphModel.addObserver(graphView);
+
+		filteredGraphModel.produceWrappedGraphData();
+	}
+
+	/**
+	 * Adds a node filter to the graph.
+	 * The filters will be put in a HashMap, so adding a filter with
+	 * the same name will override the older one.
+	 * @param name
+	 *          the filter name
+	 * @param filter Filter
+	 *          the filter itself
+	 */
+	public void addFilter(String name, Filter<DataNode> filter) {
+		filters.put(name, filter);
+		filteredGraphModel.setFilters(filters.values());
+		filteredGraphModel.produceWrappedGraphData();
 	}
 	
 	/**
@@ -38,8 +54,8 @@ public class GraphController {
 	 *            the new center of zoom
 	 */
 	public void moveView(long newZoomCenter) {
-		currentZoomCenter = newZoomCenter;
-		view.moveView(currentZoomCenter);
+//		currentZoomCenter = newZoomCenter;
+//		graphView.moveView(currentZoomCenter);
 	}
 	
 	/**
@@ -49,20 +65,20 @@ public class GraphController {
 	 *            the new level of zoom to apply
 	 */
 	public void changeZoom(double newZoomLevel) {
-		if (Math.round(newZoomLevel) != Math.round(currentZoomLevel)
-				&& filters.size() != 0) {
-			model.produceGraph(filters);
-		}
-		currentZoomLevel = newZoomLevel;
-		view.zoom(newZoomLevel);
+//		if (Math.round(newZoomLevel) != Math.round(currentZoomLevel)
+//				&& filters.size() != 0) {
+//			model.produceGraph(filters);
+//		}
+//		currentZoomLevel = newZoomLevel;
+//		view.zoom(newZoomLevel);
 	}
 
 	public GraphView getView() {
-		return view;
+		return graphView;
 	}
 
 	public Component getPanel() {
-		return view.getPanel();
+		return graphView.getPanel();
 	}
 
 	public double getCurrentZoomLevel() {
