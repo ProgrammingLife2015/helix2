@@ -96,6 +96,11 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 
 	public abstract void collectDataNodes(List<DataNodeInterface> list);
 
+	/**
+	 * Get all {@link DataNodeInterface}s in this node and its children
+	 * @return
+	 *      list of {@link DataNodeInterface}s
+	 */
 	public List<DataNodeInterface> getDataNodes() {
 		List<DataNodeInterface> dataNodeList = new ArrayList<>();
 		collectDataNodes(dataNodeList);

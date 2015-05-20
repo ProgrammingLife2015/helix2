@@ -15,6 +15,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * The same test as {@link SpaceWrapperUnwrapTest}, but it also tests the functionality
+ * of incoming nodes on the {@link SpaceWrapper}.
+ *
+ * @see {@link SpaceWrapperUnwrapTest}
+ * @see {@link Unwrap#calculate(SpaceWrapper, NodeWrapper)}
+ *
  * Created by Boris Mattijssen on 19-05-15.
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -28,6 +34,9 @@ public class SpaceWrapperWrappedUnwrapTest {
 
 	private Unwrap unwrap;
 
+	/**
+	 * @see {@link SpaceWrapperUnwrapTest#before}
+	 */
 	@Before
 	public void before() {
 		NodePosition nodePosition0 = new NodePosition(dataNode0);
@@ -64,6 +73,9 @@ public class SpaceWrapperWrappedUnwrapTest {
 		unwrap = new Unwrap(start);
 	}
 
+	/**
+	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}
+	 */
 	@Test
 	public void testLeftNode() {
 		NodeWrapper left = unwrap.getResult();
@@ -71,6 +83,9 @@ public class SpaceWrapperWrappedUnwrapTest {
 		assertEquals(1, left.getOutgoing().size());
 	}
 
+	/**
+	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}
+	 */
 	@Test
 	public void testLeftMiddleNode() {
 		NodeWrapper leftMiddle = unwrap.getResult().getOutgoing().get(0);
@@ -78,11 +93,17 @@ public class SpaceWrapperWrappedUnwrapTest {
 		assertEquals(1, leftMiddle.getIncoming().size());
 	}
 
+	/**
+	 * Verify that we indeed get five {@link DataNodeWrapper}s.
+	 */
 	@Test
 	public void dataNodeWrapperCount() {
 		assertEquals(5, unwrap.getDataNodeWrappers().size());
 	}
 
+	/**
+	 * Verify that no more {@link PlaceholderWrapper}s are left.
+	 */
 	@Test
 	public void testNoMorePlaceholders() {
 		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());

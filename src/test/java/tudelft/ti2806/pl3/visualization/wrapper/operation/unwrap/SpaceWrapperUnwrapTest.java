@@ -15,6 +15,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * This class tests the unwrapping of a {@link SpaceWrapper}.
+ *
+ * <p>It creates a {@link SpaceWrapper} in a {@link HorizontalWrapper}.</p>
+ * <p>It verifies that all the edge connections between the nodes are correct.</p>
+ *
  * Created by Boris Mattijssen on 19-05-15.
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -27,6 +32,9 @@ public class SpaceWrapperUnwrapTest {
 
 	private Unwrap unwrap;
 
+	/**
+	 * Create a {@link SpaceWrapper} wrapped in a {@link HorizontalWrapper}.
+	 */
 	@Before
 	public void before() {
 		NodePosition nodePosition1 = new NodePosition(dataNode1);
@@ -59,6 +67,10 @@ public class SpaceWrapperUnwrapTest {
 		unwrap = new Unwrap(start);
 	}
 
+	/**
+	 * Verify that the left node contains dataNode1 and has 2 outgoing nodes
+	 * (going to dataNode2 and dataNode3).
+	 */
 	@Test
 	public void testLeftNode() {
 		NodeWrapper left = unwrap.getResult();
@@ -68,6 +80,10 @@ public class SpaceWrapperUnwrapTest {
 		assertTrue(((DataNodeWrapper) left).getDataNodeList().contains(dataNode1));
 	}
 
+	/**
+	 * Verify that the top node contains dataNode2 and has 1 outgoing node (dataNode1) and
+	 * 1 incoming node (dataNode3).
+	 */
 	@Test
 	public void testTopNode() {
 		NodeWrapper top = unwrap.getResult().getOutgoing().get(0);
@@ -78,6 +94,10 @@ public class SpaceWrapperUnwrapTest {
 		assertTrue(((DataNodeWrapper) top.getIncoming().get(0)).getDataNodeList().contains(dataNode1));
 	}
 
+	/**
+	 * Verify that the middle node contains dataNode3 and has 1 outgoing node (dataNode4) and
+	 * 2 incoming nodes (dataNode1 and dataNode2).
+	 */
 	@Test
 	public void testMiddleNode() {
 		NodeWrapper middle = unwrap.getResult().getOutgoing().get(1);
@@ -89,6 +109,9 @@ public class SpaceWrapperUnwrapTest {
 		assertTrue(((DataNodeWrapper) middle.getIncoming().get(1)).getDataNodeList().contains(dataNode2));
 	}
 
+	/**
+	 * Verify that the right node contains dataNode4 and has 1 incoming node (dataNode3).
+	 */
 	@Test
 	public void testRightNode() {
 		NodeWrapper right = unwrap.getResult().getOutgoing().get(1).getOutgoing().get(0);
@@ -99,11 +122,17 @@ public class SpaceWrapperUnwrapTest {
 		assertTrue(((DataNodeWrapper) right.getIncoming().get(0)).getDataNodeList().contains(dataNode3));
 	}
 
+	/**
+	 * Verify that we indeed get four {@link DataNodeWrapper}s.
+	 */
 	@Test
 	public void dataNodeWrapperCount() {
 		assertEquals(4, unwrap.getDataNodeWrappers().size());
 	}
 
+	/**
+	 * Verify that no more {@link PlaceholderWrapper}s are left.
+	 */
 	@Test
 	public void testNoMorePlaceholders() {
 		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());

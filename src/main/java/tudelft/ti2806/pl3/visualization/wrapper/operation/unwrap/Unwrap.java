@@ -29,7 +29,6 @@ import java.util.Stack;
  * all {@link DataNodeInterface}s that the node from the original graph contains, are listed in the
  * new {@link DataNodeWrapper}.</p>
  * <p>In the end a new graph is constructed containing only {@link DataNodeWrapper}s</p>
- *
  * Created by Boris Mattijssen on 18-05-15.
  */
 public class Unwrap extends WrapperOperation {

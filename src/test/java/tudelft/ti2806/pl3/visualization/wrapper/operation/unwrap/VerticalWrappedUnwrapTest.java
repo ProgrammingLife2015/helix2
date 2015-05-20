@@ -15,6 +15,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * This class tests the unwrapping of a {@link VerticalWrapper}.
+ *
+ * <p>It creates a {@link VerticalWrapper} wrapped in a {@link HorizontalWrapper}.</p>
+ * <p>It verifies that all the connections between the nodes are correct.</p>
  * Created by Boris Mattijssen on 19-05-15.
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -103,11 +107,17 @@ public class VerticalWrappedUnwrapTest {
 		assertTrue(((DataNodeWrapper) right2.getIncoming().get(1)).getDataNodeList().contains(dataNode3));
 	}
 
+	/**
+	 * Verify that we indeed get four {@link DataNodeWrapper}s.
+	 */
 	@Test
 	public void dataNodeWrapperCount() {
 		assertEquals(4, unwrap.getDataNodeWrappers().size());
 	}
 
+	/**
+	 * Verify that no more {@link PlaceholderWrapper}s are left.
+	 */
 	@Test
 	public void testNoMorePlaceholders() {
 		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());

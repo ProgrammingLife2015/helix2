@@ -10,6 +10,7 @@ import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * This class tests the unwrapping of a {@link HorizontalWrapper}.
+ *
+ * <p>It creates two {@link HorizontalWrapper}s in a {@link HorizontalWrapper} to
+ * verify that the wrappers are recursively unwrapped.</p>
+ * <p>It thereby also verifies that the start of the graph is updated correctly.</p>
  * Created by Boris Mattijssen on 19-05-15.
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -30,6 +36,9 @@ public class HorizontalWrappedUnwrapTest {
 
 	private Unwrap unwrap;
 
+	/**
+	 * Create four {@link NodePosition}s and wrap these in two separate {@link HorizontalWrapper}s.
+	 */
 	@Before
 	public void before() {
 		NodePosition nodePosition1 = new NodePosition(dataNode1);
@@ -44,6 +53,9 @@ public class HorizontalWrappedUnwrapTest {
 		unwrap = new Unwrap(start);
 	}
 
+	/**
+	 * Verify that the left node contains dataNode1 and has 1 outgoing node.
+	 */
 	@Test
 	public void testLeftNode() {
 		NodeWrapper left = unwrap.getResult();
@@ -53,6 +65,9 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(((DataNodeWrapper) left).getDataNodeList().contains(dataNode1));
 	}
 
+	/**
+	 * Verify that the left middle node contains dataNode2 and has 1 outgoing node and 1 incoming node.
+	 */
 	@Test
 	public void testLeftMiddleNode() {
 		NodeWrapper leftMiddle = getNext(unwrap.getResult(), 1);
@@ -63,6 +78,9 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(((DataNodeWrapper) leftMiddle.getIncoming().get(0)).getDataNodeList().contains(dataNode1));
 	}
 
+	/**
+	 * Verify that the right middle node contains dataNode3 and has 1 outgoing node and 1 incoming node.
+	 */
 	@Test
 	public void testRightMiddleNode() {
 		NodeWrapper rightMiddle = getNext(unwrap.getResult(), 2);
@@ -73,6 +91,9 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(((DataNodeWrapper) rightMiddle.getIncoming().get(0)).getDataNodeList().contains(dataNode2));
 	}
 
+	/**
+	 * Verify that the right node contains dataNode4 and has 1 incoming node.
+	 */
 	@Test
 	public void testRightNode() {
 		NodeWrapper right = getNext(unwrap.getResult(), 3);
@@ -83,16 +104,31 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(((DataNodeWrapper) right.getIncoming().get(0)).getDataNodeList().contains(dataNode3));
 	}
 
+	/**
+	 * Verify that we indeed get four {@link DataNodeWrapper}s.
+	 */
 	@Test
 	public void dataNodeWrapperCount() {
 		assertEquals(4, unwrap.getDataNodeWrappers().size());
 	}
 
+	/**
+	 * Verify that no more {@link PlaceholderWrapper}s are left.
+	 */
 	@Test
 	public void testNoMorePlaceholders() {
 		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());
 	}
 
+	/**
+	 * Create a {@link HorizontalWrapper} given the two nodes
+	 * @param wrapper1
+	 *          node 1 for the wrapper
+	 * @param wrapper2
+	 *          node 2 for the wrapper
+	 * @return
+	 *          a {@link HorizontalWrapper} containing wrapper1 and wrapper2
+	 */
 	private HorizontalWrapper getHorizontalWrapper(NodeWrapper wrapper1, NodeWrapper wrapper2) {
 		List<NodeWrapper> list = new ArrayList<>(2);
 		list.add(wrapper1);
@@ -102,6 +138,15 @@ public class HorizontalWrappedUnwrapTest {
 		return new HorizontalWrapper(list, true);
 	}
 
+	/**
+	 * Get the next node in the {@link HorizontalWrapper}
+	 * @param node
+	 *          start node
+	 * @param times
+	 *          how many times do you want to get the next
+	 * @return
+	 *          the next node
+	 */
 	private NodeWrapper getNext(NodeWrapper node, int times) {
 		NodeWrapper result = node;
 		for (int i = 0; i < times; i++) {

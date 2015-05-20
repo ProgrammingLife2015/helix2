@@ -47,7 +47,8 @@ public class SpaceWrapper extends CombineWrapper {
 		super(nodePosList);
 	}
 
-	public SpaceWrapper(List<NodeWrapper> nodePosList, boolean collapsed, List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
+	public SpaceWrapper(List<NodeWrapper> nodePosList, boolean collapsed,
+	                    List<NodeWrapper> incoming, List<NodeWrapper> outgoing) {
 		super(nodePosList, collapsed, incoming, outgoing);
 	}
 	
