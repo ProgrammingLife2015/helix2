@@ -5,6 +5,7 @@ import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Boris Mattijssen on 18-05-15.
@@ -42,7 +43,7 @@ public class DataNodeWrapper extends NodeWrapper {
 	}
 
 	@Override
-	public List<Genome> getGenome() {
+	public Set<Genome> getGenome() {
 		return null;
 	}
 

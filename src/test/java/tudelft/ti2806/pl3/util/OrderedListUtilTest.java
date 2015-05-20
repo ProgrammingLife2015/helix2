@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
@@ -132,7 +133,12 @@ public class OrderedListUtilTest {
 		public void calculate(WrapperOperation wrapperSequencer,
 				NodeWrapper container) {
 		}
-		
+
+		@Override
+		public void collectDataNodes(List<DataNodeInterface> list) {
+
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -162,15 +168,6 @@ public class OrderedListUtilTest {
 			}
 			return true;
 		}
-		
-		@Override
-		public TestWrapper deepClone() {
-			return new TestWrapper(name);
-		}
-		
-		@Override
-		public Object clone() throws CloneNotSupportedException {
-			return new TestWrapper(name);
-		}
+
 	}
 }

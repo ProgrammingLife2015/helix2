@@ -37,7 +37,7 @@ public class Main {
 				break;
 			}
 		}
-		
+
 		// get the size of the screen
 		GraphicsEnvironment ge = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();

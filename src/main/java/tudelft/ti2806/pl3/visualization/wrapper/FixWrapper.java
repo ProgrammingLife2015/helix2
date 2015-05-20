@@ -1,8 +1,10 @@
 package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
+import java.util.List;
 import java.util.Set;
 
 public class FixWrapper extends NodeWrapper {
@@ -43,19 +45,14 @@ public class FixWrapper extends NodeWrapper {
 	public void calculate(WrapperOperation operation, NodeWrapper container) {
 		operation.calculate(this, container);
 	}
-	
+
+	@Override
+	public void collectDataNodes(List<DataNodeInterface> list) {
+
+	}
+
 	public void setGenome(Set<Genome> genome) {
 		this.genome = genome;
-	}
-
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return null;
-	}
-
-	@Override
-	public NodeWrapper deepClone() {
-		return null;
 	}
 	
 }
