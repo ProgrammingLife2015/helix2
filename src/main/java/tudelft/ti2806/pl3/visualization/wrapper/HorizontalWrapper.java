@@ -24,7 +24,7 @@ public class HorizontalWrapper extends CombineWrapper {
 	public HorizontalWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
 	}
-
+	
 	public HorizontalWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
@@ -54,7 +54,8 @@ public class HorizontalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public void calculate(WrapperOperation wrapperSequencer, NodeWrapper container) {
+	public void calculate(WrapperOperation wrapperSequencer,
+			NodeWrapper container) {
 		wrapperSequencer.calculate(this, container);
 	}
 }

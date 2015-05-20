@@ -14,6 +14,7 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
 	protected List<NodeWrapper> outgoing = new ArrayList<NodeWrapper>();
 	protected int previousNodesCount = -1;
+	protected int interest = 0;
 	
 	public abstract long getXStart();
 	
@@ -99,7 +100,6 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public void resetPreviousNodesCount() {
 		this.previousNodesCount = -1;
 	}
-	
 
 	public abstract void collectDataNodes(List<DataNodeInterface> list);
 
@@ -112,5 +112,17 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 		List<DataNodeInterface> dataNodeList = new ArrayList<>();
 		collectDataNodes(dataNodeList);
 		return dataNodeList;
+	}
+
+	public int getInterest() {
+		return interest;
+	}
+	
+	public void addInterest(int interest) {
+		this.interest += interest;
+	}
+	
+	public void setInterest(int interest) {
+		this.interest = interest;
 	}
 }
