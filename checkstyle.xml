@@ -26,7 +26,7 @@ Checkstyle configurartion that checks the Google coding conventions (https://goo
     </module>
     <module name="LineLength">
       <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-      <property name="max" value="100"/>
+      <property name="max" value="120"/>
     </module>
     <module name="AvoidStarImport"/>
     <module name="OneTopLevelClass"/>
