@@ -1,11 +1,11 @@
 package tudelft.ti2806.pl3.data.filter;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.util.List;
 
-public class GenomeFilter extends Filter<DataNodeInterface> {
+public class GenomeFilter extends Filter<DataNode> {
 	protected final Genome genome;
 	
 	public GenomeFilter(Genome genome) {
@@ -13,8 +13,8 @@ public class GenomeFilter extends Filter<DataNodeInterface> {
 	}
 	
 	@Override
-	public void calculateFilter(List<DataNodeInterface> list) {
-		for (DataNodeInterface node : list) {
+	public void calculateFilter(List<DataNode> list) {
+		for (DataNode node : list) {
 			for (Genome source : node.getSource()) {
 				if (source.equals(genome)) {
 					filter.add(node);

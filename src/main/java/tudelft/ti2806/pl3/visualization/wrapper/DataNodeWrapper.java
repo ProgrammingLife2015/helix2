@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.Set;
  */
 public class DataNodeWrapper extends NodeWrapper {
 
-	private List<DataNodeInterface> dataNodeList;
+	private List<DataNode> dataNodeList;
 
-	public DataNodeWrapper(List<DataNodeInterface> dataNodeList) {
+	public DataNodeWrapper(List<DataNode> dataNodeList) {
 		this.dataNodeList = dataNodeList;
 	}
 
-	public List<DataNodeInterface> getDataNodeList() {
+	public List<DataNode> getDataNodeList() {
 		return dataNodeList;
 	}
 
@@ -53,7 +53,7 @@ public class DataNodeWrapper extends NodeWrapper {
 	}
 
 	@Override
-	public void collectDataNodes(List<DataNodeInterface> list) {
+	public void collectDataNodes(List<DataNode> list) {
 		list.addAll(dataNodeList);
 	}
 }

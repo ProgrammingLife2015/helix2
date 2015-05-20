@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
@@ -101,15 +101,15 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 		this.previousNodesCount = -1;
 	}
 
-	public abstract void collectDataNodes(List<DataNodeInterface> list);
+	public abstract void collectDataNodes(List<DataNode> list);
 
 	/**
-	 * Get all {@link DataNodeInterface}s in this node and its children
+	 * Get all {@link DataNode}s in this node and its children
 	 * @return
-	 *      list of {@link DataNodeInterface}s
+	 *      list of {@link DataNode}s
 	 */
-	public List<DataNodeInterface> getDataNodes() {
-		List<DataNodeInterface> dataNodeList = new ArrayList<>();
+	public List<DataNode> getDataNodes() {
+		List<DataNode> dataNodeList = new ArrayList<>();
 		collectDataNodes(dataNodeList);
 		return dataNodeList;
 	}

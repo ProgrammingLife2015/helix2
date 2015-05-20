@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author Sam Smulders
  *
  */
-public class DataNode implements DataNodeInterface {
+public class DataNode {
 	protected final int nodeId;
 	protected final Genome[] source;
 	protected final int refStartPoint;
@@ -101,29 +101,24 @@ public class DataNode implements DataNodeInterface {
 		return true;
 	}
 	
-	@Override
 	public int getId() {
 		return nodeId;
 	}
 	
 	// Suppressed in the interest of space and time
 	@SuppressFBWarnings({ "EI_EXPOSE_REP" })
-	@Override
 	public Genome[] getSource() {
 		return source;
 	}
 	
-	@Override
 	public int getRefStartPoint() {
 		return refStartPoint;
 	}
 	
-	@Override
 	public int getRefEndPoint() {
 		return refEndPoint;
 	}
 	
-	@Override
 	public long getWidth() {
 		return content.length;
 	}

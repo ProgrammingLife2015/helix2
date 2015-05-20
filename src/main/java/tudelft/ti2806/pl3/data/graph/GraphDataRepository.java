@@ -3,7 +3,7 @@ package tudelft.ti2806.pl3.data.graph;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -30,7 +30,7 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @param genomes
 	 *            all {@link Genome} that are present in the graph
 	 */
-	public GraphDataRepository(List<DataNodeInterface> nodes, List<Edge> edges,
+	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
 			List<Genome> genomes) {
 		this.nodes = nodes;
 		this.edges = edges;
@@ -50,7 +50,7 @@ public class GraphDataRepository extends AbstractGraphData {
 	}
 	
 	@Override
-	public List<DataNodeInterface> getNodes() {
+	public List<DataNode> getNodes() {
 		return this.getNodeListClone();
 	}
 
@@ -79,7 +79,7 @@ public class GraphDataRepository extends AbstractGraphData {
 			throws FileNotFoundException {
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
-		List<DataNodeInterface> nodeList = new ArrayList<DataNodeInterface>();
+		List<DataNode> nodeList = new ArrayList<DataNode>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<Genome>();
 		genomeList.addAll(genomeMap.values());
@@ -192,8 +192,8 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @return the found node<br>
 	 *         {@code null} if there is no node with this id in the graph
 	 */
-	public DataNodeInterface getNodeByNodeId(int id) {
-		for (DataNodeInterface node : nodes) {
+	public DataNode getNodeByNodeId(int id) {
+		for (DataNode node : nodes) {
 			if (node.getId() == id) {
 				return node;
 			}

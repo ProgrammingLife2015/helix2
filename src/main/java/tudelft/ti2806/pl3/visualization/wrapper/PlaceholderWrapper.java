@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class PlaceholderWrapper extends NodeWrapper {
 	}
 
 	@Override
-	public void collectDataNodes(List<DataNodeInterface> list) {
+	public void collectDataNodes(List<DataNode> list) {
 	}
 
 }

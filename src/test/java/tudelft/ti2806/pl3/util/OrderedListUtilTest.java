@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
@@ -135,7 +135,7 @@ public class OrderedListUtilTest {
 		}
 
 		@Override
-		public void collectDataNodes(List<DataNodeInterface> list) {
+		public void collectDataNodes(List<DataNode> list) {
 
 		}
 

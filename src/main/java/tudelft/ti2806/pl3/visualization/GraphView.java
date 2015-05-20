@@ -20,7 +20,7 @@ import java.util.List;
  * @author Sam Smulders
  *
  */
-public class GraphView implements GraphViewInterface {
+public class GraphView {
 	private static final String DEFAULT_STYLESHEET = "edge.normalEdge {shape: freeplane;"
 			+ "fill-color: #00000070;}"
 			+ "edge.nodeEdge {fill-color: red;"
@@ -52,7 +52,7 @@ public class GraphView implements GraphViewInterface {
 	 * Generate a new view to have the changes take effect.
 	 */
 	private String styleSheet = DEFAULT_STYLESHEET;
-	
+
 	private WrappedGraphData graphData;
 	private Graph graph = new SingleGraph("");
 	private Viewer viewer;
@@ -131,6 +131,7 @@ public class GraphView implements GraphViewInterface {
 	 *            the new zoom level
 	 */
 	public void zoom(double zoomLevel) {
+
 //		this.zoomLevel = zoomLevel;
 //		panel.getCamera().setViewPercent(
 //				zoomLevel / (getGraphWidth() / panel.getWidth()));
@@ -158,7 +159,6 @@ public class GraphView implements GraphViewInterface {
 		return panel;
 	}
 	
-	@Override
 	public void setGraphData(WrappedGraphData graphData) {
 		this.graphData = graphData;
 	}

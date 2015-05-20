@@ -86,7 +86,7 @@ public class Application extends JFrame {
 			graphController.moveView(1);
 
 			// set the controls.
-			// This is done last so we can remove the default libary keycontroller
+			// This is done last so we can remove the default library keycontroller
 			WindowController windowController = new WindowController(this);
 			KeyController keys = new KeyController(this);
 			addKeyListener(keys);

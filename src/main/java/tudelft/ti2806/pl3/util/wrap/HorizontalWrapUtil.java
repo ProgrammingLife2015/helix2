@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
@@ -41,10 +41,10 @@ public final class HorizontalWrapUtil {
 	}
 	
 	/**
-	 * Combines nodes vertically. Combines all {@link DataNodeInterface}s in the
+	 * Combines nodes vertically. Combines all {@link DataNode}s in the
 	 * given list of node into {@link VerticalWrapper}s, reconnects the
 	 * {@link VerticalWrapper}s in the graph and remove all
-	 * {@link DataNodeInterface}s which are combined from the graph.
+	 * {@link DataNode}s which are combined from the graph.
 	 * 
 	 * @param nodes
 	 *            the nodes to combine

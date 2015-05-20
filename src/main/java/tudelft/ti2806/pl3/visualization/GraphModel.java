@@ -4,7 +4,7 @@ import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
@@ -14,50 +14,42 @@ import java.util.List;
 /**
  * GraphModel reads GraphData and makes a new graph of it.
  */
-public class GraphModel implements GraphModelInterface {
-	protected AbstractGraphData originalGraph;
-	private WrappedGraphData graph;
-	
-	// protected AbstractGraphData graph;
-	
+public class GraphModel {
+	protected AbstractGraphData originalGraphData;
+	private WrappedGraphData originalWrappedGraphData;
+
 	public GraphModel(AbstractGraphData graphData) {
-		this.originalGraph = graphData;
+		this.originalGraphData = graphData;
 	}
 	
 	/**
 	 * Filters a copy of the {@link GraphDataRepository} and combines all nodes
 	 * which can be combined without losing data and removes all dead edges. The
-	 * result is saved as {@code graph}.
+	 * result is saved as {@code originalWrappedGraphData}.
 	 * 
 	 * @param filters
 	 *            the filters to be applied.
 	 */
-	@Override
-	public void produceGraph(List<Filter<DataNodeInterface>> filters) {
-		List<DataNodeInterface> resultNodes = originalGraph.getNodeListClone();
+	public void produceGraph(List<Filter<DataNode>> filters) {
+		List<DataNode> resultNodes = originalGraphData.getNodeListClone();
 		filter(resultNodes, filters);
-		List<Edge> resultEdges = originalGraph.getEdgeListClone();
+		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
-		graph = new WrappedGraphData(originalGraph, resultNodes, resultEdges);
-		graph = WrapUtil.collapseGraph(graph, 10);
-	}
-	
-	@Override
-	public WrappedGraphData getGraphData() {
-		return graph;
+		originalWrappedGraphData = new WrappedGraphData(originalGraphData, resultNodes, resultEdges);
+		originalWrappedGraphData = WrapUtil.collapseGraph(originalWrappedGraphData, 10);
 	}
 	
 	/**
 	 * Removes all edges of which one or both of their nodes is not on the
-	 * graph.
+	 * originalWrappedGraphData.
 	 * 
 	 * @param edgeList
-	 *            the list of edges in the graph
+	 *            the list of edges in the originalWrappedGraphData
 	 * @param nodeList
-	 *            the list of nodes in the graph
+	 *            the list of nodes in the originalWrappedGraphData
 	 */
 	static void removeAllDeadEdges(List<Edge> edgeList,
-			List<DataNodeInterface> nodeList) {
+			List<DataNode> nodeList) {
 		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
 	}
 	
@@ -72,8 +64,8 @@ public class GraphModel implements GraphModelInterface {
 	 * @return a list of all dead edges
 	 */
 	static List<Edge> getAllDeadEdges(List<Edge> edgeList,
-			List<DataNodeInterface> nodeList) {
-		List<Edge> removeList = new ArrayList<Edge>();
+			List<DataNode> nodeList) {
+		List<Edge> removeList = new ArrayList<>();
 		for (Edge edge : edgeList) {
 			if (!nodeList.contains(edge.getFrom())
 					|| !nodeList.contains(edge.getTo())) {
@@ -91,9 +83,9 @@ public class GraphModel implements GraphModelInterface {
 	 * @param filters
 	 *            the list of filters to be applied
 	 */
-	protected void filter(List<DataNodeInterface> list,
-			List<Filter<DataNodeInterface>> filters) {
-		for (Filter<DataNodeInterface> filter : filters) {
+	protected void filter(List<DataNode> list,
+			List<Filter<DataNode>> filters) {
+		for (Filter<DataNode> filter : filters) {
 			filter.filter(list);
 		}
 	}

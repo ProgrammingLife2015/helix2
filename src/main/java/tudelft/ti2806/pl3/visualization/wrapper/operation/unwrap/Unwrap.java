@@ -1,6 +1,6 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap;
 
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.Pair;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
@@ -26,7 +26,7 @@ import java.util.Stack;
  * graph is put on a stack. The algorithm continues until the stack is empty. When a new
  * item is popped from the stack, it will be unwrapped using one of the calculate methods.</p>
  * <p>When a node should not be unwrapped, a new {@link DataNodeWrapper} is created and
- * all {@link DataNodeInterface}s that the node from the original graph contains, are listed in the
+ * all {@link DataNode}s that the node from the original graph contains, are listed in the
  * new {@link DataNodeWrapper}.</p>
  * <p>In the end a new graph is constructed containing only {@link DataNodeWrapper}s</p>
  * Created by Boris Mattijssen on 18-05-15.
@@ -192,7 +192,7 @@ public class Unwrap extends WrapperOperation {
 	 * is necessary to connect it to the correct nodes in the graph we're constructing. The
 	 * reference is passed to unwrap its nodes in the next calculate.</p>
 	 * <p>If the {@link NodeWrapper} shouldn't be unwrapped, a DataNodeWrapper is returned.
-	 * This node contains all the {@link DataNodeInterface}s that are wrapped in this node.</p>
+	 * This node contains all the {@link DataNode}s that are wrapped in this node.</p>
 	 * @param node
 	 *          The {@link NodeWrapper} from the original graph.
 	 * @return

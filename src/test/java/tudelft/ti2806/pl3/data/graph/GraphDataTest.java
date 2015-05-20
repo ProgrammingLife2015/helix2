@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 public class GraphDataTest {
 	GraphData graphData;
 	AbstractGraphData abstractGraphData;
-	List<DataNodeInterface> nodeList = new ArrayList<>();
+	List<DataNode> nodeList = new ArrayList<>();
 	List<Edge> edgeList = new ArrayList<>();
 	List<Genome> genomeList = new ArrayList<>();
 

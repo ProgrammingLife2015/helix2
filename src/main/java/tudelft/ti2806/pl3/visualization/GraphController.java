@@ -1,18 +1,18 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GraphController implements GraphControllerInterface {
-	private GraphModelInterface model;
-	private GraphViewInterface view;
+public class GraphController {
+	private GraphModel model;
+	private GraphView view;
 	private double currentZoomLevel;
 	private long currentZoomCenter;
-	private List<Filter<DataNodeInterface>> filters = new ArrayList<Filter<DataNodeInterface>>();
+	private List<Filter<DataNode>> filters = new ArrayList<>();
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -23,13 +23,12 @@ public class GraphController implements GraphControllerInterface {
 	 * @param model
 	 *            the model to use
 	 */
-	public GraphController(GraphViewInterface view, GraphModelInterface model) {
+	public GraphController(GraphView view, GraphModel model) {
 		this.model = model;
 		this.view = view;
-		model.produceGraph(new ArrayList<Filter<DataNodeInterface>>());
-		view.setGraphData(model.getGraphData());
+		model.produceGraph(new ArrayList<>());
+		//view.setGraphData(model.getGraphData());
 		view.init();
-
 	}
 	
 	/**
@@ -58,7 +57,7 @@ public class GraphController implements GraphControllerInterface {
 		view.zoom(newZoomLevel);
 	}
 
-	public GraphViewInterface getView() {
+	public GraphView getView() {
 		return view;
 	}
 
