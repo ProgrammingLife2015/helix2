@@ -2,13 +2,7 @@ package tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap;
 
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.Pair;
-import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.*;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
@@ -186,6 +180,24 @@ public class Unwrap extends WrapperOperation {
 		}
 	}
 
+	public void calculate(SingleWrapper node, NodeWrapper placeholder) {
+		NodeWrapper newNode = createNewNode(node.getNode());
+		if (placeholder == result) {
+			result = newNode;
+		}
+		for (NodeWrapper incoming : placeholder.getIncoming()) {
+			incoming.getOutgoing().remove(placeholder);
+			incoming.getOutgoing().add(newNode);
+			newNode.getIncoming().add(incoming);
+		}
+		for (NodeWrapper outgoing : placeholder.getOutgoing()) {
+			outgoing.getIncoming().remove(placeholder);
+			outgoing.getIncoming().add(newNode);
+			newNode.getOutgoing().add(outgoing);
+		}
+	}
+
+
 	/**
 	 * This method creates a new node that will be part of the newly created graph.
 	 *
@@ -203,7 +215,8 @@ public class Unwrap extends WrapperOperation {
 	 *          {@link PlaceholderWrapper} or a {@link DataNodeWrapper}.
 	 */
 	private NodeWrapper createNewNode(NodeWrapper node) {
-		if (node instanceof CombineWrapper && ((CombineWrapper) node).isCollapsed()) {
+		if (node instanceof CombineWrapper && ((CombineWrapper) node).isCollapsed()
+				|| node instanceof SingleWrapper) {
 			PlaceholderWrapper placeholder = new PlaceholderWrapper();
 			stack.add(new Pair<>(placeholder, node));
 			return placeholder;
