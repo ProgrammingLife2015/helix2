@@ -52,10 +52,6 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 		setUpLook();
 		expandTree();
 		setListener();
-
-		add(new JScrollPane(jTree));
-		add(jTree);
-		add(createButton(phyloController));
 	}
 
 	/**
