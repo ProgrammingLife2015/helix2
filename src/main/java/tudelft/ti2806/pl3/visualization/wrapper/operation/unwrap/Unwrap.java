@@ -2,13 +2,7 @@ package tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap;
 
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.Pair;
-import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.*;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
@@ -171,12 +165,16 @@ public class Unwrap extends WrapperOperation {
 		for (Map.Entry<NodeWrapper, NodeWrapper> referencePlaceholderMap :
 				    referencePlaceholderMapper.entrySet()) {
 			for (NodeWrapper outgoing : referencePlaceholderMap.getKey().getOutgoing()) {
-				referencePlaceholderMap.getValue().getOutgoing().add(
-						referencePlaceholderMapper.get(outgoing));
+				if(referencePlaceholderMapper.get(outgoing) != null) { // only add if outgoing is in this SpaceWrapper
+					referencePlaceholderMap.getValue().getOutgoing().add(
+							referencePlaceholderMapper.get(outgoing));
+				}
 			}
 			for (NodeWrapper incoming : referencePlaceholderMap.getKey().getIncoming()) {
-				referencePlaceholderMap.getValue().getIncoming().add(
-						referencePlaceholderMapper.get(incoming));
+				if(referencePlaceholderMapper.get(incoming) != null) { // only add if incoming is in this SpaceWrapper
+					referencePlaceholderMap.getValue().getIncoming().add(
+							referencePlaceholderMapper.get(incoming));
+				}
 			}
 		}
 		for (NodeWrapper outgoing : placeholder.getOutgoing()) {
@@ -185,6 +183,24 @@ public class Unwrap extends WrapperOperation {
 			curr.getOutgoing().add(outgoing);
 		}
 	}
+
+	public void calculate(SingleWrapper node, NodeWrapper placeholder) {
+		NodeWrapper newNode = createNewNode(node.getNode());
+		for (NodeWrapper incoming : placeholder.getIncoming()) {
+			incoming.getOutgoing().remove(placeholder);
+			incoming.getOutgoing().add(newNode);
+			newNode.getIncoming().add(incoming);
+		}
+		if (placeholder == result) {
+			result = newNode;
+		}
+		for (NodeWrapper outgoing : placeholder.getOutgoing()) {
+			outgoing.getIncoming().remove(placeholder);
+			outgoing.getIncoming().add(newNode);
+			newNode.getOutgoing().add(outgoing);
+		}
+	}
+
 
 	/**
 	 * This method creates a new node that will be part of the newly created graph.
@@ -203,7 +219,8 @@ public class Unwrap extends WrapperOperation {
 	 *          {@link PlaceholderWrapper} or a {@link DataNodeWrapper}.
 	 */
 	private NodeWrapper createNewNode(NodeWrapper node) {
-		if (node instanceof CombineWrapper && ((CombineWrapper) node).isCollapsed()) {
+		if (node instanceof CombineWrapper && ((CombineWrapper) node).isCollapsed() && ((CombineWrapper) node).getNodeList().size() > 0
+				|| node instanceof SingleWrapper) {
 			PlaceholderWrapper placeholder = new PlaceholderWrapper();
 			stack.add(new Pair<>(placeholder, node));
 			return placeholder;
@@ -211,6 +228,7 @@ public class Unwrap extends WrapperOperation {
 			DataNodeWrapper dataNodeWrapper = new DataNodeWrapper(node.getDataNodes(), node);
 			dataNodeWrapper.setY(node.getY());
 			dataNodeWrappers.add(dataNodeWrapper);
+			dataNodeWrapper.setIdString(node.getIdString());
 			return dataNodeWrapper;
 		}
 	}

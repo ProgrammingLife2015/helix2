@@ -19,8 +19,9 @@ public class GraphNode {
 	 */
 	public GraphNode(Graph graph, NodeWrapper node) {
 		this.dataNode = node;
-		this.gNode = graph.addNode(node.getIdString());
-		this.gNode.addAttribute("ui.class", node.getClass().getSimpleName());
+		gNode = graph.addNode(node.getIdString());
+		gNode.setAttribute("xy", node.getPreviousNodesCount(), node.getY());
+		gNode.addAttribute("ui.class", node.getClass().getSimpleName());
 	}
 
 	public Node getNode() {
