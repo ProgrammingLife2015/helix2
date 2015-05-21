@@ -13,13 +13,19 @@ import java.util.Set;
 public class DataNodeWrapper extends NodeWrapper {
 
 	private List<DataNode> dataNodeList;
+	private final NodeWrapper originalNode;
 
-	public DataNodeWrapper(List<DataNode> dataNodeList) {
+	public DataNodeWrapper(List<DataNode> dataNodeList, NodeWrapper originalNode) {
 		this.dataNodeList = dataNodeList;
+		this.originalNode = originalNode;
 	}
 
 	public List<DataNode> getDataNodeList() {
 		return dataNodeList;
+	}
+
+	public NodeWrapper getOriginalNode() {
+		return originalNode;
 	}
 
 	@Override

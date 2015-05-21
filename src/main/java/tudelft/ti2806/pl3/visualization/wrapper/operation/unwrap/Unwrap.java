@@ -205,7 +205,7 @@ public class Unwrap extends WrapperOperation {
 			stack.add(new Pair<>(placeholder, node));
 			return placeholder;
 		} else {
-			DataNodeWrapper dataNodeWrapper = new DataNodeWrapper(node.getDataNodes());
+			DataNodeWrapper dataNodeWrapper = new DataNodeWrapper(node.getDataNodes(), node);
 			dataNodeWrapper.setY(node.getY());
 			dataNodeWrappers.add(dataNodeWrapper);
 			return dataNodeWrapper;
