@@ -36,6 +36,10 @@ public class HashableCollection<T> {
 			} else {
 				return false;
 			}
+		}else{
+			if( other.list == null){
+				return false;
+			}
 		}
 		if (list.size() != other.list.size()) {
 			return false;
