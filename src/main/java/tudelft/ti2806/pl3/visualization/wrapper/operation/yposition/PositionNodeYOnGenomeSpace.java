@@ -16,7 +16,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MagicYaxis extends WrapperOperation {
+/**
+ * Computes the position of the nodes on the y axis, based on their space in
+ * their wrapped node. The space of a node is equal to the number of different
+ * genome it contains.
+ * 
+ * @author Sam Smulders
+ *
+ */
+public class PositionNodeYOnGenomeSpace extends WrapperOperation {
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		List<NodeWrapper> nodeList = wrapper.getNodeList();
