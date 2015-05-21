@@ -10,12 +10,12 @@ public class CollapseOnInterest extends WrapperOperation {
 	private int interestValue;
 	
 	public CollapseOnInterest(int interestValue) {
-		this.interestValue = interestValue;
+		this.interestValue = interestValue-2;
 	}
 	
 	@Override
 	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
-		if (wrapper.getInterest() > interestValue) {
+		if (wrapper.getInterest() >= interestValue) {
 			wrapper.setCollapse(true);
 			super.calculate(wrapper, container);
 		}
@@ -23,7 +23,7 @@ public class CollapseOnInterest extends WrapperOperation {
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
-		if (wrapper.getInterest() > interestValue) {
+		if (wrapper.getInterest() >= interestValue) {
 			wrapper.setCollapse(true);
 			super.calculate(wrapper, container);
 		}
@@ -31,7 +31,7 @@ public class CollapseOnInterest extends WrapperOperation {
 	
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
-		if (wrapper.getInterest() > interestValue) {
+		if (wrapper.getInterest() >= interestValue) {
 			wrapper.setCollapse(true);
 			super.calculate(wrapper, container);
 		}

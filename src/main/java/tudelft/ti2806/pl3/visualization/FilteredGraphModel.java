@@ -8,7 +8,6 @@ import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
-import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateSizeInterest;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 
@@ -30,7 +29,7 @@ public class FilteredGraphModel extends Observable {
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
 	private CalculateWrapPressureInterest pressureInterest;
 	private CalculateAddMaxOfWrapped addMaxOfWrapped;
-	private CalculateSizeInterest sizeInterest;
+	//private CalculateSizeInterest sizeInterest;
 	//private CalculateGroupInterest groupInterest;
 
 	public FilteredGraphModel(AbstractGraphData originalGraphData) {
@@ -39,7 +38,7 @@ public class FilteredGraphModel extends Observable {
 		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
 		pressureInterest = new CalculateWrapPressureInterest(pressureMultiplier);
 		addMaxOfWrapped = new CalculateAddMaxOfWrapped();
-		sizeInterest = new CalculateSizeInterest();
+		//sizeInterest = new CalculateSizeInterest();
 	}
 
 	public void setFilters(Collection<Filter<DataNode>> filters) {
@@ -67,7 +66,7 @@ public class FilteredGraphModel extends Observable {
 		// calculate interest
 		pressureInterest.calculate(collapsedNode, null);
 		addMaxOfWrapped.calculate(collapsedNode, null);
-		sizeInterest.calculate(collapsedNode, null);
+		//sizeInterest.calculate(collapsedNode, null);
 		setChanged();
 		notifyObservers();
 	}
