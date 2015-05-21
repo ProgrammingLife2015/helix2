@@ -80,7 +80,7 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public void setOutgoing(List<NodeWrapper> outgoing) {
 		this.outgoing = outgoing;
 	}
-	
+
 	public abstract String getIdString();
 	
 	public abstract Set<Genome> getGenome();

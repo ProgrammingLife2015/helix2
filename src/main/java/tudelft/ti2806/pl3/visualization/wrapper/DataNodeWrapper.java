@@ -14,6 +14,7 @@ public class DataNodeWrapper extends NodeWrapper {
 
 	private List<DataNode> dataNodeList;
 	private final NodeWrapper originalNode;
+	private String idString;
 
 	public DataNodeWrapper(List<DataNode> dataNodeList, NodeWrapper originalNode) {
 		this.dataNodeList = dataNodeList;
@@ -45,7 +46,11 @@ public class DataNodeWrapper extends NodeWrapper {
 
 	@Override
 	public String getIdString() {
-		return null;
+		return idString;
+	}
+
+	public void setIdString(String idString) {
+		this.idString = idString;
 	}
 
 	@Override
