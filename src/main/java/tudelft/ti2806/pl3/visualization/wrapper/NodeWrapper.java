@@ -13,8 +13,8 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	protected float y;
 	protected List<NodeWrapper> incoming = new ArrayList<NodeWrapper>();
 	protected List<NodeWrapper> outgoing = new ArrayList<NodeWrapper>();
-	protected int previousNodesCount = -1;
-	protected int interest = 0;
+	private int previousNodesCount = -1;
+	private int interest = 0;
 	
 	public abstract long getXStart();
 	
@@ -72,15 +72,15 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public List<NodeWrapper> getOutgoing() {
 		return outgoing;
 	}
-
+	
 	public void setIncoming(List<NodeWrapper> incoming) {
 		this.incoming = incoming;
 	}
-
+	
 	public void setOutgoing(List<NodeWrapper> outgoing) {
 		this.outgoing = outgoing;
 	}
-
+	
 	public abstract String getIdString();
 	
 	public abstract Set<Genome> getGenome();
@@ -100,20 +100,20 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public void resetPreviousNodesCount() {
 		this.previousNodesCount = -1;
 	}
-
+	
 	public abstract void collectDataNodes(List<DataNode> list);
-
+	
 	/**
 	 * Get all {@link DataNode}s in this node and its children
-	 * @return
-	 *      list of {@link DataNode}s
+	 * 
+	 * @return list of {@link DataNode}s
 	 */
 	public List<DataNode> getDataNodes() {
 		List<DataNode> dataNodeList = new ArrayList<>();
 		collectDataNodes(dataNodeList);
 		return dataNodeList;
 	}
-
+	
 	public int getInterest() {
 		return interest;
 	}
