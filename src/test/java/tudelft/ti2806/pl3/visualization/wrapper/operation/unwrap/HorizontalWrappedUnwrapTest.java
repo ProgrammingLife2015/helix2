@@ -135,7 +135,7 @@ public class HorizontalWrappedUnwrapTest {
 		list.add(wrapper2);
 		wrapper1.getOutgoing().add(wrapper2);
 		wrapper2.getIncoming().add(wrapper1);
-		return new HorizontalWrapper(list, true);
+		return new HorizontalWrapper(list);
 	}
 
 	/**
