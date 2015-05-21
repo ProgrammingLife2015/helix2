@@ -75,7 +75,6 @@ public class GraphView implements Observer, ViewInterface {
 	 * zoomLevel updates.
 	 */
 	private void generateViewer() {
-		generateGraph();
 		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
 		panel = viewer.addDefaultView(false);
 //		panel.getCamera().setAutoFitView(false);
@@ -161,6 +160,7 @@ public class GraphView implements Observer, ViewInterface {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			// zoom = zoomedGraphModel.getZoomLevel();
 			// TODO: draw graph with the newly retrieved graphData
+			generateGraph();
 		}
 	}
 
