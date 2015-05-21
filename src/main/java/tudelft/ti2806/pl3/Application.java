@@ -77,7 +77,7 @@ public class Application extends JFrame {
 			NewickParser.TreeNode tree = FileSelector.parseTreeFile(treeFile);
 			graphController = new GraphController(new GraphView(), new GraphModel(gd));
 			zoomBarController = new ZoomBarController(graphController);
-			sideBarController = new SideBarController(graphController, gd, tree);
+			sideBarController = new SideBarController(graphController,tree);
 
 			// set the views
 			setSideBarView(sideBarController.getPanel());
