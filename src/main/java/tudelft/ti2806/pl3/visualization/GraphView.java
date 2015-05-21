@@ -110,7 +110,7 @@ public class GraphView implements Observer, ViewInterface {
 		graphData.forEach(NodeWrapper::calculatePreviousNodesCount);
 		graphData.forEach(node -> {
 			Node gNode = graph.addNode(node.getIdString());
-			gNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY());
+			gNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY()*5);
 			gNode.addAttribute("ui.class", node.getClass().getSimpleName());
 		});
 
