@@ -42,10 +42,17 @@ public final class VerticalWrapUtil {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Combines nodes vertically. Combines all {@link DataNode}s in the
 	 * given list of node into {@link VerticalWrapper}s, reconnects the
 	 * {@link VerticalWrapper}s in the graph and remove all
 	 * {@link DataNode}s which are combined from the graph.
+=======
+	 * Combines nodes vertically. Combines all {@link DataNode}s in the given
+	 * list of node into {@link VerticalWrapper}s, reconnects the
+	 * {@link VerticalWrapper}s in the graph and remove all {@link DataNode}s
+	 * which are combined from the graph.
+>>>>>>> nodeyposition
 	 * 
 	 * @param nodes
 	 *            the nodes to combine
@@ -77,13 +84,14 @@ public final class VerticalWrapUtil {
 	 * @return a list of edges which could be combined
 	 */
 	static List<List<NodeWrapper>> findCombineableNodes(List<NodeWrapper> nodes) {
-		Map<Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>, List<NodeWrapper>> map
-				= new HashMap<Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>, List<NodeWrapper>>();
+		Map<Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>, List<NodeWrapper>> map = new HashMap<>();
 		for (NodeWrapper node : nodes) {
 			List<NodeWrapper> list = map
 					.get(new Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>(
-							new HashableCollection<NodeWrapper>(node.getIncoming()),
-							new HashableCollection<NodeWrapper>(node.getOutgoing())));
+							new HashableCollection<NodeWrapper>(node
+									.getIncoming()),
+							new HashableCollection<NodeWrapper>(node
+									.getOutgoing())));
 			if (list == null) {
 				list = new ArrayList<NodeWrapper>();
 				map.put(new Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>(

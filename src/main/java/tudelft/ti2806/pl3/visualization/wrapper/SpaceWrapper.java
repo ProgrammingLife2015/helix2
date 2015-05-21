@@ -43,7 +43,7 @@ public class SpaceWrapper extends CombineWrapper {
 	public SpaceWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
 	}
-
+	
 	public SpaceWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
@@ -75,9 +75,15 @@ public class SpaceWrapper extends CombineWrapper {
 	public Set<Genome> getGenome() {
 		return this.getFirst().getGenome();
 	}
-
+	
 	@Override
-	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
+	public void calculate(WrapperOperation wrapperOperation,
+			NodeWrapper container) {
 		wrapperOperation.calculate(this, container);
+	}
+	
+	@Override
+	public String getIdString() {
+		return "S" + super.getIdString();
 	}
 }

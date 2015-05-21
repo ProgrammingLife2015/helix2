@@ -121,8 +121,4 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	public void addInterest(int interest) {
 		this.interest += interest;
 	}
-	
-	public void setInterest(int interest) {
-		this.interest = interest;
-	}
 }

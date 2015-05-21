@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public class VerticalWrapper extends CombineWrapper {
-	
+
 	public VerticalWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
 	}
@@ -56,5 +56,10 @@ public class VerticalWrapper extends CombineWrapper {
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
 		wrapperOperation.calculate(this, container);
+	}
+	
+	@Override
+	public String getIdString() {
+		return "V" + super.getIdString();
 	}
 }

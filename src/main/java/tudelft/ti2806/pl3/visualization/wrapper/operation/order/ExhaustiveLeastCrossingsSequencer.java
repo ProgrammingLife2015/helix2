@@ -51,6 +51,9 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 */
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
+		for (NodeWrapper node : wrapper.getNodeList()) {
+			calculate(node, wrapper);
+		}
 		long posibleConfigurations = getOptionCountFromLeftToRight(wrapper
 				.getNodeList());
 		if (posibleConfigurations > maxIterations) {
@@ -63,9 +66,6 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		int bestConfig = calculateBestConfig(wrapper,
 				(int) posibleConfigurations, order);
 		applyConfigurationToOrder(bestConfig, order);
-		for (NodeWrapper node : wrapper.getNodeList()) {
-			calculate(node, wrapper);
-		}
 	}
 	
 	/**
@@ -95,8 +95,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 */
 	List<Pair<List<NodeWrapper>, NodeWrapper[]>> getOrder(
 			List<List<NodeWrapper>> currentOrder) {
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order
-				= new ArrayList<Pair<List<NodeWrapper>, NodeWrapper[]>>();
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = new ArrayList<>();
 		for (List<NodeWrapper> list : currentOrder) {
 			NodeWrapper[] connections = new NodeWrapper[list.size()];
 			for (int i = list.size() - 1; i >= 0; i--) {

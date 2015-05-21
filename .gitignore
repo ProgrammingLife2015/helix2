@@ -51,10 +51,10 @@ hs_err_pid*
 *.nwk
 *.zip
 *.gz
-*.graph
 *.gfasta
 *.rar
 
 /data/*
 /local/*
 !/data/testdata/
+!/data/testdata/*.graph

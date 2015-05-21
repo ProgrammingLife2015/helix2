@@ -43,6 +43,10 @@ public class WrappedGraphData {
 		for (NodePosition node : nodePosition) {
 			max = Math.max(node.getXEnd(), max);
 		}
+		for (NodeWrapper node : nodeWrappers) {
+			longestNodePath = Math.max(longestNodePath,
+					node.calculatePreviousNodesCount());
+		}
 		this.size = max;
 	}
 	

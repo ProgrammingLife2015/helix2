@@ -58,4 +58,9 @@ public class HorizontalWrapper extends CombineWrapper {
 			NodeWrapper container) {
 		wrapperSequencer.calculate(this, container);
 	}
+	
+	@Override
+	public String getIdString() {
+		return "H" + super.getIdString();
+	}
 }

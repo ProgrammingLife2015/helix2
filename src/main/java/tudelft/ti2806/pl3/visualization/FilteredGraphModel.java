@@ -46,7 +46,7 @@ public class FilteredGraphModel extends Observable {
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(originalGraphData, resultNodes, resultEdges);
-		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData, 10).getPositionedNodes().get(0);
+		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		// TODO: hier nog de y-posities bepalen
 		setChanged();
 		notifyObservers();
