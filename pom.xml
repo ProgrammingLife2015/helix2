@@ -120,15 +120,6 @@
           <failOnError>false</failOnError>
           <excludeFilterFile>findbugs-ex.xml</excludeFilterFile>
         </configuration>
-        <executions>
-          <execution>
-            <id>analyze-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
