@@ -113,8 +113,9 @@ public class GraphView implements Observer, ViewInterface {
 		graph.clear();
 		setGraphPropertys();
 		graphNodeList = new ArrayList<>(graphData.size());
+		graphData.forEach(NodeWrapper::calculatePreviousNodesCount);
 		graphData.forEach(node -> graphNodeList.add(new GraphNode(graph, node)));
-		System.out.println(graphData);
+		//System.out.println(graphData);
 
 		for (NodeWrapper node : graphData) {
 			for (NodeWrapper to : node.getOutgoing()) {
@@ -139,17 +140,6 @@ public class GraphView implements Observer, ViewInterface {
 				from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString());
 		gEdge.addAttribute("ui.class", "normalEdge");
 	}
-	
-	/**
-	 * Moves the view to the given position on the x axis.
-	 * 
-	 * @param newCenter
-	 *            the new center of view
-	 */
-	public void moveView(long newCenter) {
-//		this.zoomCenter = newCenter;
-//		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
-	}
 
 	@Override
 	public Component getPanel() {
@@ -170,7 +160,14 @@ public class GraphView implements Observer, ViewInterface {
 		return zoomCenter;
 	}
 
+	/**
+	 * Moves the view to the given position on the x axis.
+	 *
+	 * @param zoomCenter
+	 *            the new center of view
+	 */
 	public void setZoomCenter(long zoomCenter) {
 		this.zoomCenter = zoomCenter;
+		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
 }
