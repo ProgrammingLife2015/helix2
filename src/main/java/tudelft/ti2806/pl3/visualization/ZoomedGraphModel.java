@@ -17,9 +17,7 @@ public class ZoomedGraphModel extends Observable implements Observer {
 	private NodeWrapper collapsedNode;
 	private List<DataNodeWrapper> dataNodeWrapperList;
 
-	private double zoomLevel = 1;
-
-
+	private int zoomLevel = 0;
 
 	public ZoomedGraphModel(FilteredGraphModel filteredGraphModel) {
 		this.filteredGraphModel = filteredGraphModel;
@@ -30,11 +28,12 @@ public class ZoomedGraphModel extends Observable implements Observer {
 		return dataNodeWrapperList;
 	}
 
-	public void setZoomLevel(double zoomLevel) {
-		this.zoomLevel = zoomLevel;
+	public void setZoomLevel(int zoomLevel) {
+		if(zoomLevel > 0) {
+			this.zoomLevel = zoomLevel;
+		}
 	}
-
-	public double getZoomLevel() {
+	public int getZoomLevel() {
 		return zoomLevel;
 	}
 
@@ -42,8 +41,8 @@ public class ZoomedGraphModel extends Observable implements Observer {
 		ConstructInterestList constructInterestList = new ConstructInterestList();
 		constructInterestList.calculate(collapsedNode, null);
 		constructInterestList.getInterests().sort(Collections.reverseOrder());
-		//int item = (int) (Math.pow(2,zoomLevel)*10);
-		CollapseOnInterest collapseOnInterest = new CollapseOnInterest(constructInterestList.getInterests().get(10));
+		int numberOfNodes = (int) (Math.pow(2,zoomLevel)*10);
+		CollapseOnInterest collapseOnInterest = new CollapseOnInterest(constructInterestList.getInterests().get(numberOfNodes));
 		collapseOnInterest.calculate(collapsedNode, null);
 		
 		Unwrap unwrap = new Unwrap(collapsedNode);
@@ -52,18 +51,6 @@ public class ZoomedGraphModel extends Observable implements Observer {
 		setChanged();
 		notifyObservers();
 	}
-
-//	private int calculateInterestValue() {
-//		Integer interestValues[] = new Integer[filteredGraphModel.getWrappedGraphData().getPositionedNodes().size()];
-//		int i = 0;
-//		for (NodeWrapper nodeWrapper : filteredGraphModel.getWrappedGraphData().getPositionedNodes()) {
-//			interestValues[i] = nodeWrapper.getInterest();
-//			i++;
-//		}
-//		int howManyNodes = (int) (Math.pow(2,zoomLevel)*10);
-//		Arrays.sort(interestValues, Collections.reverseOrder());
-//		return interestValues[howManyNodes];
-//	}
 
 	@Override
 	public void update(Observable o, Object arg) {

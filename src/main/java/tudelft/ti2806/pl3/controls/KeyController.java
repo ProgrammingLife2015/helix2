@@ -70,15 +70,15 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			double oldzoom = graphController.getCurrentZoomLevel();
-			double newzoom = oldzoom * 2;
-			graphController.changeZoom(newzoom);
+//			double oldzoom = graphController.getCurrentZoomLevel();
+//			double newzoom = oldzoom * 2;
+			graphController.zoomLevelDown();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
-			double oldzoom = app.getGraphController().getCurrentZoomLevel();
-			double newzoom = oldzoom / 2;
-			app.getGraphController().changeZoom(newzoom);
+//			double oldzoom = app.getGraphController().getCurrentZoomLevel();
+//			double newzoom = oldzoom / 2;
+			graphController.zoomLevelUp();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {

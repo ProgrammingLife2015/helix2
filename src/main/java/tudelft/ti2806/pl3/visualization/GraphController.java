@@ -55,15 +55,13 @@ public class GraphController {
 	public void moveView(long zoomCenter) {
 		graphView.setZoomCenter(zoomCenter);
 	}
-	
-	/**
-	 * Changes the zoom, and if necessary, filters are applied.
-	 * 
-	 * @param zoomLevel
-	 *            the new level of zoom to apply
-	 */
-	public void changeZoom(double zoomLevel) {
-		zoomedGraphModel.setZoomLevel(zoomLevel);
+
+	public void zoomLevelUp() {
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel()+1);
+		zoomedGraphModel.produceDataNodeWrapperList();
+	}
+	public void zoomLevelDown() {
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel()-1);
 		zoomedGraphModel.produceDataNodeWrapperList();
 	}
 
