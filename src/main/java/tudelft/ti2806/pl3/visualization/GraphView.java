@@ -43,7 +43,7 @@ public class GraphView implements Observer, ViewInterface {
 	 * The center position of the view.<br>
 	 * The position on the x axis.
 	 */
-	private long zoomCenter;
+	private long zoomCenter = 1;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
@@ -135,7 +135,9 @@ public class GraphView implements Observer, ViewInterface {
 	 *            the node where the edge ends
 	 */
 	private static void addNormalEdge(Graph graph, NodeWrapper from, NodeWrapper to) {
-		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString());
+		org.graphstream.graph.Edge gEdge = graph.addEdge(
+				from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString());
+		gEdge.addAttribute("ui.class", "normalEdge");
 	}
 	
 	/**

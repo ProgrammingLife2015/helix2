@@ -79,10 +79,6 @@ public class Application extends JFrame {
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
 
-			// set default zoom & default view
-			graphController.changeZoom(10);
-			graphController.moveView(1);
-
 			// set the controls.
 			// This is done last so we can remove the default library keycontroller
 			WindowController windowController = new WindowController(this);

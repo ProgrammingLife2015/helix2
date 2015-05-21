@@ -20,7 +20,7 @@ public class ZoomedGraphModel extends Observable implements Observer {
 	private NodeWrapper collapsedNode;
 	private List<DataNodeWrapper> dataNodeWrapperList;
 
-	private double zoomLevel;
+	private double zoomLevel = 10;
 	private final int pressureMultiplier = 10;
 
 	private CalculateWrapPressureInterest pressureInterest;
