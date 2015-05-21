@@ -88,6 +88,8 @@ public class Application extends JFrame {
 					new BufferedInputStream(new FileInputStream(treeFile))));
 			NewickParser.TreeNode tree = new NewickParser(new ByteArrayInputStream(br.readLine()
 						.replaceAll("(\\d)\\.(\\d*)e-05", "0.0000$1$2")
+						.replaceAll("(\\d)\\.(\\d*)e-06", "0.00000$1$2")
+						.replaceAll("(\\d)\\.(\\d*)e-07", "0.000000$1$2")
 						.replaceAll("-", "_").getBytes()))
 						.tree();
 
