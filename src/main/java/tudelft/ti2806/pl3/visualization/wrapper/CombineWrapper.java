@@ -6,6 +6,9 @@ import java.util.List;
 
 public abstract class CombineWrapper extends NodeWrapper {
 	protected List<NodeWrapper> nodeList;
+	/**
+	 * True if the wrapper its containing nodes should not be shown.
+	 */
 	private boolean collapsed;
 	
 	/**
@@ -78,5 +81,5 @@ public abstract class CombineWrapper extends NodeWrapper {
 	public void collectDataNodes(List<DataNode> list) {
 		nodeList.forEach(n -> n.collectDataNodes(list));
 	}
-
+	
 }
