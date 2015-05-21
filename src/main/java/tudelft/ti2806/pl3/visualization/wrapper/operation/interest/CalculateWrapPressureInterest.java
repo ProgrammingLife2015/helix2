@@ -29,9 +29,6 @@ public class CalculateWrapPressureInterest extends WrapperOperation {
 		wrapper.addInterest(wrapper.getNodeList().stream()
 				.map(NodeWrapper::getGenome).map(Collection::size)
 				.reduce(pressureMultiplier, (a, b) -> a * b));
-		System.out.println(wrapper.getNodeList().stream()
-				.map(NodeWrapper::getGenome).map(Collection::size)
-				.reduce(pressureMultiplier, (a, b) -> a * b));
 	}
 	
 	@Override
