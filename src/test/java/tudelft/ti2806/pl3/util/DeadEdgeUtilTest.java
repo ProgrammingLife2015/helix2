@@ -3,14 +3,11 @@ package tudelft.ti2806.pl3.util;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.testutil.UtilTest;
-import tudelft.ti2806.pl3.util.wrap.SpaceWrapUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -32,7 +29,7 @@ public class DeadEdgeUtilTest {
 	public static void init() {
 		nodeList = new ArrayList<DataNode>();
 		
-		Genome[] genome = new Genome[] { new Genome("hi", 0) };
+		Genome[] genome = new Genome[] { new Genome("hi") };
 		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0]),
 				new DataNode(1, genome, 0, 0, new byte[0]),
 				new DataNode(2, genome, 0, 0, new byte[0]),
