@@ -86,7 +86,7 @@ public class FileSelector {
 				.replaceAll("(\\d)\\.(\\d*)e-07", "0.000000$1$2")
 				.replaceAll("-", "_").getBytes()))
 				.tree();
-
+		br.close();
 		return tree;
 	}
 }
