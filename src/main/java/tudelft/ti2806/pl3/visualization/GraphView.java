@@ -114,7 +114,9 @@ public class GraphView implements Observer, ViewInterface {
 		setGraphPropertys();
 		graphNodeList = new ArrayList<>(graphData.size());
 		graphData.forEach(NodeWrapper::calculatePreviousNodesCount);
-		graphData.forEach(node -> graphNodeList.add(new GraphNode(graph, node)));
+		graphData.stream()
+				//.filter(node -> !(node.getOriginalNode() instanceof FixWrapper))
+				.forEach(node -> graphNodeList.add(new GraphNode(graph, node)));
 		//System.out.println(graphData);
 
 		for (NodeWrapper node : graphData) {

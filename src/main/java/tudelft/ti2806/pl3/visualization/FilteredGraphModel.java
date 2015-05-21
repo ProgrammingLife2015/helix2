@@ -7,6 +7,10 @@ import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateSizeInterest;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,13 +22,24 @@ import java.util.Observable;
  */
 public class FilteredGraphModel extends Observable {
 
+	private final int pressureMultiplier = 10;
+
 	protected AbstractGraphData originalGraphData;
 	private NodeWrapper collapsedNode;
 	private Collection<Filter<DataNode>> filters;
+	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
+	private CalculateWrapPressureInterest pressureInterest;
+	private CalculateAddMaxOfWrapped addMaxOfWrapped;
+	private CalculateSizeInterest sizeInterest;
+	//private CalculateGroupInterest groupInterest;
 
 	public FilteredGraphModel(AbstractGraphData originalGraphData) {
 		this.originalGraphData = originalGraphData;
 		filters = new ArrayList<>();
+		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
+		pressureInterest = new CalculateWrapPressureInterest(pressureMultiplier);
+		addMaxOfWrapped = new CalculateAddMaxOfWrapped();
+		sizeInterest = new CalculateSizeInterest();
 	}
 
 	public void setFilters(Collection<Filter<DataNode>> filters) {
@@ -47,7 +62,12 @@ public class FilteredGraphModel extends Observable {
 		removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(originalGraphData, resultNodes, resultEdges);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
-		// TODO: hier nog de y-posities bepalen
+		// calculate y-pos
+		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
+		// calculate interest
+		pressureInterest.calculate(collapsedNode, null);
+		addMaxOfWrapped.calculate(collapsedNode, null);
+		sizeInterest.calculate(collapsedNode, null);
 		setChanged();
 		notifyObservers();
 	}
