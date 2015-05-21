@@ -33,9 +33,9 @@ public class NodeCombineUtilTest {
 		List<List<NodeWrapper>> list = HorizontalWrapUtil
 				.findCombineableNodes(new WrappedGraphData(gdr)
 						.getPositionedNodes());
-		Assert.assertTrue(list.size() == 2);
-		Assert.assertTrue(list.get(0).size() == 3);
-		Assert.assertTrue(list.get(1).size() == 3);
+		Assert.assertEquals(list.size(), 2);
+		Assert.assertEquals(list.get(0).size(), 3);
+		Assert.assertEquals(list.get(1).size(), 3);
 		// Test order
 		int[] order;
 		order = getIdList(list.get(0));
@@ -51,10 +51,10 @@ public class NodeCombineUtilTest {
 		// Vertical wrap test
 		WrappedGraphData pgd = new WrappedGraphData(gdr);
 		list = VerticalWrapUtil.findCombineableNodes(pgd.getPositionedNodes());
-		Assert.assertTrue(list.size() == 1);
+		Assert.assertEquals(list.size(), 1);
 		WrappedGraphData newPgd = VerticalWrapUtil.collapseGraph(pgd);
-		Assert.assertTrue(pgd.getPositionedNodes().size() == 10);
-		Assert.assertTrue(newPgd.getPositionedNodes().size() == 9);
+		Assert.assertEquals(pgd.getPositionedNodes().size(), 10);
+		Assert.assertEquals(newPgd.getPositionedNodes().size(), 9);
 	}
 	
 	private int[] getIdList(List<NodeWrapper> group) {
@@ -76,18 +76,18 @@ public class NodeCombineUtilTest {
 		
 		List<List<NodeWrapper>> list = VerticalWrapUtil
 				.findCombineableNodes(pgd[0].getPositionedNodes());
-		Assert.assertTrue(list.size() == 3);
-		Assert.assertTrue(pgd[0].getPositionedNodes().size() == 6);
+		Assert.assertEquals(list.size(), 3);
+		Assert.assertEquals(pgd[0].getPositionedNodes().size(), 6);
 		
 		pgd[1] = VerticalWrapUtil.collapseGraph(pgd[0]);
-		Assert.assertTrue(pgd[1].getPositionedNodes().size() == 3);
+		Assert.assertEquals(pgd[1].getPositionedNodes().size(), 3);
 		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[1]);
-		Assert.assertTrue(pgd[2].getPositionedNodes().size() == 1);
+		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 1);
 		
 		// WrapUtil collapse test
 		WrappedGraphData graph = WrapUtil.collapseGraph(pgd[0]);
-		Assert.assertTrue(graph.getPositionedNodes().size() == 1);
-		Assert.assertTrue(graph.getLongestNodePath() == 0);
+		Assert.assertEquals(graph.getPositionedNodes().size(), 1);
+		Assert.assertEquals(graph.getLongestNodePath(), 0);
 	}
 	
 	@Test
@@ -96,18 +96,18 @@ public class NodeCombineUtilTest {
 		File edgesFile = new File("data/testdata/spaceWrapUtilTest.edge.graph");
 		WrappedGraphData original = new WrappedGraphData(
 				GraphDataRepository.parseGraph(nodesFile, edgesFile));
-		Assert.assertTrue(original.getPositionedNodes().size() == 7);
+		Assert.assertEquals(original.getPositionedNodes().size(), 7);
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(HorizontalWrapUtil.collapseGraph(original));
 		List<List<NodeWrapper>> combineableNodes = SpaceWrapUtil
 				.findCombineableNodes(original.getPositionedNodes());
-		Assert.assertTrue(combineableNodes.size() == 1);
+		Assert.assertEquals(combineableNodes.size(), 1);
 		WrappedGraphData nwgd = SpaceWrapUtil.collapseGraph(original);
-		Assert.assertTrue(nwgd.getPositionedNodes().size() == 3);
+		Assert.assertEquals(nwgd.getPositionedNodes().size(), 3);
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(nwgd));
 		Assert.assertNull(HorizontalWrapUtil.collapseGraph(nwgd));
 		nwgd = SpaceWrapUtil.collapseGraph(nwgd);
-		Assert.assertTrue(nwgd.getPositionedNodes().size() == 1);
+		Assert.assertEquals(nwgd.getPositionedNodes().size(), 1);
 	}
 	
 	@Test
