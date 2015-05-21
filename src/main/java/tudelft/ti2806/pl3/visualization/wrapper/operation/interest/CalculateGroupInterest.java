@@ -67,15 +67,28 @@ public class CalculateGroupInterest extends WrapperOperation {
 		}
 	}
 	
+	/**
+	 * An node is more interesting if a group contains nodes from two groups.
+	 * 
+	 * <p>
+	 * This method searches through the sets of genome if there are at least
+	 * genomes of two genome sets in this node.
+	 * 
+	 * @param wrapper
+	 *            the node to test
+	 * @return {@code true} if there are genomes in the node of at least two
+	 *         sets of genome<br>
+	 *         {@code false} else
+	 */
 	boolean isIntresting(NodeWrapper wrapper) {
 		Set<Genome> genome = wrapper.getGenome();
-		boolean found = false;
+		boolean foundFirst = false;
 		for (Set<Genome> group : groups) {
 			if (!Collections.disjoint(group, genome)) {
-				if (found) {
+				if (foundFirst) {
 					return true;
 				} else {
-					found = true;
+					foundFirst = true;
 				}
 			}
 		}
