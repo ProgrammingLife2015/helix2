@@ -55,7 +55,7 @@ public class SpaceWrapperUnwrapTest {
 		nodePosition3.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(nodePosition2);
 
-		SpaceWrapper space = new SpaceWrapper(listSpace, true);
+		SpaceWrapper space = new SpaceWrapper(listSpace);
 
 		List<NodeWrapper> horizontalList = new ArrayList<>(2);
 		horizontalList.add(space);
@@ -63,7 +63,7 @@ public class SpaceWrapperUnwrapTest {
 		space.getOutgoing().add(nodePosition4);
 		nodePosition4.getIncoming().add(space);
 
-		HorizontalWrapper start = new HorizontalWrapper(horizontalList, true);
+		HorizontalWrapper start = new HorizontalWrapper(horizontalList);
 		unwrap = new Unwrap(start);
 	}
 

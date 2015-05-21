@@ -7,32 +7,48 @@ import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 public class CollapseOnInterest extends WrapperOperation {
-	private int interestValue;
+	/**
+	 * the minimum interest required for a combined wrapper to have its content
+	 * fully displayed.
+	 */
+	private int minInterestValue;
 	
-	public CollapseOnInterest(int interestValue) {
-		this.interestValue = interestValue;
+	/**
+	 * 
+	 * @param minInterestValue
+	 *            the minimum interest required for a combined wrapper to have
+	 *            its content fully displayed.
+	 */
+	public CollapseOnInterest(int minInterestValue) {
+		this.minInterestValue = minInterestValue;
 	}
 	
 	@Override
 	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
-		if (wrapper.getInterest() > interestValue) {
+		if (wrapper.getInterest() < minInterestValue) {
 			wrapper.setCollapse(true);
+		} else {
+			wrapper.setCollapse(false);
 			super.calculate(wrapper, container);
 		}
 	}
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
-		if (wrapper.getInterest() > interestValue) {
+		if (wrapper.getInterest() < minInterestValue) {
 			wrapper.setCollapse(true);
+		} else {
+			wrapper.setCollapse(false);
 			super.calculate(wrapper, container);
 		}
 	}
 	
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
-		if (wrapper.getInterest() > interestValue) {
+		if (wrapper.getInterest() < minInterestValue) {
 			wrapper.setCollapse(true);
+		} else {
+			wrapper.setCollapse(false);
 			super.calculate(wrapper, container);
 		}
 	}
