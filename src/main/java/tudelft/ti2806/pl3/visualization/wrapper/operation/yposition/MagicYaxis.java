@@ -1,8 +1,11 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.yposition;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
@@ -14,12 +17,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class MagicYaxis extends WrapperOperation {
-	// TODO we are editing the y of the outgoing of the last node!
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		List<NodeWrapper> nodeList = wrapper.getNodeList();
 		nodeList.get(0).setY(wrapper.getY());
-		for (int i = 0; i < nodeList.size(); i++) {
+		for (int i = 0; i < nodeList.size() - 1; i++) {
 			NodeWrapper from = nodeList.get(i);
 			List<NodeWrapper> sortedOutgoing = new ArrayList<>(
 					from.getOutgoing());
@@ -47,6 +49,32 @@ public class MagicYaxis extends WrapperOperation {
 			node.setY(node.getY() / wrapper.getGenome().size());
 		}
 		nodeList.get(nodeList.size() - 1).setY(nodeList.get(0).getY());
+		super.calculate(wrapper, container);
+	}
+	
+	@Override
+	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
+		int wrapperGenomeSize = wrapper.getGenome().size();
+		float space = wrapper.getY() - wrapperGenomeSize / 2f;
+		for (NodeWrapper node : wrapper.getNodeList()) {
+			int nodeSize = node.getGenome().size();
+			node.setY(space + nodeSize / 2f);
+			space += nodeSize;
+		}
+		super.calculate(wrapper, container);
+	}
+	
+	@Override
+	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
+		for (NodeWrapper node : wrapper.getNodeList()) {
+			node.setY(wrapper.getY());
+		}
+		super.calculate(wrapper, container);
+	}
+	
+	@Override
+	public void calculate(SingleWrapper wrapper, NodeWrapper container) {
+		wrapper.getNode().setY(wrapper.getY());
 		super.calculate(wrapper, container);
 	}
 }
