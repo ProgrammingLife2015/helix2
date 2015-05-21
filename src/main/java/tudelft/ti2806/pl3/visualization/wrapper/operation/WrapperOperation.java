@@ -1,6 +1,15 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation;
 
-import tudelft.ti2806.pl3.visualization.wrapper.*;
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.FixWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 
 /**
  * A {@link WrapperOperation} is used to when we want to handle different
@@ -139,7 +148,12 @@ public abstract class WrapperOperation {
 	public void calculate(FixWrapper wrapper, NodeWrapper container) {
 		
 	}
-
-	public void calculate(DataNodeWrapper dataNodeWrapper, NodeWrapper nodeWrapper){}
-	public void calculate(PlaceholderWrapper placeholderWrapper, NodeWrapper nodeWrapper){}
+	
+	public void calculate(DataNodeWrapper dataNodeWrapper,
+			NodeWrapper nodeWrapper) {
+	}
+	
+	public void calculate(PlaceholderWrapper placeholderWrapper,
+			NodeWrapper nodeWrapper) {
+	}
 }
