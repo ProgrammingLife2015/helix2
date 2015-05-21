@@ -165,6 +165,7 @@ public class GraphDataRepository extends AbstractGraphData {
 			Map<String, Genome> genomes) {
 		Genome[] result = new Genome[identifiers.length];
 		for (int i = 0; i < identifiers.length; i++) {
+			identifiers[i] = identifiers[i].replaceAll("-", "_");
 			Genome genome = genomes.get(identifiers[i]);
 			if (genome == null) {
 				genome = new Genome(identifiers[i], genomes.size());
