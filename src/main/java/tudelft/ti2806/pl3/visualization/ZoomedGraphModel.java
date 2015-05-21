@@ -48,9 +48,9 @@ public class ZoomedGraphModel extends Observable implements Observer {
 	}
 
 	public void produceDataNodeWrapperList() {
-//		pressureInterest.calculate(collapsedNode, null);
-//		addMaxOfWrapped.calculate(collapsedNode, null);
-//		sizeInterest.calculate(collapsedNode, null);
+		pressureInterest.calculate(collapsedNode, null);
+		addMaxOfWrapped.calculate(collapsedNode, null);
+		sizeInterest.calculate(collapsedNode, null);
 		Unwrap unwrap = new Unwrap(collapsedNode);
 		dataNodeWrapperList = unwrap.getDataNodeWrappers();
 		// TODO: calc x-pos
