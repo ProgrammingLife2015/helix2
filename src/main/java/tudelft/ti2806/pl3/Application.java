@@ -93,6 +93,7 @@ public class Application extends JFrame {
 			WindowController windowController = new WindowController(this);
 			KeyController keys = new KeyController(this);
 			graphController.getPanel().addKeyListener(keys);
+			sideBarController.getPanel().addKeyListener(keys);
 			addWindowListener(windowController);
 
 			this.setFocusable(true);

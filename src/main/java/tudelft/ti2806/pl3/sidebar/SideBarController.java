@@ -34,7 +34,7 @@ public class SideBarController implements Controller {
 		phyloController = new PhyloController(graphController,tree);
 
 		ArrayList<Component> viewList = new ArrayList<>();
-		viewList.add(genomeFilterController.getPanel());
+		//viewList.add(genomeFilterController.getPanel());
 		viewList.add(phyloController.getPanel());
 
 		sideBarView = new SideBarView(viewList);
