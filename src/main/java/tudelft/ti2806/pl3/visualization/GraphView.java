@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
@@ -53,15 +54,12 @@ public class GraphView implements Observer, ViewInterface {
 	private Graph graph = new SingleGraph("");
 	private Viewer viewer;
 	private View panel;
-	
-	private List<GraphNode> graphNodeList;
 
 	private ZoomedGraphModel zoomedGraphModel;
 
 	public GraphView(ZoomedGraphModel zoomedGraphModel) {
 		this.zoomedGraphModel = zoomedGraphModel;
 		graphData = new ArrayList<>();
-		graphNodeList = new ArrayList<>();
 	}
 
 	public void init() {
@@ -74,7 +72,7 @@ public class GraphView implements Observer, ViewInterface {
 	 * zoomLevel updates.
 	 */
 	private void generateViewer() {
-		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
+		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		panel = viewer.addDefaultView(false);
 //		panel.getCamera().setAutoFitView(false);
 	}
@@ -109,12 +107,12 @@ public class GraphView implements Observer, ViewInterface {
 	public Graph generateGraph() {
 		graph.clear();
 		setGraphPropertys();
-		graphNodeList = new ArrayList<>(graphData.size());
 		graphData.forEach(NodeWrapper::calculatePreviousNodesCount);
-		graphData.stream()
-				//.filter(node -> !(node.getOriginalNode() instanceof FixWrapper))
-				.forEach(node -> graphNodeList.add(new GraphNode(graph, node)));
-		//System.out.println(graphData);
+		graphData.forEach(node -> {
+			Node gNode = graph.addNode(node.getIdString());
+			gNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY());
+			gNode.addAttribute("ui.class", node.getClass().getSimpleName());
+		});
 
 		for (NodeWrapper node : graphData) {
 			for (NodeWrapper to : node.getOutgoing()) {

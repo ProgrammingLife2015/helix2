@@ -20,7 +20,7 @@ public class GraphNode {
 	public GraphNode(Graph graph, NodeWrapper node) {
 		this.dataNode = node;
 		gNode = graph.addNode(node.getIdString());
-		gNode.setAttribute("xy", node.getPreviousNodesCount(), node.getY());
+		gNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY());
 		gNode.addAttribute("ui.class", node.getClass().getSimpleName());
 	}
 
