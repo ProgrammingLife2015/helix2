@@ -77,6 +77,7 @@ public class Unwrap extends WrapperOperation {
 	 * @param placeholder
 	 *          The placeholder for this {@link HorizontalWrapper} in the newly constructed graph
 	 */
+	@Override
 	public void calculate(HorizontalWrapper node, NodeWrapper placeholder) {
 		List<NodeWrapper> nodeWrapperList = node.getNodeList();
 		NodeWrapper start = createNewNode(nodeWrapperList.get(0));
@@ -115,6 +116,7 @@ public class Unwrap extends WrapperOperation {
 	 * @param placeholder
 	 *          The placeholder for this {@link VerticalWrapper} in the newly constructed graph
 	 */
+	@Override
 	public void calculate(VerticalWrapper node, NodeWrapper placeholder) {
 		List<NodeWrapper> nodeWrapperList = node.getNodeList();
 		for (int i = 0; i < nodeWrapperList.size(); i++) {
@@ -147,6 +149,7 @@ public class Unwrap extends WrapperOperation {
 	 * @param placeholder
 	 *          The placeholder for this {@link SpaceWrapper} in the newly constructed graph
 	 */
+	@Override
 	public void calculate(SpaceWrapper node, NodeWrapper placeholder) {
 		Map<NodeWrapper, NodeWrapper> referencePlaceholderMapper = new HashMap<>();
 		List<NodeWrapper> nodeWrapperList = node.getNodeList();
