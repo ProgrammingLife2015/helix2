@@ -51,7 +51,7 @@ public class SingleWrapperUnwrapTest {
 		singleWrapper.getOutgoing().add(nodePosition3);
 		singleWrapper.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(singleWrapper);
-		HorizontalWrapper start = new HorizontalWrapper(list);
+		HorizontalWrapper start = new HorizontalWrapper(list,true);
 
 		unwrap = new Unwrap(start);
 	}

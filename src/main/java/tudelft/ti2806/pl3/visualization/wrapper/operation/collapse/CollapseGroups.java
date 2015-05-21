@@ -31,7 +31,7 @@ public class CollapseGroups extends WrapperOperation {
 	@Override
 	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		if (isIntresting(wrapper)) {
-			wrapper.setCollapse(true);
+			wrapper.setShouldUnfold(true);
 			super.calculate(wrapper, container);
 		}
 	}
@@ -39,7 +39,7 @@ public class CollapseGroups extends WrapperOperation {
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		if (isIntresting(wrapper)) {
-			wrapper.setCollapse(true);
+			wrapper.setShouldUnfold(true);
 			super.calculate(wrapper, container);
 		}
 	}
@@ -47,7 +47,7 @@ public class CollapseGroups extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		if (isIntresting(wrapper)) {
-			wrapper.setCollapse(true);
+			wrapper.setShouldUnfold(true);
 			super.calculate(wrapper, container);
 		}
 	}

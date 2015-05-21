@@ -9,7 +9,7 @@ public abstract class CombineWrapper extends NodeWrapper {
 	/**
 	 * True if the wrapper its containing nodes should not be shown.
 	 */
-	private boolean collapsed;
+	private boolean shouldUnfold;
 	
 	/**
 	 * CombineWrapper is an abstract class which should not be constructed
@@ -29,23 +29,23 @@ public abstract class CombineWrapper extends NodeWrapper {
 	 * 
 	 * @param nodeList
 	 *            a list of nodes
-	 * @param collapsed
-	 *            indication whether this node should be collapsed or not
+	 * @param shouldUnfold
+	 *            indication whether this node should be unfolded or not
 	 */
-	public CombineWrapper(List<NodeWrapper> nodeList, boolean collapsed) {
+	public CombineWrapper(List<NodeWrapper> nodeList, boolean shouldUnfold) {
 		this.nodeList = nodeList;
-		this.collapsed = collapsed;
+		this.shouldUnfold = shouldUnfold;
 	}
 
 	/**
-	 * Construct and set collapsed to false.
+	 * Construct and set shouldUnfold to false.
 	 * @see {@link CombineWrapper(List<NodeWrapper>, boolean)}
 	 * @param nodeList
 	 *          a list of nodes
 	 */
 	public CombineWrapper(List<NodeWrapper> nodeList) {
 		this.nodeList = nodeList;
-		this.collapsed = false;
+		this.shouldUnfold = false;
 	}
 	
 	public NodeWrapper getFirst() {
@@ -60,12 +60,12 @@ public abstract class CombineWrapper extends NodeWrapper {
 		return nodeList;
 	}
 	
-	public boolean isCollapsed() {
-		return collapsed;
+	public boolean shouldUnfold() {
+		return shouldUnfold;
 	}
 	
-	public void setCollapse(boolean collapsed) {
-		this.collapsed = collapsed;
+	public void setShouldUnfold(boolean collapsed) {
+		this.shouldUnfold = collapsed;
 	}
 	
 	@Override

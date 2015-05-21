@@ -26,9 +26,9 @@ public class CollapseOnInterest extends WrapperOperation {
 	@Override
 	public void calculate(HorizontalWrapper wrapper, NodeWrapper container) {
 		if (wrapper.getInterest() < minInterestValue) {
-			wrapper.setCollapse(true);
+			wrapper.setShouldUnfold(false);
 		} else {
-			wrapper.setCollapse(false);
+			wrapper.setShouldUnfold(true);
 			super.calculate(wrapper, container);
 		}
 	}
@@ -36,9 +36,9 @@ public class CollapseOnInterest extends WrapperOperation {
 	@Override
 	public void calculate(SpaceWrapper wrapper, NodeWrapper container) {
 		if (wrapper.getInterest() < minInterestValue) {
-			wrapper.setCollapse(true);
+			wrapper.setShouldUnfold(false);
 		} else {
-			wrapper.setCollapse(false);
+			wrapper.setShouldUnfold(true);
 			super.calculate(wrapper, container);
 		}
 	}
@@ -46,9 +46,9 @@ public class CollapseOnInterest extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper wrapper, NodeWrapper container) {
 		if (wrapper.getInterest() < minInterestValue) {
-			wrapper.setCollapse(true);
+			wrapper.setShouldUnfold(false);
 		} else {
-			wrapper.setCollapse(false);
+			wrapper.setShouldUnfold(true);
 			super.calculate(wrapper, container);
 		}
 	}

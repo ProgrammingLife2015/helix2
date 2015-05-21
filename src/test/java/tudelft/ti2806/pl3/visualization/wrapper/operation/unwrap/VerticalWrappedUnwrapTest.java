@@ -41,7 +41,7 @@ public class VerticalWrappedUnwrapTest {
 		List<NodeWrapper> verticalList = new ArrayList<>(2);
 		verticalList.add(nodePosition2);
 		verticalList.add(nodePosition3);
-		VerticalWrapper vertical = new VerticalWrapper(verticalList);
+		VerticalWrapper vertical = new VerticalWrapper(verticalList,true);
 
 		List<NodeWrapper> horizontalList = new ArrayList<>(3);
 		horizontalList.add(nodePosition1);
@@ -52,7 +52,7 @@ public class VerticalWrappedUnwrapTest {
 		vertical.getIncoming().add(nodePosition1);
 		nodePosition4.getIncoming().add(vertical);
 
-		HorizontalWrapper start = new HorizontalWrapper(horizontalList);
+		HorizontalWrapper start = new HorizontalWrapper(horizontalList,true);
 		unwrap = new Unwrap(start);
 	}
 

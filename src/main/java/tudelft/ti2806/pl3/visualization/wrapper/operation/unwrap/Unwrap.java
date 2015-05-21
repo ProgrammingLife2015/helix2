@@ -219,7 +219,7 @@ public class Unwrap extends WrapperOperation {
 	 *          {@link PlaceholderWrapper} or a {@link DataNodeWrapper}.
 	 */
 	private NodeWrapper createNewNode(NodeWrapper node) {
-		if (node instanceof CombineWrapper && !((CombineWrapper) node).isCollapsed()
+		if (node instanceof CombineWrapper && ((CombineWrapper) node).shouldUnfold()
 				|| node instanceof SingleWrapper) {
 			PlaceholderWrapper placeholder = new PlaceholderWrapper();
 			stack.add(new Pair<>(placeholder, node));
