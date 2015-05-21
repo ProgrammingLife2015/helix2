@@ -26,22 +26,22 @@ import javax.swing.tree.TreeSelectionModel;
 public class PhyloView extends JPanel implements SideBarViewInterface {
 
 	private NewickParser.TreeNode tree;
-	private JTree jTree;
+	private JTree jtree;
 	private List<String> selected = new ArrayList<>();
 
 	public PhyloView(NewickParser.TreeNode tree, PhyloController phyloController) {
 		this.tree = tree;
-		jTree = new JTree(parseTree());
+		jtree = new JTree(parseTree());
 
 		int width = ScreenSize.getInstance().getSidebarWidth();
 		int height = ScreenSize.getInstance().getHeight() / 2;
-		jTree.setSize(width, height);
+		jtree.setSize(width, height);
 		setUpLook();
 		expandTree();
 		setListener();
 
-		add(new JScrollPane(jTree));
-		add(jTree);
+		add(new JScrollPane(jtree));
+		add(jtree);
 		add(createButton(phyloController));
 	}
 
@@ -49,12 +49,12 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 		ImageIcon childIcon = new ImageIcon("pictures/bacteria_small.jpg");
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(childIcon);
-		jTree.setCellRenderer(renderer);
+		jtree.setCellRenderer(renderer);
 	}
 
 	private void expandTree() {
-		for (int i = 0; i < jTree.getRowCount(); i++) {
-			jTree.expandRow(i);
+		for (int i = 0; i < jtree.getRowCount(); i++) {
+			jtree.expandRow(i);
 		}
 	}
 
@@ -79,13 +79,14 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	}
 
 	public void setListener() {
-		jTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-		jTree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+		jtree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+		jtree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				TreePath treePath[] = jTree.getSelectionPaths();
+				TreePath[] treePath = jtree.getSelectionPaths();
 				for (TreePath path : treePath) {
-					DefaultMutableTreeNode select = (DefaultMutableTreeNode) path.getLastPathComponent();
+					DefaultMutableTreeNode select =
+							(DefaultMutableTreeNode) path.getLastPathComponent();
 					if (select.toString().equals("Common ancestor")) {
 						selected.addAll(getChildsOfAncestor(select));
 					} else {
