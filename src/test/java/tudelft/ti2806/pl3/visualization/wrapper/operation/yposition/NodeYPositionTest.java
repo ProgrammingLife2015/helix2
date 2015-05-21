@@ -23,9 +23,11 @@ import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
+import tudelft.ti2806.pl3.visualization.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * Test for the NodeYPosition class Created by Kasper on 18-5-2015.
@@ -297,23 +299,33 @@ public class NodeYPositionTest {
 		// DELTA);
 	}
 	
-	private void displayGraph(CombineWrapper wrapper) {
+	public static void displayGraph(CombineWrapper wrapper) {
 		Graph graph = new SingleGraph("");
-		for (NodeWrapper node : wrapper.getNodeList()) {
+		List<NodeWrapper> nodeList = wrapper.getNodeList();
+		for (int i = 1; i < nodeList.size() - 1; i++) {
+			NodeWrapper node = nodeList.get(i);
 			
 			graph.addNode(node.getIdString()).setAttribute("xy",
-					node.getPreviousNodesCount(), node.getY());
+					node.getPreviousNodesCount(), node.getY() * 3);
 			graph.getNode(node.getIdString()).addAttribute("ui.label",
-					"     " + node.getIdString());
+					"     " + node.getGenome().size()
+			// +node.getY() +
+			// ", "+node.getySpace() +
+			// "   "
+			// + node.getGenome().stream()
+			// .map(Genome::getIdentifier)
+			// .reduce("", (a, b) -> a + b)
+					);
 		}
-		for (NodeWrapper node : wrapper.getNodeList()) {
+		for (int i = 1; i < nodeList.size() - 1; i++) {
+			NodeWrapper node = nodeList.get(i);
 			for (NodeWrapper to : node.getOutgoing()) {
+				if (to.getIdString().contains("FIX")) {
+					continue;
+				}
 				graph.addEdge(node.getIdString() + "-" + to.getIdString(),
 						node.getIdString(), to.getIdString());
 			}
-		}
-		for (NodeWrapper node : wrapper.getNodeList()) {
-			
 		}
 		graph.display(false);
 		while (true) {
@@ -325,21 +337,34 @@ public class NodeYPositionTest {
 		}
 	}
 	
+//	@Test
 	public void readfullgraph() throws FileNotFoundException {
+		long time = System.currentTimeMillis();
 		File nodesFile = new File(
-				"data/testdata/NodeYPosition/fullgraph.node.graph");
+				"data/38_strains_graph/simple_graph.node.graph");
+		// "data/testdata/magicYAxis/spaceWrappedSimple.node.graph");
 		File edgesFile = new File(
-				"data/testdata/NodeYPosition/fullgraph.edge.graph");
+				"data/38_strains_graph/simple_graph.edge.graph");
+		// "data/testdata/magicYAxis/spaceWrappedSimple.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
 				edgesFile);
+		System.out.println("Parse: " + (System.currentTimeMillis() - time));
+		time = System.currentTimeMillis();
 		WrappedGraphData wgd = WrapUtil.collapseGraph(
-				new WrappedGraphData(gdr), Integer.MAX_VALUE);
-		
+				new WrappedGraphData(gdr));
+		System.out.println("Collapse: " + (System.currentTimeMillis() - time));
+		time = System.currentTimeMillis();
 		assertEquals(wgd.getPositionedNodes().size(), 1);
 		System.out.println(wgd.getPositionedNodes().get(0).getClass());
 		SpaceWrapper nodeWrapper = (SpaceWrapper) wgd.getPositionedNodes().get(
 				0);
-		NodeYPosition.init(nodeWrapper);
+		// NodeYPosition.init(nodeWrapper);
+		time = System.currentTimeMillis();
+		new ExhaustiveLeastCrossingsSequencer(1000000).calculate(nodeWrapper, null);
+		System.out.println("Sequencer: " + (System.currentTimeMillis() - time));
+		time = System.currentTimeMillis();
+		new MagicYaxis().calculate(nodeWrapper, null);
+		System.out.println("Y axis: " + (System.currentTimeMillis() - time));
 		displayGraph(nodeWrapper);
 		
 	}

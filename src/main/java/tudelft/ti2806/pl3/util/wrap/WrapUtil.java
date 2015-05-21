@@ -29,22 +29,20 @@ public final class WrapUtil {
 	 * 
 	 * @param original
 	 *            the original graph to collapse, which will be left unchanged
-	 * @param maxIterations
-	 *            the maximum number of iterations the algorithm will take.
 	 * @return A {@link WrappedGraphData} instance with the most collapsed graph
 	 *         found.
 	 */
-	public static WrappedGraphData collapseGraph(WrappedGraphData original,
-			int maxIterations) {
+	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
 		WrappedGraphData lastGraph = null;
 		WrappedGraphData graph = original;
-		int iterations = 0;
-		while (iterations++ < maxIterations && graph != null) {
+		while (graph != null) {
 			while (graph != null) {
 				lastGraph = graph;
 				graph = HorizontalWrapUtil.collapseGraph(graph);
 				if (graph == null) {
 					graph = lastGraph;
+				} else {
+					lastGraph = graph;
 				}
 				graph = VerticalWrapUtil.collapseGraph(graph);
 			}
@@ -67,22 +65,28 @@ public final class WrapUtil {
 		endFix.getIncoming().add(startFix);
 		Set<Genome> genomeSet = new HashSet<Genome>();
 		for (NodeWrapper node : nodes) {
-			if (node.getIncoming().size() == 0) {
+			Set<Genome> genome = node.getGenome();
+			genomeSet.addAll(genome);
+			final Set<Genome> set = new HashSet<>();
+			node.getIncoming().stream().map(NodeWrapper::getGenome)
+					.forEach(a -> set.addAll(a));
+			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getIncoming().add(startFix);
 				startFix.getOutgoing().add(node);
-				genomeSet.addAll(node.getGenome());
 			}
-			if (node.getOutgoing().size() == 0) {
+			set.clear();
+			node.getOutgoing().stream().map(NodeWrapper::getGenome)
+					.forEach(a -> set.addAll(a));
+			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getOutgoing().add(endFix);
 				endFix.getIncoming().add(node);
-				genomeSet.addAll(node.getGenome());
 			}
 		}
 		startFix.setGenome(genomeSet);
 		endFix.setGenome(genomeSet);
 		nodes.add(startFix);
 		nodes.add(endFix);
-		return WrapUtil.collapseGraph(new WrappedGraphData(graph, nodes), 2);
+		return WrapUtil.collapseGraph(new WrappedGraphData(graph, nodes));
 	}
 	
 	/**
@@ -142,6 +146,15 @@ public final class WrapUtil {
 				if (!comNode.getOutgoing().contains(map.get(out))) {
 					comNode.getOutgoing().add(map.get(out));
 				}
+			}
+			System.out.println("!!!" + comNode.getIdString());
+			if (comNode.getOutgoing().size() != 0) {
+				System.out.println("~out0:"
+						+ comNode.getOutgoing().get(0).getIdString());
+			}
+			if (comNode.getIncoming().size() != 0) {
+				System.out.println("in0:"
+						+ comNode.getIncoming().get(0).getIdString() + "~");
 			}
 		}
 	}

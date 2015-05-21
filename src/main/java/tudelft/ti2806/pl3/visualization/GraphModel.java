@@ -4,7 +4,7 @@ import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
@@ -33,13 +33,13 @@ public class GraphModel implements GraphModelInterface {
 	 *            the filters to be applied.
 	 */
 	@Override
-	public void produceGraph(List<Filter<DataNodeInterface>> filters) {
-		List<DataNodeInterface> resultNodes = originalGraph.getNodeListClone();
+	public void produceGraph(List<Filter<DataNode>> filters) {
+		List<DataNode> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		graph = new WrappedGraphData(originalGraph, resultNodes, resultEdges);
-		graph = WrapUtil.collapseGraph(graph, 10);
+		graph = WrapUtil.collapseGraph(graph);
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class GraphModel implements GraphModelInterface {
 	 *            the list of nodes in the graph
 	 */
 	static void removeAllDeadEdges(List<Edge> edgeList,
-			List<DataNodeInterface> nodeList) {
+			List<DataNode> nodeList) {
 		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
 	}
 	
@@ -72,7 +72,7 @@ public class GraphModel implements GraphModelInterface {
 	 * @return a list of all dead edges
 	 */
 	static List<Edge> getAllDeadEdges(List<Edge> edgeList,
-			List<DataNodeInterface> nodeList) {
+			List<DataNode> nodeList) {
 		List<Edge> removeList = new ArrayList<Edge>();
 		for (Edge edge : edgeList) {
 			if (!nodeList.contains(edge.getFrom())
@@ -91,9 +91,9 @@ public class GraphModel implements GraphModelInterface {
 	 * @param filters
 	 *            the list of filters to be applied
 	 */
-	protected void filter(List<DataNodeInterface> list,
-			List<Filter<DataNodeInterface>> filters) {
-		for (Filter<DataNodeInterface> filter : filters) {
+	protected void filter(List<DataNode> list,
+			List<Filter<DataNode>> filters) {
+		for (Filter<DataNode> filter : filters) {
 			filter.filter(list);
 		}
 	}

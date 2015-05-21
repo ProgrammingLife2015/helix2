@@ -8,7 +8,7 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 import tudelft.ti2806.pl3.util.wrap.SpaceWrapUtil;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class DeadEdgeUtilTest {
 	private static DataNode[] nodes;
-	private static List<DataNodeInterface> nodeList;
+	private static List<DataNode> nodeList;
 	private static List<Edge> edgeList;
 	private static Map<String, Edge> map;
 	private static GraphDataRepository gd;
@@ -30,7 +30,7 @@ public class DeadEdgeUtilTest {
 	 */
 	@BeforeClass
 	public static void init() {
-		nodeList = new ArrayList<DataNodeInterface>();
+		nodeList = new ArrayList<DataNode>();
 		
 		Genome[] genome = new Genome[] { new Genome("hi", 0) };
 		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0]),

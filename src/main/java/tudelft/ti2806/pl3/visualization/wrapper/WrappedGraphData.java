@@ -3,7 +3,7 @@ package tudelft.ti2806.pl3.visualization.wrapper;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class WrappedGraphData {
 	 *            the edges of on the graph
 	 */
 	public WrappedGraphData(AbstractGraphData origin,
-			List<DataNodeInterface> nodes, List<Edge> edges) {
+			List<DataNode> nodes, List<Edge> edges) {
 		this.origin = origin;
 		List<NodePosition> nodePosition = NodePosition.newNodePositionList(
 				nodes, edges);
@@ -42,6 +42,10 @@ public class WrappedGraphData {
 		nodeWrappers = new ArrayList<>(nodePosition);
 		for (NodePosition node : nodePosition) {
 			max = Math.max(node.getXEnd(), max);
+		}
+		for (NodeWrapper node : nodeWrappers) {
+			longestNodePath = Math.max(longestNodePath,
+					node.calculatePreviousNodesCount());
 		}
 		this.size = max;
 	}

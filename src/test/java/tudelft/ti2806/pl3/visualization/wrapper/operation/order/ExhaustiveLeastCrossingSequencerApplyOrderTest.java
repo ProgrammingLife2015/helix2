@@ -34,7 +34,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	@Test
 	public void maxIterationTest() throws FileNotFoundException {
 		testObject.calculate(mockedSpaceWrapper, null);
-		Mockito.verify(mockedSpaceWrapper, Mockito.times(1)).getNodeList();
+		Mockito.verify(mockedSpaceWrapper, Mockito.times(2)).getNodeList();
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
 				edgesFile);
 		WrappedGraphData wgd = WrapUtil.collapseGraph(
-				new WrappedGraphData(gdr), 1);
+				new WrappedGraphData(gdr));
 		
 		// Test if test data is correct
 		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
@@ -83,7 +83,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
 				edgesFile);
 		WrappedGraphData wgd = WrapUtil.collapseGraph(
-				new WrappedGraphData(gdr), 1);
+				new WrappedGraphData(gdr));
 		
 		// Test if test data is correct
 		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);

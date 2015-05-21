@@ -44,7 +44,7 @@ public class SpaceWrapper extends CombineWrapper {
 	public SpaceWrapper(List<NodeWrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
 	}
-
+	
 	public SpaceWrapper(List<NodeWrapper> nodePosList) {
 		super(nodePosList);
 	}
@@ -76,21 +76,27 @@ public class SpaceWrapper extends CombineWrapper {
 	public Set<Genome> getGenome() {
 		return this.getFirst().getGenome();
 	}
-
+	
 	@Override
-	public void calculate(WrapperOperation wrapperOperation, NodeWrapper container) {
+	public void calculate(WrapperOperation wrapperOperation,
+			NodeWrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
-
+	
 	@Override
 	public SpaceWrapper deepClone() {
 		List<NodeWrapper> clonedList = new ArrayList<>(nodeList.size());
 		nodeList.forEach(s -> clonedList.add(s.deepClone()));
-		return new SpaceWrapper(clonedList,isCollapsed());
+		return new SpaceWrapper(clonedList, isCollapsed());
 	}
-
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		return new SpaceWrapper(nodeList,isCollapsed());
+		return new SpaceWrapper(nodeList, isCollapsed());
+	}
+	
+	@Override
+	public String getIdString() {
+		return "S" + super.getIdString();
 	}
 }

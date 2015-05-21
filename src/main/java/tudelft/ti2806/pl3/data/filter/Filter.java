@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.data.filter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,18 +12,7 @@ import java.util.List;
  * @param <T>
  *            the element type to filter
  */
-public abstract class Filter<T> {
-	protected List<T> filter = new ArrayList<T>();
+public interface Filter<T> {
 	
-	/**
-	 * Calculates what elements have to be removed from the list and stores it.
-	 * 
-	 * @param list
-	 *            a list of the entire data set to filter
-	 */
-	public abstract void calculateFilter(List<T> list);
-	
-	public final void filter(List<T> list) {
-		list.removeAll(filter);
-	}
+	void filter(List<T> list);
 }

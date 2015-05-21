@@ -70,4 +70,9 @@ public class VerticalWrapper extends CombineWrapper {
 	public Object clone() throws CloneNotSupportedException {
 		return new VerticalWrapper(nodeList,isCollapsed());
 	}
+	
+	@Override
+	public String getIdString() {
+		return "V" + super.getIdString();
+	}
 }

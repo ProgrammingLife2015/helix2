@@ -70,4 +70,9 @@ public class HorizontalWrapper extends CombineWrapper {
 	public Object clone() throws CloneNotSupportedException {
 		return new HorizontalWrapper(nodeList,isCollapsed());
 	}
+	
+	@Override
+	public String getIdString() {
+		return "H" + super.getIdString();
+	}
 }

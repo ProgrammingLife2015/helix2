@@ -155,7 +155,7 @@ public final class SpaceWrapUtil {
 	 */
 	static List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> computeAllCandidates(
 			List<NodeWrapper> nodes) {
-		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList = new ArrayList<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>>();
+		List<Pair<Integer, Pair<NodeWrapper, NodeWrapper>>> candidateList = new ArrayList<>();
 		/*
 		 * If a node doesn't contain the same genomes, it is impossible for them
 		 * to be a candidate, because every node in the group between a
@@ -190,7 +190,7 @@ public final class SpaceWrapUtil {
 	 */
 	static Collection<Pair<Set<Genome>, List<NodeWrapper>>> getNodesByGenome(
 			List<NodeWrapper> nodes) {
-		Map<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>> searchMap = new HashMap<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>>();
+		Map<HashableCollection<Genome>, Pair<Set<Genome>, List<NodeWrapper>>> searchMap = new HashMap<>();
 		for (NodeWrapper node : nodes) {
 			Set<Genome> genome = node.getGenome();
 			/*
@@ -317,10 +317,10 @@ public final class SpaceWrapUtil {
 			NodeWrapper node1, NodeWrapper node2) {
 		int distance = node1.getPreviousNodesCount()
 				- node2.getPreviousNodesCount();
-		if (distance > 0) {
+		if (distance > 1) {
 			return new Pair<Integer, Pair<NodeWrapper, NodeWrapper>>(distance,
 					new Pair<NodeWrapper, NodeWrapper>(node2, node1));
-		} else if (distance < 0) {
+		} else if (distance < -1) {
 			return new Pair<Integer, Pair<NodeWrapper, NodeWrapper>>(-distance,
 					new Pair<NodeWrapper, NodeWrapper>(node1, node2));
 		}
@@ -329,7 +329,9 @@ public final class SpaceWrapUtil {
 			throw new DuplicateGenomeNameException(
 					"The graph consists of two genome with the same name.",
 					"Two posible routes are found with the same genome name, "
-							+ "or the order of the nodes was not correctly calculated.");
+							+ "or the order of the nodes was not correctly calculated."
+							+ "\nNode ids:" + node1.getIdString() + " - "
+							+ node2.getIdString());
 		} catch (DuplicateGenomeNameException e) {
 			e.printStackTrace();
 		}

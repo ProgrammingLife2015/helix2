@@ -1,21 +1,21 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 public class Edge {
-	public Edge(DataNodeInterface from, DataNodeInterface to) {
+	public Edge(DataNode from, DataNode to) {
 		this.from = from;
 		this.to = to;
 	}
 	
-	protected DataNodeInterface from;
-	protected DataNodeInterface to;
+	protected DataNode from;
+	protected DataNode to;
 	
-	public DataNodeInterface getFrom() {
+	public DataNode getFrom() {
 		return from;
 	}
 	
-	public DataNodeInterface getTo() {
+	public DataNode getTo() {
 		return to;
 	}
 	

@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.visualization.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.node.DataNodeInterface;
+import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 /**
  * NodePosition is used to store the position of nodes and the edges of nodes.
- * This responsibility is separated from {@link DataNodeInterface} so that the
+ * This responsibility is separated from {@link DataNode} so that the
  * same node can have different positions over different views without cloning
  * the expensive Node instances which contain the original data.
  * 
@@ -22,7 +22,7 @@ import java.util.Set;
  *
  */
 public class NodePosition extends NodeWrapper {
-	private DataNodeInterface node;
+	private DataNode node;
 	private long startX = -1;
 	
 	/**
@@ -30,7 +30,7 @@ public class NodePosition extends NodeWrapper {
 	 * {@code NodePosition}s.
 	 * 
 	 * @param nodeList
-	 *            the {@link List}<{@link DataNodeInterface}> of which the new
+	 *            the {@link List}<{@link DataNode}> of which the new
 	 *            {@link List}< {@link NodePosition}> is constructed from
 	 * @param edgeList
 	 *            the {@link List}<{@link Edge}> with the connections between
@@ -39,10 +39,10 @@ public class NodePosition extends NodeWrapper {
 	 *         {@code nodeList} and {@code edgeList}
 	 */
 	public static List<NodePosition> newNodePositionList(
-			List<DataNodeInterface> nodeList, List<Edge> edgeList) {
+			List<DataNode> nodeList, List<Edge> edgeList) {
 		// Construct list
 		Map<Integer, NodePosition> map = new HashMap<Integer, NodePosition>();
-		for (DataNodeInterface node : nodeList) {
+		for (DataNode node : nodeList) {
 			map.put(node.getId(), new NodePosition(node));
 		}
 		
@@ -81,11 +81,11 @@ public class NodePosition extends NodeWrapper {
 		return max;
 	}
 	
-	protected NodePosition(DataNodeInterface node) {
+	protected NodePosition(DataNode node) {
 		this.node = node;
 	}
 	
-	public DataNodeInterface getNode() {
+	public DataNode getNode() {
 		return node;
 	}
 
