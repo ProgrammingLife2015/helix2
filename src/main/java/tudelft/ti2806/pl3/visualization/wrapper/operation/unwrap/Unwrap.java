@@ -46,7 +46,7 @@ public class Unwrap extends WrapperOperation {
 	 * @param start
 	 *          The big wrapped node containing the entire graph
 	 */
-	public Unwrap(HorizontalWrapper start) {
+	public Unwrap(NodeWrapper start) {
 		dataNodeWrappers = new ArrayList<>();
 		stack = new Stack<>();
 		result = createNewNode(start);

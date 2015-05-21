@@ -12,8 +12,6 @@ public class GraphController {
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 	private GraphView graphView;
-	private double currentZoomLevel;
-	private long currentZoomCenter;
 	private Map<String, Filter<DataNode>> filters = new HashMap<>();
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -25,6 +23,7 @@ public class GraphController {
 		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
 		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
 		graphView = new GraphView(zoomedGraphModel);
+		graphView.init();
 
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(graphView);
@@ -50,31 +49,22 @@ public class GraphController {
 	/**
 	 * Moves the view to a new center position.
 	 * 
-	 * @param newZoomCenter
+	 * @param zoomCenter
 	 *            the new center of zoom
 	 */
-	public void moveView(long newZoomCenter) {
-//		currentZoomCenter = newZoomCenter;
-//		graphView.moveView(currentZoomCenter);
+	public void moveView(long zoomCenter) {
+		graphView.setZoomCenter(zoomCenter);
 	}
 	
 	/**
 	 * Changes the zoom, and if necessary, filters are applied.
 	 * 
-	 * @param newZoomLevel
+	 * @param zoomLevel
 	 *            the new level of zoom to apply
 	 */
-	public void changeZoom(double newZoomLevel) {
-//		if (Math.round(newZoomLevel) != Math.round(currentZoomLevel)
-//				&& filters.size() != 0) {
-//			model.produceGraph(filters);
-//		}
-//		currentZoomLevel = newZoomLevel;
-//		view.zoom(newZoomLevel);
-	}
-
-	public GraphView getView() {
-		return graphView;
+	public void changeZoom(double zoomLevel) {
+		zoomedGraphModel.setZoomLevel(zoomLevel);
+		zoomedGraphModel.produceDataNodeWrapperList();
 	}
 
 	public Component getPanel() {
@@ -82,10 +72,10 @@ public class GraphController {
 	}
 
 	public double getCurrentZoomLevel() {
-		return currentZoomLevel;
+		return zoomedGraphModel.getZoomLevel();
 	}
 
 	public long getCurrentZoomCenter() {
-		return currentZoomCenter;
+		return graphView.getZoomCenter();
 	}
 }

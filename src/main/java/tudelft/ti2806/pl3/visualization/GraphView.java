@@ -5,8 +5,8 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
+import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.awt.Component;
 import java.io.IOException;
@@ -43,14 +43,14 @@ public class GraphView implements Observer, ViewInterface {
 	 * The center position of the view.<br>
 	 * The position on the x axis.
 	 */
-//	private long zoomCenter;
+	private long zoomCenter;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
 	 * Generate a new view to have the changes take effect.
 	 */
 
-	private WrappedGraphData graphData;
+	private List<DataNodeWrapper> graphData;
 	private Graph graph = new SingleGraph("");
 	private Viewer viewer;
 	private View panel;
@@ -61,6 +61,8 @@ public class GraphView implements Observer, ViewInterface {
 
 	public GraphView(ZoomedGraphModel zoomedGraphModel) {
 		this.zoomedGraphModel = zoomedGraphModel;
+		graphData = new ArrayList<>();
+		graphNodeList = new ArrayList<>();
 	}
 
 	public void init() {
@@ -111,11 +113,11 @@ public class GraphView implements Observer, ViewInterface {
 	public Graph generateGraph() {
 		graph.clear();
 		setGraphPropertys();
-		graphNodeList = new ArrayList<>(graphData.getPositionedNodes().size());
-		graphData.getPositionedNodes().forEach(node -> graphNodeList.add(new GraphNode(graph, node)));
-		System.out.println(graphData.getPositionedNodes());
+		graphNodeList = new ArrayList<>(graphData.size());
+		graphData.forEach(node -> graphNodeList.add(new GraphNode(graph, node)));
+		System.out.println(graphData);
 
-		for (NodeWrapper node : graphData.getPositionedNodes()) {
+		for (NodeWrapper node : graphData) {
 			for (NodeWrapper to : node.getOutgoing()) {
 				addNormalEdge(graph, node, to);
 			}
@@ -140,25 +142,6 @@ public class GraphView implements Observer, ViewInterface {
 	}
 	
 	/**
-	 * Changes the zoom level and apply it.
-	 * 
-	 * @param zoomLevel
-	 *            the new zoom level
-	 */
-	public void zoom(double zoomLevel) {
-//		this.zoomLevel = zoomLevel;
-//		panel.getCamera().setViewPercent(
-//				zoomLevel / (getGraphWidth() / panel.getWidth()));
-
-		//TODO: this has to be implemented in a new way.
-	}
-	
-//	private double getGraphWidth() {
-//		return graphData.getSize() + graphData.getLongestNodePath()
-//				* nodeJumpSize * zoomLevel;
-//	}
-	
-	/**
 	 * Moves the view to the given position on the x axis.
 	 * 
 	 * @param newCenter
@@ -174,15 +157,20 @@ public class GraphView implements Observer, ViewInterface {
 		return panel;
 	}
 
-	public Viewer getViewer() {
-		return viewer;
-	}
-
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o == zoomedGraphModel) {
-			graphData = zoomedGraphModel.getWrappedGraphData();
+			graphData = zoomedGraphModel.getDataNodeWrapperList();
+			// zoom = zoomedGraphModel.getZoomLevel();
 			// TODO: draw graph with the newly retrieved graphData
 		}
+	}
+
+	public long getZoomCenter() {
+		return zoomCenter;
+	}
+
+	public void setZoomCenter(long zoomCenter) {
+		this.zoomCenter = zoomCenter;
 	}
 }

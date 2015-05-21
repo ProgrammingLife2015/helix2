@@ -5,6 +5,7 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.wrap.WrapUtil;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.util.ArrayList;
@@ -18,19 +19,20 @@ import java.util.Observable;
 public class FilteredGraphModel extends Observable {
 
 	protected AbstractGraphData originalGraphData;
-	private WrappedGraphData wrappedGraphData;
+	private NodeWrapper collapsedNode;
 	private Collection<Filter<DataNode>> filters;
 
 	public FilteredGraphModel(AbstractGraphData originalGraphData) {
 		this.originalGraphData = originalGraphData;
+		filters = new ArrayList<>();
 	}
 
 	public void setFilters(Collection<Filter<DataNode>> filters) {
 		this.filters = filters;
 	}
 
-	public WrappedGraphData getWrappedGraphData() {
-		return wrappedGraphData;
+	public NodeWrapper getCollapsedNode() {
+		return collapsedNode;
 	}
 
 	/**
@@ -40,12 +42,13 @@ public class FilteredGraphModel extends Observable {
 	 */
 	public void produceWrappedGraphData() {
 		List<DataNode> resultNodes = originalGraphData.getNodeListClone();
-		filter(resultNodes, filters);
+		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
-		wrappedGraphData = new WrappedGraphData(originalGraphData, resultNodes, resultEdges);
-		wrappedGraphData = WrapUtil.collapseGraph(wrappedGraphData, 10);
+		WrappedGraphData wrappedGraphData = new WrappedGraphData(originalGraphData, resultNodes, resultEdges);
+		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData, 10).getPositionedNodes().get(0);
 		// TODO: hier nog de y-posities bepalen
+		setChanged();
 		notifyObservers();
 	}
 
@@ -89,10 +92,8 @@ public class FilteredGraphModel extends Observable {
 	 *
 	 * @param list
 	 *            the list of nodes to be filtered
-	 * @param filters
-	 *            the list of filters to be applied
 	 */
-	protected void filter(List<DataNode> list, Collection<Filter<DataNode>> filters) {
+	protected void filter(List<DataNode> list) {
 		for (Filter<DataNode> filter : filters) {
 			filter.filter(list);
 		}
