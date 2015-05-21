@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.controls;
 
-import org.graphstream.ui.swingViewer.util.ShortcutManager;
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
@@ -28,9 +27,7 @@ public class KeyController implements KeyListener {
 	 */
 	public KeyController(Application app) {
 		// remove the default keylistener
-		KeyListener[] keyListeners = app.getGraphController().getPanel().getKeyListeners();
-		ShortcutManager graphkeys = (ShortcutManager)keyListeners[0];
-		graphkeys.release();
+
 		// add our keylistener
 		this.app = app;
 		graphController = app.getGraphController();
