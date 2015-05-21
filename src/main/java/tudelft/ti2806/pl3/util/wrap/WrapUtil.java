@@ -147,15 +147,6 @@ public final class WrapUtil {
 					comNode.getOutgoing().add(map.get(out));
 				}
 			}
-			System.out.println("!!!" + comNode.getIdString());
-			if (comNode.getOutgoing().size() != 0) {
-				System.out.println("~out0:"
-						+ comNode.getOutgoing().get(0).getIdString());
-			}
-			if (comNode.getIncoming().size() != 0) {
-				System.out.println("in0:"
-						+ comNode.getIncoming().get(0).getIdString() + "~");
-			}
 		}
 	}
 	

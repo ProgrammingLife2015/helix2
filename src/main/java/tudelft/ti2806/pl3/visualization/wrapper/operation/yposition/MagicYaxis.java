@@ -37,14 +37,16 @@ public class MagicYaxis extends WrapperOperation {
 			float share = -from.getGenome().size() / 2f + from.getY();
 			for (NodeWrapper to : from.getOutgoing()) {
 				int size = magicMap.get(to);
-				to.setY(to.getY() + (share + size / 2f) * (size / to.getGenome().size()));
+				to.setY(to.getY() + (share + size / 2f)
+						* (size / to.getGenome().size()));
 				share += size;
 			}
 		}
-		for (int i = 0; i < nodeList.size(); i++) {
+		for (int i = 0; i < nodeList.size() - 1; i++) {
 			NodeWrapper node = nodeList.get(i);
 			node.setY(node.getY() / wrapper.getGenome().size());
 		}
+		nodeList.get(nodeList.size() - 1).setY(nodeList.get(0).getY());
 		super.calculate(wrapper, container);
 	}
 }

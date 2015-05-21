@@ -12,11 +12,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.util.wrap.HorizontalWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.SpaceWrapUtil;
 import tudelft.ti2806.pl3.util.wrap.VerticalWrapUtil;
-import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
@@ -302,22 +302,23 @@ public class NodeYPositionTest {
 	public static void displayGraph(CombineWrapper wrapper) {
 		Graph graph = new SingleGraph("");
 		List<NodeWrapper> nodeList = wrapper.getNodeList();
-		for (int i = 1; i < nodeList.size() - 1; i++) {
+		for (int i = 0; i < nodeList.size(); i++) {
 			NodeWrapper node = nodeList.get(i);
 			
 			graph.addNode(node.getIdString()).setAttribute("xy",
 					node.getPreviousNodesCount(), node.getY() * 3);
 			graph.getNode(node.getIdString()).addAttribute("ui.label",
 					"     " + node.getGenome().size()
-			// +node.getY() +
-			// ", "+node.getySpace() +
-			// "   "
-			// + node.getGenome().stream()
-			// .map(Genome::getIdentifier)
-			// .reduce("", (a, b) -> a + b)
+			 +" y: "+node.getY()
+			 //+
+			// ", "+node.getySpace() 
+			 + "   "
+			 + node.getGenome().stream()
+			 .map(Genome::getIdentifier)
+			 .reduce("", (a, b) -> a + b)
 					);
 		}
-		for (int i = 1; i < nodeList.size() - 1; i++) {
+		for (int i = 0; i < nodeList.size(); i++) {
 			NodeWrapper node = nodeList.get(i);
 			for (NodeWrapper to : node.getOutgoing()) {
 				if (to.getIdString().contains("FIX")) {
@@ -341,16 +342,16 @@ public class NodeYPositionTest {
 	public void readfullgraph() throws FileNotFoundException {
 		long time = System.currentTimeMillis();
 		File nodesFile = new File(
-				"data/38_strains_graph/simple_graph.node.graph");
+				"data/testdata/magicYAxis/spaceWrappedHard.node.graph");
 		// "data/testdata/magicYAxis/spaceWrappedSimple.node.graph");
 		File edgesFile = new File(
-				"data/38_strains_graph/simple_graph.edge.graph");
+				"data/testdata/magicYAxis/spaceWrappedHard.edge.graph");
 		// "data/testdata/magicYAxis/spaceWrappedSimple.edge.graph");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
 				edgesFile);
 		System.out.println("Parse: " + (System.currentTimeMillis() - time));
 		time = System.currentTimeMillis();
-		WrappedGraphData wgd = WrapUtil.collapseGraph(
+		WrappedGraphData wgd = SpaceWrapUtil.collapseGraph(
 				new WrappedGraphData(gdr));
 		System.out.println("Collapse: " + (System.currentTimeMillis() - time));
 		time = System.currentTimeMillis();
