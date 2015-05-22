@@ -22,8 +22,8 @@ public class SideBarController implements Controller {
 	 *
 	 * @param graphController
 	 * 		the graph controller
-	 * @param gd
-	 * 		the graph data
+	 * @param tree
+	 * 		the newick tree
 	 */
 	public SideBarController(GraphController graphController, NewickParser.TreeNode tree) {
 		phyloController = new PhyloController(graphController, tree);

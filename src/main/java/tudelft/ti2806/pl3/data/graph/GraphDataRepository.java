@@ -3,7 +3,13 @@ package tudelft.ti2806.pl3.data.graph;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +126,8 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static Map<Integer, SingleNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream(nodesFile))));
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, SingleNode> nodes = new HashMap<Integer, SingleNode>();
 		try {
 			while (br.ready()) {
@@ -188,7 +195,8 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static List<Edge> parseEdges(File edgesFile,
 			Map<Integer, SingleNode> nodes) throws FileNotFoundException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream(edgesFile))));
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
 		try {
 			while (br.ready()) {
