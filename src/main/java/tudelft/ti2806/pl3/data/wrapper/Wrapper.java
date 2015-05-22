@@ -49,20 +49,6 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		return max;
 	}
 	
-	/**
-	 * Calculates the whitespace available on the right side of this node.
-	 * 
-	 * @return the number of base pairs that fit in the whitespace on the right
-	 *         side of the node.
-	 */
-	// public long calculateWhitespaceOnRightSide() {
-	// long min = Long.MAX_VALUE;
-	// for (Wrapper incomingNode : this.getOutgoing()) {
-	// min = Math.min(min, incomingNode.getXStart());
-	// }
-	// return min - this.getXEnd();
-	// }
-	
 	public List<Wrapper> getIncoming() {
 		return incoming;
 	}
