@@ -36,12 +36,13 @@ public class GraphModel implements GraphModelInterface {
 	public void produceGraph(List<Filter<DataNode>> filters) {
 		List<DataNode> resultNodes = originalGraph.getNodeListClone();
 		filter(resultNodes, filters);
+		System.out.println(resultNodes.size());
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		graph = new WrappedGraphData(resultNodes, resultEdges);
 		graph = WrapUtil.collapseGraph(graph);
 	}
-	
+
 	@Override
 	public WrappedGraphData getGraphData() {
 		return graph;

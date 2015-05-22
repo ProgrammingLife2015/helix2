@@ -7,7 +7,6 @@ import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import java.util.List;
 
 public interface GraphModelInterface {
-	
 	void produceGraph(List<Filter<DataNode>> filters);
 	
 	WrappedGraphData getGraphData();
