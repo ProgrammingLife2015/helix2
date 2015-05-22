@@ -60,6 +60,7 @@ public class Line {
 	 * @return true if there is an intersection between the two lines<br>
 	 *         else false
 	 */
+	@SuppressWarnings("FE_FLOATING_POINT_EQUALITY")
 	public boolean intersect(Line other) {
 		if (!isWithingDomain(other)) {
 			return false;

@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Wrappers are used to wrap the {@link DataNode}s into a smaller graph.
+ * 
+ * @author Sam Smulders
+ */
+@SuppressWarnings("EQ_COMPARETO_USE_OBJECT_EQUALS")
 public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	
 	protected float y;
@@ -120,10 +126,5 @@ public abstract class NodeWrapper implements Comparable<NodeWrapper> {
 	
 	public void addInterest(int interest) {
 		this.interest += interest;
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		return other == this;
 	}
 }

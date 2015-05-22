@@ -78,7 +78,7 @@ public class FilteredGraphModel extends Observable {
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(originalGraphData, resultNodes, resultEdges);
+		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		// calculate y-pos
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);

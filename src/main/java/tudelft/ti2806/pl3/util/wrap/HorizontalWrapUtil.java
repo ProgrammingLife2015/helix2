@@ -37,7 +37,7 @@ public final class HorizontalWrapUtil {
 		if (newLayer == null) {
 			return null;
 		}
-		return new WrappedGraphData(original, newLayer);
+		return new WrappedGraphData(newLayer);
 	}
 	
 	/**

@@ -38,7 +38,7 @@ public class GraphModel implements GraphModelInterface {
 		filter(resultNodes, filters);
 		List<Edge> resultEdges = originalGraph.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
-		graph = new WrappedGraphData(originalGraph, resultNodes, resultEdges);
+		graph = new WrappedGraphData(resultNodes, resultEdges);
 		graph = WrapUtil.collapseGraph(graph);
 	}
 	

@@ -96,7 +96,7 @@ public final class WrapUtil {
 		endFix.setGenome(genomeSet);
 		nodes.add(startFix);
 		nodes.add(endFix);
-		return WrapUtil.collapseGraph(new WrappedGraphData(graph, nodes));
+		return WrapUtil.collapseGraph(new WrappedGraphData(nodes));
 	}
 	
 	/**

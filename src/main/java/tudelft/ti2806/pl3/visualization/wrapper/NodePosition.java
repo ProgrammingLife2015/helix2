@@ -38,7 +38,7 @@ public class NodePosition extends NodeWrapper {
 	 * @return a {@link List}<{@link NodePosition}>, constructed from the
 	 *         {@code nodeList} and {@code edgeList}
 	 */
-	public static List<NodePosition> newNodePositionList(
+	public static List<NodeWrapper> newNodePositionList(
 			List<DataNode> nodeList, List<Edge> edgeList) {
 		// Construct list
 		Map<Integer, NodePosition> map = new HashMap<Integer, NodePosition>();
@@ -55,12 +55,12 @@ public class NodePosition extends NodeWrapper {
 		}
 		
 		// Calculate the x positions and the number previous node count
-		List<NodePosition> list = new ArrayList<NodePosition>(map.values());
+		List<NodePosition> list = new ArrayList<>(map.values());
 		for (NodePosition node : list) {
 			node.calculateStartX();
 			node.calculatePreviousNodesCount();
 		}
-		return list;
+		return new ArrayList<NodeWrapper>(list);
 	}
 	
 	/**

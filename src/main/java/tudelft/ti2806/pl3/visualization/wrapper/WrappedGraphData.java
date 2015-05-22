@@ -20,39 +20,15 @@ public class WrappedGraphData {
 	
 	private List<NodeWrapper> nodeWrappers;
 	private long size;
-	private AbstractGraphData origin;
 	private int longestNodePath;
 	
 	/**
 	 * Initialises an instance of {@link WrappedGraphData}.
 	 * 
-	 * @param origin
-	 *            the original
-	 * @param nodes
-	 *            the nodes of on the graph
-	 * @param edges
-	 *            the edges of on the graph
+	 * @param nodeWrappers
+	 *            the nodes in the instance
 	 */
-	public WrappedGraphData(AbstractGraphData origin,
-			List<DataNode> nodes, List<Edge> edges) {
-		this.origin = origin;
-		List<NodePosition> nodePosition = NodePosition.newNodePositionList(
-				nodes, edges);
-		long max = 0;
-		nodeWrappers = new ArrayList<>(nodePosition);
-		for (NodePosition node : nodePosition) {
-			max = Math.max(node.getXEnd(), max);
-		}
-		for (NodeWrapper node : nodeWrappers) {
-			longestNodePath = Math.max(longestNodePath,
-					node.calculatePreviousNodesCount());
-		}
-		this.size = max;
-	}
-	
-	public WrappedGraphData(WrappedGraphData origin,
-			List<NodeWrapper> nodeWrappers) {
-		this.origin = origin.origin;
+	public WrappedGraphData(List<NodeWrapper> nodeWrappers) {
 		this.nodeWrappers = nodeWrappers;
 		for (NodeWrapper node : nodeWrappers) {
 			node.resetPreviousNodesCount();
@@ -63,8 +39,12 @@ public class WrappedGraphData {
 		}
 	}
 	
+	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {
+		this(NodePosition.newNodePositionList(nodes, edges));
+	}
+	
 	public WrappedGraphData(AbstractGraphData gd) {
-		this(gd, gd.getNodes(), gd.getEdges());
+		this(gd.getNodes(), gd.getEdges());
 	}
 	
 	public List<NodeWrapper> getPositionedNodes() {
@@ -77,10 +57,6 @@ public class WrappedGraphData {
 	
 	public int getLongestNodePath() {
 		return longestNodePath;
-	}
-	
-	public AbstractGraphData getOrigin() {
-		return origin;
 	}
 	
 }
