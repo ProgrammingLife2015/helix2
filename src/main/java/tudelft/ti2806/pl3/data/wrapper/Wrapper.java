@@ -22,10 +22,6 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	private int previousNodesCount = -1;
 	private int interest = 0;
 	
-//	public abstract long getXStart();
-//	
-//	public abstract long getXEnd();
-	
 	public abstract long getWidth();
 	
 	public int getPreviousNodesCount() {
@@ -42,19 +38,14 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	/**
 	 * Calculate the number of nodes on the longest path to this node.
-	 * 
-	 * @return the number of nodes on the longest path to this node
 	 */
 	public int calculatePreviousNodesCount() {
-		if (this.getPreviousNodesCount() != -1) {
-			return this.getPreviousNodesCount();
-		}
 		int max = 0;
 		for (Wrapper incomingNode : this.getIncoming()) {
-			max = Math.max(max, incomingNode.calculatePreviousNodesCount() + 1);
+			max = Math.max(max, incomingNode.previousNodesCount + 1);
 		}
 		this.previousNodesCount = max;
-		return this.previousNodesCount;
+		return max;
 	}
 	
 	/**
@@ -63,13 +54,13 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	 * @return the number of base pairs that fit in the whitespace on the right
 	 *         side of the node.
 	 */
-//	public long calculateWhitespaceOnRightSide() {
-//		long min = Long.MAX_VALUE;
-//		for (Wrapper incomingNode : this.getOutgoing()) {
-//			min = Math.min(min, incomingNode.getXStart());
-//		}
-//		return min - this.getXEnd();
-//	}
+	// public long calculateWhitespaceOnRightSide() {
+	// long min = Long.MAX_VALUE;
+	// for (Wrapper incomingNode : this.getOutgoing()) {
+	// min = Math.min(min, incomingNode.getXStart());
+	// }
+	// return min - this.getXEnd();
+	// }
 	
 	public List<Wrapper> getIncoming() {
 		return incoming;

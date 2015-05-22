@@ -80,12 +80,12 @@ public class Application extends JFrame {
 			graphController = new GraphController(gd);
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController,tree);
-
+			
 			// set the views
 			setSideBarView(sideBarController.getPanel());
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
-
+			
 			// set the controls.
 			// This is done last so we can remove the default library keycontroller
 			WindowController windowController = new WindowController(this);
@@ -93,7 +93,7 @@ public class Application extends JFrame {
 			graphController.getPanel().addKeyListener(keys);
 			sideBarController.getPanel().addKeyListener(keys);
 			addWindowListener(windowController);
-
+			
 			this.setFocusable(true);
 			this.setVisible(true);
 		} catch (FileNotFoundException e) {
