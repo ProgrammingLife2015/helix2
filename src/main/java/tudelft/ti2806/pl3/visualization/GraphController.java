@@ -24,12 +24,11 @@ public class GraphController {
 	public GraphController(AbstractGraphData abstractGraphData) {
 		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
 		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
+		
 		graphView = new GraphView(zoomedGraphModel);
 		graphView.init();
-		
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(graphView);
-		
 		filteredGraphModel.produceWrappedGraphData();
 	}
 	
