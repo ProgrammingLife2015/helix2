@@ -34,7 +34,8 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	private NewickParser.TreeNode tree;
 	private JTree jTree;
 	private List<String> selected = new ArrayList<>();
-	
+	private PhyloController phyloController;
+
 	/**
 	 * Phylo view constructs a Jtree object with our .nwk tree file.
 	 *
@@ -45,11 +46,12 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	 */
 	public PhyloView(NewickParser.TreeNode tree, PhyloController phyloController) {
 		this.tree = tree;
+		this.phyloController = phyloController;
 		jTree = new JTree(parseTree());
 		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
-		
-		setUI(width, height, phyloController);
+
+		setUI(width, height);
 		setUpLook();
 		expandTree();
 		setListener();
@@ -57,15 +59,12 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	
 	/**
 	 * Setup the UI of the view.
-	 * 
-	 * @param width
+	 *  @param width
 	 *            the width of the panel
 	 * @param height
 	 *            the height of the panel
-	 * @param phyloController
-	 *            the {@link PhyloController}
 	 */
-	private void setUI(int width, int height, PhyloController phyloController) {
+	private void setUI(int width, int height) {
 		JLabel header = new JLabel("Select Genomes");
 		header.setPreferredSize(new Dimension(width, 50));
 		
@@ -81,7 +80,7 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 		this.add(scroller);
 		add(Box.createVerticalGlue());
 		
-		JButton button = createButton(phyloController);
+		JButton button = createButton();
 		this.add(button);
 		button.setPreferredSize(new Dimension(200, 50));
 		setPreferredSize(new Dimension(width, height));
@@ -201,11 +200,9 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	/**
 	 * Create the submit button.
 	 *
-	 * @param phyloController
-	 *            the controller which will be the action listener
 	 * @return the submit button
 	 */
-	private JButton createButton(PhyloController phyloController) {
+	private JButton createButton() {
 		JButton button = new JButton("Update");
 		button.addActionListener(phyloController);
 		return button;
