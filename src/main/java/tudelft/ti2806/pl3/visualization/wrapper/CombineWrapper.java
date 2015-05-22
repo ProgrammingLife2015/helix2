@@ -70,11 +70,11 @@ public abstract class CombineWrapper extends NodeWrapper {
 	
 	@Override
 	public String getIdString() {
-		String str = "{";
+		StringBuilder str = new StringBuilder("{");
 		for (NodeWrapper node : nodeList) {
-			str += "[" + node.getIdString() + "]";
+			str.append("[" + node.getIdString() + "]");
 		}
-		return str + "}";
+		return str.toString() + "}";
 	}
 
 	@Override
