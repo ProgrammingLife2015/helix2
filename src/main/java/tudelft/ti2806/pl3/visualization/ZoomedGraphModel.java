@@ -78,7 +78,8 @@ public class ZoomedGraphModel extends Observable implements Observer {
 		int numberOfNodes = (int) (Math.pow(2,zoomLevel) * 10);
 
 		CollapseOnInterest collapseOnInterest = new CollapseOnInterest(
-				constructInterestList.getInterests().get(numberOfNodes));
+				constructInterestList.getInterests().get(Math.min(numberOfNodes,
+						constructInterestList.getInterests().size() - 1)));
 		collapseOnInterest.calculate(collapsedNode, null);
 		
 		Unwrap unwrap = new Unwrap(collapsedNode);
