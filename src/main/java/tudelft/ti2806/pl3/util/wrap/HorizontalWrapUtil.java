@@ -21,8 +21,7 @@ import java.util.List;
 public final class HorizontalWrapUtil {
 	private HorizontalWrapUtil() {
 	}
-	
-	@SuppressWarnings("CPD-START")
+
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * horizontal collapsed graph of the given graph.
@@ -32,6 +31,7 @@ public final class HorizontalWrapUtil {
 	 * @return the collapsed version of the given graph <br>
 	 *         {@code null} if nothing could be collapsed
 	 */
+	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
 		List<NodeWrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {

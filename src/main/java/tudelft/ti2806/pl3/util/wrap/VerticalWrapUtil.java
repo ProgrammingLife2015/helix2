@@ -22,8 +22,7 @@ import java.util.Map;
 public final class VerticalWrapUtil {
 	private VerticalWrapUtil() {
 	}
-	
-	@SuppressWarnings("CPD-START")
+
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * vertical collapsed graph of the given graph.
@@ -33,6 +32,7 @@ public final class VerticalWrapUtil {
 	 * @return the collapsed version of the given graph <br>
 	 *         {@code null} if nothing could be collapsed
 	 */
+	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
 		List<NodeWrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
@@ -84,7 +84,8 @@ public final class VerticalWrapUtil {
 	 * @return a list of edges which could be combined
 	 */
 	static List<List<NodeWrapper>> findCombineableNodes(List<NodeWrapper> nodes) {
-		Map<Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>, List<NodeWrapper>> map = new HashMap<>();
+		Map<Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>,
+				List<NodeWrapper>> map = new HashMap<>();
 		for (NodeWrapper node : nodes) {
 			List<NodeWrapper> list = map
 					.get(new Pair<HashableCollection<NodeWrapper>, HashableCollection<NodeWrapper>>(
