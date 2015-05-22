@@ -70,6 +70,12 @@ public class Application extends JFrame {
 	public void start() {
 		File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+		// TODO: Fix this! But it's needed, otherwise the app is idle on Macs!
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
 		try {
 			// make the controllers
