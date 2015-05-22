@@ -6,10 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import tudelft.ti2806.pl3.testutil.UtilTest;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 public class OrderedListUtilTest {
-	private static List<List<NodeWrapper>> listsToCombine;
-	private static List<NodeWrapper[]> ordersToTest;
+	private static List<List<Wrapper>> listsToCombine;
+	private static List<Wrapper[]> ordersToTest;
 	
 	/**
 	 * Run before each test.
@@ -29,56 +29,56 @@ public class OrderedListUtilTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		listsToCombine = new ArrayList<List<NodeWrapper>>(5);
-		ordersToTest = new ArrayList<NodeWrapper[]>(5);
-		List<NodeWrapper> list = new ArrayList<NodeWrapper>(3);
+		listsToCombine = new ArrayList<List<Wrapper>>(5);
+		ordersToTest = new ArrayList<Wrapper[]>(5);
+		List<Wrapper> list = new ArrayList<Wrapper>(3);
 		list.add(new TestWrapper("A"));
 		list.add(new TestWrapper("B"));
 		list.add(new TestWrapper("C"));
 		listsToCombine.add(list);
-		ordersToTest.add(list.toArray(new NodeWrapper[3]));
-		list = new ArrayList<NodeWrapper>(4);
+		ordersToTest.add(list.toArray(new Wrapper[3]));
+		list = new ArrayList<Wrapper>(4);
 		list.add(new TestWrapper("A"));
 		list.add(new TestWrapper("X"));
 		list.add(new TestWrapper("C"));
 		list.add(new TestWrapper("D"));
 		listsToCombine.add(list);
-		ordersToTest.add(list.toArray(new NodeWrapper[4]));
-		list = new ArrayList<NodeWrapper>(3);
+		ordersToTest.add(list.toArray(new Wrapper[4]));
+		list = new ArrayList<Wrapper>(3);
 		list.add(new TestWrapper("E"));
 		list.add(new TestWrapper("F"));
 		list.add(new TestWrapper("G"));
 		listsToCombine.add(list);
-		ordersToTest.add(list.toArray(new NodeWrapper[3]));
-		list = new ArrayList<NodeWrapper>(3);
+		ordersToTest.add(list.toArray(new Wrapper[3]));
+		list = new ArrayList<Wrapper>(3);
 		list.add(new TestWrapper("A"));
 		list.add(new TestWrapper("F"));
 		list.add(new TestWrapper("D"));
 		listsToCombine.add(list);
-		ordersToTest.add(list.toArray(new NodeWrapper[3]));
-		list = new ArrayList<NodeWrapper>(1);
+		ordersToTest.add(list.toArray(new Wrapper[3]));
+		list = new ArrayList<Wrapper>(1);
 		list.add(new TestWrapper("P"));
 		listsToCombine.add(list);
-		ordersToTest.add(list.toArray(new NodeWrapper[1]));
+		ordersToTest.add(list.toArray(new Wrapper[1]));
 	}
 	
 	@Test
 	public void mergeSuccesTest() {
-		List<NodeWrapper> list = OrderedListUtil
+		List<Wrapper> list = OrderedListUtil
 				.mergeOrderedLists(listsToCombine);
 		ArrayOrderMatcher matcher = new ArrayOrderMatcher(
-				list.toArray(new NodeWrapper[8]));
-		for (NodeWrapper[] order : ordersToTest) {
+				list.toArray(new Wrapper[8]));
+		for (Wrapper[] order : ordersToTest) {
 			Assert.assertThat(order, matcher);
 		}
 		// Test for the Matcher itself
-		Assert.assertThat(new NodeWrapper[] { new TestWrapper("B"),
-				new TestWrapper("A") }, new IsNot<NodeWrapper[]>(matcher));
+		Assert.assertThat(new Wrapper[] { new TestWrapper("B"),
+				new TestWrapper("A") }, new IsNot<Wrapper[]>(matcher));
 	}
 	
 	@Test
 	public void mergeFailTest() {
-		List<NodeWrapper> list = new ArrayList<NodeWrapper>(2);
+		List<Wrapper> list = new ArrayList<Wrapper>(2);
 		list.add(new TestWrapper("D"));
 		list.add(new TestWrapper("A"));
 		listsToCombine.add(list);
@@ -92,7 +92,7 @@ public class OrderedListUtilTest {
 		new UtilTest(OrderedListUtil.class).testConstructorIsPrivate();
 	}
 	
-	private static class TestWrapper extends NodeWrapper {
+	private static class TestWrapper extends Wrapper {
 		private String name;
 		
 		private TestWrapper(String name) {
@@ -131,7 +131,7 @@ public class OrderedListUtilTest {
 		
 		@Override
 		public void calculate(WrapperOperation wrapperSequencer,
-				NodeWrapper container) {
+				Wrapper container) {
 		}
 
 		@Override

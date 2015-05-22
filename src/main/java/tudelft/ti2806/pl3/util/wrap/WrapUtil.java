@@ -1,11 +1,11 @@
 package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.FixWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
+import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
+import tudelft.ti2806.pl3.data.wrapper.SingleWrapper;
+import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,24 +68,24 @@ public final class WrapUtil {
 	 * @return a fixed graph
 	 */
 	public static WrappedGraphData applyFixNode(WrappedGraphData graph) {
-		List<NodeWrapper> nodes = graph.getPositionedNodes();
+		List<Wrapper> nodes = graph.getPositionedNodes();
 		FixWrapper startFix = new FixWrapper(-1);
 		FixWrapper endFix = new FixWrapper(Long.MAX_VALUE << 1);
 		startFix.getOutgoing().add(endFix);
 		endFix.getIncoming().add(startFix);
 		Set<Genome> genomeSet = new HashSet<Genome>();
-		for (NodeWrapper node : nodes) {
+		for (Wrapper node : nodes) {
 			Set<Genome> genome = node.getGenome();
 			genomeSet.addAll(genome);
 			final Set<Genome> set = new HashSet<>();
-			node.getIncoming().stream().map(NodeWrapper::getGenome)
+			node.getIncoming().stream().map(Wrapper::getGenome)
 					.forEach(a -> set.addAll(a));
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getIncoming().add(startFix);
 				startFix.getOutgoing().add(node);
 			}
 			set.clear();
-			node.getOutgoing().stream().map(NodeWrapper::getGenome)
+			node.getOutgoing().stream().map(Wrapper::getGenome)
 					.forEach(a -> set.addAll(a));
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getOutgoing().add(endFix);
@@ -108,14 +108,14 @@ public final class WrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a list containing a new layer over the previous layer
 	 */
-	protected static List<NodeWrapper> wrapAndReconnect(
-			List<NodeWrapper> nonCombinedNodes,
+	protected static List<Wrapper> wrapAndReconnect(
+			List<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
-		Map<NodeWrapper, NodeWrapper> map = wrapList(nonCombinedNodes,
+		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes,
 				combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
-		return new ArrayList<NodeWrapper>(
-				new HashSet<NodeWrapper>(map.values()));
+		return new ArrayList<Wrapper>(
+				new HashSet<Wrapper>(map.values()));
 	}
 	
 	/**
@@ -130,29 +130,29 @@ public final class WrapUtil {
 	 *            a map mapping all nodes from the previous layer to the new
 	 *            layer
 	 */
-	static void reconnectLayer(List<NodeWrapper> nonCombinedNodes,
+	static void reconnectLayer(List<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes,
-			Map<NodeWrapper, NodeWrapper> map) {
-		for (NodeWrapper node : nonCombinedNodes) {
-			NodeWrapper newWrapper = map.get(node);
-			for (NodeWrapper in : node.getIncoming()) {
+			Map<Wrapper, Wrapper> map) {
+		for (Wrapper node : nonCombinedNodes) {
+			Wrapper newWrapper = map.get(node);
+			for (Wrapper in : node.getIncoming()) {
 				if (!newWrapper.getIncoming().contains(map.get(in))) {
 					newWrapper.getIncoming().add(map.get(in));
 				}
 			}
-			for (NodeWrapper out : node.getOutgoing()) {
+			for (Wrapper out : node.getOutgoing()) {
 				if (!newWrapper.getOutgoing().contains(map.get(out))) {
 					newWrapper.getOutgoing().add(map.get(out));
 				}
 			}
 		}
 		for (CombineWrapper comNode : combinedNodes) {
-			for (NodeWrapper in : comNode.getFirst().getIncoming()) {
+			for (Wrapper in : comNode.getFirst().getIncoming()) {
 				if (!comNode.getIncoming().contains(map.get(in))) {
 					comNode.getIncoming().add(map.get(in));
 				}
 			}
-			for (NodeWrapper out : comNode.getLast().getOutgoing()) {
+			for (Wrapper out : comNode.getLast().getOutgoing()) {
 				if (!comNode.getOutgoing().contains(map.get(out))) {
 					comNode.getOutgoing().add(map.get(out));
 				}
@@ -170,16 +170,16 @@ public final class WrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a map mapping all nodes from the previous layer to the new layer
 	 */
-	static Map<NodeWrapper, NodeWrapper> wrapList(
-			List<NodeWrapper> nonCombinedNodes,
+	static Map<Wrapper, Wrapper> wrapList(
+			List<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
-		Map<NodeWrapper, NodeWrapper> map = new HashMap<NodeWrapper, NodeWrapper>();
-		for (NodeWrapper node : nonCombinedNodes) {
+		Map<Wrapper, Wrapper> map = new HashMap<Wrapper, Wrapper>();
+		for (Wrapper node : nonCombinedNodes) {
 			SingleWrapper newWrapper = new SingleWrapper(node);
 			map.put(node, newWrapper);
 		}
 		for (CombineWrapper verNode : combinedNodes) {
-			for (NodeWrapper node : verNode.getNodeList()) {
+			for (Wrapper node : verNode.getNodeList()) {
 				map.put(node, verNode);
 			}
 		}

@@ -3,15 +3,15 @@ package tudelft.ti2806.pl3.util;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.util.Arrays;
 
-public class ArrayOrderMatcher extends BaseMatcher<NodeWrapper[]> {
+public class ArrayOrderMatcher extends BaseMatcher<Wrapper[]> {
 	
-	private NodeWrapper[] order;
+	private Wrapper[] order;
 	
-	public ArrayOrderMatcher(NodeWrapper[] order) {
+	public ArrayOrderMatcher(Wrapper[] order) {
 		this.order = order;
 	}
 	
@@ -26,12 +26,12 @@ public class ArrayOrderMatcher extends BaseMatcher<NodeWrapper[]> {
 		if (item == null) {
 			return false;
 		}
-		if (item.getClass() != NodeWrapper[].class) {
+		if (item.getClass() != Wrapper[].class) {
 			return false;
 		}
-		NodeWrapper[] subList = (NodeWrapper[]) item;
+		Wrapper[] subList = (Wrapper[]) item;
 		int index = 0;
-		for (NodeWrapper node : order) {
+		for (Wrapper node : order) {
 			if (subList[index].equals(node)) {
 				index++;
 				if (index == subList.length) {

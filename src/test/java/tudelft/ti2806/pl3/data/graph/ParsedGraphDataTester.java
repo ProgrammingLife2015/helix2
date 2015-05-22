@@ -4,11 +4,10 @@ import org.junit.Assert;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.exeption.DuplicateGenomeNameException;
 import tudelft.ti2806.pl3.util.DeadEdgeUtil;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,8 +44,8 @@ public class ParsedGraphDataTester {
 						GraphData gd = new GraphData(origin, nodeList,
 								edgeList, origin.getGenomes());
 						WrappedGraphData wgd = new WrappedGraphData(gd);
-						NodeWrapper node = getFirstNode(wgd);
-						Set<NodeWrapper> set = new HashSet<>(wgd
+						Wrapper node = getFirstNode(wgd);
+						Set<Wrapper> set = new HashSet<>(wgd
 								.getPositionedNodes());
 						set.remove(node);
 						while (true) {
@@ -54,8 +53,8 @@ public class ParsedGraphDataTester {
 								node = node.getOutgoing().get(0);
 							} else if (node.getOutgoing().size() > 1) {
 								int min = Integer.MAX_VALUE;
-								NodeWrapper newNode = null;
-								for (NodeWrapper out : node.getOutgoing()) {
+								Wrapper newNode = null;
+								for (Wrapper out : node.getOutgoing()) {
 									if (out.getPreviousNodesCount() < min) {
 										min = out.getPreviousNodesCount();
 										newNode = out;
@@ -81,8 +80,8 @@ public class ParsedGraphDataTester {
 					});
 	}
 	
-	private static NodeWrapper getFirstNode(WrappedGraphData wgd) {
-		for (NodeWrapper node : wgd.getPositionedNodes()) {
+	private static Wrapper getFirstNode(WrappedGraphData wgd) {
+		for (Wrapper node : wgd.getPositionedNodes()) {
 			if (node.getPreviousNodesCount() == 0) {
 				return node;
 			}

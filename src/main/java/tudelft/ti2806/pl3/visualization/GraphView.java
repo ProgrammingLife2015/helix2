@@ -5,8 +5,9 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
-import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
 import java.awt.Component;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class GraphView implements Observer, ViewInterface {
 	 * Generate a new view to have the changes take effect.
 	 */
 
-	private List<DataNodeWrapper> graphData;
+	private List<WrapperClone> graphData;
 	private Graph graph = new SingleGraph("");
 	private Viewer viewer;
 	private View panel;
@@ -107,15 +108,15 @@ public class GraphView implements Observer, ViewInterface {
 	public Graph generateGraph() {
 		graph.clear();
 		setGraphPropertys();
-		graphData.forEach(NodeWrapper::calculatePreviousNodesCount);
+		graphData.forEach(Wrapper::calculatePreviousNodesCount);
 		graphData.forEach(node -> {
 				Node graphNode = graph.addNode(node.getIdString());
 				graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
 				graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
 			});
 
-		for (NodeWrapper node : graphData) {
-			for (NodeWrapper to : node.getOutgoing()) {
+		for (Wrapper node : graphData) {
+			for (Wrapper to : node.getOutgoing()) {
 				addNormalEdge(graph, node, to);
 			}
 		}
@@ -132,7 +133,7 @@ public class GraphView implements Observer, ViewInterface {
 	 * @param to
 	 *            the node where the edge ends
 	 */
-	private static void addNormalEdge(Graph graph, NodeWrapper from, NodeWrapper to) {
+	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
 		org.graphstream.graph.Edge gEdge = graph.addEdge(
 				from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString());
 		gEdge.addAttribute("ui.class", "normalEdge");

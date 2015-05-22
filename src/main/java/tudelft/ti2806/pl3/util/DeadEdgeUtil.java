@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.util;
 
+import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.util.ArrayList;
 import java.util.List;

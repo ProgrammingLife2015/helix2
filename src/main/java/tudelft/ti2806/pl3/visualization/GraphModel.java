@@ -2,11 +2,11 @@ package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.util.wrap.WrapUtil;
-import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.util.ArrayList;
 import java.util.List;

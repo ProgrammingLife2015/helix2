@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

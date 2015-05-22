@@ -1,10 +1,10 @@
 package tudelft.ti2806.pl3.visualization;
 
-import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.operation.collapse.CollapseOnInterest;
-import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.ConstructInterestList;
-import tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap.Unwrap;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
+import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CollapseOnInterest;
+import tudelft.ti2806.pl3.data.wrapper.operation.interest.ConstructInterestList;
+import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +25,8 @@ import java.util.Observer;
 public class ZoomedGraphModel extends Observable implements Observer {
 
 	private FilteredGraphModel filteredGraphModel;
-	private NodeWrapper collapsedNode;
-	private List<DataNodeWrapper> dataNodeWrapperList;
+	private Wrapper collapsedNode;
+	private List<WrapperClone> dataNodeWrapperList;
 
 	private int zoomLevel = 0;
 
@@ -40,7 +40,7 @@ public class ZoomedGraphModel extends Observable implements Observer {
 
 	}
 
-	public List<DataNodeWrapper> getDataNodeWrapperList() {
+	public List<WrapperClone> getDataNodeWrapperList() {
 		return dataNodeWrapperList;
 	}
 

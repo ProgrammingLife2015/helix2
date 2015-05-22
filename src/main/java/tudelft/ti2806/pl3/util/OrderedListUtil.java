@@ -1,6 +1,6 @@
 package tudelft.ti2806.pl3.util;
 
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,14 +39,14 @@ public class OrderedListUtil {
 	 *         {@code null} if the lists could not be merged without violating
 	 *         one of the lists its orders
 	 */
-	public static List<NodeWrapper> mergeOrderedLists(
-			List<List<NodeWrapper>> listsToMerge) {
-		List<NodeWrapper> lastElements = new ArrayList<NodeWrapper>(
+	public static List<Wrapper> mergeOrderedLists(
+			List<List<Wrapper>> listsToMerge) {
+		List<Wrapper> lastElements = new ArrayList<Wrapper>(
 				listsToMerge.size());
-		for (List<NodeWrapper> list : listsToMerge) {
+		for (List<Wrapper> list : listsToMerge) {
 			lastElements.add(list.remove(list.size() - 1));
 		}
-		List<NodeWrapper> result = new ArrayList<NodeWrapper>();
+		List<Wrapper> result = new ArrayList<Wrapper>();
 		int lastResultSize = -1;
 		while (listsToMerge.size() > 0) {
 			/*
@@ -60,7 +60,7 @@ public class OrderedListUtil {
 				if (!listContainsElement(listsToMerge, lastElements.get(i))) {
 					int size = listsToMerge.get(i).size();
 					if (size == 0) {
-						NodeWrapper element = lastElements.remove(i);
+						Wrapper element = lastElements.remove(i);
 						if (!result.contains(element)) {
 							result.add(element);
 						}
@@ -73,7 +73,7 @@ public class OrderedListUtil {
 						 * bound to this index. This last element again removed
 						 * from that list.
 						 */
-						NodeWrapper element = lastElements.set(i, listsToMerge
+						Wrapper element = lastElements.set(i, listsToMerge
 								.get(i).remove(size - 1));
 						if (!result.contains(element)) {
 							result.add(element);
@@ -97,9 +97,9 @@ public class OrderedListUtil {
 	 *         {@code lists}<br>
 	 *         {@code false} otherwise
 	 */
-	static boolean listContainsElement(List<List<NodeWrapper>> lists,
-			NodeWrapper element) {
-		for (List<NodeWrapper> list : lists) {
+	static boolean listContainsElement(List<List<Wrapper>> lists,
+			Wrapper element) {
+		for (List<Wrapper> list : lists) {
 			if (list.contains(element)) {
 				return true;
 			}

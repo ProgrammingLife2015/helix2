@@ -2,15 +2,16 @@ package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateSizeInterest;
+import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.util.wrap.WrapUtil;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 //import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
-import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateSizeInterest;
 //import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
-import tudelft.ti2806.pl3.visualization.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,7 @@ public class FilteredGraphModel extends Observable {
 //	private final int pressureMultiplier = 10;
 
 	protected AbstractGraphData originalGraphData;
-	private NodeWrapper collapsedNode;
+	private Wrapper collapsedNode;
 	private Collection<Filter<DataNode>> filters;
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
 //	private CalculateWrapPressureInterest pressureInterest;
@@ -64,7 +65,7 @@ public class FilteredGraphModel extends Observable {
 		this.filters = filters;
 	}
 
-	public NodeWrapper getCollapsedNode() {
+	public Wrapper getCollapsedNode() {
 		return collapsedNode;
 	}
 

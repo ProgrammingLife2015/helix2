@@ -1,13 +1,13 @@
 package tudelft.ti2806.pl3.util.wrap;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.node.DataNode;
+import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
+import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
+import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.util.HashableCollection;
-import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
-import tudelft.ti2806.pl3.visualization.wrapper.WrappedGraphData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public final class HorizontalWrapUtil {
 	 */
 	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<NodeWrapper> newLayer = combineNodes(original.getPositionedNodes());
+		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
 		}
@@ -51,11 +51,11 @@ public final class HorizontalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<NodeWrapper> combineNodes(List<NodeWrapper> parentLayer) {
-		List<NodeWrapper> nonWrappedNodes = new ArrayList<NodeWrapper>(
+	static List<Wrapper> combineNodes(List<Wrapper> parentLayer) {
+		List<Wrapper> nonWrappedNodes = new ArrayList<Wrapper>(
 				parentLayer);
 		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
-		for (List<NodeWrapper> list : findCombineableNodes(parentLayer)) {
+		for (List<Wrapper> list : findCombineableNodes(parentLayer)) {
 			HorizontalWrapper newNode = new HorizontalWrapper(list);
 			combinedNodes.add(newNode);
 			nonWrappedNodes.removeAll(list);
@@ -74,21 +74,21 @@ public final class HorizontalWrapUtil {
 	 *            the nodes on the graph
 	 * @return a list of horizontal wrap-able nodes.
 	 */
-	static List<List<NodeWrapper>> findCombineableNodes(List<NodeWrapper> nodes) {
-		List<List<NodeWrapper>> foundCombineableNodes = new ArrayList<List<NodeWrapper>>();
-		List<NodeWrapper> iterateList = new ArrayList<NodeWrapper>(nodes);
-		List<NodeWrapper> removeFromIterateList = new ArrayList<NodeWrapper>();
+	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
+		List<List<Wrapper>> foundCombineableNodes = new ArrayList<List<Wrapper>>();
+		List<Wrapper> iterateList = new ArrayList<Wrapper>(nodes);
+		List<Wrapper> removeFromIterateList = new ArrayList<Wrapper>();
 		/*
 		 * Here we iterate over each element in iterateList and over each
 		 * element only once, because we keep track of a list of all elements we
 		 * iterate over.
 		 */
 		while (iterateList.size() > 0) {
-			for (NodeWrapper startNode : iterateList) {
-				List<NodeWrapper> foundGroup = new ArrayList<NodeWrapper>();
+			for (Wrapper startNode : iterateList) {
+				List<Wrapper> foundGroup = new ArrayList<Wrapper>();
 				foundGroup.add(startNode);
 				// Add all nodes to the right which can be combined.
-				NodeWrapper node = startNode;
+				Wrapper node = startNode;
 				while (node.getOutgoing().size() == 1
 						&& node.getOutgoing().get(0).getIncoming().size() == 1) {
 					node = node.getOutgoing().get(0);
