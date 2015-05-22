@@ -46,8 +46,8 @@ public class PositionNodeYOnGenomeSpace extends WrapperOperation {
 			}
 			float share = -from.getGenome().size() / 2f + from.getY();
 			for (NodeWrapper to : from.getOutgoing()) {
-				int size = magicMap.get(to);
-				to.setY(to.getY() + (share + size / 2f)
+				float size = magicMap.get(to);
+				to.setY(to.getY() + (share + size / 2)
 						* (size / to.getGenome().size()));
 				share += size;
 			}
