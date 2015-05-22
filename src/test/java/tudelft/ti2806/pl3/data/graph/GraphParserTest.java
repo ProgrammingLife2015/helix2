@@ -22,7 +22,7 @@ public class GraphParserTest {
 		Node node = GraphDataRepository.parseNode(new BufferedReader(new InputStreamReader(new BufferedInputStream(new FileInputStream((simpleNodeGraphFile))))),
 				new HashMap<String, Genome>());
 		assertTrue(node.equals(new SingleNode(35, new Genome[] { new Genome(
-				"TKK-01-0029", 0) }, 2609451, 2609452,
+				"TKK_01_0029", 0) }, 2609451, 2609452,
 				new byte[] { BasePair.A.storeByte })));
 	}
 	
