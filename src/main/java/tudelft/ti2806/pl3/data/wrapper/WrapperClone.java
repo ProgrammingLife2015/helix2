@@ -14,7 +14,6 @@ public class WrapperClone extends Wrapper {
 
 	private List<DataNode> dataNodeList;
 	private final Wrapper originalNode;
-	private String idString;
 
 	public WrapperClone(List<DataNode> dataNodeList, Wrapper originalNode) {
 		this.dataNodeList = dataNodeList;
@@ -31,21 +30,17 @@ public class WrapperClone extends Wrapper {
 
 	@Override
 	public long getWidth() {
-		return 0;
+		return originalNode.getWidth();
 	}
 
 	@Override
 	public String getIdString() {
-		return idString;
-	}
-
-	public void setIdString(String idString) {
-		this.idString = idString;
+		return originalNode.getIdString();
 	}
 
 	@Override
 	public Set<Genome> getGenome() {
-		return null;
+		return originalNode.getGenome();
 	}
 
 	@Override
