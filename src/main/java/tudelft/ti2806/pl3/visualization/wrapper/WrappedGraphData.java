@@ -5,7 +5,6 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

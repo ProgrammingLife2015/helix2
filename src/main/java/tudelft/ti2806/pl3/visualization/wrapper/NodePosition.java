@@ -58,7 +58,6 @@ public class NodePosition extends NodeWrapper {
 		List<NodePosition> list = new ArrayList<>(map.values());
 		for (NodePosition node : list) {
 			node.calculateStartX();
-			node.calculatePreviousNodesCount();
 		}
 		return new ArrayList<NodeWrapper>(list);
 	}
