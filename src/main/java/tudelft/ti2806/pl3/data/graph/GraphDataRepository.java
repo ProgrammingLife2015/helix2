@@ -9,8 +9,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +34,18 @@ public class GraphDataRepository extends AbstractGraphData {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
+		init();
+	}
+	
+	/**
+	 * Initialise the instance.<br>
+	 * Calculates the longestNodePath, size and genome order.
+	 */
+	private void init() {
+		int index = 0;
+		for (Genome genome : genomes) {
+			genome.setYposition(index++);
+		}
 	}
 	
 	@Override
@@ -135,7 +147,7 @@ public class GraphDataRepository extends AbstractGraphData {
 		for (int i = 0; i < identifiers.length; i++) {
 			Genome genome = genomes.get(identifiers[i]);
 			if (genome == null) {
-				genome = new Genome(identifiers[i]);
+				genome = new Genome(identifiers[i], genomes.size());
 				genomes.put(identifiers[i], genome);
 			}
 			result[i] = genome;

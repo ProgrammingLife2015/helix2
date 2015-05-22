@@ -39,7 +39,7 @@ public abstract class CombineWrapper extends NodeWrapper {
 
 	/**
 	 * Construct and set shouldUnfold to false.
-	 * @see {@link CombineWrapper(List<NodeWrapper>, boolean)}
+	 * @see {@link CombineWrapper}(List<{@link NodeWrapper}>, boolean)
 	 * @param nodeList
 	 *          a list of nodes
 	 */

@@ -109,10 +109,10 @@ public class GraphView implements Observer, ViewInterface {
 		setGraphPropertys();
 		graphData.forEach(NodeWrapper::calculatePreviousNodesCount);
 		graphData.forEach(node -> {
-			Node gNode = graph.addNode(node.getIdString());
-			gNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY()*5);
-			gNode.addAttribute("ui.class", node.getClass().getSimpleName());
-		});
+				Node gNode = graph.addNode(node.getIdString());
+				gNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
+				gNode.addAttribute("ui.class", node.getClass().getSimpleName());
+			});
 
 		for (NodeWrapper node : graphData) {
 			for (NodeWrapper to : node.getOutgoing()) {
@@ -145,7 +145,7 @@ public class GraphView implements Observer, ViewInterface {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o == zoomedGraphModel) {
+		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			// zoom = zoomedGraphModel.getZoomLevel();
 			// TODO: draw graph with the newly retrieved graphData

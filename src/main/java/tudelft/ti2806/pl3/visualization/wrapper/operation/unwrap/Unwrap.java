@@ -2,7 +2,14 @@ package tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap;
 
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.util.Pair;
-import tudelft.ti2806.pl3.visualization.wrapper.*;
+import tudelft.ti2806.pl3.visualization.wrapper.CombineWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SingleWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
@@ -165,13 +172,15 @@ public class Unwrap extends WrapperOperation {
 		for (Map.Entry<NodeWrapper, NodeWrapper> referencePlaceholderMap :
 				    referencePlaceholderMapper.entrySet()) {
 			for (NodeWrapper outgoing : referencePlaceholderMap.getKey().getOutgoing()) {
-				if(referencePlaceholderMapper.get(outgoing) != null) { // only add if outgoing is in this SpaceWrapper
+				// only add if outgoing is in this SpaceWrapper
+				if (referencePlaceholderMapper.get(outgoing) != null) {
 					referencePlaceholderMap.getValue().getOutgoing().add(
 							referencePlaceholderMapper.get(outgoing));
 				}
 			}
 			for (NodeWrapper incoming : referencePlaceholderMap.getKey().getIncoming()) {
-				if(referencePlaceholderMapper.get(incoming) != null) { // only add if incoming is in this SpaceWrapper
+				// only add if incoming is in this SpaceWrapper
+				if (referencePlaceholderMapper.get(incoming) != null) {
 					referencePlaceholderMap.getValue().getIncoming().add(
 							referencePlaceholderMapper.get(incoming));
 				}
@@ -184,6 +193,18 @@ public class Unwrap extends WrapperOperation {
 		}
 	}
 
+	/**
+	 * Unwrap a {@link SingleWrapper}.
+	 *
+	 * <p>It creates a node from the node its containing.</p>
+	 * <p>Then it connects all the placeholder incoming and outgoing nodes to the
+	 * newly created node's incoming and outgoing nodes.</p>
+	 *
+	 * @param node
+	 *          The reference to the {@link SingleWrapper} that contains the node to be unwrapped
+	 * @param placeholder
+	 *          The placeholder for this {@link SingleWrapper} in the newly constructed graph
+	 */
 	public void calculate(SingleWrapper node, NodeWrapper placeholder) {
 		NodeWrapper newNode = createNewNode(node.getNode());
 		for (NodeWrapper incoming : placeholder.getIncoming()) {

@@ -35,9 +35,9 @@ public class Genome {
 		} else if (!identifier.equals(other.identifier)) {
 			return false;
 		}
+
 		return true;
 	}
-	
 	public String getIdentifier() {
 		return identifier;
 	}

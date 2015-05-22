@@ -56,12 +56,19 @@ public class GraphController {
 		graphView.setZoomCenter(zoomCenter);
 	}
 
+	/**
+	 * Zoom the graph one level up.
+	 */
 	public void zoomLevelUp() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel()+1);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() + 1);
 		zoomedGraphModel.produceDataNodeWrapperList();
 	}
+
+	/**
+	 * Zoom the graph one level down.
+	 */
 	public void zoomLevelDown() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel()-1);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() - 1);
 		zoomedGraphModel.produceDataNodeWrapperList();
 	}
 
