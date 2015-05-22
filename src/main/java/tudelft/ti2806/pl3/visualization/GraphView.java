@@ -95,6 +95,7 @@ public class GraphView implements Observer, ViewInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 	}
@@ -108,16 +109,20 @@ public class GraphView implements Observer, ViewInterface {
 		graph.clear();
 		setGraphPropertys();
 		graphData.forEach(node -> {
-				node.calculatePreviousNodesCount();
-				Node graphNode = graph.addNode(node.getIdString());
-				graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
-				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				if (node.getIdString() != "[FIX]") {
+					node.calculatePreviousNodesCount();
+					Node graphNode = graph.addNode(node.getIdString());
+					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
+					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());	
+				}
 			});
 
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				addNormalEdge(graph, node, to);
+				if (node.getIdString() != "[FIX]" && to.getIdString() != "[FIX]") { 
+					addNormalEdge(graph, node, to);
+				}
 			}
 		}
 		return graph;
