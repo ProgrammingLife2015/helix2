@@ -51,11 +51,12 @@ hs_err_pid*
 *.nwk
 *.zip
 *.gz
-*.graph
 *.gfasta
 *.rar
-data/geneAnnotations.txt
-data/
-local/*
+
+/data/*
+/local/*
+!/data/testdata/
+!/data/testdata/*.graph
 
 !pictures/*

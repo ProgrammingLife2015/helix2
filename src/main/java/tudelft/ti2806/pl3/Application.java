@@ -1,21 +1,20 @@
 package tudelft.ti2806.pl3;
 
 import newick.NewickParser;
-import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.TreeParser;
 import tudelft.ti2806.pl3.visualization.GraphController;
-import tudelft.ti2806.pl3.visualization.GraphModel;
-import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -26,6 +25,7 @@ import javax.swing.JOptionPane;
  * <p>
  * Created by Boris Mattijssen on 07-05-15.
  */
+@SuppressWarnings("serial")
 public class Application extends JFrame {
 	/**
 	 * The value of the layers used in the view.
@@ -82,7 +82,7 @@ public class Application extends JFrame {
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
-			graphController = new GraphController(new GraphView(), new GraphModel(gd));
+			graphController = new GraphController(gd);
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController,tree);
 
@@ -91,12 +91,8 @@ public class Application extends JFrame {
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
 
-			// set default zoom & default view
-			graphController.changeZoom(10);
-			graphController.moveView(1);
-
 			// set the controls.
-			// This is done last so we can remove the default libary keycontroller
+			// This is done last so we can remove the default library keycontroller
 			WindowController windowController = new WindowController(this);
 			KeyController keys = new KeyController(this);
 			graphController.getPanel().addKeyListener(keys);
@@ -108,10 +104,10 @@ public class Application extends JFrame {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			this.stop();
-		} catch (ParseException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			this.stop();
-		} catch (IOException e) {
+		} catch (newick.ParseException e) {
 			e.printStackTrace();
 			this.stop();
 		}

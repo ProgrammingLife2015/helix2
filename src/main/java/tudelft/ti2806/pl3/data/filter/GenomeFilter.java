@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.data.filter;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.Node;
+import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 
 /**
  * This filter will filter all nodes depending on a list of genomes.
+<<<<<<< HEAD
+ * @author Boris Mattijssen
  */
-public class GenomeFilter implements Filter<Node> {
+public class GenomeFilter implements Filter<DataNode> {
 	protected final List<String> genomes;
 	
 	public GenomeFilter(List<String> genomes) {
@@ -24,16 +26,16 @@ public class GenomeFilter implements Filter<Node> {
 	 *          the list of nodes
 	 */
 	@Override
-	public void filter(List<Node> nodes) {
-		List<Node> remove = new ArrayList<>();
-		for (Node node : nodes) {
+	public void filter(List<DataNode> nodes) {
+		List<DataNode> remove = new ArrayList<>();
+		for (DataNode dataNode : nodes) {
 			for (String genome : genomes) {
-				if (!Arrays.asList(node.getSource())
+				if (!Arrays.asList(dataNode.getSource())
 						.stream()
 						.map(Genome::getIdentifier)
 						.collect(Collectors.toList())
 							.contains(genome)) {
-					remove.add(node);
+					remove.add(dataNode);
 					break;
 				}
 			}

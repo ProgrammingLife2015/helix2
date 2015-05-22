@@ -1,89 +1,88 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.filter.Filter;
-import tudelft.ti2806.pl3.data.graph.Node;
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GraphController implements GraphControllerInterface {
-	private GraphModelInterface model;
-	private GraphView view;
-	private double currentZoomLevel;
-	private long currentZoomCenter;
-	private Map<String, Filter<Node>> filters = new HashMap<>();
+public class GraphController {
+	private FilteredGraphModel filteredGraphModel;
+	private ZoomedGraphModel zoomedGraphModel;
+	private GraphView graphView;
+	private Map<String, Filter<DataNode>> filters = new HashMap<>();
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
-	 * Also initialises the {@link GraphModel} and {@link GraphView}.
+	 * It will also create the view and models.
 	 * 
-	 * @param view
-	 *            the view to use
-	 * @param model
-	 *            the model to use
+	 * @param abstractGraphData
+	 *            The parsed graph data
 	 */
-	public GraphController(GraphView view, GraphModelInterface model) {
-		this.model = model;
-		this.view = view;
-		model.produceGraph(filters.values());
-		view.setGraphData(model.getGraphData());
-		view.init();
-
+	public GraphController(AbstractGraphData abstractGraphData) {
+		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
+		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
+		graphView = new GraphView(zoomedGraphModel);
+		graphView.init();
+		
+		filteredGraphModel.addObserver(zoomedGraphModel);
+		zoomedGraphModel.addObserver(graphView);
+		
+		filteredGraphModel.produceWrappedGraphData();
 	}
-
+	
 	/**
-	 * Adds a node filter to the graph.
-	 * The filters will be put in a HashMap, so adding a filter with
-	 * the same name will override the older one.
+	 * Adds a node filter to the graph. The filters will be put in a HashMap, so
+	 * adding a filter with the same name will override the older one.
+	 * 
 	 * @param name
-	 *          the filter name
-	 * @param filter Filter
-	 *          the filter itself
+	 *            the filter name
+	 * @param filter
+	 *            Filter the filter itself
 	 */
-	public void addFilter(String name, Filter<Node> filter) {
+	public void addFilter(String name, Filter<DataNode> filter) {
 		filters.put(name, filter);
-		model.produceGraph(filters.values());
-		view.setGraphData(model.getGraphData());
-		view.generateGraph();
-		view.calculateGraphPositions();
+		filteredGraphModel.setFilters(filters.values());
+		filteredGraphModel.produceWrappedGraphData();
 	}
 	
 	/**
 	 * Moves the view to a new center position.
 	 * 
-	 * @param newZoomCenter
+	 * @param zoomCenter
 	 *            the new center of zoom
 	 */
-	public void moveView(long newZoomCenter) {
-		currentZoomCenter = newZoomCenter;
-		view.moveView(currentZoomCenter);
+	public void moveView(long zoomCenter) {
+		graphView.setZoomCenter(zoomCenter);
 	}
 	
 	/**
-	 * Changes the zoom, and if necessary, filters are applied.
-	 * 
-	 * @param newZoomLevel
-	 *            the new level of zoom to apply
+	 * Zoom the graph one level up.
 	 */
-	public void changeZoom(double newZoomLevel) {
-		currentZoomLevel = newZoomLevel;
-		view.zoom(newZoomLevel);
+	public void zoomLevelUp() {
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() + 1);
+		zoomedGraphModel.produceDataNodeWrapperList();
 	}
-
-	public GraphViewInterface getView() {
-		return view;
+	
+	/**
+	 * Zoom the graph one level down.
+	 */
+	public void zoomLevelDown() {
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() - 1);
+		zoomedGraphModel.produceDataNodeWrapperList();
 	}
-
+	
 	public Component getPanel() {
-		return view.getPanel();
+		return graphView.getPanel();
 	}
-
+	
 	public double getCurrentZoomLevel() {
-		return currentZoomLevel;
+		return zoomedGraphModel.getZoomLevel();
 	}
-
+	
 	public long getCurrentZoomCenter() {
-		return currentZoomCenter;
+		return graphView.getZoomCenter();
 	}
 }

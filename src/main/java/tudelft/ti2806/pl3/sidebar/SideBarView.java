@@ -13,6 +13,8 @@ import javax.swing.JPanel;
  * The view for the sidebar. The user can select options in the sidebar. Created
  * by Kasper on 7-5-15.
  */
+
+@SuppressWarnings("serial")
 public class SideBarView extends JPanel implements ViewInterface {
 	public static final double SIDEBAR_FACTOR = 0.40;
 	
