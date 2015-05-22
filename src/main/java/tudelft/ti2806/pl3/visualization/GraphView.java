@@ -85,12 +85,12 @@ public class GraphView implements Observer, ViewInterface {
 		try {
 			List<String> lines = Files.readAllLines(Paths.get(url));
 
-			String stylesheet = "";
+			StringBuffer stylesheet = new StringBuffer();
 			for (String line : lines) {
-				stylesheet += line + " ";
+				stylesheet.append(line + " ");
 			}
 
-			graph.addAttribute("ui.stylesheet", stylesheet);
+			graph.addAttribute("ui.stylesheet", stylesheet.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
