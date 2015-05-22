@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.util.TreeParser;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphModel;
 import tudelft.ti2806.pl3.visualization.GraphView;
@@ -80,7 +81,7 @@ public class Application extends JFrame {
 		try {
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
-			NewickParser.TreeNode tree = FileSelector.parseTreeFile(treeFile);
+			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
 			graphController = new GraphController(new GraphView(), new GraphModel(gd));
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController,tree);

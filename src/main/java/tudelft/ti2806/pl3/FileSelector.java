@@ -1,15 +1,6 @@
 package tudelft.ti2806.pl3;
 
-import newick.NewickParser;
-import newick.ParseException;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
@@ -64,29 +55,5 @@ public class FileSelector {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Parse the phylogenetic tree with the Newick Parser.
-	 *
-	 * @param treeFile
-	 * 		phylogenetic tree file (.nwk)
-	 * @return Parsed tree
-	 * @throws IOException
-	 * 		if the file is wrong
-	 * @throws ParseException
-	 * 		if the file is not formatted correctly
-	 */
-	public static NewickParser.TreeNode parseTreeFile(File treeFile) throws IOException, ParseException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				new BufferedInputStream(new FileInputStream(treeFile))));
-		NewickParser.TreeNode tree = new NewickParser(new ByteArrayInputStream(br.readLine()
-				.replaceAll("(\\d)\\.(\\d*)e-05", "0.0000$1$2")
-				.replaceAll("(\\d)\\.(\\d*)e-06", "0.00000$1$2")
-				.replaceAll("(\\d)\\.(\\d*)e-07", "0.000000$1$2")
-				.replaceAll("-", "_").getBytes()))
-				.tree();
-		br.close();
-		return tree;
 	}
 }
