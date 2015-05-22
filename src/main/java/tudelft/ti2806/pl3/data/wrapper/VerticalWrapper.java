@@ -27,24 +27,6 @@ public class VerticalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public long getXStart() {
-		long min = Long.MAX_VALUE;
-		for (Wrapper node : nodeList) {
-			min = Math.min(node.getXStart(), min);
-		}
-		return min;
-	}
-	
-	@Override
-	public long getXEnd() {
-		long max = Long.MIN_VALUE;
-		for (Wrapper node : nodeList) {
-			max = Math.max(node.getXEnd(), max);
-		}
-		return max;
-	}
-	
-	@Override
 	public Set<Genome> getGenome() {
 		Set<Genome> genome = new HashSet<Genome>();
 		for (Wrapper node : nodeList) {

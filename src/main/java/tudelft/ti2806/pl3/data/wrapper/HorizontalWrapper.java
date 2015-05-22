@@ -39,16 +39,6 @@ public class HorizontalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public long getXStart() {
-		return getFirst().getXStart();
-	}
-	
-	@Override
-	public long getXEnd() {
-		return getLast().getXEnd();
-	}
-	
-	@Override
 	public Set<Genome> getGenome() {
 		return this.getFirst().getGenome();
 	}

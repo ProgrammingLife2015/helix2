@@ -22,9 +22,9 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	private int previousNodesCount = -1;
 	private int interest = 0;
 	
-	public abstract long getXStart();
-	
-	public abstract long getXEnd();
+//	public abstract long getXStart();
+//	
+//	public abstract long getXEnd();
 	
 	public abstract long getWidth();
 	
@@ -63,13 +63,13 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	 * @return the number of base pairs that fit in the whitespace on the right
 	 *         side of the node.
 	 */
-	public long calculateWhitespaceOnRightSide() {
-		long min = Long.MAX_VALUE;
-		for (Wrapper incomingNode : this.getOutgoing()) {
-			min = Math.min(min, incomingNode.getXStart());
-		}
-		return min - this.getXEnd();
-	}
+//	public long calculateWhitespaceOnRightSide() {
+//		long min = Long.MAX_VALUE;
+//		for (Wrapper incomingNode : this.getOutgoing()) {
+//			min = Math.min(min, incomingNode.getXStart());
+//		}
+//		return min - this.getXEnd();
+//	}
 	
 	public List<Wrapper> getIncoming() {
 		return incoming;
