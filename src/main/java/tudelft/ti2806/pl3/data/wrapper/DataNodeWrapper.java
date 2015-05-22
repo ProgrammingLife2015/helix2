@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class DataNodeWrapper extends Wrapper {
 	private DataNode node;
-	private long startX = -1;
+//	private long startX = -1;
 	
 	/**
 	 * Construct a list with connected and fully initialised
@@ -55,11 +55,11 @@ public class DataNodeWrapper extends Wrapper {
 		}
 		
 		// Calculate the x positions and the number previous node count
-		List<DataNodeWrapper> list = new ArrayList<>(map.values());
-		for (DataNodeWrapper node : list) {
-			node.calculateStartX();
-		}
-		return new ArrayList<Wrapper>(list);
+		return new ArrayList<Wrapper>(map.values());
+//		for (DataNodeWrapper node : list) {
+//			node.calculateStartX();
+//		}
+//		return new ArrayList<Wrapper>(list);
 	}
 	
 	/**
@@ -67,18 +67,18 @@ public class DataNodeWrapper extends Wrapper {
 	 * 
 	 * @return the calculated startX value.
 	 */
-	public long calculateStartX() {
-		if (this.getXStart() != -1) {
-			return this.getXStart();
-		}
-		long max = 0;
-		for (Wrapper incomingNode : incoming) {
-			max = Math.max(max, ((DataNodeWrapper) incomingNode).calculateStartX()
-					+ incomingNode.getWidth());
-		}
-		this.startX = max;
-		return max;
-	}
+//	public long calculateStartX() {
+//		if (this.getXStart() != -1) {
+//			return this.getXStart();
+//		}
+//		long max = 0;
+//		for (Wrapper incomingNode : incoming) {
+//			max = Math.max(max, ((DataNodeWrapper) incomingNode).calculateStartX()
+//					+ incomingNode.getWidth());
+//		}
+//		this.startX = max;
+//		return max;
+//	}
 	
 	public DataNodeWrapper(DataNode node) {
 		this.node = node;
@@ -88,15 +88,15 @@ public class DataNodeWrapper extends Wrapper {
 		return node;
 	}
 
-	@Override
-	public long getXStart() {
-		return startX;
-	}
+//	@Override
+//	public long getXStart() {
+//		return startX;
+//	}
 
-	@Override
-	public long getXEnd() {
-		return startX + getWidth();
-	}
+//	@Override
+//	public long getXEnd() {
+//		return startX + getWidth();
+//	}
 
 	@Override
 	public long getWidth() {

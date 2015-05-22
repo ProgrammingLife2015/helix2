@@ -14,16 +14,6 @@ public class SingleWrapper extends Wrapper {
 	public SingleWrapper(Wrapper target) {
 		this.target = target;
 	}
-
-	@Override
-	public long getXStart() {
-		return target.getXStart();
-	}
-	
-	@Override
-	public long getXEnd() {
-		return target.getXEnd();
-	}
 	
 	@Override
 	public long getWidth() {
