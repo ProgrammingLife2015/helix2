@@ -1,19 +1,20 @@
 package tudelft.ti2806.pl3.data.graph;
 
+
 public class Edge {
-	public Edge(Node from, Node to) {
+	public Edge(DataNode from, DataNode to) {
 		this.from = from;
 		this.to = to;
 	}
 	
-	protected Node from;
-	protected Node to;
+	protected DataNode from;
+	protected DataNode to;
 	
-	public Node getFrom() {
+	public DataNode getFrom() {
 		return from;
 	}
 	
-	public Node getTo() {
+	public DataNode getTo() {
 		return to;
 	}
 	
@@ -62,6 +63,14 @@ public class Edge {
 	
 	public String getName() {
 		return this.from.getId() + "_" + this.to.getId();
+	}
+	
+	public int getFromId() {
+		return getFrom().getId();
+	}
+	
+	public int getToId() {
+		return getTo().getId();
 	}
 	
 }

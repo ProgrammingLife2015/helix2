@@ -1,18 +1,19 @@
 package tudelft.ti2806.pl3.data.filter;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.Node;
+import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 /**
  * Test the  {@link GenomeFilter} class
@@ -27,15 +28,15 @@ public class GenomeFilterTest {
 	@Mock
 			Genome genome2;
 	@Mock
-			Node node1;
+			DataNode node1;
 	@Mock
-			Node node2;
+			DataNode node2;
 	@Mock
-			Node node3;
+			DataNode node3;
 	@Mock
-			Node node4;
+			DataNode node4;
 	GenomeFilter genomeFilter;
-	List<Node> nodeList;
+	List<DataNode> nodeList;
 
 	/**
 	 * Setup the genomes, nodes and lists.

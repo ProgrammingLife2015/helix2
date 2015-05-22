@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.controls;
 
-import org.graphstream.ui.swingViewer.util.ShortcutManager;
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
@@ -28,9 +27,7 @@ public class KeyController implements KeyListener {
 	 */
 	public KeyController(Application app) {
 		// remove the default keylistener
-		KeyListener[] keyListeners = app.getGraphController().getPanel().getKeyListeners();
-		ShortcutManager graphkeys = (ShortcutManager)keyListeners[0];
-		graphkeys.release();
+
 		// add our keylistener
 		this.app = app;
 		graphController = app.getGraphController();
@@ -73,15 +70,15 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			double oldzoom = graphController.getCurrentZoomLevel();
-			double newzoom = oldzoom * 2;
-			graphController.changeZoom(newzoom);
+//			double oldzoom = graphController.getCurrentZoomLevel();
+//			double newzoom = oldzoom * 2;
+			graphController.zoomLevelDown();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
-			double oldzoom = app.getGraphController().getCurrentZoomLevel();
-			double newzoom = oldzoom / 2;
-			app.getGraphController().changeZoom(newzoom);
+//			double oldzoom = app.getGraphController().getCurrentZoomLevel();
+//			double newzoom = oldzoom / 2;
+			graphController.zoomLevelUp();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {

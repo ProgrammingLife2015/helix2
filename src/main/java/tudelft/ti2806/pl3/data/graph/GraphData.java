@@ -9,9 +9,6 @@ import java.util.List;
  */
 public class GraphData extends AbstractGraphData {
 	AbstractGraphData origin;
-	private List<Node> nodes;
-	private List<Edge> edges;
-	private List<Genome> genomes;
 	
 	/**
 	 * Constructs an instance of {@code GraphData}.
@@ -25,7 +22,7 @@ public class GraphData extends AbstractGraphData {
 	 * @param genomes
 	 *            all {@link Genome} that are present in the graph
 	 */
-	public GraphData(AbstractGraphData origin, List<Node> nodes,
+	public GraphData(AbstractGraphData origin, List<DataNode> nodes,
 			List<Edge> edges, List<Genome> genomes) {
 		this.origin = origin;
 		this.nodes = nodes;
@@ -38,30 +35,28 @@ public class GraphData extends AbstractGraphData {
 				.getEdgeListClone(), originalGraph.getGenomeClone());
 	}
 	
-	public List<Node> getNodes() {
+	@Override
+	public List<DataNode> getNodes() {
 		return nodes;
 	}
 	
+	@Override
 	public List<Edge> getEdges() {
 		return edges;
 	}
 	
+	@Override
 	public List<Genome> getGenomes() {
 		return genomes;
 	}
 	
+	@Override
 	public AbstractGraphData getOrigin() {
 		return origin;
 	}
-
+	
 	@Override
 	public int getLongestNodePath() {
 		return origin.getLongestNodePath();
 	}
-	
-	@Override
-	public long getSize() {
-		return origin.getSize();
-	}
-
 }

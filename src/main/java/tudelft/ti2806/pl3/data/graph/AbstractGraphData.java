@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGraphData {
-	List<Node> nodes;
+	List<DataNode> nodes;
 	List<Edge> edges;
 	List<Genome> genomes;
 	
-	public abstract List<Node> getNodes();
+	public abstract List<DataNode> getNodes();
 	
 	public abstract List<Edge> getEdges();
 	
@@ -24,7 +24,7 @@ public abstract class AbstractGraphData {
 	 * @return a clone of the genomes list of this graph
 	 */
 	public List<Genome> getGenomeClone() {
-		List<Genome> clone = new ArrayList<Genome>();
+		List<Genome> clone = new ArrayList<>(genomes.size());
 		clone.addAll(genomes);
 		return clone;
 	}
@@ -35,7 +35,7 @@ public abstract class AbstractGraphData {
 	 * @return a clone of the edge list of this graph
 	 */
 	public List<Edge> getEdgeListClone() {
-		List<Edge> clone = new ArrayList<Edge>();
+		List<Edge> clone = new ArrayList<>(edges.size());
 		clone.addAll(edges);
 		return clone;
 	}
@@ -45,8 +45,8 @@ public abstract class AbstractGraphData {
 	 * 
 	 * @return a clone of the node list
 	 */
-	public List<Node> getNodeListClone() {
-		List<Node> clone = new ArrayList<Node>();
+	public List<DataNode> getNodeListClone() {
+		List<DataNode> clone = new ArrayList<>(nodes.size());
 		clone.addAll(nodes);
 		return clone;
 	}
@@ -59,11 +59,11 @@ public abstract class AbstractGraphData {
 	 */
 	public abstract int getLongestNodePath();
 	
-	/**
-	 * Get the length of the longest path on the graph, using the number of base
-	 * pairs as distance measure.
-	 * 
-	 * @return the number of base pairs on the longest path on the graph.
-	 */
-	public abstract long getSize();
+//	/**
+//	 * Get the length of the longest path on the graph, using the number of base
+//	 * pairs as distance measure.
+//	 * 
+//	 * @return the number of base pairs on the longest path on the graph.
+//	 */
+//	public abstract long getSize();
 }

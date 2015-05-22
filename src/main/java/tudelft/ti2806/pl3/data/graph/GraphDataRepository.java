@@ -8,8 +8,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,6 @@ import java.util.Map;
 
 public class GraphDataRepository extends AbstractGraphData {
 	private int longestNodePath;
-	private long size;
 	
 	/**
 	 * Construct a instance of {@code GraphDataRepository}.
@@ -29,49 +28,24 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @param genomes
 	 *            all {@link Genome} that are present in the graph
 	 */
-	public GraphDataRepository(List<Node> nodes, List<Edge> edges,
+	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
 			List<Genome> genomes) {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
-		init();
 	}
 	
-	/**
-	 * Initialise the instance.<br>
-	 * Calculates the longestNodePath, size and genome order.
-	 */
-	private void init() {
-		calculateStartX(nodes);
-		this.longestNodePath = calculateNodeLongestPath(nodes);
-		this.size = calculateSize();
-		int index = 0;
-		for (Genome genome : genomes) {
-			genome.setYposition(index++);
-		}
-	}
-	
-	/**
-	 * Calculates the size of the longest path on the graph.
-	 * 
-	 * @return the longest path in base pair count
-	 */
-	private long calculateSize() {
-		long max = 0;
-		for (Node node : nodes) {
-			max = Math.max(max, node.getXEnd());
-		}
-		return max;
-	}
-	
-	public List<Node> getNodes() {
+	@Override
+	public List<DataNode> getNodes() {
 		return this.getNodeListClone();
 	}
-	
+
+	@Override
 	public List<Edge> getEdges() {
 		return this.getEdgeListClone();
 	}
-	
+
+	@Override
 	public List<Genome> getGenomes() {
 		return this.getGenomeClone();
 	}
@@ -90,27 +64,13 @@ public class GraphDataRepository extends AbstractGraphData {
 	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
-		Map<Integer, SingleNode> nodeMap = parseNodes(nodesFile, genomeMap);
-		List<Node> nodeList = new ArrayList<Node>();
+		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
+		List<DataNode> nodeList = new ArrayList<DataNode>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<Genome>();
 		genomeList.addAll(genomeMap.values());
 		return new GraphDataRepository(nodeList,
 				parseEdges(edgesFile, nodeMap), genomeList);
-	}
-	
-	private static int calculateNodeLongestPath(List<Node> nodes) {
-		int max = 0;
-		for (Node node : nodes) {
-			max = Math.max(node.calculatePreviousNodesCount(), max);
-		}
-		return max;
-	}
-	
-	private static void calculateStartX(List<Node> nodes) {
-		for (Node node : nodes) {
-			node.calculateStartX();
-		}
 	}
 	
 	/**
@@ -124,14 +84,14 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static Map<Integer, SingleNode> parseNodes(File nodesFile,
+	public static Map<Integer, DataNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
-		Map<Integer, SingleNode> nodes = new HashMap<Integer, SingleNode>();
+		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
 		try {
 			while (br.ready()) {
-				SingleNode node = parseNode(br, genomeMap);
+				DataNode node = parseNode(br, genomeMap);
 				nodes.put(node.getId(), node);
 			}
 		} catch (IOException e) {
@@ -147,20 +107,20 @@ public class GraphDataRepository extends AbstractGraphData {
 	 *            the BufferedReader with two available lines to read
 	 * @return the read node
 	 */
-	protected static SingleNode parseNode(BufferedReader br,
+	protected static DataNode parseNode(BufferedReader br,
 			Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
-			indexData = br.readLine().replaceAll("[> ]", "")
-					.split("\\|");
+			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		SingleNode node = null;
+		DataNode node = null;
 		try {
-			node = new SingleNode(Integer.parseInt(indexData[0]),
+			node = new DataNode(Integer.parseInt(indexData[0]),
 					parseGenomeIdentifiers(indexData[1].split(","), genomes),
-					Integer.parseInt(indexData[2]), Integer.parseInt(indexData[3]),
+					Integer.parseInt(indexData[2]),
+					Integer.parseInt(indexData[3]),
 					BasePair.getBasePairString(br.readLine()));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -175,7 +135,7 @@ public class GraphDataRepository extends AbstractGraphData {
 			identifiers[i] = identifiers[i].replaceAll("-", "_");
 			Genome genome = genomes.get(identifiers[i]);
 			if (genome == null) {
-				genome = new Genome(identifiers[i], genomes.size());
+				genome = new Genome(identifiers[i]);
 				genomes.put(identifiers[i], genome);
 			}
 			result[i] = genome;
@@ -194,19 +154,18 @@ public class GraphDataRepository extends AbstractGraphData {
 	 *             if the file is not found
 	 */
 	public static List<Edge> parseEdges(File edgesFile,
-			Map<Integer, SingleNode> nodes) throws FileNotFoundException {
+			Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
 		try {
 			while (br.ready()) {
 				String[] index = br.readLine().split(" ");
-				SingleNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
-				SingleNode nodeTo = nodes.get(Integer.parseInt(index[1]));
+				DataNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
+				DataNode nodeTo = nodes.get(Integer.parseInt(index[1]));
 				list.add(new Edge(nodeFrom, nodeTo));
-				nodeTo.getIncoming().add(nodeFrom);
-				nodeFrom.getOutgoing().add(nodeTo);
 			}
+			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -221,8 +180,8 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @return the found node<br>
 	 *         {@code null} if there is no node with this id in the graph
 	 */
-	public Node getNodeByNodeId(int id) {
-		for (Node node : nodes) {
+	public DataNode getNodeByNodeId(int id) {
+		for (DataNode node : nodes) {
 			if (node.getId() == id) {
 				return node;
 			}
@@ -249,17 +208,14 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 		return null;
 	}
-	
+
+	@Override
 	public int getLongestNodePath() {
 		return longestNodePath;
 	}
-	
+
+	@Override
 	public AbstractGraphData getOrigin() {
 		return this;
 	}
-	
-	public long getSize() {
-		return size;
-	}
-	
 }

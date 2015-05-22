@@ -1,0 +1,25 @@
+graph {
+    fill-mode:gradient-diagonal1;
+    fill-color: rgb(108,121,151), rgb(231, 233, 237);
+}
+
+edge {
+    shape: freeplane;
+    fill-color: #00000070;
+}
+
+node {
+    fill-mode: image-scaled;
+}
+
+node.HorizontalWrapper {
+    shape: box;
+}
+
+node.SpaceWrapper {
+    shape: diamond;
+}
+
+node.VerticalWrapper {
+    shape: cross;
+}
