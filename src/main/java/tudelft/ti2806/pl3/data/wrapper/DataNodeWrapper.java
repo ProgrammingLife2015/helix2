@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class DataNodeWrapper extends Wrapper {
 	private DataNode node;
-	
+
 	/**
 	 * Construct a list with connected and fully initialised
 	 * {@code NodePosition}s.
@@ -61,7 +61,7 @@ public class DataNodeWrapper extends Wrapper {
 	public DataNode getNode() {
 		return node;
 	}
-	
+
 	@Override
 	public long getWidth() {
 		return node.getWidth();

@@ -48,7 +48,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		this.previousNodesCount = max;
 		return max;
 	}
-
+	
 	public List<Wrapper> getIncoming() {
 		return incoming;
 	}
