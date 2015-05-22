@@ -58,3 +58,5 @@ hs_err_pid*
 /local/*
 !/data/testdata/
 !/data/testdata/*.graph
+
+!pictures/*

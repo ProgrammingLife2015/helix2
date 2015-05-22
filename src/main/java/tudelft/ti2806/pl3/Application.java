@@ -1,16 +1,20 @@
 package tudelft.ti2806.pl3;
 
+import newick.NewickParser;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.util.FileSelector;
+import tudelft.ti2806.pl3.util.TreeParser;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -67,12 +71,20 @@ public class Application extends JFrame {
 	public void start() {
 		File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+		// TODO: Fix this! But it's needed, otherwise the app is idle on Macs!
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
 		try {
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
+			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
 			graphController = new GraphController(gd);
 			zoomBarController = new ZoomBarController(graphController);
-			sideBarController = new SideBarController(graphController, gd);
+			sideBarController = new SideBarController(graphController,tree);
 
 			// set the views
 			setSideBarView(sideBarController.getPanel());
@@ -84,11 +96,18 @@ public class Application extends JFrame {
 			WindowController windowController = new WindowController(this);
 			KeyController keys = new KeyController(this);
 			graphController.getPanel().addKeyListener(keys);
+			sideBarController.getPanel().addKeyListener(keys);
 			addWindowListener(windowController);
 
 			this.setFocusable(true);
 			this.setVisible(true);
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			this.stop();
+		} catch (IOException e) {
+			e.printStackTrace();
+			this.stop();
+		} catch (newick.ParseException e) {
 			e.printStackTrace();
 			this.stop();
 		}

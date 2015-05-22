@@ -96,8 +96,6 @@ public class KeyController implements KeyListener {
 			long newViewCenter = (long)(oldViewCenter - move);
 			graphController.moveView(newViewCenter);
 		}
-
-
 	}
 	
 	/**

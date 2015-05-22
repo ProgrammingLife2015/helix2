@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.util;
 
 import java.io.File;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
@@ -18,11 +17,11 @@ public class FileSelector {
 	 * Opens a file select window.
 	 *
 	 * @param title
-	 *            of the file chooser
+	 * 		of the file chooser
 	 * @param frame
-	 *            in which file chooser must be shown
+	 * 		in which file chooser must be shown
 	 * @param filter
-	 *            of the files
+	 * 		of the files
 	 * @return File that is chosen
 	 */
 	public static File selectFile(String title, JFrame frame, String filter) {
