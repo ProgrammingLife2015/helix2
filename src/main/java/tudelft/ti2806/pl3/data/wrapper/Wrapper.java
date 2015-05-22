@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.data.wrapper;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
+import tudelft.ti2806.pl3.util.DoneDeque;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,5 +118,34 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	public void addInterest(int interest) {
 		this.interest += interest;
+	}
+	
+	/**
+	 * Computes the longest path for each {@link Wrapper} in the list and
+	 * returns the length of the longest path found.
+	 * 
+	 * @param nodeWrappers
+	 *            the list of the {@link Wrapper}s to compute the longest path
+	 *            of
+	 * @return the length of the longest path found
+	 */
+	public static int computeLongestPaths(List<Wrapper> nodeWrappers) {
+		DoneDeque<Wrapper> deque = new DoneDeque<>(nodeWrappers.size());
+		for (Wrapper wrapper : nodeWrappers) {
+			if (wrapper.getIncoming().size() == 0) {
+				deque.add(wrapper);
+			}
+		}
+		int max = 0;
+		for (int i = nodeWrappers.size(); i > 0; i--) {
+			Wrapper wrapper = deque.poll();
+			for (Wrapper out : wrapper.getOutgoing()) {
+				if (deque.doneAll(out.getIncoming())) {
+					deque.add(out);
+				}
+			}
+			max = Math.max(wrapper.calculatePreviousNodesCount(), max);
+		}
+		return max;
 	}
 }

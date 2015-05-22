@@ -55,6 +55,7 @@ public class Unwrap extends WrapperOperation {
 			Pair<WrapperPlaceholder, Wrapper> pair = stack.pop();
 			pair.getSecond().calculate(this, pair.getFirst());
 		}
+		Wrapper.computeLongestPaths(new ArrayList<Wrapper>(wrapperClones));
 	}
 
 	public Wrapper getResult() {
@@ -250,7 +251,6 @@ public class Unwrap extends WrapperOperation {
 			WrapperClone wrapperClone = new WrapperClone(node.getDataNodes(), node);
 			wrapperClone.setY(node.getY());
 			wrapperClones.add(wrapperClone);
-			wrapperClone.setIdString(node.getIdString());
 			return wrapperClone;
 		}
 	}
