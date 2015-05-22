@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * An utility class to merge ordered lists.
+ * 
+ * @author Sam Smulders
+ */
 public class OrderedListUtil {
 	private OrderedListUtil() {
 	}

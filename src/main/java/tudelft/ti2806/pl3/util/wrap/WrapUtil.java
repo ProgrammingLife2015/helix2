@@ -57,6 +57,16 @@ public final class WrapUtil {
 		return graph;
 	}
 	
+	/**
+	 * Adds a node to the end and start of the graph, connecting to all genome
+	 * endings on the graph, to make a last {@link SpaceWrapper} by the
+	 * {@link SpaceWrapUtil} possible. And by that fixing the graph, making it
+	 * possible to wrap the graph to one single node.
+	 * 
+	 * @param graph
+	 *            the graph to fix
+	 * @return a fixed graph
+	 */
 	public static WrappedGraphData applyFixNode(WrappedGraphData graph) {
 		List<NodeWrapper> nodes = graph.getPositionedNodes();
 		FixWrapper startFix = new FixWrapper(-1);

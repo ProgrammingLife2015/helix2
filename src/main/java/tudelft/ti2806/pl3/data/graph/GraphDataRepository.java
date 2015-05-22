@@ -165,6 +165,7 @@ public class GraphDataRepository extends AbstractGraphData {
 				DataNode nodeTo = nodes.get(Integer.parseInt(index[1]));
 				list.add(new Edge(nodeFrom, nodeTo));
 			}
+			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

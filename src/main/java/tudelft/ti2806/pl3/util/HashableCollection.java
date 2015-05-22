@@ -2,18 +2,26 @@ package tudelft.ti2806.pl3.util;
 
 import java.util.Collection;
 
+/**
+ * A holder for a collection to make the collection hash able.
+ * 
+ * @author Sam Smulders
+ *
+ * @param <T>
+ *            the collection its type
+ */
 public class HashableCollection<T> {
-	Collection<T> list;
+	Collection<T> collection;
 	
 	public HashableCollection(Collection<T> list) {
-		this.list = list;
+		this.collection = list;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((list == null) ? 0 : list.hashCode());
+		result = prime * result + ((collection == null) ? 0 : collection.hashCode());
 		return result;
 	}
 	
@@ -30,20 +38,20 @@ public class HashableCollection<T> {
 		}
 		@SuppressWarnings("unchecked")
 		HashableCollection<T> other = (HashableCollection<T>) obj;
-		if (list == null) {
-			if (other.list == null) {
+		if (collection == null) {
+			if (other.collection == null) {
 				return true;
 			} else {
 				return false;
 			}
-		}else{
-			if( other.list == null){
+		} else {
+			if (other.collection == null) {
 				return false;
 			}
 		}
-		if (list.size() != other.list.size()) {
+		if (collection.size() != other.collection.size()) {
 			return false;
 		}
-		return list.containsAll(other.list);
+		return collection.containsAll(other.collection);
 	}
 }

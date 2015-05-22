@@ -36,18 +36,22 @@ public class GraphData extends AbstractGraphData {
 				.getEdgeListClone(), originalGraph.getGenomeClone());
 	}
 	
+	@Override
 	public List<DataNode> getNodes() {
 		return nodes;
 	}
 	
+	@Override
 	public List<Edge> getEdges() {
 		return edges;
 	}
 	
+	@Override
 	public List<Genome> getGenomes() {
 		return genomes;
 	}
 	
+	@Override
 	public AbstractGraphData getOrigin() {
 		return origin;
 	}

@@ -37,6 +37,7 @@ public class Genome {
 		}
 		return true;
 	}
+	
 	public String getIdentifier() {
 		return identifier;
 	}

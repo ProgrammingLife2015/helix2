@@ -6,8 +6,14 @@ import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An utility class to find and/or remove dead edges from a {@link GraphData}
+ * object.
+ * 
+ * @author Sam Smulders
+ */
 public class DeadEdgeUtil {
-	private DeadEdgeUtil(){
+	private DeadEdgeUtil() {
 	}
 	
 	/**

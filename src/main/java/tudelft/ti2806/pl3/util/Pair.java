@@ -1,5 +1,16 @@
 package tudelft.ti2806.pl3.util;
 
+/**
+ * Combines two types together as one type. Makes it possible to create return
+ * types, keys or values with two types.
+ * 
+ * @author Sam Smulders
+ *
+ * @param <U>
+ *            the first type
+ * @param <T>
+ *            the second type
+ */
 public class Pair<U, T> {
 	public final U first;
 	public final T second;
