@@ -94,6 +94,7 @@ public class GraphView implements Observer, ViewInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 	}

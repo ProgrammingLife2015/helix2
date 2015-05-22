@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-<<<<<<< HEAD
 /**
  * A deque which has a set cap and keeps track of what is already on the deque.
  * 
