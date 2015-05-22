@@ -149,7 +149,7 @@ public abstract class WrapperOperation {
 		
 	}
 	
-	public void calculate(WrapperClone dataNodeWrapper,
+	public void calculate(WrapperClone wrapperClone,
 			Wrapper nodeWrapper) {
 	}
 	

@@ -111,7 +111,7 @@ public class HorizontalWrappedUnwrapTest {
 	 */
 	@Test
 	public void dataNodeWrapperCount() {
-		assertEquals(4, unwrap.getDataNodeWrappers().size());
+		assertEquals(4, unwrap.getWrapperClones().size());
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class HorizontalWrappedUnwrapTest {
 	 */
 	@Test
 	public void testNoMorePlaceholders() {
-		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());
+		new NoMorePlaceholdersTest(unwrap.getWrapperClones());
 	}
 
 	/**

@@ -35,7 +35,7 @@ import java.util.Stack;
 public class Unwrap extends WrapperOperation {
 
 	private Wrapper result;
-	private List<WrapperClone> dataNodeWrappers;
+	private List<WrapperClone> wrapperClones;
 	Stack<Pair<WrapperPlaceholder, Wrapper>> stack;
 
 	/**
@@ -48,7 +48,7 @@ public class Unwrap extends WrapperOperation {
 	 *          The big wrapped node containing the entire graph
 	 */
 	public Unwrap(Wrapper start) {
-		dataNodeWrappers = new ArrayList<>();
+		wrapperClones = new ArrayList<>();
 		stack = new Stack<>();
 		result = createNewNode(start);
 		while (!stack.empty()) {
@@ -61,8 +61,8 @@ public class Unwrap extends WrapperOperation {
 		return result;
 	}
 
-	public List<WrapperClone> getDataNodeWrappers() {
-		return dataNodeWrappers;
+	public List<WrapperClone> getWrapperClones() {
+		return wrapperClones;
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class Unwrap extends WrapperOperation {
 	 * a reference to the {@link CombineWrapper} will be put on the stack. This placeholder
 	 * is necessary to connect it to the correct nodes in the graph we're constructing. The
 	 * reference is passed to unwrap its nodes in the next calculate.</p>
-	 * <p>If the {@link Wrapper} shouldn't be unwrapped, a DataNodeWrapper is returned.
+	 * <p>If the {@link Wrapper} shouldn't be unwrapped, a {@link WrapperClone} is returned.
 	 * This node contains all the {@link DataNode}s that are wrapped in this node.</p>
 	 * @param node
 	 *          The {@link Wrapper} from the original graph.
@@ -247,11 +247,11 @@ public class Unwrap extends WrapperOperation {
 			stack.add(new Pair<>(placeholder, node));
 			return placeholder;
 		} else {
-			WrapperClone dataNodeWrapper = new WrapperClone(node.getDataNodes(), node);
-			dataNodeWrapper.setY(node.getY());
-			dataNodeWrappers.add(dataNodeWrapper);
-			dataNodeWrapper.setIdString(node.getIdString());
-			return dataNodeWrapper;
+			WrapperClone wrapperClone = new WrapperClone(node.getDataNodes(), node);
+			wrapperClone.setY(node.getY());
+			wrapperClones.add(wrapperClone);
+			wrapperClone.setIdString(node.getIdString());
+			return wrapperClone;
 		}
 	}
 

@@ -106,7 +106,7 @@ public class SpaceWrapperWrappedUnwrapTest {
 	 */
 	@Test
 	public void dataNodeWrapperCount() {
-		assertEquals(5, unwrap.getDataNodeWrappers().size());
+		assertEquals(5, unwrap.getWrapperClones().size());
 	}
 
 	/**
@@ -114,6 +114,6 @@ public class SpaceWrapperWrappedUnwrapTest {
 	 */
 	@Test
 	public void testNoMorePlaceholders() {
-		new NoMorePlaceholdersTest(unwrap.getDataNodeWrappers());
+		new NoMorePlaceholdersTest(unwrap.getWrapperClones());
 	}
 }

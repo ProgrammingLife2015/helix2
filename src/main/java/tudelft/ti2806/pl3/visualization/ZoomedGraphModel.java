@@ -83,7 +83,7 @@ public class ZoomedGraphModel extends Observable implements Observer {
 		collapseOnInterest.calculate(collapsedNode, null);
 		
 		Unwrap unwrap = new Unwrap(collapsedNode);
-		dataNodeWrapperList = unwrap.getDataNodeWrappers();
+		dataNodeWrapperList = unwrap.getWrapperClones();
 
 		setChanged();
 		notifyObservers();
