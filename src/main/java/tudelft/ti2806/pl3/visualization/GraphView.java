@@ -109,14 +109,18 @@ public class GraphView implements Observer, ViewInterface {
 		graph.clear();
 		setGraphPropertys();
 		graphData.forEach(node -> {
-				Node graphNode = graph.addNode(node.getIdString());
-				graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
-				graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
+				if (node.getIdString() != "[FIX]") {
+					Node graphNode = graph.addNode(node.getIdString());
+					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
+					graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
+				}
 			});
 
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				addNormalEdge(graph, node, to);
+				if (node.getIdString() != "[FIX]" && to.getIdString() != "[FIX]") { 
+					addNormalEdge(graph, node, to);
+				}
 			}
 		}
 		return graph;
