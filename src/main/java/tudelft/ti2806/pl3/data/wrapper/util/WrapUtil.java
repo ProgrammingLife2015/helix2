@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.util.wrap;
+package tudelft.ti2806.pl3.data.wrapper.util;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;

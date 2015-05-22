@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.util.wrap;
+package tudelft.ti2806.pl3.data.wrapper.util;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,6 +7,10 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.util.HorizontalWrapUtil;
+import tudelft.ti2806.pl3.data.wrapper.util.SpaceWrapUtil;
+import tudelft.ti2806.pl3.data.wrapper.util.VerticalWrapUtil;
+import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 
 import java.io.File;

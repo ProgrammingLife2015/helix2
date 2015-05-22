@@ -14,8 +14,8 @@ import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer;
+import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.Pair;
-import tudelft.ti2806.pl3.util.wrap.WrapUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;

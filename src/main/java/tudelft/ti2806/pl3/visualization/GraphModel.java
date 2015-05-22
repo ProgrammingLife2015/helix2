@@ -6,7 +6,7 @@ import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
-import tudelft.ti2806.pl3.util.wrap.WrapUtil;
+import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
