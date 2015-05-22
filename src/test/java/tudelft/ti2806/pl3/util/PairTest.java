@@ -1,15 +1,15 @@
 package tudelft.ti2806.pl3.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertNotEquals;
-
 /**
- * Test for Pair class
+ * Test for Pair class.<br>
  * Created by Kasper on 21-5-2015.
  */
 
@@ -18,6 +18,9 @@ public class PairTest {
 	private Integer three;
 	private Pair<Integer,Integer> pair;
 
+	/**
+	 * Runs before each test.
+	 */
 	@Before
 	public void before() {
 		two = new Integer(2);
@@ -36,7 +39,7 @@ public class PairTest {
 	}
 
 	@Test
-	public void testToString(){
+	public void testToString() {
 		pair = new Pair<>(two, three);
 		String name = "Pair [first=" + two.toString() + ", second=" + three.toString() + "]";
 		assertEquals(pair.toString(),name);
@@ -55,7 +58,6 @@ public class PairTest {
 		Pair<Integer, Integer> firstnull = new Pair<>(null, two);
 		Pair<Integer, Integer> secondnull = new Pair<>(two, null);
 
-
 		assertTrue(pair.equals(equal));
 		assertFalse(pair.equals(diffelement));
 		assertFalse(firstnull.equals(diffelement));
@@ -64,8 +66,9 @@ public class PairTest {
 
 
 	}
+	
 	@Test
-	public void testHashCode(){
+	public void testHashCode() {
 		pair = new Pair<>(two, three);
 		assertEquals(pair.hashCode(), 1026);
 		assertNotEquals(pair.hashCode(), 2020);

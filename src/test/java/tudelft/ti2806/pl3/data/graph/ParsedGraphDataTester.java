@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.data.graph;
 
 import org.junit.Assert;
-import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;

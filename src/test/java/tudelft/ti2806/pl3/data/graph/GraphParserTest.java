@@ -1,6 +1,10 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Assert;
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
@@ -14,8 +18,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.assertTrue;
 
 public class GraphParserTest {
 	private File simpleNodeGraphFile = new File("data/testdata/TestNodeGraphFile");
@@ -41,6 +43,6 @@ public class GraphParserTest {
 		
 		DataNode nodeA = nodeMap.get(35);
 		DataNode nodeB = nodeMap.get(1);
-		assertTrue(edges.get(0).equals(new Edge(nodeA, nodeB)));
+		Assert.assertEquals(new Edge(nodeA, nodeB), edges.get(0));
 	}
 }

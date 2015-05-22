@@ -1,10 +1,14 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
 import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
@@ -14,9 +18,6 @@ import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the unwrapping of a {@link HorizontalWrapper}.
@@ -121,7 +122,8 @@ public class HorizontalWrappedUnwrapTest {
 	}
 
 	/**
-	 * Create a {@link HorizontalWrapper} given the two nodes
+	 * Create a {@link HorizontalWrapper} given the two nodes.
+	 * 
 	 * @param wrapper1
 	 *          node 1 for the wrapper
 	 * @param wrapper2
@@ -139,7 +141,8 @@ public class HorizontalWrappedUnwrapTest {
 	}
 
 	/**
-	 * Get the next node in the {@link HorizontalWrapper}
+	 * Get the next node in the {@link HorizontalWrapper}.
+	 * 
 	 * @param node
 	 *          start node
 	 * @param times

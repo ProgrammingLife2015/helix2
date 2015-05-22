@@ -205,6 +205,7 @@ public class Unwrap extends WrapperOperation {
 	 * @param placeholder
 	 *          The placeholder for this {@link SingleWrapper} in the newly constructed graph
 	 */
+	@Override
 	public void calculate(SingleWrapper node, NodeWrapper placeholder) {
 		NodeWrapper newNode = createNewNode(node.getNode());
 		for (NodeWrapper incoming : placeholder.getIncoming()) {

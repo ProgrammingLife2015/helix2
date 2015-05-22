@@ -109,9 +109,9 @@ public class GraphView implements Observer, ViewInterface {
 		setGraphPropertys();
 		graphData.forEach(NodeWrapper::calculatePreviousNodesCount);
 		graphData.forEach(node -> {
-				Node gNode = graph.addNode(node.getIdString());
-				gNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
-				gNode.addAttribute("ui.class", node.getClass().getSimpleName());
+				Node graphNode = graph.addNode(node.getIdString());
+				graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
+				graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
 			});
 
 		for (NodeWrapper node : graphData) {

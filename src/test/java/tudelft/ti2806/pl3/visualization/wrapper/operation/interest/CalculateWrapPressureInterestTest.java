@@ -45,6 +45,9 @@ public class CalculateWrapPressureInterestTest {
 	
 	private CalculateWrapPressureInterest calculateWrapPressureInterest;
 	
+	/**
+	 * Runs before each test.
+	 */
 	@Before
 	public void before() {
 		Set<Genome> genomeList = new HashSet<>();

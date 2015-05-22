@@ -125,7 +125,8 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		SpaceWrapper alwaysCrossTestGraphWrapper = alwaysCrossTestData();
 		// applyOrder tests
 		Assert.assertNotNull(testObject.applyOrderToY(alwaysCrossTestGraphWrapper));
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = testObject.getOrder(testObject.getOutgoingLists(alwaysCrossTestGraphWrapper
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order
+				= testObject.getOrder(testObject.getOutgoingLists(alwaysCrossTestGraphWrapper
 				.getNodeList()));
 		int invalidConfigurationCount = 0;
 		
@@ -149,7 +150,8 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	@Test
 	public void calculateBestConfigTest() throws FileNotFoundException {
 		SpaceWrapper alwaysCrossTestGraphWrapper = alwaysCrossTestData();
-		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order = testObject.getOrder(testObject.getOutgoingLists(alwaysCrossTestGraphWrapper
+		List<Pair<List<NodeWrapper>, NodeWrapper[]>> order
+				= testObject.getOrder(testObject.getOutgoingLists(alwaysCrossTestGraphWrapper
 				.getNodeList()));
 		int bestConfig = testObject.calculateBestConfig(alwaysCrossTestGraphWrapper,
 				EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE, order);

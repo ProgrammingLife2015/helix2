@@ -1,26 +1,32 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
-import tudelft.ti2806.pl3.visualization.wrapper.*;
+import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the unwrapping of a {@link SpaceWrapper}.
  *
  * <p>It creates a {@link SpaceWrapper} in a {@link HorizontalWrapper}.</p>
  * <p>It verifies that all the edge connections between the nodes are correct.</p>
- *
- * Created by Boris Mattijssen on 19-05-15.
+ * 
+ * <p>Created by Boris Mattijssen on 19-05-15.</p>
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SpaceWrapperUnwrapTest {

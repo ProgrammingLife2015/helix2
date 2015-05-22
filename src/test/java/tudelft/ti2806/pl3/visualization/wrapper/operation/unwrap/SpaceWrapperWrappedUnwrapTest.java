@@ -1,18 +1,24 @@
 package tudelft.ti2806.pl3.visualization.wrapper.operation.unwrap;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import tudelft.ti2806.pl3.data.graph.node.DataNode;
-import tudelft.ti2806.pl3.visualization.wrapper.*;
+import tudelft.ti2806.pl3.visualization.wrapper.DataNodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.HorizontalWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.NodePosition;
+import tudelft.ti2806.pl3.visualization.wrapper.NodeWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.PlaceholderWrapper;
+import tudelft.ti2806.pl3.visualization.wrapper.SpaceWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * The same test as {@link SpaceWrapperUnwrapTest}, but it also tests the functionality
@@ -21,6 +27,7 @@ import static org.junit.Assert.assertTrue;
  * @see {@link SpaceWrapperUnwrapTest}
  * @see {@link Unwrap#calculate(SpaceWrapper, NodeWrapper)}
  *
+ * <p>
  * Created by Boris Mattijssen on 19-05-15.
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -35,7 +42,7 @@ public class SpaceWrapperWrappedUnwrapTest {
 	private Unwrap unwrap;
 
 	/**
-	 * @see {@link SpaceWrapperUnwrapTest#before}
+	 * @see {@link SpaceWrapperUnwrapTest#before}.
 	 */
 	@Before
 	public void before() {
@@ -74,7 +81,7 @@ public class SpaceWrapperWrappedUnwrapTest {
 	}
 
 	/**
-	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}
+	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}.
 	 */
 	@Test
 	public void testLeftNode() {
@@ -84,7 +91,7 @@ public class SpaceWrapperWrappedUnwrapTest {
 	}
 
 	/**
-	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}
+	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}.
 	 */
 	@Test
 	public void testLeftMiddleNode() {

@@ -1,15 +1,15 @@
 package tudelft.ti2806.pl3.data;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Test;
+
 /**
- * Genome data class tests.
+ * Genome data class tests.<br>
  * Created by Kasper on 21-5-2015.
  */
 public class GenomeTest {
@@ -18,7 +18,7 @@ public class GenomeTest {
 	private Genome genome2;
 
 	@Before
-	public void before(){
+	public void before() {
 		genome1 = new Genome("genome1");
 		genome2 = new Genome("genome2");
 	}
@@ -45,5 +45,5 @@ public class GenomeTest {
 		assertEquals(genome1.getIdentifier(), "genome1");
 		assertNotEquals(genome1.getIdentifier(), genome2.getIdentifier());
 	}
-
+	
 }

@@ -30,6 +30,6 @@ public class UtilTest<T> {
 		Constructor<T> constructor = classs.getDeclaredConstructor();
 		Assert.assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		constructor.setAccessible(true);
-		constructor.newInstance();
+		Assert.assertNotNull(constructor.newInstance());
 	}
 }
