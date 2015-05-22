@@ -18,6 +18,16 @@ import java.util.List;
 import java.util.Observable;
 
 /**
+ * This model filters the original graph data, based on the filter selections.
+ *
+ * <p>Every time a new filter is added:
+ * <li>It first makes a clone of the original graph data.
+ * <li>Then it passes this clone to the filters and retrieves the filtered data.
+ * <li>Then it wrappes the graph to one node.
+ * <li>Then it calculates the y positions of the nodes.
+ * <li>Then it calculates the interest of the nodes.
+ * <li>Then it notifies the {@link tudelft.ti2806.pl3.visualization.ZoomedGraphModel}, which
+ * will produce the data for the view.
  * Created by Boris Mattijssen on 20-05-15.
  */
 public class FilteredGraphModel extends Observable {
@@ -33,6 +43,14 @@ public class FilteredGraphModel extends Observable {
 	private CalculateSizeInterest sizeInterest;
 	//private CalculateGroupInterest groupInterest;
 
+	/**
+	 * Construct the model containing the filtered data.<br>
+	 * The model gets the original graph data and filters this data.
+	 * Then it informs its listeners, to give them the filtered data.
+	 *
+	 * @param originalGraphData
+	 *          The original graph data
+	 */
 	public FilteredGraphModel(AbstractGraphData originalGraphData) {
 		this.originalGraphData = originalGraphData;
 		filters = new ArrayList<>();
