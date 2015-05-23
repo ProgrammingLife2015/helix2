@@ -52,4 +52,9 @@ public class WrapperClone extends Wrapper {
 	public void collectDataNodes(List<DataNode> list) {
 		list.addAll(dataNodeList);
 	}
+
+	@Override
+	public void calculateX() {
+		this.x = originalNode.getX();
+	}
 }

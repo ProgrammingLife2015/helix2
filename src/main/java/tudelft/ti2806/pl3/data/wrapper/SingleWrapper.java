@@ -33,14 +33,19 @@ public class SingleWrapper extends Wrapper {
 	public Wrapper getNode() {
 		return target;
 	}
-
+	
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
-
+	
 	@Override
 	public void collectDataNodes(List<DataNode> list) {
 		target.collectDataNodes(list);
+	}
+	
+	@Override
+	public void calculateX() {
+		this.x = this.getNode().getX();
 	}
 }

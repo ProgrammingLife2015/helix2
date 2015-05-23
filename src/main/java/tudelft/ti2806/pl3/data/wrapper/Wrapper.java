@@ -18,8 +18,11 @@ import java.util.Set;
 public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	protected float y;
+	protected float x;
+	
 	protected List<Wrapper> incoming = new ArrayList<>();
 	protected List<Wrapper> outgoing = new ArrayList<>();
+	
 	private int previousNodesCount = -1;
 	private int interest = 0;
 	
@@ -27,6 +30,10 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	public int getPreviousNodesCount() {
 		return previousNodesCount;
+	}
+	
+	public float getX() {
+		return x;
 	}
 	
 	public float getY() {
@@ -48,6 +55,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		this.previousNodesCount = max;
 		return max;
 	}
+	
+	public abstract void calculateX();
 	
 	public List<Wrapper> getIncoming() {
 		return incoming;

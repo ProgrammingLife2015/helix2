@@ -90,4 +90,9 @@ public class DataNodeWrapper extends Wrapper {
 	public void collectDataNodes(List<DataNode> list) {
 		list.add(node);
 	}
+
+	@Override
+	public void calculateX() {
+		this.x = this.getPreviousNodesCount();
+	}
 }

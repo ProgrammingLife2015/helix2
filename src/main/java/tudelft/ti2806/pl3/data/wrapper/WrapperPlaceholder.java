@@ -35,4 +35,8 @@ public class WrapperPlaceholder extends Wrapper {
 	public void collectDataNodes(List<DataNode> list) {
 	}
 
+	@Override
+	public void calculateX() {
+	}
+
 }

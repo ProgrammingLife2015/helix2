@@ -29,7 +29,10 @@ public class WrappedGraphData {
 	 */
 	public WrappedGraphData(List<Wrapper> nodeWrappers) {
 		this.nodeWrappers = nodeWrappers;
-		this.longestNodePath = computeLongestPath();
+		this.longestNodePath = Wrapper.computeLongestPaths(this.nodeWrappers);
+		for (Wrapper wrapper : nodeWrappers) {
+			wrapper.calculateX();
+		}
 	}
 	
 	private int computeLongestPath() {

@@ -159,5 +159,9 @@ public class OrderedListUtilTest {
 			return true;
 		}
 
+		@Override
+		public void calculateX() {
+		}
+
 	}
 }

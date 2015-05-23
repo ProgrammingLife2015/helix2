@@ -39,5 +39,10 @@ public class FixWrapper extends Wrapper {
 	public void setGenome(Set<Genome> genome) {
 		this.genome = genome;
 	}
+
+	@Override
+	public void calculateX() {
+		this.x = this.getPreviousNodesCount();
+	}
 	
 }
