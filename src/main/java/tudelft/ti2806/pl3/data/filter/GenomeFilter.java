@@ -39,11 +39,13 @@ public class GenomeFilter implements Filter<DataNode> {
 					break;
 				}
 			}
-			dataNode.getSource().removeAll(
+			List<Genome> currentGenomeList = new ArrayList<>();
+			currentGenomeList.addAll(
 					dataNode.getSource().stream()
-							.filter(genome -> !genomes.contains(genome.getIdentifier()))
+							.filter(genome -> genomes.contains(genome.getIdentifier()))
 							.collect(Collectors.toList())
 			);
+			dataNode.setCurrentGenomeList(currentGenomeList);
 		}
 		nodes.removeAll(remove);
 	}

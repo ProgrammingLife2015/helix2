@@ -92,7 +92,7 @@ public class GenomeFilterTest {
 		genomeFilter.filter(nodeList);
 		assertEquals(nodeList.size(), 2);
 		for(DataNode node : nodeList) {
-			for(Genome genome : node.getSource()) {
+			for(Genome genome : node.getCurrentGenomeList()) {
 				assertFalse(genome.getIdentifier().equals(genome2.getIdentifier()));
 			}
 		}
