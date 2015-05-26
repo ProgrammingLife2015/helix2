@@ -6,7 +6,7 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.exeption.DuplicateGenomeNameException;
+import tudelft.ti2806.pl3.exception.DuplicateGenomeNameException;
 import tudelft.ti2806.pl3.util.DeadEdgeUtil;
 
 import java.io.File;

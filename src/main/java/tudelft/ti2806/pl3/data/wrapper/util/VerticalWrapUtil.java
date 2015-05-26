@@ -77,7 +77,8 @@ public final class VerticalWrapUtil {
 	 * @return a list of edges which could be combined
 	 */
 	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
-		Map<Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>, List<Wrapper>> map = new HashMap<>();
+		Map<Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>,
+				List<Wrapper>> map = new HashMap<>();
 		for (Wrapper node : nodes) {
 			List<Wrapper> list = map
 					.get(new Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>(

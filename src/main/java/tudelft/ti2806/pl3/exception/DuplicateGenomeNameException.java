@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.exeption;
+package tudelft.ti2806.pl3.exception;
 
 /**
  * Exception thrown when an error occurs due to two or more genome on the graph
