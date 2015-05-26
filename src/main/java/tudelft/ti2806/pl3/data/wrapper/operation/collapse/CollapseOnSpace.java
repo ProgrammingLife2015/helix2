@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * Decides what to fold or unfold, based on the average space left between nodes
+ * inside a wrapped node.
  * 
  * @author Sam Smulders
  */
@@ -52,11 +54,17 @@ public class CollapseOnSpace extends WrapperOperation {
 	boolean hasSpaceLeft(CombineWrapper wrapper) {
 		List<Wrapper> list = new ArrayList<>(wrapper.getNodeList());
 		Collections.sort(list, new XComparator());
-		float min = Float.MAX_VALUE;
+		float avg = 0;
+		int count = list.size();
 		for (int i = list.size() - 2; i >= 0; i--) {
-			min = Math.min(min, list.get(i + 1).getX() - list.get(i).getX());
+			float left = list.get(i + 1).getX() - list.get(i).getX();
+			if (left == 0) {
+				count--;
+			} else {
+				avg += left;
+			}
 		}
-		return min > space;
+		return avg / count > space;
 	}
 	
 	public class XComparator implements Comparator<Wrapper> {

@@ -123,7 +123,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		int max = 0;
 		DoneDeque<Wrapper> rightToLeft = new DoneDeque<>(nodeWrappers.size());
 		// Calculate all previous node counts from left to right
-		while (!rightToLeft.isEmpty()) {
+		for (int i = nodeWrappers.size(); i > 0; i--) {
 			Wrapper wrapper = leftToRight.poll();
 			// Find all last wrappers
 			if (wrapper.getOutgoing().size() == 0) {
