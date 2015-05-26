@@ -9,6 +9,8 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 
+import java.util.HashSet;
+
 public class NodePositionTest {
 	private static DataNodeWrapper s0;
 	private static DataNodeWrapper s1;
@@ -20,12 +22,12 @@ public class NodePositionTest {
 	 */
 	@BeforeClass
 	public static void init() {
-		s0 = new DataNodeWrapper(new DataNode(0, new Genome[0], 0, 0, new byte[5]));
+		s0 = new DataNodeWrapper(new DataNode(0, new HashSet<>(), 0, 0, new byte[5]));
 		s1 = new DataNodeWrapper(
-				new DataNode(1, new Genome[0], 0, 0, new byte[10]));
+				new DataNode(1, new HashSet<>(), 0, 0, new byte[10]));
 		s2 = new DataNodeWrapper(
-				new DataNode(2, new Genome[0], 0, 0, new byte[20]));
-		s3 = new DataNodeWrapper(new DataNode(3, new Genome[0], 0, 0, new byte[2]));
+				new DataNode(2, new HashSet<>(), 0, 0, new byte[20]));
+		s3 = new DataNodeWrapper(new DataNode(3, new HashSet<>(), 0, 0, new byte[2]));
 		
 		s0.getOutgoing().add(s1);
 		s1.getIncoming().add(s0);

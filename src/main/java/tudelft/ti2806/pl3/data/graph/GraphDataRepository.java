@@ -12,8 +12,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GraphDataRepository extends AbstractGraphData {
 	private int longestNodePath;
@@ -63,11 +65,11 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
-		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
+		Map<String, Genome> genomeMap = new HashMap<>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
 		List<DataNode> nodeList = new ArrayList<DataNode>();
 		nodeList.addAll(nodeMap.values());
-		List<Genome> genomeList = new ArrayList<Genome>();
+		List<Genome> genomeList = new ArrayList<>();
 		genomeList.addAll(genomeMap.values());
 		return new GraphDataRepository(nodeList,
 				parseEdges(edgesFile, nodeMap), genomeList);
@@ -128,9 +130,9 @@ public class GraphDataRepository extends AbstractGraphData {
 		return node;
 	}
 	
-	private static Genome[] parseGenomeIdentifiers(String[] identifiers,
-			Map<String, Genome> genomes) {
-		Genome[] result = new Genome[identifiers.length];
+	private static Set<Genome> parseGenomeIdentifiers(String[] identifiers,
+	                                               Map<String, Genome> genomes) {
+		Set<Genome> result = new HashSet<>(identifiers.length);
 		for (int i = 0; i < identifiers.length; i++) {
 			identifiers[i] = identifiers[i].replaceAll("-", "_");
 			Genome genome = genomes.get(identifiers[i]);
@@ -138,7 +140,7 @@ public class GraphDataRepository extends AbstractGraphData {
 				genome = new Genome(identifiers[i]);
 				genomes.put(identifiers[i], genome);
 			}
-			result[i] = genome;
+			result.add(genome);
 		}
 		return result;
 	}

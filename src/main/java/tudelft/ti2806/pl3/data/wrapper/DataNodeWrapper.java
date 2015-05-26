@@ -7,7 +7,6 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -110,11 +109,7 @@ public class DataNodeWrapper extends Wrapper {
 	
 	@Override
 	public Set<Genome> getGenome() {
-		Set<Genome> list = new HashSet<Genome>();
-		for (Genome genome : node.getSource()) {
-			list.add(genome);
-		}
-		return list;
+		return node.getCurrentGenomeList();
 	}
 
 	@Override
