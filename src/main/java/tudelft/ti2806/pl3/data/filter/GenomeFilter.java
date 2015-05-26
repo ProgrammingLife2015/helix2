@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 /**
  * This filter will filter all nodes depending on a list of genomes.
-<<<<<<< HEAD
  * @author Boris Mattijssen
  */
 public class GenomeFilter implements Filter<DataNode> {
