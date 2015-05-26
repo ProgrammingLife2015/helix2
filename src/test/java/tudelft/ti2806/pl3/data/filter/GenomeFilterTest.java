@@ -15,7 +15,10 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Test the  {@link GenomeFilter} class
@@ -49,10 +52,18 @@ public class GenomeFilterTest {
 		when(genome1.getIdentifier()).thenReturn("ID1");
 		when(genome2.getIdentifier()).thenReturn("ID2");
 
-		when(node1.getSource()).thenReturn(new Genome[]{genome1, genome2});
-		when(node2.getSource()).thenReturn(new Genome[]{genome2});
-		when(node3.getSource()).thenReturn(new Genome[]{genome1});
-		when(node4.getSource()).thenReturn(new Genome[]{});
+		Set<Genome> set1 = new HashSet<>();
+		Set<Genome> set2 = new HashSet<>();
+		Set<Genome> set3 = new HashSet<>();
+		Set<Genome> set4 = new HashSet<>();
+		set1.add(genome1);
+		set1.add(genome2);
+		set2.add(genome2);
+		set2.add(genome1);
+		when(node1.getSource()).thenReturn(set1);
+		when(node2.getSource()).thenReturn(set2);
+		when(node3.getSource()).thenReturn(set3);
+		when(node4.getSource()).thenReturn(set4);
 
 		nodeList = new ArrayList<>();
 		nodeList.add(node1);

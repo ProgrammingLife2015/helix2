@@ -4,6 +4,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The SingleNode is a node parsed from the original data. No changes should or
@@ -14,7 +16,7 @@ import java.util.Arrays;
  */
 public class DataNode {
 	protected final int nodeId;
-	protected final Genome[] source;
+	protected final Set<Genome> source;
 	protected final int refStartPoint;
 	protected final int refEndPoint;
 	protected final byte[] content;
@@ -33,14 +35,14 @@ public class DataNode {
 	 * @param contentOfTheNode
 	 *            the size of this {@code Node}
 	 */
-	public DataNode(int nodeId, Genome[] source, int refStartPoint,
+	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
 			int refEndPoint, byte[] contentOfTheNode) {
 		this.nodeId = nodeId;
 		if (source == null) {
 			// TODO: Bad data, throw exception
 			this.source = null;
 		} else {
-			this.source = source.clone();
+			this.source = new HashSet<>(source);
 		}
 		this.refStartPoint = refStartPoint;
 		this.refEndPoint = refEndPoint;
@@ -54,7 +56,7 @@ public class DataNode {
 	@Override
 	public String toString() {
 		return "SingleNode [nodeId=" + nodeId + ", source="
-				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
+				+ source + ", refStartPoint=" + refStartPoint
 				+ ", refEndPoint=" + refEndPoint + ", content.lenght="
 				+ content.length + "]";
 	}
@@ -67,7 +69,7 @@ public class DataNode {
 		result = prime * result + nodeId;
 		result = prime * result + refEndPoint;
 		result = prime * result + refStartPoint;
-		result = prime * result + Arrays.hashCode(source);
+		result = prime * result + source.hashCode();
 		return result;
 	}
 	
@@ -95,7 +97,7 @@ public class DataNode {
 		if (refStartPoint != other.refStartPoint) {
 			return false;
 		}
-		if (!Arrays.equals(source, other.source)) {
+		if (source.equals(other.source)) {
 			return false;
 		}
 		return true;
@@ -107,7 +109,7 @@ public class DataNode {
 	
 	// Suppressed in the interest of space and time
 	@SuppressFBWarnings({ "EI_EXPOSE_REP" })
-	public Genome[] getSource() {
+	public Set<Genome> getSource() {
 		return source;
 	}
 	
