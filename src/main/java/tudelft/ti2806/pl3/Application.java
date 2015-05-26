@@ -4,6 +4,7 @@ import newick.NewickParser;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.exeption.FileSelectorException;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.TreeParser;
@@ -69,16 +70,10 @@ public class Application extends JFrame {
 	 * controllers.
 	 */
 	public void start() {
-		File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
-		File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
-		// TODO: Fix this! But it's needed, otherwise the app is idle on Macs!
 		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
-		try {
+			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
+			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
@@ -102,12 +97,16 @@ public class Application extends JFrame {
 			this.setFocusable(true);
 			this.setVisible(true);
 		} catch (FileNotFoundException e) {
+			// TODO: Show dialog with message to user
 			e.printStackTrace();
 			this.stop();
 		} catch (IOException e) {
 			e.printStackTrace();
 			this.stop();
 		} catch (newick.ParseException e) {
+			e.printStackTrace();
+			this.stop();
+		} catch (FileSelectorException e) {
 			e.printStackTrace();
 			this.stop();
 		}
