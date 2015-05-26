@@ -1,6 +1,8 @@
 package tudelft.ti2806.pl3.data.filter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -78,6 +80,11 @@ public class GenomeFilterTest {
 	public void testGenomeFilter() {
 		genomeFilter.filter(nodeList);
 		assertEquals(nodeList.size(), 2);
+		for(DataNode node : nodeList) {
+			for(Genome genome : node.getSource()) {
+				assertFalse(genome.getIdentifier().equals(genome2.getIdentifier()));
+			}
+		}
 	}
 
 }
