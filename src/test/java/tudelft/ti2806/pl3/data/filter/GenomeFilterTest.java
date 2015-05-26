@@ -59,11 +59,11 @@ public class GenomeFilterTest {
 		set1.add(genome1);
 		set1.add(genome2);
 		set2.add(genome2);
-		set2.add(genome1);
-		when(node1.getSource()).thenReturn(set1);
-		when(node2.getSource()).thenReturn(set2);
-		when(node3.getSource()).thenReturn(set3);
-		when(node4.getSource()).thenReturn(set4);
+		set3.add(genome1);
+		DataNode node1 = new DataNode(1, set1, 0, 0, new byte[]{});
+		DataNode node2 = new DataNode(2, set2, 0, 0, new byte[]{});
+		DataNode node3 = new DataNode(3, set3, 0, 0, new byte[]{});
+		DataNode node4 = new DataNode(4, set4, 0, 0, new byte[]{});
 
 		nodeList = new ArrayList<>();
 		nodeList.add(node1);
@@ -92,6 +92,7 @@ public class GenomeFilterTest {
 		genomeFilter.filter(nodeList);
 		assertEquals(nodeList.size(), 2);
 		for(DataNode node : nodeList) {
+			assertTrue(node.getCurrentGenomeList().size() > 0);
 			for(Genome genome : node.getCurrentGenomeList()) {
 				assertFalse(genome.getIdentifier().equals(genome2.getIdentifier()));
 			}

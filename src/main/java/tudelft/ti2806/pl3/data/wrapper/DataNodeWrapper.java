@@ -110,7 +110,7 @@ public class DataNodeWrapper extends Wrapper {
 	
 	@Override
 	public Set<Genome> getGenome() {
-		return new HashSet<>(node.getCurrentGenomeList());
+		return node.getCurrentGenomeList();
 	}
 
 	@Override
