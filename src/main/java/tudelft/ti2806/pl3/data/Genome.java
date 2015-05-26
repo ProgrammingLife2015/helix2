@@ -38,6 +38,11 @@ public class Genome {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return identifier;
+	}
+
 	public String getIdentifier() {
 		return identifier;
 	}
