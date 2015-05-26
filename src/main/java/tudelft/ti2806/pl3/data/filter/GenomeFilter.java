@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +39,11 @@ public class GenomeFilter implements Filter<DataNode> {
 					break;
 				}
 			}
-			for (Genome genome : dataNode.getSource()) {
-				if(!genomes.contains(genome.getIdentifier())) {
-					dataNode.getSource().remove(genome);
-				}
-			}
+			dataNode.getSource().removeAll(
+					dataNode.getSource().stream()
+							.filter(genome -> !genomes.contains(genome.getIdentifier()))
+							.collect(Collectors.toList())
+			);
 		}
 		nodes.removeAll(remove);
 	}
