@@ -1,8 +1,5 @@
 package tudelft.ti2806.pl3.data;
 
-import java.util.Set;
-import java.util.function.Function;
-
 public class Genome {
 	private final String identifier;
 	
