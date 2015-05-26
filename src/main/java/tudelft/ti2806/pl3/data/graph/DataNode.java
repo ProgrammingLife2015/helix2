@@ -3,10 +3,8 @@ package tudelft.ti2806.pl3.data.graph;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.data.Genome;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +17,7 @@ import java.util.Set;
 public class DataNode {
 	protected final int nodeId;
 	protected final Set<Genome> source;
-	protected List<Genome> currentGenomeList;
+	protected Set<Genome> currentGenomeList;
 	protected final int refStartPoint;
 	protected final int refEndPoint;
 	protected final byte[] content;
@@ -44,12 +42,13 @@ public class DataNode {
 		if (source == null) {
 			// TODO: Bad data, throw exception
 			this.source = null;
+			this.currentGenomeList = null;
 		} else {
 			this.source = new HashSet<>(source);
+			this.currentGenomeList = new HashSet<>(source);
 		}
 		this.refStartPoint = refStartPoint;
 		this.refEndPoint = refEndPoint;
-		this.currentGenomeList = new ArrayList<>();
 		if (contentOfTheNode == null) {
 			this.content = null;
 		} else {
@@ -130,11 +129,11 @@ public class DataNode {
 		return content.length;
 	}
 
-	public List<Genome> getCurrentGenomeList() {
+	public Set<Genome> getCurrentGenomeList() {
 		return currentGenomeList;
 	}
 
-	public void setCurrentGenomeList(List<Genome> currentGenomeList) {
+	public void setCurrentGenomeList(Set<Genome> currentGenomeList) {
 		this.currentGenomeList = currentGenomeList;
 	}
 }
