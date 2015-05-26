@@ -15,8 +15,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GraphParserTest {
 	private File simpleNodeGraphFile = new File("data/testdata/TestNodeGraphFile");
@@ -27,16 +29,17 @@ public class GraphParserTest {
 		DataNode node = GraphDataRepository.parseNode(new BufferedReader(
 				new InputStreamReader(new BufferedInputStream(
 						new FileInputStream((simpleNodeGraphFile))))),
-				new HashMap<String, Genome>());
-		assertTrue(node.equals(new DataNode(35, new Genome[] { new Genome(
-				"TKK_01_0029") }, 2609451, 2609452,
-				new byte[] { BasePair.A.storeByte })));
+				new HashMap<>());
+		Set<Genome> set = new HashSet<>(1);
+		set.add(new Genome("TKK_01_0029"));
+		assertTrue(node.equals(new DataNode(35, set, 2609451, 2609452,
+				new byte[]{BasePair.A.storeByte})));
 	}
 	
 	@Test
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
 		Map<Integer, DataNode> nodeMap = GraphDataRepository.parseNodes(
-				simpleNodeGraphFile, new HashMap<String, Genome>());
+				simpleNodeGraphFile, new HashMap<>());
 		List<Edge> edges = GraphDataRepository.parseEdges(simpleEdgeGraphFile,
 				nodeMap);
 		
