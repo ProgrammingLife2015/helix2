@@ -97,7 +97,7 @@ public class DataNode {
 		if (refStartPoint != other.refStartPoint) {
 			return false;
 		}
-		if (source.equals(other.source)) {
+		if (!source.equals(other.source)) {
 			return false;
 		}
 		return true;
