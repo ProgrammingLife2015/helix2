@@ -1,6 +1,6 @@
 package tudelft.ti2806.pl3.util;
 
-import tudelft.ti2806.pl3.exeption.FileSelectorException;
+import tudelft.ti2806.pl3.exception.FileSelectorException;
 
 import java.awt.FileDialog;
 import java.io.File;
