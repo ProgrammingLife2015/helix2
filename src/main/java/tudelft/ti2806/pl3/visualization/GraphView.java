@@ -134,9 +134,7 @@ public class GraphView implements Observer, ViewInterface {
 	 *            the node where the edge ends
 	 */
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		org.graphstream.graph.Edge gEdge = graph.addEdge(
-				from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString());
-		gEdge.addAttribute("ui.class", "normalEdge");
+		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
 	}
 
 	@Override
