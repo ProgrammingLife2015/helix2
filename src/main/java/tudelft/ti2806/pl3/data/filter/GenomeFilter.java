@@ -22,6 +22,7 @@ public class GenomeFilter implements Filter<DataNode> {
 
 	/**
 	 * Filter that removes all nodes that are not in the genome list.
+	 * It also removes the genomes from the node that should be filtered out.
 	 * @param nodes
 	 *          the list of nodes
 	 */
@@ -30,13 +31,18 @@ public class GenomeFilter implements Filter<DataNode> {
 		List<DataNode> remove = new ArrayList<>();
 		for (DataNode dataNode : nodes) {
 			for (String genome : genomes) {
-				if (!Arrays.asList(dataNode.getSource())
+				if (dataNode.getSource()
 						.stream()
 						.map(Genome::getIdentifier)
 						.collect(Collectors.toList())
 							.contains(genome)) {
 					remove.add(dataNode);
 					break;
+				}
+			}
+			for (Genome genome : dataNode.getSource()) {
+				if(!genomes.contains(genome.getIdentifier())) {
+					dataNode.getSource().remove(genome);
 				}
 			}
 		}
