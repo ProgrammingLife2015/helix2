@@ -78,6 +78,11 @@ public abstract class CombineWrapper extends Wrapper {
 	}
 
 	@Override
+	public int getId() {
+		return nodeList.get(0).getId();
+	}
+
+	@Override
 	public void collectDataNodes(List<DataNode> list) {
 		nodeList.forEach(n -> n.collectDataNodes(list));
 	}

@@ -71,7 +71,11 @@ public class DataNodeWrapper extends Wrapper {
 	public String getIdString() {
 		return node.getId() + "";
 	}
-	
+
+	@Override public int getId() {
+		return node.getId();
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		Set<Genome> list = new HashSet<Genome>();

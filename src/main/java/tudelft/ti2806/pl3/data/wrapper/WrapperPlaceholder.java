@@ -21,6 +21,10 @@ public class WrapperPlaceholder extends Wrapper {
 		return null;
 	}
 
+	@Override public int getId() {
+		return 0;
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return null;
