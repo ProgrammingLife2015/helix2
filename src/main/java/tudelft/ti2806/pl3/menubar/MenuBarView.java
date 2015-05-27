@@ -2,8 +2,7 @@ package tudelft.ti2806.pl3.menubar;
 
 import tudelft.ti2806.pl3.Application;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Component;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,12 +15,24 @@ public class MenuBarView extends JMenuBar {
 
 	private MenuBarController menuBarController;
 
+
+	/**
+	 * Makes the view of the menubar.
+	 *
+	 * @param application
+	 * 		to place the menubar in.
+	 */
 	public MenuBarView(Application application) {
 		menuBarController = new MenuBarController(application);
 		add(setUpFile());
 		add(setUpView());
 	}
 
+	/**
+	 * Set the Items under the header File.
+	 *
+	 * @return JMenu file
+	 */
 	private JMenu setUpFile() {
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem openNode = new JMenuItem("Open node and edge file");
@@ -33,16 +44,21 @@ public class MenuBarView extends JMenuBar {
 		fileMenu.addSeparator();
 		fileMenu.add(exit);
 
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				menuBarController.stop();
+		// add action listener for every item
+		for (Component component : fileMenu.getMenuComponents()) {
+			if (component instanceof JMenuItem) {
+				((JMenuItem) component).addActionListener(menuBarController);
 			}
-		});
+		}
 
 		return fileMenu;
 	}
 
+	/**
+	 * Sets up the item under the header View.
+	 *
+	 * @return JMenu view
+	 */
 	private JMenu setUpView() {
 		JMenu viewMenu = new JMenu("View");
 
@@ -53,6 +69,13 @@ public class MenuBarView extends JMenuBar {
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
 		viewMenu.add(reset);
+
+		// add action listener for every item
+		for (Component component : viewMenu.getMenuComponents()) {
+			if (component instanceof JMenuItem) {
+				((JMenuItem) component).addActionListener(menuBarController);
+			}
+		}
 
 		return viewMenu;
 	}
