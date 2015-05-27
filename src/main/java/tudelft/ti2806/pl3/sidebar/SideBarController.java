@@ -12,10 +12,9 @@ import java.util.ArrayList;
  * Controller that controls the sidebar. The user can select options in the
  * sidebar. Created by Kasper on 7-5-15.
  */
-public class SideBarController implements Controller {
+public class SideBarController implements Controller{
 
 	private SideBarView sideBarView;
-	private PhyloController phyloController;
 
 	/**
 	 * Construct the side bar controller and add all filters to its view.
@@ -25,18 +24,8 @@ public class SideBarController implements Controller {
 	 * @param tree
 	 * 		the newick tree
 	 */
-	public SideBarController(GraphController graphController, NewickParser.TreeNode tree) {
-		phyloController = new PhyloController(graphController, tree);
-
-		ArrayList<Component> viewList = new ArrayList<>();
-		viewList.add(phyloController.getPanel());
-
-		sideBarView = new SideBarView(viewList);
-	}
-
-	@Override
-	public Component getPanel() {
-		return sideBarView;
+	public SideBarController(SideBarView sideBarView, GraphController graphController) {
+		this.sideBarView = sideBarView;
 	}
 
 	/**

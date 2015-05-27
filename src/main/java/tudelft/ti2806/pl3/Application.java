@@ -8,10 +8,14 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.menubar.MenuBarView;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
+import tudelft.ti2806.pl3.sidebar.SideBarView;
+import tudelft.ti2806.pl3.sidebar.phylotree.PhyloView;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.TreeParser;
 import tudelft.ti2806.pl3.visualization.GraphController;
+import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
+import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
 
 import java.awt.Component;
 import java.io.File;
@@ -42,9 +46,11 @@ public class Application extends JFrame {
 	/**
 	 * The controllers of the application.
 	 */
-	private GraphController graphController;
-	private SideBarController sideBarController;
-	private ZoomBarController zoomBarController;
+
+	private GraphView graphView;
+	private SideBarView sideBarView;
+	private ZoomBarView zoomBarView;
+
 
 	/**
 	 * Construct the main application view.
@@ -68,13 +74,13 @@ public class Application extends JFrame {
 
 		// set menu bar
 		MenuBarView menuBarView = new MenuBarView(this);
-		setMenuBar(menuBarView);
+		setMenuBar(menuBarView.getPanel());
 		// set window controller
 		WindowController windowController = new WindowController(this);
 		addWindowListener(windowController);
-		// set keys
-		KeyController keys = new KeyController(this);
-		addKeyListener(keys);
+//		// set keys
+//		KeyController keys = new KeyController(this);
+//		addKeyListener(keys);
 
 		this.setFocusable(true);
 		this.setVisible(true);
@@ -88,16 +94,17 @@ public class Application extends JFrame {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
-			graphController = new GraphController(gd);
-			zoomBarController = new ZoomBarController(graphController);
 
-			setZoomBarView(zoomBarController.getPanel());
-			setGraphView(graphController.getPanel());
+			graphView = new GraphView(gd);
+			zoomBarView = new ZoomBarView(getGraphController());
+
+			setZoomBarView(zoomBarView.getPanel());
+			setGraphView(graphView.getPanel());
 
 			KeyController keys = new KeyController(this);
-			graphController.getPanel().addKeyListener(keys);
-			this.setFocusable(true);
+			graphView.getPanel().addKeyListener(keys);
 
+			this.setFocusable(true);
 		} catch (FileNotFoundException | FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph();
@@ -112,18 +119,22 @@ public class Application extends JFrame {
 		try {
 			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
-			sideBarController = new SideBarController(graphController, tree);
+			PhyloView phyloView = new PhyloView(tree, getGraphController());
+			sideBarView = new SideBarView(getGraphController());
+			sideBarView.addToSideBarView(phyloView.getPanel());
+			setSideBarView(sideBarView.getPanel());
 
-			setSideBarView(sideBarController.getPanel());
+
 
 			KeyController keys = new KeyController(this);
-			sideBarController.getPanel().addKeyListener(keys);
+			sideBarView.getPanel().addKeyListener(keys);
+
 		} catch (FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makePhyloTree();
 			}
 		} catch (ParseException | IOException exception) {
-			if (confirm("Error!", "Your file was formatted correctly found. Want to try again?")) {
+			if (confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
 				makePhyloTree();
 			}
 		}
@@ -202,15 +213,15 @@ public class Application extends JFrame {
 	}
 
 	public GraphController getGraphController() {
-		return graphController;
+		return graphView.getController();
 	}
 
 	public SideBarController getSideBarController() {
-		return sideBarController;
+		return sideBarView.getController();
 	}
 
 	public ZoomBarController getZoomBarController() {
-		return zoomBarController;
+		return zoomBarView.getController();
 	}
 
 }
