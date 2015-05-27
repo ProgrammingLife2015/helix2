@@ -164,10 +164,9 @@ public class Application extends JFrame {
 	 */
 	public void stop() {
 		// save data or do something else here
-		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
-			this.dispose();
-			System.exit(0);
-		}
+		this.confirm();
+		this.dispose();
+		System.exit(0);
 	}
 
 	/**
@@ -181,7 +180,7 @@ public class Application extends JFrame {
 	 */
 	public boolean confirm(String title, String message) {
 		int answer = JOptionPane
-				.showConfirmDialog(main, message, title,
+				.showConfirmDialog(main, "Are you sure you want to quit?", "Quit",
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
