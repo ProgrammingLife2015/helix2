@@ -4,6 +4,9 @@ import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -12,45 +15,33 @@ import javax.swing.JMenuItem;
  * Menubarview is the view for the menubar.
  * Created by Kasper on 27-5-2015.
  */
-public class MenuBarView extends JMenuBar implements View {
+public class MenuBarView extends JMenuBar {
 
 	private MenuBarController menuBarController;
 
-
-	/**
-	 * Makes the view of the menubar.
-	 *
-	 * @param application
-	 * 		to place the menubar in.
-	 */
 	public MenuBarView(Application application) {
 		menuBarController = new MenuBarController(application);
 		add(setUpFile());
 		add(setUpView());
 	}
 
-	/**
-	 * Set the Items under the header File.
-	 *
-	 * @return JMenu file
-	 */
 	private JMenu setUpFile() {
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem openNode = new JMenuItem("Open node and edge file");
-		JMenuItem openNwk = new JMenuItem("Open .nwk file");
+		JMenuItem openNWK = new JMenuItem("Open .nwk file");
 		JMenuItem exit = new JMenuItem("Exit");
 
 		fileMenu.add(openNode);
-		fileMenu.add(openNwk);
+		fileMenu.add(openNWK);
 		fileMenu.addSeparator();
 		fileMenu.add(exit);
 
-		// add action listener for every item
-		for (Component component : fileMenu.getMenuComponents()) {
-			if (component instanceof JMenuItem) {
-				((JMenuItem) component).addActionListener(menuBarController);
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuBarController.stop();
 			}
-		}
+		});
 
 		return fileMenu;
 	}
@@ -71,23 +62,6 @@ public class MenuBarView extends JMenuBar implements View {
 		viewMenu.add(zoomOut);
 		viewMenu.add(reset);
 
-		// add action listener for every item
-		for (Component component : viewMenu.getMenuComponents()) {
-			if (component instanceof JMenuItem) {
-				((JMenuItem) component).addActionListener(menuBarController);
-			}
-		}
-
 		return viewMenu;
-	}
-
-	@Override
-	public JMenuBar getPanel() {
-		return this;
-	}
-
-	@Override
-	public MenuBarController getController() {
-		return menuBarController;
 	}
 }

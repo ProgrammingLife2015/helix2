@@ -126,21 +126,36 @@ public class Application extends JFrame {
 			sideBarView = new SideBarView();
 			sideBarView.addLoadingObserversList(loadingObservers);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
-			PhyloView phyloView = new PhyloView(tree, getGraphController());
-			sideBarView.addToSideBarView(phyloView.getPanel());
-			setSideBarView(sideBarView.getPanel());
+			graphController = new GraphController(gd);
+			zoomBarController = new ZoomBarController(graphController);
+			sideBarController = new SideBarController(graphController,tree);
+			// set the views
+			setSideBarView(sideBarController.getPanel());
+			setGraphView(graphController.getPanel());
+			setZoomBarView(zoomBarController.getPanel());
 
+			// set the controls.
+			// This is done last so we can remove the default library keycontroller
+			WindowController windowController = new WindowController(this);
 			KeyController keys = new KeyController(this);
-			sideBarView.getPanel().addKeyListener(keys);
-
-		} catch (FileSelectorException exception) {
-			if (confirm("Error!", "Your file was not found. Want to try again?")) {
-				makePhyloTree();
-			}
-		} catch (ParseException | IOException exception) {
-			if (confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
-				makePhyloTree();
-			}
+			graphController.getPanel().addKeyListener(keys);
+			sideBarController.getPanel().addKeyListener(keys);
+			addWindowListener(windowController);
+			
+			this.setFocusable(true);
+			this.setVisible(true);
+		} catch (FileNotFoundException e) {
+			// TODO: Show dialog with message to user
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			this.stop();
+		} catch (newick.ParseException e) {
+			e.printStackTrace();
+			this.stop();
+		} catch (FileSelectorException e) {
+			e.printStackTrace();
+			this.stop();
 		}
 	}
 
