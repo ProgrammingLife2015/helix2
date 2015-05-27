@@ -29,6 +29,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public GraphDataRepository() {
 	}
+	
 	private ArrayList<LoadingObserver> observers;
 	/**
 	 * THIS CONSTRUCTOR IS ONLY USED FOR TESTING.
@@ -51,16 +52,12 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		this.observers = new ArrayList<>();
 	}
 
-	public void addNodes(List<DataNode> nodes) {
-		this.nodes = nodes;
-	}
-
-	public void addEdges(List<Edge> edges) {
-		this.edges = edges;
-	}
-
-	public void addGenomes(List<Genome> genomes) {
-		this.genomes = genomes;
+	/**
+	 * Construct a empty {@code GraphDataRepository}
+	 *
+	 */
+	public GraphDataRepository() {
+		this.observers = new ArrayList<>();
 	}
 
 	@Override
@@ -88,7 +85,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
-	public void parseGraph(File nodesFile, File edgesFile)
+	public GraphDataRepository parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
 		notifyLoadingObservers(true);
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
@@ -117,7 +114,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public Map<Integer, DataNode> parseNodes(File nodesFile,
-											 Map<String, Genome> genomeMap) throws FileNotFoundException {
+			Map<String, Genome> genomeMap) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
@@ -140,7 +137,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @return the read node
 	 */
 	protected DataNode parseNode(BufferedReader br,
-								 Map<String, Genome> genomes) {
+			Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
 			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
@@ -186,7 +183,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public List<Edge> parseEdges(File edgesFile,
-								 Map<Integer, DataNode> nodes) throws FileNotFoundException {
+			Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
