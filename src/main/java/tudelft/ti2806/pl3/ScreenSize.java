@@ -9,7 +9,7 @@ import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
  */
 public class ScreenSize {
 	private static ScreenSize size;
-	
+	private static int menubarHeight = 25;
 	private int width;
 	private int height;
 	private int zoombarHeight;
@@ -55,6 +55,10 @@ public class ScreenSize {
 	
 	public int getSidebarWidth() {
 		return sidebarWidth;
+	}
+
+	public int getMenubarHeight() {
+		return menubarHeight;
 	}
 
 	/**
