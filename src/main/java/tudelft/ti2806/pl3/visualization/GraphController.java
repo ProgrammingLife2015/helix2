@@ -1,14 +1,13 @@
 package tudelft.ti2806.pl3.visualization;
 
+import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.data.filter.Filter;
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
-import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GraphController {
+public class GraphController implements Controller {
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 	private GraphView graphView;
@@ -16,21 +15,15 @@ public class GraphController {
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
-	 * It will also create the view and models.
+	 * It will control the data in the graphview
 	 * 
-	 * @param abstractGraphData
-	 *            The parsed graph data
+	 * @param graphView
+	 *            the view in which the graph is displayed
 	 */
-	public GraphController(AbstractGraphData abstractGraphData) {
-		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
-		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
-		graphView = new GraphView(zoomedGraphModel);
-		graphView.init();
-		
-		filteredGraphModel.addObserver(zoomedGraphModel);
-		zoomedGraphModel.addObserver(graphView);
-		
-		filteredGraphModel.produceWrappedGraphData();
+	public GraphController(GraphView graphView) {
+		this.graphView = graphView;
+		filteredGraphModel = graphView.getFilteredGraphModel();
+		zoomedGraphModel = graphView.getZoomedGraphModel();
 	}
 	
 	/**
@@ -73,11 +66,7 @@ public class GraphController {
 		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() - 1);
 		zoomedGraphModel.produceDataNodeWrapperList();
 	}
-	
-	public Component getPanel() {
-		return graphView.getPanel();
-	}
-	
+
 	public double getCurrentZoomLevel() {
 		return zoomedGraphModel.getZoomLevel();
 	}

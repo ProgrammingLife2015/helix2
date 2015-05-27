@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.menubar;
 
 import tudelft.ti2806.pl3.Application;
+import tudelft.ti2806.pl3.Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +10,7 @@ import java.awt.event.ActionListener;
  * Controller for menubar view
  * Created by Kasper on 27-5-2015.
  */
-public class MenuBarController implements ActionListener {
+public class MenuBarController implements ActionListener,Controller {
 
 	private Application application;
 
