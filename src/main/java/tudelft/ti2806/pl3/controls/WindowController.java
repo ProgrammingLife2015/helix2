@@ -29,8 +29,6 @@ public class WindowController extends WindowAdapter {
 	 */
 	@Override
 	public void windowClosing(WindowEvent event) {
-		if (app.confirm()) {
-			app.stop();
-		}
+		app.stop();
 	}
 }

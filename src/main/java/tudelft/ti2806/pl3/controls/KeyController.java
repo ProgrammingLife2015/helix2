@@ -61,7 +61,7 @@ public class KeyController implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.VK_ESCAPE && app.confirm()) {
+		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			app.stop();
 		}
 

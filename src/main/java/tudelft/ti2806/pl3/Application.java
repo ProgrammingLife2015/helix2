@@ -119,6 +119,7 @@ public class Application extends JFrame {
 	 */
 	public void stop() {
 		// save data or do something else here
+		this.confirm();
 		this.dispose();
 		System.exit(0);
 	}
@@ -130,7 +131,7 @@ public class Application extends JFrame {
 	 */
 	public boolean confirm() {
 		int answer = JOptionPane
-				.showConfirmDialog(main, "You want to quit?", "Quit",
+				.showConfirmDialog(main, "Are you sure you want to quit?", "Quit",
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
