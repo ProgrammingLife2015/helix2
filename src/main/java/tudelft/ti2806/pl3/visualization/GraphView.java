@@ -5,7 +5,6 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
-
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
@@ -95,7 +94,6 @@ public class GraphView implements Observer, ViewInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 	}
