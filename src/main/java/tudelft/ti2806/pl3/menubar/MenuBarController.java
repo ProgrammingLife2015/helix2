@@ -17,5 +17,4 @@ public class MenuBarController {
 	public void stop(){
 		application.stop();
 	}
-
 }
