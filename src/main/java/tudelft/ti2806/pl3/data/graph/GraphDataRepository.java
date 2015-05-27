@@ -29,7 +29,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public GraphDataRepository() {
 	}
-
+	private ArrayList<LoadingObserver> observers;
 	/**
 	 * THIS CONSTRUCTOR IS ONLY USED FOR TESTING.
 	 * Construct a instance of {@code GraphDataRepository}.
@@ -257,21 +257,14 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	@Override
-	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
-	}
-
-	@Override
 	public void deleteLoadingObserver(LoadingObserver loadingObserver) {
 		observers.remove(loadingObserver);
 	}
 
 	@Override
-	public void notifyLoadingObservers(Object loading) {
+	public void notifyLoadingObservers(Object arguments) {
 		for (LoadingObserver observer : observers) {
-			observer.update(this, loading);
+			observer.update(this,arguments);
 		}
 	}
 }

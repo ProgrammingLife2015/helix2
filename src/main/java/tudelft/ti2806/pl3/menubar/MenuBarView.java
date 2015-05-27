@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
  * Menubarview is the view for the menubar.
  * Created by Kasper on 27-5-2015.
  */
-public class MenuBarView extends JMenuBar implements View{
+public class MenuBarView extends JMenuBar implements View {
 
 	private MenuBarController menuBarController;
 

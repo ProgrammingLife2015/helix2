@@ -53,6 +53,8 @@ public class Application extends JFrame {
 	private SideBarView sideBarView;
 	private ZoomBarView zoomBarView;
 
+	private boolean loading = false;
+
 
 	/**
 	 * Construct the main application view.
@@ -80,9 +82,6 @@ public class Application extends JFrame {
 		// set window controller
 		WindowController windowController = new WindowController(this);
 		addWindowListener(windowController);
-//		// set keys
-//		KeyController keys = new KeyController(this);
-//		addKeyListener(keys);
 
 		this.setFocusable(true);
 		this.setVisible(true);
@@ -93,8 +92,10 @@ public class Application extends JFrame {
 	 */
 	public void makeGraph() {
 		try {
+			setLoading(true);
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 
 			graphView = new GraphView(gd);
@@ -105,6 +106,8 @@ public class Application extends JFrame {
 
 			KeyController keys = new KeyController(this);
 			graphView.getPanel().addKeyListener(keys);
+
+			setLoading(false);
 
 			this.setFocusable(true);
 		} catch (FileNotFoundException | FileSelectorException exception) {
@@ -122,11 +125,9 @@ public class Application extends JFrame {
 			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
 			PhyloView phyloView = new PhyloView(tree, getGraphController());
-			sideBarView = new SideBarView(getGraphController());
+			sideBarView = new SideBarView();
 			sideBarView.addToSideBarView(phyloView.getPanel());
 			setSideBarView(sideBarView.getPanel());
-
-
 
 			KeyController keys = new KeyController(this);
 			sideBarView.getPanel().addKeyListener(keys);
@@ -147,9 +148,10 @@ public class Application extends JFrame {
 	 */
 	public void stop() {
 		// save data or do something else here
-		this.confirm("Exit", "Are you sure you want to exit the application? ");
-		this.dispose();
-		System.exit(0);
+		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
+			this.dispose();
+			System.exit(0);
+		}
 	}
 
 	/**
@@ -167,6 +169,14 @@ public class Application extends JFrame {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
+	}
+
+	public void setLoading(boolean loading) {
+		this.loading = loading;
+	}
+
+	public boolean isLoading() {
+		return loading;
 	}
 
 	/**

@@ -21,8 +21,16 @@ public class ZoomBarController implements Controller {
 	 * 		instance of the graph controller to update its view
 	 */
 	@SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
-	public ZoomBarController(ZoomBarView zoomBarView,GraphController graphController) {
+	public ZoomBarController(ZoomBarView zoomBarView, GraphController graphController) {
 		this.graphController = graphController;
 		this.zoomBarView = zoomBarView;
+	}
+
+	public GraphController getGraphController() {
+		return graphController;
+	}
+
+	public ZoomBarView getZoomBarView() {
+		return zoomBarView;
 	}
 }

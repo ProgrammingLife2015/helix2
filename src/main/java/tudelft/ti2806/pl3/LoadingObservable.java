@@ -1,12 +1,16 @@
 package tudelft.ti2806.pl3;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
+=======
+>>>>>>> PMD fix + loading screen start-up
 /**
  * Interface for the loading Observable.
  * Created by Kasper on 27-5-2015.
  */
 public interface LoadingObservable {
+<<<<<<< HEAD
 	/**
 	 * Add a loadingObserver to the Observable.
 	 *
@@ -38,6 +42,13 @@ public interface LoadingObservable {
 	 * @param arguments
 	 * 		to give to the Observer
 	 */
+=======
+
+	void addLoadingObserver(LoadingObserver loadingObservable);
+
+	void deleteLoadingObserver(LoadingObserver loadingObservable);
+
+>>>>>>> PMD fix + loading screen start-up
 	void notifyLoadingObservers(Object arguments);
 
 }

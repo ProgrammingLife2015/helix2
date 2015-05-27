@@ -6,7 +6,7 @@ import tudelft.ti2806.pl3.Controller;
  * Controller that controls the sidebar. The user can select options in the
  * sidebar. Created by Kasper on 7-5-15.
  */
-public class SideBarController implements Controller{
+public class SideBarController implements Controller {
 
 	private SideBarView sideBarView;
 
@@ -17,7 +17,7 @@ public class SideBarController implements Controller{
 	 * 		the view that is controlled
 	 *
 	 */
-	public SideBarController(SideBarView sideBarView, GraphController graphController) {
+	public SideBarController(SideBarView sideBarView) {
 		this.sideBarView = sideBarView;
 	}
 

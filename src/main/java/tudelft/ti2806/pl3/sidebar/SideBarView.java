@@ -2,7 +2,6 @@ package tudelft.ti2806.pl3.sidebar;
 
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;
-import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -25,14 +24,14 @@ public class SideBarView extends JPanel implements View {
 	 *
 	 *
 	 */
-	public SideBarView(GraphController graphController) {
+	public SideBarView() {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		this.setLayout(layout);
 		setPreferredSize(new Dimension(ScreenSize.getInstance()
 				.getSidebarWidth(), ScreenSize.getInstance().getHeight()));
 		setMinimumSize(new Dimension(ScreenSize.getInstance()
 				.getSidebarWidth(), ScreenSize.getInstance().getHeight()));
-		sideBarController = new SideBarController(this,graphController);
+		sideBarController = new SideBarController(this);
 	}
 
 	public void addToSideBarView(Component view) {
