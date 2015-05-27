@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * Controller for menubar view
  * Created by Kasper on 27-5-2015.
  */
-public class MenuBarController implements ActionListener, Controller {
+public class MenuBarController {
 
 	private Application application;
 
@@ -41,7 +41,6 @@ public class MenuBarController implements ActionListener, Controller {
 	private void resetView() {
 		application.getGraphController().resetZoom();
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
