@@ -12,7 +12,7 @@ public class SingleWrapper extends Wrapper {
 	private Wrapper target;
 	
 	public SingleWrapper(Wrapper target) {
-		this.target = target;
+		this.target = target instanceof SingleWrapper ? ((SingleWrapper) target).getNode() : target;
 	}
 	
 	@Override
@@ -24,7 +24,11 @@ public class SingleWrapper extends Wrapper {
 	public String getIdString() {
 		return target.getIdString();
 	}
-	
+
+	@Override public int getId() {
+		return target.getId();
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return target.getGenome();
