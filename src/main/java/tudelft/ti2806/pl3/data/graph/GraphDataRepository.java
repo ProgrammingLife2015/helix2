@@ -100,7 +100,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public void parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
-		notifyLoadingObservers(true);
+		notifyLoadingObservers("Start parsing the graph.");
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
 		List<DataNode> nodeList = new ArrayList<DataNode>();
@@ -111,6 +111,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		addNodes(nodeList);
 		addEdges(parseEdges(edgesFile, nodeMap));
 		addGenomes(genomeList);
+
+		notifyLoadingObservers("Done parsing the graph.");
 	}
 
 	/**
@@ -126,6 +128,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public Map<Integer, DataNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
+		notifyLoadingObservers("Start parsing node in file " + nodesFile.getName());
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
@@ -196,6 +199,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public List<Edge> parseEdges(File edgesFile,
 			Map<Integer, DataNode> nodes) throws FileNotFoundException {
+		notifyLoadingObservers("Start parsing egdes in file " + edgesFile.getName());
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
@@ -210,6 +214,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		notifyLoadingObservers("Done parsing edges");
 		return list;
 	}
 
