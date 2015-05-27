@@ -52,7 +52,7 @@ public class GraphView implements Observer, ViewInterface {
 	 */
 
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("");
+	private Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
 
@@ -90,12 +90,11 @@ public class GraphView implements Observer, ViewInterface {
 			for (String line : lines) {
 				stylesheet.append(line + " ");
 			}
-
+			graph.removeAttribute("ui.stylesheet");
 			graph.addAttribute("ui.stylesheet", stylesheet.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 	}
@@ -108,11 +107,12 @@ public class GraphView implements Observer, ViewInterface {
 	public Graph generateGraph() {
 		graph.clear();
 		setGraphPropertys();
-		graphData.forEach(Wrapper::calculatePreviousNodesCount);
 		graphData.forEach(node -> {
+				node.calculatePreviousNodesCount();
 				Node graphNode = graph.addNode(node.getIdString());
 				graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
-				graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
+				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 			});
 
 		for (Wrapper node : graphData) {
