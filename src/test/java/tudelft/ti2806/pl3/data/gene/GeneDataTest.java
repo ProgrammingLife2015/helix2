@@ -36,7 +36,7 @@ public class GeneDataTest {
 	 */
 	@Test
 	public void parseGenesSizeTest() {
-		assertEquals(geneData.getGenes().size(), 2);
+		assertEquals(geneData.getGenes().size(), 122);
 	}
 
 	/**

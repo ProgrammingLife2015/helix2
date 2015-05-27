@@ -9,10 +9,16 @@ public class StartGeneLabel extends Label {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
-		if (!super.equals((Label) o)) return false;
+		if (!super.equals((Label) o)) {
+			return false;
+		}
 		StartGeneLabel that = (StartGeneLabel) o;
 
 		return startRef == that.startRef;

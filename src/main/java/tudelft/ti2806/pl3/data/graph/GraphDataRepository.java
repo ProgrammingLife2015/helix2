@@ -94,7 +94,9 @@ public class GraphDataRepository extends AbstractGraphData {
 		try {
 			while (br.ready()) {
 				DataNode node = parseNode(br, genomeMap);
-				addRefLabels(node, geneData);
+				if (geneData != null) {
+					addRefLabels(node, geneData);
+				}
 				nodes.put(node.getId(), node);
 			}
 		} catch (IOException e) {
@@ -107,12 +109,12 @@ public class GraphDataRepository extends AbstractGraphData {
 		int start = node.getRefStartPoint();
 		int end = node.getRefEndPoint();
 
-		for(int i = start; i <= end; i++) {
-			if(geneData.getGeneStart().containsKey(i)) {
+		for (int i = start; i <= end; i++) {
+			if (geneData.getGeneStart().containsKey(i)) {
 				Gene g = geneData.getGeneStart().get(i);
 				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
 				break;
-			} else if(geneData.getGeneEnd().containsKey(i)) {
+			} else if (geneData.getGeneEnd().containsKey(i)) {
 				Gene g = geneData.getGeneEnd().get(i);
 				node.addLabel(new EndGeneLabel(g.getName(), g.getEnd()));
 				break;

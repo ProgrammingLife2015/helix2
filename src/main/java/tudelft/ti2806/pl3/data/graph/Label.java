@@ -1,23 +1,34 @@
 package tudelft.ti2806.pl3.data.graph;
 
 /**
+ * Abstract label class
  * Created by tombrouws on 27/05/15.
  */
 public abstract class Label {
 
 	private String text;
 
+	/**
+	 * Constructs an instance of the label.
+	 * @param s
+	 * 			the String label to set
+	 */
 	public Label(String s) {
-		if(s != null)
+		if (s != null) {
 			text = s;
-		else
+		} else {
 			text = "";
+		}
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		Label label = (Label) o;
 

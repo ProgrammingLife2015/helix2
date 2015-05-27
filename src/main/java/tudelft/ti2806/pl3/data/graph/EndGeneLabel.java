@@ -9,10 +9,16 @@ public class EndGeneLabel extends Label {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
-		if (!super.equals((Label) o)) return false;
+		if (!super.equals((Label) o)) {
+			return false;
+		}
 		EndGeneLabel that = (EndGeneLabel) o;
 
 		return endRef == that.endRef;

@@ -5,7 +5,6 @@ import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * The SingleNode is a node parsed from the original data. No changes should or
@@ -52,7 +51,7 @@ public class DataNode {
 		} else {
 			this.content = contentOfTheNode.clone();
 		}
-		if(labelList == null) {
+		if (labelList == null) {
 			this.labelList = new ArrayList<>();
 		} else {
 			this.labelList = labelList;
