@@ -53,16 +53,16 @@ public final class VerticalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	static List<Wrapper> combineNodes(List<Wrapper> nodes) {
-		Map<String, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
+		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		for (Wrapper node : nodes) {
-			nonWrappedNodes.put(node.getIdString(), node);
+			nonWrappedNodes.put(node.getId(), node);
 		}
 		List<CombineWrapper> combinedNodes = new ArrayList<>();
 		for (List<Wrapper> list : findCombineableNodes(nodes)) {
 			CombineWrapper newNode = new VerticalWrapper(list);
 			combinedNodes.add(newNode);
 			for (Wrapper node : list) {
-				nonWrappedNodes.remove(node.getIdString());
+				nonWrappedNodes.remove(node.getId());
 			}
 		}
 		if (combinedNodes.size() == 0) {
