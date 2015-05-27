@@ -1,13 +1,12 @@
 package tudelft.ti2806.pl3.sidebar;
 
-import tudelft.ti2806.pl3.LoadingObservable;
-import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;
+import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -17,24 +16,23 @@ import javax.swing.JPanel;
  */
 
 @SuppressWarnings("serial")
-public class SideBarView extends JPanel implements View, LoadingObservable {
+public class SideBarView extends JPanel implements View {
 	public static final double SIDEBAR_FACTOR = 0.40;
 	private SideBarController sideBarController;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 
 	/**
 	 * Constructs the sidebar view with a fixed width.
+	 *
+	 *
 	 */
-	public SideBarView() {
-		notifyLoadingObservers(true);
+	public SideBarView(GraphController graphController) {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		this.setLayout(layout);
 		setPreferredSize(new Dimension(ScreenSize.getInstance()
 				.getSidebarWidth(), ScreenSize.getInstance().getHeight()));
 		setMinimumSize(new Dimension(ScreenSize.getInstance()
 				.getSidebarWidth(), ScreenSize.getInstance().getHeight()));
-		sideBarController = new SideBarController(this);
-		notifyLoadingObservers(false);
+		sideBarController = new SideBarController(this,graphController);
 	}
 
 	public void addToSideBarView(Component view) {
@@ -49,27 +47,5 @@ public class SideBarView extends JPanel implements View, LoadingObservable {
 	@Override
 	public SideBarController getController() {
 		return sideBarController;
-	}
-
-	@Override
-	public void addLoadingObserver(LoadingObserver loadingObserver) {
-		this.loadingObservers.add(loadingObserver);
-	}
-
-	@Override
-	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		this.loadingObservers.addAll(loadingObservers);
-	}
-
-	@Override
-	public void deleteLoadingObserver(LoadingObserver loadingObserver) {
-		this.loadingObservers.remove(loadingObserver);
-	}
-
-	@Override
-	public void notifyLoadingObservers(Object arguments) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			loadingObserver.update(this, arguments);
-		}
 	}
 }

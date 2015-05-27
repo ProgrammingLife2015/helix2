@@ -6,7 +6,6 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 
-import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -28,7 +27,7 @@ import java.util.Observer;
  *
  * @author Sam Smulders
  */
-public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
+public class GraphView implements Observer, tudelft.ti2806.pl3.View,ViewInterface {
 	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
@@ -59,34 +58,10 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 
-	/**
-	 * Construct a GraphView with no LoadingObservers.
-	 *
-	 * @param abstractGraphData
-	 * 		GraphData to display
-	 */
 	public GraphView(AbstractGraphData abstractGraphData) {
-		new GraphView(abstractGraphData, null);
-	}
-
-	/**
-	 * Construct a GraphView with LoadingObserver.
-	 *
-	 * @param abstractGraphData
-	 * 		GraphData to display
-	 * @param loadingObservers
-	 * 		Observers for loading
-	 */
-	public GraphView(AbstractGraphData abstractGraphData, ArrayList<LoadingObserver> loadingObservers) {
 		// make graph
 		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
 		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
-
-		// add the loading observers
-		addLoadingObserversList(loadingObservers);
-		filteredGraphModel.addLoadingObserversList(loadingObservers);
-		zoomedGraphModel.addLoadingObserversList(loadingObservers);
-
 		init();
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(this);
@@ -199,6 +174,11 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	}
 
 	@Override
+	public GraphController getController() {
+		return graphController;
+	}
+
+	@Override
 	public void update(Observable o, Object arg) {
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
@@ -234,30 +214,5 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 
 	public ZoomedGraphModel getZoomedGraphModel() {
 		return zoomedGraphModel;
-	}
-
-	@Override
-	public void addLoadingObserver(LoadingObserver loadingObservable) {
-		loadingObservers.add(loadingObservable);
-	}
-
-
-	@Override
-	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
-	}
-
-	@Override
-	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
-		loadingObservers.remove(loadingObservable);
-	}
-
-	@Override
-	public void notifyLoadingObservers(Object arguments) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			loadingObserver.update(this, arguments);
-		}
 	}
 }

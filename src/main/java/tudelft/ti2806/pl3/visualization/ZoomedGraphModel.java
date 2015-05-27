@@ -52,7 +52,6 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 *
 	 * @param filteredGraphModel
 	 * 		The {@link tudelft.ti2806.pl3.visualization.FilteredGraphModel}
->>>>>>> Mouse now gives a loading icon when the model is loading
 	 */
 	public ZoomedGraphModel(FilteredGraphModel filteredGraphModel) {
 		this.filteredGraphModel = filteredGraphModel;

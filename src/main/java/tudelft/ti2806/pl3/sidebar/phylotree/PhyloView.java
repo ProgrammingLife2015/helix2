@@ -30,7 +30,7 @@ import javax.swing.tree.TreeSelectionModel;
  * genomes or common ancestors. Created by Kasper on 20-5-2015.
  */
 public class PhyloView extends JPanel implements View {
-
+	private NewickParser.TreeNode tree;
 	private JTree jTree;
 	private List<String> selected = new ArrayList<>();
 	private PhyloController phyloController;
@@ -44,6 +44,7 @@ public class PhyloView extends JPanel implements View {
 	 * 		Controller of the graph view
 	 */
 	public PhyloView(NewickParser.TreeNode tree, GraphController graphController) {
+		this.tree = tree;
 		this.phyloController = new PhyloController(this, graphController);
 
 		jTree = new JTree(phyloController.parseTree(tree));
