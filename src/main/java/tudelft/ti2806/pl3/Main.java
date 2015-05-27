@@ -40,7 +40,6 @@ public class Main {
 		ScreenSize.getInstance().setWidth((int) bounds.getWidth());
 		ScreenSize.getInstance().setHeight((int) bounds.getHeight());
 		
-		Application app = new Application();
-		app.start();
+		new Application();
 	}
 }
