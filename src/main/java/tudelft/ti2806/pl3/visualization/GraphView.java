@@ -109,7 +109,7 @@ public class GraphView implements Observer, ViewInterface {
 		graph.clear();
 		setGraphPropertys();
 		graphData.forEach(node -> {
-				if (node.getIdString() != "[FIX]") {
+				if ("[FIX]".equals(node.getIdString())) {
 					Node graphNode = graph.addNode(node.getIdString());
 					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
 					graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
@@ -118,7 +118,7 @@ public class GraphView implements Observer, ViewInterface {
 
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				if (node.getIdString() != "[FIX]" && to.getIdString() != "[FIX]") { 
+				if ("[FIX]".equals(node.getIdString()) && "[FIX]".equals(to.getIdString())) {
 					addNormalEdge(graph, node, to);
 				}
 			}
