@@ -8,6 +8,7 @@ import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -109,7 +110,7 @@ public final class WrapUtil {
 	 * @return a list containing a new layer over the previous layer
 	 */
 	protected static List<Wrapper> wrapAndReconnect(
-			List<Wrapper> nonCombinedNodes,
+			Collection<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes,
 				combinedNodes);
@@ -130,7 +131,7 @@ public final class WrapUtil {
 	 *            a map mapping all nodes from the previous layer to the new
 	 *            layer
 	 */
-	static void reconnectLayer(List<Wrapper> nonCombinedNodes,
+	static void reconnectLayer(Collection<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes,
 			Map<Wrapper, Wrapper> map) {
 		for (Wrapper node : nonCombinedNodes) {
@@ -171,7 +172,7 @@ public final class WrapUtil {
 	 * @return a map mapping all nodes from the previous layer to the new layer
 	 */
 	static Map<Wrapper, Wrapper> wrapList(
-			List<Wrapper> nonCombinedNodes,
+			Collection<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = new HashMap<Wrapper, Wrapper>();
 		for (Wrapper node : nonCombinedNodes) {
