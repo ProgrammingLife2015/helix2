@@ -9,15 +9,18 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateSizeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
-
-
+import tudelft.ti2806.pl3.util.HashableCollection;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
+
+//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
+//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
 
 /**
  * This model filters the original graph data, based on the filter selections.
@@ -81,6 +84,7 @@ public class FilteredGraphModel extends Observable {
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		// calculate y-pos
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
@@ -90,6 +94,37 @@ public class FilteredGraphModel extends Observable {
 		sizeInterest.calculate(collapsedNode, null);
 		setChanged();
 		notifyObservers();
+	}
+
+	public static void removeAllEmptyEdges(WrappedGraphData wrappedGraphData) {
+		for (Wrapper wrapper : wrappedGraphData.getPositionedNodes()) {
+			boolean allEqual = true;
+			if (wrapper.getOutgoing().size() <= 1) {
+				allEqual = false;
+			}
+
+			Map<Integer, Wrapper> nodeCountMapping = new HashMap<>(wrapper.getOutgoing().size());
+			for (Wrapper outgoing : wrapper.getOutgoing()) {
+				nodeCountMapping.put(outgoing.getPreviousNodesCount(), outgoing);
+				if (!new HashableCollection<>(wrapper.getGenome())
+						.equals(new HashableCollection<>(outgoing.getGenome()))) {
+					allEqual = false;
+					break;
+				}
+			}
+			if(allEqual == true) {
+				List<Integer> list = new ArrayList<>(nodeCountMapping.keySet());
+				Collections.sort(list);
+				List<Wrapper> removeList = new ArrayList<>();
+				for (Wrapper outgoing : wrapper.getOutgoing()) {
+					if(outgoing != nodeCountMapping.get(list.get(0))) {
+						removeList.add(outgoing);
+						outgoing.getIncoming().remove(wrapper);
+					}
+				}
+				wrapper.getOutgoing().removeAll(removeList);
+			}
+		}
 	}
 
 	/**
