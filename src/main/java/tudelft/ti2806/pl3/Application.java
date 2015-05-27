@@ -5,6 +5,7 @@ import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
+import tudelft.ti2806.pl3.menubar.MenuBarView;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.TreeParser;
@@ -15,9 +16,9 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
 /**
@@ -80,11 +81,13 @@ public class Application extends JFrame {
 			graphController = new GraphController(gd);
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController,tree);
+			MenuBarView menuBarView = new MenuBarView(this);
 
 			// set the views
 			setSideBarView(sideBarController.getPanel());
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
+			setMenuBar(menuBarView);
 
 			// set the controls.
 			// This is done last so we can remove the default library keycontroller
@@ -99,7 +102,6 @@ public class Application extends JFrame {
 		} catch (FileNotFoundException e) {
 			// TODO: Show dialog with message to user
 			e.printStackTrace();
-			this.stop();
 		} catch (IOException e) {
 			e.printStackTrace();
 			this.stop();
@@ -111,7 +113,7 @@ public class Application extends JFrame {
 			this.stop();
 		}
 	}
-	
+
 	/**
 	 * Stop the application and exit.
 	 */
@@ -120,10 +122,10 @@ public class Application extends JFrame {
 		this.dispose();
 		System.exit(0);
 	}
-	
+
 	/**
 	 * Asks the user to confirm his choose.
-	 * 
+	 *
 	 * @return true if yes, false otherwise
 	 */
 	public boolean confirm() {
@@ -133,15 +135,21 @@ public class Application extends JFrame {
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
 	}
-	
+
 	/**
 	 * Add the sidebar view to the layout.
-	 * 
+	 *
 	 * @param view
 	 *            the sidebar view panel
 	 */
 	public void setSideBarView(Component view) {
-		view.setBounds(0, 0, size.getSidebarWidth(), size.getHeight());
+		view.setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(), size.getHeight());
+		main.add(view, HIGHEST_LAYER);
+		view.setVisible(true);
+	}
+
+	public void setMenuBar(JMenuBar view) {
+		view.setBounds(0, 0, size.getWidth(), size.getMenubarHeight());
 		main.add(view, HIGHEST_LAYER);
 		view.setVisible(true);
 	}
@@ -183,4 +191,5 @@ public class Application extends JFrame {
 	public ZoomBarController getZoomBarController() {
 		return zoomBarController;
 	}
+
 }
