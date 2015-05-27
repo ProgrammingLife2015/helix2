@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
-import tudelft.ti2806.pl3.util.DoneDeque;
 
 import java.util.List;
 
@@ -35,26 +34,6 @@ public class WrappedGraphData {
 		}
 	}
 	
-	private int computeLongestPath() {
-		DoneDeque<Wrapper> deque = new DoneDeque<>(nodeWrappers.size());
-		for (Wrapper wrapper : this.nodeWrappers) {
-			if (wrapper.getIncoming().size() == 0) {
-				deque.add(wrapper);
-			}
-		}
-		int max = 0;
-		for (int i = this.nodeWrappers.size(); i > 0; i--) {
-			Wrapper wrapper = deque.poll();
-			for (Wrapper out : wrapper.getOutgoing()) {
-				if (deque.doneAll(out.getIncoming())) {
-					deque.add(out);
-				}
-			}
-			max = Math.max(wrapper.calculatePreviousNodesCount(), max);
-		}
-		return max;
-	}
-
 	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {
 		this(DataNodeWrapper.newNodePositionList(nodes, edges));
 	}

@@ -29,8 +29,8 @@ public class WrapperClone extends Wrapper {
 	}
 
 	@Override
-	public long getWidth() {
-		return originalNode.getWidth();
+	public long getBasePairCount() {
+		return originalNode.getBasePairCount();
 	}
 
 	@Override
@@ -56,5 +56,10 @@ public class WrapperClone extends Wrapper {
 	@Override
 	public void calculateX() {
 		this.x = originalNode.getX();
+	}
+
+	@Override
+	public int getWidth() {
+		return originalNode.getWidth();
 	}
 }

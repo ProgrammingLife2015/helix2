@@ -26,7 +26,16 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	private int previousNodesCount = -1;
 	private int interest = 0;
 	
-	public abstract long getWidth();
+	/**
+	 * @return the maximum number of base pairs that can be passed when
+	 *         following the graph from the start of this node to its end.
+	 */
+	public abstract long getBasePairCount();
+	
+	/**
+	 * @return the distance between the start x and end x of this node.
+	 */
+	public abstract int getWidth();
 	
 	public int getPreviousNodesCount() {
 		return previousNodesCount;

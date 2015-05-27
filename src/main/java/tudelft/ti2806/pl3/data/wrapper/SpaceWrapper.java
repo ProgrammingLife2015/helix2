@@ -34,7 +34,8 @@ import java.util.Set;
  *
  */
 public class SpaceWrapper extends CombineWrapper {
-	private long width = -1;
+	private long basePairCount = -1;
+	private int width = -1;
 	
 	/**
 	 * Construct an instance of {@link SpaceWrapper}.
@@ -53,11 +54,11 @@ public class SpaceWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public long getWidth() {
-		if (width == -1) {
+	public long getBasePairCount() {
+		if (basePairCount == -1) {
 			Map<String, Long> widthMap = new HashMap<>();
 			for (Wrapper node : this.getNodeList()) {
-				long width = node.getWidth();
+				long width = node.getBasePairCount();
 				for (Genome genome : node.getGenome()) {
 					Long value = widthMap.get(genome.getIdentifier());
 					if (value == null) {
@@ -68,7 +69,29 @@ public class SpaceWrapper extends CombineWrapper {
 					widthMap.put(genome.getIdentifier(), value);
 				}
 			}
-			width = widthMap.values().stream().max(Long::compare).get();
+			basePairCount = widthMap.values().stream().max(Long::compare).get();
+		}
+		return basePairCount;
+	}
+
+	@Override
+	public int getWidth() {
+		if (width == -1) {
+			width = 0;
+			Map<String, Integer> widthMap = new HashMap<>();
+			for (Wrapper node : this.getNodeList()) {
+				int nodeWidth = node.getWidth();
+				for (Genome genome : node.getGenome()) {
+					Integer value = widthMap.get(genome.getIdentifier());
+					if (value == null) {
+						value = nodeWidth;
+					} else {
+						value += nodeWidth;
+					}
+					widthMap.put(genome.getIdentifier(), value);
+				}
+			}
+			width = widthMap.values().stream().max(Integer::compare).get();
 		}
 		return width;
 	}

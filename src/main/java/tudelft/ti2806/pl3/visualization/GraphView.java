@@ -109,15 +109,20 @@ public class GraphView implements Observer, ViewInterface {
 	public Graph generateGraph() {
 		graph.clear();
 		setGraphPropertys();
+		final double someSize = panel.getBounds().height
+				/ ((double) panel.getBounds().width * zoomLevel / zoomedGraphModel
+						.getWrappedCollapsedNode().getWidth())
+				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-		if (!"[FIX]".equals(node.getIdString())) {
-				Node graphNode = graph.addNode(node.getIdString());
-				graphNode.addAttribute("xy", node.getX(), node.getY() * 100);
-				graphNode.addAttribute("ui.class", node.getClass()
-						.getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-			}
-		});
+				if (node.getIdString() != "[FIX]") {
+					Node graphNode = graph.addNode(node.getIdString());
+					double y = node.getY() * someSize;
+					graphNode.setAttribute("xy", node.getX(), y);
+					graphNode.addAttribute("ui.class", node.getClass()
+							.getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				}
+			});
 		
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
@@ -160,8 +165,7 @@ public class GraphView implements Observer, ViewInterface {
 	}
 	
 	private void zoom() {
-		viewer.getDefaultView().getCamera()
-				.setViewPercent(1 / zoomLevel);
+		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
 	
 	public long getZoomCenter() {

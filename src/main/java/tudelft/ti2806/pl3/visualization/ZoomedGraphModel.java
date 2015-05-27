@@ -112,8 +112,12 @@ public class ZoomedGraphModel extends Observable implements Observer {
 	public void update(Observable o, Object arg) {
 		if (o == filteredGraphModel) {
 			collapsedNode = filteredGraphModel.getCollapsedNode();
-			graphWidth = collapsedNode.getWidth();
+			graphWidth = collapsedNode.getBasePairCount();
 			produceDataNodeWrapperList();
 		}
+	}
+
+	public Wrapper getWrappedCollapsedNode() {
+		return collapsedNode;
 	}
 }

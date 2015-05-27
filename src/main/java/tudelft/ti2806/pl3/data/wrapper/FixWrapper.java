@@ -12,7 +12,7 @@ public class FixWrapper extends Wrapper {
 	Set<Genome> genome;
 	
 	@Override
-	public long getWidth() {
+	public long getBasePairCount() {
 		return 0;
 	}
 	
@@ -44,5 +44,9 @@ public class FixWrapper extends Wrapper {
 	public void calculateX() {
 		this.x = this.getPreviousNodesCount();
 	}
-	
+
+	@Override
+	public int getWidth() {
+		return 0;
+	}
 }
