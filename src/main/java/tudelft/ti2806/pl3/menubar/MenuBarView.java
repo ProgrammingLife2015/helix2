@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.menubar;
 
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
@@ -13,7 +12,7 @@ import javax.swing.JMenuItem;
  * Menubarview is the view for the menubar.
  * Created by Kasper on 27-5-2015.
  */
-public class MenuBarView extends JMenuBar implements View{
+public class MenuBarView extends JMenuBar implements View {
 
 	private MenuBarController menuBarController;
 

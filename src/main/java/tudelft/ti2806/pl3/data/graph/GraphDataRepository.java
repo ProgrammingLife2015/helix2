@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import tudelft.ti2806.pl3.LoadingObservable;
+import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 
@@ -17,9 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GraphDataRepository extends AbstractGraphData {
-	private int longestNodePath;
-	
+public class GraphDataRepository extends AbstractGraphData implements LoadingObservable {
+	private int longestnodepath;
+
+	private ArrayList<LoadingObserver> observers;
 	/**
 	 * Construct a instance of {@code GraphDataRepository}.
 	 * 
@@ -35,6 +38,7 @@ public class GraphDataRepository extends AbstractGraphData {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
+		this.observers = new ArrayList<>();
 	}
 	
 	@Override
@@ -212,12 +216,29 @@ public class GraphDataRepository extends AbstractGraphData {
 	}
 
 	@Override
-	public int getLongestNodePath() {
-		return longestNodePath;
+	public AbstractGraphData getOrigin() {
+		return this;
 	}
 
 	@Override
-	public AbstractGraphData getOrigin() {
-		return this;
+	public int getLongestNodePath() {
+		return longestnodepath;
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObserver) {
+		observers.add(loadingObserver);
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObserver) {
+		observers.remove(loadingObserver);
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object arguments) {
+		for (LoadingObserver observer : observers) {
+			observer.update(this,arguments);
+		}
 	}
 }
