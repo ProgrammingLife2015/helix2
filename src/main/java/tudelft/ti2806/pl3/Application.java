@@ -94,7 +94,7 @@ public class Application extends JFrame {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 
-			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
+			GraphDataRepository gd = new GraphDataRepository().parseGraph(nodeFile, edgeFile);
 
 			graphView = new GraphView(gd);
 			zoomBarView = new ZoomBarView(getGraphController());

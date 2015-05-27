@@ -25,7 +25,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	private ArrayList<LoadingObserver> observers;
 	/**
 	 * Construct a instance of {@code GraphDataRepository}.
-	 * 
+	 *
 	 * @param nodes
 	 *            the nodes of the graph
 	 * @param edges
@@ -40,7 +40,15 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		this.genomes = genomes;
 		this.observers = new ArrayList<>();
 	}
-	
+
+	/**
+	 * Construct a empty {@code GraphDataRepository}
+	 *
+	 */
+	public GraphDataRepository() {
+		this.observers = new ArrayList<>();
+	}
+
 	@Override
 	public List<DataNode> getNodes() {
 		return this.getNodeListClone();
@@ -55,10 +63,10 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	public List<Genome> getGenomes() {
 		return this.getGenomeClone();
 	}
-	
+
 	/**
 	 * Parse a node and edge file of a graph into a {@code GraphData}.
-	 * 
+	 *
 	 * @param nodesFile
 	 *            the file of nodes to be read
 	 * @param edgesFile
@@ -67,7 +75,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile)
+	public GraphDataRepository parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
 		Map<String, Genome> genomeMap = new HashMap<>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
@@ -78,10 +86,10 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		return new GraphDataRepository(nodeList,
 				parseEdges(edgesFile, nodeMap), genomeList);
 	}
-	
+
 	/**
 	 * Parse the nodes file, creating nodes from the file its data.
-	 * 
+	 *
 	 * @param nodesFile
 	 *            the file of nodes to be read
 	 * @param genomeMap
@@ -90,7 +98,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static Map<Integer, DataNode> parseNodes(File nodesFile,
+	public Map<Integer, DataNode> parseNodes(File nodesFile,
 			Map<String, Genome> genomeMap) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
@@ -105,15 +113,15 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		}
 		return nodes;
 	}
-	
+
 	/**
 	 * Parses the next two lines of the scanner into a Node.
-	 * 
+	 *
 	 * @param br
 	 *            the BufferedReader with two available lines to read
 	 * @return the read node
 	 */
-	protected static DataNode parseNode(BufferedReader br,
+	protected DataNode parseNode(BufferedReader br,
 			Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
@@ -148,10 +156,10 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Parse the edges file, adding the connections between the nodes.
-	 * 
+	 *
 	 * @param edgesFile
 	 *            the file of edges to be read
 	 * @param nodes
@@ -159,7 +167,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static List<Edge> parseEdges(File edgesFile,
+	public List<Edge> parseEdges(File edgesFile,
 			Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
@@ -177,10 +185,10 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		}
 		return list;
 	}
-	
+
 	/**
 	 * Search for the node in the graph with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the node to search
 	 * @return the found node<br>
@@ -194,10 +202,10 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Search for the edge in the graph with the given from and to id.
-	 * 
+	 *
 	 * @param fromId
 	 *            the id of the from node on the edge
 	 * @param toId
