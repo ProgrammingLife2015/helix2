@@ -44,15 +44,13 @@ public class Application extends JFrame {
 
 	private JLayeredPane main;
 	private ScreenSize size;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
-
 
 	/**
 	 * The controllers of the application.
 	 */
-	private GraphView graphView;
-	private SideBarView sideBarView;
-	private ZoomBarView zoomBarView;
+	private GraphController graphController;
+	private SideBarController sideBarController;
+	private ZoomBarController zoomBarController;
 
 	/**
 	 * Construct the main application view.
@@ -76,11 +74,13 @@ public class Application extends JFrame {
 
 		// set menu bar
 		MenuBarView menuBarView = new MenuBarView(this);
-		setMenuBar(menuBarView.getPanel());
+		setMenuBar(menuBarView);
 		// set window controller
 		WindowController windowController = new WindowController(this);
 		addWindowListener(windowController);
-		loadingObservers.add(new LoadingMouse(this));
+		// set keys
+		KeyController keys = new KeyController(this);
+		addKeyListener(keys);
 
 		this.setFocusable(true);
 		this.setVisible(true);
@@ -93,22 +93,22 @@ public class Application extends JFrame {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
-
-			GraphDataRepository gd = new GraphDataRepository();
-			gd.addLoadingObserversList(loadingObservers);
-			gd.parseGraph(nodeFile, edgeFile);
-
-
-			graphView = new GraphView(gd,loadingObservers);
-			zoomBarView = new ZoomBarView(getGraphController());
-
-			setZoomBarView(zoomBarView.getPanel());
-			setGraphView(graphView.getPanel());
+			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
+			graphController = new GraphController(gd);
+			zoomBarController = new ZoomBarController(graphController);
+			sideBarController = new SideBarController(graphController,tree);
+			// set the views
+			setSideBarView(sideBarController.getPanel());
+			setGraphView(graphController.getPanel());
+			setZoomBarView(zoomBarController.getPanel());
 
 			KeyController keys = new KeyController(this);
-			graphView.getPanel().addKeyListener(keys);
+			graphController.getPanel().addKeyListener(keys);
+			sideBarController.getPanel().addKeyListener(keys);
+			addWindowListener(windowController);
 
 			this.setFocusable(true);
+
 		} catch (FileNotFoundException | FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph();
@@ -122,40 +122,21 @@ public class Application extends JFrame {
 	public void makePhyloTree() {
 		try {
 			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
-
-			sideBarView = new SideBarView();
-			sideBarView.addLoadingObserversList(loadingObservers);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
-			graphController = new GraphController(gd);
-			zoomBarController = new ZoomBarController(graphController);
-			sideBarController = new SideBarController(graphController,tree);
-			// set the views
-			setSideBarView(sideBarController.getPanel());
-			setGraphView(graphController.getPanel());
-			setZoomBarView(zoomBarController.getPanel());
+			sideBarController = new SideBarController(graphController, tree);
 
-			// set the controls.
-			// This is done last so we can remove the default library keycontroller
-			WindowController windowController = new WindowController(this);
+			setSideBarView(sideBarController.getPanel());
+
 			KeyController keys = new KeyController(this);
-			graphController.getPanel().addKeyListener(keys);
 			sideBarController.getPanel().addKeyListener(keys);
-			addWindowListener(windowController);
-			
-			this.setFocusable(true);
-			this.setVisible(true);
-		} catch (FileNotFoundException e) {
-			// TODO: Show dialog with message to user
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-			this.stop();
-		} catch (newick.ParseException e) {
-			e.printStackTrace();
-			this.stop();
-		} catch (FileSelectorException e) {
-			e.printStackTrace();
-			this.stop();
+		} catch (FileSelectorException exception) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+				makePhyloTree();
+			}
+		} catch (ParseException | IOException exception) {
+			if (confirm("Error!", "Your file was formatted correctly found. Want to try again?")) {
+				makePhyloTree();
+			}
 		}
 	}
 
@@ -164,7 +145,7 @@ public class Application extends JFrame {
 	 */
 	public void stop() {
 		// save data or do something else here
-		this.confirm();
+		this.confirm("Exit", "Are you sure you want to exit the application? ");
 		this.dispose();
 		System.exit(0);
 	}
@@ -180,7 +161,7 @@ public class Application extends JFrame {
 	 */
 	public boolean confirm(String title, String message) {
 		int answer = JOptionPane
-				.showConfirmDialog(main, "Are you sure you want to quit?", "Quit",
+				.showConfirmDialog(main, message, title,
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
