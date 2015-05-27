@@ -29,7 +29,7 @@ public class FileSelector {
 	 *      When more then one file is selected
 	 */
 	public static File selectFile(String title, JFrame frame, String filter) throws FileSelectorException {
-		FileDialog fileDialog = new FileDialog(frame, "Choose a file", FileDialog.LOAD);
+		FileDialog fileDialog = new FileDialog(frame, title, FileDialog.LOAD);
 		fileDialog.setDirectory(System.getProperty("user.dir"));
 		fileDialog.setFile("*" + filter);
 		fileDialog.setFilenameFilter((dir, name) -> name.endsWith(filter));
