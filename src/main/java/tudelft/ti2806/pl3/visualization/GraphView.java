@@ -5,7 +5,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
-
+import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
@@ -26,7 +26,7 @@ import java.util.Observer;
  * @author Sam Smulders
  *
  */
-public class GraphView implements Observer, ViewInterface {
+public class GraphView implements Observer, tudelft.ti2806.pl3.View,ViewInterface {
 	/**
 	 * The space left between nodes for drawing the edges between the nodes.<br>
 	 * Set the zoom to have changes take effect.
@@ -56,10 +56,23 @@ public class GraphView implements Observer, ViewInterface {
 	private Viewer viewer;
 	private View panel;
 
+	private GraphController graphController;
+
+	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 
-	public GraphView(ZoomedGraphModel zoomedGraphModel) {
-		this.zoomedGraphModel = zoomedGraphModel;
+	public GraphView(AbstractGraphData abstractGraphData) {
+		// make graph
+		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
+		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
+		init();
+		filteredGraphModel.addObserver(zoomedGraphModel);
+		zoomedGraphModel.addObserver(this);
+		filteredGraphModel.produceWrappedGraphData();
+
+		this.graphController = new GraphController(this);
+
+
 		graphData = new ArrayList<>();
 	}
 
@@ -149,6 +162,11 @@ public class GraphView implements Observer, ViewInterface {
 	}
 
 	@Override
+	public GraphController getController() {
+		return graphController;
+	}
+
+	@Override
 	public void update(Observable o, Object arg) {
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
@@ -171,5 +189,13 @@ public class GraphView implements Observer, ViewInterface {
 	public void setZoomCenter(long zoomCenter) {
 		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
+	}
+
+	public FilteredGraphModel getFilteredGraphModel() {
+		return filteredGraphModel;
+	}
+
+	public ZoomedGraphModel getZoomedGraphModel() {
+		return zoomedGraphModel;
 	}
 }

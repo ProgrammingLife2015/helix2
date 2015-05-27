@@ -2,14 +2,14 @@ package tudelft.ti2806.pl3.sidebar.phylotree;
 
 import newick.NewickParser;
 import tudelft.ti2806.pl3.ScreenSize;
-import tudelft.ti2806.pl3.sidebar.SideBarViewInterface;
+import tudelft.ti2806.pl3.View;
+import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,8 +29,8 @@ import javax.swing.tree.TreeSelectionModel;
  * Phyloview is a view for the phylogenetic file. The user can select multiple
  * genomes or common ancestors. Created by Kasper on 20-5-2015.
  */
-public class PhyloView extends JPanel implements SideBarViewInterface {
-	
+public class PhyloView extends JPanel implements View {
+
 	private NewickParser.TreeNode tree;
 	private JTree jTree;
 	private List<String> selected = new ArrayList<>();
@@ -40,52 +40,54 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	 * Phylo view constructs a Jtree object with our .nwk tree file.
 	 *
 	 * @param tree
-	 *            Phylogenetic tree parsed by the NewickParser
-	 * @param phyloController
-	 *            Controller of the view
+	 * 		Phylogenetic tree parsed by the NewickParser
+	 * @param graphController
+	 * 		Controller of the graph view
 	 */
-	public PhyloView(NewickParser.TreeNode tree, PhyloController phyloController) {
+	public PhyloView(NewickParser.TreeNode tree, GraphController graphController) {
 		this.tree = tree;
-		this.phyloController = phyloController;
-		jTree = new JTree(parseTree());
+		this.phyloController = new PhyloController(this, graphController);
+
+		jTree = new JTree(phyloController.parseTree(tree));
 		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
 
 		setUI(width, height);
 		setUpLook();
-		expandTree();
+		phyloController.expandTree();
 		setListener();
 	}
-	
+
 	/**
 	 * Setup the UI of the view.
-	 *  @param width
-	 *            the width of the panel
+	 *
+	 * @param width
+	 * 		the width of the panel
 	 * @param height
-	 *            the height of the panel
+	 * 		the height of the panel
 	 */
 	private void setUI(int width, int height) {
 		JLabel header = new JLabel("Select Genomes");
 		header.setPreferredSize(new Dimension(width, 50));
-		
+
 		JScrollPane scroller = new JScrollPane(jTree,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
 		scroller.setMinimumSize(new Dimension(width, height));
-		
+
 		this.add(Box.createHorizontalGlue());
 		this.add(header);
 		add(Box.createVerticalGlue());
 		this.add(scroller);
 		add(Box.createVerticalGlue());
-		
+
 		JButton button = createButton();
 		this.add(button);
 		button.setPreferredSize(new Dimension(200, 50));
 		setPreferredSize(new Dimension(width, height));
 	}
-	
+
 	/**
 	 * Set the icons of the JTree.
 	 */
@@ -95,52 +97,8 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 		renderer.setLeafIcon(childIcon);
 		jTree.setCellRenderer(renderer);
 	}
-	
-	/**
-	 * Expand the tree.
-	 */
-	private void expandTree() {
-		for (int i = 0; i < jTree.getRowCount(); i++) {
-			jTree.expandRow(i);
-		}
-	}
-	
-	/**
-	 * Parse the tree file.
-	 *
-	 * @return Root node.
-	 */
-	private DefaultMutableTreeNode parseTree() {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(
-				"Phylogentic tree");
-		parseChilds(tree, root);
-		
-		return root;
-	}
-	
-	/**
-	 * Parse the childs of a node. This method is recursive and constructs the
-	 * whole tree.
-	 *
-	 * @param node
-	 *            tree file root
-	 * @param root
-	 *            JTree root
-	 */
-	private void parseChilds(NewickParser.TreeNode node,
-			DefaultMutableTreeNode root) {
-		for (NewickParser.TreeNode child : node.getChildren()) {
-			DefaultMutableTreeNode childNode;
-			if (child.getName() == null) {
-				childNode = new DefaultMutableTreeNode("Common ancestor");
-			} else {
-				childNode = new DefaultMutableTreeNode(child.getName());
-			}
-			root.add(childNode);
-			parseChilds(child, childNode);
-		}
-	}
-	
+
+
 	/**
 	 * Set up the listener for clicking on the phylogentic tree.
 	 */
@@ -165,7 +123,7 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 					}
 				});
 	}
-	
+
 	/**
 	 * Return the genomes that are selected.
 	 *
@@ -174,12 +132,12 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	public List<String> getSelected() {
 		return selected;
 	}
-	
+
 	/**
 	 * Get the genomes of a Common ancestor.
 	 *
 	 * @param name
-	 *            of node that is selected.
+	 * 		of node that is selected.
 	 * @return All the genomes of the common ancestor.
 	 */
 	private List<String> getChildsOfAncestor(DefaultMutableTreeNode name) {
@@ -196,7 +154,7 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 		}
 		return selected;
 	}
-	
+
 	/**
 	 * Create the submit button.
 	 *
@@ -207,7 +165,7 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 		button.addActionListener(phyloController);
 		return button;
 	}
-	
+
 	/**
 	 * Return the panel that displays the JTree.
 	 *
@@ -217,4 +175,14 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	public Component getPanel() {
 		return this;
 	}
+
+	@Override
+	public PhyloController getController() {
+		return phyloController;
+	}
+
+	public JTree getjTree() {
+		return jTree;
+	}
 }
+

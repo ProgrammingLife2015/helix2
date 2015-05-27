@@ -1,7 +1,5 @@
 package tudelft.ti2806.pl3;
 
-import java.awt.Component;
-
 /**
  * Interface for all Controllers. All controllers should contain a view.
  *
@@ -9,6 +7,5 @@ import java.awt.Component;
  * Created by Boris Mattijssen on 30-04-15.
  */
 public interface Controller {
-	
-	Component getPanel();
+
 }
