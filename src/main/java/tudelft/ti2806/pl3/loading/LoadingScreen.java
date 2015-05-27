@@ -13,6 +13,10 @@ public class LoadingScreen extends JDialog implements LoadingObserver {
 
 	@Override
 	public void update(LoadingObservable loadingObservable, Object arguments) {
-
+		System.out.println(arguments);
 	}
+
+
+
+
 }

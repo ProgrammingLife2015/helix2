@@ -8,12 +8,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.data.wrapper.operation.order.ExhaustiveLeastCrossingsSequencer;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.Pair;
 
@@ -41,7 +39,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	/**
 	 * Parsing the applyOrderTest graph.
 	 * 
-	 * @return
+	 * @return SpaceWrapper
 	 * 
 	 * @throws FileNotFoundException
 	 *             if test file was not found
@@ -49,8 +47,8 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	public SpaceWrapper applyOrderTestData() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/applyOrderTest.node.graph");
 		File edgesFile = new File("data/testdata/applyOrderTest.edge.graph");
-		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
+		GraphDataRepository gdr = new GraphDataRepository();
+		gdr.parseGraph(nodesFile, edgesFile);
 		WrappedGraphData wgd = WrapUtil.collapseGraph(
 				new WrappedGraphData(gdr));
 		
@@ -81,8 +79,8 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	public SpaceWrapper alwaysCrossTestData() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/alwaysCrossTest.node.graph");
 		File edgesFile = new File("data/testdata/alwaysCrossTest.edge.graph");
-		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
+		GraphDataRepository gdr = new GraphDataRepository();
+		gdr.parseGraph(nodesFile, edgesFile);
 		WrappedGraphData wgd = WrapUtil.collapseGraph(
 				new WrappedGraphData(gdr));
 		
