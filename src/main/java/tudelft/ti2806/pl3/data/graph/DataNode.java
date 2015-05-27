@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.data.Genome;
 
 import java.util.Arrays;
@@ -106,7 +105,6 @@ public class DataNode {
 	}
 	
 	// Suppressed in the interest of space and time
-	@SuppressFBWarnings({ "EI_EXPOSE_REP" })
 	public Genome[] getSource() {
 		return source;
 	}
