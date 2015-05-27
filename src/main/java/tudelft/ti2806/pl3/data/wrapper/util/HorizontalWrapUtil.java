@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.data.wrapper.util;
 
-import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
@@ -10,7 +9,9 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.util.HashableCollection;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An utility class to find and combine nodes which can be combined into
@@ -52,18 +53,22 @@ public final class HorizontalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	static List<Wrapper> combineNodes(List<Wrapper> parentLayer) {
-		List<Wrapper> nonWrappedNodes = new ArrayList<Wrapper>(
-				parentLayer);
-		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
+		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
+		for (Wrapper wrapper : parentLayer) {
+			nonWrappedNodes.put(wrapper.getId(), wrapper);
+		}
+		List<CombineWrapper> combinedNodes = new ArrayList<>();
 		for (List<Wrapper> list : findCombineableNodes(parentLayer)) {
 			HorizontalWrapper newNode = new HorizontalWrapper(list);
 			combinedNodes.add(newNode);
-			nonWrappedNodes.removeAll(list);
+			for (Wrapper wrapper : list) {
+				nonWrappedNodes.remove(wrapper.getId());
+			}
 		}
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
-		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
+		return WrapUtil.wrapAndReconnect(nonWrappedNodes.values(), combinedNodes);
 	}
 	
 	@SuppressWarnings("CPD-END")
@@ -75,17 +80,20 @@ public final class HorizontalWrapUtil {
 	 * @return a list of horizontal wrap-able nodes.
 	 */
 	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
-		List<List<Wrapper>> foundCombineableNodes = new ArrayList<List<Wrapper>>();
-		List<Wrapper> iterateList = new ArrayList<Wrapper>(nodes);
-		List<Wrapper> removeFromIterateList = new ArrayList<Wrapper>();
+		List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
+		Map<Integer, Wrapper> iterateList = new HashMap<>(nodes.size());
+		for (Wrapper node : nodes) {
+			iterateList.put(node.getId(), node);
+		}
+		List<Wrapper> removeFromIterateList = new ArrayList<>();
 		/*
 		 * Here we iterate over each element in iterateList and over each
 		 * element only once, because we keep track of a list of all elements we
 		 * iterate over.
 		 */
 		while (iterateList.size() > 0) {
-			for (Wrapper startNode : iterateList) {
-				List<Wrapper> foundGroup = new ArrayList<Wrapper>();
+			for (Wrapper startNode : iterateList.values()) {
+				List<Wrapper> foundGroup = new ArrayList<>();
 				foundGroup.add(startNode);
 				// Add all nodes to the right which can be combined.
 				Wrapper node = startNode;
@@ -98,8 +106,8 @@ public final class HorizontalWrapUtil {
 				node = startNode;
 				while (node.getIncoming().size() == 1
 						&& node.getIncoming().get(0).getOutgoing().size() == 1
-						&& new HashableCollection<Genome>(node.getGenome())
-								.equals(new HashableCollection<Genome>(node
+						&& new HashableCollection<>(node.getGenome())
+								.equals(new HashableCollection<>(node
 										.getIncoming().get(0).getGenome()))) {
 					node = node.getIncoming().get(0);
 					foundGroup.add(0, node);
@@ -110,7 +118,9 @@ public final class HorizontalWrapUtil {
 					break;
 				}
 			}
-			iterateList.removeAll(removeFromIterateList);
+			for (Wrapper wrapper : removeFromIterateList) {
+				iterateList.remove(wrapper.getId());
+			}
 			removeFromIterateList.clear();
 		}
 		return foundCombineableNodes;
