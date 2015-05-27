@@ -21,7 +21,6 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -96,7 +95,10 @@ public class Application extends JFrame {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 
-			GraphDataRepository gd = new GraphDataRepository().parseGraph(nodeFile, edgeFile);
+			GraphDataRepository gd = new GraphDataRepository();
+			LoadingScreen loadingScreen = new LoadingScreen();
+			gd.addLoadingObserver(loadingScreen);
+			gd.parseGraph(nodeFile, edgeFile);
 
 			graphView = new GraphView(gd);
 			zoomBarView = new ZoomBarView(getGraphController());
