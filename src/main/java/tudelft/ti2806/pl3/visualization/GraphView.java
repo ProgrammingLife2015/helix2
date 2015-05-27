@@ -89,7 +89,7 @@ public class GraphView implements Observer, ViewInterface {
 			for (String line : lines) {
 				stylesheet.append(line + " ");
 			}
-			graph.removeAttribute("ui.stylesheet");
+
 			graph.addAttribute("ui.stylesheet", stylesheet.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
