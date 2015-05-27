@@ -90,7 +90,7 @@ public class GraphView implements Observer, ViewInterface {
 			for (String line : lines) {
 				stylesheet.append(line + " ");
 			}
-
+			graph.removeAttribute("ui.stylesheet");
 			graph.addAttribute("ui.stylesheet", stylesheet.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -116,6 +116,11 @@ public class GraphView implements Observer, ViewInterface {
 					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());	
 				}
+				node.calculatePreviousNodesCount();
+				Node graphNode = graph.addNode(node.getIdString());
+				graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
+				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 			});
 
 		for (Wrapper node : graphData) {
