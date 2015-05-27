@@ -3,7 +3,9 @@ package tudelft.ti2806.pl3.data.wrapper;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -32,6 +34,8 @@ import java.util.Set;
  *
  */
 public class SpaceWrapper extends CombineWrapper {
+	private long width = -1;
+	
 	/**
 	 * Construct an instance of {@link SpaceWrapper}.
 	 * 
@@ -49,26 +53,24 @@ public class SpaceWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public long getXStart() {
-		long min = Long.MAX_VALUE;
-		for (Wrapper node : nodeList) {
-			min = Math.min(node.getXStart(), min);
-		}
-		return min;
-	}
-	
-	@Override
-	public long getXEnd() {
-		long max = Long.MIN_VALUE;
-		for (Wrapper node : nodeList) {
-			max = Math.max(node.getXEnd(), max);
-		}
-		return max;
-	}
-	
-	@Override
 	public long getWidth() {
-		return getXEnd() - getXStart();
+		if (width == -1) {
+			Map<String, Long> widthMap = new HashMap<>();
+			for (Wrapper node : this.getNodeList()) {
+				long width = node.getWidth();
+				for (Genome genome : node.getGenome()) {
+					Long value = widthMap.get(genome.getIdentifier());
+					if (value == null) {
+						value = width;
+					} else {
+						value += width;
+					}
+					widthMap.put(genome.getIdentifier(), value);
+				}
+			}
+			width = widthMap.values().stream().max(Long::compare).get();
+		}
+		return width;
 	}
 	
 	@Override
@@ -77,8 +79,7 @@ public class SpaceWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public void calculate(WrapperOperation wrapperOperation,
-			Wrapper container) {
+	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
 	
