@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
+import tudelft.ti2806.pl3.loading.LoadingScreen;
 import tudelft.ti2806.pl3.menubar.MenuBarView;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.SideBarView;
@@ -94,7 +95,10 @@ public class Application extends JFrame {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 
-			GraphDataRepository gd = new GraphDataRepository().parseGraph(nodeFile, edgeFile);
+			GraphDataRepository gd = new GraphDataRepository();
+			LoadingScreen loadingScreen = new LoadingScreen();
+			gd.addLoadingObserver(loadingScreen);
+			gd.parseGraph(nodeFile, edgeFile);
 
 			graphView = new GraphView(gd);
 			zoomBarView = new ZoomBarView(getGraphController());

@@ -24,8 +24,8 @@ public class ParsedGraphDataTester {
 				"data/38_strains_graph/simple_graph.node.graph");
 		File edgesFile = new File(
 				"data/38_strains_graph/simple_graph.edge.graph");
-		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
+		GraphDataRepository gdr = new GraphDataRepository();
+		gdr.parseGraph(nodesFile, edgesFile);
 		test(gdr);
 	}
 	
