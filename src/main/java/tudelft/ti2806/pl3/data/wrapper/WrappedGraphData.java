@@ -30,7 +30,7 @@ public class WrappedGraphData {
 		this.nodeWrappers = nodeWrappers;
 		this.longestNodePath = Wrapper.computeLongestPaths(this.nodeWrappers);
 	}
-	
+
 	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {
 		this(DataNodeWrapper.newNodePositionList(nodes, edges));
 	}

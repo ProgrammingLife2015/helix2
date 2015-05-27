@@ -52,7 +52,7 @@ public class GraphView implements Observer, ViewInterface {
 	 */
 
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("");
+	private Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
 
@@ -110,9 +110,12 @@ public class GraphView implements Observer, ViewInterface {
 		setGraphPropertys();
 		graphData.forEach(node -> {
 				if (!"[FIX]".equals(node.getIdString())) {
+					node.calculatePreviousNodesCount();
 					Node graphNode = graph.addNode(node.getIdString());
 					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
-					graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
+					graphNode.addAttribute("ui.class",
+							node.getOriginalNode().getClass().getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 				}
 			});
 
@@ -137,9 +140,7 @@ public class GraphView implements Observer, ViewInterface {
 	 *            the node where the edge ends
 	 */
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		org.graphstream.graph.Edge gEdge = graph.addEdge(
-				from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString());
-		gEdge.addAttribute("ui.class", "normalEdge");
+		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
 	}
 
 	@Override
