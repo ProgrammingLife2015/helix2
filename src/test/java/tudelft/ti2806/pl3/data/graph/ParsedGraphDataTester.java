@@ -4,6 +4,7 @@ import org.junit.Assert;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
+import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.exception.DuplicateGenomeNameException;
@@ -11,6 +12,7 @@ import tudelft.ti2806.pl3.util.DeadEdgeUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,13 +21,14 @@ import java.util.Set;
 
 public class ParsedGraphDataTester {
 //	@Test
-	public void testGraphData() throws FileNotFoundException {
+	public void testGraphData() throws IOException {
 		File nodesFile = new File(
 				"data/38_strains_graph/simple_graph.node.graph");
 		File edgesFile = new File(
 				"data/38_strains_graph/simple_graph.edge.graph");
+		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
+				edgesFile, geneData);
 		test(gdr);
 	}
 	

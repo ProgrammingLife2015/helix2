@@ -31,16 +31,16 @@ public class DeadEdgeUtilTest {
 		nodeList = new ArrayList<DataNode>();
 		
 		Genome[] genome = new Genome[] { new Genome("hi") };
-		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0]),
-				new DataNode(1, genome, 0, 0, new byte[0]),
-				new DataNode(2, genome, 0, 0, new byte[0]),
-				new DataNode(3, genome, 0, 0, new byte[0]),
-				new DataNode(4, genome, 0, 0, new byte[0]),
-				new DataNode(5, genome, 0, 0, new byte[0]),
-				new DataNode(6, genome, 0, 0, new byte[0]),
-				new DataNode(7, genome, 0, 0, new byte[0]),
-				new DataNode(8, genome, 0, 0, new byte[0]),
-				new DataNode(9, genome, 0, 0, new byte[0]) };
+		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0], null),
+				new DataNode(1, genome, 0, 0, new byte[0], null),
+				new DataNode(2, genome, 0, 0, new byte[0], null),
+				new DataNode(3, genome, 0, 0, new byte[0], null),
+				new DataNode(4, genome, 0, 0, new byte[0], null),
+				new DataNode(5, genome, 0, 0, new byte[0], null),
+				new DataNode(6, genome, 0, 0, new byte[0], null),
+				new DataNode(7, genome, 0, 0, new byte[0], null),
+				new DataNode(8, genome, 0, 0, new byte[0], null),
+				new DataNode(9, genome, 0, 0, new byte[0], null) };
 		
 		for (DataNode node : nodes) {
 			nodeList.add(node);
@@ -64,7 +64,7 @@ public class DeadEdgeUtilTest {
 	
 	@Test
 	public void removeDeadEdgesTest() {
-		Edge deadEdge = new Edge(nodes[0], new DataNode(-1, null, 0, 0, null));
+		Edge deadEdge = new Edge(nodes[0], new DataNode(-1, null, 0, 0, null, null));
 		List<Edge> edgeList = gd.getEdgeListClone();
 		edgeList.add(deadEdge);
 		DeadEdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());

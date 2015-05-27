@@ -20,12 +20,12 @@ public class NodePositionTest {
 	 */
 	@BeforeClass
 	public static void init() {
-		s0 = new DataNodeWrapper(new DataNode(0, new Genome[0], 0, 0, new byte[5]));
+		s0 = new DataNodeWrapper(new DataNode(0, new Genome[0], 0, 0, new byte[5], null));
 		s1 = new DataNodeWrapper(
-				new DataNode(1, new Genome[0], 0, 0, new byte[10]));
+				new DataNode(1, new Genome[0], 0, 0, new byte[10], null));
 		s2 = new DataNodeWrapper(
-				new DataNode(2, new Genome[0], 0, 0, new byte[20]));
-		s3 = new DataNodeWrapper(new DataNode(3, new Genome[0], 0, 0, new byte[2]));
+				new DataNode(2, new Genome[0], 0, 0, new byte[20], null));
+		s3 = new DataNodeWrapper(new DataNode(3, new Genome[0], 0, 0, new byte[2], null));
 		
 		s0.getOutgoing().add(s1);
 		s1.getIncoming().add(s0);

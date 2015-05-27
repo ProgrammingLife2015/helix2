@@ -2,6 +2,8 @@ package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.gene.Gene;
+import tudelft.ti2806.pl3.data.gene.GeneData;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -61,10 +63,10 @@ public class GraphDataRepository extends AbstractGraphData {
 	 * @throws FileNotFoundException
 	 *             if the file is not found
 	 */
-	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile)
+	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile, GeneData geneData)
 			throws FileNotFoundException {
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
-		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
+		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap, geneData);
 		List<DataNode> nodeList = new ArrayList<DataNode>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<Genome>();
@@ -85,19 +87,37 @@ public class GraphDataRepository extends AbstractGraphData {
 	 *             if the file is not found
 	 */
 	public static Map<Integer, DataNode> parseNodes(File nodesFile,
-			Map<String, Genome> genomeMap) throws FileNotFoundException {
+			Map<String, Genome> genomeMap, GeneData geneData) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
 		try {
 			while (br.ready()) {
 				DataNode node = parseNode(br, genomeMap);
+				addRefLabels(node, geneData);
 				nodes.put(node.getId(), node);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return nodes;
+	}
+
+	protected static void addRefLabels(DataNode node, GeneData geneData) {
+		int start = node.getRefStartPoint();
+		int end = node.getRefEndPoint();
+
+		for(int i = start; i <= end; i++) {
+			if(geneData.getGeneStart().containsKey(i)) {
+				Gene g = geneData.getGeneStart().get(i);
+				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
+				break;
+			} else if(geneData.getGeneEnd().containsKey(i)) {
+				Gene g = geneData.getGeneEnd().get(i);
+				node.addLabel(new EndGeneLabel(g.getName(), g.getEnd()));
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -121,7 +141,7 @@ public class GraphDataRepository extends AbstractGraphData {
 					parseGenomeIdentifiers(indexData[1].split(","), genomes),
 					Integer.parseInt(indexData[2]),
 					Integer.parseInt(indexData[3]),
-					BasePair.getBasePairString(br.readLine()));
+					BasePair.getBasePairString(br.readLine()), null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

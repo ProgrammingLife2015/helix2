@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3;
 import newick.NewickParser;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
+import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
@@ -74,9 +75,12 @@ public class Application extends JFrame {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+			GeneData geneData = GeneData.parseGenes("data/geneAnnotationsRef");
+
 			// make the controllers
-			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
+			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile, geneData);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
+
 			graphController = new GraphController(gd);
 			zoomBarController = new ZoomBarController(graphController);
 			sideBarController = new SideBarController(graphController,tree);

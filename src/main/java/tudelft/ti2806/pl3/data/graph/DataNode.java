@@ -3,7 +3,9 @@ package tudelft.ti2806.pl3.data.graph;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.data.Genome;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The SingleNode is a node parsed from the original data. No changes should or
@@ -18,6 +20,7 @@ public class DataNode {
 	protected final int refStartPoint;
 	protected final int refEndPoint;
 	protected final byte[] content;
+	protected ArrayList<Label> labelList;
 	
 	/**
 	 * Initialise a {@code SingleNode}.
@@ -34,7 +37,7 @@ public class DataNode {
 	 *            the size of this {@code Node}
 	 */
 	public DataNode(int nodeId, Genome[] source, int refStartPoint,
-			int refEndPoint, byte[] contentOfTheNode) {
+			int refEndPoint, byte[] contentOfTheNode, ArrayList<Label> labelList) {
 		this.nodeId = nodeId;
 		if (source == null) {
 			// TODO: Bad data, throw exception
@@ -48,6 +51,11 @@ public class DataNode {
 			this.content = null;
 		} else {
 			this.content = contentOfTheNode.clone();
+		}
+		if(labelList == null) {
+			this.labelList = new ArrayList<>();
+		} else {
+			this.labelList = labelList;
 		}
 	}
 	
@@ -99,6 +107,10 @@ public class DataNode {
 			return false;
 		}
 		return true;
+	}
+
+	public void addLabel(Label l) {
+		labelList.add(l);
 	}
 	
 	public int getId() {

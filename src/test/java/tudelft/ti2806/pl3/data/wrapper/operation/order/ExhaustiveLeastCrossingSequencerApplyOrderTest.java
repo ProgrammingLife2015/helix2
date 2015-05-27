@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
@@ -19,6 +20,7 @@ import tudelft.ti2806.pl3.util.Pair;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,11 +48,13 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	 * @throws FileNotFoundException
 	 *             if test file was not found
 	 */
-	public SpaceWrapper applyOrderTestData() throws FileNotFoundException {
+	public SpaceWrapper applyOrderTestData() throws IOException {
 		File nodesFile = new File("data/testdata/applyOrderTest.node.graph");
 		File edgesFile = new File("data/testdata/applyOrderTest.edge.graph");
+		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
+
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
+				edgesFile, geneData);
 		WrappedGraphData wgd = WrapUtil.collapseGraph(
 				new WrappedGraphData(gdr));
 		
@@ -78,11 +82,12 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	 * @throws FileNotFoundException
 	 *             if test file was not found
 	 */
-	public SpaceWrapper alwaysCrossTestData() throws FileNotFoundException {
+	public SpaceWrapper alwaysCrossTestData() throws IOException {
 		File nodesFile = new File("data/testdata/alwaysCrossTest.node.graph");
 		File edgesFile = new File("data/testdata/alwaysCrossTest.edge.graph");
+		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
+				edgesFile, geneData);
 		WrappedGraphData wgd = WrapUtil.collapseGraph(
 				new WrappedGraphData(gdr));
 		
@@ -99,7 +104,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	}
 	
 	@Test
-	public void applyOrderTest() throws FileNotFoundException {
+	public void applyOrderTest() throws IOException {
 		SpaceWrapper applyOrderTestGraphWrapper = alwaysCrossTestData();
 		// applyOrder tests
 		Assert.assertNotNull(testObject
@@ -122,7 +127,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	 *             if test file was not found
 	 */
 	@Test
-	public void applyOrderTestWithWrongOrders() throws FileNotFoundException {
+	public void applyOrderTestWithWrongOrders() throws IOException {
 		SpaceWrapper alwaysCrossTestGraphWrapper = alwaysCrossTestData();
 		// applyOrder tests
 		Assert.assertNotNull(testObject.applyOrderToY(alwaysCrossTestGraphWrapper));
@@ -149,7 +154,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	}
 	
 	@Test
-	public void calculateBestConfigTest() throws FileNotFoundException {
+	public void calculateBestConfigTest() throws IOException {
 		SpaceWrapper alwaysCrossTestGraphWrapper = alwaysCrossTestData();
 		List<Pair<List<Wrapper>, Wrapper[]>> order
 				= testObject.getOrder(testObject.getOutgoingLists(alwaysCrossTestGraphWrapper
@@ -184,7 +189,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	}
 	
 	@Test
-	public void rightToLeftSearchTest() throws FileNotFoundException {
+	public void rightToLeftSearchTest() throws IOException {
 		SpaceWrapper applyOrderTestGraphWrapper = applyOrderTestData();
 		// TODO rewrite test?
 		// If this test fails, the test is useless

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.gene.GeneData;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -30,13 +31,13 @@ public class GraphParserTest {
 				new HashMap<String, Genome>());
 		assertTrue(node.equals(new DataNode(35, new Genome[] { new Genome(
 				"TKK_01_0029") }, 2609451, 2609452,
-				new byte[] { BasePair.A.storeByte })));
+				new byte[] { BasePair.A.storeByte }, null)));
 	}
 	
 	@Test
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
 		Map<Integer, DataNode> nodeMap = GraphDataRepository.parseNodes(
-				simpleNodeGraphFile, new HashMap<String, Genome>());
+				simpleNodeGraphFile, new HashMap<String, Genome>(), null);
 		List<Edge> edges = GraphDataRepository.parseEdges(simpleEdgeGraphFile,
 				nodeMap);
 		
