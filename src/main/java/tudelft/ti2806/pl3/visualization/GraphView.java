@@ -6,6 +6,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 
+import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -58,10 +59,34 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View,ViewInterfac
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 
+	/**
+	 * Construct a GraphView with no LoadingObservers.
+	 *
+	 * @param abstractGraphData
+	 * 		GraphData to display
+	 */
 	public GraphView(AbstractGraphData abstractGraphData) {
+		new GraphView(abstractGraphData, null);
+	}
+
+	/**
+	 * Construct a GraphView with LoadingObserver.
+	 *
+	 * @param abstractGraphData
+	 * 		GraphData to display
+	 * @param loadingObservers
+	 * 		Observers for loading
+	 */
+	public GraphView(AbstractGraphData abstractGraphData, ArrayList<LoadingObserver> loadingObservers) {
 		// make graph
 		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
 		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
+
+		// add the loading observers
+		addLoadingObserversList(loadingObservers);
+		filteredGraphModel.addLoadingObserversList(loadingObservers);
+		zoomedGraphModel.addLoadingObserversList(loadingObservers);
+
 		init();
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(this);

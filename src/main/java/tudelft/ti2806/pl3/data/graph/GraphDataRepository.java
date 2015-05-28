@@ -29,20 +29,9 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public GraphDataRepository() {
 	}
-	
-	private ArrayList<LoadingObserver> observers;
 
 	/**
-	 * THIS CONSTRUCTOR IS ONLY USED FOR TESTING.
-	 * Construct a empty {@code GraphDataRepository}
-	 *
-	 */
-	GraphDataRepository() {
-		this.observers = new ArrayList<>();
-	}
-
-	/**
-	 * TODO: THIS CONSTRUCTOR IS ONLY USED FOR TESTING
+	 * TODO: THIS CONSTRUCTOR IS ONLY USED FOR TESTING.
 	 * Construct a instance of {@code GraphDataRepository}.
 	 *
 	 * @param nodes
@@ -60,7 +49,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		this.observers = new ArrayList<>();
 	}
 
-	public void addNodes(List<DataNode> nodes){
+	public void addNodes(List<DataNode> nodes) {
 		this.nodes = nodes;
 	}
 
@@ -83,7 +72,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	@Override
-	public List<Genome> getGenomes(){
+	public List<Genome> getGenomes() {
 		return this.getGenomeClone();
 	}
 
@@ -94,13 +83,12 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		the file of nodes to be read
 	 * @param edgesFile
 	 * 		the file of edges to be read
-	 *            the file of edges to be read
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
 	public void parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
-		notifyLoadingObservers("Start parsing the graph.");
+		notifyLoadingObservers(true);
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
 		List<DataNode> nodeList = new ArrayList<DataNode>();
@@ -112,7 +100,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		addEdges(parseEdges(edgesFile, nodeMap));
 		addGenomes(genomeList);
 
-		notifyLoadingObservers("Done parsing the graph.");
+		notifyLoadingObservers(false);
 	}
 
 	/**
@@ -127,8 +115,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public Map<Integer, DataNode> parseNodes(File nodesFile,
-			Map<String, Genome> genomeMap) throws FileNotFoundException {
-		notifyLoadingObservers("Start parsing node in file " + nodesFile.getName());
+											 Map<String, Genome> genomeMap) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
@@ -140,7 +127,6 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		notifyLoadingObservers("Done parsing nodes.");
 		return nodes;
 	}
 
@@ -152,7 +138,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @return the read node
 	 */
 	protected DataNode parseNode(BufferedReader br,
-			Map<String, Genome> genomes) {
+								 Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
 			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
@@ -198,8 +184,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public List<Edge> parseEdges(File edgesFile,
-			Map<Integer, DataNode> nodes) throws FileNotFoundException {
-		notifyLoadingObservers("Start parsing egdes in file " + edgesFile.getName());
+								 Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
@@ -214,7 +199,6 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		notifyLoadingObservers("Done parsing edges");
 		return list;
 	}
 
@@ -271,14 +255,21 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
 	public void deleteLoadingObserver(LoadingObserver loadingObserver) {
 		observers.remove(loadingObserver);
 	}
 
 	@Override
-	public void notifyLoadingObservers(Object arguments) {
+	public void notifyLoadingObservers(Object loading) {
 		for (LoadingObserver observer : observers) {
-			observer.update(this,arguments);
+			observer.update(this, loading);
 		}
 	}
 }

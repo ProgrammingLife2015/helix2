@@ -1,8 +1,8 @@
 package tudelft.ti2806.pl3.visualization;
 
-import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CollapseOnInterest;
@@ -18,21 +18,13 @@ import java.util.Observer;
 
 /**
  * This Model contains the data after a zoom has been performed.
- * <p>
- * It listens to the {@link tudelft.ti2806.pl3.visualization.FilteredGraphModel}
- * for changes. If this model has updated his data, this class will also update
- * his data and notify the view.
- * </p>
- * <p>
- * We can also just alter the zoom level on this class and then it will
- * recalculate the data and notify the view.
- * </p>
- * <p>
- * Recalculation of the data means, that it takes the collapsedNode from the
- * {@link tudelft.ti2806.pl3.visualization.FilteredGraphModel} and filters them
- * based on the interest value. Then it unwraps the collapsed node and notifies
- * the view.
- * </p>
+ * <p>It listens to the {@link tudelft.ti2806.pl3.visualization.FilteredGraphModel} for changes.
+ * If this model has updated his data, this class will also update his data and notify the view.</p>
+ * <p>We can also just alter the zoom level on this class and then it will recalculate the data and
+ * notify the view.</p>
+ * <p>Recalculation of the data means, that it takes the collapsedNode from the
+ * {@link tudelft.ti2806.pl3.visualization.FilteredGraphModel} and filters them based on the interest value.
+ * Then it unwraps the collapsed node and notifies the view.</p>
  * Created by Boris Mattijssen on 20-05-15.
  */
 public class ZoomedGraphModel extends Observable implements Observer, LoadingObservable {
@@ -56,11 +48,11 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	public ZoomedGraphModel(FilteredGraphModel filteredGraphModel) {
 		this.filteredGraphModel = filteredGraphModel;
 	}
-	
+
 	public List<WrapperClone> getDataNodeWrapperList() {
 		return dataNodeWrapperList;
 	}
-	
+
 	/**
 	 * Sets the zoom level, only if the zoom level is larger then 0.
 	 *
@@ -76,7 +68,7 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	public int getZoomLevel() {
 		return zoomLevel;
 	}
-	
+
 	/**
 	 * Produces the data needed to display the graph.
 	 * <p>
@@ -94,7 +86,7 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 		ConstructInterestList constructInterestList = new ConstructInterestList();
 		constructInterestList.calculate(collapsedNode, null);
 		constructInterestList.getInterests().sort(Collections.reverseOrder());
-		
+
 		CollapseOnSpace cos = new CollapseOnSpace(
 				(float) (graphWidth / panelWidth / (zoomLevel * zoomLevel)));
 		cos.calculate(collapsedNode, null);
@@ -102,12 +94,12 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 		
 		Unwrap unwrap = new Unwrap(collapsedNode);
 		dataNodeWrapperList = unwrap.getWrapperClones();
-		
+
 		setChanged();
 		notifyObservers();
 		notifyLoadingObservers(false);
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o == filteredGraphModel) {

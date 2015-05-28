@@ -21,6 +21,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -43,17 +44,15 @@ public class Application extends JFrame {
 
 	private JLayeredPane main;
 	private ScreenSize size;
+	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+
 
 	/**
 	 * The controllers of the application.
 	 */
-
 	private GraphView graphView;
 	private SideBarView sideBarView;
 	private ZoomBarView zoomBarView;
-
-	private boolean loading = false;
-
 
 	/**
 	 * Construct the main application view.
@@ -81,6 +80,7 @@ public class Application extends JFrame {
 		// set window controller
 		WindowController windowController = new WindowController(this);
 		addWindowListener(windowController);
+		loadingObservers.add(new LoadingMouse(this));
 
 		this.setFocusable(true);
 		this.setVisible(true);
@@ -91,19 +91,15 @@ public class Application extends JFrame {
 	 */
 	public void makeGraph() {
 		try {
-			setLoading(true);
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 
-			LoadingScreen loadingScreen = new LoadingScreen(this);
-			this.validate();
-			this.repaint();
 			GraphDataRepository gd = new GraphDataRepository();
-			gd.addLoadingObserver(loadingScreen);
+			gd.addLoadingObserversList(loadingObservers);
 			gd.parseGraph(nodeFile, edgeFile);
 
 
-			graphView = new GraphView(gd);
+			graphView = new GraphView(gd,loadingObservers);
 			zoomBarView = new ZoomBarView(getGraphController());
 
 			setZoomBarView(zoomBarView.getPanel());
@@ -111,8 +107,6 @@ public class Application extends JFrame {
 
 			KeyController keys = new KeyController(this);
 			graphView.getPanel().addKeyListener(keys);
-
-			setLoading(false);
 
 			this.setFocusable(true);
 		} catch (FileNotFoundException | FileSelectorException exception) {
@@ -128,9 +122,11 @@ public class Application extends JFrame {
 	public void makePhyloTree() {
 		try {
 			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+
+			sideBarView = new SideBarView();
+			sideBarView.addLoadingObserversList(loadingObservers);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
 			PhyloView phyloView = new PhyloView(tree, getGraphController());
-			sideBarView = new SideBarView();
 			sideBarView.addToSideBarView(phyloView.getPanel());
 			setSideBarView(sideBarView.getPanel());
 
@@ -174,14 +170,6 @@ public class Application extends JFrame {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
-	}
-
-	public void setLoading(boolean loading) {
-		this.loading = loading;
-	}
-
-	public boolean isLoading() {
-		return loading;
 	}
 
 	/**
