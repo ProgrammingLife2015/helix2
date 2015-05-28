@@ -8,6 +8,7 @@ import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateSizeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
+import tudelft.ti2806.pl3.data.wrapper.util.HorizontalWrapUtil;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.EdgeUtil;
 import tudelft.ti2806.pl3.util.HashableCollection;
@@ -88,6 +89,7 @@ public class FilteredGraphModel extends Observable {
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		wrappedGraphData = HorizontalWrapUtil.collapseGraph(wrappedGraphData);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);

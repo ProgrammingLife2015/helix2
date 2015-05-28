@@ -12,7 +12,7 @@ public class SingleWrapper extends Wrapper {
 	private Wrapper target;
 	
 	public SingleWrapper(Wrapper target) {
-		this.target = target;
+		this.target = target instanceof SingleWrapper ? ((SingleWrapper) target).getNode() : target;
 	}
 	
 	@Override
