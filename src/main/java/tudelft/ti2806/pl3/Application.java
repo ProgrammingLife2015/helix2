@@ -99,7 +99,7 @@ public class Application extends JFrame {
 			gd.parseGraph(nodeFile, edgeFile);
 
 
-			graphView = new GraphView(gd,loadingObservers);
+			graphView = new GraphView(gd, loadingObservers);
 			zoomBarView = new ZoomBarView(getGraphController());
 
 			setZoomBarView(zoomBarView.getPanel());
