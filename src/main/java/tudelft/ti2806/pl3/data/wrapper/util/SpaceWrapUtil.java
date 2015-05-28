@@ -324,15 +324,6 @@ public final class SpaceWrapUtil {
 			return new Pair<Integer, Pair<Wrapper, Wrapper>>(-distance,
 					new Pair<Wrapper, Wrapper>(node1, node2));
 		}
-//		System.out.println("Two posible routes are found with the same genome name, "
-//				+ "or the order of the nodes was not correctly calculated."
-//				+ "\nNodes:" + node1.getIdString() + " - "
-//				+ node1.getIdString());
-//		if(node1.getIdString().equals("857") || node2.getIdString().equals("849")) {
-//			System.out.println("Kappen");
-//		}
-//		return new Pair<Integer, Pair<Wrapper, Wrapper>>(-distance,
-//				new Pair<Wrapper, Wrapper>(node1, node2));
 		// TODO: Handle the exceptions correctly
 		try {
 			throw new DuplicateGenomeNameException(
