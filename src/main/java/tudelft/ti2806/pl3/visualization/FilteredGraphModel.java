@@ -9,12 +9,10 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateSizeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
+import tudelft.ti2806.pl3.util.EdgeUtil;
 import tudelft.ti2806.pl3.util.HashableCollection;
 
 import java.util.Collection;
-import java.util.Observable;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Observable;
 
 /**
  * This model filters the original graph data, based on the filter selections.
@@ -87,10 +86,9 @@ public class FilteredGraphModel extends Observable {
 		List<DataNode> resultNodes = originalGraphData.getNodeListClone();
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
-		removeAllDeadEdges(resultEdges, resultNodes);
 		
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
-		removeAllEmptyEdges(wrappedGraphData);
+		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
 		sizeInterest.calculate(collapsedNode, null);
@@ -171,7 +169,7 @@ public class FilteredGraphModel extends Observable {
 	 * @param list
 	 *            the list of nodes to be filtered
 	 */
-	protected void filter(List<DataNode> list) {
+	public void filter(List<DataNode> list) {
 		for (Filter<DataNode> filter : filters) {
 			filter.filter(list);
 		}

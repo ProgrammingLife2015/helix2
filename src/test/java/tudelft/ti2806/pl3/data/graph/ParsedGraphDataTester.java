@@ -7,7 +7,7 @@ import tudelft.ti2806.pl3.data.filter.GenomeFilter;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.exception.DuplicateGenomeNameException;
-import tudelft.ti2806.pl3.util.DeadEdgeUtil;
+import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,7 +40,7 @@ public class ParsedGraphDataTester {
 						list.add(string);
 						new GenomeFilter(list).filter(nodeList);
 						List<Edge> edgeList = origin.getEdgeListClone();
-						DeadEdgeUtil.removeAllDeadEdges(edgeList, nodeList);
+						EdgeUtil.removeAllDeadEdges(edgeList, nodeList);
 						GraphData gd = new GraphData(origin, nodeList,
 								edgeList, origin.getGenomes());
 						WrappedGraphData wgd = new WrappedGraphData(gd);

@@ -12,6 +12,7 @@ import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
+import tudelft.ti2806.pl3.util.EdgeUtil;
 import tudelft.ti2806.pl3.visualization.FilteredGraphModel;
 
 import java.io.File;
@@ -62,7 +63,7 @@ public class FilteredGraphModelTest {
 
 	@Test
 	public void testDeadEdges() {
-		FilteredGraphModel.removeAllDeadEdges(resultEdges, resultNodes);
+		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
 		assertEquals(5, resultEdges.size());
 		assertTrue(new Edge(resultNodes.get(0), resultNodes.get(1)).equals(resultEdges.get(0)));
 		assertTrue(new Edge(resultNodes.get(1), resultNodes.get(2)).equals(resultEdges.get(1)));
@@ -73,9 +74,9 @@ public class FilteredGraphModelTest {
 
 	@Test
 	public void testEmptyEdges() {
-		FilteredGraphModel.removeAllDeadEdges(resultEdges, resultNodes);
+		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
-		FilteredGraphModel.removeAllEmptyEdges(wrappedGraphData);
+		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		List<Wrapper> nodes = wrappedGraphData.getPositionedNodes();
 		assertEquals(1, nodes.get(0).getOutgoing().size());
 		assertEquals(1, nodes.get(1).getOutgoing().size());
@@ -88,9 +89,9 @@ public class FilteredGraphModelTest {
 
 	@Test
 	public void testEmptyEdgesIncoming() {
-		FilteredGraphModel.removeAllDeadEdges(resultEdges, resultNodes);
+		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
-		FilteredGraphModel.removeAllEmptyEdges(wrappedGraphData);
+		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		List<Wrapper> nodes = wrappedGraphData.getPositionedNodes();
 		assertEquals(0, nodes.get(0).getIncoming().size());
 		assertEquals(1, nodes.get(1).getIncoming().size());
@@ -103,9 +104,9 @@ public class FilteredGraphModelTest {
 
 	@Test
 	public void testCollapse() {
-		FilteredGraphModel.removeAllDeadEdges(resultEdges, resultNodes);
+		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
-		FilteredGraphModel.removeAllEmptyEdges(wrappedGraphData);
+		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		Wrapper collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		assertTrue(collapsedNode instanceof HorizontalWrapper);
 		assertEquals(4, ((HorizontalWrapper) collapsedNode).getNodeList().size());

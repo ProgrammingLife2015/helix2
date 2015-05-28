@@ -70,7 +70,7 @@ public class DeadEdgeUtilTest {
 		Edge deadEdge = new Edge(nodes[0], new DataNode(-1, null, 0, 0, null));
 		List<Edge> edgeList = gd.getEdgeListClone();
 		edgeList.add(deadEdge);
-		DeadEdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());
+		EdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());
 		Assert.assertFalse(edgeList.contains(deadEdge));
 	}
 	
@@ -78,7 +78,7 @@ public class DeadEdgeUtilTest {
 	public void privateConstructorTest() throws NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
 			InstantiationException {
-		new UtilTest<DeadEdgeUtil>(DeadEdgeUtil.class)
+		new UtilTest<EdgeUtil>(EdgeUtil.class)
 				.testConstructorIsPrivate();
 	}
 }
