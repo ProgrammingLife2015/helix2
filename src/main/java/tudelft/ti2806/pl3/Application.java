@@ -74,7 +74,7 @@ public class Application extends JFrame {
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
 
-			long startTime = System.currentTimeMillis();
+			final long startTime = System.currentTimeMillis();
 
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
