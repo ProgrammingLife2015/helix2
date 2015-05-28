@@ -19,30 +19,30 @@ public class CalculateSizeInterest extends WrapperOperation {
 	@Override
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		wrapper.addInterest((int) Math.sqrt(wrapper.getWidth()));
+		wrapper.addInterest((int) Math.sqrt(wrapper.getBasePairCount()));
 	}
 	
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		wrapper.addInterest((int) Math.sqrt(wrapper.getWidth()));
+		wrapper.addInterest((int) Math.sqrt(wrapper.getBasePairCount()));
 	}
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		wrapper.addInterest((int) Math.sqrt(wrapper.getWidth()));
+		wrapper.addInterest((int) Math.sqrt(wrapper.getBasePairCount()));
 	}
 	
 	@Override
 	public void calculate(SingleWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		wrapper.addInterest((int) Math.sqrt(wrapper.getWidth()));
+		wrapper.addInterest((int) Math.sqrt(wrapper.getBasePairCount()));
 	}
 	
 	@Override
 	public void calculate(DataNodeWrapper wrapper, Wrapper container) {
-		wrapper.addInterest((int) Math.sqrt(wrapper.getWidth()));
+		wrapper.addInterest((int) Math.sqrt(wrapper.getBasePairCount()));
 	}
 	
 }

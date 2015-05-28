@@ -8,8 +8,8 @@ package tudelft.ti2806.pl3.math;
  * @author Sam Smulders
  */
 public class Line {
-	public final int x1;
-	public final int x2;
+	public final float x1;
+	public final float x2;
 	public final float slope;
 	public final float constant;
 	
@@ -17,18 +17,18 @@ public class Line {
 	 * Initialise a line in the form y = {@link #slope}*x + {@link #constant}.<br>
 	 * The line should be from left to right.
 	 * 
-	 * @param x1
+	 * @param f
 	 *            x coordinate of the position on the left
 	 * @param yy
 	 *            y coordinate of the position on the left
-	 * @param x2
+	 * @param g
 	 *            x coordinate of the position on the right
 	 * @param yy2
 	 *            y coordinate of the position on the right
 	 */
-	public Line(int x1, float yy, int x2, float yy2) {
-		this.x1 = x1;
-		this.x2 = x2;
+	public Line(float f, float yy, float g, float yy2) {
+		this.x1 = f;
+		this.x2 = g;
 		this.slope = calculateSlope(yy, yy2);
 		this.constant = calculateConstant(yy);
 	}
@@ -71,13 +71,17 @@ public class Line {
 		float hit = getXOfIntersection(other);
 		return isWithinDomain(hit) && other.isWithinDomain(hit);
 	}
+	
 	/**
-	 * Checks if the given line shares space on the x axis, excluding the
-	 * exact borders of the domain.
+	 * Checks if the given line shares space on the x axis, excluding the exact
+	 * borders of the domain.
 	 * 
-	 * @param other the other line to compare its space with
-	 * @return {@code true} if {@code other} shares space on the x axis with this line<br>
-	 *         {@code false} if {@code hit} shares no space on the x axis with this line
+	 * @param other
+	 *            the other line to compare its space with
+	 * @return {@code true} if {@code other} shares space on the x axis with
+	 *         this line<br>
+	 *         {@code false} if {@code hit} shares no space on the x axis with
+	 *         this line
 	 */
 	public boolean isWithingDomain(Line other) {
 		return !(other.x2 <= this.x1 || other.x1 >= this.x2);
@@ -134,8 +138,8 @@ public class Line {
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(constant);
 		result = prime * result + Float.floatToIntBits(slope);
-		result = prime * result + x1;
-		result = prime * result + x2;
+		result = prime * result + Float.floatToIntBits(x1);
+		result = prime * result + Float.floatToIntBits(x2);
 		return result;
 	}
 	
@@ -158,10 +162,10 @@ public class Line {
 		if (Float.floatToIntBits(slope) != Float.floatToIntBits(other.slope)) {
 			return false;
 		}
-		if (x1 != other.x1) {
+		if (Float.floatToIntBits(x1) != Float.floatToIntBits(other.x1)) {
 			return false;
 		}
-		if (x2 != other.x2) {
+		if (Float.floatToIntBits(x2) != Float.floatToIntBits(other.x2)) {
 			return false;
 		}
 		return true;

@@ -241,8 +241,8 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		for (int i = wrapper.getNodeList().size() - 2; i >= 1; i--) {
 			Wrapper from = wrapper.getNodeList().get(i);
 			for (Wrapper to : from.getOutgoing()) {
-				lines.add(new Line(from.getPreviousNodesCount(), to.getY(), to
-						.getPreviousNodesCount(), from.getY()));
+				lines.add(new Line(from.getX(), from.getY(), to
+						.getX(), to.getY()));
 			}
 		}
 		return lines;

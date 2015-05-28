@@ -119,7 +119,7 @@ public class DataNode {
 		return refEndPoint;
 	}
 	
-	public long getWidth() {
+	public long getBasePairCount() {
 		return content.length;
 	}
 }

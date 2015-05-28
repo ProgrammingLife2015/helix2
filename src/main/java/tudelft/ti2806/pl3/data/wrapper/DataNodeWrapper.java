@@ -63,8 +63,8 @@ public class DataNodeWrapper extends Wrapper {
 	}
 	
 	@Override
-	public long getWidth() {
-		return node.getWidth();
+	public long getBasePairCount() {
+		return node.getBasePairCount();
 	}
 	
 	@Override
@@ -89,5 +89,15 @@ public class DataNodeWrapper extends Wrapper {
 	@Override
 	public void collectDataNodes(List<DataNode> list) {
 		list.add(node);
+	}
+
+	@Override
+	public void calculateX() {
+		this.x = this.getPreviousNodesCount();
+	}
+
+	@Override
+	public int getWidth() {
+		return 1;
 	}
 }

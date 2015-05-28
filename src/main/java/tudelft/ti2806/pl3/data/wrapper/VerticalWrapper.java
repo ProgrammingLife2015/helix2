@@ -18,10 +18,10 @@ public class VerticalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public long getWidth() {
+	public long getBasePairCount() {
 		long max = Integer.MIN_VALUE;
 		for (Wrapper node : nodeList) {
-			max = Math.max(max, node.getWidth());
+			max = Math.max(max, node.getBasePairCount());
 		}
 		return max;
 	}
@@ -43,5 +43,10 @@ public class VerticalWrapper extends CombineWrapper {
 	@Override
 	public String getIdString() {
 		return "V" + super.getIdString();
+	}
+
+	@Override
+	public int getWidth() {
+		return this.getNodeList().stream().map(Wrapper::getWidth).max(Integer::compare).get();
 	}
 }

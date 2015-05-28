@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class WrapperPlaceholder extends Wrapper {
 	@Override
-	public long getWidth() {
+	public long getBasePairCount() {
 		return 0;
 	}
 
@@ -33,6 +33,15 @@ public class WrapperPlaceholder extends Wrapper {
 
 	@Override
 	public void collectDataNodes(List<DataNode> list) {
+	}
+
+	@Override
+	public void calculateX() {
+	}
+
+	@Override
+	public int getWidth() {
+		return 0;
 	}
 
 }

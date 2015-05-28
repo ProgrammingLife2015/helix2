@@ -105,7 +105,7 @@ public class OrderedListUtilTest {
 		}
 		
 		@Override
-		public long getWidth() {
+		public long getBasePairCount() {
 			return 0;
 		}
 		
@@ -157,6 +157,15 @@ public class OrderedListUtilTest {
 				return false;
 			}
 			return true;
+		}
+
+		@Override
+		public void calculateX() {
+		}
+
+		@Override
+		public int getWidth() {
+			return 0;
 		}
 
 	}
