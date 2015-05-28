@@ -22,8 +22,8 @@ public class EdgeUtil {
 
 	public static void removeAllEmptyEdges(WrappedGraphData wrappedGraphData) {
 		for (Wrapper wrapper : wrappedGraphData.getPositionedNodes()) {
-			if (wrapper.getOutgoing().size() <= 1) {
-				break;
+			if (wrapper.getOutgoing().size() == 0) {
+				continue;
 			}
 
 //			Map<Genome, Boolean> genomesMap = new HashMap<>();
@@ -42,7 +42,7 @@ public class EdgeUtil {
 //						removeList.add(outgoing);
 //					}
 //				}
-				if(genomes.size() == 0) {
+				if (genomes.size() == 0) {
 					removeList.add(outgoing);
 				} else {
 					genomes.removeAll(outgoing.getGenome());
