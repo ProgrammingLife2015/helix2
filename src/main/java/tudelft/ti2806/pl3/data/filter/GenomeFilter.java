@@ -30,16 +30,6 @@ public class GenomeFilter implements Filter<DataNode> {
 	public void filter(List<DataNode> nodes) {
 		List<DataNode> remove = new ArrayList<>();
 		for (DataNode dataNode : nodes) {
-			for (String genome : genomes) {
-				if (!dataNode.getSource()
-						.stream()
-						.map(Genome::getIdentifier)
-						.collect(Collectors.toList())
-							.contains(genome)) {
-					remove.add(dataNode);
-					break;
-				}
-			}
 			Set<Genome> currentGenomeList = new HashSet<>();
 			currentGenomeList.addAll(
 					dataNode.getSource().stream()
@@ -47,6 +37,9 @@ public class GenomeFilter implements Filter<DataNode> {
 							.collect(Collectors.toList())
 			);
 			dataNode.setCurrentGenomeList(currentGenomeList);
+			if(currentGenomeList.size() == 0) {
+				remove.add(dataNode);
+			}
 		}
 		nodes.removeAll(remove);
 	}
