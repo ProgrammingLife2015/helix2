@@ -18,6 +18,7 @@ public class Main {
 	 *            input arguments
 	 */
 	public static void main(String[] args) {
+		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
 		// set native look and feel
 		try {

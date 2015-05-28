@@ -10,30 +10,15 @@ import java.util.Set;
 public class FixWrapper extends Wrapper {
 	
 	Set<Genome> genome;
-	long pos;
-	
-	public FixWrapper(long pos) {
-		this.pos = pos;
-	}
-	
-	@Override
-	public long getXStart() {
-		return pos;
-	}
-	
-	@Override
-	public long getXEnd() {
-		return pos;
-	}
 	
 	@Override
 	public long getWidth() {
-		return pos;
+		return 0;
 	}
 	
 	@Override
 	public String getIdString() {
-		return "[FIX" + pos + "]";
+		return "[FIX]";
 	}
 	
 	@Override

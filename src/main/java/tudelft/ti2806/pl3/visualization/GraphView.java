@@ -5,6 +5,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
+
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
@@ -53,7 +54,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("");
+	private Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
@@ -70,7 +71,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * 		GraphData to display
 	 */
 	public GraphView(AbstractGraphData abstractGraphData) {
-		new GraphView(abstractGraphData, null);
+		this(abstractGraphData, null);
 	}
 
 	/**
@@ -94,7 +95,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		init();
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(this);
-		filteredGraphModel.produceWrappedGraphData();
 
 		this.graphController = new GraphController(this);
 
@@ -153,16 +153,22 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
-		graphData.forEach(Wrapper::calculatePreviousNodesCount);
 		graphData.forEach(node -> {
-			Node graphNode = graph.addNode(node.getIdString());
-			graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
-			graphNode.addAttribute("ui.class", node.getClass().getSimpleName());
-		});
+				if (!"[FIX]".equals(node.getIdString())) {
+					node.calculatePreviousNodesCount();
+					Node graphNode = graph.addNode(node.getIdString());
+					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
+					graphNode.addAttribute("ui.class",
+							node.getOriginalNode().getClass().getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				}
+			});
 
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				addNormalEdge(graph, node, to);
+				if (!"[FIX]".equals(node.getIdString()) && !"[FIX]".equals(to.getIdString())) {
+					addNormalEdge(graph, node, to);
+				}
 			}
 		}
 		notifyLoadingObservers(false);
@@ -180,9 +186,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * 		the node where the edge ends
 	 */
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		org.graphstream.graph.Edge gEdge = graph.addEdge(
-				from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString());
-		gEdge.addAttribute("ui.class", "normalEdge");
+		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
 	}
 
 	@Override

@@ -18,8 +18,7 @@ import java.util.List;
 public class WrappedGraphData {
 	
 	private List<Wrapper> nodeWrappers;
-	private long size;
-	private int longestNodePath;
+	private final int longestNodePath;
 	
 	/**
 	 * Initialises an instance of {@link WrappedGraphData}.
@@ -29,15 +28,9 @@ public class WrappedGraphData {
 	 */
 	public WrappedGraphData(List<Wrapper> nodeWrappers) {
 		this.nodeWrappers = nodeWrappers;
-		for (Wrapper node : nodeWrappers) {
-			node.resetPreviousNodesCount();
-		}
-		for (Wrapper node : nodeWrappers) {
-			longestNodePath = Math.max(longestNodePath,
-					node.calculatePreviousNodesCount());
-		}
+		this.longestNodePath = Wrapper.computeLongestPaths(this.nodeWrappers);
 	}
-	
+
 	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {
 		this(DataNodeWrapper.newNodePositionList(nodes, edges));
 	}
@@ -48,10 +41,6 @@ public class WrappedGraphData {
 	
 	public List<Wrapper> getPositionedNodes() {
 		return nodeWrappers;
-	}
-	
-	public long getSize() {
-		return size;
 	}
 	
 	public int getLongestNodePath() {

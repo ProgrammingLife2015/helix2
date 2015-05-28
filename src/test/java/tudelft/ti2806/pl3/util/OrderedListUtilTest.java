@@ -105,16 +105,6 @@ public class OrderedListUtilTest {
 		}
 		
 		@Override
-		public long getXStart() {
-			return 0;
-		}
-		
-		@Override
-		public long getXEnd() {
-			return 0;
-		}
-		
-		@Override
 		public long getWidth() {
 			return 0;
 		}
