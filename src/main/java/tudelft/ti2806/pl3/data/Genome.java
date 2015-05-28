@@ -9,11 +9,7 @@ public class Genome {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((identifier == null) ? 0 : identifier.hashCode());
-		return result;
+		return identifier.hashCode();
 	}
 	
 	@Override

@@ -78,7 +78,7 @@ public class DataNodeWrapper extends Wrapper {
 
 	@Override
 	public Set<Genome> getGenome() {
-		Set<Genome> list = new HashSet<Genome>();
+		Set<Genome> list = new HashSet<>();
 		for (Genome genome : node.getSource()) {
 			list.add(genome);
 		}
