@@ -55,8 +55,8 @@ public class CalculateWrapPressureInterestTest {
 		genomeList.add(genome);
 		when(nodeWrapper1.getInterest()).thenReturn(nodeWrapper1Interest);
 		when(nodeWrapper2.getInterest()).thenReturn(nodeWrapper2Interest);
-		when(nodeWrapper1.getGenome()).thenReturn(genomeList);
-		when(nodeWrapper2.getGenome()).thenReturn(genomeList);
+		when(nodeWrapper1.calculateGenome()).thenReturn(genomeList);
+		when(nodeWrapper2.calculateGenome()).thenReturn(genomeList);
 		
 		nodeWrapperList = new ArrayList<>();
 		nodeWrapperList.add(nodeWrapper1);

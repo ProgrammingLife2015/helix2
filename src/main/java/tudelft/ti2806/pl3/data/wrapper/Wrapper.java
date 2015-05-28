@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import tudelft.ti2806.pl3.util.DoneDeque;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import java.util.Set;
  */
 @SuppressWarnings("EQ_COMPARETO_USE_OBJECT_EQUALS")
 public abstract class Wrapper implements Comparable<Wrapper> {
+	private Set<Genome> genomes;
 	
 	protected float y;
 	protected List<Wrapper> incoming = new ArrayList<>();
@@ -66,8 +68,28 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	}
 	
 	public abstract String getIdString();
-	
-	public abstract Set<Genome> getGenome();
+
+	public abstract int getId();
+
+	/**
+	 * Calculates the genome set if it has not done already.
+	 *
+	 * @return the set of genomes.
+	 */
+	public final Set<Genome> getGenome() {
+		if (genomes == null) {
+			genomes = calculateGenome();
+		}
+		return genomes;
+	}
+
+	/**
+	 * This method must generate a set of Genome objects.
+	 * It contains all Genome's of all nodes that are in this Wrapper.
+	 *
+	 * @return the set of genomes contained in this Wrapper
+	 */
+	public abstract Set<Genome> calculateGenome();
 	
 	public abstract void calculate(WrapperOperation wrapperSequencer,
 			Wrapper container);
@@ -115,7 +137,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	 *            of
 	 * @return the length of the longest path found
 	 */
-	public static int computeLongestPaths(List<Wrapper> nodeWrappers) {
+	public static int computeLongestPaths(Collection<Wrapper> nodeWrappers) {
 		DoneDeque<Wrapper> deque = new DoneDeque<>(nodeWrappers.size());
 		for (Wrapper wrapper : nodeWrappers) {
 			if (wrapper.getIncoming().size() == 0) {

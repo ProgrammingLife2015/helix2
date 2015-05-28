@@ -9,6 +9,7 @@ import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public final class VerticalWrapUtil {
 	 */
 	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
+		Collection<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
 		}
@@ -52,18 +53,23 @@ public final class VerticalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> nodes) {
-		List<Wrapper> nonWrappedNodes = new ArrayList<Wrapper>(nodes);
-		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
+	static Collection<Wrapper> combineNodes(Collection<Wrapper> nodes) {
+		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
+		for (Wrapper node : nodes) {
+			nonWrappedNodes.put(node.getId(), node);
+		}
+		List<CombineWrapper> combinedNodes = new ArrayList<>();
 		for (List<Wrapper> list : findCombineableNodes(nodes)) {
 			CombineWrapper newNode = new VerticalWrapper(list);
 			combinedNodes.add(newNode);
-			nonWrappedNodes.removeAll(list);
+			for (Wrapper node : list) {
+				nonWrappedNodes.remove(node.getId());
+			}
 		}
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
-		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
+		return WrapUtil.wrapAndReconnect(nonWrappedNodes.values(), combinedNodes);
 	}
 	
 	@SuppressWarnings("CPD-END")
@@ -76,26 +82,26 @@ public final class VerticalWrapUtil {
 	 * 
 	 * @return a list of edges which could be combined
 	 */
-	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
+	static List<List<Wrapper>> findCombineableNodes(Collection<Wrapper> nodes) {
 		Map<Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>,
 				List<Wrapper>> map = new HashMap<>();
 		for (Wrapper node : nodes) {
 			List<Wrapper> list = map
-					.get(new Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>(
-							new HashableCollection<Wrapper>(node
+					.get(new Pair<>(
+							new HashableCollection<>(node
 									.getIncoming()),
-							new HashableCollection<Wrapper>(node
+							new HashableCollection<>(node
 									.getOutgoing())));
 			if (list == null) {
-				list = new ArrayList<Wrapper>();
-				map.put(new Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>(
-						new HashableCollection<Wrapper>(node.getIncoming()),
-						new HashableCollection<Wrapper>(node.getOutgoing())),
+				list = new ArrayList<>();
+				map.put(new Pair<>(
+								new HashableCollection<>(node.getIncoming()),
+								new HashableCollection<>(node.getOutgoing())),
 						list);
 			}
 			list.add(node);
 		}
-		List<List<Wrapper>> combineAbleNodes = new ArrayList<List<Wrapper>>();
+		List<List<Wrapper>> combineAbleNodes = new ArrayList<>();
 		for (List<Wrapper> list : map.values()) {
 			if (list.size() > 1) {
 				combineAbleNodes.add(list);

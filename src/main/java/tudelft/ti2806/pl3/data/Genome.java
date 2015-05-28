@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.data;
 
 public class Genome {
+	private int hashCode = -1;
 	private final String identifier;
 	
 	public Genome(String identifier) {
@@ -9,11 +10,10 @@ public class Genome {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((identifier == null) ? 0 : identifier.hashCode());
-		return result;
+		if (hashCode == -1) {
+			hashCode = identifier.hashCode();
+		}
+		return hashCode;
 	}
 	
 	@Override

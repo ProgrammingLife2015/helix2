@@ -15,7 +15,6 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -74,6 +73,9 @@ public class Application extends JFrame {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+
+			final long startTime = System.currentTimeMillis();
+
 			// make the controllers
 			GraphDataRepository gd = GraphDataRepository.parseGraph(nodeFile, edgeFile);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
@@ -96,6 +98,9 @@ public class Application extends JFrame {
 			
 			this.setFocusable(true);
 			this.setVisible(true);
+
+			long loadTime = System.currentTimeMillis() - startTime;
+			System.out.println("Loaded in (ms):" + loadTime);
 		} catch (FileNotFoundException e) {
 			// TODO: Show dialog with message to user
 			e.printStackTrace();

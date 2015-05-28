@@ -56,9 +56,9 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		
 		// Test if test data is correct
 		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
-		Assert.assertTrue(wgd.getPositionedNodes().get(0) instanceof SpaceWrapper);
+		Assert.assertTrue(wgd.getPositionedNodes().iterator().next() instanceof SpaceWrapper);
 		SpaceWrapper applyOrderTestGraphWrapper = (SpaceWrapper) wgd
-				.getPositionedNodes().get(0);
+				.getPositionedNodes().iterator().next();
 		Assert.assertTrue(applyOrderTestGraphWrapper.getNodeList().size() == 7);
 		// Pair<Boolean, Long> direction = ExhaustiveLeastCrossingsSequencer
 		// .getBestDirection(applyOrderTestGraphWrapper.getNodeList());
@@ -88,9 +88,9 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		
 		// Test if test data is correct
 		Assert.assertTrue(wgd.getPositionedNodes().size() == 1);
-		Assert.assertTrue(wgd.getPositionedNodes().get(0) instanceof SpaceWrapper);
+		Assert.assertTrue(wgd.getPositionedNodes().iterator().next() instanceof SpaceWrapper);
 		SpaceWrapper alwaysCrossTestGraphWrapper = (SpaceWrapper) wgd
-				.getPositionedNodes().get(0);
+				.getPositionedNodes().iterator().next();
 		Assert.assertTrue(alwaysCrossTestGraphWrapper.getNodeList().size() == 7);
 		Assert.assertTrue(testObject
 				.getOptionCountFromLeftToRight(alwaysCrossTestGraphWrapper

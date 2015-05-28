@@ -17,7 +17,7 @@ public class DataNode {
 	protected final Genome[] source;
 	protected final int refStartPoint;
 	protected final int refEndPoint;
-	protected final byte[] content;
+	protected final String content;
 	
 	/**
 	 * Initialise a {@code SingleNode}.
@@ -34,7 +34,7 @@ public class DataNode {
 	 *            the size of this {@code Node}
 	 */
 	public DataNode(int nodeId, Genome[] source, int refStartPoint,
-			int refEndPoint, byte[] contentOfTheNode) {
+			int refEndPoint, String contentOfTheNode) {
 		this.nodeId = nodeId;
 		if (source == null) {
 			// TODO: Bad data, throw exception
@@ -47,7 +47,7 @@ public class DataNode {
 		if (contentOfTheNode == null) {
 			this.content = null;
 		} else {
-			this.content = contentOfTheNode.clone();
+			this.content = contentOfTheNode;
 		}
 	}
 	
@@ -56,19 +56,12 @@ public class DataNode {
 		return "SingleNode [nodeId=" + nodeId + ", source="
 				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
 				+ ", refEndPoint=" + refEndPoint + ", content.lenght="
-				+ content.length + "]";
+				+ content.length() + "]";
 	}
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(content);
-		result = prime * result + nodeId;
-		result = prime * result + refEndPoint;
-		result = prime * result + refStartPoint;
-		result = prime * result + Arrays.hashCode(source);
-		return result;
+		return nodeId;
 	}
 	
 	@Override
@@ -83,22 +76,7 @@ public class DataNode {
 			return false;
 		}
 		DataNode other = (DataNode) obj;
-		if (nodeId != other.nodeId) {
-			return false;
-		}
-		if (!Arrays.equals(content, other.content)) {
-			return false;
-		}
-		if (refEndPoint != other.refEndPoint) {
-			return false;
-		}
-		if (refStartPoint != other.refStartPoint) {
-			return false;
-		}
-		if (!Arrays.equals(source, other.source)) {
-			return false;
-		}
-		return true;
+		return this.getId() == other.getId();
 	}
 	
 	public int getId() {
@@ -120,6 +98,6 @@ public class DataNode {
 	}
 	
 	public long getWidth() {
-		return content.length;
+		return content.length();
 	}
 }

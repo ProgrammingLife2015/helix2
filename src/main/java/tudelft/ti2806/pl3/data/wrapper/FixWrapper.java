@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 public class FixWrapper extends Wrapper {
-	
+	private static int ID_COUNT = 0;
+	private int id = 0;
 	Set<Genome> genome;
 	
 	@Override
@@ -20,9 +21,17 @@ public class FixWrapper extends Wrapper {
 	public String getIdString() {
 		return "[FIX]";
 	}
-	
+
+	@Override public int getId() {
+		if (id == 0) {
+			ID_COUNT--;
+			id = ID_COUNT;
+		}
+		return id;
+	}
+
 	@Override
-	public Set<Genome> getGenome() {
+	public Set<Genome> calculateGenome() {
 		return genome;
 	}
 	

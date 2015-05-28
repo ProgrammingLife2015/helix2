@@ -69,7 +69,7 @@ public class CalculateGroupInterestTest {
 	@Test
 	public void testNotInterestingHorizontalWrapper() {
 		HorizontalWrapper horizontalWrapper = mock(HorizontalWrapper.class);
-		when(horizontalWrapper.getGenome()).thenReturn(notInterestingSet);
+		when(horizontalWrapper.calculateGenome()).thenReturn(notInterestingSet);
 		groupInterest.calculate(horizontalWrapper, parent);
 		verify(horizontalWrapper, times(0)).addInterest(group1Interest);
 	}
@@ -77,7 +77,7 @@ public class CalculateGroupInterestTest {
 	@Test
 	public void testInterestingHorizontalWrapper() {
 		HorizontalWrapper horizontalWrapper = mock(HorizontalWrapper.class);
-		when(horizontalWrapper.getGenome()).thenReturn(interestingSet);
+		when(horizontalWrapper.calculateGenome()).thenReturn(interestingSet);
 		groupInterest.calculate(horizontalWrapper, parent);
 		verify(horizontalWrapper, times(1)).addInterest(group1Interest);
 	}
@@ -85,7 +85,7 @@ public class CalculateGroupInterestTest {
 	@Test
 	public void testNotInterestingVerticalWrapper() {
 		VerticalWrapper verticalWrapper = mock(VerticalWrapper.class);
-		when(verticalWrapper.getGenome()).thenReturn(notInterestingSet);
+		when(verticalWrapper.calculateGenome()).thenReturn(notInterestingSet);
 		groupInterest.calculate(verticalWrapper, parent);
 		verify(verticalWrapper, times(0)).addInterest(group1Interest);
 	}
@@ -93,7 +93,7 @@ public class CalculateGroupInterestTest {
 	@Test
 	public void testInterestingVerticalWrapper() {
 		VerticalWrapper verticalWrapper = mock(VerticalWrapper.class);
-		when(verticalWrapper.getGenome()).thenReturn(interestingSet);
+		when(verticalWrapper.calculateGenome()).thenReturn(interestingSet);
 		groupInterest.calculate(verticalWrapper, parent);
 		verify(verticalWrapper, times(1)).addInterest(group1Interest);
 	}
@@ -101,7 +101,7 @@ public class CalculateGroupInterestTest {
 	@Test
 	public void testNotInterestingSpaceWrapper() {
 		SpaceWrapper spaceWrapper = mock(SpaceWrapper.class);
-		when(spaceWrapper.getGenome()).thenReturn(notInterestingSet);
+		when(spaceWrapper.calculateGenome()).thenReturn(notInterestingSet);
 		groupInterest.calculate(spaceWrapper, parent);
 		verify(spaceWrapper, times(0)).addInterest(group1Interest);
 	}
@@ -109,7 +109,7 @@ public class CalculateGroupInterestTest {
 	@Test
 	public void testInterestingSpaceWrapper() {
 		SpaceWrapper spaceWrapper = mock(SpaceWrapper.class);
-		when(spaceWrapper.getGenome()).thenReturn(interestingSet);
+		when(spaceWrapper.calculateGenome()).thenReturn(interestingSet);
 		groupInterest.calculate(spaceWrapper, parent);
 		verify(spaceWrapper, times(1)).addInterest(group1Interest);
 	}
@@ -118,7 +118,7 @@ public class CalculateGroupInterestTest {
 	public void testNotInterestingSingleWrapper() {
 		SingleWrapper singleWrapper = mock(SingleWrapper.class);
 		when(singleWrapper.getNode()).thenReturn(mock(Wrapper.class));
-		when(singleWrapper.getGenome()).thenReturn(notInterestingSet);
+		when(singleWrapper.calculateGenome()).thenReturn(notInterestingSet);
 		groupInterest.calculate(singleWrapper, parent);
 		verify(singleWrapper, times(0)).addInterest(group1Interest);
 	}
@@ -127,7 +127,7 @@ public class CalculateGroupInterestTest {
 	public void testInterestingSingleWrapper() {
 		SingleWrapper singleWrapper = mock(SingleWrapper.class);
 		when(singleWrapper.getNode()).thenReturn(mock(Wrapper.class));
-		when(singleWrapper.getGenome()).thenReturn(interestingSet);
+		when(singleWrapper.calculateGenome()).thenReturn(interestingSet);
 		groupInterest.calculate(singleWrapper, parent);
 		verify(singleWrapper, times(1)).addInterest(group1Interest);
 	}

@@ -38,8 +38,12 @@ public class WrapperClone extends Wrapper {
 		return originalNode.getIdString();
 	}
 
+	@Override public int getId() {
+		return originalNode.getId();
+	}
+
 	@Override
-	public Set<Genome> getGenome() {
+	public Set<Genome> calculateGenome() {
 		return originalNode.getGenome();
 	}
 

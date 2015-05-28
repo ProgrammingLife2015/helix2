@@ -11,6 +11,7 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 
+import java.lang.Override;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -113,9 +114,14 @@ public class OrderedListUtilTest {
 		public String getIdString() {
 			return null;
 		}
+
+		@Override
+		public int getId() {
+			return 0;
+		}
 		
 		@Override
-		public Set<Genome> getGenome() {
+		public Set<Genome> calculateGenome() {
 			return new HashSet<Genome>();
 		}
 		
