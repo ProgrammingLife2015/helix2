@@ -51,7 +51,7 @@ public class DataNodeWrapper extends Wrapper {
 			from.outgoing.add(to);
 			to.incoming.add(from);
 		}
-		return new ArrayList<Wrapper>(map.values());
+		return new ArrayList<>(map.values());
 	}
 	
 	public DataNodeWrapper(DataNode node) {
@@ -78,8 +78,9 @@ public class DataNodeWrapper extends Wrapper {
 
 	@Override
 	public Set<Genome> getGenome() {
-		Set<Genome> list = new HashSet<>();
-		for (Genome genome : node.getSource()) {
+		Genome[] source = node.getSource();
+		Set<Genome> list = new HashSet<>(source.length);
+		for (Genome genome : source) {
 			list.add(genome);
 		}
 		return list;
