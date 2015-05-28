@@ -76,22 +76,7 @@ public class DataNode {
 			return false;
 		}
 		DataNode other = (DataNode) obj;
-		if (nodeId != other.nodeId) {
-			return false;
-		}
-		if (!content.equals(other.content)) {
-			return false;
-		}
-		if (refEndPoint != other.refEndPoint) {
-			return false;
-		}
-		if (refStartPoint != other.refStartPoint) {
-			return false;
-		}
-		if (!Arrays.equals(source, other.source)) {
-			return false;
-		}
-		return true;
+		return this.getId() == other.getId();
 	}
 	
 	public int getId() {
