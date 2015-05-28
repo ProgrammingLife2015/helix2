@@ -43,7 +43,7 @@ public class WrapperClone extends Wrapper {
 	}
 
 	@Override
-	public Set<Genome> getGenome() {
+	public Set<Genome> calculateGenome() {
 		return originalNode.getGenome();
 	}
 

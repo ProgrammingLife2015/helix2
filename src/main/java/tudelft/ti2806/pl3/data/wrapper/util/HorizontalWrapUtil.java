@@ -9,9 +9,11 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.util.HashableCollection;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * An utility class to find and combine nodes which can be combined into
@@ -34,7 +36,7 @@ public final class HorizontalWrapUtil {
 	 */
 	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
+		Collection<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
 		}
@@ -52,7 +54,7 @@ public final class HorizontalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> parentLayer) {
+	static Collection<Wrapper> combineNodes(Collection<Wrapper> parentLayer) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
 		for (Wrapper wrapper : parentLayer) {
 			nonWrappedNodes.put(wrapper.getId(), wrapper);
@@ -79,7 +81,7 @@ public final class HorizontalWrapUtil {
 	 *            the nodes on the graph
 	 * @return a list of horizontal wrap-able nodes.
 	 */
-	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
+	static List<List<Wrapper>> findCombineableNodes(Collection<Wrapper> nodes) {
 		List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
 		Map<Integer, Wrapper> iterateList = new HashMap<>(nodes.size());
 		for (Wrapper node : nodes) {

@@ -69,7 +69,7 @@ public final class WrapUtil {
 	 * @return a fixed graph
 	 */
 	public static WrappedGraphData applyFixNode(WrappedGraphData graph) {
-		List<Wrapper> nodes = graph.getPositionedNodes();
+		Collection<Wrapper> nodes = graph.getPositionedNodes();
 		FixWrapper startFix = new FixWrapper();
 		FixWrapper endFix = new FixWrapper();
 		startFix.getOutgoing().add(endFix);
@@ -109,14 +109,13 @@ public final class WrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a list containing a new layer over the previous layer
 	 */
-	protected static List<Wrapper> wrapAndReconnect(
+	protected static Collection<Wrapper> wrapAndReconnect(
 			Collection<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes,
 				combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
-		return new ArrayList<Wrapper>(
-				new HashSet<Wrapper>(map.values()));
+		return new HashSet<>(map.values());
 	}
 	
 	/**

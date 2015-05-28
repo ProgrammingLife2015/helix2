@@ -43,7 +43,7 @@ public final class SpaceWrapUtil {
 	 */
 	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
+		Collection<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
 		}
@@ -63,7 +63,7 @@ public final class SpaceWrapUtil {
 	 * @return a new layer of nodes <br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> nodes) {
+	static Collection<Wrapper> combineNodes(Collection<Wrapper> nodes) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		for (Wrapper node : nodes) {
 			nonWrappedNodes.put(node.getId(), node);
@@ -91,7 +91,7 @@ public final class SpaceWrapUtil {
 	 *            the nodes to search through
 	 * @return a list of spatial combine able nodes.
 	 */
-	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
+	static List<List<Wrapper>> findCombineableNodes(Collection<Wrapper> nodes) {
 		return filterCandidates(computeAllCandidates(nodes));
 	}
 	
@@ -159,7 +159,7 @@ public final class SpaceWrapUtil {
 	 *         distance between the candidate nodes
 	 */
 	static List<Pair<Integer, Pair<Wrapper, Wrapper>>> computeAllCandidates(
-			List<Wrapper> nodes) {
+			Collection<Wrapper> nodes) {
 		List<Pair<Integer, Pair<Wrapper, Wrapper>>> candidateList = new ArrayList<>();
 		/*
 		 * If a node doesn't contain the same genomes, it is impossible for them
@@ -194,7 +194,7 @@ public final class SpaceWrapUtil {
 	 * @return a collection of buckets
 	 */
 	static Collection<Pair<Set<Genome>, List<Wrapper>>> getNodesByGenome(
-			List<Wrapper> nodes) {
+			Collection<Wrapper> nodes) {
 		Map<HashableCollection<Genome>, Pair<Set<Genome>, List<Wrapper>>> searchMap = new HashMap<>();
 		for (Wrapper node : nodes) {
 			Set<Genome> genome = node.getGenome();

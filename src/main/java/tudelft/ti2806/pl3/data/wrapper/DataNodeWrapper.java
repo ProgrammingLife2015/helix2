@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,21 +38,21 @@ public class DataNodeWrapper extends Wrapper {
 	 * @return a {@link List}<{@link DataNodeWrapper}>, constructed from the
 	 *         {@code nodeList} and {@code edgeList}
 	 */
-	public static List<Wrapper> newNodePositionList(List<DataNode> nodeList,
+	public static Collection<Wrapper> newNodePositionList(List<DataNode> nodeList,
 			List<Edge> edgeList) {
 		// Construct list
-		Map<Integer, DataNodeWrapper> map = new HashMap<Integer, DataNodeWrapper>();
+		Map<Integer, Wrapper> map = new HashMap<>();
 		for (DataNode node : nodeList) {
 			map.put(node.getId(), new DataNodeWrapper(node));
 		}
 		// Add connections from the edge list
 		for (Edge edge : edgeList) {
-			DataNodeWrapper from = map.get(edge.getFromId());
-			DataNodeWrapper to = map.get(edge.getToId());
+			Wrapper from = map.get(edge.getFromId());
+			Wrapper to = map.get(edge.getToId());
 			from.outgoing.add(to);
 			to.incoming.add(from);
 		}
-		return new ArrayList<>(map.values());
+		return map.values();
 	}
 	
 	public DataNodeWrapper(DataNode node) {
@@ -77,7 +78,7 @@ public class DataNodeWrapper extends Wrapper {
 	}
 
 	@Override
-	public Set<Genome> getGenome() {
+	public Set<Genome> calculateGenome() {
 		Genome[] source = node.getSource();
 		Set<Genome> list = new HashSet<>(source.length);
 		for (Genome genome : source) {

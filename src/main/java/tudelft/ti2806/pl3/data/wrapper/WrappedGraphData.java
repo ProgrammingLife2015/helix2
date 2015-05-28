@@ -5,7 +5,9 @@ import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The {@link WrappedGraphData} is a {@link GraphData} class which also keeps
@@ -17,7 +19,7 @@ import java.util.List;
  */
 public class WrappedGraphData {
 	
-	private List<Wrapper> nodeWrappers;
+	private Collection<Wrapper> nodeWrappers;
 	private final int longestNodePath;
 	
 	/**
@@ -26,7 +28,7 @@ public class WrappedGraphData {
 	 * @param nodeWrappers
 	 *            the nodes in the instance
 	 */
-	public WrappedGraphData(List<Wrapper> nodeWrappers) {
+	public WrappedGraphData(Collection<Wrapper> nodeWrappers) {
 		this.nodeWrappers = nodeWrappers;
 		this.longestNodePath = Wrapper.computeLongestPaths(this.nodeWrappers);
 	}
@@ -39,7 +41,7 @@ public class WrappedGraphData {
 		this(gd.getNodes(), gd.getEdges());
 	}
 	
-	public List<Wrapper> getPositionedNodes() {
+	public Collection<Wrapper> getPositionedNodes() {
 		return nodeWrappers;
 	}
 	

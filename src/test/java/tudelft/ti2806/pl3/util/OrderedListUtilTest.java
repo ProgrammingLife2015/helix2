@@ -121,7 +121,7 @@ public class OrderedListUtilTest {
 		}
 		
 		@Override
-		public Set<Genome> getGenome() {
+		public Set<Genome> calculateGenome() {
 			return new HashSet<Genome>();
 		}
 		

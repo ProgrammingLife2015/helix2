@@ -9,6 +9,7 @@ import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public final class VerticalWrapUtil {
 	 */
 	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
+		Collection<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
 			return null;
 		}
@@ -52,7 +53,7 @@ public final class VerticalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> nodes) {
+	static Collection<Wrapper> combineNodes(Collection<Wrapper> nodes) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		for (Wrapper node : nodes) {
 			nonWrappedNodes.put(node.getId(), node);
@@ -81,7 +82,7 @@ public final class VerticalWrapUtil {
 	 * 
 	 * @return a list of edges which could be combined
 	 */
-	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
+	static List<List<Wrapper>> findCombineableNodes(Collection<Wrapper> nodes) {
 		Map<Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>,
 				List<Wrapper>> map = new HashMap<>();
 		for (Wrapper node : nodes) {
