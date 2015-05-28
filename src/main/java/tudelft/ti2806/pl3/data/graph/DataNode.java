@@ -17,7 +17,7 @@ public class DataNode {
 	protected final Genome[] source;
 	protected final int refStartPoint;
 	protected final int refEndPoint;
-	protected final byte[] content;
+	protected final String content;
 	
 	/**
 	 * Initialise a {@code SingleNode}.
@@ -34,7 +34,7 @@ public class DataNode {
 	 *            the size of this {@code Node}
 	 */
 	public DataNode(int nodeId, Genome[] source, int refStartPoint,
-			int refEndPoint, byte[] contentOfTheNode) {
+			int refEndPoint, String contentOfTheNode) {
 		this.nodeId = nodeId;
 		if (source == null) {
 			// TODO: Bad data, throw exception
@@ -47,7 +47,7 @@ public class DataNode {
 		if (contentOfTheNode == null) {
 			this.content = null;
 		} else {
-			this.content = contentOfTheNode.clone();
+			this.content = contentOfTheNode;
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class DataNode {
 		return "SingleNode [nodeId=" + nodeId + ", source="
 				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
 				+ ", refEndPoint=" + refEndPoint + ", content.lenght="
-				+ content.length + "]";
+				+ content.length() + "]";
 	}
 	
 	@Override
@@ -79,7 +79,7 @@ public class DataNode {
 		if (nodeId != other.nodeId) {
 			return false;
 		}
-		if (!Arrays.equals(content, other.content)) {
+		if (!content.equals(other.content)) {
 			return false;
 		}
 		if (refEndPoint != other.refEndPoint) {
@@ -113,6 +113,6 @@ public class DataNode {
 	}
 	
 	public long getBasePairCount() {
-		return content.length;
+		return content.length();
 	}
 }
