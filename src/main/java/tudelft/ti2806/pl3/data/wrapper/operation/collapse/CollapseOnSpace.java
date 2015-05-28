@@ -51,6 +51,16 @@ public class CollapseOnSpace extends WrapperOperation {
 		super.calculate(wrapper, container);
 	}
 	
+	/**
+	 * Calculates if there is enough space for a wrapper to unfold it.
+	 * 
+	 * @param wrapper
+	 *            the wrapper of which to determine if there is enough space to
+	 *            unfold it
+	 * @return {@code true} if the node has enough space to unfold<br>
+	 *         {@code false} if the node has not enough space to unforld, and
+	 *         should stay folded
+	 */
 	boolean hasSpaceLeft(CombineWrapper wrapper) {
 		List<Wrapper> list = new ArrayList<>(wrapper.getNodeList());
 		Collections.sort(list, new XComparator());
