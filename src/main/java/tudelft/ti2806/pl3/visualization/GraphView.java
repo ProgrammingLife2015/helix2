@@ -1,8 +1,8 @@
 package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
+import org.graphstream.ui.graphicGraph.GraphicNode;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -110,7 +110,7 @@ public class GraphView implements Observer, ViewInterface {
 		graphData.forEach(node -> {
 				if (!"[FIX]".equals(node.getIdString())) {
 					node.calculatePreviousNodesCount();
-					Node graphNode = graph.addNode(Integer.toString(node.getId()));
+					GraphicNode graphNode = graph.addNode(Integer.toString(node.getId()));
 					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
 					graphNode.addAttribute("ui.class",
 							node.getOriginalNode().getClass().getSimpleName());
