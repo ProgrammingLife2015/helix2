@@ -49,9 +49,7 @@ public final class WrapUtil {
 			}
 			graph = SpaceWrapUtil.collapseGraph(lastGraph);
 		}
-		if (graph == null) {
-			graph = lastGraph;
-		}
+		graph = lastGraph;
 		if (graph.getPositionedNodes().size() > 1) {
 			graph = applyFixNode(graph);
 		}
@@ -80,14 +78,14 @@ public final class WrapUtil {
 			genomeSet.addAll(genome);
 			final Set<Genome> set = new HashSet<>();
 			node.getIncoming().stream().map(Wrapper::getGenome)
-					.forEach(a -> set.addAll(a));
+					.forEach(set::addAll);
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getIncoming().add(startFix);
 				startFix.getOutgoing().add(node);
 			}
 			set.clear();
 			node.getOutgoing().stream().map(Wrapper::getGenome)
-					.forEach(a -> set.addAll(a));
+					.forEach(set::addAll);
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getOutgoing().add(endFix);
 				endFix.getIncoming().add(node);
