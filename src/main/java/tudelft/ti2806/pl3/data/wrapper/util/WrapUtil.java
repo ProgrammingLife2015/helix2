@@ -17,17 +17,17 @@ import java.util.Set;
 
 /**
  * An utility class to collapse graphs into smaller graphs.
- * 
+ *
  * @author Sam Smulders
  */
 public final class WrapUtil {
 	private WrapUtil() {
 	}
-	
+
 	/**
 	 * Collapses a graph until it converges or until the {@code maxIteration} is
 	 * reached.
-	 * 
+	 *
 	 * @param original
 	 *            the original graph to collapse, which will be left unchanged
 	 * @return A {@link WrappedGraphData} instance with the most collapsed graph
@@ -55,13 +55,13 @@ public final class WrapUtil {
 		}
 		return graph;
 	}
-	
+
 	/**
 	 * Adds a node to the end and start of the graph, connecting to all genome
 	 * endings on the graph, to make a last {@link SpaceWrapper} by the
 	 * {@link SpaceWrapUtil} possible. And by that fixing the graph, making it
 	 * possible to wrap the graph to one single node.
-	 * 
+	 *
 	 * @param graph
 	 *            the graph to fix
 	 * @return a fixed graph
@@ -72,7 +72,7 @@ public final class WrapUtil {
 		FixWrapper endFix = new FixWrapper();
 		startFix.getOutgoing().add(endFix);
 		endFix.getIncoming().add(startFix);
-		Set<Genome> genomeSet = new HashSet<Genome>();
+		Set<Genome> genomeSet = new HashSet<>();
 		for (Wrapper node : nodes) {
 			Set<Genome> genome = node.getGenome();
 			genomeSet.addAll(genome);
@@ -97,10 +97,10 @@ public final class WrapUtil {
 		nodes.add(endFix);
 		return WrapUtil.collapseGraph(new WrappedGraphData(nodes));
 	}
-	
+
 	/**
 	 * Wraps a list into a new layer and reconnects the new layer.
-	 * 
+	 *
 	 * @param nonCombinedNodes
 	 *            the nodes that are not combined
 	 * @param combinedNodes
@@ -113,14 +113,14 @@ public final class WrapUtil {
 		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes,
 				combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
-		return new ArrayList<Wrapper>(
-				new HashSet<Wrapper>(map.values()));
+		return new ArrayList<>(
+				new HashSet<>(map.values()));
 	}
-	
+
 	/**
 	 * Reconnects the given layer, using the connections from the previous layer
 	 * and applying them to the new layer.
-	 * 
+	 *
 	 * @param nonCombinedNodes
 	 *            the nodes that are not combined
 	 * @param combinedNodes
@@ -130,8 +130,8 @@ public final class WrapUtil {
 	 *            layer
 	 */
 	static void reconnectLayer(Collection<Wrapper> nonCombinedNodes,
-			List<CombineWrapper> combinedNodes,
-			Map<Wrapper, Wrapper> map) {
+							   List<CombineWrapper> combinedNodes,
+							   Map<Wrapper, Wrapper> map) {
 		for (Wrapper node : nonCombinedNodes) {
 			Wrapper newWrapper = map.get(node);
 			for (Wrapper in : node.getIncoming()) {
@@ -158,21 +158,20 @@ public final class WrapUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * Creates a new layer from the given nodes and creates a map mapping all
 	 * nodes from the previous layer to the new layer.
-	 * 
+	 *
 	 * @param nonCombinedNodes
 	 *            the nodes that are not combined
 	 * @param combinedNodes
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a map mapping all nodes from the previous layer to the new layer
 	 */
-	static Map<Wrapper, Wrapper> wrapList(
-			Collection<Wrapper> nonCombinedNodes,
-			List<CombineWrapper> combinedNodes) {
-		Map<Wrapper, Wrapper> map = new HashMap<Wrapper, Wrapper>();
+	static Map<Wrapper, Wrapper> wrapList(Collection<Wrapper> nonCombinedNodes,
+										  List<CombineWrapper> combinedNodes) {
+		Map<Wrapper, Wrapper> map = new HashMap<>();
 		for (Wrapper node : nonCombinedNodes) {
 			SingleWrapper newWrapper = new SingleWrapper(node);
 			map.put(node, newWrapper);

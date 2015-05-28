@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * An utility class to find and combine nodes which can be combined into
  * {@link HorizontalWrapper}.
- * 
+ *
  * @author Sam Smulders
  */
 public final class HorizontalWrapUtil {
@@ -26,7 +26,7 @@ public final class HorizontalWrapUtil {
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * horizontal collapsed graph of the given graph.
-	 * 
+	 *
 	 * @param original
 	 *            the original graph
 	 * @return the collapsed version of the given graph <br>
@@ -40,13 +40,13 @@ public final class HorizontalWrapUtil {
 		}
 		return new WrappedGraphData(newLayer);
 	}
-	
+
 	/**
 	 * Combines nodes vertically. Combines all {@link DataNode}s in the
 	 * given list of node into {@link VerticalWrapper}s, reconnects the
 	 * {@link VerticalWrapper}s in the graph and remove all
 	 * {@link DataNode}s which are combined from the graph.
-	 * 
+	 *
 	 * @param nodes
 	 *            the nodes to combine
 	 * @return the collapsed version of the given graph<br>
@@ -70,11 +70,11 @@ public final class HorizontalWrapUtil {
 		}
 		return WrapUtil.wrapAndReconnect(nonWrappedNodes.values(), combinedNodes);
 	}
-	
+
 	@SuppressWarnings("CPD-END")
 	/**
 	 * Finds all groups of nodes which can be wrapped horizontal.
-	 * 
+	 *
 	 * @param nodes
 	 *            the nodes on the graph
 	 * @return a list of horizontal wrap-able nodes.
@@ -107,8 +107,8 @@ public final class HorizontalWrapUtil {
 				while (node.getIncoming().size() == 1
 						&& node.getIncoming().get(0).getOutgoing().size() == 1
 						&& new HashableCollection<>(node.getGenome())
-								.equals(new HashableCollection<>(node
-										.getIncoming().get(0).getGenome()))) {
+						.equals(new HashableCollection<>(node
+								.getIncoming().get(0).getGenome()))) {
 					node = node.getIncoming().get(0);
 					foundGroup.add(0, node);
 				}
