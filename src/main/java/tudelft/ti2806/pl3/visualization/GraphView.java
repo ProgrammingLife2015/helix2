@@ -71,7 +71,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * 		GraphData to display
 	 */
 	public GraphView(AbstractGraphData abstractGraphData) {
-		new GraphView(abstractGraphData, null);
+		this(abstractGraphData, null);
 	}
 
 	/**
@@ -95,7 +95,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		init();
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(this);
-		filteredGraphModel.produceWrappedGraphData();
 
 		this.graphController = new GraphController(this);
 
