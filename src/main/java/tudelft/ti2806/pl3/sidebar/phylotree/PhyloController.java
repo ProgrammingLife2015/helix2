@@ -38,5 +38,6 @@ public class PhyloController implements Controller, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		graphController.addFilter("genome", new GenomeFilter(view.getSelected()));
+		view.resetSelected();
 	}
 }

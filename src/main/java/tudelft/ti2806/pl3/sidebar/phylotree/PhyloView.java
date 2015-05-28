@@ -173,6 +173,13 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	public List<String> getSelected() {
 		return selected;
 	}
+
+	/**
+	 * Resets the selected genomes.
+	 */
+	public void resetSelected() {
+		selected = new ArrayList<>();
+	}
 	
 	/**
 	 * Get the genomes of a Common ancestor.
