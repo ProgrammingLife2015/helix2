@@ -27,7 +27,7 @@ public class VerticalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public Set<Genome> getGenome() {
+	public Set<Genome> calculateGenome() {
 		Set<Genome> genome = new HashSet<>();
 		for (Wrapper node : nodeList) {
 			genome.addAll(node.getGenome());

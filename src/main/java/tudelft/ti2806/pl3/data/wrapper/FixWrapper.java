@@ -31,7 +31,7 @@ public class FixWrapper extends Wrapper {
 	}
 
 	@Override
-	public Set<Genome> getGenome() {
+	public Set<Genome> calculateGenome() {
 		return genome;
 	}
 	

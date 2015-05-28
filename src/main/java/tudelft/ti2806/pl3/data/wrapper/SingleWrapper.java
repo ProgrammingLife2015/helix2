@@ -30,7 +30,7 @@ public class SingleWrapper extends Wrapper {
 	}
 
 	@Override
-	public Set<Genome> getGenome() {
+	public Set<Genome> calculateGenome() {
 		return target.getGenome();
 	}
 	

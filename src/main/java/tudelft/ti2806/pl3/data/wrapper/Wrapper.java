@@ -25,7 +25,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	private int previousNodesCount = -1;
 	private int interest = 0;
-	
+	private Set<Genome> genomes;
+
 	/**
 	 * @return the maximum number of base pairs that can be passed when
 	 *         following the graph from the start of this node to its end.
@@ -74,9 +75,27 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	public abstract String getIdString();
 
 	public abstract int getId();
-	
-	public abstract Set<Genome> getGenome();
-	
+
+	/**
+	 * Calculates the genome set if it has not done already.
+	 *
+	 * @return the set of genomes.
+	 */
+	public final Set<Genome> getGenome() {
+		if (genomes == null) {
+			genomes = calculateGenome();
+		}
+		return genomes;
+	}
+
+	/**
+	 * This method must generate a set of Genome objects.
+	 * It contains all Genome's of all nodes that are in this Wrapper.
+	 *
+	 * @return the set of genomes contained in this Wrapper
+	 */
+	public abstract Set<Genome> calculateGenome();
+
 	public abstract void calculate(WrapperOperation wrapperSequencer,
 			Wrapper container);
 	
