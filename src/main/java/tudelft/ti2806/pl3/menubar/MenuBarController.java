@@ -14,6 +14,12 @@ public class MenuBarController implements ActionListener, Controller {
 
 	private Application application;
 
+	/**
+	 * Constructs a new controller for {@link MenuBarView}
+	 *
+	 * @param application
+	 * 		The main application which the action is performed in
+	 */
 	public MenuBarController(Application application) {
 		this.application = application;
 	}
@@ -43,6 +49,13 @@ public class MenuBarController implements ActionListener, Controller {
 	}
 
 
+	/**
+	 * Controls the Buttons Events from the {@link MenuBarView}.
+	 * It reads the button and then starts the correct task.
+	 *
+	 * @param e
+	 * 		is fired when a {@link javax.swing.JMenuItem} is clicked.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
