@@ -82,7 +82,13 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		}
 		return genomes;
 	}
-	
+
+	/**
+	 * This method must generate a set of Genome objects.
+	 * It contains all Genome's of all nodes that are in this Wrapper.
+	 *
+	 * @return the set of genomes contained in this Wrapper
+	 */
 	public abstract Set<Genome> calculateGenome();
 	
 	public abstract void calculate(WrapperOperation wrapperSequencer,
