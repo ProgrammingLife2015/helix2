@@ -36,7 +36,7 @@ public class GeneDataTest {
 	 */
 	@Test
 	public void parseGenesSizeTest() {
-		assertEquals(geneData.getGenes().size(), 122);
+		assertEquals(geneData.getGenes().size(), 2);
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class GeneDataTest {
 	 */
 	@Test
 	public void parseGenesFirstGeneTest() {
-		Integer start = 169;
-		Integer end = 439;
+		Integer start = 2609323;
+		Integer end = 2609461;
 		Gene gene = new Gene("Corndogp001", start, end);
 		assertTrue(geneData.getGenes().get(0).equals(gene));
 		assertTrue(geneData.getGeneStart().get(start).equals(gene));

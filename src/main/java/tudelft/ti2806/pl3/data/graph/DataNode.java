@@ -19,6 +19,7 @@ public class DataNode {
 	protected final int refStartPoint;
 	protected final int refEndPoint;
 	protected final byte[] content;
+
 	protected ArrayList<Label> labelList;
 	
 	/**
@@ -132,5 +133,9 @@ public class DataNode {
 	
 	public long getWidth() {
 		return content.length;
+	}
+
+	public ArrayList<Label> getLabelList() {
+		return labelList;
 	}
 }

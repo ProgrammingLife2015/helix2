@@ -108,16 +108,21 @@ public class GraphDataRepository extends AbstractGraphData {
 	protected static void addRefLabels(DataNode node, GeneData geneData) {
 		int start = node.getRefStartPoint();
 		int end = node.getRefEndPoint();
+		Gene g = null;
 
+		boolean started = false;
 		for (int i = start; i <= end; i++) {
-			if (geneData.getGeneStart().containsKey(i)) {
-				Gene g = geneData.getGeneStart().get(i);
+			if (started) {
+				if(g != null) {
+					node.addLabel(new GeneLabel(g.getName()));
+				}
+			} else if (geneData.getGeneStart().containsKey(i)) {
+				g = geneData.getGeneStart().get(i);
 				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
-				break;
+				started = true;
 			} else if (geneData.getGeneEnd().containsKey(i)) {
-				Gene g = geneData.getGeneEnd().get(i);
+				g = geneData.getGeneEnd().get(i);
 				node.addLabel(new EndGeneLabel(g.getName(), g.getEnd()));
-				break;
 			}
 		}
 	}
