@@ -27,16 +27,16 @@ public class GraphParserTest {
 		DataNode node = GraphDataRepository.parseNode(new BufferedReader(
 				new InputStreamReader(new BufferedInputStream(
 						new FileInputStream((simpleNodeGraphFile))))),
-				new HashMap<String, Genome>());
+				new HashMap<>());
 		assertTrue(node.equals(new DataNode(35, new Genome[] { new Genome(
 				"TKK_01_0029") }, 2609451, 2609452,
-				new byte[] { BasePair.A.storeByte })));
+				BasePair.A.name())));
 	}
 	
 	@Test
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
 		Map<Integer, DataNode> nodeMap = GraphDataRepository.parseNodes(
-				simpleNodeGraphFile, new HashMap<String, Genome>());
+				simpleNodeGraphFile, new HashMap<>());
 		List<Edge> edges = GraphDataRepository.parseEdges(simpleEdgeGraphFile,
 				nodeMap);
 		
