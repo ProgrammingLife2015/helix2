@@ -65,7 +65,7 @@ public class MenuBarView extends JMenuBar implements View {
 
 		JMenuItem zoomIn = new JMenuItem("Zoom in ( + )");
 		JMenuItem zoomOut = new JMenuItem("Zoom out ( - )");
-		JMenuItem reset = new JMenuItem("Rest view");
+		JMenuItem reset = new JMenuItem("Reset view");
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);

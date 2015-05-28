@@ -8,7 +8,6 @@ import tudelft.ti2806.pl3.View;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 
 /**
  * Dialog screen for our LoadingScreen
@@ -31,11 +30,7 @@ public class LoadingScreen extends JDialog implements LoadingObserver,View {
 	public void update(LoadingObservable loadingObservable, Object arguments) {
 		setVisible(true);
 		text.setText(arguments.toString());
-
-
-		System.out.println(SwingUtilities.isEventDispatchThread());
 		System.out.println(arguments);
-
 	}
 
 
