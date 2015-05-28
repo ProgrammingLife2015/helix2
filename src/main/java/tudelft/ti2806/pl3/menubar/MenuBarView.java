@@ -37,11 +37,11 @@ public class MenuBarView extends JMenuBar implements View {
 	private JMenu setUpFile() {
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem openNode = new JMenuItem("Open node and edge file");
-		JMenuItem openNWK = new JMenuItem("Open .nwk file");
+		JMenuItem openNwk = new JMenuItem("Open .nwk file");
 		JMenuItem exit = new JMenuItem("Exit");
 
 		fileMenu.add(openNode);
-		fileMenu.add(openNWK);
+		fileMenu.add(openNwk);
 		fileMenu.addSeparator();
 		fileMenu.add(exit);
 

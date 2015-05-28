@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * Controller for menubar view
  * Created by Kasper on 27-5-2015.
  */
-public class MenuBarController implements ActionListener,Controller {
+public class MenuBarController implements ActionListener, Controller {
 
 	private Application application;
 
@@ -26,7 +26,7 @@ public class MenuBarController implements ActionListener,Controller {
 		application.makeGraph();
 	}
 
-	private void readNWKFile() {
+	private void readNwkFile() {
 		application.makePhyloTree();
 	}
 
@@ -50,7 +50,7 @@ public class MenuBarController implements ActionListener,Controller {
 				readGraphFile();
 				break;
 			case "Open .nwk file":
-				readNWKFile();
+				readNwkFile();
 				break;
 			case "Exit":
 				stop();
