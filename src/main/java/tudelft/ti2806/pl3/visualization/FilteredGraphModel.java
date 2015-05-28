@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Observable;
 /**
  * This model filters the original graph data, based on the filter selections.
- *
  * <p>
- * <p>Every time a new filter is added:
+ * Every time a new filter is added:
  * <li>It first makes a clone of the original graph data.
  * <li>Then it passes this clone to the filters and retrieves the filtered data.
  * <li>Then it wrappes the graph to one node.

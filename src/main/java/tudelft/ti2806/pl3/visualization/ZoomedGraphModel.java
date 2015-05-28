@@ -71,14 +71,12 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 
 	/**
 	 * Produces the data needed to display the graph.
+	 * 
 	 * <p>
-	 * It first construct a list of all interests in the graph
-	 * <p>
-	 * It will then determine the amount of nodes to display
-	 * <p>
+	 * It first construct a list of all interests in the graph<br>
+	 * It will then determine the amount of nodes to display<br>
 	 * It will then use the {@link CollapseOnInterest} operation
-	 * to collapse all uninteresting nodes
-	 * <p>
+	 * to collapse all uninteresting nodes<br>
 	 * It will then unwrap these nodes and notify the view
 	 */
 	public void produceDataNodeWrapperList() {
