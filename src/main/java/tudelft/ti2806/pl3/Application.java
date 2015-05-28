@@ -117,7 +117,7 @@ public class Application extends JFrame {
 	}
 
 	/**
-	 * Parses the phylogentic tree and makes a sidebarview
+	 * Parses the phylogentic tree and makes a sidebarview.
 	 */
 	public void makePhyloTree() {
 		try {

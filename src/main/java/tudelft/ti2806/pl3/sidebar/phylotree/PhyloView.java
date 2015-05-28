@@ -27,7 +27,10 @@ import javax.swing.tree.TreeSelectionModel;
 
 /**
  * Phyloview is a view for the phylogenetic file. The user can select multiple
- * genomes or common ancestors. Created by Kasper on 20-5-2015.
+ * genomes or common ancestors.
+ * 
+ * <p>
+ * Created by Kasper on 20-5-2015.
  */
 public class PhyloView extends JPanel implements View {
 

@@ -9,6 +9,7 @@ import java.awt.Cursor;
 /**
  * Loading mouse class is a Observer of the LoadingObserverable.
  * It displays a loading cursor when the Obserable is loading.
+ * 
  * <p>
  * Created by Kasper on 28-5-2015.
  */
