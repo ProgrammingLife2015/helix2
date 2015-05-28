@@ -38,6 +38,10 @@ public class MenuBarController implements ActionListener,Controller {
 		application.getGraphController().zoomLevelDown();
 	}
 
+	private void resetView() {
+		application.getGraphController().resetZoom();
+	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -58,7 +62,7 @@ public class MenuBarController implements ActionListener,Controller {
 				zoomOut();
 				break;
 			case "Reset view":
-				// reset view here
+				resetView();
 				break;
 			default:
 				break;
