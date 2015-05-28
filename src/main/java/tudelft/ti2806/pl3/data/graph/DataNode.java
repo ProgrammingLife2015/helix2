@@ -63,8 +63,8 @@ public class DataNode {
 	public String toString() {
 		return "SingleNode [nodeId=" + nodeId + ", source="
 				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
-				+ ", refEndPoint=" + refEndPoint + ", content.lenght="
-				+ content.length + "]";
+				+ ", refEndPoint=" + refEndPoint + ", content.length="
+				+ content.length + ", labelList.size=" + labelList.size() +"]";
 	}
 	
 	@Override
@@ -76,6 +76,7 @@ public class DataNode {
 		result = prime * result + refEndPoint;
 		result = prime * result + refStartPoint;
 		result = prime * result + Arrays.hashCode(source);
+		result = prime * result + labelList.hashCode();
 		return result;
 	}
 	
@@ -104,6 +105,9 @@ public class DataNode {
 			return false;
 		}
 		if (!Arrays.equals(source, other.source)) {
+			return false;
+		}
+		if (!((DataNode) obj).labelList.equals(labelList)) {
 			return false;
 		}
 		return true;
