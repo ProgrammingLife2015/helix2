@@ -28,7 +28,7 @@ import java.util.Observer;
  *
  * @author Sam Smulders
  */
-public class GraphView implements Observer, tudelft.ti2806.pl3.View,ViewInterface {
+public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
 	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
@@ -81,7 +81,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View,ViewInterfac
 		// make graph
 		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
 		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
-
 		// add the loading observers
 		addLoadingObserversList(loadingObservers);
 		filteredGraphModel.addLoadingObserversList(loadingObservers);
@@ -93,7 +92,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View,ViewInterfac
 		filteredGraphModel.produceWrappedGraphData();
 
 		this.graphController = new GraphController(this);
-
 		graphData = new ArrayList<>();
 	}
 
@@ -239,5 +237,30 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View,ViewInterfac
 
 	public ZoomedGraphModel getZoomedGraphModel() {
 		return zoomedGraphModel;
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.add(loadingObservable);
+	}
+
+
+	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.remove(loadingObservable);
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object arguments) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			loadingObserver.update(this, arguments);
+		}
 	}
 }
