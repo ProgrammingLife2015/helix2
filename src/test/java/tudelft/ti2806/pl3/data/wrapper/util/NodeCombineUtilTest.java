@@ -2,15 +2,10 @@ package tudelft.ti2806.pl3.data.wrapper.util;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.data.wrapper.util.HorizontalWrapUtil;
-import tudelft.ti2806.pl3.data.wrapper.util.SpaceWrapUtil;
-import tudelft.ti2806.pl3.data.wrapper.util.VerticalWrapUtil;
-import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 
 import java.io.File;
@@ -32,8 +27,8 @@ public class NodeCombineUtilTest {
 	public void horizontalVerticalCollapseTest() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/wrapTest.node.graph");
 		File edgesFile = new File("data/testdata/wrapTest.edge.graph");
-		GraphDataRepository gdr = GraphDataRepository.parseGraph(nodesFile,
-				edgesFile);
+		GraphDataRepository gdr = new GraphDataRepository();
+		gdr.parseGraph(nodesFile, edgesFile);
 		List<List<Wrapper>> list = HorizontalWrapUtil
 				.findCombineableNodes(new WrappedGraphData(gdr)
 						.getPositionedNodes());
@@ -75,8 +70,9 @@ public class NodeCombineUtilTest {
 		File nodesFile = new File("data/testdata/6TestCombineNodes.node.graph");
 		File edgesFile = new File("data/testdata/6TestCombineNodes.edge.graph");
 		WrappedGraphData[] pgd = new WrappedGraphData[3];
-		pgd[0] = new WrappedGraphData(GraphDataRepository.parseGraph(nodesFile,
-				edgesFile));
+		GraphDataRepository gdr = new GraphDataRepository();
+		gdr.parseGraph(nodesFile,edgesFile);
+		pgd[0] = new WrappedGraphData(gdr);
 		
 		List<List<Wrapper>> list = VerticalWrapUtil
 				.findCombineableNodes(pgd[0].getPositionedNodes());
@@ -98,8 +94,9 @@ public class NodeCombineUtilTest {
 	public void spaceWrapUtilTest() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/spaceWrapUtilTest.node.graph");
 		File edgesFile = new File("data/testdata/spaceWrapUtilTest.edge.graph");
-		WrappedGraphData original = new WrappedGraphData(
-				GraphDataRepository.parseGraph(nodesFile, edgesFile));
+		GraphDataRepository gdr = new GraphDataRepository();
+		gdr.parseGraph(nodesFile, edgesFile);
+		WrappedGraphData original = new WrappedGraphData(gdr);
 		Assert.assertEquals(original.getPositionedNodes().size(), 7);
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(HorizontalWrapUtil.collapseGraph(original));
@@ -131,8 +128,9 @@ public class NodeCombineUtilTest {
 	public void nodeFixTest() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/graphFixTest.node.graph");
 		File edgesFile = new File("data/testdata/graphFixTest.edge.graph");
-		WrappedGraphData original = new WrappedGraphData(
-				GraphDataRepository.parseGraph(nodesFile, edgesFile));
+		GraphDataRepository gdr = new GraphDataRepository();
+		gdr.parseGraph(nodesFile, edgesFile);
+		WrappedGraphData original = new WrappedGraphData(gdr);
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(SpaceWrapUtil.collapseGraph(original));
 		Assert.assertEquals(1, original.getPositionedNodes().size(), 4);

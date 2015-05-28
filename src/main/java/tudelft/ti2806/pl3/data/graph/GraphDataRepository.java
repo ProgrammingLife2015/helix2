@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import tudelft.ti2806.pl3.LoadingObservable;
+import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 
@@ -15,26 +17,50 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GraphDataRepository extends AbstractGraphData {
-	private int longestNodePath;
-	
+public class GraphDataRepository extends AbstractGraphData implements LoadingObservable {
+	private int longestnodepath;
+
+	private ArrayList<LoadingObserver> observers = new ArrayList<>();
+
 	/**
-	 * Construct a instance of {@code GraphDataRepository}.
-	 * 
-	 * @param nodes
-	 *            the nodes of the graph
-	 * @param edges
-	 *            the edges of the graph
-	 * @param genomes
-	 *            all {@link Genome} that are present in the graph
+	 * Construct a empty {@code GraphDataRepository}.
 	 */
+	public GraphDataRepository() {
+	}
+
+	/**
+	 * THIS CONSTRUCTOR IS ONLY USED FOR TESTING.
+	 * Construct a instance of {@code GraphDataRepository}.
+	 *
+	 * @param nodes
+	 * 		the nodes of the graph
+	 * @param edges
+	 * 		the edges of the graph
+	 * @param genomes
+	 * 		all {@link Genome} that are present in the graph
+	 */
+
+
 	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
-			List<Genome> genomes) {
+							   List<Genome> genomes) {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
+		this.observers = new ArrayList<>();
 	}
-	
+
+	public void addNodes(List<DataNode> nodes) {
+		this.nodes = nodes;
+	}
+
+	public void addEdges(List<Edge> edges) {
+		this.edges = edges;
+	}
+
+	public void addGenomes(List<Genome> genomes) {
+		this.genomes = genomes;
+	}
+
 	@Override
 	public List<DataNode> getNodes() {
 		return this.getNodeListClone();
@@ -49,43 +75,47 @@ public class GraphDataRepository extends AbstractGraphData {
 	public List<Genome> getGenomes() {
 		return this.getGenomeClone();
 	}
-	
+
 	/**
 	 * Parse a node and edge file of a graph into a {@code GraphData}.
-	 * 
+	 *
 	 * @param nodesFile
-	 *            the file of nodes to be read
+	 * 		the file of nodes to be read
 	 * @param edgesFile
-	 *            the file of edges to be read
-	 * @return the parsed {@code GraphData}
+	 * 		the file of edges to be read
 	 * @throws FileNotFoundException
-	 *             if the file is not found
+	 * 		if the file is not found
 	 */
-	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile)
+	public void parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
+		notifyLoadingObservers(true);
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
 		List<DataNode> nodeList = new ArrayList<DataNode>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<Genome>();
 		genomeList.addAll(genomeMap.values());
-		return new GraphDataRepository(nodeList,
-				parseEdges(edgesFile, nodeMap), genomeList);
+
+		addNodes(nodeList);
+		addEdges(parseEdges(edgesFile, nodeMap));
+		addGenomes(genomeList);
+
+		notifyLoadingObservers(false);
 	}
-	
+
 	/**
 	 * Parse the nodes file, creating nodes from the file its data.
-	 * 
+	 *
 	 * @param nodesFile
-	 *            the file of nodes to be read
+	 * 		the file of nodes to be read
 	 * @param genomeMap
-	 *            {@link Genome} mapped on their identifier
+	 * 		{@link Genome} mapped on their identifier
 	 * @return a list of all nodes, mapped by their node id
 	 * @throws FileNotFoundException
-	 *             if the file is not found
+	 * 		if the file is not found
 	 */
-	public static Map<Integer, DataNode> parseNodes(File nodesFile,
-			Map<String, Genome> genomeMap) throws FileNotFoundException {
+	public Map<Integer, DataNode> parseNodes(File nodesFile,
+											 Map<String, Genome> genomeMap) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
@@ -99,16 +129,16 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 		return nodes;
 	}
-	
+
 	/**
 	 * Parses the next two lines of the scanner into a Node.
-	 * 
+	 *
 	 * @param br
-	 *            the BufferedReader with two available lines to read
+	 * 		the BufferedReader with two available lines to read
 	 * @return the read node
 	 */
-	protected static DataNode parseNode(BufferedReader br,
-			Map<String, Genome> genomes) {
+	protected DataNode parseNode(BufferedReader br,
+								 Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
 			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
@@ -127,9 +157,9 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 		return node;
 	}
-	
-	private static Genome[] parseGenomeIdentifiers(String[] identifiers,
-			Map<String, Genome> genomes) {
+
+	private Genome[] parseGenomeIdentifiers(String[] identifiers,
+											Map<String, Genome> genomes) {
 		Genome[] result = new Genome[identifiers.length];
 		for (int i = 0; i < identifiers.length; i++) {
 			identifiers[i] = identifiers[i].replaceAll("-", "_");
@@ -142,19 +172,19 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Parse the edges file, adding the connections between the nodes.
-	 * 
+	 *
 	 * @param edgesFile
-	 *            the file of edges to be read
+	 * 		the file of edges to be read
 	 * @param nodes
-	 *            a list of nodes mapped by their node id.
+	 * 		a list of nodes mapped by their node id.
 	 * @throws FileNotFoundException
-	 *             if the file is not found
+	 * 		if the file is not found
 	 */
-	public static List<Edge> parseEdges(File edgesFile,
-			Map<Integer, DataNode> nodes) throws FileNotFoundException {
+	public List<Edge> parseEdges(File edgesFile,
+								 Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
@@ -171,14 +201,14 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * Search for the node in the graph with the given id.
-	 * 
+	 *
 	 * @param id
-	 *            the id of the node to search
+	 * 		the id of the node to search
 	 * @return the found node<br>
-	 *         {@code null} if there is no node with this id in the graph
+	 * {@code null} if there is no node with this id in the graph
 	 */
 	public DataNode getNodeByNodeId(int id) {
 		for (DataNode node : nodes) {
@@ -188,16 +218,16 @@ public class GraphDataRepository extends AbstractGraphData {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Search for the edge in the graph with the given from and to id.
-	 * 
+	 *
 	 * @param fromId
-	 *            the id of the from node on the edge
+	 * 		the id of the from node on the edge
 	 * @param toId
-	 *            the id of the to node on the edge
+	 * 		the id of the to node on the edge
 	 * @return the found edge<br>
-	 *         {@code null} if there is no node with this id in the graph
+	 * {@code null} if there is no node with this id in the graph
 	 */
 	public Edge getEdge(int fromId, int toId) {
 		for (Edge edge : edges) {
@@ -210,12 +240,36 @@ public class GraphDataRepository extends AbstractGraphData {
 	}
 
 	@Override
-	public int getLongestNodePath() {
-		return longestNodePath;
+	public AbstractGraphData getOrigin() {
+		return this;
 	}
 
 	@Override
-	public AbstractGraphData getOrigin() {
-		return this;
+	public int getLongestNodePath() {
+		return longestnodepath;
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObserver) {
+		observers.add(loadingObserver);
+	}
+
+	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObserver) {
+		observers.remove(loadingObserver);
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object loading) {
+		for (LoadingObserver observer : observers) {
+			observer.update(this, loading);
+		}
 	}
 }
