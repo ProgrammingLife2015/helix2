@@ -20,9 +20,18 @@ public class EdgeUtil {
 	private EdgeUtil() {
 	}
 
+	/**
+	 * This method removes all "empty" edges from the graph.
+	 * Empty edges are edges that are left over after filtering,
+	 * but create a path that is actually to short. A longer path exists
+	 * that should be the only path. For an example of such a dead edge,
+	 * see the data/testdata/emptyEdges folder.
+	 * @param wrappedGraphData
+	 *          The wrapped data containing all {@link Wrapper}s in the graph
+	 */
 	public static void removeAllEmptyEdges(WrappedGraphData wrappedGraphData) {
 		for (Wrapper wrapper : wrappedGraphData.getPositionedNodes()) {
-			if (wrapper.getOutgoing().size() == 0) {
+			if (wrapper.getOutgoing().size() <= 1) {
 				continue;
 			}
 
@@ -36,9 +45,9 @@ public class EdgeUtil {
 			List<Wrapper> removeList = new ArrayList<>();
 			for (Wrapper outgoing : outgoingList) {
 //				for (Genome genome : outgoing.getGenome()) {
-//					if(genomesMap.get(genome) == false) {
+//					if(genomesMap.get(genome) != null && genomesMap.get(genome) == false) {
 //						genomesMap.put(genome, true);
-//					} else if(genomesMap.get(genome) == true) {
+//					} else if(genomesMap.get(genome) != null && genomesMap.get(genome) == true) {
 //						removeList.add(outgoing);
 //					}
 //				}
@@ -52,27 +61,6 @@ public class EdgeUtil {
 				remove.getIncoming().remove(wrapper);
 			}
 			wrapper.getOutgoing().removeAll(removeList);
-//			Map<Integer, Wrapper> nodeCountMapping = new HashMap<>(wrapper.getOutgoing().size());
-//			for (Wrapper outgoing : wrapper.getOutgoing()) {
-//				nodeCountMapping.put(outgoing.getPreviousNodesCount(), outgoing);
-//				if (!new HashableCollection<>(wrapper.getGenome())
-//						.equals(new HashableCollection<>(outgoing.getGenome()))) {
-//					allEqual = false;
-//					break;
-//				}
-//			}
-//			if(allEqual == true) {
-//				List<Integer> list = new ArrayList<>(nodeCountMapping.keySet());
-//				Collections.sort(list);
-//				List<Wrapper> removeList = new ArrayList<>();
-//				for (Wrapper outgoing : wrapper.getOutgoing()) {
-//					if(outgoing != nodeCountMapping.get(list.get(0))) {
-//						removeList.add(outgoing);
-//						outgoing.getIncoming().remove(wrapper);
-//					}
-//				}
-//				wrapper.getOutgoing().removeAll(removeList);
-//			}
 		}
 	}
 	
