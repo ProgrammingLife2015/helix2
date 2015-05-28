@@ -105,6 +105,13 @@ public class GraphDataRepository extends AbstractGraphData {
 		return nodes;
 	}
 
+	/**
+	 * Adds gene reference labels to node
+	 * @param node
+	 * 				the node to which labels can be added
+	 * @param geneData
+	 * 				the gene annotation dataset
+	 */
 	protected static void addRefLabels(DataNode node, GeneData geneData) {
 		int start = node.getRefStartPoint();
 		int end = node.getRefEndPoint();
