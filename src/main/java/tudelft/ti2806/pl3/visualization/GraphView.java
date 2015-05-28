@@ -114,7 +114,7 @@ public class GraphView implements Observer, ViewInterface {
 						.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				if ("[FIX]".equals(node.getIdString())) {
+				if (!"[FIX]".equals(node.getIdString())) {
 					Node graphNode = graph.addNode(node.getIdString());
 					double y = node.getY() * someSize;
 					graphNode.setAttribute("xy", node.getX(), y);
