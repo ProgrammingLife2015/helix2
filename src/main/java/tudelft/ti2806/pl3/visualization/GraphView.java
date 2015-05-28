@@ -111,7 +111,7 @@ public class GraphView implements Observer, ViewInterface {
 		graphData.forEach(node -> {
 				if (!"[FIX]".equals(node.getIdString())) {
 					node.calculatePreviousNodesCount();
-					Node graphNode = graph.addNode(node.getIdString());
+					Node graphNode = graph.addNode(Integer.toString(node.getId()));
 					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
 					graphNode.addAttribute("ui.class",
 							node.getOriginalNode().getClass().getSimpleName());
@@ -140,7 +140,7 @@ public class GraphView implements Observer, ViewInterface {
 	 *            the node where the edge ends
 	 */
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
+		graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 	}
 
 	@Override
