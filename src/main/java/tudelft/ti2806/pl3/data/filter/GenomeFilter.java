@@ -37,7 +37,7 @@ public class GenomeFilter implements Filter<DataNode> {
 							.collect(Collectors.toList())
 			);
 			dataNode.setCurrentGenomeList(currentGenomeList);
-			if(currentGenomeList.size() == 0) {
+			if (currentGenomeList.size() == 0) {
 				remove.add(dataNode);
 			}
 		}
