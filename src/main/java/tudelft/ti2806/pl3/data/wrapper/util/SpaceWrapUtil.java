@@ -64,17 +64,22 @@ public final class SpaceWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	static List<Wrapper> combineNodes(List<Wrapper> nodes) {
-		List<Wrapper> nonWrappedNodes = new ArrayList<Wrapper>(nodes);
-		List<CombineWrapper> combinedNodes = new ArrayList<CombineWrapper>();
+		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
+		for (Wrapper node : nodes) {
+			nonWrappedNodes.put(node.getId(), node);
+		}
+		List<CombineWrapper> combinedNodes = new ArrayList<>();
 		for (List<Wrapper> list : findCombineableNodes(nodes)) {
 			CombineWrapper newNode = new SpaceWrapper(list);
 			combinedNodes.add(newNode);
-			nonWrappedNodes.removeAll(list);
+			for (Wrapper wrapper : list) {
+				nonWrappedNodes.remove(wrapper.getId());
+			}
 		}
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
-		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
+		return WrapUtil.wrapAndReconnect(nonWrappedNodes.values(), combinedNodes);
 	}
 	
 	@SuppressWarnings("CPD-END")
