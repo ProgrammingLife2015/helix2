@@ -136,8 +136,6 @@ public class NodeCombineUtilTest {
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(SpaceWrapUtil.collapseGraph(original));
 		Assert.assertEquals(1, original.getPositionedNodes().size(), 4);
-//		Assert.assertEquals(1, WrapUtil.applyFixNode(original)
-//				.getPositionedNodes().size(), 6);
 		Assert.assertEquals(1, WrapUtil.collapseGraph(original)
 				.getPositionedNodes().size(), 1);
 	}
