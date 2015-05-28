@@ -140,7 +140,8 @@ public class GraphView implements Observer, ViewInterface {
 	 *            the node where the edge ends
 	 */
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(to.getId()), true);
+		graph.addEdge(from.getId() + "-" + to.getId(),
+				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 	}
 
 	@Override
