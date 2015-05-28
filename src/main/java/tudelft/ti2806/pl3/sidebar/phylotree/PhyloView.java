@@ -51,7 +51,7 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
 
-		setUI(width, height);
+		setUi(width, height);
 		setUpLook();
 		expandTree();
 		setListener();
@@ -64,7 +64,7 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	 * @param height
 	 *            the height of the panel
 	 */
-	private void setUI(int width, int height) {
+	private void setUi(int width, int height) {
 		JLabel header = new JLabel("Select Genomes");
 		header.setPreferredSize(new Dimension(width, 50));
 		
