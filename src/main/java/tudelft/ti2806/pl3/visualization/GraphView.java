@@ -28,11 +28,6 @@ import java.util.Observer;
  */
 public class GraphView implements Observer, ViewInterface {
 	/**
-	 * The space left between nodes for drawing the edges between the nodes.<br>
-	 * Set the zoom to have changes take effect.
-	 */
-	// private int nodeJumpSize = 20;
-	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
 	 * be readable, each with {@link #basePairDisplayWidth} pixels to draw its
@@ -76,7 +71,6 @@ public class GraphView implements Observer, ViewInterface {
 		viewer = new Viewer(graph,
 				Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		panel = viewer.addDefaultView(false);
-		// panel.getCamera().setAutoFitView(false);
 	}
 	
 	/**
