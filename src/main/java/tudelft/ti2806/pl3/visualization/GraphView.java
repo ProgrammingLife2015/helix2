@@ -2,10 +2,9 @@ package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
-
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
@@ -47,7 +46,7 @@ public class GraphView implements Observer, ViewInterface {
 	 */
 	
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("Graph");
+	private Graph graph = new GraphicGraph("Graph");
 	private Viewer viewer;
 	private View panel;
 	
