@@ -12,6 +12,7 @@ public class GraphController implements Controller {
 	private ZoomedGraphModel zoomedGraphModel;
 	private GraphView graphView;
 	private Map<String, Filter<DataNode>> filters = new HashMap<>();
+	private final static int DEFAULT_VIEW = 1;
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -64,6 +65,14 @@ public class GraphController implements Controller {
 	 */
 	public void zoomLevelDown() {
 		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() - 1);
+		zoomedGraphModel.produceDataNodeWrapperList();
+	}
+
+	/**
+	 * Reset the zoom level of graph
+	 */
+	public void resetZoom() {
+		zoomedGraphModel.setZoomLevel(DEFAULT_VIEW);
 		zoomedGraphModel.produceDataNodeWrapperList();
 	}
 
