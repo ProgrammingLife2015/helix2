@@ -17,9 +17,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
-
 /**
  * This model filters the original graph data, based on the filter selections.
  * 
