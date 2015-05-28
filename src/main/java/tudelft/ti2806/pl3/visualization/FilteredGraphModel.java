@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.visualization;
 
+import tudelft.ti2806.pl3.LoadingObservable;
+import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
@@ -9,19 +11,18 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateSizeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
-
-
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
+//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
+//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
+
 /**
  * This model filters the original graph data, based on the filter selections.
- *
+ * <p>
  * <p>Every time a new filter is added:
  * <li>It first makes a clone of the original graph data.
  * <li>Then it passes this clone to the filters and retrieves the filtered data.
@@ -32,7 +33,7 @@ import java.util.Observable;
  * will produce the data for the view.
  * Created by Boris Mattijssen on 20-05-15.
  */
-public class FilteredGraphModel extends Observable {
+public class FilteredGraphModel extends Observable implements LoadingObservable {
 
 //	private final int pressureMultiplier = 10;
 
@@ -40,10 +41,12 @@ public class FilteredGraphModel extends Observable {
 	private Wrapper collapsedNode;
 	private Collection<Filter<DataNode>> filters;
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
-//	private CalculateWrapPressureInterest pressureInterest;
+	//	private CalculateWrapPressureInterest pressureInterest;
 //	private CalculateAddMaxOfWrapped addMaxOfWrapped;
 	private CalculateSizeInterest sizeInterest;
 	//private CalculateGroupInterest groupInterest;
+
+	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 
 	/**
 	 * Construct the model containing the filtered data.<br>
@@ -51,7 +54,7 @@ public class FilteredGraphModel extends Observable {
 	 * Then it informs its listeners, to give them the filtered data.
 	 *
 	 * @param originalGraphData
-	 *          The original graph data
+	 * 		The original graph data
 	 */
 	public FilteredGraphModel(AbstractGraphData originalGraphData) {
 		this.originalGraphData = originalGraphData;
@@ -76,6 +79,7 @@ public class FilteredGraphModel extends Observable {
 	 * result is saved as {@code originalWrappedGraphData}.
 	 */
 	public void produceWrappedGraphData() {
+		notifyLoadingObservers(true);
 		List<DataNode> resultNodes = originalGraphData.getNodeListClone();
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
@@ -90,6 +94,7 @@ public class FilteredGraphModel extends Observable {
 		sizeInterest.calculate(collapsedNode, null);
 		setChanged();
 		notifyObservers();
+		notifyLoadingObservers(false);
 	}
 
 	/**
@@ -97,9 +102,9 @@ public class FilteredGraphModel extends Observable {
 	 * originalWrappedGraphData.
 	 *
 	 * @param edgeList
-	 *            the list of edges in the originalWrappedGraphData
+	 * 		the list of edges in the originalWrappedGraphData
 	 * @param nodeList
-	 *            the list of nodes in the originalWrappedGraphData
+	 * 		the list of nodes in the originalWrappedGraphData
 	 */
 	static void removeAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
 		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
@@ -110,13 +115,13 @@ public class FilteredGraphModel extends Observable {
 	 * not on the graph.
 	 *
 	 * @param edgeList
-	 *            the list of edges in the graph
+	 * 		the list of edges in the graph
 	 * @param nodeList
-	 *            the list of nodes in the graph
+	 * 		the list of nodes in the graph
 	 * @return a list of all dead edges
 	 */
 	static List<Edge> getAllDeadEdges(List<Edge> edgeList,
-	                                  List<DataNode> nodeList) {
+									  List<DataNode> nodeList) {
 		List<Edge> removeList = new ArrayList<>();
 		for (Edge edge : edgeList) {
 			if (!nodeList.contains(edge.getFrom())
@@ -131,11 +136,35 @@ public class FilteredGraphModel extends Observable {
 	 * Apply all filters.
 	 *
 	 * @param list
-	 *            the list of nodes to be filtered
+	 * 		the list of nodes to be filtered
 	 */
 	protected void filter(List<DataNode> list) {
 		for (Filter<DataNode> filter : filters) {
 			filter.filter(list);
+		}
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.add(loadingObservable);
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.remove(loadingObservable);
+	}
+
+	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object arguments) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			loadingObserver.update(this, arguments);
 		}
 	}
 }

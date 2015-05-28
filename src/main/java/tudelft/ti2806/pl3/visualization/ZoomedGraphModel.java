@@ -1,11 +1,14 @@
 package tudelft.ti2806.pl3.visualization;
 
+import tudelft.ti2806.pl3.LoadingObservable;
+import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CollapseOnInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.ConstructInterestList;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
@@ -22,18 +25,20 @@ import java.util.Observer;
  * Then it unwraps the collapsed node and notifies the view.</p>
  * Created by Boris Mattijssen on 20-05-15.
  */
-public class ZoomedGraphModel extends Observable implements Observer {
+public class ZoomedGraphModel extends Observable implements Observer, LoadingObservable {
 
 	private FilteredGraphModel filteredGraphModel;
 	private Wrapper collapsedNode;
 	private List<WrapperClone> dataNodeWrapperList;
+	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 
 	private int zoomLevel = 0;
 
 	/**
 	 * Construct a new ZoomedGraphModel, with a reference to the {@link tudelft.ti2806.pl3.data.filter.Filter}.
+	 *
 	 * @param filteredGraphModel
-	 *          The {@link tudelft.ti2806.pl3.visualization.FilteredGraphModel}
+	 * 		The {@link tudelft.ti2806.pl3.visualization.FilteredGraphModel}
 	 */
 	public ZoomedGraphModel(FilteredGraphModel filteredGraphModel) {
 		this.filteredGraphModel = filteredGraphModel;
@@ -46,8 +51,9 @@ public class ZoomedGraphModel extends Observable implements Observer {
 
 	/**
 	 * Sets the zoom level, only if the zoom level is larger then 0.
+	 *
 	 * @param zoomLevel
-	 *          the new zoom level
+	 * 		the new zoom level
 	 */
 	public void setZoomLevel(int zoomLevel) {
 		if (zoomLevel > 0) {
@@ -61,32 +67,34 @@ public class ZoomedGraphModel extends Observable implements Observer {
 
 	/**
 	 * Produces the data needed to display the graph.
-	 *
-	 * <p>It first construct a list of all interests in the graph
-	 *
-	 * <p>It will then determine the amount of nodes to display
-	 *
-	 * <p>It will then use the {@link CollapseOnInterest} operation
+	 * <p>
+	 * It first construct a list of all interests in the graph
+	 * <p>
+	 * It will then determine the amount of nodes to display
+	 * <p>
+	 * It will then use the {@link CollapseOnInterest} operation
 	 * to collapse all uninteresting nodes
-	 *
-	 * <p>It will then unwrap these nodes and notify the view
+	 * <p>
+	 * It will then unwrap these nodes and notify the view
 	 */
 	public void produceDataNodeWrapperList() {
+		notifyLoadingObservers(true);
 		ConstructInterestList constructInterestList = new ConstructInterestList();
 		constructInterestList.calculate(collapsedNode, null);
 		constructInterestList.getInterests().sort(Collections.reverseOrder());
-		int numberOfNodes = (int) (Math.pow(2,zoomLevel) * 10);
+		int numberOfNodes = (int) (Math.pow(2, zoomLevel) * 10);
 
 		CollapseOnInterest collapseOnInterest = new CollapseOnInterest(
 				constructInterestList.getInterests().get(Math.min(numberOfNodes,
 						constructInterestList.getInterests().size() - 1)));
 		collapseOnInterest.calculate(collapsedNode, null);
-		
+
 		Unwrap unwrap = new Unwrap(collapsedNode);
 		dataNodeWrapperList = unwrap.getWrapperClones();
 
 		setChanged();
 		notifyObservers();
+		notifyLoadingObservers(false);
 	}
 
 	@Override
@@ -94,6 +102,31 @@ public class ZoomedGraphModel extends Observable implements Observer {
 		if (o == filteredGraphModel) {
 			collapsedNode = filteredGraphModel.getCollapsedNode();
 			produceDataNodeWrapperList();
+		}
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.add(loadingObservable);
+	}
+
+
+	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.remove(loadingObservable);
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object arguments) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			loadingObserver.update(this, arguments);
 		}
 	}
 }
