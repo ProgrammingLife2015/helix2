@@ -87,7 +87,7 @@ public class FilteredGraphModel extends Observable {
 		List<DataNode> resultNodes = originalGraphData.getNodeListClone();
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
-		
+		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
 		wrappedGraphData = HorizontalWrapUtil.collapseGraph(wrappedGraphData);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
