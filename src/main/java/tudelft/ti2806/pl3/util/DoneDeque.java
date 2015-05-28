@@ -26,7 +26,10 @@ public class DoneDeque<T> {
 	}
 	
 	public void add(T element) {
-		values[add++] = element;
+		if (!done.contains(element)) {
+			done.add(element);
+			values[add++] = element;
+		}
 	}
 	
 	/**
@@ -38,7 +41,10 @@ public class DoneDeque<T> {
 	 */
 	public void addAll(Collection<T> collection) {
 		for (T element : collection) {
-			values[add++] = element;
+			if (!done.contains(element)) {
+				done.add(element);
+				values[add++] = element;
+			}
 		}
 	}
 	
@@ -48,7 +54,6 @@ public class DoneDeque<T> {
 	 * @return the element on the head
 	 */
 	public T poll() {
-		done.add(values[read]);
 		return values[read++];
 	}
 	
@@ -68,5 +73,9 @@ public class DoneDeque<T> {
 			}
 		}
 		return true;
+	}
+	
+	public boolean isEmpty() {
+		return add == read;
 	}
 }

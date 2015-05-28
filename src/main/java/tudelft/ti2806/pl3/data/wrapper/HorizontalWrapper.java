@@ -28,12 +28,12 @@ public class HorizontalWrapper extends CombineWrapper {
 	public HorizontalWrapper(List<Wrapper> nodePosList) {
 		super(nodePosList);
 	}
-
+	
 	@Override
-	public long getWidth() {
+	public long getBasePairCount() {
 		long sum = 0;
 		for (Wrapper node : nodeList) {
-			sum += node.getWidth();
+			sum += node.getBasePairCount();
 		}
 		return sum;
 	}
@@ -44,13 +44,17 @@ public class HorizontalWrapper extends CombineWrapper {
 	}
 	
 	@Override
-	public void calculate(WrapperOperation wrapperSequencer,
-			Wrapper container) {
+	public void calculate(WrapperOperation wrapperSequencer, Wrapper container) {
 		wrapperSequencer.calculate(this, container);
 	}
 	
 	@Override
 	public String getIdString() {
 		return "H" + super.getIdString();
+	}
+	
+	@Override
+	public int getWidth() {
+		return this.getNodeList().stream().mapToInt(Wrapper::getWidth).sum();
 	}
 }

@@ -16,8 +16,8 @@ public class SingleWrapper extends Wrapper {
 	}
 	
 	@Override
-	public long getWidth() {
-		return target.getWidth();
+	public long getBasePairCount() {
+		return target.getBasePairCount();
 	}
 	
 	@Override
@@ -33,14 +33,24 @@ public class SingleWrapper extends Wrapper {
 	public Wrapper getNode() {
 		return target;
 	}
-
+	
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
-
+	
 	@Override
 	public void collectDataNodes(List<DataNode> list) {
 		target.collectDataNodes(list);
+	}
+	
+	@Override
+	public void calculateX() {
+		this.x = this.getNode().getX();
+	}
+
+	@Override
+	public int getWidth() {
+		return this.getNode().getWidth();
 	}
 }

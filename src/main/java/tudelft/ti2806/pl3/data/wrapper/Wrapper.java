@@ -18,15 +18,31 @@ import java.util.Set;
 public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	protected float y;
+	protected float x;
+	
 	protected List<Wrapper> incoming = new ArrayList<>();
 	protected List<Wrapper> outgoing = new ArrayList<>();
+	
 	private int previousNodesCount = -1;
 	private int interest = 0;
 	
-	public abstract long getWidth();
+	/**
+	 * @return the maximum number of base pairs that can be passed when
+	 *         following the graph from the start of this node to its end.
+	 */
+	public abstract long getBasePairCount();
+	
+	/**
+	 * @return the distance between the start x and end x of this node.
+	 */
+	public abstract int getWidth();
 	
 	public int getPreviousNodesCount() {
 		return previousNodesCount;
+	}
+	
+	public float getX() {
+		return x;
 	}
 	
 	public float getY() {
@@ -37,18 +53,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		this.y = y;
 	}
 	
-	/**
-	 * Calculate the number of nodes on the longest path to this node.
-	 */
-	public int calculatePreviousNodesCount() {
-		int max = 0;
-		for (Wrapper incomingNode : this.getIncoming()) {
-			max = Math.max(max, incomingNode.previousNodesCount + 1);
-		}
-		this.previousNodesCount = max;
-		return max;
-	}
-
+	public abstract void calculateX();
+	
 	public List<Wrapper> getIncoming() {
 		return incoming;
 	}
@@ -116,22 +122,66 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	 * @return the length of the longest path found
 	 */
 	public static int computeLongestPaths(List<Wrapper> nodeWrappers) {
-		DoneDeque<Wrapper> deque = new DoneDeque<>(nodeWrappers.size());
+		DoneDeque<Wrapper> leftToRight = new DoneDeque<>(nodeWrappers.size());
+		// Find all first wrappers
 		for (Wrapper wrapper : nodeWrappers) {
 			if (wrapper.getIncoming().size() == 0) {
-				deque.add(wrapper);
+				leftToRight.add(wrapper);
 			}
 		}
 		int max = 0;
+		DoneDeque<Wrapper> rightToLeft = new DoneDeque<>(nodeWrappers.size());
+		// Calculate all previous node counts from left to right
 		for (int i = nodeWrappers.size(); i > 0; i--) {
-			Wrapper wrapper = deque.poll();
-			for (Wrapper out : wrapper.getOutgoing()) {
-				if (deque.doneAll(out.getIncoming())) {
-					deque.add(out);
+			Wrapper wrapper = leftToRight.poll();
+			// Find all last wrappers
+			if (wrapper.getOutgoing().size() == 0) {
+				rightToLeft.addAll(wrapper.getIncoming());
+			} else {
+				for (Wrapper out : wrapper.getOutgoing()) {
+					if (leftToRight.doneAll(out.getIncoming())) {
+						leftToRight.add(out);
+					}
 				}
 			}
 			max = Math.max(wrapper.calculatePreviousNodesCount(), max);
 		}
+		// Improve all previous node counts from right to left
+		while (!rightToLeft.isEmpty()) {
+			Wrapper wrapper = rightToLeft.poll();
+			for (Wrapper in : wrapper.getIncoming()) {
+				if (rightToLeft.doneAll(in.getOutgoing())) {
+					rightToLeft.add(in);
+				}
+			}
+			wrapper.shiftPreviousNodeCount();
+		}
+		return max;
+	}
+	
+	/**
+	 * Shifts the previous node count as far to the right as possible.
+	 */
+	private void shiftPreviousNodeCount() {
+		if (this.incoming.size() == 0) {
+			return;
+		}
+		int min = Integer.MAX_VALUE;
+		for (Wrapper wrapper : this.outgoing) {
+			min = Math.min(wrapper.getPreviousNodesCount(), min);
+		}
+		this.previousNodesCount = min - 1;
+	}
+	
+	/**
+	 * Calculate the number of nodes on the longest path to this node.
+	 */
+	private int calculatePreviousNodesCount() {
+		int max = 0;
+		for (Wrapper incomingNode : this.incoming) {
+			max = Math.max(max, incomingNode.previousNodesCount + 1);
+		}
+		this.previousNodesCount = max;
 		return max;
 	}
 }

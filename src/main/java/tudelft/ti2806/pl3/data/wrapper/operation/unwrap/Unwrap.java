@@ -56,6 +56,9 @@ public class Unwrap extends WrapperOperation {
 			pair.getSecond().calculate(this, pair.getFirst());
 		}
 		Wrapper.computeLongestPaths(new ArrayList<Wrapper>(wrapperClones));
+		for (Wrapper wrapper : wrapperClones) {
+			wrapper.calculateX();
+		}
 	}
 
 	public Wrapper getResult() {

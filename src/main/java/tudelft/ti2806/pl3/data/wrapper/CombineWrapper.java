@@ -36,12 +36,13 @@ public abstract class CombineWrapper extends Wrapper {
 		this.nodeList = nodeList;
 		this.shouldUnfold = shouldUnfold;
 	}
-
+	
 	/**
 	 * Construct and set shouldUnfold to false.
+	 * 
 	 * @see {@link CombineWrapper}(List<{@link Wrapper}>, boolean)
 	 * @param nodeList
-	 *          a list of nodes
+	 *            a list of nodes
 	 */
 	public CombineWrapper(List<Wrapper> nodeList) {
 		this.nodeList = nodeList;
@@ -76,10 +77,18 @@ public abstract class CombineWrapper extends Wrapper {
 		}
 		return str.toString() + "}";
 	}
-
+	
 	@Override
 	public void collectDataNodes(List<DataNode> list) {
 		nodeList.forEach(n -> n.collectDataNodes(list));
 	}
 	
+	@Override
+	public void calculateX() {
+		this.x = 0f;
+		for (Wrapper node : this.getNodeList()) {
+			this.x += node.getX();
+		}
+		this.x /= this.getNodeList().size();
+	}
 }
