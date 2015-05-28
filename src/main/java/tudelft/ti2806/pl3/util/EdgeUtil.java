@@ -7,13 +7,8 @@ import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * An utility class to find and/or remove dead edges from a {@link GraphData}
@@ -27,7 +22,6 @@ public class EdgeUtil {
 
 	public static void removeAllEmptyEdges(WrappedGraphData wrappedGraphData) {
 		for (Wrapper wrapper : wrappedGraphData.getPositionedNodes()) {
-			boolean allEqual = true;
 			if (wrapper.getOutgoing().size() <= 1) {
 				break;
 			}
