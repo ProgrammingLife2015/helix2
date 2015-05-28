@@ -4,13 +4,13 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * This filter will filter all nodes depending on a list of genomes.
-<<<<<<< HEAD
  * @author Boris Mattijssen
  */
 public class GenomeFilter implements Filter<DataNode> {
@@ -22,6 +22,7 @@ public class GenomeFilter implements Filter<DataNode> {
 
 	/**
 	 * Filter that removes all nodes that are not in the genome list.
+	 * It also removes the genomes from the node that should be filtered out.
 	 * @param nodes
 	 *          the list of nodes
 	 */
@@ -29,15 +30,15 @@ public class GenomeFilter implements Filter<DataNode> {
 	public void filter(List<DataNode> nodes) {
 		List<DataNode> remove = new ArrayList<>();
 		for (DataNode dataNode : nodes) {
-			for (String genome : genomes) {
-				if (!Arrays.asList(dataNode.getSource())
-						.stream()
-						.map(Genome::getIdentifier)
-						.collect(Collectors.toList())
-							.contains(genome)) {
-					remove.add(dataNode);
-					break;
-				}
+			Set<Genome> currentGenomeList = new HashSet<>();
+			currentGenomeList.addAll(
+					dataNode.getSource().stream()
+							.filter(genome -> genomes.contains(genome.getIdentifier()))
+							.collect(Collectors.toList())
+			);
+			dataNode.setCurrentGenomeList(currentGenomeList);
+			if (currentGenomeList.size() == 0) {
+				remove.add(dataNode);
 			}
 		}
 		nodes.removeAll(remove);

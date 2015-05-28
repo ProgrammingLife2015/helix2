@@ -1,6 +1,8 @@
 package tudelft.ti2806.pl3.data.filter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -13,7 +15,10 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Test the  {@link GenomeFilter} class
@@ -47,10 +52,18 @@ public class GenomeFilterTest {
 		when(genome1.getIdentifier()).thenReturn("ID1");
 		when(genome2.getIdentifier()).thenReturn("ID2");
 
-		when(node1.getSource()).thenReturn(new Genome[]{genome1, genome2});
-		when(node2.getSource()).thenReturn(new Genome[]{genome2});
-		when(node3.getSource()).thenReturn(new Genome[]{genome1});
-		when(node4.getSource()).thenReturn(new Genome[]{});
+		Set<Genome> set1 = new HashSet<>();
+		Set<Genome> set2 = new HashSet<>();
+		Set<Genome> set3 = new HashSet<>();
+		Set<Genome> set4 = new HashSet<>();
+		set1.add(genome1);
+		set1.add(genome2);
+		set2.add(genome2);
+		set3.add(genome1);
+		DataNode node1 = new DataNode(1, set1, 0, 0, new byte[]{});
+		DataNode node2 = new DataNode(2, set2, 0, 0, new byte[]{});
+		DataNode node3 = new DataNode(3, set3, 0, 0, new byte[]{});
+		DataNode node4 = new DataNode(4, set4, 0, 0, new byte[]{});
 
 		nodeList = new ArrayList<>();
 		nodeList.add(node1);
@@ -78,6 +91,12 @@ public class GenomeFilterTest {
 	public void testGenomeFilter() {
 		genomeFilter.filter(nodeList);
 		assertEquals(nodeList.size(), 2);
+		for(DataNode node : nodeList) {
+			assertTrue(node.getCurrentGenomeList().size() > 0);
+			for(Genome genome : node.getCurrentGenomeList()) {
+				assertFalse(genome.getIdentifier().equals(genome2.getIdentifier()));
+			}
+		}
 	}
 
 }

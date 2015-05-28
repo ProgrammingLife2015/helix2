@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -173,6 +172,13 @@ public class PhyloView extends JPanel implements SideBarViewInterface {
 	 */
 	public List<String> getSelected() {
 		return selected;
+	}
+
+	/**
+	 * Resets the selected genomes.
+	 */
+	public void resetSelected() {
+		selected = new ArrayList<>();
 	}
 	
 	/**

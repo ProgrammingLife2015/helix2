@@ -2,7 +2,6 @@ package tudelft.ti2806.pl3;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
-
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 

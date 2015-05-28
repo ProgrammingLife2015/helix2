@@ -9,15 +9,12 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateSizeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateAddMaxOfWrapped;
-//import tudelft.ti2806.pl3.visualization.wrapper.operation.interest.CalculateWrapPressureInterest;
+import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
-import java.util.Set;
 
 /**
  * This model filters the original graph data, based on the filter selections.
@@ -83,64 +80,23 @@ public class FilteredGraphModel extends Observable {
 		List<DataNode> resultNodes = originalGraphData.getNodeListClone();
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
-		removeAllDeadEdges(resultEdges, resultNodes);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes,
-				resultEdges);
-		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData)
-				.getPositionedNodes().get(0);
-		// calculate y-pos
+		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
+		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
+		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
-		// calculate interest
-		// pressureInterest.calculate(collapsedNode, null);
-		// addMaxOfWrapped.calculate(collapsedNode, null);
 		sizeInterest.calculate(collapsedNode, null);
 		setChanged();
 		notifyObservers();
 	}
-	
-	/**
-	 * Removes all edges of which one or both of their nodes is not on the
-	 * originalWrappedGraphData.
-	 *
-	 * @param edgeList
-	 *            the list of edges in the originalWrappedGraphData
-	 * @param nodeList
-	 *            the list of nodes in the originalWrappedGraphData
-	 */
-	static void removeAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
-		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
-	}
-	
-	/**
-	 * Finds all the edges on the graph which have one or two nodes which are
-	 * not on the graph.
-	 *
-	 * @param edgeList
-	 *            the list of edges in the graph
-	 * @param nodeList
-	 *            the list of nodes in the graph
-	 * @return a list of all dead edges
-	 */
-	static List<Edge> getAllDeadEdges(List<Edge> edgeList,
-			List<DataNode> nodeList) {
-		List<Edge> removeList = new ArrayList<>();
-		Set<DataNode> checkSet = new HashSet<>(nodeList);
-		for (Edge edge : edgeList) {
-			if (!checkSet.contains(edge.getFrom())
-					|| !checkSet.contains(edge.getTo())) {
-				removeList.add(edge);
-			}
-		}
-		return removeList;
-	}
-	
+
 	/**
 	 * Apply all filters.
 	 *
 	 * @param list
 	 *            the list of nodes to be filtered
 	 */
-	protected void filter(List<DataNode> list) {
+	public void filter(List<DataNode> list) {
 		for (Filter<DataNode> filter : filters) {
 			filter.filter(list);
 		}

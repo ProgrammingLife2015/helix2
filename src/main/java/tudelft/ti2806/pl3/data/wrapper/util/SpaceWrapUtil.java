@@ -330,7 +330,7 @@ public final class SpaceWrapUtil {
 					"The graph consists of two genome with the same name.",
 					"Two posible routes are found with the same genome name, "
 							+ "or the order of the nodes was not correctly calculated."
-							+ "\nNode ids:" + node1.getIdString() + " - "
+							+ "\nNodes:" + node1.getIdString() + " - "
 							+ node2.getIdString());
 		} catch (DuplicateGenomeNameException e) {
 			e.printStackTrace();

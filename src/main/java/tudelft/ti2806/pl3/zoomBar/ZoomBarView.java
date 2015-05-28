@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.ScreenSize;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.JPanel;
 
 /**

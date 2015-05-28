@@ -13,8 +13,10 @@ import tudelft.ti2806.pl3.testutil.UtilTest;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DeadEdgeUtilTest {
 	private static DataNode[] nodes;
@@ -30,7 +32,8 @@ public class DeadEdgeUtilTest {
 	public static void init() {
 		nodeList = new ArrayList<DataNode>();
 		
-		Genome[] genome = new Genome[] { new Genome("hi") };
+		Set<Genome> genome = new HashSet<>();
+		genome.add(new Genome("hi"));
 		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0]),
 				new DataNode(1, genome, 0, 0, new byte[0]),
 				new DataNode(2, genome, 0, 0, new byte[0]),
@@ -41,7 +44,7 @@ public class DeadEdgeUtilTest {
 				new DataNode(7, genome, 0, 0, new byte[0]),
 				new DataNode(8, genome, 0, 0, new byte[0]),
 				new DataNode(9, genome, 0, 0, new byte[0]) };
-		
+
 		for (DataNode node : nodes) {
 			nodeList.add(node);
 		}
@@ -67,7 +70,7 @@ public class DeadEdgeUtilTest {
 		Edge deadEdge = new Edge(nodes[0], new DataNode(-1, null, 0, 0, null));
 		List<Edge> edgeList = gd.getEdgeListClone();
 		edgeList.add(deadEdge);
-		DeadEdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());
+		EdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());
 		Assert.assertFalse(edgeList.contains(deadEdge));
 	}
 	
@@ -75,7 +78,7 @@ public class DeadEdgeUtilTest {
 	public void privateConstructorTest() throws NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
 			InstantiationException {
-		new UtilTest<DeadEdgeUtil>(DeadEdgeUtil.class)
+		new UtilTest<EdgeUtil>(EdgeUtil.class)
 				.testConstructorIsPrivate();
 	}
 }
