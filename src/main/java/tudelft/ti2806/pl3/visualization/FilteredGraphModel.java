@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
+
 /**
  * This model filters the original graph data, based on the filter selections.
  * <p>

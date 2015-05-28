@@ -41,7 +41,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @param genomes
 	 * 		all {@link Genome} that are present in the graph
 	 */
-	GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
+	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
 							   List<Genome> genomes) {
 		this.nodes = nodes;
 		this.edges = edges;

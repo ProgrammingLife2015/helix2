@@ -7,11 +7,8 @@ import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
 import java.awt.Dimension;
-<<<<<<< HEAD
-
-=======
 import java.util.ArrayList;
->>>>>>> Mouse now gives a loading icon when the model is loading
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 

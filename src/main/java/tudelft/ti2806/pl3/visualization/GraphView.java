@@ -196,11 +196,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	}
 
 	@Override
-	public GraphController getController() {
-		return graphController;
-	}
-
-	@Override
 	public void update(Observable o, Object arg) {
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
