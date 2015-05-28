@@ -63,11 +63,11 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	public static GraphDataRepository parseGraph(File nodesFile, File edgesFile)
 			throws FileNotFoundException {
-		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
+		Map<String, Genome> genomeMap = new HashMap<>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
-		List<DataNode> nodeList = new ArrayList<DataNode>();
+		List<DataNode> nodeList = new ArrayList<>();
 		nodeList.addAll(nodeMap.values());
-		List<Genome> genomeList = new ArrayList<Genome>();
+		List<Genome> genomeList = new ArrayList<>();
 		genomeList.addAll(genomeMap.values());
 		return new GraphDataRepository(nodeList,
 				parseEdges(edgesFile, nodeMap), genomeList);
@@ -109,19 +109,15 @@ public class GraphDataRepository extends AbstractGraphData {
 	 */
 	protected static DataNode parseNode(BufferedReader br,
 			Map<String, Genome> genomes) {
-		String[] indexData = new String[0];
-		try {
-			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String[] indexData;
 		DataNode node = null;
 		try {
+			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
 			node = new DataNode(Integer.parseInt(indexData[0]),
 					parseGenomeIdentifiers(indexData[1].split(","), genomes),
 					Integer.parseInt(indexData[2]),
 					Integer.parseInt(indexData[3]),
-					BasePair.getBasePairString(br.readLine()));
+					br.readLine());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -132,10 +128,10 @@ public class GraphDataRepository extends AbstractGraphData {
 			Map<String, Genome> genomes) {
 		Genome[] result = new Genome[identifiers.length];
 		for (int i = 0; i < identifiers.length; i++) {
-			identifiers[i] = identifiers[i].replaceAll("-", "_");
-			Genome genome = genomes.get(identifiers[i]);
+			String identifier = identifiers[i].replaceAll("-", "_");
+			Genome genome = genomes.get(identifier);
 			if (genome == null) {
-				genome = new Genome(identifiers[i]);
+				genome = new Genome(identifier);
 				genomes.put(identifiers[i], genome);
 			}
 			result[i] = genome;
