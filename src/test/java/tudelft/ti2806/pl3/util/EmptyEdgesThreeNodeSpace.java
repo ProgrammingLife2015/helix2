@@ -1,29 +1,11 @@
-package tudelft.ti2806.pl3.visualisation;
+package tudelft.ti2806.pl3.util;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
-import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
-import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.visualization.FilteredGraphModel;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Boris Mattijssen on 27-05-15.

@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.visualisation;
+package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
