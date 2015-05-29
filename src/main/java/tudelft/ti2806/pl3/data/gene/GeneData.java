@@ -1,13 +1,9 @@
 package tudelft.ti2806.pl3.data.gene;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * Class containing all gene data.
@@ -106,18 +102,11 @@ public class GeneData {
 	 */
 	protected static void parseGene(String line, ArrayList<Gene> genes,
 			Map<Integer, Gene> geneStart, Map<Integer, Gene> geneEnd) {
-		Scanner scanner = new Scanner(line);
-		scanner.next(); // bin
-		String name = scanner.next();
-		scanner.next(); // chrom
-		scanner.next(); // strand
-		int start = scanner.nextInt();
-		int end = scanner.nextInt();
-		scanner.close();
-		Gene gene = new Gene(name, start, end);
+		String[] tokens = line.split("\t");
+		Gene gene = new Gene(tokens[1], Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]));
 		genes.add(gene);
-		geneStart.put(start, gene);
-		geneEnd.put(end, gene);
+		geneStart.put(Integer.parseInt(tokens[4]), gene);
+		geneEnd.put(Integer.parseInt(tokens[5]), gene);
 	}
 	
 }
