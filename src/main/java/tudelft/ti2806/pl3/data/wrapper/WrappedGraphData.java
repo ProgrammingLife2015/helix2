@@ -19,7 +19,7 @@ public class WrappedGraphData {
 
 	private List<Wrapper> nodeWrappers;
 	private final int longestNodePath;
-
+	
 	/**
 	 * Initialises an instance of {@link WrappedGraphData}.
 	 *

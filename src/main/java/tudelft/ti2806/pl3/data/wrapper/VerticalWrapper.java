@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public class VerticalWrapper extends CombineWrapper {
+	Set<Genome> genomes;
 
 	public VerticalWrapper(List<Wrapper> nodePosList, boolean collapsed) {
 		super(nodePosList, collapsed);
@@ -25,7 +26,7 @@ public class VerticalWrapper extends CombineWrapper {
 		}
 		return max;
 	}
-	
+
 	@Override
 	public Set<Genome> calculateGenome() {
 		Set<Genome> genome = new HashSet<>();

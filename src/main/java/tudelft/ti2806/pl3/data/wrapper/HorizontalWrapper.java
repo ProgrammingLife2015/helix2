@@ -37,7 +37,7 @@ public class HorizontalWrapper extends CombineWrapper {
 		}
 		return sum;
 	}
-	
+
 	@Override
 	public Set<Genome> calculateGenome() {
 		return this.getFirst().getGenome();

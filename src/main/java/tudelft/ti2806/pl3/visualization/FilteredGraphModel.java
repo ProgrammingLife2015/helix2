@@ -86,8 +86,8 @@ public class FilteredGraphModel extends Observable {
 		removeAllDeadEdges(resultEdges, resultNodes);
 		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes,
 				resultEdges);
-		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData)
-				.getPositionedNodes().get(0);
+		// Get first item
+		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().iterator().next();
 		// calculate y-pos
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
 		// calculate interest

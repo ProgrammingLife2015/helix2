@@ -17,7 +17,7 @@ import java.util.Set;
  * This responsibility is separated from {@link DataNode} so that the same node
  * can have different positions over different views without cloning the
  * expensive Node instances which contain the original data.
- *
+ * 
  * @author Sam Smulders
  *
  */
@@ -31,7 +31,7 @@ public class DataNodeWrapper extends Wrapper {
 	/**
 	 * Construct a list with connected and fully initialised
 	 * {@code NodePosition}s.
-	 *
+	 * 
 	 * @param nodeList
 	 *            the {@link List}<{@link DataNode}> of which the new
 	 *            {@link List}< {@link DataNodeWrapper}> is constructed from
@@ -61,7 +61,7 @@ public class DataNodeWrapper extends Wrapper {
 	public DataNode getNode() {
 		return node;
 	}
-
+	
 	@Override
 	public long getBasePairCount() {
 		return node.getBasePairCount();
@@ -85,12 +85,12 @@ public class DataNodeWrapper extends Wrapper {
 		}
 		return list;
 	}
-
+	
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
-
+	
 	@Override
 	public void collectDataNodes(List<DataNode> list) {
 		list.add(node);
