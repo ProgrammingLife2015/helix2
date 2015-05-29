@@ -25,7 +25,7 @@ import java.util.Observer;
  * @author Sam Smulders
  *
  */
-public class GraphView implements Observer, ViewInterface {
+public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
 	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
@@ -49,18 +49,55 @@ public class GraphView implements Observer, ViewInterface {
 	private Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
-	
+	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+
+	private GraphController graphController;
+
+	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
-	
-	public GraphView(ZoomedGraphModel zoomedGraphModel) {
-		this.zoomedGraphModel = zoomedGraphModel;
+
+	/**
+	 * Construct a GraphView with no LoadingObservers.
+	 *
+	 * @param abstractGraphData
+	 * 		GraphData to display
+	 */
+	public GraphView(AbstractGraphData abstractGraphData) {
+		this(abstractGraphData, null);
+	}
+
+	/**
+	 * Construct a GraphView with LoadingObserver.
+	 *
+	 * @param abstractGraphData
+	 * 		GraphData to display
+	 * @param loadingObservers
+	 * 		Observers for loading
+	 */
+	public GraphView(AbstractGraphData abstractGraphData, ArrayList<LoadingObserver> loadingObservers) {
+		// make graph
+		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
+		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
+		// add the loading observers
+		addLoadingObserversList(loadingObservers);
+		filteredGraphModel.addLoadingObserversList(loadingObservers);
+		zoomedGraphModel.addLoadingObserversList(loadingObservers);
+
+		init();
+		filteredGraphModel.addObserver(zoomedGraphModel);
+		zoomedGraphModel.addObserver(this);
+
+		this.graphController = new GraphController(this);
 		graphData = new ArrayList<>();
 	}
-	
+
+	/**
+	 * Makes a call to the viewer.
+	 */
 	public void init() {
+		notifyLoadingObservers(true);
 		generateViewer();
-		// TODO: calculate!
-		setZoomCenter(600);
+		notifyLoadingObservers(false);
 	}
 	
 	/**
@@ -102,6 +139,7 @@ public class GraphView implements Observer, ViewInterface {
 	 * @return a graph with all nodes from the given graphData
 	 */
 	public Graph generateGraph() {
+		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
@@ -126,6 +164,7 @@ public class GraphView implements Observer, ViewInterface {
 				}
 			}
 		}
+		notifyLoadingObservers(false);
 		return graph;
 	}
 	
@@ -149,10 +188,16 @@ public class GraphView implements Observer, ViewInterface {
 	}
 	
 	@Override
+	public GraphController getController() {
+		return graphController;
+	}
+
+	@Override
 	public void update(Observable o, Object arg) {
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			zoomLevel = zoomedGraphModel.getZoomLevel();
+			// TODO: draw graph with the newly retrieved graphData
 			generateGraph();
 			zoom();
 		}
@@ -175,5 +220,38 @@ public class GraphView implements Observer, ViewInterface {
 	public void setZoomCenter(long zoomCenter) {
 		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
+	}
+
+	public FilteredGraphModel getFilteredGraphModel() {
+		return filteredGraphModel;
+	}
+
+	public ZoomedGraphModel getZoomedGraphModel() {
+		return zoomedGraphModel;
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.add(loadingObservable);
+	}
+
+
+	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.remove(loadingObservable);
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object arguments) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			loadingObserver.update(this, arguments);
+		}
 	}
 }

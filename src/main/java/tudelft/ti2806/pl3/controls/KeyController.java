@@ -61,7 +61,7 @@ public class KeyController implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.VK_ESCAPE && app.confirm()) {
+		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			app.stop();
 		}
 
@@ -70,29 +70,25 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-//			double oldzoom = graphController.getCurrentZoomLevel();
-//			double newzoom = oldzoom * 2;
 			graphController.zoomLevelDown();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
-//			double oldzoom = app.getGraphController().getCurrentZoomLevel();
-//			double newzoom = oldzoom / 2;
 			graphController.zoomLevelUp();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 			long oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (graphController.getPanel().getWidth() / MOVE_FACTOR)
-					* (1f / graphController.getCurrentZoomLevel());
+			double move = (app.getWidth() / MOVE_FACTOR)
+					* graphController.getCurrentZoomLevel();
 			long newViewCenter = (long)(oldViewCenter + move);
 			graphController.moveView(newViewCenter);
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 			long oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (graphController.getPanel().getWidth() / MOVE_FACTOR)
-					* (1f / graphController.getCurrentZoomLevel());
+			double move = (app.getWidth() / MOVE_FACTOR)
+					* graphController.getCurrentZoomLevel();
 			long newViewCenter = (long)(oldViewCenter - move);
 			graphController.moveView(newViewCenter);
 		}

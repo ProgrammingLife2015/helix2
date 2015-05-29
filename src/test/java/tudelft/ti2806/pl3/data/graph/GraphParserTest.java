@@ -26,9 +26,10 @@ public class GraphParserTest {
 	
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {
-		DataNode node = GraphDataRepository.parseNode(new BufferedReader(
-				new InputStreamReader(new BufferedInputStream(
-						new FileInputStream((simpleNodeGraphFile))))),
+		GraphDataRepository gd = new GraphDataRepository();
+		DataNode node = gd.parseNode(new BufferedReader(
+						new InputStreamReader(new BufferedInputStream(
+								new FileInputStream((simpleNodeGraphFile))))),
 				new HashMap<>());
 		Set<Genome> set = new HashSet<>(1);
 		set.add(new Genome("TKK_01_0029"));
@@ -38,11 +39,12 @@ public class GraphParserTest {
 	
 	@Test
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
-		Map<Integer, DataNode> nodeMap = GraphDataRepository.parseNodes(
+		GraphDataRepository gd = new GraphDataRepository();
+		Map<Integer, DataNode> nodeMap = gd.parseNodes(
 				simpleNodeGraphFile, new HashMap<>());
-		List<Edge> edges = GraphDataRepository.parseEdges(simpleEdgeGraphFile,
+		List<Edge> edges = gd.parseEdges(simpleEdgeGraphFile,
 				nodeMap);
-		
+
 		DataNode nodeA = nodeMap.get(35);
 		DataNode nodeB = nodeMap.get(1);
 		Assert.assertEquals(new Edge(nodeA, nodeB), edges.get(0));

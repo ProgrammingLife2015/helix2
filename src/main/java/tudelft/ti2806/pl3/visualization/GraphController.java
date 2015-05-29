@@ -8,30 +8,24 @@ import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GraphController {
+public class GraphController implements Controller {
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 	private GraphView graphView;
 	private Map<String, Filter<DataNode>> filters = new HashMap<>();
+	private static final int DEFAULT_VIEW = 1;
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
-	 * It will also create the view and models.
+	 * It will control the data in the graphview
 	 * 
-	 * @param abstractGraphData
-	 *            The parsed graph data
+	 * @param graphView
+	 *            the view in which the graph is displayed
 	 */
-	public GraphController(AbstractGraphData abstractGraphData) {
-		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
-		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
-		
-		graphView = new GraphView(zoomedGraphModel);
-		graphView.init();
-		filteredGraphModel.addObserver(zoomedGraphModel);
-		zoomedGraphModel.addObserver(graphView);
-	}
-
-	public void init() {
+	public GraphController(GraphView graphView) {
+		this.graphView = graphView;
+		filteredGraphModel = graphView.getFilteredGraphModel();
+		zoomedGraphModel = graphView.getZoomedGraphModel();
 		filteredGraphModel.produceWrappedGraphData();
 	}
 	
@@ -75,15 +69,19 @@ public class GraphController {
 		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() - 1);
 		zoomedGraphModel.produceDataNodeWrapperList();
 	}
-	
-	public Component getPanel() {
-		return graphView.getPanel();
+
+	/**
+	 * Reset the zoom level of graph.
+	 */
+	public void resetZoom() {
+		zoomedGraphModel.setZoomLevel(DEFAULT_VIEW);
+		zoomedGraphModel.produceDataNodeWrapperList();
 	}
-	
+
 	public double getCurrentZoomLevel() {
 		return zoomedGraphModel.getZoomLevel();
 	}
-
+	
 	public long getCurrentZoomCenter() {
 		return graphView.getZoomCenter();
 	}

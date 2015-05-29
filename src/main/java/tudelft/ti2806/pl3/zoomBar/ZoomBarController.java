@@ -4,8 +4,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
-import java.awt.Component;
-
 /**
  * Controller that controls the zoom bar at the bottom of the screen.
  * The zoom bar is used to navigate through and zoom in on the graph.
@@ -13,25 +11,26 @@ import java.awt.Component;
  */
 public class ZoomBarController implements Controller {
 
-	public GraphController graphController;
+	private GraphController graphController;
 	private ZoomBarView zoomBarView;
 
 	/**
 	 * Construct a new controller for the zoom bar.
-	 * @param graphController instance of the graph controller to update its view
+	 *
+	 * @param graphController
+	 * 		instance of the graph controller to update its view
 	 */
 	@SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
-	public ZoomBarController(GraphController graphController) {
+	public ZoomBarController(ZoomBarView zoomBarView, GraphController graphController) {
 		this.graphController = graphController;
-		zoomBarView = new ZoomBarView();
+		this.zoomBarView = zoomBarView;
 	}
 
-	/**
-	 * Get the zoom bar view.
-	 * @return the view
-	 */
-	@Override
-	public Component getPanel() {
+	public GraphController getGraphController() {
+		return graphController;
+	}
+
+	public ZoomBarView getZoomBarView() {
 		return zoomBarView;
 	}
 }

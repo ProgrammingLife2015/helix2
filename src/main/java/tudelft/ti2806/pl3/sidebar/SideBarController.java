@@ -1,12 +1,6 @@
 package tudelft.ti2806.pl3.sidebar;
 
-import newick.NewickParser;
 import tudelft.ti2806.pl3.Controller;
-import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
-import tudelft.ti2806.pl3.visualization.GraphController;
-
-import java.awt.Component;
-import java.util.ArrayList;
 
 /**
  * Controller that controls the sidebar. The user can select options in the
@@ -15,28 +9,16 @@ import java.util.ArrayList;
 public class SideBarController implements Controller {
 
 	private SideBarView sideBarView;
-	private PhyloController phyloController;
 
 	/**
 	 * Construct the side bar controller and add all filters to its view.
 	 *
-	 * @param graphController
-	 * 		the graph controller
-	 * @param tree
-	 * 		the newick tree
+	 * @param sideBarView
+	 * 		the view that is controlled
+	 *
 	 */
-	public SideBarController(GraphController graphController, NewickParser.TreeNode tree) {
-		phyloController = new PhyloController(graphController, tree);
-
-		ArrayList<Component> viewList = new ArrayList<>();
-		viewList.add(phyloController.getPanel());
-
-		sideBarView = new SideBarView(viewList);
-	}
-
-	@Override
-	public Component getPanel() {
-		return sideBarView;
+	public SideBarController(SideBarView sideBarView) {
+		this.sideBarView = sideBarView;
 	}
 
 	/**

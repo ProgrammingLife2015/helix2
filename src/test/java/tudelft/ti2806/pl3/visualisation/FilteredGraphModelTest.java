@@ -1,7 +1,11 @@
 package tudelft.ti2806.pl3.visualisation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
@@ -20,9 +24,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class FilteredGraphModelTest {
 
 	private List<DataNode> resultNodes;
@@ -33,7 +34,8 @@ public class FilteredGraphModelTest {
 	public void before() throws FileNotFoundException {
 		File nodesFile = new File("data/testdata/genomeFilter.node.graph");
 		File edgesFile = new File("data/testdata/genomeFilter.edge.graph");
-		GraphDataRepository graphDataRepository = GraphDataRepository.parseGraph(nodesFile, edgesFile);
+		GraphDataRepository graphDataRepository = new GraphDataRepository();
+		graphDataRepository.parseGraph(nodesFile, edgesFile);
 		FilteredGraphModel filteredGraphModel = new FilteredGraphModel(graphDataRepository);
 
 		List<String> genomes = new ArrayList<>();
