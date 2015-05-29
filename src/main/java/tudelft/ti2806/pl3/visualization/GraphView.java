@@ -59,6 +59,8 @@ public class GraphView implements Observer, ViewInterface {
 	
 	public void init() {
 		generateViewer();
+		// TODO: calculate!
+		setZoomCenter(600);
 	}
 	
 	/**
@@ -110,7 +112,7 @@ public class GraphView implements Observer, ViewInterface {
 				if (!"[FIX]".equals(node.getIdString())) {
 					Node graphNode = graph.addNode(node.getIdString());
 					double y = node.getY() * someSize;
-					graphNode.setAttribute("xy", node.getX(), y);
+					graphNode.setAttribute("xy", node.getX(), y*2);
 					graphNode.addAttribute("ui.class", node.getClass()
 							.getSimpleName());
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
@@ -153,8 +155,6 @@ public class GraphView implements Observer, ViewInterface {
 			zoomLevel = zoomedGraphModel.getZoomLevel();
 			generateGraph();
 			zoom();
-			// TODO: calculate!
-			setZoomCenter(600);
 		}
 	}
 	
