@@ -105,6 +105,8 @@ public class Application extends JFrame {
 			setZoomBarView(zoomBarView.getPanel());
 			setGraphView(graphView.getPanel());
 
+			graphView.getController().init();
+
 			KeyController keys = new KeyController(this);
 			graphView.getPanel().addKeyListener(keys);
 

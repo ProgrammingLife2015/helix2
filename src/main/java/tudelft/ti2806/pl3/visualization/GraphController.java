@@ -25,6 +25,9 @@ public class GraphController implements Controller {
 		this.graphView = graphView;
 		filteredGraphModel = graphView.getFilteredGraphModel();
 		zoomedGraphModel = graphView.getZoomedGraphModel();
+	}
+
+	public void init() {
 		filteredGraphModel.produceWrappedGraphData();
 	}
 	

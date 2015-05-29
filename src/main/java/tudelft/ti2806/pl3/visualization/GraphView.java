@@ -100,6 +100,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public void init() {
 		notifyLoadingObservers(true);
 		generateViewer();
+		// TODO: don't hardcode
+		setZoomCenter(600);
 		notifyLoadingObservers(false);
 	}
 	
