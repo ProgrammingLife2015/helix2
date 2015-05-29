@@ -106,7 +106,7 @@ public class GraphDataRepository extends AbstractGraphData {
 	}
 
 	/**
-	 * Adds gene reference labels to node
+	 * Adds gene reference labels to node.
 	 * @param node
 	 * 				the node to which labels can be added
 	 * @param geneData

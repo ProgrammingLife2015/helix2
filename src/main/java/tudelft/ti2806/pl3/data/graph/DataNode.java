@@ -64,7 +64,7 @@ public class DataNode {
 		return "SingleNode [nodeId=" + nodeId + ", source="
 				+ Arrays.toString(source) + ", refStartPoint=" + refStartPoint
 				+ ", refEndPoint=" + refEndPoint + ", content.length="
-				+ content.length + ", labelList.size=" + labelList.size() +"]";
+				+ content.length + ", labelList.size=" + labelList.size() + "]";
 	}
 	
 	@Override
