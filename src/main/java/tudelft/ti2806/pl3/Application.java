@@ -22,8 +22,10 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
 /**

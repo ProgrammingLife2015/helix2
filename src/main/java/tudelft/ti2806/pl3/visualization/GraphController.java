@@ -1,10 +1,9 @@
 package tudelft.ti2806.pl3.visualization;
 
+import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.data.filter.Filter;
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
-import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
