@@ -77,11 +77,6 @@ public abstract class CombineWrapper extends Wrapper {
 		}
 		return str.toString() + "}";
 	}
-	
-	@Override
-	public int getId() {
-		return nodeList.get(0).getId();
-	}
 
 	@Override
 	public int getId() {

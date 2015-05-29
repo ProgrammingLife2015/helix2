@@ -112,7 +112,6 @@ public class GraphView implements Observer, ViewInterface {
 					GraphicNode graphNode = graph.addNode(Integer.toString(node.getId()));
 					double y = node.getY() * someSize;
 					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("xy", node.getPreviousNodesCount(), node.getY() * 5);
 					graphNode.addAttribute("ui.class",
 							node.getOriginalNode().getClass().getSimpleName());
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
