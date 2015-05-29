@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.data.graph;
+package tudelft.ti2806.pl3.data.label;
 
 /**
  * Created by tombrouws on 28/05/15.

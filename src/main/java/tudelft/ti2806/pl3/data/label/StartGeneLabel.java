@@ -1,6 +1,4 @@
-package tudelft.ti2806.pl3.data.graph;
-
-import java.util.Arrays;
+package tudelft.ti2806.pl3.data.label;
 
 /**
  * Created by tombrouws on 27/05/15.
