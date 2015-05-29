@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import java.util.Arrays;
+
 /**
  * Created by tombrouws on 27/05/15.
  */
@@ -27,7 +29,11 @@ public class StartGeneLabel extends Label {
 
 	@Override
 	public int hashCode() {
-		return startRef;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + super.hashCode();
+		result = prime * result + startRef;
+		return result;
 	}
 
 	public StartGeneLabel(String name, int startRef) {
