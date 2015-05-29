@@ -4,6 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import tudelft.ti2806.pl3.data.gene.GeneData;
+import tudelft.ti2806.pl3.data.label.EndGeneLabel;
+import tudelft.ti2806.pl3.data.label.GeneLabel;
+import tudelft.ti2806.pl3.data.label.StartGeneLabel;
 
 import java.io.File;
 

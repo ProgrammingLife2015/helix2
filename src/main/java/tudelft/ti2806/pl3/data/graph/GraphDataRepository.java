@@ -4,6 +4,9 @@ import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.gene.GeneData;
+import tudelft.ti2806.pl3.data.label.EndGeneLabel;
+import tudelft.ti2806.pl3.data.label.GeneLabel;
+import tudelft.ti2806.pl3.data.label.StartGeneLabel;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
