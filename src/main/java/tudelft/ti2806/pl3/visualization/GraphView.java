@@ -151,9 +151,10 @@ public class GraphView implements Observer, ViewInterface {
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			zoomLevel = zoomedGraphModel.getZoomLevel();
-			// TODO: draw graph with the newly retrieved graphData
 			generateGraph();
 			zoom();
+			// TODO: calculate!
+			setZoomCenter(600);
 		}
 	}
 	
