@@ -29,6 +29,9 @@ public class GraphController {
 		graphView.init();
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(graphView);
+	}
+
+	public void init() {
 		filteredGraphModel.produceWrappedGraphData();
 	}
 	
@@ -80,7 +83,7 @@ public class GraphController {
 	public double getCurrentZoomLevel() {
 		return zoomedGraphModel.getZoomLevel();
 	}
-	
+
 	public long getCurrentZoomCenter() {
 		return graphView.getZoomCenter();
 	}

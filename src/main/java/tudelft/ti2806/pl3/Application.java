@@ -84,7 +84,9 @@ public class Application extends JFrame {
 			setSideBarView(sideBarController.getPanel());
 			setGraphView(graphController.getPanel());
 			setZoomBarView(zoomBarController.getPanel());
-			
+
+			graphController.init();
+
 			// set the controls.
 			// This is done last so we can remove the default library keycontroller
 			WindowController windowController = new WindowController(this);
