@@ -4,3 +4,5 @@ A lighteight JavaCC based Newick parser.
 It builds a very simple tree strucutre (newick.NewickParser.TreeNode) from a Newick string. To test it, use any newick file (with a single Newick tree) and try
 
 > cat <newick_file> | java newick.NewickParser
+
+Source: https://bitbucket.org/djiao/a-lightweight-javacc-newick-parser
