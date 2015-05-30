@@ -2,6 +2,11 @@ package tudelft.ti2806.pl3.data.wrapper.operation.unwrap;
 
 import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 
+/**
+ * Unwraps the wrappers when the collapse value is higher then the given value.
+ * 
+ * @author Sam Smulders
+ */
 public class UnwrapOnCollapse extends Unwrap {
 	
 	private final float spaceCondition;
@@ -14,5 +19,4 @@ public class UnwrapOnCollapse extends Unwrap {
 	protected boolean isConditionMet(CombineWrapper node) {
 		return node.getCollapse() >= spaceCondition;
 	}
-	
 }

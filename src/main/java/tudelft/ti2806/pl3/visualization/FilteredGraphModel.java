@@ -8,7 +8,7 @@ import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapse;
+import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.EdgeUtil;
@@ -46,7 +46,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 	// private CalculateGroupInterest groupInterest;
 	
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
-	private CalculateCollapse calculateCollapse;
+	private CalculateCollapseOnSpace calculateCollapse;
 	
 	/**
 	 * Construct the model containing the filtered data.<br>
@@ -64,7 +64,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		// CalculateWrapPressureInterest(pressureMultiplier);
 		// addMaxOfWrapped = new CalculateAddMaxOfWrapped();
 		// sizeInterest = new CalculateSizeInterest();
-		calculateCollapse = new CalculateCollapse();
+		calculateCollapse = new CalculateCollapseOnSpace();
 	}
 	
 	public void setFilters(Collection<Filter<DataNode>> filters) {
@@ -172,7 +172,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		}
 	}
 	
-	public CalculateCollapse getCalculateCollapse() {
+	public CalculateCollapseOnSpace getCalculateCollapse() {
 		return calculateCollapse;
 	}
 }

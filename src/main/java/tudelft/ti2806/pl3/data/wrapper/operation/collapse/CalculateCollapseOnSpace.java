@@ -12,7 +12,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class CalculateCollapse extends WrapperOperation {
+/**
+ * Computes the collapse value, based on the space left between nodes when
+ * unwrapped.
+ * 
+ * @author Sam Smulders
+ */
+public class CalculateCollapseOnSpace extends WrapperOperation {
 	private List<Float> list;
 	
 	/**
@@ -65,7 +71,7 @@ public class CalculateCollapse extends WrapperOperation {
 	}
 	
 	/**
-	 * Calculates if there is enough space for a wrapper to unfold it.
+	 * Computes if there is enough space for a wrapper to unfold it.
 	 * 
 	 * @param wrapper
 	 *            the wrapper of which to determine if there is enough space to
