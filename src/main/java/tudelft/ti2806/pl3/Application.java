@@ -115,8 +115,9 @@ public class Application extends JFrame {
 
 			this.setFocusable(true);
 
-
-			System.out.println("Loadtime: " + (System.currentTimeMillis() - loadTime));
+			loadTime = System.currentTimeMillis() - loadTime;
+			System.out.println("Loadtime: " + loadTime);
+			System.out.println("Performance gain: " + ((63000 - loadTime) * 1f / 63000 * 100) + "%");
 		} catch (FileNotFoundException | FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph();
