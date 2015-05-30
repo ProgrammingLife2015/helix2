@@ -190,6 +190,12 @@ public class Application extends JFrame {
 		view.setVisible(true);
 	}
 
+	/**
+	 * Add the menubar view to the layout.
+	 *
+	 * @param view
+	 *            the menubar view panel
+	 */
 	public void setMenuBar(JMenuBar view) {
 		view.setBounds(0, 0, size.getWidth(), size.getMenubarHeight());
 		main.add(view, HIGHEST_LAYER);

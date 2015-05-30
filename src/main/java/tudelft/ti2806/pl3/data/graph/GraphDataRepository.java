@@ -47,7 +47,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		all {@link Genome} that are present in the graph
 	 */
 	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
-							   List<Genome> genomes) {
+			List<Genome> genomes) {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
@@ -91,8 +91,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
-	public void parseGraph(File nodesFile, File edgesFile, GeneData geneData)
-			throws FileNotFoundException {
+	public void parseGraph(File nodesFile, File edgesFile, GeneData geneData) throws FileNotFoundException {
 		notifyLoadingObservers(true);
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap, geneData);
@@ -119,9 +118,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
-	public Map<Integer, DataNode> parseNodes(File nodesFile,
-											 Map<String, Genome> genomeMap,
-											 GeneData geneData) throws FileNotFoundException {
+	public Map<Integer, DataNode> parseNodes(File nodesFile, Map<String, Genome> genomeMap,
+			GeneData geneData) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
@@ -141,10 +139,11 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 
 	/**
 	 * Adds gene reference labels to node.
+	 *
 	 * @param node
-	 * 				the node to which labels can be added
+	 * 		the node to which labels can be added
 	 * @param geneData
-	 * 				the gene annotation dataset
+	 * 		the gene annotation dataset
 	 */
 	protected static void addRefLabels(DataNode node, GeneData geneData) {
 		int start = node.getRefStartPoint();
@@ -167,7 +166,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 			}
 		}
 	}
-	
+
 	/**
 	 * Parses the next two lines of the scanner into a Node.
 	 *
@@ -176,7 +175,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @return the read node
 	 */
 	protected DataNode parseNode(BufferedReader br,
-								 Map<String, Genome> genomes) {
+			Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
 			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
@@ -197,7 +196,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	private Set<Genome> parseGenomeIdentifiers(String[] identifiers,
-											Map<String, Genome> genomes) {
+			Map<String, Genome> genomes) {
 		Set<Genome> result = new HashSet<>(identifiers.length);
 		for (int i = 0; i < identifiers.length; i++) {
 			identifiers[i] = identifiers[i].replaceAll("-", "_");
@@ -221,8 +220,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
-	public List<Edge> parseEdges(File edgesFile,
-								 Map<Integer, DataNode> nodes) throws FileNotFoundException {
+	public List<Edge> parseEdges(File edgesFile, Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(edgesFile))));
 		List<Edge> list = new ArrayList<Edge>();
