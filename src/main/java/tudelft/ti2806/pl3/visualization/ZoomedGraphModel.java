@@ -88,7 +88,7 @@ public class ZoomedGraphModel extends Observable implements Observer,
 	public void produceDataNodeWrapperList() {
 		notifyLoadingObservers(true);
 		int nodeCount = Math.min(MIN_NODE_COUNT * zoomLevel, filteredGraphModel
-				.getCalculateCollapse().getCollapses().size());
+				.getCalculateCollapse().getCollapses().size() - 1);
 		Unwrap unwrap = new UnwrapOnCollapse(filteredGraphModel
 				.getCalculateCollapse().getCollapses().get(nodeCount));
 		unwrap.compute(collapsedNode);

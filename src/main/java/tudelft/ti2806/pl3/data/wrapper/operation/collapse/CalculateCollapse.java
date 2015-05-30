@@ -33,22 +33,31 @@ public class CalculateCollapse extends WrapperOperation {
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addCollapse(getSpaceLeft(wrapper));
-		addToList(wrapper);
+		this.addToList(wrapper);
 	}
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addCollapse(getSpaceLeft(wrapper));
-		addToList(wrapper);
+		this.addToList(wrapper);
 	}
 	
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		addToList(wrapper);
+		this.addToList(wrapper);
 	}
 	
+	/**
+	 * Adds the collapsed value for the increase of shown nodes when the given
+	 * wrapper is unfolded.
+	 * 
+	 * @param wrapper
+	 *            the wrapper
+	 */
+	// Suppress warnings, false positive unused method.
+	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private void addToList(CombineWrapper wrapper) {
 		for (int i = wrapper.getNodeList().size(); i > 1; i--) {
 			list.add(wrapper.getCollapse());
