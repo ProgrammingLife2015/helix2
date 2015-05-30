@@ -30,7 +30,8 @@ public class AnnotationsTest {
 	@Before
 	public void setUp() throws Exception {
 		geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
-		gd = GraphDataRepository.parseGraph(simpleNodeGraphFile, simpleEdgeGraphFile, geneData);
+		gd = new GraphDataRepository();
+		gd.parseGraph(simpleNodeGraphFile, simpleEdgeGraphFile, geneData);
 	}
 
 	@After

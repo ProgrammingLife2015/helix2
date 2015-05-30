@@ -9,6 +9,7 @@ import org.junit.Test;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
+import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
@@ -21,6 +22,7 @@ import tudelft.ti2806.pl3.visualization.FilteredGraphModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +33,12 @@ public class FilteredGraphModelTest {
 	private final String genomeToFilter = "B";
 
 	@Before
-	public void before() throws FileNotFoundException {
+	public void before() throws IOException {
 		File nodesFile = new File("data/testdata/genomeFilter.node.graph");
 		File edgesFile = new File("data/testdata/genomeFilter.edge.graph");
+		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		GraphDataRepository graphDataRepository = new GraphDataRepository();
-		graphDataRepository.parseGraph(nodesFile, edgesFile);
+		graphDataRepository.parseGraph(nodesFile, edgesFile, geneData);
 		FilteredGraphModel filteredGraphModel = new FilteredGraphModel(graphDataRepository);
 
 		List<String> genomes = new ArrayList<>();

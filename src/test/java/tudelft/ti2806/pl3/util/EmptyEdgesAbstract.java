@@ -1,11 +1,13 @@
 package tudelft.ti2806.pl3.util;
 
+import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,11 +18,12 @@ public abstract class EmptyEdgesAbstract {
 	protected List<Wrapper> nodes;
 	protected WrappedGraphData wrappedGraphData;
 
-	public void loadWrappedGraphData(String file) throws FileNotFoundException {
+	public void loadWrappedGraphData(String file) throws IOException {
 		File nodesFile = new File("data/testdata/emptyEdges/" + file + ".node.graph");
 		File edgesFile = new File("data/testdata/emptyEdges/" + file + ".edge.graph");
+		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		GraphDataRepository graphDataRepository = new GraphDataRepository();
-		graphDataRepository.parseGraph(nodesFile, edgesFile);
+		graphDataRepository.parseGraph(nodesFile, edgesFile, geneData);
 		wrappedGraphData = new WrappedGraphData(graphDataRepository.getNodes(), graphDataRepository.getEdges());
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		nodes = wrappedGraphData.getPositionedNodes();

@@ -37,7 +37,7 @@ public class EdgeUtil {
 			}
 			List<Genome> genomes = new ArrayList<>(wrapper.getGenome());
 			List<Wrapper> outgoingList = new ArrayList<>(wrapper.getOutgoing());
-			outgoingList.sort(Comparator.<Wrapper> naturalOrder());
+			outgoingList.sort(Comparator.<Wrapper>naturalOrder());
 			List<Wrapper> removeList = new ArrayList<>();
 			for (Wrapper outgoing : outgoingList) {
 				if (genomes.size() == 0) {

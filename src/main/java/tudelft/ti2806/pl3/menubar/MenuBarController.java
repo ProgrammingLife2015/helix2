@@ -15,7 +15,7 @@ public class MenuBarController implements ActionListener, Controller {
 	private Application application;
 
 	/**
-	 * Constructs a new controller for {@link MenuBarView}
+	 * Constructs a new controller for {@link MenuBarView}.
 	 *
 	 * @param application
 	 * 		The main application which the action is performed in

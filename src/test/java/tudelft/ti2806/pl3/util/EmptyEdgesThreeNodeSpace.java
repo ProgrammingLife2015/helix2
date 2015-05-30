@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -13,7 +14,7 @@ import static junit.framework.Assert.assertEquals;
 public class EmptyEdgesThreeNodeSpace extends EmptyEdgesAbstract {
 
 	@Before
-	public void before() throws FileNotFoundException {
+	public void before() throws IOException {
 		this.loadWrappedGraphData("threeNodeSpace");
 	}
 

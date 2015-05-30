@@ -120,7 +120,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public Map<Integer, DataNode> parseNodes(File nodesFile,
-											 Map<String, Genome> genomeMap, GeneData geneData) throws FileNotFoundException {
+											 Map<String, Genome> genomeMap,
+											 GeneData geneData) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
