@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3;
 import newick.NewickParser;
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
+import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
@@ -20,6 +21,7 @@ import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
 
 import java.awt.Component;
+import java.awt.event.ComponentListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -110,7 +112,13 @@ public class Application extends JFrame {
 			graphView.getController().init();
 
 			KeyController keys = new KeyController(this);
+			ScrollListener scrollListener = new ScrollListener(this);
 			graphView.getPanel().addKeyListener(keys);
+			graphView.getPanel().addMouseWheelListener(scrollListener);
+
+			for (ComponentListener componentListener : graphView.getPanel().getComponentListeners()) {
+				System.out.println(componentListener);
+			}
 
 			this.setFocusable(true);
 		} catch (FileNotFoundException | FileSelectorException exception) {
