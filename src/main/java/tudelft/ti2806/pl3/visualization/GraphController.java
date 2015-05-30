@@ -87,4 +87,20 @@ public class GraphController implements Controller {
 	public long getCurrentZoomCenter() {
 		return graphView.getZoomCenter();
 	}
+
+	public double getCurrentGraphX() {
+		return graphView.getCurrentViewX();
+	}
+
+	public double getGraphSizeInGraphUnits() {
+		return graphView.getGraphSizeInGraphUnits();
+	}
+
+	public int getPanelWidth() {
+		return graphView.getPanel().getWidth();
+	}
+
+	public double getViewPercent() {
+		return graphView.getViewPercent();
+	}
 }

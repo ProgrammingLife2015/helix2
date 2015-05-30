@@ -26,8 +26,6 @@ public class KeyController implements KeyListener {
 	 *            that is controlled
 	 */
 	public KeyController(Application app) {
-		// remove the default keylistener
-
 		// add our keylistener
 		this.app = app;
 		graphController = app.getGraphController();
