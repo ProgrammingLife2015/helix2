@@ -36,6 +36,8 @@ public class DataNode {
 	 *            the end index on the genome
 	 * @param contentOfTheNode
 	 *            the size of this {@code Node}
+	 * @param labelList
+	 *            the list of labels to add
 	 */
 	public DataNode(int nodeId, Genome[] source, int refStartPoint,
 			int refEndPoint, byte[] contentOfTheNode, ArrayList<Label> labelList) {
@@ -58,6 +60,25 @@ public class DataNode {
 		} else {
 			this.labelList = labelList;
 		}
+	}
+
+	/**
+	 * Initialise a {@code SingleNode}.
+	 *
+	 * @param nodeId
+	 *            the id of the node
+	 * @param source
+	 *            the names of the genomes where this piece is comming from
+	 * @param refStartPoint
+	 *            the start index on the genome
+	 * @param refEndPoint
+	 *            the end index on the genome
+	 * @param contentOfTheNode
+	 *            the size of this {@code Node}
+	 */
+	public DataNode(int nodeId, Genome[] source, int refStartPoint,
+					int refEndPoint, byte[] contentOfTheNode) {
+		this(nodeId, source, refStartPoint, refEndPoint, contentOfTheNode, null);
 	}
 	
 	@Override

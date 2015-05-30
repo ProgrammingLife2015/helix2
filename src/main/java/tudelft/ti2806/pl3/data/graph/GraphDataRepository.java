@@ -158,7 +158,7 @@ public class GraphDataRepository extends AbstractGraphData {
 					parseGenomeIdentifiers(indexData[1].split(","), genomes),
 					Integer.parseInt(indexData[2]),
 					Integer.parseInt(indexData[3]),
-					BasePair.getBasePairString(br.readLine()), null);
+					BasePair.getBasePairString(br.readLine()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

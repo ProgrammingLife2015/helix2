@@ -31,7 +31,7 @@ public class GraphParserTest {
 				new HashMap<String, Genome>());
 		assertTrue(node.equals(new DataNode(35, new Genome[] { new Genome(
 				"TKK_01_0029") }, 2609451, 2609452,
-				new byte[] { BasePair.A.storeByte }, null)));
+				new byte[] { BasePair.A.storeByte })));
 	}
 	
 	@Test
