@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Tests the methods in the abstract class {@link Wrapper}.
+ * 
+ * @author Sam Smulders
+ */
 public class WrapperTest {
 	private TestWrapper wrapper;
 	

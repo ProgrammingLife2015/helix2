@@ -164,7 +164,6 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 			max = Math.min(wrapper.getPreviousNodesCount(), max);
 		}
 		this.previousNodesCount = max - 1;
-		System.out.println(this.previousNodesCount);
 	}
 	
 	/**
