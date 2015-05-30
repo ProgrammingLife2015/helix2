@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
-import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CollapseOnInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.UnwrapOnCollapse;
 
