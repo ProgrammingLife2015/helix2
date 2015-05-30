@@ -6,10 +6,16 @@ import java.util.List;
 
 public abstract class CombineWrapper extends Wrapper {
 	protected List<Wrapper> nodeList;
-	/**
-	 * True if the wrapper its containing nodes should not be shown.
-	 */
-	private boolean shouldUnfold;
+	
+	private float collapse = 0;
+	
+	public float getCollapse() {
+		return this.collapse;
+	}
+	
+	public void addCollapse(float value) {
+		this.collapse += value;
+	}
 	
 	/**
 	 * CombineWrapper is an abstract class which should not be constructed
@@ -17,7 +23,7 @@ public abstract class CombineWrapper extends Wrapper {
 	 * 
 	 * <p>
 	 * When a class extending this class is constructed, the given list should
-	 * fullfill the following conditions. <br>
+	 * full fill the following conditions. <br>
 	 * Preconditions:<br>
 	 * <ul>
 	 * <li>The list should be sorted on previousNodesCount, with the smallest
@@ -29,24 +35,9 @@ public abstract class CombineWrapper extends Wrapper {
 	 * 
 	 * @param nodeList
 	 *            a list of nodes
-	 * @param shouldUnfold
-	 *            indication whether this node should be unfolded or not
-	 */
-	public CombineWrapper(List<Wrapper> nodeList, boolean shouldUnfold) {
-		this.nodeList = nodeList;
-		this.shouldUnfold = shouldUnfold;
-	}
-	
-	/**
-	 * Construct and set shouldUnfold to false.
-	 * 
-	 * @see {@link CombineWrapper}(List<{@link Wrapper}>, boolean)
-	 * @param nodeList
-	 *            a list of nodes
 	 */
 	public CombineWrapper(List<Wrapper> nodeList) {
 		this.nodeList = nodeList;
-		this.shouldUnfold = false;
 	}
 	
 	public Wrapper getFirst() {
@@ -59,14 +50,6 @@ public abstract class CombineWrapper extends Wrapper {
 	
 	public List<Wrapper> getNodeList() {
 		return nodeList;
-	}
-	
-	public boolean shouldUnfold() {
-		return shouldUnfold;
-	}
-	
-	public void setShouldUnfold(boolean collapsed) {
-		this.shouldUnfold = collapsed;
 	}
 	
 	@Override

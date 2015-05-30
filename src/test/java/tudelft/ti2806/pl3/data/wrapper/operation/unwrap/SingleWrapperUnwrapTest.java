@@ -15,7 +15,6 @@ import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
-import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +24,9 @@ import java.util.List;
  * {@link tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper}.
  *
  * <p>
- * It creates two
- * {@link tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper}s in a
- * {@link tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper} to verify
- * that the wrappers are recursively unwrapped.
+ * It creates two {@link tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper}s in
+ * a {@link tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper} to verify that
+ * the wrappers are recursively unwrapped.
  * </p>
  * <p>
  * It thereby also verifies that the start of the graph is updated correctly.
@@ -48,8 +46,8 @@ public class SingleWrapperUnwrapTest {
 	private Unwrap unwrap;
 	
 	/**
-	 * Create four {@link tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper}
-	 * s and wrap these in two separate
+	 * Create four {@link tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper} s and
+	 * wrap these in two separate
 	 * {@link tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper}s.
 	 */
 	@Before
@@ -69,9 +67,10 @@ public class SingleWrapperUnwrapTest {
 		singleWrapper.getOutgoing().add(nodePosition3);
 		singleWrapper.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(singleWrapper);
-		HorizontalWrapper start = new HorizontalWrapper(list, true);
+		HorizontalWrapper start = new HorizontalWrapper(list);
 		
-		unwrap = new Unwrap(start);
+		unwrap = new UnwrapTest();
+		unwrap.compute(start);
 	}
 	
 	/**
@@ -83,8 +82,7 @@ public class SingleWrapperUnwrapTest {
 		assertTrue(left instanceof WrapperClone);
 		assertEquals(0, left.getIncoming().size());
 		assertEquals(1, left.getOutgoing().size());
-		assertTrue(((WrapperClone) left).getDataNodeList().contains(
-				dataNode1));
+		assertTrue(((WrapperClone) left).getDataNodeList().contains(dataNode1));
 	}
 	
 	/**
@@ -130,8 +128,7 @@ public class SingleWrapperUnwrapTest {
 	
 	/**
 	 * Verify that no more
-	 * {@link tudelft.ti2806.pl3.data.wrapper.WrapperPlaceholder}s are
-	 * left.
+	 * {@link tudelft.ti2806.pl3.data.wrapper.WrapperPlaceholder}s are left.
 	 */
 	@Test
 	public void testNoMorePlaceholders() {

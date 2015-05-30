@@ -8,6 +8,7 @@ import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapse;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateSizeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
@@ -45,6 +46,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 	//private CalculateGroupInterest groupInterest;
 
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private CalculateCollapse calculateCollapse;
 
 	/**
 	 * Construct the model containing the filtered data.<br>
@@ -61,6 +63,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 //		pressureInterest = new CalculateWrapPressureInterest(pressureMultiplier);
 //		addMaxOfWrapped = new CalculateAddMaxOfWrapped();
 		sizeInterest = new CalculateSizeInterest();
+		calculateCollapse = new CalculateCollapse();
 	}
 
 	public void setFilters(Collection<Filter<DataNode>> filters) {
@@ -86,7 +89,8 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
-		sizeInterest.calculate(collapsedNode, null);
+//		sizeInterest.calculate(collapsedNode, null);
+		calculateCollapse.compute(collapsedNode);
 		setChanged();
 		notifyObservers();
 		notifyLoadingObservers(false);
@@ -161,5 +165,9 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			loadingObserver.update(this, arguments);
 		}
+	}
+
+	public CalculateCollapse getCalculateCollapse() {
+		return calculateCollapse;
 	}
 }
