@@ -1,0 +1,3 @@
+#bin	name	chrom	strand	txStart	txEnd	cdsStart	cdsEnd	exonCount	exonStarts	exonEnds	score	name2	cdsStartStat	cdsEndStat	exonFrames
+585	Corndogp001	chr	-	2609323	2609461	2609323	2609461	1	2609323,	2609461,	1	none	cmpl	cmpl	0,
+585	Corndogp002	chr	-	2609451	2609453	2609451	2609453	1	2609451,	2609453,	2	none	cmpl	cmpl	0,

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.gene.GeneData;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -41,9 +42,8 @@ public class GraphParserTest {
 	public void parseEdgeAndNodeTest() throws FileNotFoundException {
 		GraphDataRepository gd = new GraphDataRepository();
 		Map<Integer, DataNode> nodeMap = gd.parseNodes(
-				simpleNodeGraphFile, new HashMap<>());
-		List<Edge> edges = gd.parseEdges(simpleEdgeGraphFile,
-				nodeMap);
+				simpleNodeGraphFile, new HashMap<>(), null);
+		List<Edge> edges = gd.parseEdges(simpleEdgeGraphFile, nodeMap);
 
 		DataNode nodeA = nodeMap.get(35);
 		DataNode nodeB = nodeMap.get(1);

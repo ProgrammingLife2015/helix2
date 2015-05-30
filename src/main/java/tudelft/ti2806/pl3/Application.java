@@ -4,6 +4,7 @@ import newick.NewickParser;
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.WindowController;
+import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
@@ -93,10 +94,11 @@ public class Application extends JFrame {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+			GeneData geneData = GeneData.parseGenes("data/geneAnnotationsRef");
 
 			GraphDataRepository gd = new GraphDataRepository();
 			gd.addLoadingObserversList(loadingObservers);
-			gd.parseGraph(nodeFile, edgeFile);
+			gd.parseGraph(nodeFile, edgeFile, geneData);
 
 
 			graphView = new GraphView(gd, loadingObservers);
@@ -115,6 +117,8 @@ public class Application extends JFrame {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

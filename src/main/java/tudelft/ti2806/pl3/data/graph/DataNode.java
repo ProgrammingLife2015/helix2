@@ -1,7 +1,9 @@
 package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.label.Label;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +22,8 @@ public class DataNode {
 	protected final int refStartPoint;
 	protected final int refEndPoint;
 	protected final byte[] content;
+
+	protected ArrayList<Label> labelList;
 	
 	/**
 	 * Initialise a {@code SingleNode}.
@@ -27,16 +31,18 @@ public class DataNode {
 	 * @param nodeId
 	 *            the id of the node
 	 * @param source
-	 *            the names of the genomes where this piece is comming from
+	 *            the names of the genomes where this piece is coming from
 	 * @param refStartPoint
 	 *            the start index on the genome
 	 * @param refEndPoint
 	 *            the end index on the genome
 	 * @param contentOfTheNode
 	 *            the size of this {@code Node}
+	 * @param labelList
+	 *            the list of labels to add
 	 */
 	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
-			int refEndPoint, byte[] contentOfTheNode) {
+			int refEndPoint, byte[] contentOfTheNode, ArrayList<Label> labelList) {
 		this.nodeId = nodeId;
 		if (source == null) {
 			// TODO: Bad data, throw exception
@@ -53,15 +59,38 @@ public class DataNode {
 		} else {
 			this.content = contentOfTheNode.clone();
 		}
+		if (labelList == null) {
+			this.labelList = new ArrayList<>();
+		} else {
+			this.labelList = labelList;
+		}
+	}
+
+	/**
+	 * Initialise a {@code SingleNode}.
+	 *
+	 * @param nodeId
+	 *            the id of the node
+	 * @param source
+	 *            the names of the genomes where this piece is coming from
+	 * @param refStartPoint
+	 *            the start index on the genome
+	 * @param refEndPoint
+	 *            the end index on the genome
+	 * @param contentOfTheNode
+	 *            the size of this {@code Node}
+	 */
+	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
+					int refEndPoint, byte[] contentOfTheNode) {
+		this(nodeId, source, refStartPoint, refEndPoint, contentOfTheNode, null);
 	}
 	
 	@Override
 	public String toString() {
 		return "SingleNode [nodeId=" + nodeId + ", source="
-				+ source + ", currentGenomeList=" +  currentGenomeList + ", "
-				+ "refStartPoint=" + refStartPoint
-				+ ", refEndPoint=" + refEndPoint + ", content.lenght="
-				+ content.length + "]";
+				+ source.toString() + ", refStartPoint=" + refStartPoint
+				+ ", refEndPoint=" + refEndPoint + ", content.length="
+				+ content.length + ", labelList.size=" + labelList.size() + "]";
 	}
 	
 	@Override
@@ -73,6 +102,7 @@ public class DataNode {
 		result = prime * result + refEndPoint;
 		result = prime * result + refStartPoint;
 		result = prime * result + source.hashCode();
+		result = prime * result + labelList.hashCode();
 		return result;
 	}
 	
@@ -103,7 +133,14 @@ public class DataNode {
 		if (!source.equals(other.source)) {
 			return false;
 		}
+		if (!((DataNode) obj).labelList.equals(labelList)) {
+			return false;
+		}
 		return true;
+	}
+
+	public void addLabel(Label l) {
+		labelList.add(l);
 	}
 	
 	public int getId() {
@@ -132,5 +169,9 @@ public class DataNode {
 
 	public void setCurrentGenomeList(Set<Genome> currentGenomeList) {
 		this.currentGenomeList = currentGenomeList;
+	}
+
+	public ArrayList<Label> getLabelList() {
+		return labelList;
 	}
 }

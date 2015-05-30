@@ -4,6 +4,11 @@ import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.gene.Gene;
+import tudelft.ti2806.pl3.data.gene.GeneData;
+import tudelft.ti2806.pl3.data.label.EndGeneLabel;
+import tudelft.ti2806.pl3.data.label.GeneLabel;
+import tudelft.ti2806.pl3.data.label.StartGeneLabel;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -86,11 +91,11 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
-	public void parseGraph(File nodesFile, File edgesFile)
+	public void parseGraph(File nodesFile, File edgesFile, GeneData geneData)
 			throws FileNotFoundException {
 		notifyLoadingObservers(true);
 		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
-		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap);
+		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap, geneData);
 		List<DataNode> nodeList = new ArrayList<DataNode>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<>();
@@ -115,13 +120,16 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public Map<Integer, DataNode> parseNodes(File nodesFile,
-											 Map<String, Genome> genomeMap) throws FileNotFoundException {
+											 Map<String, Genome> genomeMap, GeneData geneData) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(nodesFile))));
 		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
 		try {
 			while (br.ready()) {
 				DataNode node = parseNode(br, genomeMap);
+				if (geneData != null) {
+					addRefLabels(node, geneData);
+				}
 				nodes.put(node.getId(), node);
 			}
 		} catch (IOException e) {
@@ -130,6 +138,35 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		return nodes;
 	}
 
+	/**
+	 * Adds gene reference labels to node.
+	 * @param node
+	 * 				the node to which labels can be added
+	 * @param geneData
+	 * 				the gene annotation dataset
+	 */
+	protected static void addRefLabels(DataNode node, GeneData geneData) {
+		int start = node.getRefStartPoint();
+		int end = node.getRefEndPoint();
+		Gene g = null;
+
+		boolean started = false;
+		for (int i = start; i <= end; i++) {
+			if (started) {
+				if (g != null) {
+					node.addLabel(new GeneLabel(g.getName()));
+				}
+			} else if (geneData.getGeneStart().containsKey(i)) {
+				g = geneData.getGeneStart().get(i);
+				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
+				started = true;
+			} else if (geneData.getGeneEnd().containsKey(i)) {
+				g = geneData.getGeneEnd().get(i);
+				node.addLabel(new EndGeneLabel(g.getName(), g.getEnd()));
+			}
+		}
+	}
+	
 	/**
 	 * Parses the next two lines of the scanner into a Node.
 	 *
