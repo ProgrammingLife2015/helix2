@@ -17,14 +17,14 @@ import java.util.Set;
 @SuppressWarnings("EQ_COMPARETO_USE_OBJECT_EQUALS")
 public abstract class Wrapper implements Comparable<Wrapper> {
 	
-	protected float y;
-	protected float x;
+	float y;
+	float x;
 	
-	protected List<Wrapper> incoming = new ArrayList<>();
-	protected List<Wrapper> outgoing = new ArrayList<>();
+	List<Wrapper> incoming = new ArrayList<>();
+	List<Wrapper> outgoing = new ArrayList<>();
 	
-	private int previousNodesCount = -1;
-	private int interest = 0;
+	int previousNodesCount = -1;
+	int interest = 0;
 	
 	/**
 	 * @return the maximum number of base pairs that can be passed when
@@ -85,10 +85,6 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	@Override
 	public int compareTo(Wrapper other) {
 		return this.previousNodesCount - other.previousNodesCount;
-	}
-	
-	public void resetPreviousNodesCount() {
-		this.previousNodesCount = -1;
 	}
 	
 	public abstract void collectDataNodes(List<DataNode> list);
@@ -163,14 +159,12 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	 * Shifts the previous node count as far to the right as possible.
 	 */
 	private void shiftPreviousNodeCount() {
-		if (this.incoming.size() == 0) {
-			return;
-		}
-		int min = Integer.MAX_VALUE;
+		int max = Integer.MAX_VALUE;
 		for (Wrapper wrapper : this.outgoing) {
-			min = Math.min(wrapper.getPreviousNodesCount(), min);
+			max = Math.min(wrapper.getPreviousNodesCount(), max);
 		}
-		this.previousNodesCount = min - 1;
+		this.previousNodesCount = max - 1;
+		System.out.println(this.previousNodesCount);
 	}
 	
 	/**
