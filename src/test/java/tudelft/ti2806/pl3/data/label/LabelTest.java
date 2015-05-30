@@ -16,7 +16,7 @@ public class LabelTest {
 	@Test
 	public void constructorTest() {
 		GeneLabel geneLabel = new GeneLabel(null);
-		assertTrue(geneLabel.getText().equals(null));
+		assertTrue(geneLabel.getText().equals(""));
 	}
 
 	/**
@@ -115,6 +115,9 @@ public class LabelTest {
 		assertFalse(endGeneLabel1.hashCode() == endGeneLabel2.hashCode());
 	}
 
+	/**
+	 * Test the name getter & setter
+	 */
 	@Test
 	public void nameTest() {
 		GeneLabel geneLabel1 = new GeneLabel("Gene1");
@@ -125,6 +128,9 @@ public class LabelTest {
 		assertFalse(geneLabel1.getText().equals("Gene1"));
 	}
 
+	/**
+	 * Test the reference getter
+	 */
 	@Test
 	public void refTest() {
 		StartGeneLabel startGeneLabel1 = new StartGeneLabel("Gene2", 10);
