@@ -23,7 +23,7 @@ public abstract class CombineWrapper extends Wrapper {
 	 * 
 	 * <p>
 	 * When a class extending this class is constructed, the given list should
-	 * full fill the following conditions. <br>
+	 * fulfil the following conditions. <br>
 	 * Preconditions:<br>
 	 * <ul>
 	 * <li>The list should be sorted on previousNodesCount, with the smallest
