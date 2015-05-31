@@ -60,8 +60,8 @@ public class FilteredGraphModelTest {
 	@Test
 	public void testContents() {
 		for (DataNode node : resultNodes) {
-			assertEquals(1, node.getCurrentGenomeList().size());
-			Genome genome = (Genome) node.getCurrentGenomeList().toArray()[0];
+			assertEquals(1, node.getCurrentGenomeSet().size());
+			Genome genome = (Genome) node.getCurrentGenomeSet().toArray()[0];
 			assertTrue(genome.getIdentifier().equals(genomeToFilter));
 		}
 	}

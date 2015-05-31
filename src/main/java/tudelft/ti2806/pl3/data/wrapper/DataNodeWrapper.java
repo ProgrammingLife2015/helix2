@@ -68,12 +68,12 @@ public class DataNodeWrapper extends Wrapper {
 	
 	@Override
 	public String getIdString() {
-		return node.getId() + "";
+		return Integer.toString(node.getId());
 	}
 	
 	@Override
 	public Set<Genome> getGenome() {
-		return node.getCurrentGenomeList();
+		return node.getCurrentGenomeSet();
 	}
 	
 	@Override
@@ -85,12 +85,12 @@ public class DataNodeWrapper extends Wrapper {
 	public void collectDataNodes(List<DataNode> list) {
 		list.add(node);
 	}
-
+	
 	@Override
 	public void calculateX() {
 		this.x = this.getPreviousNodesCount();
 	}
-
+	
 	@Override
 	public int getWidth() {
 		return 1;

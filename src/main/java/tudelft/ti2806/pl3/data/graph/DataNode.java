@@ -163,7 +163,7 @@ public class DataNode {
 		return content.length;
 	}
 
-	public Set<Genome> getCurrentGenomeList() {
+	public Set<Genome> getCurrentGenomeSet() {
 		return currentGenomeList;
 	}
 
