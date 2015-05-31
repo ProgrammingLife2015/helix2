@@ -8,14 +8,24 @@ import java.util.List;
 import java.util.Set;
 
 class TestWrapper extends Wrapper {
+	private int basePairCount;
+	
+	public TestWrapper(int basePairCount) {
+		this.basePairCount = basePairCount;
+	}
+	
+	public TestWrapper() {
+		this(0);
+	}
+	
 	@Override
 	public long getBasePairCount() {
-		return 0;
+		return basePairCount;
 	}
 	
 	@Override
 	public int getWidth() {
-		return 0;
+		return 1;
 	}
 	
 	@Override
