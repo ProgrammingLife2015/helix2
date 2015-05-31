@@ -16,6 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Tests for {@link SpaceWrapper}.
+ * 
+ * @author Sam Smulders
+ */
 public class SpaceWrapperTest {
 	@Test
 	public void getterTests() {
