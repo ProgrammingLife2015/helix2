@@ -17,6 +17,11 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests for the {@link SingleWrapper}.
+ * 
+ * @author Sam Smmmulders
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class SingleWrapperTest {
 	@Test

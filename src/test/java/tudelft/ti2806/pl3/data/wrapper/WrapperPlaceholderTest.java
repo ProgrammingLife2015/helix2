@@ -19,14 +19,14 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import java.util.List;
 
 /**
- * Tests for the WrapperPlaceholder.
+ * Tests for the {@link WrapperPlaceholder}.
  * 
  * @author Sam Smulders
  */
 @RunWith(MockitoJUnitRunner.class)
 public class WrapperPlaceholderTest {
 	@Test
-	public void getTests() {
+	public void getterTests() {
 		Wrapper placeholder = new WrapperPlaceholder();
 		assertEquals(0, placeholder.getBasePairCount(), 0);
 		assertTrue(WrapperPlaceholder.ID_STRING == placeholder.getIdString());
