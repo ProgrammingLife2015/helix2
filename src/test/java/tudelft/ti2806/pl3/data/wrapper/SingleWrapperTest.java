@@ -3,12 +3,12 @@ package tudelft.ti2806.pl3.data.wrapper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import tudelft.ti2806.pl3.data.graph.DataNode;
@@ -56,15 +56,13 @@ public class SingleWrapperTest {
 		assertEquals(list1, list2);
 	}
 	
-	@Mock
-	WrapperOperation operation;
-	
 	@Test
 	public void operationTest() {
 		operationTest(new SingleWrapper(new TestWrapper()), null);
 	}
 	
 	private void operationTest(SingleWrapper wrapper, Wrapper container) {
+		WrapperOperation operation = mock(WrapperOperation.class);
 		wrapper.calculate(operation, container);
 		verify(operation, times(1)).calculate(wrapper, container);
 	}
