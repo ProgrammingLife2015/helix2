@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.data.wrapper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,29 +13,29 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+/**
+ * Tests for the WrapperPlaceholder.
+ * 
+ * @author Sam Smulders
+ */
 @RunWith(MockitoJUnitRunner.class)
-public class FixWrapperTest {
+public class WrapperPlaceholderTest {
 	@Test
 	public void getTests() {
-		FixWrapper fixWrapper = new FixWrapper();
-		assertEquals(0, fixWrapper.getBasePairCount());
-		assertEquals(0, fixWrapper.getWidth());
-		assertEquals(FixWrapper.ID_STRING, fixWrapper.getIdString());
-		assertNull(fixWrapper.getGenome());
-		Set<Genome> genome = new HashSet<Genome>();
-		genome.add(new Genome(""));
-		fixWrapper.setGenome(genome);
-		assertEquals(genome, fixWrapper.getGenome());
-		fixWrapper.calculateX();
-		assertEquals(fixWrapper.previousNodesCount, fixWrapper.getX(), 0);
+		Wrapper placeholder = new WrapperPlaceholder();
+		assertEquals(0, placeholder.getBasePairCount(), 0);
+		assertTrue(WrapperPlaceholder.ID_STRING == placeholder.getIdString());
+		assertNull(placeholder.getGenome());
+		assertEquals(0, placeholder.getX(), 0);
+		placeholder.x = 1;
+		placeholder.calculateX();
+		assertEquals(1, placeholder.getX(), 0);
+		assertEquals(0, placeholder.getWidth());
 	}
 	
 	@Mock
@@ -42,17 +43,17 @@ public class FixWrapperTest {
 	
 	@Test
 	public void collectDataNodesTest() {
-		FixWrapper wrapper = new FixWrapper();
+		WrapperPlaceholder wrapper = new WrapperPlaceholder();
 		wrapper.collectDataNodes(list);
 		Mockito.verifyZeroInteractions(list);
 	}
 	
 	@Test
 	public void operationTest() {
-		operationTest(new FixWrapper(), null);
+		operationTest(new WrapperPlaceholder(), null);
 	}
 	
-	private void operationTest(FixWrapper wrapper, Wrapper container) {
+	private void operationTest(WrapperPlaceholder wrapper, Wrapper container) {
 		WrapperOperation operation = mock(WrapperOperation.class);
 		wrapper.calculate(operation, container);
 		verify(operation, times(1)).calculate(wrapper, container);
