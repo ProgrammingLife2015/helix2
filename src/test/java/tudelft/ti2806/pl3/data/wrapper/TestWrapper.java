@@ -12,9 +12,11 @@ class TestWrapper extends Wrapper {
 	private int basePairCount;
 	private HashSet<Genome> genomeSet = new HashSet<>();
 	
-	public TestWrapper(int basePairCount, Genome genome) {
+	public TestWrapper(int basePairCount, Genome... genomes) {
 		this.basePairCount = basePairCount;
-		this.genomeSet.add(genome);
+		for (Genome genome : genomes) {
+			this.genomeSet.add(genome);
+		}
 	}
 	
 	public TestWrapper(int basePairCount) {
