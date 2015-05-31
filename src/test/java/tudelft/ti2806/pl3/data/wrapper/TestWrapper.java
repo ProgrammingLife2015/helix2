@@ -4,11 +4,18 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 class TestWrapper extends Wrapper {
 	private int basePairCount;
+	private HashSet<Genome> genomeSet = new HashSet<>();
+	
+	public TestWrapper(int basePairCount, Genome genome) {
+		this.basePairCount = basePairCount;
+		this.genomeSet.add(genome);
+	}
 	
 	public TestWrapper(int basePairCount) {
 		this.basePairCount = basePairCount;
@@ -39,7 +46,7 @@ class TestWrapper extends Wrapper {
 	
 	@Override
 	public Set<Genome> getGenome() {
-		return null;
+		return genomeSet;
 	}
 	
 	@Override
