@@ -12,7 +12,11 @@ public class SingleWrapper extends Wrapper {
 	private Wrapper target;
 	
 	public SingleWrapper(Wrapper target) {
-		this.target = target instanceof SingleWrapper ? ((SingleWrapper) target).getNode() : target;
+		if (target.getClass() == SingleWrapper.class) {
+			this.target = ((SingleWrapper) target).getNode();
+		} else {
+			this.target = target;
+		}
 	}
 	
 	@Override
@@ -48,7 +52,7 @@ public class SingleWrapper extends Wrapper {
 	public void calculateX() {
 		this.x = this.getNode().getX();
 	}
-
+	
 	@Override
 	public int getWidth() {
 		return this.getNode().getWidth();
