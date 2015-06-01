@@ -7,6 +7,7 @@ import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -67,8 +68,12 @@ public class PhyloController implements Controller,ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		graphController.addFilter("genome", new GenomeFilter(view.getSelected()));
-		view.resetSelected();
+		System.out.println(view.getSelected());
+		List<String> selected = view.getSelected();
+		if (selected.size() != 0) {
+			graphController.addFilter("genome", new GenomeFilter(selected));
+			view.resetSelected();
+		}
 	}
 
 	/**
