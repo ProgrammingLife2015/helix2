@@ -31,7 +31,7 @@ public class PhyloController implements Controller,ActionListener {
 	 */
 	public DefaultMutableTreeNode parseTree(NewickParser.TreeNode tree) {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(
-				"Phylogentic tree");
+				"Phylogenetic tree");
 		parseChilds(tree, root);
 
 		return root;
