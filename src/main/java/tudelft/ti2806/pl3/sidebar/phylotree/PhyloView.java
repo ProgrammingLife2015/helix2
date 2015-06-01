@@ -27,7 +27,7 @@ import javax.swing.tree.TreeSelectionModel;
 /**
  * Phyloview is a view for the phylogenetic file. The user can select multiple
  * genomes or common ancestors.
- * 
+ *
  * <p>
  * Created by Kasper on 20-5-2015.
  */
@@ -111,18 +111,19 @@ public class PhyloView extends JPanel implements View {
 		jTree.getSelectionModel().addTreeSelectionListener(
 				new TreeSelectionListener() {
 					@Override
-					public void valueChanged(
-							TreeSelectionEvent treeSelectionEvent) {
+					public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
 						TreePath[] treePath = jTree.getSelectionPaths();
-						for (TreePath path : treePath) {
-							DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
-									.getLastPathComponent();
-							String selectName = select.toString();
-							if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
-									|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
-								selected.addAll(getChildsOfAncestor(select));
-							} else {
-								selected.add(select.toString());
+						if (treePath != null) {
+							for (TreePath path : treePath) {
+								DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
+										.getLastPathComponent();
+								String selectName = select.toString();
+								if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
+										|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
+									selected.addAll(getChildsOfAncestor(select));
+								} else {
+									selected.add(select.toString());
+								}
 							}
 						}
 					}
