@@ -68,7 +68,6 @@ public class PhyloController implements Controller,ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println(view.getSelected());
 		List<String> selected = view.getSelected();
 		if (selected.size() != 0) {
 			graphController.addFilter("genome", new GenomeFilter(selected));
