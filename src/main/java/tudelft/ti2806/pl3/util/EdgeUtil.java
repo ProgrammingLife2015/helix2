@@ -8,7 +8,9 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An utility class to find and/or remove dead edges from a {@link GraphData}
@@ -79,10 +81,14 @@ public class EdgeUtil {
 	 */
 	public static List<Edge> getAllDeadEdges(List<Edge> edgeList,
 			List<DataNode> nodeList) {
-		List<Edge> removeList = new ArrayList<Edge>();
+		List<Edge> removeList = new ArrayList<>();
+		Map<Integer, DataNode> nodeMap = new HashMap<>(nodeList.size());
+		for (DataNode node : nodeList) {
+			nodeMap.put(node.getId(), node);
+		}
 		for (Edge edge : edgeList) {
-			if (!nodeList.contains(edge.getFrom())
-					|| !nodeList.contains(edge.getTo())) {
+			if (!nodeMap.containsKey(edge.getFrom().getId())
+					|| !nodeMap.containsKey(edge.getTo().getId())) {
 				removeList.add(edge);
 			}
 		}
