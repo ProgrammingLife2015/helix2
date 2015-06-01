@@ -76,7 +76,7 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			long oldViewCenter = graphController.getCurrentZoomCenter();
+			float oldViewCenter = graphController.getCurrentZoomCenter();
 			double move = (app.getWidth() / MOVE_FACTOR)
 					/ graphController.getCurrentZoomLevel();
 			long newViewCenter = (long)(oldViewCenter + move);
@@ -84,7 +84,7 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			long oldViewCenter = graphController.getCurrentZoomCenter();
+			float oldViewCenter = graphController.getCurrentZoomCenter();
 			double move = (app.getWidth() / MOVE_FACTOR)
 					/ graphController.getCurrentZoomLevel();
 			long newViewCenter = (long)(oldViewCenter - move);

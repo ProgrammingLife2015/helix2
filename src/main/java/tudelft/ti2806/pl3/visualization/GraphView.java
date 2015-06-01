@@ -3,10 +3,12 @@ package tudelft.ti2806.pl3.visualization;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.Camera;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
+import org.graphstream.ui.swingViewer.util.GraphMetrics;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
@@ -43,7 +45,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * The center position of the view.<br>
 	 * The position on the x axis.
 	 */
-	private long zoomCenter = 1;
+	private float zoomCenter = 1;
 
 	/**
 	 * The css style sheet used drawing the graph.<br>
@@ -103,7 +105,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		notifyLoadingObservers(true);
 		generateViewer();
 		// TODO: don't hardcode
-		setZoomCenter(600);
+		//setZoomCenter(600);
 		notifyLoadingObservers(false);
 	}
 
@@ -236,6 +238,11 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		return x;
 	}
 
+	public double getZoomCenterX() {
+		GraphMetrics converter = viewer.getDefaultView().getCamera().getMetrics();
+		return converter.lengthToPx(viewer.getDefaultView().getCamera().getViewCenter().x, StyleConstants.Units.GU);
+	}
+
 	/**
 	 * Gives the size in Graph Units that is calculate by the GraphStream {@link Viewer}.
 	 * @return double size in GU
@@ -254,7 +261,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 
 
 
-	public long getZoomCenter() {
+	public float getZoomCenter() {
 		return zoomCenter;
 	}
 
@@ -264,7 +271,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * @param zoomCenter
 	 *            the new center of view
 	 */
-	public void setZoomCenter(long zoomCenter) {
+	public void setZoomCenter(float zoomCenter) {
 		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
