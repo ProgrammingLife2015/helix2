@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,7 +33,7 @@ public class WrapperPlaceholder extends Wrapper {
 	}
 	
 	@Override
-	public void collectDataNodes(List<DataNode> list) {
+	public void collectDataNodes(Set<DataNode> set) {
 	}
 	
 	@Override
