@@ -96,7 +96,7 @@ public class Application extends JFrame {
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 			GeneData geneData = GeneData.parseGenes("data/geneAnnotationsRef");
 
-			long loadTime = System.currentTimeMillis();
+			final long startTime = System.currentTimeMillis();
 
 			GraphDataRepository gd = new GraphDataRepository();
 			gd.addLoadingObserversList(loadingObservers);
@@ -115,7 +115,7 @@ public class Application extends JFrame {
 
 			this.setFocusable(true);
 
-			loadTime = System.currentTimeMillis() - loadTime;
+			long loadTime = System.currentTimeMillis() - startTime;
 			System.out.println("Loadtime: " + loadTime);
 			System.out.println("Performance gain: " + ((63000 - loadTime) * 1f / 63000 * 100) + "%");
 		} catch (FileNotFoundException | FileSelectorException exception) {
