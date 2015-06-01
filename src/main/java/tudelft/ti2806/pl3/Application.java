@@ -117,7 +117,6 @@ public class Application extends JFrame {
 
 			long loadTime = System.currentTimeMillis() - startTime;
 			System.out.println("Loadtime: " + loadTime);
-			System.out.println("Performance gain: " + ((63000 - loadTime) * 1f / 63000 * 100) + "%");
 		} catch (FileNotFoundException | FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph();
