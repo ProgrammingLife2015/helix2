@@ -115,7 +115,8 @@ public class PhyloView extends JPanel implements View {
 							DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
 									.getLastPathComponent();
 							String selectName = select.toString();
-							if (selectName.equals("Common ancestor") || selectName.equals("Phylogenetic tree")) {
+							if (selectName.equals("Common ancestor")
+									|| selectName.equals("Phylogenetic tree")) {
 								selected.addAll(getChildsOfAncestor(select));
 							} else {
 								selected.add(select.toString());
