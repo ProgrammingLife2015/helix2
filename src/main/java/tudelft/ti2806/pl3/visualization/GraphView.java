@@ -185,6 +185,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * @param to
 	 * 		the node where the edge ends
 	 */
+	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
 		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
 	}
