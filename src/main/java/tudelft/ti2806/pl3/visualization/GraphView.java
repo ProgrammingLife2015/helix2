@@ -14,7 +14,6 @@ import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
-import java.awt.KeyboardFocusManager;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
