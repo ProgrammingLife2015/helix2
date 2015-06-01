@@ -34,8 +34,8 @@ import java.util.Set;
  *
  */
 public class SpaceWrapper extends CombineWrapper {
-	private long basePairCount = -1;
-	private int width = -1;
+	long basePairCount = -1;
+	int width = -1;
 	
 	/**
 	 * Construct an instance of {@link SpaceWrapper}.

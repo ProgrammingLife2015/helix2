@@ -11,37 +11,39 @@ import java.util.Set;
  * Created by Boris Mattijssen on 18-05-15.
  */
 public class WrapperPlaceholder extends Wrapper {
+	static final String ID_STRING = "[PLACEHOLDER]";
+	
 	@Override
 	public long getBasePairCount() {
 		return 0;
 	}
-
+	
 	@Override
 	public String getIdString() {
-		return null;
+		return ID_STRING;
 	}
-
+	
 	@Override
 	public Set<Genome> getGenome() {
 		return null;
 	}
-
+	
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
-
+	
 	@Override
 	public void collectDataNodes(List<DataNode> list) {
 	}
-
+	
 	@Override
 	public void calculateX() {
 	}
-
+	
 	@Override
 	public int getWidth() {
 		return 0;
 	}
-
+	
 }
