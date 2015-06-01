@@ -3,7 +3,6 @@ package tudelft.ti2806.pl3.controls;
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
-import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -31,7 +30,6 @@ public class KeyController implements KeyListener {
 
 		// add our keylistener
 		this.app = app;
-		graphController = app.getGraphController();
 	}
 
 	/**
@@ -62,7 +60,6 @@ public class KeyController implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent event) {
-		System.out.println("Keycontroller: " + KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner());
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			app.stop();
 		}
@@ -72,27 +69,27 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			graphController.zoomLevelDown();
+			app.getGraphController().zoomLevelDown();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
-			graphController.zoomLevelUp();
+			app.getGraphController().zoomLevelUp();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 			double oldViewCenter = graphController.getCurrentZoomCenter();
 			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
+					/ app.getGraphController().getCurrentZoomLevel();
 			double newViewCenter = oldViewCenter + move;
-			graphController.moveView(newViewCenter);
+			app.getGraphController().moveView(newViewCenter);
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 			double oldViewCenter = graphController.getCurrentZoomCenter();
 			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
+					/ app.getGraphController().getCurrentZoomLevel();
 			double newViewCenter = oldViewCenter - move;
-			graphController.moveView(newViewCenter);
+			app.getGraphController().moveView(newViewCenter);
 		}
 	}
 	

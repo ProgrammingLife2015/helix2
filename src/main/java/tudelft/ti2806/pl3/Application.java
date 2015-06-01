@@ -47,6 +47,7 @@ public class Application extends JFrame {
 	private JLayeredPane main;
 	private ScreenSize size;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private KeyController keys;
 
 
 	/**
@@ -65,6 +66,7 @@ public class Application extends JFrame {
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		keys = new KeyController(this);
 
 		main = getLayeredPane();
 		this.make();
@@ -115,7 +117,6 @@ public class Application extends JFrame {
 
 			graphView.getController().init();
 
-			KeyController keys = new KeyController(this);
 			graphView.getPanel().addKeyListener(keys);
 
 			this.setFocusable(true);
@@ -145,7 +146,7 @@ public class Application extends JFrame {
 			sideBarView.addToSideBarView(phyloView.getPanel());
 			setSideBarView(sideBarView.getPanel());
 
-			KeyController keys = new KeyController(this);
+
 			sideBarView.getPanel().addKeyListener(keys);
 
 		} catch (FileSelectorException exception) {
