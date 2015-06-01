@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
+ * This controller controls the view that lets you select a gene from a list, and will navigate you to it in the graph.
  * Created by Boris Mattijssen on 30-05-15.
  */
 public class FindgenesController {
@@ -20,6 +21,14 @@ public class FindgenesController {
 	private Object previousSelected;
 	private JFrame frame;
 
+	/**
+	 * Construct the controller and instantiate the view.
+	 *
+	 * @param graphData
+	 * 		Contains the gene data
+	 * @param graphController
+	 * 		Needed to navigate in the graph
+	 */
 	public FindgenesController(AbstractGraphData graphData, GraphController graphController) {
 		findgenesView = new FindgenesView(graphData.getGenes().toArray(new Gene[graphData.getGenes().size()]));
 		this.graphController = graphController;
@@ -30,6 +39,11 @@ public class FindgenesController {
 		this.frame = frame;
 	}
 
+	/**
+	 * Opens the dialog which lets the user select a gene.<br>
+	 * After a gene is selected, it will do a call to the {@link GraphController} to navigate to the start of that
+	 * gene.
+	 */
 	public void openDialog() {
 		JOptionPane.showMessageDialog(frame, findgenesView, "Select a gene:", JOptionPane.QUESTION_MESSAGE);
 
@@ -39,7 +53,8 @@ public class FindgenesController {
 				Gene selected = (Gene) findgenesView.getSelectedItem();
 				DataNode node = graphData.getGeneToStartNodeMap().get(selected);
 				if (node == null) {
-					JOptionPane.showMessageDialog(frame, "Couldn't find the selected gene. Try again");
+					JOptionPane.showMessageDialog(frame,
+							"Couldn't find the selected gene. Try again");
 					tryAgain = true;
 				} else {
 					graphController.centerOnNode(node);

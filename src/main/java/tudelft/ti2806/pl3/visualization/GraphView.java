@@ -154,15 +154,15 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-			if (!"[FIX]".equals(node.getIdString())) {
-				Node graphNode = graph.addNode(node.getIdString());
-				double y = node.getY() * someSize;
-				graphNode.setAttribute("xy", node.getX(), y);
-				graphNode.addAttribute("ui.class", node.getClass()
-						.getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-			}
-		});
+				if (!"[FIX]".equals(node.getIdString())) {
+					Node graphNode = graph.addNode(node.getIdString());
+					double y = node.getY() * someSize;
+					graphNode.setAttribute("xy", node.getX(), y);
+					graphNode.addAttribute("ui.class", node.getClass()
+							.getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				}
+			});
 
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
