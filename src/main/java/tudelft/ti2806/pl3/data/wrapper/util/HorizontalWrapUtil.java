@@ -92,7 +92,13 @@ public final class HorizontalWrapUtil {
 	 */
 	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
 		List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
-		List<Wrapper> iterateList = new ArrayList<>(nodes);
+		Map<String, Wrapper> iterateList = new HashMap<>(nodes.size());
+		List<String> iterateListOrder = new ArrayList<>(nodes.size());
+		for (Wrapper node : nodes) {
+			String id = node.getIdString();
+			iterateList.put(id, node);
+			iterateListOrder.add(id);
+		}
 		List<Wrapper> removeFromIterateList = new ArrayList<>();
 		/*
 		 * Here we iterate over each element in iterateList and over each
@@ -100,7 +106,12 @@ public final class HorizontalWrapUtil {
 		 * iterate over.
 		 */
 		while (iterateList.size() > 0) {
-			for (Wrapper startNode : iterateList) {
+			for (String startNodeId : iterateListOrder) {
+				Wrapper startNode = iterateList.get(startNodeId);
+				if (startNode == null) {
+					continue;
+				}
+
 				List<Wrapper> foundGroup = new ArrayList<>();
 				foundGroup.add(startNode);
 				// Add all nodes to the right which can be combined.
@@ -126,7 +137,9 @@ public final class HorizontalWrapUtil {
 					break;
 				}
 			}
-			iterateList.removeAll(removeFromIterateList);
+			for (Wrapper wrapper : removeFromIterateList) {
+				iterateList.remove(wrapper.getIdString());
+			}
 			removeFromIterateList.clear();
 		}
 		return foundCombineableNodes;
