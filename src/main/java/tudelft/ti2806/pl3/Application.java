@@ -96,10 +96,11 @@ public class Application extends JFrame {
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
 			GeneData geneData = GeneData.parseGenes("data/geneAnnotationsRef");
 
+			final long startTime = System.currentTimeMillis();
+
 			GraphDataRepository gd = new GraphDataRepository();
 			gd.addLoadingObserversList(loadingObservers);
 			gd.parseGraph(nodeFile, edgeFile, geneData);
-
 
 			graphView = new GraphView(gd, loadingObservers);
 			zoomBarView = new ZoomBarView(getGraphController());
@@ -113,6 +114,9 @@ public class Application extends JFrame {
 			graphView.getPanel().addKeyListener(keys);
 
 			this.setFocusable(true);
+
+			long loadTime = System.currentTimeMillis() - startTime;
+			System.out.println("Loadtime: " + loadTime);
 		} catch (FileNotFoundException | FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph();
