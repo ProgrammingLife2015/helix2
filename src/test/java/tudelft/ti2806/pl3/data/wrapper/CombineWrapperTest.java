@@ -1,18 +1,18 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the methods in the abstract class {@link CombineWrapper}.
@@ -41,9 +41,9 @@ public class CombineWrapperTest {
 		assertTrue(wrapper.getIdString().matches(
 				"\\{" + INNER_ID_STRING_REGDEX + INNER_ID_STRING_REGDEX
 						+ INNER_ID_STRING_REGDEX + "\\}"));
-		Set<DataNode> set = new HashSet<>();
-		wrapper.collectDataNodes(set);
-		assertNotNull(set);
+		List<DataNode> list = new ArrayList<>();
+		wrapper.collectDataNodes(list);
+		assertNotNull(list);
 		
 		wrapper1.x = 0;
 		wrapper2.x = 1;

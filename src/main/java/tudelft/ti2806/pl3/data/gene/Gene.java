@@ -4,7 +4,7 @@ package tudelft.ti2806.pl3.data.gene;
  * A gene from the gene annotations database.
  * A gene consists of a name and a start and end index.
  */
-public class Gene implements Comparable<Gene> {
+public class Gene {
 
 	private final String name;
 	private final int end;
@@ -71,15 +71,5 @@ public class Gene implements Comparable<Gene> {
 		result = 31 * result + end;
 		result = 31 * result + start;
 		return result;
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
-	@Override
-	public int compareTo(Gene o) {
-		return name.compareTo(o.getName());
 	}
 }

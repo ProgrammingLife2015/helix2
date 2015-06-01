@@ -1,17 +1,20 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
-import org.junit.Test;
-import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.graph.DataNode;
-import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
+
+import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Tests for non abstract {@link DataNodeWrapper} methods.
@@ -29,10 +32,10 @@ public class DataNodeWrapperTest {
 		assertEquals(node.getBasePairCount(), wrapper.getBasePairCount());
 		assertEquals(Integer.toString(node.getId()), wrapper.getIdString());
 		assertEquals(node.getCurrentGenomeSet(), wrapper.getGenome());
-		Set<DataNode> dataNodeSet = new HashSet<>();
-		wrapper.collectDataNodes(dataNodeSet);
-		assertEquals(1, dataNodeSet.size());
-		assertEquals(node, dataNodeSet.iterator().next());
+		List<DataNode> dataNodeList = new ArrayList<>();
+		wrapper.collectDataNodes(dataNodeList);
+		assertEquals(1, dataNodeList.size());
+		assertEquals(node, dataNodeList.get(0));
 		wrapper.previousNodesCount = 1;
 		wrapper.calculateX();
 		assertEquals(1, wrapper.getX(), 0);

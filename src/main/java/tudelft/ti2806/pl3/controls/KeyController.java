@@ -14,7 +14,7 @@ public class KeyController implements KeyListener {
 	/**
 	 * Percentage of the screen that is moved.
 	 */
-	private static final float MOVE_FACTOR = 10f;
+	private static final double MOVE_FACTOR = 10.0;
 
 	private Application app;
 	private GraphController graphController;
@@ -30,6 +30,7 @@ public class KeyController implements KeyListener {
 
 		// add our keylistener
 		this.app = app;
+		graphController = app.getGraphController();
 	}
 
 	/**
@@ -69,27 +70,27 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			app.getGraphController().zoomLevelDown();
+			graphController.zoomLevelDown();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
-			app.getGraphController().zoomLevelUp();
+			graphController.zoomLevelUp();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			float oldViewCenter = graphController.getCurrentZoomCenter();
-			float move = (((float) app.getWidth()) / MOVE_FACTOR)
-					/ ((float) app.getGraphController().getCurrentZoomLevel());
-			float newViewCenter = oldViewCenter + move;
-			app.getGraphController().moveView(newViewCenter);
+			long oldViewCenter = graphController.getCurrentZoomCenter();
+			double move = (app.getWidth() / MOVE_FACTOR)
+					/ graphController.getCurrentZoomLevel();
+			long newViewCenter = (long)(oldViewCenter + move);
+			graphController.moveView(newViewCenter);
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			float oldViewCenter = graphController.getCurrentZoomCenter();
-			float move = (((float) app.getWidth()) / MOVE_FACTOR)
-					/ ((float) app.getGraphController().getCurrentZoomLevel());
-			float newViewCenter = oldViewCenter - move;
-			app.getGraphController().moveView(newViewCenter);
+			long oldViewCenter = graphController.getCurrentZoomCenter();
+			double move = (app.getWidth() / MOVE_FACTOR)
+					/ graphController.getCurrentZoomLevel();
+			long newViewCenter = (long)(oldViewCenter - move);
+			graphController.moveView(newViewCenter);
 		}
 	}
 	

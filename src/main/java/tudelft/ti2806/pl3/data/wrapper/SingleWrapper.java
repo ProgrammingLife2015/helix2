@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -48,8 +49,8 @@ public class SingleWrapper extends Wrapper {
 	}
 	
 	@Override
-	public void collectDataNodes(Set<DataNode> set) {
-		target.collectDataNodes(set);
+	public void collectDataNodes(List<DataNode> list) {
+		target.collectDataNodes(list);
 	}
 	
 	@Override

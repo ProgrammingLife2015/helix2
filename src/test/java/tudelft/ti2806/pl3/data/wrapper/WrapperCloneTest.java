@@ -14,9 +14,7 @@ import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Tests for the {@link WrapperClone}.
@@ -42,7 +40,7 @@ public class WrapperCloneTest {
 		wrapperClone.calculateX();
 		assertEquals(testWrapper.getX(), wrapperClone.getX(), 0);
 		
-		assertEquals(testWrapper.getDataNodes(), wrapperClone.getDataNodes());
+		assertEquals(testWrapper.getDataNodes(), wrapperClone.getDataNodeList());
 		assertEquals(testWrapper, wrapperClone.getOriginalNode());
 	}
 	
@@ -51,12 +49,12 @@ public class WrapperCloneTest {
 		Wrapper testWrapper = new TestWrapper();
 		Wrapper wrapperClone = new WrapperClone(testWrapper.getDataNodes(),
 				testWrapper);
-		Set<DataNode> set1 = new HashSet<>();
-		wrapperClone.collectDataNodes(set1);
-		assertNotNull(set1);
-		Set<DataNode> set2 = new HashSet<>();
-		testWrapper.collectDataNodes(set1);
-		assertEquals(set1, set2);
+		List<DataNode> list1 = new ArrayList<>();
+		wrapperClone.collectDataNodes(list1);
+		assertNotNull(list1);
+		List<DataNode> list2 = new ArrayList<>();
+		testWrapper.collectDataNodes(list1);
+		assertEquals(list1, list2);
 	}
 	
 	@Test

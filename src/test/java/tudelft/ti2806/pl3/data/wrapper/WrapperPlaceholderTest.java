@@ -1,21 +1,22 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
-import tudelft.ti2806.pl3.data.graph.DataNode;
-import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
-
-import java.util.Set;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
+
+import java.util.List;
 
 /**
  * Tests for the {@link WrapperPlaceholder}.
@@ -38,13 +39,13 @@ public class WrapperPlaceholderTest {
 	}
 	
 	@Mock
-	Set<DataNode> set;
+	List<DataNode> list;
 	
 	@Test
 	public void collectDataNodesTest() {
 		WrapperPlaceholder wrapper = new WrapperPlaceholder();
-		wrapper.collectDataNodes(set);
-		Mockito.verifyZeroInteractions(set);
+		wrapper.collectDataNodes(list);
+		Mockito.verifyZeroInteractions(list);
 	}
 	
 	@Test

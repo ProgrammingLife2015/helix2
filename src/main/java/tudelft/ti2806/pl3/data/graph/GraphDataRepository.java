@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,29 +48,10 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
 			List<Genome> genomes) {
-		this(nodes,edges,genomes,null);
-	}
-
-	/**
-	 * TODO: THIS CONSTRUCTOR IS ONLY USED FOR TESTING.
-	 * Construct a instance of {@code GraphDataRepository}.
-	 *
-	 * @param nodes
-	 * 		the nodes of the graph
-	 * @param edges
-	 * 		the edges of the graph
-	 * @param genomes
-	 * 		all {@link Genome} that are present in the graph
-	 * @param geneToStartNodeMap
-	 *      all genes mapped to their start node ({@link DataNode})
-	 */
-	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
-			List<Genome> genomes, HashMap<Gene, DataNode> geneToStartNodeMap) {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
 		this.observers = new ArrayList<>();
-		this.geneToStartNodeMap = geneToStartNodeMap;
 	}
 
 	public void addNodes(List<DataNode> nodes) {
@@ -97,18 +77,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	@Override
-	public List<Gene> getGenes() {
-		return this.genes;
-	}
-
-	@Override
 	public List<Genome> getGenomes() {
 		return this.getGenomeClone();
-	}
-
-	@Override
-	public Map<Gene, DataNode> getGeneToStartNodeMap() {
-		return this.geneToStartNodeMap;
 	}
 
 	/**
@@ -123,11 +93,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public void parseGraph(File nodesFile, File edgesFile, GeneData geneData) throws FileNotFoundException {
 		notifyLoadingObservers(true);
-		geneToStartNodeMap = new HashMap<>(geneData.getGenes().size());
-		genes = new ArrayList<>();
-		Map<String, Genome> genomeMap = new HashMap<>();
+		Map<String, Genome> genomeMap = new HashMap<String, Genome>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap, geneData);
-		genes.sort(Comparator.<Gene>naturalOrder());
 		List<DataNode> nodeList = new ArrayList<DataNode>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<>();
@@ -178,7 +145,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @param geneData
 	 * 		the gene annotation dataset
 	 */
-	protected void addRefLabels(DataNode node, GeneData geneData) {
+	protected static void addRefLabels(DataNode node, GeneData geneData) {
 		int start = node.getRefStartPoint();
 		int end = node.getRefEndPoint();
 		Gene g = null;
@@ -189,8 +156,6 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 				node.addLabel(new GeneLabel(g.getName()));
 			} else if (geneData.getGeneStart().containsKey(i)) {
 				g = geneData.getGeneStart().get(i);
-				geneToStartNodeMap.put(g, node);
-				genes.add(g);
 				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
 				started = true;
 			} else if (geneData.getGeneEnd().containsKey(i)) {
