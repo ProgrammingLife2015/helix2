@@ -32,8 +32,6 @@ import javax.swing.JOptionPane;
 
 /**
  * The main application view.
- * <p/>
- * <p/>
  * Created by Boris Mattijssen on 07-05-15.
  */
 @SuppressWarnings("serial")
