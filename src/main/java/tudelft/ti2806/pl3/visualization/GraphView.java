@@ -43,7 +43,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * The center position of the view.<br>
 	 * The position on the x axis.
 	 */
-	private double zoomCenter = 1;
+	private float zoomCenter = 1;
 
 	/**
 	 * The css style sheet used drawing the graph.<br>
@@ -215,7 +215,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
 
-	public double getZoomCenter() {
+	public float getZoomCenter() {
 		return zoomCenter;
 	}
 
@@ -225,9 +225,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * @param zoomCenter
 	 * 		the new center of view
 	 */
-	public void setZoomCenter(double zoomCenter) {
+	public void setZoomCenter(float zoomCenter) {
 		this.zoomCenter = zoomCenter;
-		System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner());
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
 
@@ -275,7 +274,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 *      Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */
 	public void centerOnNode(DataNode node) throws NodeNotFoundException {
-		double x = -1;
+		float x = -1;
 		for (WrapperClone wrapperClone : graphData) {
 			if (wrapperClone.getDataNodes().contains(node)) {
 				x = wrapperClone.getX();

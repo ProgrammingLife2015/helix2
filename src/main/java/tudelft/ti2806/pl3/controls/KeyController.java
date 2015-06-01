@@ -14,7 +14,7 @@ public class KeyController implements KeyListener {
 	/**
 	 * Percentage of the screen that is moved.
 	 */
-	private static final double MOVE_FACTOR = 10.0;
+	private static final float MOVE_FACTOR = 10f;
 
 	private Application app;
 	private GraphController graphController;
@@ -77,18 +77,18 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			double oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ app.getGraphController().getCurrentZoomLevel();
-			double newViewCenter = oldViewCenter + move;
+			float oldViewCenter = graphController.getCurrentZoomCenter();
+			float move = (((float) app.getWidth()) / MOVE_FACTOR)
+					/ ((float) app.getGraphController().getCurrentZoomLevel());
+			float newViewCenter = oldViewCenter + move;
 			app.getGraphController().moveView(newViewCenter);
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			double oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ app.getGraphController().getCurrentZoomLevel();
-			double newViewCenter = oldViewCenter - move;
+			float oldViewCenter = graphController.getCurrentZoomCenter();
+			float move = (((float) app.getWidth()) / MOVE_FACTOR)
+					/ ((float) app.getGraphController().getCurrentZoomLevel());
+			float newViewCenter = oldViewCenter - move;
 			app.getGraphController().moveView(newViewCenter);
 		}
 	}

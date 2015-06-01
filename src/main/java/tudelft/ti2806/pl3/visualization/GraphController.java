@@ -53,7 +53,7 @@ public class GraphController implements Controller {
 	 * @param zoomCenter
 	 * 		the new center of zoom
 	 */
-	public void moveView(double zoomCenter) {
+	public void moveView(float zoomCenter) {
 		graphView.setZoomCenter(zoomCenter);
 	}
 
@@ -81,11 +81,11 @@ public class GraphController implements Controller {
 		zoomedGraphModel.produceDataNodeWrapperList();
 	}
 
-	public double getCurrentZoomLevel() {
+	public int getCurrentZoomLevel() {
 		return zoomedGraphModel.getZoomLevel();
 	}
 
-	public double getCurrentZoomCenter() {
+	public float getCurrentZoomCenter() {
 		return graphView.getZoomCenter();
 	}
 
