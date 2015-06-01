@@ -48,10 +48,6 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getGraphController().resetZoom();
 	}
 
-	private void showFindGenes() {
-		application.getFindgenesController().openDialog();
-	}
-
 
 	/**
 	 * Controls the Buttons Events from the {@link MenuBarView}.
@@ -80,9 +76,6 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case "Reset view":
 				resetView();
-				break;
-			case "Navigate to gene":
-				showFindGenes();
 				break;
 			default:
 				break;

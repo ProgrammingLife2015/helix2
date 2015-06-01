@@ -82,8 +82,8 @@ public class DataNodeWrapper extends Wrapper {
 	}
 	
 	@Override
-	public void collectDataNodes(Set<DataNode> set) {
-		set.add(node);
+	public void collectDataNodes(List<DataNode> list) {
+		list.add(node);
 	}
 	
 	@Override

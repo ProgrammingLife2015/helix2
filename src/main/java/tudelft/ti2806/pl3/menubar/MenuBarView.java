@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,7 +25,6 @@ public class MenuBarView extends JMenuBar implements View {
 	 * 		to place the menubar in.
 	 */
 	public MenuBarView(Application application) {
-		super();
 		menuBarController = new MenuBarController(application);
 		add(setUpFile());
 		add(setUpView());
@@ -67,12 +67,10 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenuItem zoomIn = new JMenuItem("Zoom in ( + )");
 		JMenuItem zoomOut = new JMenuItem("Zoom out ( - )");
 		JMenuItem reset = new JMenuItem("Reset view");
-		JMenuItem findGenes = new JMenuItem("Navigate to gene");
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
 		viewMenu.add(reset);
-		viewMenu.add(findGenes);
 
 		// add action listener for every item
 		for (Component component : viewMenu.getMenuComponents()) {

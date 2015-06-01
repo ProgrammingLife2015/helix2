@@ -6,7 +6,6 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import tudelft.ti2806.pl3.util.DoneDeque;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -88,15 +87,15 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		return this.previousNodesCount - other.previousNodesCount;
 	}
 	
-	public abstract void collectDataNodes(Set<DataNode> list);
+	public abstract void collectDataNodes(List<DataNode> list);
 	
 	/**
 	 * Get all {@link DataNode}s in this node and its children.
 	 * 
 	 * @return list of {@link DataNode}s
 	 */
-	public Set<DataNode> getDataNodes() {
-		Set<DataNode> dataNodeList = new HashSet<>();
+	public List<DataNode> getDataNodes() {
+		List<DataNode> dataNodeList = new ArrayList<>();
 		collectDataNodes(dataNodeList);
 		return dataNodeList;
 	}
