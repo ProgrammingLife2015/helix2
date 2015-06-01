@@ -24,6 +24,7 @@ public class MenuBarView extends JMenuBar implements View {
 	 * 		to place the menubar in.
 	 */
 	public MenuBarView(Application application) {
+		super();
 		menuBarController = new MenuBarController(application);
 		add(setUpFile());
 		add(setUpView());
