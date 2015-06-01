@@ -24,7 +24,7 @@ public class DataNode {
 	protected final int refEndPoint;
 	protected final byte[] content;
 	
-	protected ArrayList<Label> labelList;
+	protected List<Label> labelList;
 	
 	/**
 	 * Initialise a {@code SingleNode}.
@@ -43,7 +43,7 @@ public class DataNode {
 	 *            the list of labels to add
 	 */
 	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
-			int refEndPoint, byte[] contentOfTheNode, ArrayList<Label> labelList) {
+			int refEndPoint, byte[] contentOfTheNode, List<Label> labelList) {
 		this.nodeId = nodeId;
 		if (source == null) {
 			// TODO: Bad data, throw exception
@@ -140,8 +140,8 @@ public class DataNode {
 		return true;
 	}
 	
-	public void addLabel(Label l) {
-		labelList.add(l);
+	public void addLabel(Label label) {
+		labelList.add(label);
 	}
 	
 	public int getId() {
