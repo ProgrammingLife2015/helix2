@@ -21,10 +21,6 @@ public class HorizontalWrapper extends CombineWrapper {
 	 * @param nodePosList
 	 *            a connected and sorted list of edges.
 	 */
-	public HorizontalWrapper(List<Wrapper> nodePosList, boolean collapsed) {
-		super(nodePosList, collapsed);
-	}
-	
 	public HorizontalWrapper(List<Wrapper> nodePosList) {
 		super(nodePosList);
 	}

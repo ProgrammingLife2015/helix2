@@ -8,11 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 public class VerticalWrapper extends CombineWrapper {
-
-	public VerticalWrapper(List<Wrapper> nodePosList, boolean collapsed) {
-		super(nodePosList, collapsed);
-	}
-
 	public VerticalWrapper(List<Wrapper> nodePosList) {
 		super(nodePosList);
 	}
@@ -34,7 +29,7 @@ public class VerticalWrapper extends CombineWrapper {
 		}
 		return genome;
 	}
-
+	
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
@@ -44,9 +39,10 @@ public class VerticalWrapper extends CombineWrapper {
 	public String getIdString() {
 		return "V" + super.getIdString();
 	}
-
+	
 	@Override
 	public int getWidth() {
-		return this.getNodeList().stream().map(Wrapper::getWidth).max(Integer::compare).get();
+		return this.getNodeList().stream().map(Wrapper::getWidth)
+				.max(Integer::compare).get();
 	}
 }
