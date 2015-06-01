@@ -153,9 +153,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		boolean started = false;
 		for (int i = start; i <= end; i++) {
 			if (started) {
-				if (g != null) {
-					node.addLabel(new GeneLabel(g.getName()));
-				}
+				node.addLabel(new GeneLabel(g.getName()));
 			} else if (geneData.getGeneStart().containsKey(i)) {
 				g = geneData.getGeneStart().get(i);
 				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));

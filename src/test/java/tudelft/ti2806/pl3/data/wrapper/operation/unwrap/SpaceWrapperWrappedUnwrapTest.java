@@ -16,32 +16,36 @@ import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.data.wrapper.WrapperPlaceholder;
-import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The same test as {@link SpaceWrapperUnwrapTest}, but it also tests the functionality
- * of incoming nodes on the {@link SpaceWrapper}.
+ * The same test as {@link SpaceWrapperUnwrapTest}, but it also tests the
+ * functionality of incoming nodes on the {@link SpaceWrapper}.
  *
  * @see {@link SpaceWrapperUnwrapTest}
  * @see {@link Unwrap#calculate(SpaceWrapper, Wrapper)}
  *
- * <p>
- * Created by Boris Mattijssen on 19-05-15.
+ *      <p>
+ *      Created by Boris Mattijssen on 19-05-15.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SpaceWrapperWrappedUnwrapTest {
-
-	@Mock private DataNode dataNode0;
-	@Mock private DataNode dataNode1;
-	@Mock private DataNode dataNode2;
-	@Mock private DataNode dataNode3;
-	@Mock private DataNode dataNode4;
-
+	
+	@Mock
+	private DataNode dataNode0;
+	@Mock
+	private DataNode dataNode1;
+	@Mock
+	private DataNode dataNode2;
+	@Mock
+	private DataNode dataNode3;
+	@Mock
+	private DataNode dataNode4;
+	
 	private Unwrap unwrap;
-
+	
 	/**
 	 * @see {@link SpaceWrapperUnwrapTest#before}.
 	 */
@@ -52,22 +56,22 @@ public class SpaceWrapperWrappedUnwrapTest {
 		DataNodeWrapper nodePosition2 = new DataNodeWrapper(dataNode2);
 		DataNodeWrapper nodePosition3 = new DataNodeWrapper(dataNode3);
 		DataNodeWrapper nodePosition4 = new DataNodeWrapper(dataNode4);
-
+		
 		List<Wrapper> listSpace = new ArrayList<>(3);
 		listSpace.add(nodePosition1);
 		listSpace.add(nodePosition2);
 		listSpace.add(nodePosition3);
-
+		
 		nodePosition1.getOutgoing().add(nodePosition2);
 		nodePosition1.getOutgoing().add(nodePosition3);
 		nodePosition2.getOutgoing().add(nodePosition3);
-
+		
 		nodePosition2.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(nodePosition2);
-
-		SpaceWrapper space = new SpaceWrapper(listSpace,true);
-
+		
+		SpaceWrapper space = new SpaceWrapper(listSpace);
+		
 		List<Wrapper> horizontalList = new ArrayList<>(3);
 		horizontalList.add(nodePosition0);
 		horizontalList.add(space);
@@ -76,13 +80,16 @@ public class SpaceWrapperWrappedUnwrapTest {
 		space.getOutgoing().add(nodePosition4);
 		space.getIncoming().add(nodePosition0);
 		nodePosition4.getIncoming().add(space);
-
-		HorizontalWrapper start = new HorizontalWrapper(horizontalList,true);
-		unwrap = new Unwrap(start);
+		
+		HorizontalWrapper start = new HorizontalWrapper(horizontalList);
+		
+		unwrap = new UnwrapTest();
+		unwrap.compute(start);
 	}
-
+	
 	/**
-	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}.
+	 * Verify that the left most node is connected to the first node of the
+	 * {@link SpaceWrapper}.
 	 */
 	@Test
 	public void testLeftNode() {
@@ -90,9 +97,10 @@ public class SpaceWrapperWrappedUnwrapTest {
 		assertTrue(left instanceof WrapperClone);
 		assertEquals(1, left.getOutgoing().size());
 	}
-
+	
 	/**
-	 * Verify that the left most node is connected to the first node of the {@link SpaceWrapper}.
+	 * Verify that the left most node is connected to the first node of the
+	 * {@link SpaceWrapper}.
 	 */
 	@Test
 	public void testLeftMiddleNode() {
@@ -100,7 +108,7 @@ public class SpaceWrapperWrappedUnwrapTest {
 		assertTrue(leftMiddle instanceof WrapperClone);
 		assertEquals(1, leftMiddle.getIncoming().size());
 	}
-
+	
 	/**
 	 * Verify that we indeed get five {@link WrapperClone}s.
 	 */
@@ -108,7 +116,7 @@ public class SpaceWrapperWrappedUnwrapTest {
 	public void dataNodeWrapperCount() {
 		assertEquals(5, unwrap.getWrapperClones().size());
 	}
-
+	
 	/**
 	 * Verify that no more {@link WrapperPlaceholder}s are left.
 	 */

@@ -3,12 +3,17 @@ package tudelft.ti2806.pl3.util;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.GraphData;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An utility class to find and/or remove dead edges from a {@link GraphData}
@@ -35,9 +40,9 @@ public class EdgeUtil {
 			if (wrapper.getOutgoing().size() <= 1) {
 				continue;
 			}
-			List<Genome> genomes = new ArrayList<>(wrapper.getGenome());
+			Set<Genome> genomes = new HashSet<>(wrapper.getGenome());
 			List<Wrapper> outgoingList = new ArrayList<>(wrapper.getOutgoing());
-			outgoingList.sort(Comparator.<Wrapper>naturalOrder());
+			Collections.sort(outgoingList);
 			List<Wrapper> removeList = new ArrayList<>();
 			for (Wrapper outgoing : outgoingList) {
 				if (genomes.size() == 0) {
@@ -79,10 +84,14 @@ public class EdgeUtil {
 	 */
 	public static List<Edge> getAllDeadEdges(List<Edge> edgeList,
 			List<DataNode> nodeList) {
-		List<Edge> removeList = new ArrayList<Edge>();
+		List<Edge> removeList = new ArrayList<>();
+		Map<Integer, DataNode> nodeMap = new HashMap<>(nodeList.size());
+		for (DataNode node : nodeList) {
+			nodeMap.put(node.getId(), node);
+		}
 		for (Edge edge : edgeList) {
-			if (!nodeList.contains(edge.getFrom())
-					|| !nodeList.contains(edge.getTo())) {
+			if (!nodeMap.containsKey(edge.getFrom().getId())
+					|| !nodeMap.containsKey(edge.getTo().getId())) {
 				removeList.add(edge);
 			}
 		}

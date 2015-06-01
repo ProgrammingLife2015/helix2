@@ -7,6 +7,7 @@ import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -14,6 +15,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Created by Kasper on 20-5-2015.
  */
 public class PhyloController implements Controller,ActionListener {
+	public static final String LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
+	public static final String LABEL_COMMON_ANCESTOR = "Common ancestor";
 
 	private PhyloView view;
 	private GraphController graphController;
@@ -29,8 +32,7 @@ public class PhyloController implements Controller,ActionListener {
 	 * @return Root node.
 	 */
 	public DefaultMutableTreeNode parseTree(NewickParser.TreeNode tree) {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(
-				"Phylogentic tree");
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(LABEL_PHYLOGENETIC_TREE);
 		parseChilds(tree, root);
 
 		return root;
@@ -50,7 +52,7 @@ public class PhyloController implements Controller,ActionListener {
 		for (NewickParser.TreeNode child : node.getChildren()) {
 			DefaultMutableTreeNode childNode;
 			if (child.getName() == null) {
-				childNode = new DefaultMutableTreeNode("Common ancestor");
+				childNode = new DefaultMutableTreeNode(LABEL_COMMON_ANCESTOR);
 			} else {
 				childNode = new DefaultMutableTreeNode(child.getName());
 			}
@@ -67,8 +69,11 @@ public class PhyloController implements Controller,ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		graphController.addFilter("genome", new GenomeFilter(view.getSelected()));
-		view.resetSelected();
+		List<String> selected = view.getSelected();
+		if (selected.size() != 0) {
+			graphController.addFilter(GenomeFilter.NAME, new GenomeFilter(selected));
+			view.resetSelected();
+		}
 	}
 
 	/**

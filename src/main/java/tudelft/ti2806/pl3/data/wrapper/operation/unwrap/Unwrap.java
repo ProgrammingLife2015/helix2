@@ -21,33 +21,45 @@ import java.util.Stack;
 /**
  * A {@link WrapperOperation} that unwraps the wrapped root node.
  *
- * <p>The algorithm unwraps the wrapped root node.</p>
- * <p>For every node that needs to be unwrapped, a placeholder is created in the
- * new graph. Then that placeholder, together with a reference to the node in the original
- * graph is put on a stack. The algorithm continues until the stack is empty. When a new
- * item is popped from the stack, it will be unwrapped using one of the calculate methods.</p>
- * <p>When a node should not be unwrapped, a new {@link WrapperClone} is created and
- * all {@link DataNode}s that the node from the original graph contains, are listed in the
- * new {@link WrapperClone}.</p>
- * <p>In the end a new graph is constructed containing only {@link WrapperClone}s</p>
+ * <p>
+ * The algorithm unwraps the wrapped root node.
+ * </p>
+ * <p>
+ * For every node that needs to be unwrapped, a placeholder is created in the
+ * new graph. Then that placeholder, together with a reference to the node in
+ * the original graph is put on a stack. The algorithm continues until the stack
+ * is empty. When a new item is popped from the stack, it will be unwrapped
+ * using one of the calculate methods.
+ * </p>
+ * <p>
+ * When a node should not be unwrapped, a new {@link WrapperClone} is created
+ * and all {@link DataNode}s that the node from the original graph contains, are
+ * listed in the new {@link WrapperClone}.
+ * </p>
+ * <p>
+ * In the end a new graph is constructed containing only {@link WrapperClone}s
+ * </p>
  * Created by Boris Mattijssen on 18-05-15.
  */
-public class Unwrap extends WrapperOperation {
-
+public abstract class Unwrap extends WrapperOperation {
+	
 	private Wrapper result;
 	private List<WrapperClone> wrapperClones;
 	Stack<Pair<WrapperPlaceholder, Wrapper>> stack;
-
+	
 	/**
 	 * Construct the Unwrap operation.
 	 *
-	 * <p>A Stack is constructed and the given start node is inserted.
-	 * Then it keeps looping until the stack is empty. Each item of the stack will
-	 * be evaluated using one of the calculate methods.</p>
+	 * <p>
+	 * A Stack is constructed and the given start node is inserted. Then it
+	 * keeps looping until the stack is empty. Each item of the stack will be
+	 * evaluated using one of the calculate methods.
+	 * </p>
+	 * 
 	 * @param start
-	 *          The big wrapped node containing the entire graph
+	 *            The big wrapped node containing the entire graph
 	 */
-	public Unwrap(Wrapper start) {
+	public void compute(Wrapper start) {
 		wrapperClones = new ArrayList<>();
 		stack = new Stack<>();
 		result = createNewNode(start);
@@ -60,27 +72,38 @@ public class Unwrap extends WrapperOperation {
 			wrapper.calculateX();
 		}
 	}
-
+	
 	public Wrapper getResult() {
 		return result;
 	}
-
+	
 	public List<WrapperClone> getWrapperClones() {
 		return wrapperClones;
 	}
-
+	
 	/**
 	 * Unwrap a {@link HorizontalWrapper}.
 	 *
-	 * <p>It looks for the incoming {@link Wrapper}s of the placeholder
-	 * and connects these to the first {@link Wrapper} in the {@link HorizontalWrapper}</p>
-	 * <p>Then it connects all internal (newly created) {@link Wrapper}s.</p>
-	 * <p>Then it looks for the outgoing {@link Wrapper}s of the placeholder
-	 * and connects these to the last {@link Wrapper} in the {@link HorizontalWrapper}</p>
+	 * <p>
+	 * It looks for the incoming {@link Wrapper}s of the placeholder and
+	 * connects these to the first {@link Wrapper} in the
+	 * {@link HorizontalWrapper}
+	 * </p>
+	 * <p>
+	 * Then it connects all internal (newly created) {@link Wrapper}s.
+	 * </p>
+	 * <p>
+	 * Then it looks for the outgoing {@link Wrapper}s of the placeholder and
+	 * connects these to the last {@link Wrapper} in the
+	 * {@link HorizontalWrapper}
+	 * </p>
+	 * 
 	 * @param node
-	 *          The reference to the {@link HorizontalWrapper} that contains the nodes to be unwrapped
+	 *            The reference to the {@link HorizontalWrapper} that contains
+	 *            the nodes to be unwrapped
 	 * @param placeholder
-	 *          The placeholder for this {@link HorizontalWrapper} in the newly constructed graph
+	 *            The placeholder for this {@link HorizontalWrapper} in the
+	 *            newly constructed graph
 	 */
 	@Override
 	public void calculate(HorizontalWrapper node, Wrapper placeholder) {
@@ -108,18 +131,25 @@ public class Unwrap extends WrapperOperation {
 			curr.getOutgoing().add(outgoing);
 		}
 	}
-
+	
 	/**
 	 * Unwrap a {@link VerticalWrapper}.
 	 *
-	 * <p>It looks for the incoming {@link Wrapper}s of the placeholder
-	 * and connects these to all the {@link Wrapper}s in the {@link VerticalWrapper}</p>
-	 * <p>Then it looks for the outgoing {@link Wrapper}s of the placeholder
-	 * and connects these to all the {@link Wrapper}s in the {@link VerticalWrapper}</p>
+	 * <p>
+	 * It looks for the incoming {@link Wrapper}s of the placeholder and
+	 * connects these to all the {@link Wrapper}s in the {@link VerticalWrapper}
+	 * </p>
+	 * <p>
+	 * Then it looks for the outgoing {@link Wrapper}s of the placeholder and
+	 * connects these to all the {@link Wrapper}s in the {@link VerticalWrapper}
+	 * </p>
+	 * 
 	 * @param node
-	 *          The reference to the {@link VerticalWrapper} that contains the nodes to be unwrapped
+	 *            The reference to the {@link VerticalWrapper} that contains the
+	 *            nodes to be unwrapped
 	 * @param placeholder
-	 *          The placeholder for this {@link VerticalWrapper} in the newly constructed graph
+	 *            The placeholder for this {@link VerticalWrapper} in the newly
+	 *            constructed graph
 	 */
 	@Override
 	public void calculate(VerticalWrapper node, Wrapper placeholder) {
@@ -138,21 +168,30 @@ public class Unwrap extends WrapperOperation {
 			}
 		}
 	}
-
+	
 	/**
 	 * Unwrap a {@link SpaceWrapper}.
 	 *
-	 * <p>It looks for the incoming {@link Wrapper}s of the placeholder
-	 * and connects these to the first {@link Wrapper} in the {@link SpaceWrapper}</p>
-	 * <p>Then it connects all internal (newly created) {@link Wrapper}s.
-	 * It connects all newly created {@link Wrapper}s in the same way as they were
-	 * connected in the reference {@link SpaceWrapper}.</p>
-	 * <p>Then it looks for the outgoing {@link Wrapper}s of the placeholder
-	 * and connects these to the last {@link Wrapper} in the {@link SpaceWrapper}</p>
+	 * <p>
+	 * It looks for the incoming {@link Wrapper}s of the placeholder and
+	 * connects these to the first {@link Wrapper} in the {@link SpaceWrapper}
+	 * </p>
+	 * <p>
+	 * Then it connects all internal (newly created) {@link Wrapper}s. It
+	 * connects all newly created {@link Wrapper}s in the same way as they were
+	 * connected in the reference {@link SpaceWrapper}.
+	 * </p>
+	 * <p>
+	 * Then it looks for the outgoing {@link Wrapper}s of the placeholder and
+	 * connects these to the last {@link Wrapper} in the {@link SpaceWrapper}
+	 * </p>
+	 * 
 	 * @param node
-	 *          The reference to the {@link SpaceWrapper} that contains the nodes to be unwrapped
+	 *            The reference to the {@link SpaceWrapper} that contains the
+	 *            nodes to be unwrapped
 	 * @param placeholder
-	 *          The placeholder for this {@link SpaceWrapper} in the newly constructed graph
+	 *            The placeholder for this {@link SpaceWrapper} in the newly
+	 *            constructed graph
 	 */
 	@Override
 	public void calculate(SpaceWrapper node, Wrapper placeholder) {
@@ -173,20 +212,22 @@ public class Unwrap extends WrapperOperation {
 			curr = createNewNode(nodeWrapperList.get(i));
 			referencePlaceholderMapper.put(nodeWrapperList.get(i), curr);
 		}
-		for (Map.Entry<Wrapper, Wrapper> referencePlaceholderMap :
-				    referencePlaceholderMapper.entrySet()) {
-			for (Wrapper outgoing : referencePlaceholderMap.getKey().getOutgoing()) {
+		for (Map.Entry<Wrapper, Wrapper> referencePlaceholderMap : referencePlaceholderMapper
+				.entrySet()) {
+			for (Wrapper outgoing : referencePlaceholderMap.getKey()
+					.getOutgoing()) {
 				// only add if outgoing is in this SpaceWrapper
 				if (referencePlaceholderMapper.get(outgoing) != null) {
-					referencePlaceholderMap.getValue().getOutgoing().add(
-							referencePlaceholderMapper.get(outgoing));
+					referencePlaceholderMap.getValue().getOutgoing()
+							.add(referencePlaceholderMapper.get(outgoing));
 				}
 			}
-			for (Wrapper incoming : referencePlaceholderMap.getKey().getIncoming()) {
+			for (Wrapper incoming : referencePlaceholderMap.getKey()
+					.getIncoming()) {
 				// only add if incoming is in this SpaceWrapper
 				if (referencePlaceholderMapper.get(incoming) != null) {
-					referencePlaceholderMap.getValue().getIncoming().add(
-							referencePlaceholderMapper.get(incoming));
+					referencePlaceholderMap.getValue().getIncoming()
+							.add(referencePlaceholderMapper.get(incoming));
 				}
 			}
 		}
@@ -196,18 +237,24 @@ public class Unwrap extends WrapperOperation {
 			curr.getOutgoing().add(outgoing);
 		}
 	}
-
+	
 	/**
 	 * Unwrap a {@link SingleWrapper}.
 	 *
-	 * <p>It creates a node from the node its containing.</p>
-	 * <p>Then it connects all the placeholder incoming and outgoing nodes to the
-	 * newly created node's incoming and outgoing nodes.</p>
+	 * <p>
+	 * It creates a node from the node its containing.
+	 * </p>
+	 * <p>
+	 * Then it connects all the placeholder incoming and outgoing nodes to the
+	 * newly created node's incoming and outgoing nodes.
+	 * </p>
 	 *
 	 * @param node
-	 *          The reference to the {@link SingleWrapper} that contains the node to be unwrapped
+	 *            The reference to the {@link SingleWrapper} that contains the
+	 *            node to be unwrapped
 	 * @param placeholder
-	 *          The placeholder for this {@link SingleWrapper} in the newly constructed graph
+	 *            The placeholder for this {@link SingleWrapper} in the newly
+	 *            constructed graph
 	 */
 	@Override
 	public void calculate(SingleWrapper node, Wrapper placeholder) {
@@ -226,37 +273,45 @@ public class Unwrap extends WrapperOperation {
 			newNode.getOutgoing().add(outgoing);
 		}
 	}
-
-
+	
 	/**
-	 * This method creates a new node that will be part of the newly created graph.
+	 * This method creates a new node that will be part of the newly created
+	 * graph.
 	 *
-	 * <p>It checks to see if the node is a {@link CombineWrapper} and should be unwrapped.
-	 * If so, a placeholder will be created and returned and the placeholder together with
-	 * a reference to the {@link CombineWrapper} will be put on the stack. This placeholder
-	 * is necessary to connect it to the correct nodes in the graph we're constructing. The
-	 * reference is passed to unwrap its nodes in the next calculate.</p>
-	 * <p>If the {@link Wrapper} shouldn't be unwrapped, a {@link WrapperClone} is returned.
-	 * This node contains all the {@link DataNode}s that are wrapped in this node.</p>
+	 * <p>
+	 * It checks to see if the node is a {@link CombineWrapper} and should be
+	 * unwrapped. If so, a placeholder will be created and returned and the
+	 * placeholder together with a reference to the {@link CombineWrapper} will
+	 * be put on the stack. This placeholder is necessary to connect it to the
+	 * correct nodes in the graph we're constructing. The reference is passed to
+	 * unwrap its nodes in the next calculate.
+	 * </p>
+	 * <p>
+	 * If the {@link Wrapper} shouldn't be unwrapped, a {@link WrapperClone} is
+	 * returned. This node contains all the {@link DataNode}s that are wrapped
+	 * in this node.
+	 * </p>
+	 * 
 	 * @param node
-	 *          The {@link Wrapper} from the original graph.
-	 * @return
-	 *          The new node to be used in the new graph we're constructing. It's either a
-	 *          {@link WrapperPlaceholder} or a {@link WrapperClone}.
+	 *            The {@link Wrapper} from the original graph.
+	 * @return The new node to be used in the new graph we're constructing. It's
+	 *         either a {@link WrapperPlaceholder} or a {@link WrapperClone}.
 	 */
 	private Wrapper createNewNode(Wrapper node) {
-		if (node instanceof CombineWrapper && ((CombineWrapper) node).shouldUnfold()
+		if (node instanceof CombineWrapper
+				&& isConditionMet((CombineWrapper) node)
 				|| node instanceof SingleWrapper) {
 			WrapperPlaceholder placeholder = new WrapperPlaceholder();
 			stack.add(new Pair<>(placeholder, node));
 			return placeholder;
 		} else {
-			WrapperClone wrapperClone = new WrapperClone(node.getDataNodes(), node);
+			WrapperClone wrapperClone = new WrapperClone(node.getDataNodes(),
+					node);
 			wrapperClone.setY(node.getY());
 			wrapperClones.add(wrapperClone);
 			return wrapperClone;
 		}
 	}
-
-
+	
+	protected abstract boolean isConditionMet(CombineWrapper node);
 }

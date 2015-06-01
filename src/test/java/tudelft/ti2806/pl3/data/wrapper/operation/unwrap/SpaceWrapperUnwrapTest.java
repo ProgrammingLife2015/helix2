@@ -16,7 +16,6 @@ import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.data.wrapper.WrapperPlaceholder;
-import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +23,31 @@ import java.util.List;
 /**
  * This class tests the unwrapping of a {@link SpaceWrapper}.
  *
- * <p>It creates a {@link SpaceWrapper} in a {@link HorizontalWrapper}.</p>
- * <p>It verifies that all the edge connections between the nodes are correct.</p>
+ * <p>
+ * It creates a {@link SpaceWrapper} in a {@link HorizontalWrapper}.
+ * </p>
+ * <p>
+ * It verifies that all the edge connections between the nodes are correct.
+ * </p>
  * 
- * <p>Created by Boris Mattijssen on 19-05-15.</p>
+ * <p>
+ * Created by Boris Mattijssen on 19-05-15.
+ * </p>
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SpaceWrapperUnwrapTest {
-
-	@Mock private DataNode dataNode1;
-	@Mock private DataNode dataNode2;
-	@Mock private DataNode dataNode3;
-	@Mock private DataNode dataNode4;
-
+	
+	@Mock
+	private DataNode dataNode1;
+	@Mock
+	private DataNode dataNode2;
+	@Mock
+	private DataNode dataNode3;
+	@Mock
+	private DataNode dataNode4;
+	
 	private Unwrap unwrap;
-
+	
 	/**
 	 * Create a {@link SpaceWrapper} wrapped in a {@link HorizontalWrapper}.
 	 */
@@ -48,32 +57,34 @@ public class SpaceWrapperUnwrapTest {
 		DataNodeWrapper nodePosition2 = new DataNodeWrapper(dataNode2);
 		DataNodeWrapper nodePosition3 = new DataNodeWrapper(dataNode3);
 		DataNodeWrapper nodePosition4 = new DataNodeWrapper(dataNode4);
-
+		
 		List<Wrapper> listSpace = new ArrayList<>(3);
 		listSpace.add(nodePosition1);
 		listSpace.add(nodePosition2);
 		listSpace.add(nodePosition3);
-
+		
 		nodePosition1.getOutgoing().add(nodePosition2);
 		nodePosition1.getOutgoing().add(nodePosition3);
 		nodePosition2.getOutgoing().add(nodePosition3);
-
+		
 		nodePosition2.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(nodePosition2);
-
-		SpaceWrapper space = new SpaceWrapper(listSpace,true);
-
+		
+		SpaceWrapper space = new SpaceWrapper(listSpace);
+		
 		List<Wrapper> horizontalList = new ArrayList<>(2);
 		horizontalList.add(space);
 		horizontalList.add(nodePosition4);
 		space.getOutgoing().add(nodePosition4);
 		nodePosition4.getIncoming().add(space);
-
-		HorizontalWrapper start = new HorizontalWrapper(horizontalList,true);
-		unwrap = new Unwrap(start);
+		
+		HorizontalWrapper start = new HorizontalWrapper(horizontalList);
+		
+		unwrap = new UnwrapTest();
+		unwrap.compute(start);
 	}
-
+	
 	/**
 	 * Verify that the left node contains dataNode1 and has 2 outgoing nodes
 	 * (going to dataNode2 and dataNode3).
@@ -86,10 +97,10 @@ public class SpaceWrapperUnwrapTest {
 		assertEquals(2, left.getOutgoing().size());
 		assertTrue(((WrapperClone) left).getDataNodeList().contains(dataNode1));
 	}
-
+	
 	/**
-	 * Verify that the top node contains dataNode2 and has 1 outgoing node (dataNode1) and
-	 * 1 incoming node (dataNode3).
+	 * Verify that the top node contains dataNode2 and has 1 outgoing node
+	 * (dataNode1) and 1 incoming node (dataNode3).
 	 */
 	@Test
 	public void testTopNode() {
@@ -98,37 +109,44 @@ public class SpaceWrapperUnwrapTest {
 		assertEquals(1, top.getIncoming().size());
 		assertEquals(1, top.getOutgoing().size());
 		assertTrue(((WrapperClone) top).getDataNodeList().contains(dataNode2));
-		assertTrue(((WrapperClone) top.getIncoming().get(0)).getDataNodeList().contains(dataNode1));
+		assertTrue(((WrapperClone) top.getIncoming().get(0)).getDataNodeList()
+				.contains(dataNode1));
 	}
-
+	
 	/**
-	 * Verify that the middle node contains dataNode3 and has 1 outgoing node (dataNode4) and
-	 * 2 incoming nodes (dataNode1 and dataNode2).
+	 * Verify that the middle node contains dataNode3 and has 1 outgoing node
+	 * (dataNode4) and 2 incoming nodes (dataNode1 and dataNode2).
 	 */
 	@Test
 	public void testMiddleNode() {
 		Wrapper middle = unwrap.getResult().getOutgoing().get(1);
 		assertTrue(middle instanceof WrapperClone);
-		assertTrue(((WrapperClone) middle).getDataNodeList().contains(dataNode3));
+		assertTrue(((WrapperClone) middle).getDataNodeList()
+				.contains(dataNode3));
 		assertEquals(2, middle.getIncoming().size());
 		assertEquals(1, middle.getOutgoing().size());
-		assertTrue(((WrapperClone) middle.getIncoming().get(0)).getDataNodeList().contains(dataNode1));
-		assertTrue(((WrapperClone) middle.getIncoming().get(1)).getDataNodeList().contains(dataNode2));
+		assertTrue(((WrapperClone) middle.getIncoming().get(0))
+				.getDataNodeList().contains(dataNode1));
+		assertTrue(((WrapperClone) middle.getIncoming().get(1))
+				.getDataNodeList().contains(dataNode2));
 	}
-
+	
 	/**
-	 * Verify that the right node contains dataNode4 and has 1 incoming node (dataNode3).
+	 * Verify that the right node contains dataNode4 and has 1 incoming node
+	 * (dataNode3).
 	 */
 	@Test
 	public void testRightNode() {
-		Wrapper right = unwrap.getResult().getOutgoing().get(1).getOutgoing().get(0);
+		Wrapper right = unwrap.getResult().getOutgoing().get(1).getOutgoing()
+				.get(0);
 		assertTrue(right instanceof WrapperClone);
 		assertEquals(1, right.getIncoming().size());
 		assertEquals(0, right.getOutgoing().size());
 		assertTrue(((WrapperClone) right).getDataNodeList().contains(dataNode4));
-		assertTrue(((WrapperClone) right.getIncoming().get(0)).getDataNodeList().contains(dataNode3));
+		assertTrue(((WrapperClone) right.getIncoming().get(0))
+				.getDataNodeList().contains(dataNode3));
 	}
-
+	
 	/**
 	 * Verify that we indeed get four {@link WrapperClone}s.
 	 */
@@ -136,7 +154,7 @@ public class SpaceWrapperUnwrapTest {
 	public void dataNodeWrapperCount() {
 		assertEquals(4, unwrap.getWrapperClones().size());
 	}
-
+	
 	/**
 	 * Verify that no more {@link WrapperPlaceholder}s are left.
 	 */

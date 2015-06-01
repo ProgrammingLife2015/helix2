@@ -34,8 +34,8 @@ import java.util.Set;
  *
  */
 public class SpaceWrapper extends CombineWrapper {
-	private long basePairCount = -1;
-	private int width = -1;
+	long basePairCount = -1;
+	int width = -1;
 	
 	/**
 	 * Construct an instance of {@link SpaceWrapper}.
@@ -45,10 +45,6 @@ public class SpaceWrapper extends CombineWrapper {
 	 * nodes within the {@code nodeList} should not be able to be wrapped into a
 	 * {@link VerticalWrapper} or {@link HorizontalWrapper}.
 	 */
-	public SpaceWrapper(List<Wrapper> nodePosList, boolean collapsed) {
-		super(nodePosList, collapsed);
-	}
-	
 	public SpaceWrapper(List<Wrapper> nodePosList) {
 		super(nodePosList);
 	}
@@ -73,7 +69,7 @@ public class SpaceWrapper extends CombineWrapper {
 		}
 		return basePairCount;
 	}
-
+	
 	@Override
 	public int getWidth() {
 		if (width == -1) {
