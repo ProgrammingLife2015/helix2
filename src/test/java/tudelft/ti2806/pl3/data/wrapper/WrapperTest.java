@@ -1,15 +1,15 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests the methods in the abstract class {@link Wrapper}.
@@ -51,7 +51,7 @@ public class WrapperTest {
 	
 	@Test
 	public void getDataNodesTest() {
-		List<DataNode> result = wrapper.getDataNodes();
+		Set<DataNode> result = wrapper.getDataNodes();
 		assertNotNull(result);
 		assertEquals(result.size(), 0);
 	}

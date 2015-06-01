@@ -125,7 +125,7 @@ public class OrderedListUtilTest {
 		}
 
 		@Override
-		public void collectDataNodes(List<DataNode> list) {
+		public void collectDataNodes(Set<DataNode> set) {
 
 		}
 
