@@ -21,7 +21,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -33,6 +32,10 @@ import javax.swing.tree.TreeSelectionModel;
  * Created by Kasper on 20-5-2015.
  */
 public class PhyloView extends JPanel implements View {
+	private static final String WINDOW_TITLE = "Select Genomes";
+	private static final String BUTTON_LABEL_UPDATE = "Update";
+	private static final String ICON_BACTERIA = "pictures/bacteria_small.jpg";
+
 	private JTree jTree;
 	private List<String> selected = new ArrayList<>();
 	private PhyloController phyloController;
@@ -67,7 +70,7 @@ public class PhyloView extends JPanel implements View {
 	 * 		the height of the panel
 	 */
 	private void setUI(int width, int height) {
-		JLabel header = new JLabel("Select Genomes");
+		JLabel header = new JLabel(WINDOW_TITLE);
 		header.setPreferredSize(new Dimension(width, 50));
 
 		JScrollPane scroller = new JScrollPane(jTree,
@@ -92,7 +95,7 @@ public class PhyloView extends JPanel implements View {
 	 * Set the icons of the JTree.
 	 */
 	private void setUpLook() {
-		ImageIcon childIcon = new ImageIcon("pictures/bacteria_small.jpg");
+		ImageIcon childIcon = new ImageIcon(ICON_BACTERIA);
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(childIcon);
 		jTree.setCellRenderer(renderer);
@@ -115,8 +118,8 @@ public class PhyloView extends JPanel implements View {
 							DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
 									.getLastPathComponent();
 							String selectName = select.toString();
-							if (selectName.equals("Common ancestor")
-									|| selectName.equals("Phylogenetic tree")) {
+							if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
+									|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
 								selected.addAll(getChildsOfAncestor(select));
 							} else {
 								selected.add(select.toString());
@@ -151,11 +154,11 @@ public class PhyloView extends JPanel implements View {
 	 */
 	private List<String> getChildsOfAncestor(DefaultMutableTreeNode name) {
 		List<String> selected = new ArrayList<>();
-		Enumeration<TreeNode> children = name.children();
+		Enumeration children = name.children();
 		while (children.hasMoreElements()) {
 			DefaultMutableTreeNode next = (DefaultMutableTreeNode) children
 					.nextElement();
-			if (next.toString().equals("Common ancestor")) {
+			if (next.toString().equals(PhyloController.LABEL_COMMON_ANCESTOR)) {
 				selected.addAll(getChildsOfAncestor(next));
 			} else {
 				selected.add(next.toString());
@@ -170,7 +173,7 @@ public class PhyloView extends JPanel implements View {
 	 * @return the submit button
 	 */
 	private JButton createButton() {
-		JButton button = new JButton("Update");
+		JButton button = new JButton(BUTTON_LABEL_UPDATE);
 		button.addActionListener(phyloController);
 		return button;
 	}
