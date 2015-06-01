@@ -31,8 +31,7 @@ public class PositionNodeYOnGenomeSpace extends WrapperOperation {
 		nodeList.get(0).setY(wrapper.getY());
 		for (int i = 0; i < nodeList.size() - 1; i++) {
 			Wrapper from = nodeList.get(i);
-			List<Wrapper> sortedOutgoing = new ArrayList<>(
-					from.getOutgoing());
+			List<Wrapper> sortedOutgoing = new ArrayList<>(from.getOutgoing());
 			
 			Collections.sort(sortedOutgoing);
 			Set<Genome> set = new HashSet<>();
@@ -51,10 +50,6 @@ public class PositionNodeYOnGenomeSpace extends WrapperOperation {
 						* (size / to.getGenome().size()));
 				share += size;
 			}
-		}
-		for (int i = 0; i < nodeList.size() - 1; i++) {
-			Wrapper node = nodeList.get(i);
-			node.setY(node.getY() / wrapper.getGenome().size());
 		}
 		nodeList.get(nodeList.size() - 1).setY(nodeList.get(0).getY());
 		super.calculate(wrapper, container);
