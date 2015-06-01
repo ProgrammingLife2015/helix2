@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * @author Boris Mattijssen
  */
 public class GenomeFilter implements Filter<DataNode> {
+	public static final String NAME = "genome";
 	protected final List<String> genomes;
 	
 	public GenomeFilter(List<String> genomes) {
