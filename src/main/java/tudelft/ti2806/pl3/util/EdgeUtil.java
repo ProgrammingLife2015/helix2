@@ -45,7 +45,7 @@ public class EdgeUtil {
 			Collections.sort(outgoingList);
 			List<Wrapper> removeList = new ArrayList<>();
 			for (Wrapper outgoing : outgoingList) {
-				if (genomes.size() == 0) {
+				if (Collections.disjoint(genomes, outgoing.getGenome())) {
 					removeList.add(outgoing);
 				} else {
 					genomes.removeAll(outgoing.getGenome());
