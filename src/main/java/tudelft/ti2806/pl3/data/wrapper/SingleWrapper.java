@@ -7,6 +7,11 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Wraps a single {@link Wrapper}.
+ * 
+ * @author Sam Smulders
+ */
 public class SingleWrapper extends Wrapper {
 	
 	private Wrapper target;
