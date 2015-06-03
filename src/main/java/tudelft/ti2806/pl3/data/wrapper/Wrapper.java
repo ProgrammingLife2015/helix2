@@ -84,7 +84,11 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	 */
 	@Override
 	public int compareTo(Wrapper other) {
-		return this.previousNodesCount - other.previousNodesCount;
+		int order = this.previousNodesCount - other.previousNodesCount;
+		if (order != 0) {
+			return order;
+		}
+		return this.getIdString().compareTo(other.getIdString());
 	}
 	
 	public abstract void collectDataNodes(List<DataNode> list);
