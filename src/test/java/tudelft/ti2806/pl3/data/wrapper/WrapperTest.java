@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
@@ -21,7 +22,7 @@ public class WrapperTest {
 	
 	@Before
 	public void before() {
-		wrapper = new TestWrapper();
+		wrapper = new TestWrapper(0);
 	}
 	
 	@Test
@@ -59,10 +60,10 @@ public class WrapperTest {
 	@Test
 	public void compareTest() {
 		List<Wrapper> wrapperList = new ArrayList<>();
-		Wrapper wrapper1 = new TestWrapper();
-		Wrapper wrapper2 = new TestWrapper();
-		Wrapper wrapper3 = new TestWrapper();
-		Wrapper wrapper4 = new TestWrapper();
+		Wrapper wrapper1 = new TestWrapper(1);
+		Wrapper wrapper2 = new TestWrapper(2);
+		Wrapper wrapper3 = new TestWrapper(3);
+		Wrapper wrapper4 = new TestWrapper(4);
 		
 		wrapper1.getOutgoing().add(wrapper2);
 		wrapper2.getOutgoing().add(wrapper3);
@@ -87,6 +88,6 @@ public class WrapperTest {
 		assertEquals(-1, wrapper1.compareTo(wrapper2));
 		assertEquals(1, wrapper2.compareTo(wrapper1));
 		assertEquals(0, wrapper1.compareTo(wrapper1));
-		assertEquals(0, wrapper2.compareTo(wrapper4));
+		assertNotEquals(0, wrapper2.compareTo(wrapper4));
 	}
 }
