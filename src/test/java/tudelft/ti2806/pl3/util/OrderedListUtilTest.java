@@ -113,7 +113,11 @@ public class OrderedListUtilTest {
 		public String getIdString() {
 			return null;
 		}
-		
+
+		@Override public int getId() {
+			return 0;
+		}
+
 		@Override
 		public Set<Genome> getGenome() {
 			return new HashSet<Genome>();

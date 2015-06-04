@@ -51,7 +51,11 @@ class TestWrapper extends Wrapper {
 	public String getIdString() {
 		return Integer.toString(id);
 	}
-	
+
+	@Override public int getId() {
+		return id;
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return genomeSet;

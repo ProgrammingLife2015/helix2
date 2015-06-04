@@ -70,7 +70,11 @@ public class DataNodeWrapper extends Wrapper {
 	public String getIdString() {
 		return Integer.toString(node.getId());
 	}
-	
+
+	@Override public int getId() {
+		return node.getId();
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return node.getCurrentGenomeSet();
