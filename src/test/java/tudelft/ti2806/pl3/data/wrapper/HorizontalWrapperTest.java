@@ -20,9 +20,9 @@ import java.util.List;
 public class HorizontalWrapperTest {
 	@Test
 	public void getterTests() {
-		Wrapper wrapper1 = new TestWrapper(1);
-		Wrapper wrapper2 = new TestWrapper(2);
-		Wrapper wrapper3 = new TestWrapper(4);
+		Wrapper wrapper1 = new TestWrapper(1, 1);
+		Wrapper wrapper2 = new TestWrapper(2, 2);
+		Wrapper wrapper3 = new TestWrapper(3, 4);
 		List<Wrapper> wrapperList = new ArrayList<>();
 		wrapperList.add(wrapper1);
 		wrapperList.add(wrapper2);
