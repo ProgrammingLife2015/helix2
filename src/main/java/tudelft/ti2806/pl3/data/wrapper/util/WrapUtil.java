@@ -3,8 +3,10 @@ package tudelft.ti2806.pl3.data.wrapper.util;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
+import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
@@ -26,8 +28,7 @@ public final class WrapUtil {
 	}
 	
 	/**
-	 * Collapses a graph until it converges or until the {@code maxIteration} is
-	 * reached.
+	 * Collapses a graph until it converges to a single {@link Wrapper}.
 	 * 
 	 * @param original
 	 *            the original graph to collapse, which will be left unchanged
@@ -47,6 +48,16 @@ public final class WrapUtil {
 		return lastGraph;
 	}
 	
+	/**
+	 * Collapses a graph until it converges to a set of {@link Wrapper}s which
+	 * can't be wrapped with {@link HorizontalWrapper}s or
+	 * {@link VerticalWrapper}s.
+	 * 
+	 * @param original
+	 *            the original graph to collapse, which will be left unchanged
+	 * @return A {@link WrappedGraphData} instance with the most collapsed graph
+	 *         found, with only using vertical and horizontal options.
+	 */
 	public static WrappedGraphData collapseGraphSimple(WrappedGraphData original) {
 		WrappedGraphData graph = original;
 		WrappedGraphData lastGraph = original;
