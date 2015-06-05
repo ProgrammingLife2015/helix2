@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.sidebar.phylotree;
 import newick.NewickParser;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;
+import tudelft.ti2806.pl3.util.Resources;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
@@ -95,7 +96,7 @@ public class PhyloView extends JPanel implements View {
 	 * Set the icons of the JTree.
 	 */
 	private void setUpLook() {
-		ImageIcon childIcon = new ImageIcon(ICON_BACTERIA);
+		ImageIcon childIcon = new ImageIcon(Resources.getResource(ICON_BACTERIA));
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(childIcon);
 		jTree.setCellRenderer(renderer);

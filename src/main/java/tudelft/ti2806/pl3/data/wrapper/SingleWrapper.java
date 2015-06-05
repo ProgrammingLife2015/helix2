@@ -33,7 +33,11 @@ public class SingleWrapper extends Wrapper {
 	public String getIdString() {
 		return target.getIdString();
 	}
-	
+
+	@Override public int getId() {
+		return target.getId();
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return target.getGenome();

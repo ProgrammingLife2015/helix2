@@ -22,7 +22,11 @@ public class WrapperPlaceholder extends Wrapper {
 	public String getIdString() {
 		return ID_STRING;
 	}
-	
+
+	@Override public int getId() {
+		return 0;
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return null;

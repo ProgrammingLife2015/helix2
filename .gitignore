@@ -59,4 +59,4 @@ hs_err_pid*
 !/data/testdata/
 !/data/testdata/*.graph
 
-!pictures/*
+!resources/pictures/*

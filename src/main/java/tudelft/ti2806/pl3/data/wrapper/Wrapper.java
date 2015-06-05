@@ -72,6 +72,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	}
 	
 	public abstract String getIdString();
+
+	public abstract int getId();
 	
 	public abstract Set<Genome> getGenome();
 	

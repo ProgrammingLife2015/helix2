@@ -94,7 +94,7 @@ public class Application extends JFrame {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
-			GeneData geneData = GeneData.parseGenes("data/geneAnnotationsRef");
+			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
 
 			final long startTime = System.currentTimeMillis();
 
