@@ -1,7 +1,5 @@
 package tudelft.ti2806.pl3.data;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public enum AminoAcid {
@@ -12,7 +10,7 @@ public enum AminoAcid {
 	private static final int CODONS = (int) Math.pow(BasePair.MAX_GENE,
 			CODON_SIZE);
 	private static final AminoAcid[] TRANSLATION_TABLE = fillTranslationTable();
-	private static final String TRANSLATION_TABLE_FILE = "data/translationTable";
+	private static final String TRANSLATION_TABLE_FILE = "translationTable";
 	
 	/**
 	 * Get the {@code AminoAcid} with the given codon.
@@ -38,7 +36,7 @@ public enum AminoAcid {
 	private static AminoAcid[] fillTranslationTable() {
 		AminoAcid[] table = new AminoAcid[CODONS];
 		try {
-			Scanner scanner = new Scanner(new File(TRANSLATION_TABLE_FILE), "UTF-8");
+			Scanner scanner = new Scanner(AminoAcid.class.getClassLoader().getResourceAsStream(TRANSLATION_TABLE_FILE), "UTF-8");
 			for (int i = 0; i < CODONS; i++) {
 				String[] data = scanner.nextLine().split(" ");
 				if (!data[0].startsWith("#")) {
@@ -47,8 +45,8 @@ public enum AminoAcid {
 				}
 			}
 			scanner.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+
 		}
 		return table;
 	}

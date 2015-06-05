@@ -12,9 +12,6 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
 import java.awt.Component;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -120,22 +117,11 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * Sets the graph its drawing properties.
 	 */
 	private void setGraphPropertys() {
-		String url = "resources/stylesheet.css";
-		try {
-			List<String> lines = Files.readAllLines(Paths.get(url));
-			
-			StringBuffer stylesheet = new StringBuffer();
-			for (String line : lines) {
-				stylesheet.append(line + " ");
-			}
-			
-			graph.addAttribute("ui.stylesheet", stylesheet.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		String stylesheet = "stylesheet.css";
+
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
+		graph.addAttribute("ui.stylesheet", "url('" + stylesheet + "')");
 	}
 	
 	/**
@@ -156,7 +142,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 					Node graphNode = graph.addNode(node.getIdString());
 					double y = node.getY() * someSize;
 					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("ui.class", node.getClass()
+					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
 							.getSimpleName());
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 				}

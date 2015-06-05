@@ -3,7 +3,9 @@ package tudelft.ti2806.pl3.data.gene;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,22 +74,26 @@ public class GeneData {
 		Map<Integer, Gene> geneStart = new HashMap<>();
 		Map<Integer, Gene> geneEnd = new HashMap<>();
 
-		BufferedReader bufferedReader = null;
+		Reader reader;
 		try {
-			FileInputStream fileInputStream = new FileInputStream(filename);
-			bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-
-			String line;
-			// Read File Line By Line
-			while ((line = bufferedReader.readLine()) != null) {
-				// don't parse comments
-				if (line.charAt(0) != '#') {
-					parseGene(line, genes, geneStart, geneEnd);
-				}
-			}
-		} finally {
-			bufferedReader.close();
+			InputStream fileInputStream = GeneData.class.getClassLoader().getResourceAsStream(filename);
+			reader = new InputStreamReader(fileInputStream);
+		} catch (NullPointerException e) {
+			InputStream fileInputStream = new FileInputStream(filename);
+			reader = new InputStreamReader(fileInputStream);
 		}
+		BufferedReader bufferedReader = new BufferedReader(reader);
+
+		String line;
+		// Read File Line By Line
+		while ((line = bufferedReader.readLine()) != null) {
+			// don't parse comments
+			if (line.charAt(0) != '#') {
+				parseGene(line, genes, geneStart, geneEnd);
+			}
+		}
+		bufferedReader.close();
+
 		return new GeneData(genes, geneStart, geneEnd);
 	}
 

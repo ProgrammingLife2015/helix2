@@ -95,7 +95,7 @@ public class PhyloView extends JPanel implements View {
 	 * Set the icons of the JTree.
 	 */
 	private void setUpLook() {
-		ImageIcon childIcon = new ImageIcon(ICON_BACTERIA);
+		ImageIcon childIcon = new ImageIcon(this.getClass().getClassLoader().getResource(ICON_BACTERIA));
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(childIcon);
 		jTree.setCellRenderer(renderer);
