@@ -46,7 +46,7 @@ public enum AminoAcid {
 			}
 			scanner.close();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return table;
 	}
