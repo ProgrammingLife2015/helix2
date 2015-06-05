@@ -1,9 +1,7 @@
 package tudelft.ti2806.pl3.util;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Enumeration;
 
 /**
  * Created by Mathieu Post on 5-6-15.
