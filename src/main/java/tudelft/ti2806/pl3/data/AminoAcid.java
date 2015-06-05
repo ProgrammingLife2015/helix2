@@ -36,7 +36,8 @@ public enum AminoAcid {
 	private static AminoAcid[] fillTranslationTable() {
 		AminoAcid[] table = new AminoAcid[CODONS];
 		try {
-			Scanner scanner = new Scanner(AminoAcid.class.getClassLoader().getResourceAsStream(TRANSLATION_TABLE_FILE), "UTF-8");
+			Scanner scanner = new Scanner(AminoAcid.class.getClassLoader()
+					.getResourceAsStream(TRANSLATION_TABLE_FILE), "UTF-8");
 			for (int i = 0; i < CODONS; i++) {
 				String[] data = scanner.nextLine().split(" ");
 				if (!data[0].startsWith("#")) {
