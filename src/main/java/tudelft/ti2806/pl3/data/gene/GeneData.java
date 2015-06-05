@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.data.gene;
 
+import tudelft.ti2806.pl3.util.Resources;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -76,7 +78,7 @@ public class GeneData {
 
 		Reader reader;
 		try {
-			InputStream fileInputStream = GeneData.class.getClassLoader().getResourceAsStream(filename);
+			InputStream fileInputStream = Resources.getResourceAsStream(filename);
 			reader = new InputStreamReader(fileInputStream);
 		} catch (NullPointerException e) {
 			InputStream fileInputStream = new FileInputStream(filename);
