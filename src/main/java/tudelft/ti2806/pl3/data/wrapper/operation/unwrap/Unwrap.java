@@ -299,7 +299,8 @@ public abstract class Unwrap extends WrapperOperation {
 	 */
 	private Wrapper createNewNode(Wrapper node) {
 		if (node instanceof SingleWrapper || node instanceof CombineWrapper
-				&& isConditionMet((CombineWrapper) node)) {
+				&& isConditionMet((CombineWrapper) node)
+				&& ((CombineWrapper) node).canUnwrap()) {
 			WrapperPlaceholder placeholder = new WrapperPlaceholder();
 			stack.add(new Pair<>(placeholder, node));
 			return placeholder;

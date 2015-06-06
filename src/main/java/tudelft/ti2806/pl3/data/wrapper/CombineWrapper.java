@@ -79,4 +79,8 @@ public abstract class CombineWrapper extends Wrapper {
 		}
 		this.x /= this.getNodeList().size();
 	}
+	
+	public boolean canUnwrap() {
+		return true;
+	}
 }

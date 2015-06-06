@@ -28,6 +28,7 @@ public class HorizontalWrapper extends CombineWrapper {
 		this.canUnwrap = canUnwrap;
 	}
 	
+	@Override
 	public boolean canUnwrap() {
 		return canUnwrap;
 	}
