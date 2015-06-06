@@ -22,7 +22,7 @@ import java.util.Map;
 public final class HorizontalWrapUtil {
 	private HorizontalWrapUtil() {
 	}
-
+	
 	/**
 	 * Constructs a {@link WrappedGraphData} instance which contains the
 	 * horizontal collapsed graph of the given graph.
@@ -33,8 +33,10 @@ public final class HorizontalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	@SuppressWarnings("CPD-START")
-	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
-		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
+	public static WrappedGraphData collapseGraph(WrappedGraphData original,
+			boolean canUnwrap) {
+		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes(),
+				canUnwrap);
 		if (newLayer == null) {
 			return null;
 		}
@@ -42,17 +44,18 @@ public final class HorizontalWrapUtil {
 	}
 	
 	/**
-	 * Combines nodes vertically. Combines all {@link DataNode}s in the
-	 * given list of node into {@link VerticalWrapper}s, reconnects the
-	 * {@link VerticalWrapper}s in the graph and remove all
-	 * {@link DataNode}s which are combined from the graph.
+	 * Combines nodes vertically. Combines all {@link DataNode}s in the given
+	 * list of node into {@link VerticalWrapper}s, reconnects the
+	 * {@link VerticalWrapper}s in the graph and remove all {@link DataNode}s
+	 * which are combined from the graph.
 	 * 
 	 * @param nodes
 	 *            the nodes to combine
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> parentLayer) {
+	static List<Wrapper> combineNodes(List<Wrapper> parentLayer,
+			boolean canUnwrap) {
 		Map<String, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
 		List<String> nonWrappedNodesOrder = new ArrayList<>(parentLayer.size());
 		for (Wrapper node : parentLayer) {
@@ -62,7 +65,7 @@ public final class HorizontalWrapUtil {
 		}
 		List<CombineWrapper> combinedNodes = new ArrayList<>();
 		for (List<Wrapper> list : findCombineableNodes(parentLayer)) {
-			HorizontalWrapper newNode = new HorizontalWrapper(list);
+			HorizontalWrapper newNode = new HorizontalWrapper(list, canUnwrap);
 			combinedNodes.add(newNode);
 			for (Wrapper wrapper : list) {
 				nonWrappedNodes.remove(wrapper.getIdString());
@@ -110,7 +113,7 @@ public final class HorizontalWrapUtil {
 				if (startNode == null) {
 					continue;
 				}
-
+				
 				List<Wrapper> foundGroup = new ArrayList<>();
 				foundGroup.add(startNode);
 				// Add all nodes to the right which can be combined.

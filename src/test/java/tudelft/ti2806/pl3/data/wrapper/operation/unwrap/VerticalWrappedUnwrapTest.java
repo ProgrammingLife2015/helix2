@@ -69,7 +69,7 @@ public class VerticalWrappedUnwrapTest {
 		vertical.getIncoming().add(nodePosition1);
 		nodePosition4.getIncoming().add(vertical);
 		
-		HorizontalWrapper start = new HorizontalWrapper(horizontalList);
+		HorizontalWrapper start = new HorizontalWrapper(horizontalList, true);
 		
 		unwrap = new UnwrapTest();
 		unwrap.compute(start);
