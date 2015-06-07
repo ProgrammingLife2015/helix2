@@ -6,18 +6,37 @@ import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
+/**
+ * Computes the interestingness based on the N percentage.
+ * 
+ * @author Sam Smulders
+ */
 public class CalculateNInterest extends WrapperOperation {
-	private final int interestRatio;
 	
-	public CalculateNInterest(int interestRatio) {
-		this.interestRatio = interestRatio;
+	/**
+	 * The value of how interesting this {@link DataNode} property is. Giving it
+	 * a negative number makes {@link DataNode}s with a high N percentage less
+	 * interesting.
+	 */
+	private final int interest;
+	
+	public CalculateNInterest(int interest) {
+		this.interest = interest;
 	}
 	
 	@Override
 	public void calculate(DataNodeWrapper wrapper, Wrapper container) {
-		wrapper.addInterest((int) (this.interestRatio * computeRation(wrapper)));
+		wrapper.addInterest((int) (this.interest * computeRation(wrapper)));
 	}
 	
+	/**
+	 * Computes the ratio of N's in the {@link DataNode}s within the given
+	 * wrapper.
+	 * 
+	 * @param wrapper
+	 *            the wrapper
+	 * @return the ratio, between 1.0 and 0.0
+	 */
 	private double computeRation(DataNodeWrapper wrapper) {
 		long nCount = 0;
 		long totalCount = 0;
