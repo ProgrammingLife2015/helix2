@@ -12,6 +12,8 @@ before_install:
 env:
 - BUILD_PR_BRANCH=true
 - BUILD_PR_BRANCH=false
+  global:
+    secure: d6foWLlULpBMgkenopdVm4XvFc5Wy1o1oh4Xe2iycBOKr+6pm3qsBaZyyRN+B7ZKmDHKwyyTq6GGCBdf2rFVuR0kwYJUbT8VktXpLA95+KioHj0JX6/1L+Tr6KbZh4+WBlG3zI+8nOaT0/R2baycdzJXLGwD7647LzoV00tqPIY=
 matrix:
   allow_failures:
   - env:
@@ -27,18 +29,16 @@ before_deploy:
   - git config --global user.name "Travis CI"
   - export GIT_TAG=$TRAVIS_BRANCH-0.1.$TRAVIS_BUILD_NUMBER
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q git@github.com:ProgrammingLife3/ProgrammingLife3.git --tags
+  - git push -q https://$GITPERM@github.com/ProgrammingLife3/ProgrammingLife3 --tags
   - ls -R
 deploy:
   skip_cleanup: true
   provider: releases
-  api_key:
-    secure: d6foWLlULpBMgkenopdVm4XvFc5Wy1o1oh4Xe2iycBOKr+6pm3qsBaZyyRN+B7ZKmDHKwyyTq6GGCBdf2rFVuR0kwYJUbT8VktXpLA95+KioHj0JX6/1L+Tr6KbZh4+WBlG3zI+8nOaT0/R2baycdzJXLGwD7647LzoV00tqPIY=
+  api_key: $GITPERM
   file: target/app-0.1-jar-with-dependencies.jar
   on:
     tags: false
     all_branches: true
-    repo: ProgrammingLife3/ProgrammingLife3
 branches:
   except:
     - /^*-v[0-9]/
