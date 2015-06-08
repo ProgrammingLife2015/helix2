@@ -44,6 +44,14 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getGraphController().zoomLevelDown();
 	}
 
+	private void moveLeft() {
+		application.getGraphController().moveLeft();
+	}
+
+	private void moveRight() {
+		application.getGraphController().moveRight();
+	}
+
 	private void resetView() {
 		application.getGraphController().resetZoom();
 	}
@@ -73,6 +81,12 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case "Zoom out ( - )":
 				zoomOut();
+				break;
+			case "Move left ( \u2190 )":
+				moveLeft();
+				break;
+			case "Move right ( \u2192 )":
+				moveRight();
 				break;
 			case "Reset view":
 				resetView();

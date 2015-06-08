@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,7 +15,6 @@ import javax.swing.JMenuItem;
 public class MenuBarView extends JMenuBar implements View {
 
 	private MenuBarController menuBarController;
-
 
 	/**
 	 * Makes the view of the menubar.
@@ -66,10 +64,14 @@ public class MenuBarView extends JMenuBar implements View {
 
 		JMenuItem zoomIn = new JMenuItem("Zoom in ( + )");
 		JMenuItem zoomOut = new JMenuItem("Zoom out ( - )");
+		JMenuItem moveRight = new JMenuItem("Move right ( \u2192 )");
+		JMenuItem moveLeft = new JMenuItem("Move left ( \u2190 )");
 		JMenuItem reset = new JMenuItem("Reset view");
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
+		viewMenu.add(moveLeft);
+		viewMenu.add(moveRight);
 		viewMenu.add(reset);
 
 		// add action listener for every item
