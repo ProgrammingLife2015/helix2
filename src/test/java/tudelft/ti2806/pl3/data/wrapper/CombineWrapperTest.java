@@ -24,9 +24,9 @@ public class CombineWrapperTest {
 	
 	@Test
 	public void combineWrapperGetTests() {
-		Wrapper wrapper1 = new TestWrapper();
-		Wrapper wrapper2 = new TestWrapper();
-		Wrapper wrapper3 = new TestWrapper();
+		Wrapper wrapper1 = new TestWrapper(1);
+		Wrapper wrapper2 = new TestWrapper(2);
+		Wrapper wrapper3 = new TestWrapper(3);
 		
 		// Test node list
 		List<Wrapper> wrappers = new ArrayList<>(3);

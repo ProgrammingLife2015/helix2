@@ -11,6 +11,7 @@ import java.util.Set;
 class TestWrapper extends Wrapper {
 	private int basePairCount;
 	private HashSet<Genome> genomeSet = new HashSet<>();
+	private int id;
 	
 	public TestWrapper(int basePairCount, Genome... genomes) {
 		this.basePairCount = basePairCount;
@@ -19,12 +20,17 @@ class TestWrapper extends Wrapper {
 		}
 	}
 	
-	public TestWrapper(int basePairCount) {
+	public TestWrapper(int id, int basePairCount) {
+		this.id = id;
 		this.basePairCount = basePairCount;
 	}
 	
+	public TestWrapper(int id) {
+		this(id, 0);
+	}
+	
 	public TestWrapper() {
-		this(0);
+		this(0, 0);
 	}
 	
 	@Override
@@ -43,9 +49,13 @@ class TestWrapper extends Wrapper {
 	
 	@Override
 	public String getIdString() {
-		return null;
+		return Integer.toString(id);
 	}
-	
+
+	@Override public int getId() {
+		return id;
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return genomeSet;

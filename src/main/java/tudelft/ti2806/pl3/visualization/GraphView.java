@@ -3,12 +3,8 @@ package tudelft.ti2806.pl3.visualization;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
-import org.graphstream.ui.swingViewer.util.Camera;
-import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
-import org.graphstream.ui.swingViewer.util.GraphMetrics;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
@@ -28,7 +24,7 @@ import java.util.Observer;
  * The GraphView is responsible for adding the nodes and edges to the graph,
  * keeping the nodes and edges on the right positions and applying the right
  * style to the graph.
- *
+ * 
  * @author Sam Smulders
  *
  */
@@ -45,13 +41,13 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * The center position of the view.<br>
 	 * The position on the x axis.
 	 */
-	private float zoomCenter = 1;
-
+	private long zoomCenter = 1;
+	
 	/**
 	 * The css style sheet used drawing the graph.<br>
 	 * Generate a new view to have the changes take effect.
 	 */
-
+	
 	private List<WrapperClone> graphData;
 	private Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
@@ -105,10 +101,10 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		notifyLoadingObservers(true);
 		generateViewer();
 		// TODO: don't hardcode
-		//setZoomCenter(600);
+		setZoomCenter(600);
 		notifyLoadingObservers(false);
 	}
-
+	
 	/**
 	 * Generates a {@link Viewer} for the graph with the given {@code zoomLevel}
 	 * . A new Viewer should be constructed every time the graphData or
@@ -134,27 +130,16 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * Sets the graph its drawing properties.
 	 */
 	private void setGraphPropertys() {
-		String url = "resources/stylesheet.css";
-		try {
-			List<String> lines = Files.readAllLines(Paths.get(url));
-
-			StringBuffer stylesheet = new StringBuffer();
-			for (String line : lines) {
-				stylesheet.append(line + " ");
-			}
-
-			graph.addAttribute("ui.stylesheet", stylesheet.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String stylesheet = "stylesheet.css";
 
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
+		graph.addAttribute("ui.stylesheet", "url('" + stylesheet + "')");
 	}
-
+	
 	/**
 	 * Generates a Graph from the current graphData.
-	 *
+	 * 
 	 * @return a graph with all nodes from the given graphData
 	 */
 	public Graph generateGraph() {
@@ -166,16 +151,16 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 						.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-			if (!"[FIX]".equals(node.getIdString())) {
-				Node graphNode = graph.addNode(node.getIdString());
-				double y = node.getY() * someSize;
-				graphNode.setAttribute("xy", node.getX(), y);
-				graphNode.addAttribute("ui.class", node.getClass()
-						.getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-			}
-		});
-
+				if (!"[FIX]".equals(node.getIdString())) {
+					Node graphNode = graph.addNode(node.getIdString());
+					double y = node.getY() * someSize;
+					graphNode.setAttribute("xy", node.getX(), y);
+					graphNode.addAttribute("ui.class", node.getClass()
+							.getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				}
+			});
+		
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
 				if (!"[FIX]".equals(node.getIdString()) && !"[FIX]".equals(to.getIdString())) {
@@ -186,10 +171,10 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		notifyLoadingObservers(false);
 		return graph;
 	}
-
+	
 	/**
 	 * Adds an edge between two nodes.
-	 *
+	 * 
 	 * @param graph
 	 *            the graph to add the edge to
 	 * @param from
@@ -200,12 +185,12 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
 		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
 	}
-
+	
 	@Override
 	public Component getPanel() {
 		return panel;
 	}
-
+	
 	@Override
 	public GraphController getController() {
 		return graphController;
@@ -221,57 +206,22 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			zoom();
 		}
 	}
-
+	
 	private void zoom() {
 		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
-
-	/**
-	 * Calculates the position in the graph when the x = 0 of the view.
-	 * @return double in graph units when x = 0 in the view.
-	 */
-	public double getCurrentViewX() {
-		// get the center
-		Camera camera = viewer.getDefaultView().getCamera();
-		double x = camera.getViewCenter().x - getGraphSizeInGraphUnits() * (getViewPercent() / 2);
-
-		return x;
-	}
-
-	public double getZoomCenterX() {
-		GraphMetrics converter = viewer.getDefaultView().getCamera().getMetrics();
-		return converter.lengthToPx(viewer.getDefaultView().getCamera().getViewCenter().x, StyleConstants.Units.GU);
-	}
-
-	/**
-	 * Gives the size in Graph Units that is calculate by the GraphStream {@link Viewer}.
-	 * @return double size in GU
-	 */
-	public double getGraphSizeInGraphUnits() {
-		return viewer.getDefaultView().getCamera().getGraphDimension();
-	}
-
-	/**
-	 * Get the percentage that is displayed of the whole graph.
-	 * @return double 1 when the whole graph is displayed.
-	 */
-	public double getViewPercent() {
-		return viewer.getDefaultView().getCamera().getViewPercent() / 2;
-	}
-
-
-
-	public float getZoomCenter() {
+	
+	public long getZoomCenter() {
 		return zoomCenter;
 	}
-
+	
 	/**
 	 * Moves the view to the given position on the x axis.
 	 *
 	 * @param zoomCenter
 	 *            the new center of view
 	 */
-	public void setZoomCenter(float zoomCenter) {
+	public void setZoomCenter(long zoomCenter) {
 		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
