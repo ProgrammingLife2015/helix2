@@ -31,12 +31,20 @@ public class MenuBarController implements ActionListener, Controller {
 
 	private Application application;
 
+	/**
+	 * Text that is displayed in the About Me option in the Help menu.
+	 */
 	private final String about = "Helix\u00B2 is a interactive DNA sequence viewer. " +
 			"It uses semantic zooming to only display relative information. " +
 			"\nThis application was created for as part of a assignment for Contextproject on the TU Delft." +
 			"\n" + "\nHelix\u00B2 was created by: " +
 			"\n- Tom Brouws" + "\n- Boris Mattijssen" + "\n- Mathieu Post" + "\n- Sam Smulders" + "\n- Kasper Wendel" +
 			"\n" + "\nThe code of this application is opensource and can be found on GitHub: " + "\n";
+
+	/**
+	 * Text that is displayed in the Controls option in the Help menu.
+	 */
+	private final String controls = "";
 
 	/**
 	 * Constructs a new controller for {@link MenuBarView}.
@@ -84,6 +92,9 @@ public class MenuBarController implements ActionListener, Controller {
 		JOptionPane.showMessageDialog(application, "Tekst", "Controls", JOptionPane.PLAIN_MESSAGE);
 	}
 
+	/**
+	 * Displays the about me text in a {@link JTextPane}.
+	 */
 	private void displayAbout() {
 		StyleContext styleContext = new StyleContext();
 		DefaultStyledDocument doc = new DefaultStyledDocument(styleContext);
@@ -105,6 +116,13 @@ public class MenuBarController implements ActionListener, Controller {
 		JOptionPane.showMessageDialog(application, textPane, "About Me", JOptionPane.PLAIN_MESSAGE);
 	}
 
+	/**
+	 * Makes a clickable JLabel with the github link of our project.
+	 * When the user clicks the label, the browser is opened on our github project.
+	 * If there is a error the user will get a message of this.
+	 *
+	 * @return clickable JLabel with URL
+	 */
 	private JLabel website() {
 		JLabel website = new JLabel("https://github.com/ProgrammingLife3/ProgrammingLife3");
 		website.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
