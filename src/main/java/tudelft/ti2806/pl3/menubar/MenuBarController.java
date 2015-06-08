@@ -207,16 +207,16 @@ public class MenuBarController implements ActionListener, Controller {
 			case "Exit":
 				stop();
 				break;
-			case "Zoom in ( + )":
+			case "Zoom in":
 				zoomIn();
 				break;
-			case "Zoom out ( - )":
+			case "Zoom out":
 				zoomOut();
 				break;
-			case "Move left ( \u2190 )":
+			case "Move left":
 				moveLeft();
 				break;
-			case "Move right ( \u2192 )":
+			case "Move right":
 				moveRight();
 				break;
 			case "Reset view":

@@ -7,6 +7,7 @@ import java.awt.Component;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 /**
  * Menubarview is the view for the menubar.
@@ -62,13 +63,25 @@ public class MenuBarView extends JMenuBar implements View {
 	 * @return JMenu view
 	 */
 	private JMenu setUpView() {
+		// ascii value of the shortcuts
+		final char plus = 43;
+		final char minus = 45;
+		final char r = 82;
+		final char right = "\u2192".charAt(0);
+		final char left = "\u2190".charAt(0);
+
 		JMenu viewMenu = new JMenu("View");
 
-		JMenuItem zoomIn = new JMenuItem("Zoom in ( + )");
-		JMenuItem zoomOut = new JMenuItem("Zoom out ( - )");
-		JMenuItem moveRight = new JMenuItem("Move right ( \u2192 )");
-		JMenuItem moveLeft = new JMenuItem("Move left ( \u2190 )");
-		JMenuItem reset = new JMenuItem("Reset view ( R )");
+		JMenuItem zoomIn = new JMenuItem("Zoom in");
+		zoomIn.setAccelerator(KeyStroke.getKeyStroke(plus));
+		JMenuItem zoomOut = new JMenuItem("Zoom out");
+		zoomOut.setAccelerator(KeyStroke.getKeyStroke(minus));
+		JMenuItem moveLeft = new JMenuItem("Move left");
+		moveLeft.setAccelerator(KeyStroke.getKeyStroke(left));
+		JMenuItem moveRight = new JMenuItem("Move right");
+		moveRight.setAccelerator(KeyStroke.getKeyStroke(right));
+		JMenuItem reset = new JMenuItem("Reset view");
+		reset.setAccelerator(KeyStroke.getKeyStroke(r));
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
