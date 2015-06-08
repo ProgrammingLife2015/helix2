@@ -46,10 +46,9 @@ public class MenuBarView extends JMenuBar implements View {
 		fileMenu.add(exit);
 
 		// add action listener for every item
+		// cast is safe since we only add JMenuItems
 		for (Component component : fileMenu.getMenuComponents()) {
-			if (component instanceof JMenuItem) {
-				((JMenuItem) component).addActionListener(menuBarController);
-			}
+			((JMenuItem) component).addActionListener(menuBarController);
 		}
 
 		return fileMenu;
@@ -76,10 +75,9 @@ public class MenuBarView extends JMenuBar implements View {
 		viewMenu.add(reset);
 
 		// add action listener for every item
+		// cast is safe since we only add JMenuItems
 		for (Component component : viewMenu.getMenuComponents()) {
-			if (component instanceof JMenuItem) {
-				((JMenuItem) component).addActionListener(menuBarController);
-			}
+			((JMenuItem) component).addActionListener(menuBarController);
 		}
 
 		return viewMenu;
@@ -93,6 +91,12 @@ public class MenuBarView extends JMenuBar implements View {
 
 		helpMenu.add(help);
 		helpMenu.add(about);
+
+		// add action listener for every item
+		// cast is safe since we only add JMenuItems
+		for (Component component : helpMenu.getMenuComponents()) {
+			((JMenuItem) component).addActionListener(menuBarController);
+		}
 
 		return helpMenu;
 	}
