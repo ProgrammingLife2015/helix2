@@ -3,7 +3,6 @@ package tudelft.ti2806.pl3.visualization;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.LoadingObservable;
