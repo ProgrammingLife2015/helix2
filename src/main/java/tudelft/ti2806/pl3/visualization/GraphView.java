@@ -5,6 +5,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
+import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
@@ -12,9 +13,6 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
 import java.awt.Component;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
