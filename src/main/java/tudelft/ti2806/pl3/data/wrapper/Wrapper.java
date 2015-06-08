@@ -26,7 +26,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	List<Integer> outgoingWeight = new ArrayList<>();
 	
 	int previousNodesCount = -1;
-	int interest = 0;
+	float interest = 0;
 	
 	/**
 	 * @return the maximum number of base pairs that can be passed when
@@ -82,7 +82,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	}
 
 	public abstract String getIdString();
-
+	
 	public abstract int getId();
 	
 	public abstract Set<Genome> getGenome();
@@ -116,11 +116,11 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		return dataNodeList;
 	}
 	
-	public int getInterest() {
+	public float getInterest() {
 		return interest;
 	}
 	
-	public void addInterest(int interest) {
+	public void addInterest(float interest) {
 		this.interest += interest;
 	}
 	

@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.data.wrapper.operation.interest;
 
-import tudelft.ti2806.pl3.data.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -14,7 +13,6 @@ import java.util.Collection;
  * well distributed over the nodes.
  * 
  * @author Sam Smulders
- *
  */
 public class CalculateWrapPressureInterest extends WrapperOperation {
 	private final int pressureMultiplier;
@@ -25,23 +23,17 @@ public class CalculateWrapPressureInterest extends WrapperOperation {
 	
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
-		super.calculate(wrapper, container);
 		wrapper.addInterest(wrapper.getNodeList().stream()
 				.map(Wrapper::getGenome).map(Collection::size)
-				.reduce(pressureMultiplier, (a, b) -> a * b));
+				.reduce(this.pressureMultiplier, (a, b) -> a * b));
+		super.calculate(wrapper, container);
 	}
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
-		super.calculate(wrapper, container);
 		wrapper.addInterest(wrapper.getNodeList().stream()
 				.map(Wrapper::getGenome).map(Collection::size)
-				.reduce(pressureMultiplier, (a, b) -> a * b).intValue());
-	}
-	
-	@Override
-	public void calculate(SingleWrapper wrapper, Wrapper container) {
+				.reduce(this.pressureMultiplier, (a, b) -> a * b).intValue());
 		super.calculate(wrapper, container);
-		wrapper.addInterest(wrapper.getNode().getInterest());
 	}
 }

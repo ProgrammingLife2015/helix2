@@ -7,27 +7,28 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Boris Mattijssen on 21-05-15.
  */
 public class ConstructInterestList extends WrapperOperation {
 	
-	private ArrayList<Integer> interests;
+	private ArrayList<Float> interests;
 	
 	public ConstructInterestList() {
-		interests = new ArrayList<>();
-		interests.add(Integer.MAX_VALUE);
+		this.interests = new ArrayList<>();
+		this.interests.add(Float.MAX_VALUE);
 	}
 	
-	public ArrayList<Integer> getInterests() {
-		return interests;
+	public List<Float> getInterests() {
+		return this.interests;
 	}
 	
 	@Override
 	public void calculate(HorizontalWrapper nodeWrapper, Wrapper container) {
 		for (int i = nodeWrapper.getNodeList().size(); i > 1; i--) {
-			interests.add(nodeWrapper.getInterest());
+			this.interests.add(nodeWrapper.getInterest());
 		}
 		super.calculate(nodeWrapper, container);
 	}
@@ -35,7 +36,7 @@ public class ConstructInterestList extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper nodeWrapper, Wrapper container) {
 		for (int i = nodeWrapper.getNodeList().size(); i > 1; i--) {
-			interests.add(nodeWrapper.getInterest());
+			this.interests.add(nodeWrapper.getInterest());
 		}
 		super.calculate(nodeWrapper, container);
 	}
@@ -43,7 +44,7 @@ public class ConstructInterestList extends WrapperOperation {
 	@Override
 	public void calculate(SpaceWrapper nodeWrapper, Wrapper container) {
 		for (int i = nodeWrapper.getNodeList().size(); i > 1; i--) {
-			interests.add(nodeWrapper.getInterest());
+			this.interests.add(nodeWrapper.getInterest());
 		}
 		super.calculate(nodeWrapper, container);
 	}

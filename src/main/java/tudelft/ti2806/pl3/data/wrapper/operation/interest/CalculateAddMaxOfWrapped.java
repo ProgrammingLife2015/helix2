@@ -20,21 +20,21 @@ public class CalculateAddMaxOfWrapped extends WrapperOperation {
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addInterest(wrapper.getNodeList().stream()
-				.map(Wrapper::getInterest).max(Integer::compare).get());
+				.map(Wrapper::getInterest).max(Float::compare).get());
 	}
 	
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addInterest(wrapper.getNodeList().stream()
-				.map(Wrapper::getInterest).max(Integer::compare).get());
+				.map(Wrapper::getInterest).max(Float::compare).get());
 	}
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addInterest(wrapper.getNodeList().stream()
-				.map(Wrapper::getInterest).max(Integer::compare).get());
+				.map(Wrapper::getInterest).max(Float::compare).get());
 	}
 	
 	@Override

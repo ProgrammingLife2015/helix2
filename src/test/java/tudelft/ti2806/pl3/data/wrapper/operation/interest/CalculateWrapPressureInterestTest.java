@@ -15,7 +15,6 @@ import tudelft.ti2806.pl3.data.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.data.wrapper.operation.interest.CalculateWrapPressureInterest;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,8 +31,8 @@ import java.util.Set;
 public class CalculateWrapPressureInterestTest {
 	
 	private final int pressureMultiplier = 10;
-	private final int nodeWrapper1Interest = 5;
-	private final int nodeWrapper2Interest = 55;
+	private final float nodeWrapper1Interest = 5;
+	private final float nodeWrapper2Interest = 55;
 	
 	@Mock
 	Wrapper nodeWrapper1;
