@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.visualization;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
@@ -25,7 +26,7 @@ import java.util.Observer;
  * The GraphView is responsible for adding the nodes and edges to the graph,
  * keeping the nodes and edges on the right positions and applying the right
  * style to the graph.
- * 
+ *
  * @author Sam Smulders
  *
  */
@@ -60,6 +61,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 
+	private AbstractGraphData abstractGraphData;
+
 	/**
 	 * Construct a GraphView with no LoadingObservers.
 	 *
@@ -79,6 +82,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * 		Observers for loading
 	 */
 	public GraphView(AbstractGraphData abstractGraphData, ArrayList<LoadingObserver> loadingObservers) {
+		this.abstractGraphData = abstractGraphData;
 		// make graph
 		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
 		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
@@ -184,8 +188,12 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 *            the node where the edge ends
 	 */
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
-	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(to.getId()), true);
+	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
+		Edge edge = graph.addEdge(from.getIdString() + "-" + to.getIdString(),
+				from.getIdString(), to.getIdString(), true);
+		int minGenomes = Math.min(to.getGenome().size(), from.getGenome().size());
+		float percent = ((float) minGenomes) / ((float) abstractGraphData.getGenomes().size());
+		edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 	}
 	
 	@Override
