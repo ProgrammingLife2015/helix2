@@ -26,6 +26,7 @@ public class MenuBarView extends JMenuBar implements View {
 		menuBarController = new MenuBarController(application);
 		add(setUpFile());
 		add(setUpView());
+		add(setUpHelp());
 	}
 
 	/**
@@ -82,6 +83,18 @@ public class MenuBarView extends JMenuBar implements View {
 		}
 
 		return viewMenu;
+	}
+
+	private JMenu setUpHelp() {
+		JMenu helpMenu = new JMenu("Help");
+
+		JMenuItem help = new JMenuItem("Controls");
+		JMenuItem about = new JMenuItem("About Us");
+
+		helpMenu.add(help);
+		helpMenu.add(about);
+
+		return helpMenu;
 	}
 
 	@Override

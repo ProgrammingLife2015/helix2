@@ -5,6 +5,7 @@ import tudelft.ti2806.pl3.Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  * Controller for menubar view
@@ -56,6 +57,12 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getGraphController().resetZoom();
 	}
 
+	private void displayControls(){
+		JOptionPane.showMessageDialog(application,"Controls");
+	}
+	private void displayAbout(){
+		JOptionPane.showMessageDialog(application,"About");
+	}
 
 	/**
 	 * Controls the Buttons Events from the {@link MenuBarView}.
@@ -90,6 +97,12 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case "Reset view":
 				resetView();
+				break;
+			case "Controls":
+				displayControls();
+				break;
+			case "About Us":
+				displayAbout();
 				break;
 			default:
 				break;
