@@ -2,15 +2,17 @@ package tudelft.ti2806.pl3.visualization;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
+import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
+import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -22,9 +24,8 @@ import java.util.Observer;
  * The GraphView is responsible for adding the nodes and edges to the graph,
  * keeping the nodes and edges on the right positions and applying the right
  * style to the graph.
- * 
- * @author Sam Smulders
  *
+ * @author Sam Smulders
  */
 public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
 	/**
@@ -39,15 +40,15 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * The center position of the view.<br>
 	 * The position on the x axis.
 	 */
-	private long zoomCenter = 1;
-	
+	private float zoomCenter = 1;
+
 	/**
 	 * The css style sheet used drawing the graph.<br>
 	 * Generate a new view to have the changes take effect.
 	 */
-	
+
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("Graph");
+	private GraphicGraph graph = new GraphicGraph("Graph");
 	private Viewer viewer;
 	private View panel;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
@@ -102,7 +103,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		setZoomCenter(600);
 		notifyLoadingObservers(false);
 	}
-	
+
 	/**
 	 * Generates a {@link Viewer} for the graph with the given {@code zoomLevel}
 	 * . A new Viewer should be constructed every time the graphData or
@@ -113,7 +114,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		panel = viewer.addDefaultView(false);
 	}
-	
+
 	/**
 	 * Sets the graph its drawing properties.
 	 */
@@ -124,10 +125,10 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		graph.addAttribute("ui.antialias");
 		graph.addAttribute("ui.stylesheet", "url('" + stylesheet + "')");
 	}
-	
+
 	/**
 	 * Generates a Graph from the current graphData.
-	 * 
+	 *
 	 * @return a graph with all nodes from the given graphData
 	 */
 	public Graph generateGraph() {
@@ -136,7 +137,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
 				/ ((double) panel.getBounds().width * zoomLevel / zoomedGraphModel
-						.getWrappedCollapsedNode().getWidth())
+				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
 				if (FixWrapper.ID != node.getId()) {
@@ -148,7 +149,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 				}
 			});
-		
+
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
 				if (FixWrapper.ID != node.getId() && FixWrapper.ID != to.getId()) {
@@ -159,26 +160,27 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		notifyLoadingObservers(false);
 		return graph;
 	}
-	
+
 	/**
 	 * Adds an edge between two nodes.
-	 * 
+	 *
 	 * @param graph
-	 *            the graph to add the edge to
+	 * 		the graph to add the edge to
 	 * @param from
-	 *            the node where the edge begins
+	 * 		the node where the edge begins
 	 * @param to
-	 *            the node where the edge ends
+	 * 		the node where the edge ends
 	 */
+	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
 		graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 	}
-	
+
 	@Override
 	public Component getPanel() {
 		return panel;
 	}
-	
+
 	@Override
 	public GraphController getController() {
 		return graphController;
@@ -194,22 +196,22 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			zoom();
 		}
 	}
-	
+
 	private void zoom() {
 		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
-	
-	public long getZoomCenter() {
+
+	public float getZoomCenter() {
 		return zoomCenter;
 	}
-	
+
 	/**
 	 * Moves the view to the given position on the x axis.
 	 *
 	 * @param zoomCenter
-	 *            the new center of view
+	 * 		the new center of view
 	 */
-	public void setZoomCenter(long zoomCenter) {
+	public void setZoomCenter(float zoomCenter) {
 		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
@@ -244,6 +246,31 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public void notifyLoadingObservers(Object arguments) {
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			loadingObserver.update(this, arguments);
+		}
+	}
+
+	/**
+	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently
+	 * drawn {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
+	 * {@link WrapperClone}.
+	 *
+	 * @param node
+	 * 		The {@link DataNode} to move the view to
+	 * @throws NodeNotFoundException
+	 *      Thrown when the node cannot be found in all {@link WrapperClone}s
+	 */
+	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+		float x = -1;
+		for (WrapperClone wrapperClone : graphData) {
+			if (wrapperClone.getDataNodes().contains(node)) {
+				x = wrapperClone.getX();
+				break;
+			}
+		}
+		if (x != -1) {
+			setZoomCenter(x);
+		} else {
+			throw new NodeNotFoundException();
 		}
 	}
 }
