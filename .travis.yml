@@ -12,8 +12,6 @@ before_install:
 env:
 - BUILD_PR_BRANCH=true
 - BUILD_PR_BRANCH=false
-- global:
-    secure: d6foWLlULpBMgkenopdVm4XvFc5Wy1o1oh4Xe2iycBOKr+6pm3qsBaZyyRN+B7ZKmDHKwyyTq6GGCBdf2rFVuR0kwYJUbT8VktXpLA95+KioHj0JX6/1L+Tr6KbZh4+WBlG3zI+8nOaT0/R2baycdzJXLGwD7647LzoV00tqPIY=
 matrix:
   allow_failures:
   - env:
@@ -42,3 +40,6 @@ deploy:
 branches:
   except:
     - /^*-v[0-9]/
+env:
+  global:
+    secure: d6foWLlULpBMgkenopdVm4XvFc5Wy1o1oh4Xe2iycBOKr+6pm3qsBaZyyRN+B7ZKmDHKwyyTq6GGCBdf2rFVuR0kwYJUbT8VktXpLA95+KioHj0JX6/1L+Tr6KbZh4+WBlG3zI+8nOaT0/R2baycdzJXLGwD7647LzoV00tqPIY=
