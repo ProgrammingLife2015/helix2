@@ -66,7 +66,7 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenuItem zoomOut = new JMenuItem("Zoom out ( - )");
 		JMenuItem moveRight = new JMenuItem("Move right ( \u2192 )");
 		JMenuItem moveLeft = new JMenuItem("Move left ( \u2190 )");
-		JMenuItem reset = new JMenuItem("Reset view");
+		JMenuItem reset = new JMenuItem("Reset view ( R )");
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);

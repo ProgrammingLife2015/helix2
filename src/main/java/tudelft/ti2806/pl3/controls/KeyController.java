@@ -80,6 +80,10 @@ public class KeyController implements KeyListener {
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 			graphController.moveLeft();
 		}
+
+		if (event.getKeyCode() == KeyEvent.VK_R) {
+			graphController.resetZoom();
+		}
 	}
 	
 	/**
