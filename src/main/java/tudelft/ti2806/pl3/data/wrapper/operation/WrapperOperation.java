@@ -13,8 +13,8 @@ import tudelft.ti2806.pl3.data.wrapper.WrapperPlaceholder;
 
 /**
  * A {@link WrapperOperation} is used to when we want to handle different
- * implementations of {@link Wrapper} in a different way without identifying
- * and casting the objects.
+ * implementations of {@link Wrapper} in a different way without identifying and
+ * casting the objects.
  * 
  * <p>
  * Examples of usage:
@@ -56,6 +56,7 @@ public abstract class WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
+	@SuppressWarnings("unused")
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		for (Wrapper node : wrapper.getNodeList()) {
 			calculate(node, wrapper);
@@ -75,6 +76,7 @@ public abstract class WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
+	@SuppressWarnings("unused")
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		for (Wrapper node : wrapper.getNodeList()) {
 			calculate(node, wrapper);
@@ -94,6 +96,7 @@ public abstract class WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
+	@SuppressWarnings("unused")
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		for (Wrapper node : wrapper.getNodeList()) {
 			calculate(node, wrapper);
@@ -113,6 +116,7 @@ public abstract class WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
+	@SuppressWarnings("unused")
 	public void calculate(SingleWrapper wrapper, Wrapper container) {
 		calculate(wrapper.getNode(), wrapper);
 	}
@@ -129,6 +133,7 @@ public abstract class WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
+	@SuppressWarnings("unused")
 	public void calculate(DataNodeWrapper wrapper, Wrapper container) {
 		
 	}
@@ -145,14 +150,16 @@ public abstract class WrapperOperation {
 	 *            the wrapper containing this node<br>
 	 *            {@code null} if this node isn't wrapped
 	 */
+	@SuppressWarnings("unused")
 	public void calculate(FixWrapper wrapper, Wrapper container) {
 		
 	}
 	
-	public void calculate(WrapperClone wrapperClone,
-			Wrapper nodeWrapper) {
+	@SuppressWarnings("unused")
+	public void calculate(WrapperClone wrapperClone, Wrapper nodeWrapper) {
 	}
 	
+	@SuppressWarnings("unused")
 	public void calculate(WrapperPlaceholder placeholderWrapper,
 			Wrapper nodeWrapper) {
 	}
