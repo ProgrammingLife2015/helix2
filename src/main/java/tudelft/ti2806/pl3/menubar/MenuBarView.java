@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -37,9 +38,14 @@ public class MenuBarView extends JMenuBar implements View {
 	 */
 	private JMenu setUpFile() {
 		JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic(KeyEvent.VK_F);
+
 		JMenuItem openNode = new JMenuItem("Open node and edge file");
+		openNode.setMnemonic(KeyEvent.VK_O);
 		JMenuItem openNwk = new JMenuItem("Open .nwk file");
+		openNwk.setMnemonic(KeyEvent.VK_W);
 		JMenuItem exit = new JMenuItem("Exit");
+		exit.setMnemonic(KeyEvent.VK_X);
 
 		fileMenu.add(openNode);
 		fileMenu.add(openNwk);
@@ -71,17 +77,23 @@ public class MenuBarView extends JMenuBar implements View {
 		final char left = "\u2190".charAt(0);
 
 		JMenu viewMenu = new JMenu("View");
+		viewMenu.setMnemonic(KeyEvent.VK_V);
 
 		JMenuItem zoomIn = new JMenuItem("Zoom in");
 		zoomIn.setAccelerator(KeyStroke.getKeyStroke(plus));
+		zoomIn.setMnemonic(KeyEvent.VK_I);
 		JMenuItem zoomOut = new JMenuItem("Zoom out");
 		zoomOut.setAccelerator(KeyStroke.getKeyStroke(minus));
+		zoomOut.setMnemonic(KeyEvent.VK_U);
 		JMenuItem moveLeft = new JMenuItem("Move left");
 		moveLeft.setAccelerator(KeyStroke.getKeyStroke(left));
+		moveLeft.setMnemonic(KeyEvent.VK_L);
 		JMenuItem moveRight = new JMenuItem("Move right");
 		moveRight.setAccelerator(KeyStroke.getKeyStroke(right));
+		moveRight.setMnemonic(KeyEvent.VK_R);
 		JMenuItem reset = new JMenuItem("Reset view");
 		reset.setAccelerator(KeyStroke.getKeyStroke(r));
+		reset.setMnemonic(KeyEvent.VK_S);
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
@@ -100,9 +112,12 @@ public class MenuBarView extends JMenuBar implements View {
 
 	private JMenu setUpHelp() {
 		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic(KeyEvent.VK_H);
 
 		JMenuItem help = new JMenuItem("Controls");
+		help.setMnemonic(KeyEvent.VK_C);
 		JMenuItem about = new JMenuItem("About Me");
+		about.setMnemonic(KeyEvent.VK_A);
 
 		helpMenu.add(help);
 		helpMenu.add(about);
