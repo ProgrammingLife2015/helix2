@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.wrapper.SingleWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -30,9 +29,8 @@ import java.util.Set;
 @RunWith(MockitoJUnitRunner.class)
 public class CalculateWrapPressureInterestTest {
 	
-	private final int pressureMultiplier = 10;
-	private final float nodeWrapper1Interest = 5;
-	private final float nodeWrapper2Interest = 55;
+	private final float nodeWrapper1Interest = 5f;
+	private final float nodeWrapper2Interest = 55f;
 	
 	@Mock
 	Wrapper nodeWrapper1;
@@ -61,8 +59,7 @@ public class CalculateWrapPressureInterestTest {
 		nodeWrapperList.add(nodeWrapper1);
 		nodeWrapperList.add(nodeWrapper2);
 		
-		calculateWrapPressureInterest = new CalculateWrapPressureInterest(
-				pressureMultiplier);
+		calculateWrapPressureInterest = new CalculateWrapPressureInterest();
 	}
 	
 	@Test
@@ -70,7 +67,7 @@ public class CalculateWrapPressureInterestTest {
 		SpaceWrapper spaceWrapper = mock(SpaceWrapper.class);
 		when(spaceWrapper.getNodeList()).thenReturn(nodeWrapperList);
 		calculateWrapPressureInterest.calculate(spaceWrapper, nodeWrapper1);
-		verify(spaceWrapper).addInterest(pressureMultiplier);
+		verify(spaceWrapper).addInterest(1);
 	}
 	
 	@Test
@@ -78,15 +75,7 @@ public class CalculateWrapPressureInterestTest {
 		VerticalWrapper verticalWrapper = mock(VerticalWrapper.class);
 		when(verticalWrapper.getNodeList()).thenReturn(nodeWrapperList);
 		calculateWrapPressureInterest.calculate(verticalWrapper, nodeWrapper1);
-		verify(verticalWrapper).addInterest(pressureMultiplier);
-	}
-	
-	@Test
-	public void testSingleWrapper() {
-		SingleWrapper singleWrapper = mock(SingleWrapper.class);
-		when(singleWrapper.getNode()).thenReturn(nodeWrapper1);
-		calculateWrapPressureInterest.calculate(singleWrapper, nodeWrapper1);
-		verify(singleWrapper).addInterest(nodeWrapper1Interest);
+		verify(verticalWrapper).addInterest(1);
 	}
 	
 }
