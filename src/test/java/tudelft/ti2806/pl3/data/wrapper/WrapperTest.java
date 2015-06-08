@@ -27,9 +27,9 @@ public class WrapperTest {
 	
 	@Test
 	public void getSetTest() {
-		assertEquals(0, wrapper.getInterest());
+		assertEquals(0f, wrapper.getInterest(), 0f);
 		wrapper.addInterest(1);
-		assertEquals(1, wrapper.getInterest());
+		assertEquals(1, wrapper.getInterest(), 0f);
 		assertEquals(0, wrapper.getX(), 0);
 		wrapper.x = 1;
 		assertEquals(1, wrapper.getX(), 0);
