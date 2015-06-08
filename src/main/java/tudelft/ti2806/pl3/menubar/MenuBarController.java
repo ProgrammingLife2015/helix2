@@ -38,23 +38,31 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the About Me option in the Help menu.
 	 */
-	final String about = "Helix\u00B2 is a interactive DNA sequence viewer. " +
-			"It uses semantic zooming to only display relative information. " +
-			"\nThis application was created for as part of a assignment for Contextproject on the TU Delft." +
-			"\n" + "\nHelix\u00B2 was created by: " +
-			"\n- Tom Brouws" + "\n- Boris Mattijssen" + "\n- Mathieu Post" + "\n- Sam Smulders" + "\n- Kasper Wendel" +
-			"\n" + "\nThe code of this application is opensource and can be found on GitHub: " + "\n";
+	final String about = "Helix\u00B2 is a interactive DNA sequence viewer. "
+			+ "It uses semantic zooming to only display relative information. \n"
+			+ "This application was created for as part of a assignment"
+			+ "for Contextproject on the TU Delft.\n"
+			+ "\n"
+			+ "Helix\u00B2 was created by: \n"
+			+ "- Tom Brouws\n"
+			+ "- Boris Mattijssen\n"
+			+ "- Mathieu Post\n"
+			+ "- Sam Smulders\n"
+			+ "- Kasper Wendel\n"
+			+ "\n"
+			+ "The code of this application is opensource and can be found on GitHub: \n";
 
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	final String controls = "Helix\u00B2 uses keys shortcut to make life easier. " +
-			"All the controls that can be used are listed below. \n" + "\n" +
-			"Zooming in     \t+" + "\n" +
-			"Zooming out    \t -" + "\n" +
-			"Reset the view \t R" + "\n" +
-			"Move the view to the left \t left arrow" + "\n" +
-			"Move the view to the right \t right arrow" + "\n";
+	final String controls = "Helix\u00B2 uses keys shortcut to make life easier. "
+			+ "All the controls that can be used are listed below. \n"
+			+ "\n"
+			+ "Zooming in     \t+ \n"
+			+ "Zooming out    \t - \n"
+			+ "Reset the view \t R \n"
+			+ "Move the view to the left \t left arrow \n"
+			+ "Move the view to the right \t right arrow \n";
 
 	/**
 	 * Constructs a new controller for {@link MenuBarView}.
@@ -157,9 +165,12 @@ public class MenuBarController implements ActionListener, Controller {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					Desktop.getDesktop().browse(new URI("https://github.com/ProgrammingLife3/ProgrammingLife3"));
+					URI github = new URI("https://github.com/ProgrammingLife3/ProgrammingLife3");
+					Desktop.getDesktop().browse(github);
 				} catch (IOException | URISyntaxException exception) {
-					displayError("A error has occured! We are unable to display the GitHub link in your browser.");
+					String message = "A error has occured!"
+					 	+ " We are unable to display the GitHub link in your browser.";
+					displayError(message);
 				}
 			}
 		});
