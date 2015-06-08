@@ -17,11 +17,15 @@ import java.net.URISyntaxException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.text.TabSet;
+import javax.swing.text.TabStop;
 
 /**
  * Controller for menubar view
@@ -34,7 +38,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the About Me option in the Help menu.
 	 */
-	private final String about = "Helix\u00B2 is a interactive DNA sequence viewer. " +
+	final String about = "Helix\u00B2 is a interactive DNA sequence viewer. " +
 			"It uses semantic zooming to only display relative information. " +
 			"\nThis application was created for as part of a assignment for Contextproject on the TU Delft." +
 			"\n" + "\nHelix\u00B2 was created by: " +
@@ -44,7 +48,13 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	private final String controls = "";
+	final String controls = "Helix\u00B2 uses keys shortcut to make life easier. " +
+			"All the controls that can be used are listed below. \n" + "\n" +
+			"Zooming in     \t+" + "\n" +
+			"Zooming out    \t -" + "\n" +
+			"Reset the view \t R" + "\n" +
+			"Move the view to the left \t left arrow" + "\n" +
+			"Move the view to the right \t right arrow" + "\n";
 
 	/**
 	 * Constructs a new controller for {@link MenuBarView}.
@@ -88,8 +98,25 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getGraphController().resetZoom();
 	}
 
+	/**
+	 * Displays the controls text in a {@link JTextPane}.
+	 */
 	private void displayControls() {
-		JOptionPane.showMessageDialog(application, "Tekst", "Controls", JOptionPane.PLAIN_MESSAGE);
+		JTextPane textPane = new JTextPane();
+		TabStop[] tabs = new TabStop[1];
+		tabs[0] = new TabStop(300, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
+		TabSet tabSet = new TabSet(tabs);
+
+		StyleContext sc = StyleContext.getDefaultStyleContext();
+		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.TabSet, tabSet);
+		textPane.setParagraphAttributes(aset, false);
+
+		textPane.setText(controls);
+		textPane.setEditable(false);
+		textPane.setBackground(new Color(240, 240, 240));
+		textPane.setPreferredSize(new Dimension(500, 200));
+
+		JOptionPane.showMessageDialog(application, textPane, "Controls", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
@@ -109,9 +136,9 @@ public class MenuBarController implements ActionListener, Controller {
 			// this will not occur since the text is set on correct locations
 			e.printStackTrace();
 		}
-		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setEditable(false);
-		textPane.setPreferredSize(new Dimension(600, 300));
+		textPane.setBackground(new Color(240, 240, 240));
+		textPane.setPreferredSize(new Dimension(500, 200));
 
 		JOptionPane.showMessageDialog(application, textPane, "About Me", JOptionPane.PLAIN_MESSAGE);
 	}
@@ -140,6 +167,12 @@ public class MenuBarController implements ActionListener, Controller {
 		return website;
 	}
 
+	/**
+	 * Displays the user a error message.
+	 *
+	 * @param message
+	 * 		to displayed on the popup
+	 */
 	private void displayError(String message) {
 		JOptionPane.showMessageDialog(application, message, "Error!", JOptionPane.ERROR_MESSAGE);
 	}
