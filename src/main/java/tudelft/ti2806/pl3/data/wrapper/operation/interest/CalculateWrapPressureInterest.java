@@ -15,17 +15,11 @@ import java.util.Collection;
  * @author Sam Smulders
  */
 public class CalculateWrapPressureInterest extends WrapperOperation {
-	private final int pressureMultiplier;
-	
-	public CalculateWrapPressureInterest(int pressureMultiplier) {
-		this.pressureMultiplier = pressureMultiplier;
-	}
-	
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		wrapper.addInterest(wrapper.getNodeList().stream()
 				.map(Wrapper::getGenome).map(Collection::size)
-				.reduce(this.pressureMultiplier, (a, b) -> a * b));
+				.reduce(1, (a, b) -> a * b));
 		super.calculate(wrapper, container);
 	}
 	
@@ -33,7 +27,7 @@ public class CalculateWrapPressureInterest extends WrapperOperation {
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		wrapper.addInterest(wrapper.getNodeList().stream()
 				.map(Wrapper::getGenome).map(Collection::size)
-				.reduce(this.pressureMultiplier, (a, b) -> a * b).intValue());
+				.reduce(1, (a, b) -> a * b).intValue());
 		super.calculate(wrapper, container);
 	}
 }
