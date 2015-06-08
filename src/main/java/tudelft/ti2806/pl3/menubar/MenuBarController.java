@@ -62,7 +62,10 @@ public class MenuBarController implements ActionListener, Controller {
 			+ "Zooming out    \t - \n"
 			+ "Reset the view \t R \n"
 			+ "Move the view to the left \t left arrow \n"
-			+ "Move the view to the right \t right arrow \n";
+			+ "Move the view to the right \t right arrow \n"
+			+ "\n"
+			+ "All of the menu's can be controlled with the underlined letter, "
+			+ "hold the ALT key to activate this.";
 
 	/**
 	 * Constructs a new controller for {@link MenuBarView}.
