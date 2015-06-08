@@ -7,7 +7,7 @@ notifications:
   webhooks:
   - http://octopull.rmhartog.me/api/travis/webhook
 before_install:
-  - '[ "$BUILD_PR_BRANCH" = "true" ] && git checkout $TRAVIS_BRANCH && echo "OCTOPULL_SHA=$(git rev-parse HEAD)"; true'
+  - "[ \"$BUILD_PR_BRANCH\" = \"true\" ] && git checkout $TRAVIS_BRANCH && echo \"OCTOPULL_SHA=$(git rev-parse HEAD)\"; true"
 env:
   - BUILD_PR_BRANCH=true
   - BUILD_PR_BRANCH=false
