@@ -89,7 +89,7 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenu helpMenu = new JMenu("Help");
 
 		JMenuItem help = new JMenuItem("Controls");
-		JMenuItem about = new JMenuItem("About Us");
+		JMenuItem about = new JMenuItem("About Me");
 
 		helpMenu.add(help);
 		helpMenu.add(about);
