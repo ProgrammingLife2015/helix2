@@ -58,10 +58,10 @@ public class MenuBarController implements ActionListener, Controller {
 	}
 
 	private void displayControls(){
-		JOptionPane.showMessageDialog(application,"Controls");
+		JOptionPane.showMessageDialog(application,"Tekst", "Controls",JOptionPane.INFORMATION_MESSAGE);
 	}
 	private void displayAbout(){
-		JOptionPane.showMessageDialog(application,"About");
+		JOptionPane.showMessageDialog(application,"Tekst", "About Us", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**

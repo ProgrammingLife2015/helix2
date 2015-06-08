@@ -48,7 +48,9 @@ public class MenuBarView extends JMenuBar implements View {
 		// add action listener for every item
 		// cast is safe since we only add JMenuItems
 		for (Component component : fileMenu.getMenuComponents()) {
-			((JMenuItem) component).addActionListener(menuBarController);
+			if (component instanceof JMenuItem) {
+				((JMenuItem) component).addActionListener(menuBarController);
+			}
 		}
 
 		return fileMenu;
