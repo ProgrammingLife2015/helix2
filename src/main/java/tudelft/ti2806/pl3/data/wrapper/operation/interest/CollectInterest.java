@@ -5,8 +5,8 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 public class CollectInterest extends WrapperOperation {
-	private float[] interest;
-	private int domain;
+	private final float[] interest;
+	private final int domain;
 	
 	public CollectInterest(int domain) {
 		this.interest = new float[domain];
