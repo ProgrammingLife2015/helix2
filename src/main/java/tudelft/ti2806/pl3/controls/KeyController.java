@@ -11,10 +11,6 @@ import java.awt.event.KeyListener;
  * Created by Kasper on 9-5-2015.
  */
 public class KeyController implements KeyListener {
-	/**
-	 * Percentage of the screen that is moved.
-	 */
-	private static final double MOVE_FACTOR = 10.0;
 
 	private Application app;
 	private GraphController graphController;
@@ -78,19 +74,11 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			long oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
-			long newViewCenter = (long)(oldViewCenter + move);
-			graphController.moveView(newViewCenter);
+			graphController.moveRight();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			long oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
-			long newViewCenter = (long)(oldViewCenter - move);
-			graphController.moveView(newViewCenter);
+			graphController.moveLeft();
 		}
 	}
 	

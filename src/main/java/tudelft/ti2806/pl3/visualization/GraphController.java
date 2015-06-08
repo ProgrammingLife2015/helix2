@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.Controller;
+import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
@@ -13,6 +14,11 @@ public class GraphController implements Controller {
 	private GraphView graphView;
 	private Map<String, Filter<DataNode>> filters = new HashMap<>();
 	private static final int DEFAULT_VIEW = 1;
+
+	/**
+	 * Percentage of the screen that is moved.
+	 */
+	private static final double MOVE_FACTOR = 10.0;
 	
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -78,6 +84,22 @@ public class GraphController implements Controller {
 	public void resetZoom() {
 		zoomedGraphModel.setZoomLevel(DEFAULT_VIEW);
 		zoomedGraphModel.produceDataNodeWrapperList();
+	}
+
+	public void moveLeft(){
+		long oldViewCenter = getCurrentZoomCenter();
+		double move = (ScreenSize.getInstance().getWidth() / MOVE_FACTOR)
+				/ getCurrentZoomLevel();
+		long newViewCenter = (long)(oldViewCenter - move);
+		moveView(newViewCenter);
+	}
+
+	public void moveRight(){
+		long oldViewCenter = getCurrentZoomCenter();
+		double move = (ScreenSize.getInstance().getWidth() / MOVE_FACTOR)
+				/ getCurrentZoomLevel();
+		long newViewCenter = (long)(oldViewCenter + move);
+		moveView(newViewCenter);
 	}
 
 	public double getCurrentZoomLevel() {
