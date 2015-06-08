@@ -8,6 +8,7 @@ import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
@@ -138,8 +139,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 						.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				if (!"[FIX]".equals(node.getIdString())) {
-					Node graphNode = graph.addNode(node.getIdString());
+				if (FixWrapper.ID != node.getId()) {
+					Node graphNode = graph.addNode(Integer.toString(node.getId()));
 					double y = node.getY() * someSize;
 					graphNode.setAttribute("xy", node.getX(), y);
 					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
@@ -150,7 +151,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				if (!"[FIX]".equals(node.getIdString()) && !"[FIX]".equals(to.getIdString())) {
+				if (FixWrapper.ID != node.getId() && FixWrapper.ID != to.getId()) {
 					addNormalEdge(graph, node, to);
 				}
 			}
@@ -170,7 +171,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 *            the node where the edge ends
 	 */
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
+		graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 	}
 	
 	@Override
