@@ -27,7 +27,7 @@ before_deploy:
   - git config --global user.name "Travis CI"
   - export GIT_TAG=$TRAVIS_BRANCH-0.1.$TRAVIS_BUILD_NUMBER
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q https://$TAGPERM@github.com/ProgrammingLife3/ProgrammingLife3 --tags
+  - git push -q https://$TAGPERM@github.com/ProgrammingLife3/ProgrammingLife3.git --tags
   - ls -R
 deploy:
   skip_cleanup: true
@@ -39,3 +39,6 @@ deploy:
     tags: false
     all_branches: true
     repo: ProgrammingLife3/ProgrammingLife3
+branches:
+  except:
+    - /^*-v[0-9]/
