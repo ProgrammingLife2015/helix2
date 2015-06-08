@@ -5,14 +5,23 @@ import tudelft.ti2806.pl3.Controller;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 /**
  * Controller for menubar view
@@ -21,6 +30,13 @@ import javax.swing.JTextArea;
 public class MenuBarController implements ActionListener, Controller {
 
 	private Application application;
+
+	private final String about = "Helix\u00B2 is a interactive DNA sequence viewer. " +
+			"It uses semantic zooming to only display relative information. " +
+			"\nThis application was created for as part of a assignment for Contextproject on the TU Delft." +
+			"\n" + "\nHelix\u00B2 was created by: " +
+			"\n- Tom Brouws" + "\n- Boris Mattijssen" + "\n- Mathieu Post" + "\n- Sam Smulders" + "\n- Kasper Wendel" +
+			"\n" + "\nThe code of this application is opensource and can be found on GitHub: " + "\n";
 
 	/**
 	 * Constructs a new controller for {@link MenuBarView}.
@@ -69,28 +85,24 @@ public class MenuBarController implements ActionListener, Controller {
 	}
 
 	private void displayAbout() {
-		JTextArea textArea = new JTextArea();
-		textArea.setPreferredSize(new Dimension(1000, 500));
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.append("Helix\u00B2 is a interactive DNA sequence viewer. ");
-		textArea.append("It uses semantic zooming to only display relative information.");
-		textArea.append(
-				"\nThis application was created for as part of a assignment for Contextproject on the TU Delft.");
-		textArea.append("\n");
-		textArea.append("\nHelix\u00B2 was created by");
-		textArea.append("\n-Tom Brouws");
-		textArea.append("\n-Boris Mattijssen");
-		textArea.append("\n-Mathieu Post");
-		textArea.append("\n-Sam Smulders");
-		textArea.append("\n-Kasper Wendel");
-		textArea.append("\n");
-		textArea.append("\nThe code of this application is opensource and can be found on");
-		textArea.add(website());
-		textArea.setBackground(new Color(240, 240, 240));
-		textArea.setEditable(false);
-		JOptionPane.showMessageDialog(application, textArea, "About Me", JOptionPane.PLAIN_MESSAGE);
-		JOptionPane.showMessageDialog(application, textArea, "About Me", JOptionPane.PLAIN_MESSAGE);
+		StyleContext styleContext = new StyleContext();
+		DefaultStyledDocument doc = new DefaultStyledDocument(styleContext);
+		JTextPane textPane = new JTextPane(doc);
+
+		Style webstyle = doc.addStyle("WebStyle", null);
+		StyleConstants.setComponent(webstyle, website());
+		try {
+			doc.insertString(0, about, null);
+			doc.insertString(doc.getLength(), "githublink", webstyle);
+		} catch (BadLocationException e) {
+			// this will not occur since the text is set on correct locations
+			e.printStackTrace();
+		}
+		textPane.setBackground(new Color(240, 240, 240));
+		textPane.setEditable(false);
+		textPane.setPreferredSize(new Dimension(600, 300));
+
+		JOptionPane.showMessageDialog(application, textPane, "About Me", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	private JLabel website() {
@@ -99,10 +111,19 @@ public class MenuBarController implements ActionListener, Controller {
 		website.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("hallo");
+				try {
+					Desktop.getDesktop().browse(new URI("https://github.com/ProgrammingLife3/ProgrammingLife3"));
+				} catch (IOException | URISyntaxException exception) {
+					displayError("A error has occured! We are unable to display the GitHub link in your browser.");
+				}
 			}
 		});
+		website.setForeground(new Color(0, 0, 248));
 		return website;
+	}
+
+	private void displayError(String message) {
+		JOptionPane.showMessageDialog(application, message, "Error!", JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**
