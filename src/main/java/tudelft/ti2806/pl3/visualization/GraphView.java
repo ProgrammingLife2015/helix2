@@ -191,8 +191,9 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
 		Edge edge = graph.addEdge(from.getIdString() + "-" + to.getIdString(),
 				from.getIdString(), to.getIdString(), true);
-		int minGenomes = Math.min(to.getGenome().size(), from.getGenome().size());
-		float percent = ((float) minGenomes) / ((float) abstractGraphData.getGenomes().size());
+		int weight = from.getOutgoingWeight().get(to);
+		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
+		percent += 0.01; // dirty IllegalArgumentException fix
 		edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 	}
 	
