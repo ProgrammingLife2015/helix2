@@ -30,7 +30,7 @@ deploy:
   skip_cleanup: true
   provider: releases
   api_key: $GITPERM
-  file: target/app-0.7-jar-with-dependencies.jar
+  file: target/Helix2-0.7-jar-with-dependencies.jar
   on:
     tags: false
     branch: master

@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>tudelft.ti2806.pl3</groupId>
-  <artifactId>app</artifactId>
+  <artifactId>Helix2</artifactId>
   <packaging>jar</packaging>
   <version>0.7</version>
   <name>app</name>
