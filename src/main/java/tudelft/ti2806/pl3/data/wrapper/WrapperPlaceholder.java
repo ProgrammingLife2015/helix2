@@ -11,8 +11,9 @@ import java.util.Set;
  * Created by Boris Mattijssen on 18-05-15.
  */
 public class WrapperPlaceholder extends Wrapper {
-	static final String ID_STRING = "[PLACEHOLDER]";
-	
+	public static final int ID = -2;
+	public static final String ID_STRING = "[PLACEHOLDER]";
+
 	@Override
 	public long getBasePairCount() {
 		return 0;
@@ -24,7 +25,7 @@ public class WrapperPlaceholder extends Wrapper {
 	}
 
 	@Override public int getId() {
-		return 0;
+		return ID;
 	}
 
 	@Override

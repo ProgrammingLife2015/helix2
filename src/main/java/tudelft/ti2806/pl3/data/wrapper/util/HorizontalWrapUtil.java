@@ -56,10 +56,10 @@ public final class HorizontalWrapUtil {
 	 */
 	static List<Wrapper> combineNodes(List<Wrapper> parentLayer,
 			boolean canUnwrap) {
-		Map<String, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
-		List<String> nonWrappedNodesOrder = new ArrayList<>(parentLayer.size());
+		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
+		List<Integer> nonWrappedNodesOrder = new ArrayList<>(parentLayer.size());
 		for (Wrapper node : parentLayer) {
-			String id = node.getIdString();
+			int id = node.getId();
 			nonWrappedNodes.put(id, node);
 			nonWrappedNodesOrder.add(id);
 		}
@@ -68,14 +68,14 @@ public final class HorizontalWrapUtil {
 			HorizontalWrapper newNode = new HorizontalWrapper(list, canUnwrap);
 			combinedNodes.add(newNode);
 			for (Wrapper wrapper : list) {
-				nonWrappedNodes.remove(wrapper.getIdString());
+				nonWrappedNodes.remove(wrapper.getId());
 			}
 		}
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
 		List<Wrapper> result = new ArrayList<>(nonWrappedNodes.values().size());
-		for (String id : nonWrappedNodesOrder) {
+		for (int id : nonWrappedNodesOrder) {
 			Wrapper node = nonWrappedNodes.get(id);
 			if (node != null) {
 				result.add(node);
@@ -94,10 +94,10 @@ public final class HorizontalWrapUtil {
 	 */
 	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
 		List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
-		Map<String, Wrapper> iterateList = new HashMap<>(nodes.size());
-		List<String> iterateListOrder = new ArrayList<>(nodes.size());
+		Map<Integer, Wrapper> iterateList = new HashMap<>(nodes.size());
+		List<Integer> iterateListOrder = new ArrayList<>(nodes.size());
 		for (Wrapper node : nodes) {
-			String id = node.getIdString();
+			int id = node.getId();
 			iterateList.put(id, node);
 			iterateListOrder.add(id);
 		}
@@ -108,7 +108,7 @@ public final class HorizontalWrapUtil {
 		 * iterate over.
 		 */
 		while (iterateList.size() > 0) {
-			for (String startNodeId : iterateListOrder) {
+			for (int startNodeId : iterateListOrder) {
 				Wrapper startNode = iterateList.get(startNodeId);
 				if (startNode == null) {
 					continue;
@@ -140,7 +140,7 @@ public final class HorizontalWrapUtil {
 				}
 			}
 			for (Wrapper wrapper : removeFromIterateList) {
-				iterateList.remove(wrapper.getIdString());
+				iterateList.remove(wrapper.getId());
 			}
 			removeFromIterateList.clear();
 		}

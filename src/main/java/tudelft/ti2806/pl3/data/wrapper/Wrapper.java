@@ -90,7 +90,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		if (order != 0) {
 			return order;
 		}
-		return this.getIdString().compareTo(other.getIdString());
+		return Integer.compare(getId(), other.getId());
 	}
 	
 	public abstract void collectDataNodes(List<DataNode> list);
