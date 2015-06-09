@@ -1,21 +1,22 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import tudelft.ti2806.pl3.data.graph.DataNode;
-import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Tests for the {@link SingleWrapper}.
@@ -53,12 +54,12 @@ public class SingleWrapperTest {
 	public void collectDataNodesTest() {
 		TestWrapper testWrapper = new TestWrapper();
 		SingleWrapper singleWrapper = new SingleWrapper(testWrapper);
-		List<DataNode> list1 = new ArrayList<>();
-		singleWrapper.collectDataNodes(list1);
-		assertNotNull(list1);
-		List<DataNode> list2 = new ArrayList<>();
-		testWrapper.collectDataNodes(list1);
-		assertEquals(list1, list2);
+		Set<DataNode> set1 = new HashSet<>();
+		singleWrapper.collectDataNodes(set1);
+		assertNotNull(set1);
+		Set<DataNode> set2 = new HashSet<>();
+		testWrapper.collectDataNodes(set1);
+		assertEquals(set1, set2);
 	}
 	
 	@Test

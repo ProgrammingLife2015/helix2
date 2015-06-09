@@ -66,6 +66,6 @@ class TestWrapper extends Wrapper {
 	}
 	
 	@Override
-	public void collectDataNodes(List<DataNode> list) {
+	public void collectDataNodes(Set<DataNode> set) {
 	}
 }

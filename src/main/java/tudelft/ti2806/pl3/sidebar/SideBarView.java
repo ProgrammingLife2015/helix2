@@ -8,7 +8,6 @@ import tudelft.ti2806.pl3.View;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
-
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 

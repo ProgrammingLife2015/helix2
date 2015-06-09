@@ -14,10 +14,9 @@ public class KeyController implements KeyListener {
 	/**
 	 * Percentage of the screen that is moved.
 	 */
-	private static final double MOVE_FACTOR = 10.0;
+	private static final float MOVE_FACTOR = 10f;
 
 	private Application app;
-	private GraphController graphController;
 
 	/**
 	 * Constructor removes the old keylisteners and makes our own.
@@ -30,7 +29,6 @@ public class KeyController implements KeyListener {
 
 		// add our keylistener
 		this.app = app;
-		graphController = app.getGraphController();
 	}
 
 	/**
@@ -70,26 +68,28 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			graphController.zoomLevelDown();
+			app.getGraphController().zoomLevelDown();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
-			graphController.zoomLevelUp();
+			app.getGraphController().zoomLevelUp();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			long oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
-			long newViewCenter = (long)(oldViewCenter + move);
+			GraphController graphController = app.getGraphController();
+			float oldViewCenter = graphController.getCurrentZoomCenter();
+			float move = (((float) app.getWidth()) / MOVE_FACTOR)
+					/ ((float) graphController.getCurrentZoomLevel());
+			float newViewCenter = oldViewCenter + move;
 			graphController.moveView(newViewCenter);
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			long oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
-			long newViewCenter = (long)(oldViewCenter - move);
+			GraphController graphController = app.getGraphController();
+			float oldViewCenter = graphController.getCurrentZoomCenter();
+			float move = (((float) app.getWidth()) / MOVE_FACTOR)
+					/ ((float) graphController.getCurrentZoomLevel());
+			float newViewCenter = oldViewCenter - move;
 			graphController.moveView(newViewCenter);
 		}
 	}
