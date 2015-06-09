@@ -29,8 +29,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	float interest = 0;
 	
 	/**
-	 * @return the maximum number of base pairs that can be passed when
-	 *         following the graph from the start of this node to its end.
+	 * @return the maximum number of base pairs that can be passed when following the graph from the start of this node
+	 *         to its end.
 	 */
 	public abstract long getBasePairCount();
 	
@@ -87,12 +87,10 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	public abstract Set<Genome> getGenome();
 	
-	public abstract void calculate(WrapperOperation wrapperSequencer,
-			Wrapper container);
+	public abstract void calculate(WrapperOperation wrapperSequencer, Wrapper container);
 	
 	/**
-	 * NodeWrapper is only comparable when the {@link #previousNodesCount} is
-	 * calculated.
+	 * NodeWrapper is only comparable when the {@link #previousNodesCount} is calculated.
 	 */
 	@Override
 	public int compareTo(Wrapper other) {
@@ -124,13 +122,15 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		this.interest += interest;
 	}
 	
+	public void multiplyInterest(float interest) {
+		this.interest *= interest;
+	}
+	
 	/**
-	 * Computes the longest path for each {@link Wrapper} in the list and
-	 * returns the length of the longest path found.
+	 * Computes the longest path for each {@link Wrapper} in the list and returns the length of the longest path found.
 	 * 
 	 * @param nodeWrappers
-	 *            the list of the {@link Wrapper}s to compute the longest path
-	 *            of
+	 *            the list of the {@link Wrapper}s to compute the longest path of
 	 * @return the length of the longest path found
 	 */
 	public static int computeLongestPaths(List<Wrapper> nodeWrappers) {
