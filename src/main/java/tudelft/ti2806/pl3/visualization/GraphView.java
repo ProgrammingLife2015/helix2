@@ -257,7 +257,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * @param node
 	 * 		The {@link DataNode} to move the view to
 	 * @throws NodeNotFoundException
-	 *      Thrown when the node cannot be found in all {@link WrapperClone}s
+	 * 		Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */
 	public void centerOnNode(DataNode node) throws NodeNotFoundException {
 		float x = -1;
@@ -270,7 +270,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		if (x != -1) {
 			setZoomCenter(x);
 		} else {
-			throw new NodeNotFoundException();
+			throw new NodeNotFoundException(
+					"The node " + node + " you are looking for cannot be found in the current graph.");
 		}
 	}
 }

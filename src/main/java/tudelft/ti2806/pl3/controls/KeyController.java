@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.controls;
 
 import tudelft.ti2806.pl3.Application;
+import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -75,19 +76,21 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			float oldViewCenter = app.getGraphController().getCurrentZoomCenter();
+			GraphController graphController = app.getGraphController();
+			float oldViewCenter = graphController.getCurrentZoomCenter();
 			float move = (((float) app.getWidth()) / MOVE_FACTOR)
-					/ ((float) app.getGraphController().getCurrentZoomLevel());
+					/ ((float) graphController.getCurrentZoomLevel());
 			float newViewCenter = oldViewCenter + move;
-			app.getGraphController().moveView(newViewCenter);
+			graphController.moveView(newViewCenter);
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			float oldViewCenter = app.getGraphController().getCurrentZoomCenter();
+			GraphController graphController = app.getGraphController();
+			float oldViewCenter = graphController.getCurrentZoomCenter();
 			float move = (((float) app.getWidth()) / MOVE_FACTOR)
-					/ ((float) app.getGraphController().getCurrentZoomLevel());
+					/ ((float) graphController.getCurrentZoomLevel());
 			float newViewCenter = oldViewCenter - move;
-			app.getGraphController().moveView(newViewCenter);
+			graphController.moveView(newViewCenter);
 		}
 	}
 	
