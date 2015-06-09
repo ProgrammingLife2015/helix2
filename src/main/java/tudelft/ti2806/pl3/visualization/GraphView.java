@@ -7,6 +7,7 @@ import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.graph.DataNode;
@@ -110,8 +111,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * zoomLevel updates.
 	 */
 	private void generateViewer() {
-		viewer = new Viewer(graph,
-				Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		panel = viewer.addDefaultView(false);
 	}
 
@@ -120,6 +120,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 	private void setGraphPropertys() {
 		String stylesheet = "stylesheet.css";
+
+		viewer.getDefaultView().setMouseManager(new MouseManager());
 
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
@@ -147,6 +149,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
 							.getSimpleName());
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+					graphNode.setAttribute("node", node);
 				}
 			});
 
