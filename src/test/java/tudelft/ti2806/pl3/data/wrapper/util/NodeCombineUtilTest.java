@@ -30,11 +30,12 @@ public class NodeCombineUtilTest {
 	public void horizontalVerticalCollapseTest() throws IOException {
 		File nodesFile = new File("data/testdata/wrapTest.node.graph");
 		File edgesFile = new File("data/testdata/wrapTest.edge.graph");
-		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
-
+		GeneData geneData = GeneData
+				.parseGenes("data/testdata/TestGeneAnnotationsFile");
+		
 		GraphDataRepository gdr = new GraphDataRepository();
 		gdr.parseGraph(nodesFile, edgesFile, geneData);
-
+		
 		List<List<Wrapper>> list = HorizontalWrapUtil
 				.findCombineableNodes(new WrappedGraphData(gdr)
 						.getPositionedNodes());
@@ -71,25 +72,25 @@ public class NodeCombineUtilTest {
 	}
 	
 	@Test
-	public void combineNodesVerticalWithMultipleIncomming()
-			throws IOException {
+	public void combineNodesVerticalWithMultipleIncomming() throws IOException {
 		File nodesFile = new File("data/testdata/6TestCombineNodes.node.graph");
 		File edgesFile = new File("data/testdata/6TestCombineNodes.edge.graph");
-		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
+		GeneData geneData = GeneData
+				.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		WrappedGraphData[] pgd = new WrappedGraphData[3];
-
+		
 		GraphDataRepository gdr = new GraphDataRepository();
-		gdr.parseGraph(nodesFile,edgesFile, geneData);
+		gdr.parseGraph(nodesFile, edgesFile, geneData);
 		pgd[0] = new WrappedGraphData(gdr);
 		
-		List<List<Wrapper>> list = VerticalWrapUtil
-				.findCombineableNodes(pgd[0].getPositionedNodes());
+		List<List<Wrapper>> list = VerticalWrapUtil.findCombineableNodes(pgd[0]
+				.getPositionedNodes());
 		Assert.assertEquals(list.size(), 3);
 		Assert.assertEquals(pgd[0].getPositionedNodes().size(), 6);
 		
 		pgd[1] = VerticalWrapUtil.collapseGraph(pgd[0]);
 		Assert.assertEquals(pgd[1].getPositionedNodes().size(), 3);
-		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[1]);
+		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[1], true);
 		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 1);
 		
 		// WrapUtil collapse test
@@ -102,22 +103,23 @@ public class NodeCombineUtilTest {
 	public void spaceWrapUtilTest() throws IOException {
 		File nodesFile = new File("data/testdata/spaceWrapUtilTest.node.graph");
 		File edgesFile = new File("data/testdata/spaceWrapUtilTest.edge.graph");
-		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
-
+		GeneData geneData = GeneData
+				.parseGenes("data/testdata/TestGeneAnnotationsFile");
+		
 		GraphDataRepository gdr = new GraphDataRepository();
 		gdr.parseGraph(nodesFile, edgesFile, geneData);
 		WrappedGraphData original = new WrappedGraphData(gdr);
-
+		
 		Assert.assertEquals(original.getPositionedNodes().size(), 7);
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
-		Assert.assertNull(HorizontalWrapUtil.collapseGraph(original));
+		Assert.assertNull(HorizontalWrapUtil.collapseGraph(original, true));
 		List<List<Wrapper>> combineableNodes = SpaceWrapUtil
 				.findCombineableNodes(original.getPositionedNodes());
 		Assert.assertEquals(combineableNodes.size(), 1);
 		WrappedGraphData nwgd = SpaceWrapUtil.collapseGraph(original);
 		Assert.assertEquals(nwgd.getPositionedNodes().size(), 3);
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(nwgd));
-		Assert.assertNull(HorizontalWrapUtil.collapseGraph(nwgd));
+		Assert.assertNull(HorizontalWrapUtil.collapseGraph(nwgd, true));
 		nwgd = SpaceWrapUtil.collapseGraph(nwgd);
 		Assert.assertEquals(nwgd.getPositionedNodes().size(), 1);
 	}
@@ -139,12 +141,13 @@ public class NodeCombineUtilTest {
 	public void nodeFixTest() throws IOException {
 		File nodesFile = new File("data/testdata/graphFixTest.node.graph");
 		File edgesFile = new File("data/testdata/graphFixTest.edge.graph");
-		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
-
+		GeneData geneData = GeneData
+				.parseGenes("data/testdata/TestGeneAnnotationsFile");
+		
 		GraphDataRepository gdr = new GraphDataRepository();
 		gdr.parseGraph(nodesFile, edgesFile, geneData);
 		WrappedGraphData original = new WrappedGraphData(gdr);
-
+		
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(SpaceWrapUtil.collapseGraph(original));
 		Assert.assertEquals(1, original.getPositionedNodes().size(), 4);

@@ -4,7 +4,7 @@
   <groupId>tudelft.ti2806.pl3</groupId>
   <artifactId>app</artifactId>
   <packaging>jar</packaging>
-  <version>0.1</version>
+  <version>0.7</version>
   <name>app</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -59,6 +59,15 @@
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
         </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

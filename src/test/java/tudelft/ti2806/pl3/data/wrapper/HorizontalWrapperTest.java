@@ -27,7 +27,7 @@ public class HorizontalWrapperTest {
 		wrapperList.add(wrapper1);
 		wrapperList.add(wrapper2);
 		wrapperList.add(wrapper3);
-		HorizontalWrapper wrapper = new HorizontalWrapper(wrapperList);
+		HorizontalWrapper wrapper = new HorizontalWrapper(wrapperList, true);
 		assertEquals(7, wrapper.getBasePairCount(), 0);
 		assertEquals(wrapper1.getGenome(), wrapper.getGenome());
 		assertEquals('H', wrapper.getIdString().charAt(0));
@@ -36,7 +36,7 @@ public class HorizontalWrapperTest {
 	
 	@Test
 	public void operationTest() {
-		operationTest(new HorizontalWrapper(null), null);
+		operationTest(new HorizontalWrapper(null, true), null);
 	}
 	
 	private void operationTest(HorizontalWrapper wrapper, Wrapper container) {
