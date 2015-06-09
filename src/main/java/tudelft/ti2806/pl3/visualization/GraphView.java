@@ -119,7 +119,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * Remove the default keys from the GraphStream library, since we use our own.
 	 * There is no other way than this to do it.
 	 */
-	public void removeDefaultKeys(){
+	public void removeDefaultKeys() {
 		DefaultShortcutManager listener = (DefaultShortcutManager)this.getPanel().getKeyListeners()[0];
 		listener.release();
 	}
