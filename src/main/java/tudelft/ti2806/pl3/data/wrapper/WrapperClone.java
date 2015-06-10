@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,16 +11,16 @@ import java.util.Set;
  */
 public class WrapperClone extends Wrapper {
 
-	private List<DataNode> dataNodeList;
+	private Set<DataNode> dataNodes;
 	private final Wrapper originalNode;
 
-	public WrapperClone(List<DataNode> dataNodeList, Wrapper originalNode) {
-		this.dataNodeList = dataNodeList;
+	public WrapperClone(Set<DataNode> dataNodeList, Wrapper originalNode) {
+		this.dataNodes = dataNodeList;
 		this.originalNode = originalNode;
 	}
 
-	public List<DataNode> getDataNodeList() {
-		return dataNodeList;
+	public Set<DataNode> getDataNodes() {
+		return dataNodes;
 	}
 
 	public Wrapper getOriginalNode() {
@@ -53,8 +52,8 @@ public class WrapperClone extends Wrapper {
 	}
 
 	@Override
-	public void collectDataNodes(List<DataNode> list) {
-		list.addAll(dataNodeList);
+	public void collectDataNodes(Set<DataNode> set) {
+		set.addAll(dataNodes);
 	}
 
 	@Override

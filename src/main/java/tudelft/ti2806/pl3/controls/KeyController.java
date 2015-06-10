@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.controls;
 
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,13 +10,8 @@ import java.awt.event.KeyListener;
  * Created by Kasper on 9-5-2015.
  */
 public class KeyController implements KeyListener {
-	/**
-	 * Percentage of the screen that is moved.
-	 */
-	private static final double MOVE_FACTOR = 10.0;
 
 	private Application app;
-	private GraphController graphController;
 
 	/**
 	 * Constructor removes the old keylisteners and makes our own.
@@ -26,9 +20,10 @@ public class KeyController implements KeyListener {
 	 *            that is controlled
 	 */
 	public KeyController(Application app) {
+		// remove the default keylistener
+
 		// add our keylistener
 		this.app = app;
-		graphController = app.getGraphController();
 	}
 
 	/**
@@ -68,27 +63,27 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			graphController.zoomLevelDown();
+			app.getGraphController().zoomLevelDown();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
-			graphController.zoomLevelUp();
+			app.getGraphController().zoomLevelUp();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			float oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
-			long newViewCenter = (long)(oldViewCenter + move);
-			graphController.moveView(newViewCenter);
+			app.getGraphController().moveRight();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			float oldViewCenter = graphController.getCurrentZoomCenter();
-			double move = (app.getWidth() / MOVE_FACTOR)
-					/ graphController.getCurrentZoomLevel();
-			long newViewCenter = (long)(oldViewCenter - move);
-			graphController.moveView(newViewCenter);
+			app.getGraphController().moveLeft();
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_R) {
+			app.getGraphController().resetZoom();
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_G) {
+			app.getFindgenesController().openDialog();
 		}
 	}
 	

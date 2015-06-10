@@ -15,14 +15,22 @@ import java.util.Set;
  */
 public class HorizontalWrapper extends CombineWrapper {
 	
+	private boolean canUnwrap = true;
+	
 	/**
 	 * An collection of {@link SNodes} which can be used as a single SNode.
 	 * 
 	 * @param nodePosList
 	 *            a connected and sorted list of edges.
 	 */
-	public HorizontalWrapper(List<Wrapper> nodePosList) {
+	public HorizontalWrapper(List<Wrapper> nodePosList, boolean canUnwrap) {
 		super(nodePosList);
+		this.canUnwrap = canUnwrap;
+	}
+	
+	@Override
+	public boolean canUnwrap() {
+		return canUnwrap;
 	}
 	
 	@Override

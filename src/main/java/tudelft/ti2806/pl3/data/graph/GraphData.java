@@ -1,8 +1,10 @@
 package tudelft.ti2806.pl3.data.graph;
 
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.data.gene.Gene;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * GraphData parses the data as nodes,edges and genomes.
@@ -44,12 +46,22 @@ public class GraphData extends AbstractGraphData {
 	public List<Edge> getEdges() {
 		return edges;
 	}
-	
+
+	@Override
+	public List<Gene> getGenes() {
+		return this.genes;
+	}
+
 	@Override
 	public List<Genome> getGenomes() {
 		return genomes;
 	}
-	
+
+	@Override
+	public Map<Gene, DataNode> getGeneToStartNodeMap() {
+		return geneToStartNodeMap;
+	}
+
 	@Override
 	public AbstractGraphData getOrigin() {
 		return origin;
