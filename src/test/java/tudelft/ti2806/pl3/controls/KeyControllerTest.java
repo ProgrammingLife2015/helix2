@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Tests for KeyController
+ * Created by Kasper on 10-6-2015.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class KeyControllerTest {

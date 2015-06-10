@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Test for WindowController
+ * Created by Kasper on 10-6-2015.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class WindowControllerTest {
