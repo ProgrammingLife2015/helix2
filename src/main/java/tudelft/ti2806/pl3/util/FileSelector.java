@@ -40,4 +40,23 @@ public class FileSelector {
 		}
 		throw new FileSelectorException();
 	}
+
+	public static File selectFolder(String title, JFrame frame) throws FileSelectorException {
+
+		String OS = System.getProperty("os.name").toLowerCase();
+		if(OS.indexOf("mac") >= 0) { // MAC
+			System.setProperty("apple.awt.fileDialogForDirectories", "true");
+			FileDialog fileDialog = new FileDialog(frame, title, FileDialog.LOAD);
+			fileDialog.setDirectory(System.getProperty("user.dir"));
+			fileDialog.setVisible(true);
+			File[] files = fileDialog.getFiles();
+			if (files.length == 1) {
+				System.setProperty("apple.awt.fileDialogForDirectories", "false");
+				return files[0];
+			}
+			throw new FileSelectorException();
+		} else { // Other OS
+			return null;
+		}
+	}
 }
