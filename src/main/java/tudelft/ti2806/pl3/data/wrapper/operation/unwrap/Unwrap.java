@@ -67,10 +67,8 @@ public abstract class Unwrap extends WrapperOperation {
 			Pair<WrapperPlaceholder, Wrapper> pair = stack.pop();
 			pair.getSecond().calculate(this, pair.getFirst());
 		}
-		Wrapper.computeLongestPaths(new ArrayList<Wrapper>(wrapperClones));
-		for (Wrapper wrapper : wrapperClones) {
-			wrapper.calculateX();
-		}
+		Wrapper.computeLongestPaths(new ArrayList<>(wrapperClones));
+		wrapperClones.forEach(Wrapper::calculateX);
 	}
 	
 	public Wrapper getResult() {
