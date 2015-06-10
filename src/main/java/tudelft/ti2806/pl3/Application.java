@@ -90,6 +90,9 @@ public class Application extends JFrame {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Select the graph files on a folder basis
+	 */
 	public void makeGraphFromFolder() {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
@@ -110,6 +113,9 @@ public class Application extends JFrame {
 		}
 	}
 
+	/**
+	 * Select only the node and edge files
+	 */
 	public void makeGraphFromFiles() {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
