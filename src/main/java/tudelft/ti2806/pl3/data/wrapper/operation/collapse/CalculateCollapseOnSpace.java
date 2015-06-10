@@ -80,18 +80,15 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	 */
 	float getSpaceLeft(CombineWrapper wrapper) {
 		List<Wrapper> nodeList = new ArrayList<>(wrapper.getNodeList());
-		Collections.sort(nodeList, new XComparator());
-		float avg = 0;
-		int count = nodeList.size();
+		Collections.sort(nodeList);
+		float min = Float.MAX_VALUE;
 		for (int i = nodeList.size() - 2; i >= 0; i--) {
-			float left = nodeList.get(i + 1).getX() - nodeList.get(i).getX();
-			if (left == 0) {
-				count--;
-			} else {
-				avg += left;
+			if (nodeList.get(i + 1).getPreviousNodesCount() == nodeList.get(i).getPreviousNodesCount()) {
+				continue;
 			}
+			min = Math.min(Math.abs(nodeList.get(i + 1).getX() - nodeList.get(i).getX()), min);
 		}
-		return avg / count;
+		return min;
 	}
 	
 	public class XComparator implements Comparator<Wrapper> {
