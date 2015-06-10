@@ -153,8 +153,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 					Node graphNode = graph.addNode(node.getIdString());
 					double y = node.getY() * someSize;
 					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("ui.class", node.getClass()
-							.getSimpleName());
+					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass());
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 				}
 			});
