@@ -90,11 +90,11 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 */
 	public void produceDataNodeWrapperList() {
 		notifyLoadingObservers(true);
-		int nodeCount = Math.min(MIN_NODE_COUNT,
-				this.filteredGraphModel.getCalculateCollapse().getCollapses().size() - 1);
 		float condition = Math.min((this.graphWidth * MIN_NODE_DISTANCE)
-				/ (ScreenSize.getInstance().getWidth() * this.zoomLevel), this.filteredGraphModel
-				.getCalculateCollapse().getCollapses().get(nodeCount));
+				/ (ScreenSize.getInstance().getWidth() * this.zoomLevel),
+				new GetFirstCombineWrapper().compute(this.collapsedNode).getCollapse());
+		
+		System.out.println(condition);
 		Unwrap unwrap = new UnwrapOnCollapse(condition);
 		unwrap.compute(collapsedNode);
 		dataNodeWrapperList = unwrap.getWrapperClones();

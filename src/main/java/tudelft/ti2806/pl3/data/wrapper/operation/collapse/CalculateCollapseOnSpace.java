@@ -18,28 +18,11 @@ import java.util.List;
  * @author Sam Smulders
  */
 public class CalculateCollapseOnSpace extends WrapperOperation {
-	private List<Float> list;
-	
-	/**
-	 * Computes the distances between the nodes.
-	 * 
-	 * @param wrapper
-	 *            the wrapped graph
-	 */
-	public void compute(Wrapper wrapper) {
-		this.list = new ArrayList<>();
-		this.list.add(Float.MAX_VALUE);
-		calculate(wrapper, null);
-		Collections.sort(this.list);
-		Collections.sort(this.list, Collections.reverseOrder());
-	}
-	
 	@Override
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		if (wrapper.canUnwrap()) {
 			super.calculate(wrapper, container);
 			wrapper.addCollapse(getSpaceLeft(wrapper));
-			this.addToList(wrapper);
 		}
 	}
 	
@@ -47,28 +30,12 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addCollapse(getSpaceLeft(wrapper));
-		this.addToList(wrapper);
 	}
 	
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addCollapse(getSpaceLeft(wrapper));
-		this.addToList(wrapper);
-	}
-	
-	/**
-	 * Adds the collapsed value for the increase of shown nodes when the given wrapper is unfolded.
-	 * 
-	 * @param wrapper
-	 *            the wrapper
-	 */
-	// Suppress warnings, false positive unused method.
-	@SuppressWarnings("PMD.UnusedPrivateMethod")
-	private void addToList(CombineWrapper wrapper) {
-		for (int i = wrapper.getNodeList().size(); i > 1; i--) {
-			this.list.add(wrapper.getCollapse());
-		}
 	}
 	
 	/**
@@ -96,9 +63,5 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 		public int compare(Wrapper w1, Wrapper w2) {
 			return (int) Math.signum(w1.getX() - w2.getX());
 		}
-	}
-	
-	public List<Float> getCollapses() {
-		return this.list;
 	}
 }
