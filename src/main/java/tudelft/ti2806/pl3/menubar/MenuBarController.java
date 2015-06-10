@@ -40,8 +40,8 @@ public class MenuBarController implements ActionListener, Controller {
 	 */
 	final String about = "Helix\u00B2 is a interactive DNA sequence viewer. "
 			+ "It uses semantic zooming to only display relative information. \n"
-			+ "This application was created for as part of a assignment"
-			+ "for Contextproject on the TU Delft.\n"
+			+ "This application was created for as part of an assignment"
+			+ "for the Context Project at TU Delft.\n"
 			+ "\n"
 			+ "Helix\u00B2 was created by: \n"
 			+ "- Tom Brouws\n"
@@ -50,12 +50,12 @@ public class MenuBarController implements ActionListener, Controller {
 			+ "- Sam Smulders\n"
 			+ "- Kasper Wendel\n"
 			+ "\n"
-			+ "The code of this application is opensource and can be found on GitHub: \n";
+			+ "The code of this application is open source and can be found on GitHub: \n";
 
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	final String controls = "Helix\u00B2 uses keys shortcut to make life easier. "
+	final String controls = "Helix\u00B2 uses key shortcut to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
 			+ "Zooming in     \t+ \n"
@@ -64,7 +64,7 @@ public class MenuBarController implements ActionListener, Controller {
 			+ "Move the view to the left \t left arrow \n"
 			+ "Move the view to the right \t right arrow \n"
 			+ "\n"
-			+ "All of the menu's can be controlled with the underlined letter, "
+			+ "All of the menus can be controlled with the underlined letter, "
 			+ "hold the ALT key to activate this.";
 
 	/**
