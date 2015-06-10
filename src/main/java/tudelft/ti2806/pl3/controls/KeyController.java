@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.controls;
 
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -76,15 +75,15 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			graphController.moveRight();
+			app.getGraphController().moveRight();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			graphController.moveLeft();
+			app.getGraphController().moveLeft();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_R) {
-			graphController.resetZoom();
+			app.getGraphController().resetZoom();
 		}
 	}
 	
