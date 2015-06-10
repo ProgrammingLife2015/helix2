@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.data.wrapper;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class CombineWrapper extends Wrapper {
 	protected List<Wrapper> nodeList;
@@ -60,14 +61,15 @@ public abstract class CombineWrapper extends Wrapper {
 		}
 		return str.toString() + "}";
 	}
-
-	@Override public int getId() {
+	
+	@Override
+	public int getId() {
 		return nodeList.get(0).getId();
 	}
 	
 	@Override
-	public void collectDataNodes(List<DataNode> list) {
-		nodeList.forEach(n -> n.collectDataNodes(list));
+	public void collectDataNodes(Set<DataNode> set) {
+		nodeList.forEach(n -> n.collectDataNodes(set));
 	}
 	
 	@Override
@@ -77,5 +79,9 @@ public abstract class CombineWrapper extends Wrapper {
 			this.x += node.getX();
 		}
 		this.x /= this.getNodeList().size();
+	}
+	
+	public boolean canUnwrap() {
+		return true;
 	}
 }

@@ -4,13 +4,12 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
-import java.util.List;
 import java.util.Set;
 
 public class FixWrapper extends Wrapper {
-	
-	static final String ID_STRING = "[FIX]";
-	Set<Genome> genome;
+	public static final int ID = -1;
+	public static final String ID_STRING = "[FIX]";
+	private Set<Genome> genome;
 	
 	@Override
 	public long getBasePairCount() {
@@ -23,7 +22,7 @@ public class FixWrapper extends Wrapper {
 	}
 
 	@Override public int getId() {
-		return 0;
+		return ID;
 	}
 
 	@Override
@@ -37,7 +36,8 @@ public class FixWrapper extends Wrapper {
 	}
 	
 	@Override
-	public void collectDataNodes(List<DataNode> list) {
+	public void collectDataNodes(Set<DataNode> set) {
+
 	}
 	
 	public void setGenome(Set<Genome> genome) {

@@ -73,7 +73,7 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(left instanceof WrapperClone);
 		assertEquals(0, left.getIncoming().size());
 		assertEquals(1, left.getOutgoing().size());
-		assertTrue(((WrapperClone) left).getDataNodeList().contains(dataNode1));
+		assertTrue(((WrapperClone) left).getDataNodes().contains(dataNode1));
 	}
 	
 	/**
@@ -86,10 +86,8 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(leftMiddle instanceof WrapperClone);
 		assertEquals(1, leftMiddle.getIncoming().size());
 		assertEquals(1, leftMiddle.getOutgoing().size());
-		assertTrue(((WrapperClone) leftMiddle).getDataNodeList().contains(
-				dataNode2));
-		assertTrue(((WrapperClone) leftMiddle.getIncoming().get(0))
-				.getDataNodeList().contains(dataNode1));
+		assertTrue(((WrapperClone) leftMiddle).getDataNodes().contains(dataNode2));
+		assertTrue(((WrapperClone) leftMiddle.getIncoming().get(0)).getDataNodes().contains(dataNode1));
 	}
 	
 	/**
@@ -102,10 +100,8 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(rightMiddle instanceof WrapperClone);
 		assertEquals(1, rightMiddle.getIncoming().size());
 		assertEquals(1, rightMiddle.getOutgoing().size());
-		assertTrue(((WrapperClone) rightMiddle).getDataNodeList().contains(
-				dataNode3));
-		assertTrue(((WrapperClone) rightMiddle.getIncoming().get(0))
-				.getDataNodeList().contains(dataNode2));
+		assertTrue(((WrapperClone) rightMiddle).getDataNodes().contains(dataNode3));
+		assertTrue(((WrapperClone) rightMiddle.getIncoming().get(0)).getDataNodes().contains(dataNode2));
 	}
 	
 	/**
@@ -117,9 +113,8 @@ public class HorizontalWrappedUnwrapTest {
 		assertTrue(right instanceof WrapperClone);
 		assertEquals(1, right.getIncoming().size());
 		assertEquals(0, right.getOutgoing().size());
-		assertTrue(((WrapperClone) right).getDataNodeList().contains(dataNode4));
-		assertTrue(((WrapperClone) right.getIncoming().get(0))
-				.getDataNodeList().contains(dataNode3));
+		assertTrue(((WrapperClone) right).getDataNodes().contains(dataNode4));
+		assertTrue(((WrapperClone) right.getIncoming().get(0)).getDataNodes().contains(dataNode3));
 	}
 	
 	/**
@@ -154,7 +149,7 @@ public class HorizontalWrappedUnwrapTest {
 		list.add(wrapper2);
 		wrapper1.getOutgoing().add(wrapper2);
 		wrapper2.getIncoming().add(wrapper1);
-		return new HorizontalWrapper(list);
+		return new HorizontalWrapper(list, true);
 	}
 	
 	/**

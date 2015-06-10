@@ -59,11 +59,15 @@ public final class WrapUtil {
 	 *         found, with only using vertical and horizontal options.
 	 */
 	public static WrappedGraphData collapseGraphSimple(WrappedGraphData original) {
-		WrappedGraphData graph = original;
 		WrappedGraphData lastGraph = original;
+		WrappedGraphData graph = HorizontalWrapUtil.collapseGraph(original,
+				false);
+		if (graph == null) {
+			graph = original;
+		}
 		while (graph != null) {
 			lastGraph = graph;
-			graph = HorizontalWrapUtil.collapseGraph(graph);
+			graph = HorizontalWrapUtil.collapseGraph(graph, true);
 			if (graph == null) {
 				graph = lastGraph;
 			} else {

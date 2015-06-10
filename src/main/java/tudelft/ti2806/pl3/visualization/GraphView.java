@@ -9,8 +9,11 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
+import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
+import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -146,21 +149,22 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
 				/ ((double) panel.getBounds().width * zoomLevel / zoomedGraphModel
-						.getWrappedCollapsedNode().getWidth())
+				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				if (!"[FIX]".equals(node.getIdString())) {
-					Node graphNode = graph.addNode(node.getIdString());
+				if (FixWrapper.ID != node.getId()) {
+					Node graphNode = graph.addNode(Integer.toString(node.getId()));
 					double y = node.getY() * someSize;
 					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass());
+					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
+							.getSimpleName());
 					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 				}
 			});
-		
+
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				if (!"[FIX]".equals(node.getIdString()) && !"[FIX]".equals(to.getIdString())) {
+				if (FixWrapper.ID != node.getId() && FixWrapper.ID != to.getId()) {
 					addNormalEdge(graph, node, to);
 				}
 			}
@@ -179,8 +183,9 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * @param to
 	 *            the node where the edge ends
 	 */
+	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		graph.addEdge(from.getIdString() + "-" + to.getIdString(), from.getIdString(), to.getIdString(), true);
+		graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 	}
 	
 	@Override
@@ -207,8 +212,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private void zoom() {
 		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
-	
-	public long getZoomCenter() {
+
+	public float getZoomCenter() {
 		return zoomCenter;
 	}
 	
@@ -216,9 +221,9 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * Moves the view to the given position on the x axis.
 	 *
 	 * @param zoomCenter
-	 *            the new center of view
+	 * 		the new center of view
 	 */
-	public void setZoomCenter(long zoomCenter) {
+	public void setZoomCenter(float zoomCenter) {
 		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
@@ -253,6 +258,32 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public void notifyLoadingObservers(Object arguments) {
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			loadingObserver.update(this, arguments);
+		}
+	}
+
+	/**
+	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently
+	 * drawn {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
+	 * {@link WrapperClone}.
+	 *
+	 * @param node
+	 * 		The {@link DataNode} to move the view to
+	 * @throws NodeNotFoundException
+	 * 		Thrown when the node cannot be found in all {@link WrapperClone}s
+	 */
+	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+		float x = -1;
+		for (WrapperClone wrapperClone : graphData) {
+			if (wrapperClone.getDataNodes().contains(node)) {
+				x = wrapperClone.getX();
+				break;
+			}
+		}
+		if (x != -1) {
+			setZoomCenter(x);
+		} else {
+			throw new NodeNotFoundException(
+					"The node " + node + " you are looking for cannot be found in the current graph.");
 		}
 	}
 }
