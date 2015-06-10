@@ -18,6 +18,7 @@ import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -308,5 +309,13 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			throw new NodeNotFoundException("The node " + node
 					+ " you are looking for cannot be found in the current graph.");
 		}
+	}
+
+	public void addComponentListener(ComponentListener componentListener) {
+		panel.addComponentListener(componentListener);
+	}
+
+	public double getGraphDimension() {
+		return viewer.getDefaultView().getCamera().getGraphDimension();
 	}
 }

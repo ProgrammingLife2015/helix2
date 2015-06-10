@@ -120,4 +120,8 @@ public class GraphController implements Controller {
 	public void centerOnNode(DataNode node) throws NodeNotFoundException {
 		graphView.centerOnNode(node);
 	}
+
+	public GraphView getGraphView() {
+		return graphView;
+	}
 }

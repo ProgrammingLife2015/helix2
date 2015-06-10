@@ -149,6 +149,7 @@ public class Application extends JFrame {
 			zoomBarView = new ZoomBarView(getGraphController());
 			findgenesController = new FindgenesController(gd, getGraphController());
 			findgenesController.setFrame(this);
+			graphView.addComponentListener(zoomBarView);
 
 			setZoomBarView(zoomBarView.getPanel());
 			setGraphView(graphView.getPanel());
