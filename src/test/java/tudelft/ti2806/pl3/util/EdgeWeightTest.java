@@ -40,18 +40,19 @@ public class EdgeWeightTest {
 				graphDataRepository.getEdges());
 		Wrapper collapsedNode = WrapUtil.collapseGraph(wrappedGraphData)
 				.getPositionedNodes().get(0);
+		new CanUnwrapOperation().calculate(collapsedNode, null);
 		Unwrap unwrap = new UnwrapTest();
 		unwrap.compute(collapsedNode);
 		EdgeUtil.setEdgeWeight(unwrap.getWrapperClones());
-//		wrappers = new Wrapper[unwrap.getWrapperClones().size()];
-//		wrappers[0] = unwrap.getResult();
-//		wrappers[1] = wrappers[0].getOutgoing().get(0);
-//		wrappers[2] = wrappers[1].getOutgoing().get(0);
-//		wrappers[3] = wrappers[1].getOutgoing().get(1);
-//		wrappers[4] = wrappers[3].getOutgoing().get(0);
-//		wrappers[5] = wrappers[3].getOutgoing().get(1);
-//		wrappers[6] = wrappers[3].getOutgoing().get(2);
-//		wrappers[7] = wrappers[4].getOutgoing().get(0);
+		wrappers = new Wrapper[unwrap.getWrapperClones().size()];
+		wrappers[0] = unwrap.getResult();
+		wrappers[1] = wrappers[0].getOutgoing().get(0);
+		wrappers[2] = wrappers[1].getOutgoing().get(0);
+		wrappers[3] = wrappers[1].getOutgoing().get(1);
+		wrappers[4] = wrappers[3].getOutgoing().get(0);
+		wrappers[5] = wrappers[3].getOutgoing().get(1);
+		wrappers[6] = wrappers[3].getOutgoing().get(2);
+		wrappers[7] = wrappers[4].getOutgoing().get(0);
 	}
 
 	/**
@@ -59,16 +60,16 @@ public class EdgeWeightTest {
 	 */
 	@Test
 	public void testWeight() {
-//		assertTrue(wrappers[0].getOutgoingWeight().get(wrappers[1]).equals(3));
-//		assertTrue(wrappers[1].getOutgoingWeight().get(wrappers[2]).equals(2));
-//		assertTrue(wrappers[1].getOutgoingWeight().get(wrappers[3]).equals(1));
-//		assertTrue(wrappers[2].getOutgoingWeight().get(wrappers[3]).equals(2));
-//		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[4]).equals(1));
-//		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[5]).equals(1));
-//		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[6]).equals(1));
-//		assertTrue(wrappers[4].getOutgoingWeight().get(wrappers[7]).equals(1));
-//		assertTrue(wrappers[5].getOutgoingWeight().get(wrappers[7]).equals(1));
-//		assertTrue(wrappers[6].getOutgoingWeight().get(wrappers[7]).equals(1));
+		assertTrue(wrappers[0].getOutgoingWeight().get(wrappers[1]).equals(3));
+		assertTrue(wrappers[1].getOutgoingWeight().get(wrappers[2]).equals(2));
+		assertTrue(wrappers[1].getOutgoingWeight().get(wrappers[3]).equals(1));
+		assertTrue(wrappers[2].getOutgoingWeight().get(wrappers[3]).equals(2));
+		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[4]).equals(1));
+		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[5]).equals(1));
+		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[6]).equals(1));
+		assertTrue(wrappers[4].getOutgoingWeight().get(wrappers[7]).equals(1));
+		assertTrue(wrappers[5].getOutgoingWeight().get(wrappers[7]).equals(1));
+		assertTrue(wrappers[6].getOutgoingWeight().get(wrappers[7]).equals(1));
 	}
 
 }
