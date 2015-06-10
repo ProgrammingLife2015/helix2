@@ -156,15 +156,15 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				if (FixWrapper.ID != node.getId()) {
-					Node graphNode = graph.addNode(Integer.toString(node.getId()));
-					double y = node.getY() * someSize;
-					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
-							.getSimpleName());
-					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-				}
-			});
+			if (FixWrapper.ID != node.getId()) {
+				Node graphNode = graph.addNode(Integer.toString(node.getId()));
+				double y = node.getY() * someSize;
+				graphNode.setAttribute("xy", node.getX(), y);
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
+						.getSimpleName());
+				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+			}
+		});
 
 		for (Wrapper node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
@@ -189,8 +189,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		Edge edge = graph.addEdge(from.getIdString() + "-" + to.getIdString(),
-				from.getIdString(), to.getIdString(), true);
+		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(
+				to.getId()), true);
 		int weight = from.getOutgoingWeight().get(to);
 		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
 		percent += 0.01; // dirty IllegalArgumentException fix
