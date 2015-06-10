@@ -60,16 +60,16 @@ public class EdgeWeightTest {
 	 */
 	@Test
 	public void testWeight() {
-		assertTrue(wrappers[0].getOutgoingWeight().get(wrappers[1]).equals(3));
-		assertTrue(wrappers[1].getOutgoingWeight().get(wrappers[2]).equals(2));
-		assertTrue(wrappers[1].getOutgoingWeight().get(wrappers[3]).equals(1));
-		assertTrue(wrappers[2].getOutgoingWeight().get(wrappers[3]).equals(2));
-		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[4]).equals(1));
-		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[5]).equals(1));
-		assertTrue(wrappers[3].getOutgoingWeight().get(wrappers[6]).equals(1));
-		assertTrue(wrappers[4].getOutgoingWeight().get(wrappers[7]).equals(1));
-		assertTrue(wrappers[5].getOutgoingWeight().get(wrappers[7]).equals(1));
-		assertTrue(wrappers[6].getOutgoingWeight().get(wrappers[7]).equals(1));
+		assertTrue(wrappers[0].getOutgoingWeight().get(0).equals(3));
+		assertTrue(wrappers[1].getOutgoingWeight().get(0).equals(2));
+		assertTrue(wrappers[1].getOutgoingWeight().get(1).equals(1));
+		assertTrue(wrappers[2].getOutgoingWeight().get(0).equals(2));
+		assertTrue(wrappers[3].getOutgoingWeight().get(0).equals(1));
+		assertTrue(wrappers[3].getOutgoingWeight().get(1).equals(1));
+		assertTrue(wrappers[3].getOutgoingWeight().get(2).equals(1));
+		assertTrue(wrappers[4].getOutgoingWeight().get(0).equals(1));
+		assertTrue(wrappers[5].getOutgoingWeight().get(0).equals(1));
+		assertTrue(wrappers[6].getOutgoingWeight().get(0).equals(1));
 	}
 
 }

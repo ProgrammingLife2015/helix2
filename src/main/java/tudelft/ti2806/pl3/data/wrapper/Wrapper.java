@@ -7,9 +7,7 @@ import tudelft.ti2806.pl3.util.DoneDeque;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,7 +23,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	List<Wrapper> incoming = new ArrayList<>();
 	List<Wrapper> outgoing = new ArrayList<>();
-	Map<Wrapper, Integer> outgoingWeight = new HashMap<>();
+	List<Integer> outgoingWeight = new ArrayList<>();
 	
 	int previousNodesCount = -1;
 	int interest = 0;
@@ -75,11 +73,11 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		this.outgoing = outgoing;
 	}
 
-	public Map<Wrapper, Integer> getOutgoingWeight() {
+	public List<Integer> getOutgoingWeight() {
 		return outgoingWeight;
 	}
 
-	public void setOutgoingWeight(Map<Wrapper, Integer> outgoingWeight) {
+	public void setOutgoingWeight(List<Integer> outgoingWeight) {
 		this.outgoingWeight = outgoingWeight;
 	}
 

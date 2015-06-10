@@ -115,14 +115,13 @@ public class EdgeUtil {
 				continue;
 			}
 			if (wrapperClone.getOutgoing().size() == 1) {
-				wrapperClone.getOutgoingWeight().put(
-						wrapperClone.getOutgoing().get(0), wrapperClone.getGenome().size());
+				wrapperClone.getOutgoingWeight().add(wrapperClone.getGenome().size());
 			}
 			Set<Genome> genomes = new HashSet<>(wrapperClone.getGenome());
 			Collections.sort(wrapperClone.getOutgoing());
 			for (Wrapper outgoing : wrapperClone.getOutgoing()) {
 				Collection<Genome> intersection = intersection(outgoing.getGenome(), genomes);
-				wrapperClone.getOutgoingWeight().put(outgoing, intersection.size());
+				wrapperClone.getOutgoingWeight().add(intersection.size());
 				genomes.removeAll(intersection);
 			}
 		}
