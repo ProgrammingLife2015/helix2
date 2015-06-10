@@ -119,7 +119,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * Sets the graph its drawing properties.
 	 */
 	private void setGraphPropertys() {
-		String stylesheet = "stylesheet.css";
+		final String stylesheet = "stylesheet.css";
 
 		viewer.getDefaultView().setMouseManager(new MouseManager());
 
@@ -176,7 +176,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(to.getId()), true);
+		graph.addEdge(from.getId() + "-" + to.getId(),
+				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 	}
 
 	@Override

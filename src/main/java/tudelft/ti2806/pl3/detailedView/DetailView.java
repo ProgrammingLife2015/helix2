@@ -3,27 +3,44 @@ package tudelft.ti2806.pl3.detailedView;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
-import java.awt.TextArea;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Created by Mathieu Post on 8-6-15.
+ * This view is added when more details about a node are needed.
+ * @author mathieu
  */
 public class DetailView extends JPanel {
-	private WrapperClone node;
 
+	/**
+	 * Constructs a DetailView and set a border and the preferred layout.
+	 */
 	public DetailView() {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);
-		setBounds(0, 0, 100, 100);
+		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	}
 
-	public void setNode(WrapperClone node) {
-		this.node = node;
+	/**
+	 * Set about which node the DetailView shows some details.
+	 * @param node
+	 * 		the node to show details about.
+	 * @param x
+	 * 		x position of the view.
+	 * @param y
+	 * 		y position of the view.
+	 */
+	public void setNode(WrapperClone node, int x, int y) {
 		removeAll();
 		for (Genome genome : node.getGenome()) {
-			add(new TextArea(genome.toString()));
+			JLabel label = new JLabel(genome.toString());
+			add(label);
+			label.repaint();
 		}
+		Dimension size = getPreferredSize();
+		setBounds(x, y, size.width, size.height);
 	}
 }
