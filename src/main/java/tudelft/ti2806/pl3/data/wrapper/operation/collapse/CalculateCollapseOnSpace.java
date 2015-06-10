@@ -7,10 +7,7 @@ import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * Computes the collapse value, based on the space left between nodes when unwrapped.
@@ -35,7 +32,7 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		wrapper.addCollapse(getSpaceLeft(wrapper));
+		wrapper.addCollapse(Float.MAX_VALUE);
 	}
 	
 	/**
@@ -46,14 +43,21 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	 * @return a value of the average space between nodes.
 	 */
 	float getSpaceLeft(CombineWrapper wrapper) {
-		List<Wrapper> nodeList = new ArrayList<>(wrapper.getNodeList());
-		Collections.sort(nodeList);
+		return getMinDistance(wrapper.getFirst(), wrapper.getLast());
+	}
+	
+	private float getMinDistance(Wrapper first, Wrapper last) {
 		float min = Float.MAX_VALUE;
-		for (int i = nodeList.size() - 2; i >= 0; i--) {
-			if (nodeList.get(i + 1).getPreviousNodesCount() == nodeList.get(i).getPreviousNodesCount()) {
+		for (Wrapper wrapper : first.getOutgoing()) {
+			if (wrapper == last) {
+				min = Math.min(min, wrapper.getX() - first.getX());
 				continue;
 			}
-			min = Math.min(Math.abs(nodeList.get(i + 1).getX() - nodeList.get(i).getX()), min);
+			min = Math.min(min, wrapper.getX() - first.getX());
+			min = Math.min(min, getMinDistance(wrapper, last));
+		}
+		if (min < 1) {
+			System.out.println("@"+min);
 		}
 		return min;
 	}
