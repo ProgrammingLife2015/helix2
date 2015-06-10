@@ -240,7 +240,11 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public float getZoomCenter() {
 		return zoomCenter;
 	}
-	
+
+	public double getViewPercent() {
+		return viewer.getDefaultView().getCamera().getViewPercent();
+	}
+
 	/**
 	 * Moves the view to the given position on the x axis.
 	 *
