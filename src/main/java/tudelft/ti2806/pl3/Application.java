@@ -23,6 +23,7 @@ import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -96,6 +97,12 @@ public class Application extends JFrame {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+
+			File folder = nodeFile.getParentFile();
+			File[] treeFiles = folder.listFiles((dir, name) -> {
+				return name.endsWith("nwk");
+			});
+
 			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
 
 			final long startTime = System.currentTimeMillis();
@@ -117,6 +124,10 @@ public class Application extends JFrame {
 
 			graphView.getPanel().addKeyListener(keys);
 
+			if(treeFiles.length > 0) {
+				makePhyloTree(treeFiles[0]);
+			}
+
 			this.setFocusable(true);
 
 			long loadTime = System.currentTimeMillis() - startTime;
@@ -131,11 +142,23 @@ public class Application extends JFrame {
 	}
 
 	/**
-	 * Parses the phylogentic tree and makes a sidebarview.
+	 * Parses the phylogenetic tree through file selection and makes a sidebarview.
 	 */
 	public void makePhyloTree() {
+		makePhyloTree(null);
+	}
+
+	/**
+	 * Parses the phylogenetic tree through automatic selection and makes a sidebarview.
+	 */
+	public void makePhyloTree(File input) {
 		try {
-			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+			File treeFile;
+			if(input == null) {
+				treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+			} else {
+				treeFile = input;
+			}
 
 			sideBarView = new SideBarView();
 			sideBarView.addLoadingObserversList(loadingObservers);

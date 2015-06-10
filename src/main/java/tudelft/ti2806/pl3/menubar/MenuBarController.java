@@ -82,6 +82,9 @@ public class MenuBarController implements ActionListener, Controller {
 		application.stop();
 	}
 
+	private void readFolder() {
+	}
+
 	private void readGraphFile() {
 		application.makeGraph();
 	}
@@ -175,7 +178,7 @@ public class MenuBarController implements ActionListener, Controller {
 					URI github = new URI("https://github.com/ProgrammingLife3/ProgrammingLife3");
 					Desktop.getDesktop().browse(github);
 				} catch (IOException | URISyntaxException exception) {
-					String message = "A error has occured!"
+					String message = "An error has occurred!"
 					 	+ " We are unable to display the GitHub link in your browser.";
 					displayError(message);
 				}
