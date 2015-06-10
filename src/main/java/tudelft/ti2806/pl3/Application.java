@@ -23,7 +23,6 @@ import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
