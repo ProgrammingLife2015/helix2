@@ -10,10 +10,6 @@ import java.awt.event.KeyListener;
  * Created by Kasper on 9-5-2015.
  */
 public class KeyController implements KeyListener {
-	/**
-	 * Percentage of the screen that is moved.
-	 */
-	private static final double MOVE_FACTOR = 10.0;
 
 	private Application app;
 
@@ -84,6 +80,10 @@ public class KeyController implements KeyListener {
 
 		if (event.getKeyCode() == KeyEvent.VK_R) {
 			app.getGraphController().resetZoom();
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_G) {
+			app.getFindgenesController().openDialog();
 		}
 	}
 	

@@ -73,9 +73,10 @@ public class MenuBarView extends JMenuBar implements View {
 		// ascii value of the shortcuts
 		final char plus = 43;
 		final char minus = 45;
-		final char r = 82;
+		final char r = "R".charAt(0);
 		final char right = "\u2192".charAt(0);
 		final char left = "\u2190".charAt(0);
+		final char g = "G".charAt(0);
 
 		JMenu viewMenu = new JMenu("View");
 		viewMenu.setMnemonic(KeyEvent.VK_V);
@@ -93,9 +94,11 @@ public class MenuBarView extends JMenuBar implements View {
 		moveRight.setAccelerator(KeyStroke.getKeyStroke(right));
 		moveRight.setMnemonic(KeyEvent.VK_R);
 		JMenuItem reset = new JMenuItem("Reset view");
-		JMenuItem findGenes = new JMenuItem("Navigate to gene");
 		reset.setAccelerator(KeyStroke.getKeyStroke(r));
 		reset.setMnemonic(KeyEvent.VK_S);
+		JMenuItem findGenes = new JMenuItem("Navigate to gene");
+		findGenes.setAccelerator(KeyStroke.getKeyStroke(g));
+		findGenes.setMnemonic(KeyEvent.VK_G);
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
