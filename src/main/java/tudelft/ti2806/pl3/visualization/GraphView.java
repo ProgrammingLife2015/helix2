@@ -42,7 +42,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * The center position of the view.<br>
 	 * The position on the x axis.
 	 */
-	private long zoomCenter = 1;
+	private float zoomCenter = 1;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
