@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -130,7 +131,7 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		JOptionPane.showMessageDialog(application, textPane, "Controls", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "Controls", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
@@ -154,7 +155,7 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		JOptionPane.showMessageDialog(application, textPane, "About Me", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "About Me", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
