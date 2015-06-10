@@ -83,10 +83,11 @@ public class MenuBarController implements ActionListener, Controller {
 	}
 
 	private void readFolder() {
+		application.makeGraphFromFolder();
 	}
 
 	private void readGraphFile() {
-		application.makeGraph();
+		application.makeGraphFromFiles();
 	}
 
 	private void readNwkFile() {
@@ -208,6 +209,9 @@ public class MenuBarController implements ActionListener, Controller {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
+			case "Open folder":
+				readFolder();
+				break;
 			case "Open node and edge file":
 				readGraphFile();
 				break;
