@@ -38,8 +38,8 @@ public class DetailView extends JPanel {
 		for (Genome genome : node.getGenome()) {
 			JLabel label = new JLabel(genome.toString());
 			add(label);
-			label.repaint();
 		}
+
 		Dimension size = getPreferredSize();
 		setBounds(x, y, size.width, size.height);
 	}
