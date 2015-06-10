@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.data.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import tudelft.ti2806.pl3.util.DoneDeque;
 
@@ -77,6 +78,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	public abstract int getId();
 	
 	public abstract Set<Genome> getGenome();
+
+	public abstract Set<Label> getLabels();
 	
 	public abstract void calculate(WrapperOperation wrapperSequencer,
 			Wrapper container);

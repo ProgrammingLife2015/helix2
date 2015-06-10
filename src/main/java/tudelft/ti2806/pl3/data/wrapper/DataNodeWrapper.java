@@ -3,10 +3,12 @@ package tudelft.ti2806.pl3.data.wrapper;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,6 +75,11 @@ public class DataNodeWrapper extends Wrapper {
 
 	@Override public int getId() {
 		return node.getId();
+	}
+
+	@Override
+	public Set<Label> getLabels() {
+		return new HashSet<>(node.getLabelList());
 	}
 
 	@Override
