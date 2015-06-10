@@ -14,6 +14,7 @@ import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
+import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
@@ -147,7 +148,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * 
 	 * @return a graph with all nodes from the given graphData
 	 */
-	public Graph generateGraph() {
+	public Graph generateGraph() throws EdgeZeroWeightException {
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
@@ -156,21 +157,23 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-			if (FixWrapper.ID != node.getId()) {
-				Node graphNode = graph.addNode(Integer.toString(node.getId()));
-				double y = node.getY() * someSize;
-				graphNode.setAttribute("xy", node.getX(), y);
-				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
-						.getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-			}
-		});
+				if (FixWrapper.ID != node.getId()) {
+					Node graphNode = graph.addNode(Integer.toString(node.getId()));
+					double y = node.getY() * someSize;
+					graphNode.setAttribute("xy", node.getX(), y);
+					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
+							.getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				}
+			});
 
 		for (Wrapper node : graphData) {
+			int i = 0;
 			for (Wrapper to : node.getOutgoing()) {
 				if (FixWrapper.ID != node.getId() && FixWrapper.ID != to.getId()) {
-					addNormalEdge(graph, node, to);
+					addNormalEdge(graph, node, to, i);
 				}
+				i++;
 			}
 		}
 		notifyLoadingObservers(false);
@@ -185,16 +188,23 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * @param from
 	 *            the node where the edge begins
 	 * @param to
-	 *            the node where the edge ends
+	 * 		the node where the edge ends
+	 * @param i
+	 * 		the index of the edge in the list of outgoing edges
 	 */
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
-	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()), Integer.toString(
-				to.getId()), true);
-		int weight = from.getOutgoingWeight().get(to);
+	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to, int i) throws EdgeZeroWeightException {
+		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(),
+				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
+		int weight = from.getOutgoingWeight().get(i);
 		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
-		percent += 0.01; // dirty IllegalArgumentException fix
-		edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
+		if (weight == 0) {
+			edge.addAttribute("ui.label", "fix me!");
+			throw new EdgeZeroWeightException(
+					"The weight of the edge from " + from + " to " + to + " cannot be 0.");
+		} else {
+			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
+		}
 	}
 	
 	@Override
@@ -212,8 +222,12 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			zoomLevel = zoomedGraphModel.getZoomLevel();
-			// TODO: draw graph with the newly retrieved graphData
-			generateGraph();
+			try {
+				generateGraph();
+			} catch (EdgeZeroWeightException e) {
+				//TODO: show popup?
+				e.printStackTrace();
+			}
 			zoom();
 		}
 	}
@@ -291,8 +305,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		if (x != -1) {
 			setZoomCenter(x);
 		} else {
-			throw new NodeNotFoundException(
-					"The node " + node + " you are looking for cannot be found in the current graph.");
+			throw new NodeNotFoundException("The node " + node
+					+ " you are looking for cannot be found in the current graph.");
 		}
 	}
 }
