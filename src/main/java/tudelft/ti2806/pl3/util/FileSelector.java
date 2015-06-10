@@ -2,16 +2,16 @@ package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 
+import javax.swing.JFrame;
 import java.awt.FileDialog;
 import java.io.File;
-import javax.swing.JFrame;
 
 /**
  * Let the user select the correct node and egdes files.
  * Created by Kasper on 7-5-15.
  */
 public class FileSelector {
-	private FileSelector(){
+	private FileSelector() {
 	}
 
 	/**
@@ -23,10 +23,9 @@ public class FileSelector {
 	 * 		in which file chooser must be shown
 	 * @param filter
 	 * 		of the files
-	 * @return
-	 *      File that is chosen
+	 * @return File that is chosen
 	 * @throws FileSelectorException
-	 *      When more then one file is selected
+	 * 		When more than one file is selected
 	 */
 	public static File selectFile(String title, JFrame frame, String filter) throws FileSelectorException {
 		FileDialog fileDialog = new FileDialog(frame, title, FileDialog.LOAD);
@@ -41,10 +40,21 @@ public class FileSelector {
 		throw new FileSelectorException();
 	}
 
+	/**
+	 * Opens a folder select window.
+	 *
+	 * @param title
+	 * 		of the folder chooser
+	 * @param frame
+	 * 		in which file chooser must be shown
+	 * @return File that is chosen
+	 * @throws FileSelectorException
+	 * 		When more than one folder is selected
+	 */
 	public static File selectFolder(String title, JFrame frame) throws FileSelectorException {
 
-		String OS = System.getProperty("os.name").toLowerCase();
-		if(OS.indexOf("mac") >= 0) { // MAC
+		String os = System.getProperty("os.name").toLowerCase();
+		if (os.indexOf("mac") >= 0) { // MAC
 			System.setProperty("apple.awt.fileDialogForDirectories", "true");
 			FileDialog fileDialog = new FileDialog(frame, title, FileDialog.LOAD);
 			fileDialog.setDirectory(System.getProperty("user.dir"));

@@ -91,18 +91,20 @@ public class Application extends JFrame {
 	}
 
 	/**
-	 * Select the graph files on a folder basis
+	 * Select the graph files on a folder basis.
 	 */
 	public void makeGraphFromFolder() {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
 
 			File[] nodeFiles = folder.listFiles((dir, name) -> {
-				return name.endsWith(".node.graph");
-			});
+					return name.endsWith(".node.graph");
+				}
+			);
 			File[] treeFiles = folder.listFiles((dir, name) -> {
-				return name.endsWith("nwk");
-			});
+					return name.endsWith("nwk");
+				}
+			);
 			File edgeFile = new File(nodeFiles[0].getAbsolutePath().replace(".node", ".edge"));
 
 			makeGraph(nodeFiles[0], edgeFile, treeFiles[0]);
@@ -114,7 +116,7 @@ public class Application extends JFrame {
 	}
 
 	/**
-	 * Select only the node and edge files
+	 * Select only the node and edge files.
 	 */
 	public void makeGraphFromFiles() {
 		try {
