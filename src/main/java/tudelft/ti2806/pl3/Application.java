@@ -116,7 +116,7 @@ public class Application extends JFrame {
 			graphView.getController().init();
 
 			graphView.getPanel().addKeyListener(keys);
-
+			
 			this.setFocusable(true);
 
 			long loadTime = System.currentTimeMillis() - startTime;
