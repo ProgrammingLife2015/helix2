@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.FileDialog;
 import java.io.File;
 
@@ -54,7 +54,7 @@ public class FileSelector {
 	public static File selectFolder(String title, JFrame frame) throws FileSelectorException {
 
 		String os = System.getProperty("os.name").toLowerCase();
-		if (os.indexOf("mac") >= 0) { // MAC
+		if (os.indexOf("mac") >= 0) { // OS X
 			System.setProperty("apple.awt.fileDialogForDirectories", "true");
 			FileDialog fileDialog = new FileDialog(frame, title, FileDialog.LOAD);
 			fileDialog.setDirectory(System.getProperty("user.dir"));
@@ -64,9 +64,14 @@ public class FileSelector {
 				System.setProperty("apple.awt.fileDialogForDirectories", "false");
 				return files[0];
 			}
-			throw new FileSelectorException();
 		} else { // Other OS
-			return null;
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+				return fileChooser.getSelectedFile();
+			}
 		}
+		throw new FileSelectorException();
 	}
 }
