@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.data.graph;
 
 import org.junit.Assert;
-
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
 import tudelft.ti2806.pl3.data.gene.GeneData;
@@ -11,7 +10,6 @@ import tudelft.ti2806.pl3.exception.DuplicateGenomeNameException;
 import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
