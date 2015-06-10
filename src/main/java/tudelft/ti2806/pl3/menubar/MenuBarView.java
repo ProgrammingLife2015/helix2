@@ -18,6 +18,7 @@ public class MenuBarView extends JMenuBar implements View {
 
 	private MenuBarController menuBarController;
 
+
 	/**
 	 * Makes the view of the menubar.
 	 *
@@ -25,6 +26,7 @@ public class MenuBarView extends JMenuBar implements View {
 	 * 		to place the menubar in.
 	 */
 	public MenuBarView(Application application) {
+		super();
 		menuBarController = new MenuBarController(application);
 		add(setUpFile());
 		add(setUpView());
@@ -53,7 +55,6 @@ public class MenuBarView extends JMenuBar implements View {
 		fileMenu.add(exit);
 
 		// add action listener for every item
-		// cast is safe since we only add JMenuItems
 		for (Component component : fileMenu.getMenuComponents()) {
 			if (component instanceof JMenuItem) {
 				((JMenuItem) component).addActionListener(menuBarController);
@@ -92,6 +93,7 @@ public class MenuBarView extends JMenuBar implements View {
 		moveRight.setAccelerator(KeyStroke.getKeyStroke(right));
 		moveRight.setMnemonic(KeyEvent.VK_R);
 		JMenuItem reset = new JMenuItem("Reset view");
+		JMenuItem findGenes = new JMenuItem("Navigate to gene");
 		reset.setAccelerator(KeyStroke.getKeyStroke(r));
 		reset.setMnemonic(KeyEvent.VK_S);
 
@@ -100,11 +102,13 @@ public class MenuBarView extends JMenuBar implements View {
 		viewMenu.add(moveLeft);
 		viewMenu.add(moveRight);
 		viewMenu.add(reset);
+		viewMenu.add(findGenes);
 
 		// add action listener for every item
-		// cast is safe since we only add JMenuItems
 		for (Component component : viewMenu.getMenuComponents()) {
-			((JMenuItem) component).addActionListener(menuBarController);
+			if (component instanceof JMenuItem) {
+				((JMenuItem) component).addActionListener(menuBarController);
+			}
 		}
 
 		return viewMenu;

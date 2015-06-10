@@ -109,6 +109,9 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getGraphController().resetZoom();
 	}
 
+	private void showFindGenes() {
+		application.getFindgenesController().openDialog();
+	}
 	/**
 	 * Displays the controls text in a {@link JTextPane}.
 	 */
@@ -224,6 +227,9 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case "Reset view":
 				resetView();
+				break;
+			case "Navigate to gene":
+				showFindGenes();
 				break;
 			case "Controls":
 				displayControls();

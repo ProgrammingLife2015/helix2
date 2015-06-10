@@ -37,9 +37,11 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	
 	@Override
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
-		super.calculate(wrapper, container);
-		wrapper.addCollapse(getSpaceLeft(wrapper));
-		this.addToList(wrapper);
+		if (wrapper.canUnwrap()) {
+			super.calculate(wrapper, container);
+			wrapper.addCollapse(getSpaceLeft(wrapper));
+			this.addToList(wrapper);
+		}
 	}
 	
 	@Override
@@ -52,6 +54,7 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
+		wrapper.addCollapse(getSpaceLeft(wrapper));
 		this.addToList(wrapper);
 	}
 	

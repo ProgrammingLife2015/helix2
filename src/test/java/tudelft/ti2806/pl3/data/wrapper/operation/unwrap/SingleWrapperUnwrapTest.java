@@ -67,7 +67,7 @@ public class SingleWrapperUnwrapTest {
 		singleWrapper.getOutgoing().add(nodePosition3);
 		singleWrapper.getIncoming().add(nodePosition1);
 		nodePosition3.getIncoming().add(singleWrapper);
-		HorizontalWrapper start = new HorizontalWrapper(list);
+		HorizontalWrapper start = new HorizontalWrapper(list, true);
 		
 		unwrap = new UnwrapTest();
 		unwrap.compute(start);
@@ -82,7 +82,8 @@ public class SingleWrapperUnwrapTest {
 		assertTrue(left instanceof WrapperClone);
 		assertEquals(0, left.getIncoming().size());
 		assertEquals(1, left.getOutgoing().size());
-		assertTrue(((WrapperClone) left).getDataNodeList().contains(dataNode1));
+		assertTrue(((WrapperClone) left).getDataNodes().contains(
+				dataNode1));
 	}
 	
 	/**
@@ -95,10 +96,10 @@ public class SingleWrapperUnwrapTest {
 		assertTrue(leftMiddle instanceof WrapperClone);
 		assertEquals(1, leftMiddle.getIncoming().size());
 		assertEquals(1, leftMiddle.getOutgoing().size());
-		assertTrue(((WrapperClone) leftMiddle).getDataNodeList().contains(
+		assertTrue(((WrapperClone) leftMiddle).getDataNodes().contains(
 				dataNode2));
 		assertTrue(((WrapperClone) leftMiddle.getIncoming().get(0))
-				.getDataNodeList().contains(dataNode1));
+				.getDataNodes().contains(dataNode1));
 	}
 	
 	/**
@@ -111,10 +112,10 @@ public class SingleWrapperUnwrapTest {
 		assertTrue(rightMiddle instanceof WrapperClone);
 		assertEquals(1, rightMiddle.getIncoming().size());
 		assertEquals(0, rightMiddle.getOutgoing().size());
-		assertTrue(((WrapperClone) rightMiddle).getDataNodeList().contains(
+		assertTrue(((WrapperClone) rightMiddle).getDataNodes().contains(
 				dataNode3));
 		assertTrue(((WrapperClone) rightMiddle.getIncoming().get(0))
-				.getDataNodeList().contains(dataNode2));
+				.getDataNodes().contains(dataNode2));
 	}
 	
 	/**

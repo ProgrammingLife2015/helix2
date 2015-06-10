@@ -53,10 +53,10 @@ public final class VerticalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	static List<Wrapper> combineNodes(List<Wrapper> nodes) {
-		Map<String, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
-		List<String> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
+		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
+		List<Integer> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
 		for (Wrapper node : nodes) {
-			String id = node.getIdString();
+			int id = node.getId();
 			nonWrappedNodes.put(id, node);
 			nonWrappedNodesOrder.add(id);
 		}
@@ -65,14 +65,14 @@ public final class VerticalWrapUtil {
 			CombineWrapper newNode = new VerticalWrapper(list);
 			combinedNodes.add(newNode);
 			for (Wrapper wrapper : list) {
-				nonWrappedNodes.remove(wrapper.getIdString());
+				nonWrappedNodes.remove(wrapper.getId());
 			}
 		}
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
 		List<Wrapper> result = new ArrayList<>(nonWrappedNodes.values().size());
-		for (String id : nonWrappedNodesOrder) {
+		for (int id : nonWrappedNodesOrder) {
 			Wrapper node = nonWrappedNodes.get(id);
 			if (node != null) {
 				result.add(node);

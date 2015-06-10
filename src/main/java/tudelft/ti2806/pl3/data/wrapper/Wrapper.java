@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import tudelft.ti2806.pl3.util.DoneDeque;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -90,18 +91,18 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		if (order != 0) {
 			return order;
 		}
-		return this.getIdString().compareTo(other.getIdString());
+		return Integer.compare(getId(), other.getId());
 	}
 	
-	public abstract void collectDataNodes(List<DataNode> list);
+	public abstract void collectDataNodes(Set<DataNode> list);
 	
 	/**
 	 * Get all {@link DataNode}s in this node and its children.
 	 * 
 	 * @return list of {@link DataNode}s
 	 */
-	public List<DataNode> getDataNodes() {
-		List<DataNode> dataNodeList = new ArrayList<>();
+	public Set<DataNode> getDataNodes() {
+		Set<DataNode> dataNodeList = new HashSet<>();
 		collectDataNodes(dataNodeList);
 		return dataNodeList;
 	}

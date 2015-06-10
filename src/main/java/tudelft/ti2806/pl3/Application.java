@@ -7,6 +7,7 @@ import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
+import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
 import tudelft.ti2806.pl3.menubar.MenuBarView;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
@@ -31,8 +32,6 @@ import javax.swing.JOptionPane;
 
 /**
  * The main application view.
- * 
- * <p>
  * Created by Boris Mattijssen on 07-05-15.
  */
 @SuppressWarnings("serial")
@@ -46,6 +45,7 @@ public class Application extends JFrame {
 	private JLayeredPane main;
 	private ScreenSize size;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private KeyController keys;
 
 
 	/**
@@ -54,15 +54,17 @@ public class Application extends JFrame {
 	private GraphView graphView;
 	private SideBarView sideBarView;
 	private ZoomBarView zoomBarView;
+	private FindgenesController findgenesController;
 
 	/**
 	 * Construct the main application view.
 	 */
 	public Application() {
-		super("DNA Bazen v0.5");
+		super("Helix" + "\u00B2");
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		keys = new KeyController(this);
 
 		main = getLayeredPane();
 		this.make();
@@ -104,13 +106,15 @@ public class Application extends JFrame {
 
 			graphView = new GraphView(gd, loadingObservers);
 			zoomBarView = new ZoomBarView(getGraphController());
+			findgenesController = new FindgenesController(gd, getGraphController());
+			findgenesController.setFrame(this);
 
 			setZoomBarView(zoomBarView.getPanel());
 			setGraphView(graphView.getPanel());
+			graphView.getPanel().requestFocus();
 
 			graphView.getController().init();
 
-			KeyController keys = new KeyController(this);
 			graphView.getPanel().addKeyListener(keys);
 
 			this.setFocusable(true);
@@ -140,7 +144,7 @@ public class Application extends JFrame {
 			sideBarView.addToSideBarView(phyloView.getPanel());
 			setSideBarView(sideBarView.getPanel());
 
-			KeyController keys = new KeyController(this);
+
 			sideBarView.getPanel().addKeyListener(keys);
 
 		} catch (FileSelectorException exception) {
@@ -153,7 +157,7 @@ public class Application extends JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Stop the application and exit.
 	 */
@@ -181,12 +185,12 @@ public class Application extends JFrame {
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
 	}
-	
+
 	/**
 	 * Add the sidebar view to the layout.
-	 * 
+	 *
 	 * @param view
-	 *            the sidebar view panel
+	 * 		the sidebar view panel
 	 */
 	public void setSideBarView(Component view) {
 		view.setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(), size.getHeight());
@@ -198,7 +202,7 @@ public class Application extends JFrame {
 	 * Add the menubar view to the layout.
 	 *
 	 * @param view
-	 *            the menubar view panel
+	 * 		the menubar view panel
 	 */
 	public void setMenuBar(JMenuBar view) {
 		view.setBounds(0, 0, size.getWidth(), size.getMenubarHeight());
@@ -210,7 +214,7 @@ public class Application extends JFrame {
 	 * Add the graph view to the layout.
 	 *
 	 * @param view
-	 *            the graph view panel
+	 * 		the graph view panel
 	 */
 	public void setGraphView(Component view) {
 		view.setBounds(0, 0, size.getWidth(),
@@ -218,12 +222,12 @@ public class Application extends JFrame {
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
 	}
-	
+
 	/**
 	 * Add the zoom bar view to the layout.
 	 *
 	 * @param view
-	 *            the zoom bar view panel
+	 * 		the zoom bar view panel
 	 */
 	public void setZoomBarView(Component view) {
 		view.setBounds(0, size.getHeight() - size.getZoombarHeight(),
@@ -242,6 +246,10 @@ public class Application extends JFrame {
 
 	public ZoomBarController getZoomBarController() {
 		return zoomBarView.getController();
+	}
+
+	public FindgenesController getFindgenesController() {
+		return findgenesController;
 	}
 
 }
