@@ -41,6 +41,8 @@ public class PhyloView extends JPanel implements View {
 	private List<String> selected = new ArrayList<>();
 	private PhyloController phyloController;
 
+	private JScrollPane scroller;
+
 	/**
 	 * Phylo view constructs a Jtree object with our .nwk tree file.
 	 *
@@ -74,7 +76,7 @@ public class PhyloView extends JPanel implements View {
 		JLabel header = new JLabel(WINDOW_TITLE);
 		header.setPreferredSize(new Dimension(width, 50));
 
-		JScrollPane scroller = new JScrollPane(jTree,
+		scroller = new JScrollPane(jTree,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
@@ -90,6 +92,14 @@ public class PhyloView extends JPanel implements View {
 		this.add(button);
 		button.setPreferredSize(new Dimension(200, 50));
 		setPreferredSize(new Dimension(width, height));
+	}
+
+	public void updateSize() {
+		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		int height = ScreenSize.getInstance().getHeight() - 100;
+
+		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
+		scroller.repaint();
 	}
 
 	/**

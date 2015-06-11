@@ -21,7 +21,9 @@ import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
 
-import java.awt.Component;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -56,6 +58,7 @@ public class Application extends JFrame {
 	private GraphView graphView;
 	private SideBarView sideBarView;
 	private ZoomBarView zoomBarView;
+	private PhyloView phyloView;
 	private FindgenesController findgenesController;
 
 	/**
@@ -150,6 +153,33 @@ public class Application extends JFrame {
 			findgenesController = new FindgenesController(gd, getGraphController());
 			findgenesController.setFrame(this);
 
+
+			this.addComponentListener(new ComponentAdapter() {
+				@Override
+				public void componentResized(ComponentEvent e) {
+					Rectangle bounds = new Rectangle(main.getWidth(), main.getHeight());
+
+					size.setWidth((int) bounds.getWidth());
+					size.setHeight((int) bounds.getHeight());
+					size.calculate();
+
+					sideBarView.getPanel().setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(),
+							size.getHeight());
+					graphView.getPanel().setBounds(0, 0, size.getWidth(),
+							size.getHeight() - size.getZoombarHeight());
+					zoomBarView.getPanel().setBounds(0, size.getHeight() - size.getZoombarHeight(),
+							size.getWidth(), size.getZoombarHeight());
+					phyloView.updateSize();
+					
+					phyloView.getPanel().repaint();
+					sideBarView.getPanel().repaint();
+					graphView.getPanel().repaint();
+					zoomBarView.getPanel().repaint();
+					main.repaint();
+
+				}
+			});
+
 			setZoomBarView(zoomBarView.getPanel());
 			setGraphView(graphView.getPanel());
 			graphView.getPanel().requestFocus();
@@ -199,7 +229,7 @@ public class Application extends JFrame {
 			sideBarView = new SideBarView();
 			sideBarView.addLoadingObserversList(loadingObservers);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
-			PhyloView phyloView = new PhyloView(tree, getGraphController());
+			phyloView = new PhyloView(tree, getGraphController());
 			sideBarView.addToSideBarView(phyloView.getPanel());
 			setSideBarView(sideBarView.getPanel());
 
