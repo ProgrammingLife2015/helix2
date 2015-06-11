@@ -69,6 +69,7 @@ public class GraphView
 
 	private AbstractGraphData abstractGraphData;
 	private float offsetToCenter = -1;
+	private boolean zoomCenterSet = false;
 
 	/**
 	 * Construct a GraphView with no LoadingObservers.
@@ -113,7 +114,6 @@ public class GraphView
 		notifyLoadingObservers(true);
 		generateViewer();
 		addComponentListener(this);
-		// TODO: don't hardcode
 		notifyLoadingObservers(false);
 	}
 	
@@ -326,9 +326,12 @@ public class GraphView
 	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
-		setZoomCenter(0);
-		setOffsetToCenter();
-		setZoomCenter(offsetToCenter);
+		if (zoomCenterSet == false) {
+			setZoomCenter(0);
+			setOffsetToCenter();
+			setZoomCenter(offsetToCenter);
+			zoomCenterSet = true;
+		}
 	}
 
 	@Override
@@ -338,7 +341,6 @@ public class GraphView
 
 	@Override
 	public void componentShown(ComponentEvent e) {
-
 	}
 
 	@Override
