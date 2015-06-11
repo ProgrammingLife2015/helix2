@@ -89,7 +89,6 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 				/ (ScreenSize.getInstance().getWidth() * this.zoomLevel),
 				new GetFirstCombineWrapper().compute(this.collapsedNode).getCollapse());
 		
-		System.out.println(condition);
 		Unwrap unwrap = new UnwrapOnCollapse(condition);
 		unwrap.compute(collapsedNode);
 		dataNodeWrapperList = unwrap.getWrapperClones();
