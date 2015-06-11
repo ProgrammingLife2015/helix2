@@ -164,6 +164,13 @@ public class Application extends JFrame {
 
 			long loadTime = System.currentTimeMillis() - startTime;
 			System.out.println("Loadtime: " + loadTime);
+
+			for (File file : FileSelector.lastopened) {
+				System.out.println(file.toString());
+			}
+
+
+
 		} catch (FileNotFoundException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph(nodeFile, edgeFile, treeFile);

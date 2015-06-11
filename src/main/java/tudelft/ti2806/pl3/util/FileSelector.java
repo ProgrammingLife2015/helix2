@@ -15,6 +15,8 @@ public class FileSelector {
 	private FileSelector() {
 	}
 
+	public static LastOpenedQueue<File> lastopened = new LastOpenedQueue<>(5);
+
 	/**
 	 * Opens a file select window.
 	 *
@@ -36,6 +38,7 @@ public class FileSelector {
 		fileDialog.setVisible(true);
 		File[] files = fileDialog.getFiles();
 		if (files.length == 1) {
+			lastopened.add(files[0]);
 			return files[0];
 		}
 		throw new FileSelectorException();
@@ -63,6 +66,7 @@ public class FileSelector {
 			File[] files = fileDialog.getFiles();
 			if (files.length == 1) {
 				System.setProperty("apple.awt.fileDialogForDirectories", "false");
+				lastopened.add(files[0]);
 				return files[0];
 			}
 		} else { // Other OS
@@ -70,6 +74,7 @@ public class FileSelector {
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+				lastopened.add(fileChooser.getSelectedFile());
 				return fileChooser.getSelectedFile();
 			}
 		}
