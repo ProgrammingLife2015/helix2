@@ -3,6 +3,12 @@ package tudelft.ti2806.pl3.data.wrapper.operation.interest;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 
 public class ComputeInterest {
+	private static CalculateWrapPressureInterest pressureInterest = new CalculateWrapPressureInterest();
+	private static CalculateMultiplyWithContainerInterest multiplyInterest 
+		= new CalculateMultiplyWithContainerInterest();
+	private static CalculateSizeInterest sizeInterest = new CalculateSizeInterest();
+	private static CalculateNInterest nInterest = new CalculateNInterest();
+	
 	private ComputeInterest() {
 	}
 	
@@ -13,9 +19,9 @@ public class ComputeInterest {
 	 *            the wrapper
 	 */
 	public static void compute(Wrapper wrapper) {
-		new CalculateWrapPressureInterest().calculate(wrapper, null);
-		new CalculateMultiplyWithContainerInterest().calculate(wrapper, null);
-		new CalculateSizeInterest().calculate(wrapper, null);
-		new CalculateNInterest().calculate(wrapper, null);
+		pressureInterest.calculate(wrapper, null);
+		multiplyInterest.calculate(wrapper, null);
+		sizeInterest.calculate(wrapper, null);
+		nInterest.calculate(wrapper, null);
 	}
 }
