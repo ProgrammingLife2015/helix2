@@ -9,6 +9,7 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace;
+import tudelft.ti2806.pl3.data.wrapper.operation.interest.ComputeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.EdgeUtil;
@@ -32,21 +33,15 @@ import java.util.Observable;
  * the view. Created by Boris Mattijssen on 20-05-15.
  */
 public class FilteredGraphModel extends Observable implements LoadingObservable {
-	
-	// private final int pressureMultiplier = 10;
-	
+
 	protected AbstractGraphData originalGraphData;
 	private Wrapper collapsedNode;
 	private Collection<Filter<DataNode>> filters;
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
-	// private CalculateWrapPressureInterest pressureInterest;
-	// private CalculateAddMaxOfWrapped addMaxOfWrapped;
-	// private CalculateSizeInterest sizeInterest;
-	// private CalculateGroupInterest groupInterest;
-	
+
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private CalculateCollapseOnSpace calculateCollapse;
-	
+
 	/**
 	 * Construct the model containing the filtered data.<br>
 	 * The model gets the original graph data and filters this data. Then it informs its listeners, to give them the
@@ -59,24 +54,20 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		this.originalGraphData = originalGraphData;
 		filters = new ArrayList<>();
 		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
-		// pressureInterest = new
-		// CalculateWrapPressureInterest(pressureMultiplier);
-		// addMaxOfWrapped = new CalculateAddMaxOfWrapped();
-		// sizeInterest = new CalculateSizeInterest();
 		calculateCollapse = new CalculateCollapseOnSpace();
 	}
-	
+
 	public void setFilters(Collection<Filter<DataNode>> filters) {
 		this.filters = filters;
 	}
-	
+
 	public Wrapper getCollapsedNode() {
 		return collapsedNode;
 	}
-	
+
 	/**
-	 * Filters a copy of the {@link tudelft.ti2806.pl3.data.graph.GraphDataRepository} and combines all nodes which can
-	 * be combined without losing data and removes all dead edges. The result is saved as
+	 * Filters a copy of the {@link tudelft.ti2806.pl3.data.graph.GraphDataRepository} and combines all nodes which
+	 * can be combined without losing data and removes all dead edges. The result is saved as
 	 * {@code originalWrappedGraphData}.
 	 */
 	public void produceWrappedGraphData() {
@@ -89,13 +80,13 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
-		// sizeInterest.calculate(collapsedNode, null);
+		ComputeInterest.compute(collapsedNode);
 		calculateCollapse.compute(collapsedNode);
 		setChanged();
 		notifyObservers();
 		notifyLoadingObservers(false);
 	}
-	
+
 	/**
 	 * Removes all edges of which one or both of their nodes is not on the originalWrappedGraphData.
 	 *
@@ -107,7 +98,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 	static void removeAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
 		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
 	}
-	
+
 	/**
 	 * Finds all the edges on the graph which have one or two nodes which are not on the graph.
 	 *
@@ -126,7 +117,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		}
 		return removeList;
 	}
-	
+
 	/**
 	 * Apply all filters.
 	 *
@@ -138,31 +129,31 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 			filter.filter(list);
 		}
 	}
-	
+
 	@Override
 	public void addLoadingObserver(LoadingObserver loadingObservable) {
 		loadingObservers.add(loadingObservable);
 	}
-	
+
 	@Override
 	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
 		loadingObservers.remove(loadingObservable);
 	}
-	
+
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			addLoadingObserver(loadingObserver);
 		}
 	}
-	
+
 	@Override
 	public void notifyLoadingObservers(Object arguments) {
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			loadingObserver.update(this, arguments);
 		}
 	}
-	
+
 	public CalculateCollapseOnSpace getCalculateCollapse() {
 		return calculateCollapse;
 	}
