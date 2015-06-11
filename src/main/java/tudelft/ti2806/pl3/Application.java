@@ -92,7 +92,7 @@ public class Application extends JFrame {
 		addWindowListener(windowController);
 		loadingObservers.add(new LoadingMouse(this));
 
-		this.setMinimumSize(new Dimension(800, 600));
+		this.setMinimumSize(new Dimension(size.getMinimumWidth(), size.getMinimumHeight()));
 
 		this.setFocusable(true);
 		this.setVisible(true);
