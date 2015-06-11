@@ -10,7 +10,6 @@ import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
-import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
