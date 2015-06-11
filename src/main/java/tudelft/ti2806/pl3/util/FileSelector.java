@@ -123,7 +123,6 @@ public class FileSelector {
 	 * @return File with the same name as file but other extension
 	 */
 	public static File getOtherExtension(File file, String extension1, String extension2) {
-		File result = new File(file.getAbsolutePath().replace(extension1,extension2));
-		return result;
+		return new File(file.getAbsolutePath().replace(extension1,extension2));
 	}
 }

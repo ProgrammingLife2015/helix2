@@ -22,7 +22,7 @@ public class LastOpenedController implements ActionListener,Controller {
 
 	/**
 	 * Is called when the user clicks on a file in the submenu.
-	 * @param e
+	 * @param e button on which the user clicks
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -32,7 +32,6 @@ public class LastOpenedController implements ActionListener,Controller {
 			// tree file
 			application.makePhyloTree(file);
 		}else if (chosenfile.endsWith(".node.graph")) {
-			System.out.println(file.toString());
 			// node and edge file
 			File nodeFile = file;
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
