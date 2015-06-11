@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphView;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -49,6 +50,7 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	protected void paintComponent(Graphics g) {
 		int height = getPreferredSize().height;
 		g.drawRect(x, 0, width, height);
+		g.setColor(Color.RED);
 		int i = 0;
 		float max = graphController.getMaxInterest();
 		for (float v : graphController.getInterest()) {
