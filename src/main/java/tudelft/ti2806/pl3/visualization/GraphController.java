@@ -5,12 +5,12 @@ import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
-import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 public class GraphController implements Controller {
 	private List<GraphMovedListener> graphMovedListenerList;
@@ -141,6 +141,14 @@ public class GraphController implements Controller {
 		return graphView;
 	}
 
+	public float[] getInterest() {
+		return filteredGraphModel.getInterest();
+	}
+
+	public Observable getFilteredObservable() {
+		return filteredGraphModel;
+	}
+
 	public void addGraphMovedListener(GraphMovedListener graphMovedListener) {
 		graphMovedListenerList.add(graphMovedListener);
 	}
@@ -151,5 +159,9 @@ public class GraphController implements Controller {
 
 	public void graphMoved() {
 		graphMovedListenerList.forEach(GraphMovedListener::graphMoved);
+	}
+
+	public float getMaxInterest() {
+		return filteredGraphModel.getMaxInterest();
 	}
 }

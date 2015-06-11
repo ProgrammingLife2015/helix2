@@ -5,5 +5,5 @@ package tudelft.ti2806.pl3.visualization;
  */
 public interface GraphMovedListener {
 
-	public void graphMoved();
+	void graphMoved();
 }

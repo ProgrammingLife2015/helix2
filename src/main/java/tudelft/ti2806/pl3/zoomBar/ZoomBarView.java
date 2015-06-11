@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JPanel;
 
 /**
@@ -18,7 +20,7 @@ import javax.swing.JPanel;
  * in on the graph. Created by Boris Mattijssen on 06-05-15.
  */
 @SuppressWarnings("serial")
-public class ZoomBarView extends JPanel implements View, ComponentListener {
+public class ZoomBarView extends JPanel implements View, ComponentListener, Observer {
 	public static final double ZOOMBAR_FACTOR = 0.1;
 	private ZoomBarController zoomBarController;
 	private GraphController graphController;
@@ -35,7 +37,7 @@ public class ZoomBarView extends JPanel implements View, ComponentListener {
 		setPreferredSize(new Dimension(ScreenSize.getInstance().getWidth(),
 				ScreenSize.getInstance().getZoombarHeight()));
 		zoomBarController = new ZoomBarController(this, graphController);
-
+		graphController.getFilteredObservable().addObserver(this);
 	}
 
 	/**
@@ -45,7 +47,28 @@ public class ZoomBarView extends JPanel implements View, ComponentListener {
 	 * 		graphics
 	 */
 	protected void paintComponent(Graphics g) {
-		g.drawRect(x, 0, width, getPreferredSize().height);
+		int height = getPreferredSize().height;
+		g.drawRect(x, 0, width, height);
+		int i = 0;
+		float max = graphController.getMaxInterest();
+		for (float v : graphController.getInterest()) {
+			int lineHeight = (int) ((v/max) * height);
+			g.drawLine(i, (lineHeight - height) / 2, i, (lineHeight - height) / 2 + lineHeight);
+			i++;
+		}
+	}
+
+	/**
+	 * When the graph was moved, the position of the square is recalculated.
+	 */
+	public void moved() {
+		GraphView graphView = graphController.getGraphView();
+		float zoomCenter = graphController.getCurrentZoomCenter() +
+				graphView.getOffsetToCenter() * (float) graphView.getViewPercent();
+		float fraction = zoomCenter / (float) graphView.getGraphDimension();
+		x = (int) (fraction * ScreenSize.getInstance().getWidth());
+		width = (int) (graphView.getViewPercent() * ScreenSize.getInstance().getWidth());
+		repaint();
 	}
 
 	@Override
@@ -58,16 +81,8 @@ public class ZoomBarView extends JPanel implements View, ComponentListener {
 		return zoomBarController;
 	}
 
-	/**
-	 * When the graph was moved, the position of the square is recalculated.
-	 */
-	public void moved() {
-		GraphView graphView = graphController.getGraphView();
-		float zoomCenter = graphController.getCurrentZoomCenter() +
-				(graphView.getOffsetToCenter() * (float) graphView.getViewPercent());
-		float fraction = zoomCenter / (float) graphView.getGraphDimension();
-		x = (int) (fraction * ScreenSize.getInstance().getWidth());
-		width = (int) (graphView.getViewPercent() * ScreenSize.getInstance().getWidth());
+	@Override
+	public void update(Observable o, Object arg) {
 		repaint();
 	}
 

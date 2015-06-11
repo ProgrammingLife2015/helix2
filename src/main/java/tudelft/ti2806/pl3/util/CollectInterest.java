@@ -1,8 +1,9 @@
-package tudelft.ti2806.pl3.data.wrapper.operation.interest;
+package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
+
+import java.util.List;
 
 /**
  * Collects interest of {@link DataNodeWrapper}'s and projects it on an array
@@ -10,9 +11,10 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
  * 
  * @author Sam Smulders
  */
-public class CollectInterest extends WrapperOperation {
+public class CollectInterest {
 	private final float[] interest;
 	private final int domain;
+	private float maxInterest = Float.MIN_VALUE;
 	
 	public CollectInterest(int domain) {
 		this.interest = new float[domain];
@@ -22,10 +24,17 @@ public class CollectInterest extends WrapperOperation {
 	public float[] getInterest() {
 		return this.interest;
 	}
-	
-	@Override
-	public void calculate(DataNodeWrapper wrapper, Wrapper container) {
-		this.interest[(int) (wrapper.getX() / this.domain)] += wrapper
-				.getInterest();
+
+	public void calculate(List<Wrapper> wrappers) {
+		for (Wrapper wrapper : wrappers) {
+			int index = (int) (wrapper.getX() / this.domain);
+			this.interest[index] += wrapper
+					.getInterest();
+			maxInterest = Math.max(maxInterest, this.interest[index]);
+		}
+	}
+
+	public float getMaxInterest() {
+		return maxInterest;
 	}
 }
