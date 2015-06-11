@@ -18,8 +18,7 @@ public class CalculateNInterest extends WrapperOperation {
 	}
 	
 	/**
-	 * Computes the ratio of N's in the {@link DataNode}s within the given
-	 * wrapper.
+	 * Computes the ratio of N's in the {@link DataNode}s within the given wrapper.
 	 * 
 	 * @param wrapper
 	 *            the wrapper
