@@ -175,4 +175,8 @@ public class DataNode {
 	public List<Label> getLabelList() {
 		return labelList;
 	}
+	
+	public byte[] getContent() {
+		return this.content;
+	}
 }

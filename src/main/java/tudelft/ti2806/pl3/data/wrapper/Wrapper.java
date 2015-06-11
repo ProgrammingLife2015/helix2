@@ -23,6 +23,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	
 	List<Wrapper> incoming = new ArrayList<>();
 	List<Wrapper> outgoing = new ArrayList<>();
+	List<Integer> outgoingWeight = new ArrayList<>();
 	
 	int previousNodesCount = -1;
 	int interest = 0;
@@ -71,7 +72,15 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	public void setOutgoing(List<Wrapper> outgoing) {
 		this.outgoing = outgoing;
 	}
-	
+
+	public List<Integer> getOutgoingWeight() {
+		return outgoingWeight;
+	}
+
+	public void setOutgoingWeight(List<Integer> outgoingWeight) {
+		this.outgoingWeight = outgoingWeight;
+	}
+
 	public abstract String getIdString();
 
 	public abstract int getId();
