@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3;
 import newick.NewickParser;
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
+import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
@@ -154,7 +156,9 @@ public class Application extends JFrame {
 
 			graphView.getController().init();
 
+			ScrollListener scrollListener = new ScrollListener(this);
 			graphView.getPanel().addKeyListener(keys);
+			graphView.getPanel().addMouseWheelListener(scrollListener);
 
 			if (treeFile != null) {
 				makePhyloTree(treeFile);
