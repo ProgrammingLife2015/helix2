@@ -56,7 +56,7 @@ public class PhyloView extends JPanel implements View {
 		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
 
-		setUI(width, height);
+		setUserInterface(width, height);
 		setUpLook();
 		phyloController.expandTree();
 		setListener();
@@ -70,7 +70,7 @@ public class PhyloView extends JPanel implements View {
 	 * @param height
 	 * 		the height of the panel
 	 */
-	private void setUI(int width, int height) {
+	private void setUserInterface(int width, int height) {
 		JLabel header = new JLabel(WINDOW_TITLE);
 		header.setPreferredSize(new Dimension(width, 50));
 
