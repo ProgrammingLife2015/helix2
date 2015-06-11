@@ -49,10 +49,22 @@ public class DetailView extends JPanel {
 		setBounds(x, y, size.width, size.height);
 	}
 
+	/**
+	 * Same as addLabels(String, Set, String) but without a filter.
+	 */
 	private void addLabels(String title, Set set) {
 		addLabels(title, set, null);
 	}
 
+	/**
+	 * Add JLabels for every object in the given set.
+	 * @param title
+	 * 		Label to be displayed above the list of labels.
+	 * @param set
+	 * 		The set of objects to be displayed in the list.
+	 * @param filter
+	 * 		A string that will always be displayed if found in the set.
+	 */
 	private void addLabels(String title, Set set, String filter) {
 		if (set.size() > 0) {
 			add(title);
