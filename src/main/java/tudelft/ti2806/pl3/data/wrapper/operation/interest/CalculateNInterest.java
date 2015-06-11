@@ -35,6 +35,9 @@ public class CalculateNInterest extends WrapperOperation {
 				}
 			}
 		}
+		if (totalCount == 0) {
+			return 1;
+		}
 		return ((float) totalCount - nCount) / totalCount;
 	}
 }

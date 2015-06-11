@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
@@ -12,6 +13,7 @@ import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpa
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.ComputeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
+import tudelft.ti2806.pl3.util.CollectInterest;
 import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.util.ArrayList;
@@ -42,6 +44,8 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private CalculateCollapseOnSpace calculateCollapse;
 
+	private CollectInterest collectInterest;
+	
 	/**
 	 * Construct the model containing the filtered data.<br>
 	 * The model gets the original graph data and filters this data. Then it informs its listeners, to give them the
@@ -81,6 +85,8 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
 		ComputeInterest.compute(collapsedNode);
+		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
+		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
 		calculateCollapse.compute(collapsedNode);
 		setChanged();
 		notifyObservers();
@@ -156,5 +162,14 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 
 	public CalculateCollapseOnSpace getCalculateCollapse() {
 		return calculateCollapse;
+	}
+
+	public float[] getInterest() {
+		return collectInterest.getInterest();
+	}
+
+
+	public float getMaxInterest() {
+		return collectInterest.getMaxInterest();
 	}
 }

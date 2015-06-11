@@ -3,13 +3,14 @@ package tudelft.ti2806.pl3.zoomBar;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.visualization.GraphController;
+import tudelft.ti2806.pl3.visualization.GraphMovedListener;
 
 /**
  * Controller that controls the zoom bar at the bottom of the screen.
  * The zoom bar is used to navigate through and zoom in on the graph.
  * Created by Boris Mattijssen on 06-05-15.
  */
-public class ZoomBarController implements Controller {
+public class ZoomBarController implements Controller, GraphMovedListener {
 
 	private GraphController graphController;
 	private ZoomBarView zoomBarView;
@@ -32,5 +33,9 @@ public class ZoomBarController implements Controller {
 
 	public ZoomBarView getZoomBarView() {
 		return zoomBarView;
+	}
+
+	public void graphMoved() {
+		zoomBarView.moved();
 	}
 }

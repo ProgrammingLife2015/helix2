@@ -4,20 +4,24 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
-import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -31,7 +35,8 @@ import java.util.Observer;
  * @author Sam Smulders
  *
  */
-public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
+public class GraphView
+		implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable, ComponentListener {
 	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
@@ -63,6 +68,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private ZoomedGraphModel zoomedGraphModel;
 
 	private AbstractGraphData abstractGraphData;
+	private float offsetToCenter = -1;
 
 	/**
 	 * Construct a GraphView with no LoadingObservers.
@@ -106,8 +112,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public void init() {
 		notifyLoadingObservers(true);
 		generateViewer();
+		addComponentListener(this);
 		// TODO: don't hardcode
-		setZoomCenter(600);
 		notifyLoadingObservers(false);
 	}
 	
@@ -157,15 +163,15 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				if (FixWrapper.ID != node.getId()) {
-					Node graphNode = graph.addNode(Integer.toString(node.getId()));
-					double y = node.getY() * someSize;
-					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
-							.getSimpleName());
-					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-				}
-			});
+			if (FixWrapper.ID != node.getId()) {
+				Node graphNode = graph.addNode(Integer.toString(node.getId()));
+				double y = node.getY() * someSize;
+				graphNode.setAttribute("xy", node.getX(), y);
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
+						.getSimpleName());
+				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+			}
+		});
 
 		for (Wrapper node : graphData) {
 			int i = 0;
@@ -176,6 +182,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				i++;
 			}
 		}
+
 		notifyLoadingObservers(false);
 		return graph;
 	}
@@ -239,7 +246,21 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public float getZoomCenter() {
 		return zoomCenter;
 	}
-	
+
+	public double getViewPercent() {
+		return viewer.getDefaultView().getCamera().getViewPercent();
+	}
+
+	public float getGraphUnitsToCenter() {
+		Point3 point3 = viewer.getDefaultView().getCamera()
+				.transformPxToGu(0, ScreenSize.getInstance().getHeight() / 2);
+		return (float) point3.x;
+	}
+
+	public float getOffsetToCenter() {
+		return offsetToCenter;
+	}
+
 	/**
 	 * Moves the view to the given position on the x axis.
 	 *
@@ -257,31 +278,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 
 	public ZoomedGraphModel getZoomedGraphModel() {
 		return zoomedGraphModel;
-	}
-
-	@Override
-	public void addLoadingObserver(LoadingObserver loadingObservable) {
-		loadingObservers.add(loadingObservable);
-	}
-
-
-	@Override
-	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
-	}
-
-	@Override
-	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
-		loadingObservers.remove(loadingObservable);
-	}
-
-	@Override
-	public void notifyLoadingObservers(Object arguments) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			loadingObserver.update(this, arguments);
-		}
 	}
 
 	/**
@@ -307,6 +303,68 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		} else {
 			throw new NodeNotFoundException("The node " + node
 					+ " you are looking for cannot be found in the current graph.");
+		}
+	}
+
+
+	public void addComponentListener(ComponentListener componentListener) {
+		panel.addComponentListener(componentListener);
+	}
+
+	public double getGraphDimension() {
+		return viewer.getDefaultView().getCamera().getGraphDimension();
+	}
+
+	/**
+	 * When the graph was loaded.
+	 *
+	 * @param e
+	 * 		event
+	 */
+	@Override
+	public void componentResized(ComponentEvent e) {
+		setZoomCenter(0);
+		offsetToCenter = getGraphUnitsToCenter();
+		setZoomCenter(offsetToCenter * -1);
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.add(loadingObservable);
+	}
+
+
+	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObservable) {
+		loadingObservers.remove(loadingObservable);
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object arguments) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			loadingObserver.update(this, arguments);
 		}
 	}
 }
