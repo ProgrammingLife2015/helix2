@@ -48,6 +48,13 @@ public class MouseManager extends DefaultMouseManager {
 		mouseMoved(x, y);
 	}
 
+	/**
+	 * Make or delete the DetailView based on mouse location.
+	 * @param x
+	 * 		x location of the mouse cursor.
+	 * @param y
+	 * 		y location of the mouse cursor.
+	 */
 	public void mouseMoved(int x, int y) {
 		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - 5, y - 5, x + 5, y + 5);
 		if (graphicElements.size() == 0) {
@@ -64,6 +71,9 @@ public class MouseManager extends DefaultMouseManager {
 		}
 	}
 
+	/**
+	 * Removes the DetailView and sets the current node to null.
+	 */
 	public void removeDetailView() {
 		node = null;
 		view.remove(detailView);
