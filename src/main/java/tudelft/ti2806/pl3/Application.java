@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
@@ -91,12 +92,51 @@ public class Application extends JFrame {
 	}
 
 	/**
-	 * Parses the graph files and makes a graphview.
+	 * Select the graph files on a folder basis.
 	 */
-	public void makeGraph() {
+	public void makeGraphFromFolder() {
+		try {
+			File folder = FileSelector.selectFolder("Select data folder", this);
+
+			File[] nodeFiles = folder.listFiles((dir, name) -> {
+					return name.endsWith(".node.graph");
+				}
+			);
+			File[] treeFiles = folder.listFiles((dir, name) -> {
+					return name.endsWith("nwk");
+				}
+			);
+			File edgeFile = new File(nodeFiles[0].getAbsolutePath().replace(".node", ".edge"));
+
+			makeGraph(nodeFiles[0], edgeFile, treeFiles[0]);
+		} catch (FileSelectorException | NullPointerException exception) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+				makeGraphFromFolder();
+			}
+		}
+	}
+
+	/**
+	 * Select only the node and edge files.
+	 */
+	public void makeGraphFromFiles() {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+			makeGraph(nodeFile, edgeFile, null);
+		} catch (FileSelectorException exception) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+				makeGraphFromFiles();
+			}
+		}
+	}
+
+	/**
+	 * Parses the graph files and makes a graphview.
+	 */
+	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+		try {
+
 			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
 
 			final long startTime = System.currentTimeMillis();
@@ -120,13 +160,17 @@ public class Application extends JFrame {
 			graphView.getPanel().addKeyListener(keys);
 			graphView.getPanel().addMouseWheelListener(scrollListener);
 
+			if (treeFile != null) {
+				makePhyloTree(treeFile);
+			}
+
 			this.setFocusable(true);
 
 			long loadTime = System.currentTimeMillis() - startTime;
 			System.out.println("Loadtime: " + loadTime);
-		} catch (FileNotFoundException | FileSelectorException exception) {
+		} catch (FileNotFoundException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
-				makeGraph();
+				makeGraph(nodeFile, edgeFile, treeFile);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -134,11 +178,23 @@ public class Application extends JFrame {
 	}
 
 	/**
-	 * Parses the phylogentic tree and makes a sidebarview.
+	 * Parses the phylogenetic tree through file selection and makes a sidebarview.
 	 */
 	public void makePhyloTree() {
+		makePhyloTree(null);
+	}
+
+	/**
+	 * Parses the phylogenetic tree through automatic selection and makes a sidebarview.
+	 */
+	public void makePhyloTree(File input) {
 		try {
-			File treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+			File treeFile;
+			if (input == null) {
+				treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+			} else {
+				treeFile = input;
+			}
 
 			sideBarView = new SideBarView();
 			sideBarView.addLoadingObserversList(loadingObservers);
