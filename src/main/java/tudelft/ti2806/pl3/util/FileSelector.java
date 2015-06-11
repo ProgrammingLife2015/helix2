@@ -2,9 +2,10 @@ package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 
-import javax.swing.*;
 import java.awt.FileDialog;
 import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  * Let the user select the correct node and egdes files.
@@ -66,7 +67,7 @@ public class FileSelector {
 			}
 		} else { // Other OS
 			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
 				return fileChooser.getSelectedFile();

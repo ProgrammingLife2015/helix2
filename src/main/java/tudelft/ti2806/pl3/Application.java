@@ -109,7 +109,7 @@ public class Application extends JFrame {
 			makeGraph(nodeFiles[0], edgeFile, treeFiles[0]);
 		} catch (FileSelectorException | NullPointerException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
-				makeGraphFromFiles();
+				makeGraphFromFolder();
 			}
 		}
 	}
