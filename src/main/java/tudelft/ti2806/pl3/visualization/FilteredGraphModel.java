@@ -9,6 +9,7 @@ import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace;
+import tudelft.ti2806.pl3.data.wrapper.operation.interest.ComputeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.EdgeUtil;
@@ -33,16 +34,10 @@ import java.util.Observable;
  */
 public class FilteredGraphModel extends Observable implements LoadingObservable {
 	
-	// private final int pressureMultiplier = 10;
-	
 	protected AbstractGraphData originalGraphData;
 	private Wrapper collapsedNode;
 	private Collection<Filter<DataNode>> filters;
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
-	// private CalculateWrapPressureInterest pressureInterest;
-	// private CalculateAddMaxOfWrapped addMaxOfWrapped;
-	// private CalculateSizeInterest sizeInterest;
-	// private CalculateGroupInterest groupInterest;
 	
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private CalculateCollapseOnSpace calculateCollapse;
@@ -59,10 +54,6 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		this.originalGraphData = originalGraphData;
 		filters = new ArrayList<>();
 		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
-		// pressureInterest = new
-		// CalculateWrapPressureInterest(pressureMultiplier);
-		// addMaxOfWrapped = new CalculateAddMaxOfWrapped();
-		// sizeInterest = new CalculateSizeInterest();
 		calculateCollapse = new CalculateCollapseOnSpace();
 	}
 	
@@ -89,7 +80,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
-		// sizeInterest.calculate(collapsedNode, null);
+		ComputeInterest.compute(collapsedNode);
 		calculateCollapse.compute(collapsedNode);
 		setChanged();
 		notifyObservers();
