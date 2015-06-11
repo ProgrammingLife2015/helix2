@@ -21,7 +21,9 @@ import tudelft.ti2806.pl3.visualization.GraphView;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
