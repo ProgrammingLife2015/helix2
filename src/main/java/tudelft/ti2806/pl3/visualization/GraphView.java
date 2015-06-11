@@ -150,14 +150,11 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 							.getSimpleName());
 				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
 				graphNode.setAttribute("node", node);
-
 			});
 
 		for (WrapperClone node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				WrapperClone clone = (WrapperClone) to;
-				if (node.getOriginalNode().getClass() != FixWrapper.class
-						&& clone.getOriginalNode().getClass() != FixWrapper.class) {
+				if (node.getId() >= 0 && to.getId() >= 0) { // Exclude FixWrappers
 					addNormalEdge(graph, node, to);
 				}
 			}

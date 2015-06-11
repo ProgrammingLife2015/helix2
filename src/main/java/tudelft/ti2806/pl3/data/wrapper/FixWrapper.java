@@ -9,12 +9,12 @@ import java.util.Set;
 
 public class FixWrapper extends Wrapper {
 	public static int ID_COUNT = -1;
-	public final int ID;
+	public final int id;
 	public static final String ID_STRING = "[FIX]";
 	private Set<Genome> genome;
 
 	public FixWrapper() {
-		ID = ID_COUNT--;
+		id = ID_COUNT--;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class FixWrapper extends Wrapper {
 	}
 
 	@Override public int getId() {
-		return ID;
+		return id;
 	}
 
 	@Override
