@@ -1,11 +1,11 @@
 package tudelft.ti2806.pl3.detailedView;
 
-import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.Iterator;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -39,24 +39,49 @@ public class DetailView extends JPanel {
 	public void setNode(WrapperClone node, int x, int y) {
 		removeAll();
 
-		add(new JLabel("Genomes:"));
-		for (Genome genome : node.getGenome()) {
-			JLabel label = new JLabel(genome.toString());
-			add(label);
+		addLabels("Genomes:", node.getGenome(), "TKK_REF");
+		if (node.getLabels().size() > 0) {
+			add(" ");
 		}
-
-		Set<Label> labels = node.getLabels();
-		if (labels.size() > 0) {
-			JLabel jLabel = new JLabel("Labels:");
-			jLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-			add(jLabel);
-			for (Label label : labels) {
-				add(new JLabel(label.getText()));
-			}
-		}
+		addLabels("Labels:", node.getLabels());
 
 		Dimension size = getPreferredSize();
 		setBounds(x, y, size.width, size.height);
+	}
+
+	private void addLabels(String title, Set set) {
+		addLabels(title, set, null);
+	}
+
+	private void addLabels(String title, Set set, String filter) {
+		if (set.size() > 0) {
+			add(title);
+		}
+
+		Iterator iterator = set.iterator();
+		int i = 0;
+		while (iterator.hasNext()) {
+			String next = iterator.next().toString();
+			if (filter != null && filter.equals(next)) {
+				filter = null;
+				if (i >= 5) {
+					add(next);
+					i++;
+					break;
+				}
+			}
+			if (i < 5) {
+				add(next);
+				i++;
+			}
+		}
+		if (i < set.size()) {
+			add("...");
+		}
+	}
+
+	public Component add(String label) {
+		return super.add(new JLabel(label));
 	}
 
 	@Override
