@@ -256,7 +256,7 @@ public class GraphView
 	 */
 	public void setOffsetToCenter() {
 		Point3 point3 = viewer.getDefaultView().getCamera()
-				.transformPxToGu(0, ScreenSize.getInstance().getHeight() / 2);
+				.transformPxToGu(0, (double) ScreenSize.getInstance().getHeight() / 2d);
 		offsetToCenter = (float) point3.x * -1;
 	}
 
