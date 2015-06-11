@@ -95,6 +95,9 @@ public class PhyloView extends JPanel implements View {
 		setPreferredSize(new Dimension(width, height));
 	}
 
+	/**
+	 * Update the sizes of the panes relative to the application size.
+	 */
 	public void updateSize() {
 		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
