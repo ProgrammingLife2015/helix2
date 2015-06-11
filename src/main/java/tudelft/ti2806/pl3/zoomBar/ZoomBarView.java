@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.zoomBar;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;
 import tudelft.ti2806.pl3.visualization.GraphController;
+import tudelft.ti2806.pl3.visualization.GraphView;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -24,7 +25,7 @@ public class ZoomBarView extends JPanel implements View, ComponentListener {
 
 	private int x = 0;
 	private int width = 100;
-	
+
 	/**
 	 * Construct a zoom bar view with a fixed height.
 	 */
@@ -33,12 +34,18 @@ public class ZoomBarView extends JPanel implements View, ComponentListener {
 		this.graphController = graphController;
 		setPreferredSize(new Dimension(ScreenSize.getInstance().getWidth(),
 				ScreenSize.getInstance().getZoombarHeight()));
-		zoomBarController = new ZoomBarController(this,graphController);
+		zoomBarController = new ZoomBarController(this, graphController);
 
 	}
 
+	/**
+	 * Draw the box indicating where you are on the graph.
+	 *
+	 * @param g
+	 * 		graphics
+	 */
 	protected void paintComponent(Graphics g) {
-		g.drawRect(x,0,width,ScreenSize.getInstance().getZoombarHeight());
+		g.drawRect(x, 0, width, getPreferredSize().height);
 	}
 
 	@Override
@@ -51,10 +58,16 @@ public class ZoomBarView extends JPanel implements View, ComponentListener {
 		return zoomBarController;
 	}
 
+	/**
+	 * When the graph was moved, the position of the square is recalculated.
+	 */
 	public void moved() {
-		float fraction = graphController.getCurrentZoomCenter() / (float) graphController.getGraphView().getGraphDimension();
+		GraphView graphView = graphController.getGraphView();
+		float zoomCenter = graphController.getCurrentZoomCenter() +
+				(graphView.getOffsetToCenter() * (float) graphView.getViewPercent());
+		float fraction = zoomCenter / (float) graphView.getGraphDimension();
 		x = (int) (fraction * ScreenSize.getInstance().getWidth());
-		width = (int) (graphController.getGraphView().getViewPercent() * ScreenSize.getInstance().getWidth());
+		width = (int) (graphView.getViewPercent() * ScreenSize.getInstance().getWidth());
 		repaint();
 	}
 

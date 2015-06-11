@@ -64,12 +64,10 @@ public class KeyController implements KeyListener {
 
 		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
 			app.getGraphController().zoomLevelDown();
-			app.getZoomBarController().getZoomBarView().moved();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
 			app.getGraphController().zoomLevelUp();
-			app.getZoomBarController().getZoomBarView().moved();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {

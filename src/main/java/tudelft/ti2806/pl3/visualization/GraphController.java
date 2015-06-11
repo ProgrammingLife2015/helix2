@@ -5,14 +5,18 @@ import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
+import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GraphController implements Controller {
+	private List<GraphMovedListener> graphMovedListenerList;
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
-	private GraphView graphView;
+	private final GraphView graphView;
 	private Map<String, Filter<DataNode>> filters = new HashMap<>();
 	private static final int DEFAULT_VIEW = 1;
 	
@@ -30,6 +34,7 @@ public class GraphController implements Controller {
 	 */
 	public GraphController(GraphView graphView) {
 		this.graphView = graphView;
+		graphMovedListenerList = new ArrayList<>();
 		filteredGraphModel = graphView.getFilteredGraphModel();
 		zoomedGraphModel = graphView.getZoomedGraphModel();
 	}
@@ -61,6 +66,7 @@ public class GraphController implements Controller {
 	 */
 	public void moveView(float zoomCenter) {
 		graphView.setZoomCenter(zoomCenter);
+		graphMoved();
 	}
 	
 	/**
@@ -69,6 +75,7 @@ public class GraphController implements Controller {
 	public void zoomLevelUp() {
 		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() + 1);
 		zoomedGraphModel.produceDataNodeWrapperList();
+		graphMoved();
 	}
 	
 	/**
@@ -77,6 +84,7 @@ public class GraphController implements Controller {
 	public void zoomLevelDown() {
 		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() - 1);
 		zoomedGraphModel.produceDataNodeWrapperList();
+		graphMoved();
 	}
 
 	/**
@@ -85,6 +93,7 @@ public class GraphController implements Controller {
 	public void resetZoom() {
 		zoomedGraphModel.setZoomLevel(DEFAULT_VIEW);
 		zoomedGraphModel.produceDataNodeWrapperList();
+		graphMoved();
 	}
 
 	/**
@@ -117,11 +126,28 @@ public class GraphController implements Controller {
 		return graphView.getZoomCenter();
 	}
 
+	public double getGraphDimension() {
+		return graphView.getGraphDimension();
+	}
+
 	public void centerOnNode(DataNode node) throws NodeNotFoundException {
 		graphView.centerOnNode(node);
+		graphMoved();
 	}
 
 	public GraphView getGraphView() {
 		return graphView;
+	}
+
+	public void addGraphMovedListener(GraphMovedListener graphMovedListener) {
+		graphMovedListenerList.add(graphMovedListener);
+	}
+
+	public void removeGraphMovedListener(GraphMovedListener graphMovedListener) {
+		graphMovedListenerList.remove(graphMovedListener);
+	}
+
+	public void graphMoved() {
+		graphMovedListenerList.forEach(GraphMovedListener::graphMoved);
 	}
 }
