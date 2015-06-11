@@ -31,7 +31,7 @@ public class MenuBarView extends JMenuBar implements View {
 	public MenuBarView(Application application) {
 		super();
 		menuBarController = new MenuBarController(application);
-		lastOpenedController = new LastOpenedController();
+		lastOpenedController = new LastOpenedController(application);
 		add(setUpFile());
 		add(setUpView());
 		add(setUpHelp());

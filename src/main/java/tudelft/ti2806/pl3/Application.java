@@ -121,7 +121,7 @@ public class Application extends JFrame {
 	public void makeGraphFromFiles() {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
-			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			makeGraph(nodeFile, edgeFile, null);
 		} catch (FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
@@ -133,7 +133,7 @@ public class Application extends JFrame {
 	/**
 	 * Parses the graph files and makes a graphview.
 	 */
-	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+	public void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
 
 			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");

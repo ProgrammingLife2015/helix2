@@ -86,7 +86,7 @@ public class FileSelector {
 	}
 
 	/**
-	 * Filters the files from the folder on extension1 and extension2
+	 * Filters the files from the folder on extension1, extension2 and extension3.
 	 * @param folder with the files in it
 	 * @param extension1 to filter on, will be placed on index 0
 	 * @param extension2 to filter on, will be placed on index 1
@@ -113,5 +113,17 @@ public class FileSelector {
 		files[2] = extension3Files[0];
 
 		return files;
+	}
+
+	/**
+	 * Get a file with a other extension, but with the same name as @param file.
+	 * @param file to replace extension of
+	 * @param extension1 of old file
+	 * @param extension2 of new file
+	 * @return File with the same name as file but other extension
+	 */
+	public static File getOtherExtension(File file, String extension1, String extension2) {
+		File result = new File(file.getAbsolutePath().replace(extension1,extension2));
+		return result;
 	}
 }
