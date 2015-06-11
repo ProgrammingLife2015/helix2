@@ -8,6 +8,9 @@ import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
  * and height are different for every screen. Created by Kasper on 8-5-2015.
  */
 public class ScreenSize {
+
+	private static int minimumWidth = 800;
+	private static int minimumHeight = 600;
 	private static ScreenSize size;
 	private static int menubarHeight = 25;
 	private int width;
@@ -60,6 +63,15 @@ public class ScreenSize {
 	public int getMenubarHeight() {
 		return menubarHeight;
 	}
+
+	public static int getMinimumWidth() {
+		return minimumWidth;
+	}
+
+	public static int getMinimumHeight() {
+		return minimumHeight;
+	}
+
 
 	/**
 	 * Calculate the sizes of the windows.
