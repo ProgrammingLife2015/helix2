@@ -2,8 +2,10 @@ package tudelft.ti2806.pl3.data.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -12,6 +14,7 @@ import java.util.Set;
 public class WrapperClone extends Wrapper {
 
 	private Set<DataNode> dataNodes;
+	private Set<Label> labels;
 	private final Wrapper originalNode;
 
 	public WrapperClone(Set<DataNode> dataNodeList, Wrapper originalNode) {
@@ -44,6 +47,17 @@ public class WrapperClone extends Wrapper {
 	@Override
 	public Set<Genome> getGenome() {
 		return originalNode.getGenome();
+	}
+
+	@Override
+	public Set<Label> getLabels() {
+		if (labels == null) {
+			labels = new HashSet<>();
+			for (DataNode node : dataNodes) {
+				labels.addAll(node.getLabelList());
+			}
+		}
+		return labels;
 	}
 
 	@Override

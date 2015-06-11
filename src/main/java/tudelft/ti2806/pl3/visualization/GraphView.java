@@ -8,12 +8,13 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
+
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.ScreenSize;
+import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
-import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
@@ -61,6 +62,7 @@ public class GraphView
 	private Viewer viewer;
 	private View panel;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private MouseManager mouseManager;
 
 	private GraphController graphController;
 
@@ -123,9 +125,10 @@ public class GraphView
 	 * zoomLevel updates.
 	 */
 	private void generateViewer() {
-		viewer = new Viewer(graph,
-				Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
 		panel = viewer.addDefaultView(false);
+		mouseManager = new MouseManager();
+		viewer.getDefaultView().setMouseManager(mouseManager);
 		removeDefaultKeys();
 	}
 
@@ -142,7 +145,7 @@ public class GraphView
 	 * Sets the graph its drawing properties.
 	 */
 	private void setGraphPropertys() {
-		String stylesheet = "stylesheet.css";
+		final String stylesheet = "stylesheet.css";
 
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
@@ -159,24 +162,23 @@ public class GraphView
 		graph.clear();
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
-				/ ((double) panel.getBounds().width * zoomLevel / zoomedGraphModel
+				/ (panel.getBounds().width * zoomLevel / zoomedGraphModel
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-			if (FixWrapper.ID != node.getId()) {
 				Node graphNode = graph.addNode(Integer.toString(node.getId()));
 				double y = node.getY() * someSize;
 				graphNode.setAttribute("xy", node.getX(), y);
 				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
-						.getSimpleName());
+							.getSimpleName());
 				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-			}
-		});
+				graphNode.setAttribute("node", node);
+			});
 
-		for (Wrapper node : graphData) {
+		for (WrapperClone node : graphData) {
 			int i = 0;
 			for (Wrapper to : node.getOutgoing()) {
-				if (FixWrapper.ID != node.getId() && FixWrapper.ID != to.getId()) {
+				if (node.getId() >= 0 && to.getId() >= 0) { // Exclude FixWrappers
 					addNormalEdge(graph, node, to, i);
 				}
 				i++;
@@ -306,7 +308,6 @@ public class GraphView
 		}
 	}
 
-
 	public void addComponentListener(ComponentListener componentListener) {
 		panel.addComponentListener(componentListener);
 	}
@@ -366,5 +367,9 @@ public class GraphView
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			loadingObserver.update(this, arguments);
 		}
+	}
+	
+	public void removeDetailView() {
+		mouseManager.removeDetailView();
 	}
 }

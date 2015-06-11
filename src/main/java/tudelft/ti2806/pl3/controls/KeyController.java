@@ -85,6 +85,8 @@ public class KeyController implements KeyListener {
 		if (event.getKeyCode() == KeyEvent.VK_G) {
 			app.getFindgenesController().openDialog();
 		}
+
+		app.getGraphController().removeDetailView();
 	}
 	
 	/**

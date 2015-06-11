@@ -66,7 +66,7 @@ public class FindgenesController {
 				JOptionPane.showMessageDialog(frame, "Couldn't find the node on the graph. Try again");
 				tryAgain = true;
 			}
-			if (tryAgain == true) {
+			if (tryAgain) {
 				openDialog();
 			}
 		}

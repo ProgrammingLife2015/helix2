@@ -164,4 +164,8 @@ public class GraphController implements Controller {
 	public float getMaxInterest() {
 		return filteredGraphModel.getMaxInterest();
 	}
+
+	public void removeDetailView() {
+		graphView.removeDetailView();
+	}
 }

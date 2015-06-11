@@ -36,3 +36,7 @@ node.SpaceWrapper {
 node.VerticalWrapper {
     shape: cross;
 }
+
+node.FixWrapper {
+    visibility-mode: hidden;
+}
