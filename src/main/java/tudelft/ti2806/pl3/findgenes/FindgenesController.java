@@ -57,7 +57,7 @@ public class FindgenesController {
 							"Couldn't find the selected gene. Try again");
 					tryAgain = true;
 				} else {
-					graphController.centerOnNode(node);
+					graphController.centerOnNode(node, selected);
 				}
 			} catch (ClassCastException e) {
 				JOptionPane.showMessageDialog(frame, "Please select an existing gene. Try again");

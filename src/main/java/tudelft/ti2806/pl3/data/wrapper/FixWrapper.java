@@ -8,10 +8,15 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import java.util.Set;
 
 public class FixWrapper extends Wrapper {
-	public static final int ID = -1;
+	public static int ID_COUNT = -1;
+	public final int ID;
 	public static final String ID_STRING = "[FIX]";
 	private Set<Genome> genome;
-	
+
+	public FixWrapper() {
+		ID = ID_COUNT--;
+	}
+
 	@Override
 	public long getBasePairCount() {
 		return 0;
