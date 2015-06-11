@@ -8,6 +8,13 @@
   <name>app</name>
   <url>http://maven.apache.org</url>
   <dependencies>
+		<dependency>
+			<groupId>NewickParser</groupId>
+			<artifactId>newick</artifactId>
+			<version>1.0-Fork</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/NewickParser.jar</systemPath>
+		</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
