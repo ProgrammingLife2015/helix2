@@ -45,36 +45,48 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	}
 
 	/**
-	 * Draw the box indicating where you are on the graph.
+	 * Paint on the graphics
 	 *
 	 * @param g
 	 * 		graphics
 	 */
 	protected void paintComponent(Graphics g) {
-		drawHighlightBox(g);
+		drawIndicator(g);
 		drawInterest(g);
 	}
 
+	/**
+	 * Draw interest values on the zoombar.
+	 *
+	 * @param g
+	 * 		graphics
+	 */
 	private void drawInterest(Graphics g) {
 		int height = getPreferredSize().height;
 		float max = graphController.getMaxInterest();
 		int i = 0;
 		for (float v : graphController.getInterest()) {
-			int lineHeight = (int) ((v/max) * (float) height);
-			int alpha = (int) ((v/max)*255);
+			int lineHeight = (int) ((v / max) * (float) height);
+			int alpha = (int) ((v / max) * 255);
 			g.setColor(new Color(255, 0, 0, alpha));
 			g.drawLine(i, (height - lineHeight) / 2, i, (height - lineHeight) / 2 + lineHeight);
 			i++;
 		}
 	}
 
-	private void drawHighlightBox(Graphics g) {
+	/**
+	 * Draw the box that indicates your position on the graph.
+	 *
+	 * @param g
+	 * 		graphics
+	 */
+	private void drawIndicator(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		float thickness = 2;
 		Stroke oldStroke = g2.getStroke();
 		g2.setStroke(new BasicStroke(thickness));
 		int height = getPreferredSize().height;
-		g.drawRect(x, 1, width, height-1);
+		g.drawRect(x, 1, width, height - 1);
 		g2.setStroke(oldStroke);
 	}
 
