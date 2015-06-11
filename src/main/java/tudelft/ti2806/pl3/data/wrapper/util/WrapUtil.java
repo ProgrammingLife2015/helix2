@@ -109,9 +109,13 @@ public final class WrapUtil {
 		}
 		startFix.setGenome(genomeSet);
 		endFix.setGenome(genomeSet);
+		
 		nodes.add(startFix);
 		nodes.add(endFix);
-		return WrapUtil.collapseGraph(new WrappedGraphData(nodes));
+		WrappedGraphData wrappedGraph = WrapUtil.collapseGraph(new WrappedGraphData(nodes));
+		startFix.setX(-1);
+		endFix.setX(wrappedGraph.getPositionedNodes().get(0).getWidth() + 1);
+		return wrappedGraph;
 	}
 	
 	/**

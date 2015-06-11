@@ -25,11 +25,11 @@ public class FixWrapper extends Wrapper {
 	public String getIdString() {
 		return ID_STRING;
 	}
-
+	
 	@Override public int getId() {
 		return id;
 	}
-
+	
 	@Override
 	public Set<Genome> getGenome() {
 		return genome;
@@ -60,5 +60,9 @@ public class FixWrapper extends Wrapper {
 	@Override
 	public int getWidth() {
 		return 0;
+	}
+	
+	public void setX(int x) {
+		this.x = x;
 	}
 }
