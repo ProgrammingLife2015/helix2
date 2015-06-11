@@ -26,7 +26,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	List<Integer> outgoingWeight = new ArrayList<>();
 
 	int previousNodesCount = -1;
-	float interest = 0;
+	float interest = 1f;
 
 	/**
 	 * @return the maximum number of base pairs that can be passed when following the graph from the

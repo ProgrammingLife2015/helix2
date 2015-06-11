@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.graph.DataNode;
 
 import java.util.ArrayList;
@@ -27,9 +28,9 @@ public class WrapperTest {
 	
 	@Test
 	public void getSetTest() {
-		assertEquals(0f, wrapper.getInterest(), 0f);
+		assertEquals(1f, wrapper.getInterest(), 0f);
 		wrapper.addInterest(1);
-		assertEquals(1, wrapper.getInterest(), 0f);
+		assertEquals(2, wrapper.getInterest(), 0f);
 		assertEquals(0, wrapper.getX(), 0);
 		wrapper.x = 1;
 		assertEquals(1, wrapper.getX(), 0);
