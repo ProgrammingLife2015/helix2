@@ -32,11 +32,6 @@ import java.util.Observer;
  * Created by Boris Mattijssen on 20-05-15.
  */
 public class ZoomedGraphModel extends Observable implements Observer, LoadingObservable {
-	
-	/**
-	 * The minimum number of nodes visible on the screen.
-	 */
-	private static final int MIN_NODE_COUNT = 20;
 	/**
 	 * Minimum distance between nodes in pixels, can be overruled by {@link #MIN_NODE_COUNT}.
 	 */
