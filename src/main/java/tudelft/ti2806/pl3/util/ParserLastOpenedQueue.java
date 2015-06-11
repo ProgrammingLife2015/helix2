@@ -18,13 +18,12 @@ import java.nio.file.Paths;
 public class ParserLastOpenedQueue {
 
 	private static final String saveName = "lastOpenedSave.txt";
-	private static final int limit = 5;
+	public static final int limit = 5;
 
-	public void saveLastOpened(LastOpenedQueue<File> output) throws IOException {
+	public static void saveLastOpened(LastOpenedQueue<File> output) throws IOException {
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
 		File save = new File(s + File.separator + saveName);
-		System.out.println(save.toString());
 
 		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(save.getAbsoluteFile()));
 		for (File e : output) {

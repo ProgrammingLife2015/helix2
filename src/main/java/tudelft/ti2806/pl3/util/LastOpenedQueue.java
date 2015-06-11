@@ -3,7 +3,7 @@ package tudelft.ti2806.pl3.util;
 import java.util.LinkedList;
 
 /**
- * LastOpenedQueue is a extension on LinkedList that only can hold a limited amount of elements
+ * LastOpenedQueue is a extension on LinkedList that only can hold a limited amount of elements.
  * Created by Kasper on 11-6-2015.
  */
 public class LastOpenedQueue<E> extends LinkedList<E> {
@@ -16,7 +16,9 @@ public class LastOpenedQueue<E> extends LinkedList<E> {
 
 	@Override
 	public boolean add(E o) {
-		super.add(o);
+		if (!this.contains(o)) {
+			super.add(o);
+		}
 		if (this.size() > limit) {
 			super.removeFirst();
 		}
