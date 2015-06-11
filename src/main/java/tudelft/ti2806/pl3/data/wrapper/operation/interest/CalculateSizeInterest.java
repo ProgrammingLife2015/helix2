@@ -13,6 +13,9 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 public class CalculateSizeInterest extends WrapperOperation {
 	@Override
 	public void calculate(DataNodeWrapper wrapper, Wrapper container) {
+		if (wrapper.getBasePairCount() < 1) {
+			return;
+		}
 		wrapper.multiplyInterest((int) Math.sqrt(wrapper.getBasePairCount()));
 	}
 	

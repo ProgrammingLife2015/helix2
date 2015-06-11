@@ -6,8 +6,7 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import java.util.List;
 
 /**
- * Collects interest of {@link DataNodeWrapper}'s and projects it on an array
- * with a given size.
+ * Collects interest of {@link DataNodeWrapper}'s and projects it on an array with a given size.
  * 
  * @author Sam Smulders
  */
@@ -24,16 +23,20 @@ public class CollectInterest {
 	public float[] getInterest() {
 		return this.interest;
 	}
-
+	
 	public void calculate(List<Wrapper> wrappers) {
+		double width = wrappers.stream().mapToDouble(Wrapper::getX).max().getAsDouble();
 		for (Wrapper wrapper : wrappers) {
-			int index = (int) (wrapper.getX() / this.domain);
-			this.interest[index] += wrapper
-					.getInterest();
+			int index = (int) Math.min(this.domain - 1, (wrapper.getX() / width) * this.domain);
+//			System.out.println("@" + index);
+			this.interest[index] += wrapper.getInterest();
 			maxInterest = Math.max(maxInterest, this.interest[index]);
 		}
+//		for (int i = 0; i < this.domain; i++) {
+//			System.out.println(this.interest[i]);
+//		}
 	}
-
+	
 	public float getMaxInterest() {
 		return maxInterest;
 	}

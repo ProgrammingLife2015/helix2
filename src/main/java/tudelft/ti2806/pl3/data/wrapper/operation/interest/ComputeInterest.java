@@ -20,8 +20,8 @@ public class ComputeInterest {
 	 */
 	public static void compute(Wrapper wrapper) {
 		pressureInterest.calculate(wrapper, null);
-		multiplyInterest.calculate(wrapper, null);
-		sizeInterest.calculate(wrapper, null);
-		nInterest.calculate(wrapper, null);
+//		multiplyInterest.calculate(wrapper, null);
+//		sizeInterest.calculate(wrapper, null);
+//		nInterest.calculate(wrapper, null);
 	}
 }
