@@ -28,16 +28,12 @@ public class CollectInterest {
 		double width = wrappers.stream().mapToDouble(Wrapper::getX).max().getAsDouble();
 		for (Wrapper wrapper : wrappers) {
 			int index = (int) Math.min(this.domain - 1, (wrapper.getX() / width) * this.domain);
-//			System.out.println("@" + index);
 			this.interest[index] += wrapper.getInterest();
-			maxInterest = Math.max(maxInterest, this.interest[index]);
+			this.maxInterest = Math.max(this.maxInterest, this.interest[index]);
 		}
-//		for (int i = 0; i < this.domain; i++) {
-//			System.out.println(this.interest[i]);
-//		}
 	}
 	
 	public float getMaxInterest() {
-		return maxInterest;
+		return this.maxInterest;
 	}
 }

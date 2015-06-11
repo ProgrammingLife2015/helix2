@@ -23,6 +23,9 @@ public class CalculateWrapPressureInterest extends WrapperOperation {
 	
 	@Override
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
+		if (container == null) {
+			return;
+		}
 		wrapper.addInterest((float) wrapper.getNodeList().stream().map(Wrapper::getGenome)
 				.mapToDouble(Collection::size).reduce(1.0, (a, b) -> a * b));
 		super.calculate(wrapper, container);
