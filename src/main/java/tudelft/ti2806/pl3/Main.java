@@ -31,6 +31,7 @@ public class Main {
 		} catch (UnsupportedLookAndFeelException e) {
 			System.out.println("Theme is not supported, default theme is used");
 		}
+		UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 
 		// get the size of the screen
 		GraphicsEnvironment ge = GraphicsEnvironment

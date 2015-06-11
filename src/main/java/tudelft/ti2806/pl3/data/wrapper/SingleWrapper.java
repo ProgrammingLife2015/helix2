@@ -16,6 +16,13 @@ public class SingleWrapper extends Wrapper {
 	
 	private Wrapper target;
 	
+	/**
+	 * Constructor of {@link SingleWrapper}. Uses the target of the target when it is wrapping an other
+	 * {@link SingleWrapper}
+	 * 
+	 * @param target
+	 *            the target
+	 */
 	public SingleWrapper(Wrapper target) {
 		if (target.getClass() == SingleWrapper.class) {
 			this.target = ((SingleWrapper) target).getNode();
@@ -26,21 +33,22 @@ public class SingleWrapper extends Wrapper {
 	
 	@Override
 	public long getBasePairCount() {
-		return target.getBasePairCount();
+		return this.target.getBasePairCount();
 	}
 	
 	@Override
 	public String getIdString() {
-		return target.getIdString();
+		return this.target.getIdString();
 	}
-
-	@Override public int getId() {
-		return target.getId();
+	
+	@Override
+	public int getId() {
+		return this.target.getId();
 	}
-
+	
 	@Override
 	public Set<Genome> getGenome() {
-		return target.getGenome();
+		return this.target.getGenome();
 	}
 
 	@Override
@@ -49,7 +57,7 @@ public class SingleWrapper extends Wrapper {
 	}
 
 	public Wrapper getNode() {
-		return target;
+		return this.target;
 	}
 	
 	@Override
@@ -59,7 +67,7 @@ public class SingleWrapper extends Wrapper {
 	
 	@Override
 	public void collectDataNodes(Set<DataNode> set) {
-		target.collectDataNodes(set);
+		this.target.collectDataNodes(set);
 	}
 	
 	@Override

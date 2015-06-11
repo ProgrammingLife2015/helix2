@@ -62,7 +62,7 @@ public class DataNodeWrapper extends Wrapper {
 	public DataNode getNode() {
 		return node;
 	}
-	
+
 	@Override
 	public long getBasePairCount() {
 		return node.getBasePairCount();

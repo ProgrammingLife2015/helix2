@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.controls;
 
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,10 +10,6 @@ import java.awt.event.KeyListener;
  * Created by Kasper on 9-5-2015.
  */
 public class KeyController implements KeyListener {
-	/**
-	 * Percentage of the screen that is moved.
-	 */
-	private static final float MOVE_FACTOR = 10f;
 
 	private Application app;
 
@@ -76,21 +71,19 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			GraphController graphController = app.getGraphController();
-			float oldViewCenter = graphController.getCurrentZoomCenter();
-			float move = (((float) app.getWidth()) / MOVE_FACTOR)
-					/ ((float) graphController.getCurrentZoomLevel());
-			float newViewCenter = oldViewCenter + move;
-			graphController.moveView(newViewCenter);
+			app.getGraphController().moveRight();
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			GraphController graphController = app.getGraphController();
-			float oldViewCenter = graphController.getCurrentZoomCenter();
-			float move = (((float) app.getWidth()) / MOVE_FACTOR)
-					/ ((float) graphController.getCurrentZoomLevel());
-			float newViewCenter = oldViewCenter - move;
-			graphController.moveView(newViewCenter);
+			app.getGraphController().moveLeft();
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_R) {
+			app.getGraphController().resetZoom();
+		}
+
+		if (event.getKeyCode() == KeyEvent.VK_G) {
+			app.getFindgenesController().openDialog();
 		}
 
 		app.getGraphController().removeDetailView();

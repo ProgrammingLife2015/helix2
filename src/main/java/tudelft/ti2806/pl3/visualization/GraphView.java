@@ -1,10 +1,12 @@
 package tudelft.ti2806.pl3.visualization;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
+import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.controls.MouseManager;
@@ -12,6 +14,7 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
+import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
@@ -26,6 +29,7 @@ import java.util.Observer;
  * style to the graph.
  *
  * @author Sam Smulders
+ *
  */
 public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
 	/**
@@ -41,12 +45,12 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * The position on the x axis.
 	 */
 	private float zoomCenter = 1;
-
+	
 	/**
 	 * The css style sheet used drawing the graph.<br>
 	 * Generate a new view to have the changes take effect.
 	 */
-
+	
 	private List<WrapperClone> graphData;
 	private Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
@@ -58,6 +62,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
+
+	private AbstractGraphData abstractGraphData;
 
 	/**
 	 * Construct a GraphView with no LoadingObservers.
@@ -78,6 +84,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * 		Observers for loading
 	 */
 	public GraphView(AbstractGraphData abstractGraphData, ArrayList<LoadingObserver> loadingObservers) {
+		this.abstractGraphData = abstractGraphData;
 		// make graph
 		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
 		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
@@ -104,7 +111,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		setZoomCenter(600);
 		notifyLoadingObservers(false);
 	}
-
+	
 	/**
 	 * Generates a {@link Viewer} for the graph with the given {@code zoomLevel}
 	 * . A new Viewer should be constructed every time the graphData or
@@ -115,6 +122,16 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		panel = viewer.addDefaultView(false);
 		mouseManager = new MouseManager();
 		viewer.getDefaultView().setMouseManager(mouseManager);
+		removeDefaultKeys();
+	}
+
+	/**
+	 * Remove the default keys from the GraphStream library, since we use our own.
+	 * There is no other way than this to do it.
+	 */
+	public void removeDefaultKeys() {
+		DefaultShortcutManager listener = (DefaultShortcutManager)this.getPanel().getKeyListeners()[0];
+		listener.release();
 	}
 
 	/**
@@ -127,13 +144,13 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		graph.addAttribute("ui.antialias");
 		graph.addAttribute("ui.stylesheet", "url('" + stylesheet + "')");
 	}
-
+	
 	/**
 	 * Generates a Graph from the current graphData.
-	 *
+	 * 
 	 * @return a graph with all nodes from the given graphData
 	 */
-	public Graph generateGraph() {
+	public Graph generateGraph() throws EdgeZeroWeightException {
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
@@ -152,37 +169,50 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			});
 
 		for (WrapperClone node : graphData) {
+			int i = 0;
 			for (Wrapper to : node.getOutgoing()) {
 				if (node.getId() >= 0 && to.getId() >= 0) { // Exclude FixWrappers
-					addNormalEdge(graph, node, to);
+					addNormalEdge(graph, node, to, i);
 				}
+				i++;
 			}
 		}
 		notifyLoadingObservers(false);
 		return graph;
 	}
-
+	
 	/**
 	 * Adds an edge between two nodes.
-	 *
+	 * 
 	 * @param graph
-	 * 		the graph to add the edge to
+	 *            the graph to add the edge to
 	 * @param from
-	 * 		the node where the edge begins
+	 *            the node where the edge begins
 	 * @param to
 	 * 		the node where the edge ends
+	 * @param i
+	 * 		the index of the edge in the list of outgoing edges
 	 */
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
-	private static void addNormalEdge(Graph graph, Wrapper from, Wrapper to) {
-		graph.addEdge(from.getId() + "-" + to.getId(),
+	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to, int i) throws EdgeZeroWeightException {
+		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(),
 				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
+		int weight = from.getOutgoingWeight().get(i);
+		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
+		if (weight == 0) {
+			edge.addAttribute("ui.label", "fix me!");
+			throw new EdgeZeroWeightException(
+					"The weight of the edge from " + from + " to " + to + " cannot be 0.");
+		} else {
+			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
+		}
 	}
-
+	
 	@Override
 	public Component getPanel() {
 		return panel;
 	}
-
+	
 	@Override
 	public GraphController getController() {
 		return graphController;
@@ -193,12 +223,16 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			zoomLevel = zoomedGraphModel.getZoomLevel();
-			// TODO: draw graph with the newly retrieved graphData
-			generateGraph();
+			try {
+				generateGraph();
+			} catch (EdgeZeroWeightException e) {
+				//TODO: show popup?
+				e.printStackTrace();
+			}
 			zoom();
 		}
 	}
-
+	
 	private void zoom() {
 		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
@@ -206,7 +240,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public float getZoomCenter() {
 		return zoomCenter;
 	}
-
+	
 	/**
 	 * Moves the view to the given position on the x axis.
 	 *
@@ -272,8 +306,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		if (x != -1) {
 			setZoomCenter(x);
 		} else {
-			throw new NodeNotFoundException(
-					"The node " + node + " you are looking for cannot be found in the current graph.");
+			throw new NodeNotFoundException("The node " + node
+					+ " you are looking for cannot be found in the current graph.");
 		}
 	}
 

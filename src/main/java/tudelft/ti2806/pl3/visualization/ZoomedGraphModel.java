@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.UnwrapOnCollapse;
+import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,8 @@ public class ZoomedGraphModel extends Observable implements Observer,
 	 * It will then determine the amount of nodes to display<br>
 	 * It will then use the {@link CollapseOnInterest} operation to collapse all
 	 * uninteresting nodes<br>
-	 * It will then unwrap these nodes and notify the view
+	 * It will then unwrap these nodes and calculate the weight of all edges
+	 * then it will notify the view.
 	 */
 	public void produceDataNodeWrapperList() {
 		notifyLoadingObservers(true);
@@ -92,6 +94,7 @@ public class ZoomedGraphModel extends Observable implements Observer,
 				.getCalculateCollapse().getCollapses().get(nodeCount));
 		unwrap.compute(collapsedNode);
 		dataNodeWrapperList = unwrap.getWrapperClones();
+		EdgeUtil.setEdgeWeight(dataNodeWrapperList);
 		
 		setChanged();
 		notifyObservers();
