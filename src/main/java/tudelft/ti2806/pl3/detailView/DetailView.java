@@ -1,10 +1,12 @@
 package tudelft.ti2806.pl3.detailView;
 
+import tudelft.ti2806.pl3.data.label.GeneLabel;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.BorderFactory;
@@ -39,11 +41,17 @@ public class DetailView extends JPanel {
 	public void setNode(WrapperClone node, int x, int y) {
 		removeAll();
 
-		addLabels("Genomes:", node.getGenome(), "TKK_REF");
+		Set<String> genomes = new HashSet<>();
+		node.getGenome().forEach(genome -> genomes.add(genome.getIdentifier()));
+		addLabels("Genomes:", genomes, "TKK_REF");
+
 		if (node.getLabels().size() > 0) {
 			add(" ");
 		}
-		addLabels("Labels:", node.getLabels());
+
+		Set<String> labels = new HashSet<>();
+		node.getLabels().forEach(label -> labels.add(label.getText()));
+		addLabels("Labels:", labels);
 
 		Dimension size = getPreferredSize();
 		setBounds(x, y, size.width, size.height);
@@ -52,7 +60,7 @@ public class DetailView extends JPanel {
 	/**
 	 * Same as addLabels(String, Set, String) but without a filter.
 	 */
-	private void addLabels(String title, Set set) {
+	private void addLabels(String title, Set<String> set) {
 		addLabels(title, set, null);
 	}
 
@@ -65,25 +73,25 @@ public class DetailView extends JPanel {
 	 * @param filter
 	 * 		A string that will always be displayed if found in the set.
 	 */
-	private void addLabels(String title, Set set, String filter) {
+	private void addLabels(String title, Set<String> set, String filter) {
 		if (set.size() > 0) {
 			add(title);
 		}
 
-		Iterator iterator = set.iterator();
+		Iterator<String> iterator = set.iterator();
 		int i = 0;
 		while (iterator.hasNext()) {
-			String next = iterator.next().toString();
-			if (filter != null && filter.equals(next)) {
+			String nextString = iterator.next();
+			if (filter != null && filter.equals(nextString)) {
 				filter = null;
 				if (i >= 5) {
-					add(next);
+					add(nextString);
 					i++;
 					break;
 				}
 			}
 			if (i < 5) {
-				add(next);
+				add(nextString);
 				i++;
 			}
 		}
