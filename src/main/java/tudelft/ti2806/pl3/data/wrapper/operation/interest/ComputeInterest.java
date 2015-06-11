@@ -13,5 +13,6 @@ public class ComputeInterest {
 		new CalculateWrapPressureInterest().calculate(wrapper, null);
 		new CalculateMultiplyWithContainerInterest().calculate(wrapper, null);
 		new CalculateSizeInterest().calculate(wrapper, null);
+		new CalculateNInterest().calculate(wrapper, null);
 	}
 }

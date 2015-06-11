@@ -12,21 +12,9 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
  * @author Sam Smulders
  */
 public class CalculateNInterest extends WrapperOperation {
-	
-	/**
-	 * The value of how interesting this {@link DataNode} property is. Giving it
-	 * a negative number makes {@link DataNode}s with a high N percentage less
-	 * interesting.
-	 */
-	private final int interest;
-	
-	public CalculateNInterest(int interest) {
-		this.interest = interest;
-	}
-	
 	@Override
 	public void calculate(DataNodeWrapper wrapper, Wrapper container) {
-		wrapper.addInterest((int) (this.interest * computeRation(wrapper)));
+		wrapper.multiplyInterest(computeRation(wrapper));
 	}
 	
 	/**
@@ -37,7 +25,7 @@ public class CalculateNInterest extends WrapperOperation {
 	 *            the wrapper
 	 * @return the ratio, between 1.0 and 0.0
 	 */
-	private double computeRation(DataNodeWrapper wrapper) {
+	private float computeRation(DataNodeWrapper wrapper) {
 		long nCount = 0;
 		long totalCount = 0;
 		for (DataNode dataNode : wrapper.getDataNodes()) {
@@ -48,6 +36,6 @@ public class CalculateNInterest extends WrapperOperation {
 				}
 			}
 		}
-		return ((double) nCount) / totalCount;
+		return ((float) nCount) / totalCount;
 	}
 }
