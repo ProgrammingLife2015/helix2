@@ -15,6 +15,7 @@ import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
@@ -204,16 +205,15 @@ public class GraphView
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to, int i) throws EdgeZeroWeightException {
 		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(),
-				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
+				Integer.toString(from.getId()), Integer.toString(to.getId()));
 		int weight = from.getOutgoingWeight().get(i);
 		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException(
 					"The weight of the edge from " + from + " to " + to + " cannot be 0.");
-		} else {
-			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 		}
+		edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 	}
 	
 	@Override
