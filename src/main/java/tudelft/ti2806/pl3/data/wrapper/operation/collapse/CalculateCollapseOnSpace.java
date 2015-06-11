@@ -3,7 +3,6 @@ package tudelft.ti2806.pl3.data.wrapper.operation.collapse;
 import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
-import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
@@ -29,12 +28,6 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 		wrapper.addCollapse(getSpaceLeft(wrapper));
 	}
 	
-	@Override
-	public void calculate(VerticalWrapper wrapper, Wrapper container) {
-		super.calculate(wrapper, container);
-		wrapper.addCollapse(Float.MAX_VALUE);
-	}
-	
 	/**
 	 * Computes if there is enough space for a wrapper to unfold it.
 	 * 
@@ -55,9 +48,6 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 			}
 			min = Math.min(min, wrapper.getX() - first.getX());
 			min = Math.min(min, getMinDistance(wrapper, last));
-		}
-		if (min < 1) {
-			System.out.println("@"+min);
 		}
 		return min;
 	}
