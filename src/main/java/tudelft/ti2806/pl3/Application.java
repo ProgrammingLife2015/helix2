@@ -3,7 +3,6 @@ package tudelft.ti2806.pl3;
 import newick.NewickParser;
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
-import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
@@ -15,6 +14,8 @@ import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.SideBarView;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloView;
 import tudelft.ti2806.pl3.util.FileSelector;
+import tudelft.ti2806.pl3.util.LastOpenedQueue;
+import tudelft.ti2806.pl3.util.ParserLastOpenedQueue;
 import tudelft.ti2806.pl3.util.TreeParser;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphView;
@@ -68,6 +69,15 @@ public class Application extends JFrame {
 	 */
 	public Application() {
 		super("Helix\u00B2");
+		// read the last opened files
+		try {
+			LastOpenedQueue<File> files = ParserLastOpenedQueue.readLastOpened();
+			FileSelector.setLastOpened(files);
+		} catch (IOException e) {
+			// the file is missing so there are no lastopened
+			FileSelector.setLastOpened(new LastOpenedQueue<>(ParserLastOpenedQueue.limit));
+		}
+
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -104,18 +114,8 @@ public class Application extends JFrame {
 	public void makeGraphFromFolder() {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
-
-			File[] nodeFiles = folder.listFiles((dir, name) -> {
-					return name.endsWith(".node.graph");
-				}
-			);
-			File[] treeFiles = folder.listFiles((dir, name) -> {
-					return name.endsWith("nwk");
-				}
-			);
-			File edgeFile = new File(nodeFiles[0].getAbsolutePath().replace(".node", ".edge"));
-
-			makeGraph(nodeFiles[0], edgeFile, treeFiles[0]);
+			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph",".nwk");
+			makeGraph(files[0], files[1], files[2]);
 		} catch (FileSelectorException | NullPointerException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFolder();
@@ -129,7 +129,7 @@ public class Application extends JFrame {
 	public void makeGraphFromFiles() {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
-			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			makeGraph(nodeFile, edgeFile, null);
 		} catch (FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
@@ -141,7 +141,7 @@ public class Application extends JFrame {
 	/**
 	 * Parses the graph files and makes a graphview.
 	 */
-	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+	public void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
 			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
 
@@ -166,9 +166,7 @@ public class Application extends JFrame {
 
 			graphView.getController().init();
 
-			ScrollListener scrollListener = new ScrollListener(this);
 			graphView.getPanel().addKeyListener(keys);
-			graphView.getPanel().addMouseWheelListener(scrollListener);
 
 			if (treeFile != null) {
 				makePhyloTree(treeFile);
@@ -178,6 +176,8 @@ public class Application extends JFrame {
 
 			long loadTime = System.currentTimeMillis() - startTime;
 			System.out.println("Loadtime: " + loadTime);
+
+
 		} catch (FileNotFoundException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph(nodeFile, edgeFile, treeFile);
@@ -233,6 +233,12 @@ public class Application extends JFrame {
 	public void stop() {
 		// save data or do something else here
 		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
+			try {
+				ParserLastOpenedQueue.saveLastOpened(FileSelector.lastopened);
+			} catch (IOException e) {
+				System.out.println("Unable to save the files");
+				e.printStackTrace();
+			}
 			this.dispose();
 			System.exit(0);
 		}
