@@ -23,7 +23,7 @@ public class ParserLastOpenedQueue {
 	/**
 	 * Saves the output in a .txt file.
 	 * @param output to write
-	 * @throws IOException
+	 * @throws IOException when saving goes wrong
 	 */
 	public static void saveLastOpened(LastOpenedQueue<File> output) throws IOException {
 		Path currentRelativePath = Paths.get("");
@@ -41,7 +41,7 @@ public class ParserLastOpenedQueue {
 	/**
 	 * Reads the .txt file with name lastOpenedSave.txt.
 	 * @return Queue of the .txt file
-	 * @throws IOException
+	 * @throws IOException when reading goes wrong
 	 */
 	public static LastOpenedQueue<File> readLastOpened() throws IOException {
 		LastOpenedQueue<File> result = new LastOpenedQueue<>(limit);

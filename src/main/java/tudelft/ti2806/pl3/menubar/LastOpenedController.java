@@ -12,9 +12,10 @@ import java.io.File;
  * LastOpenedController is a ActionListener for the recent files submenu.
  * Created by Kasper on 11-6-2015.
  */
-public class LastOpenedController implements ActionListener,Controller {
+public class LastOpenedController implements ActionListener, Controller {
 
 	private Application application;
+
 	public LastOpenedController(Application application) {
 		super();
 		this.application = application;
@@ -22,7 +23,9 @@ public class LastOpenedController implements ActionListener,Controller {
 
 	/**
 	 * Is called when the user clicks on a file in the submenu.
-	 * @param e button on which the user clicks
+	 *
+	 * @param e
+	 * 		button on which the user clicks
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -31,15 +34,15 @@ public class LastOpenedController implements ActionListener,Controller {
 		if (chosenfile.endsWith(".nwk")) {
 			// tree file
 			application.makePhyloTree(file);
-		}else if (chosenfile.endsWith(".node.graph")) {
+		} else if (chosenfile.endsWith(".node.graph")) {
 			// node and edge file
 			File nodeFile = file;
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			application.makeGraph(nodeFile, edgeFile, null);
 
-		}else{
+		} else {
 			// must be folder
-			File[] files = FileSelector.getFilesFromFolder(file, ".node.graph", ".edge.graph",".nwk");
+			File[] files = FileSelector.getFilesFromFolder(file, ".node.graph", ".edge.graph", ".nwk");
 			application.makeGraph(files[0], files[1], files[2]);
 		}
 
