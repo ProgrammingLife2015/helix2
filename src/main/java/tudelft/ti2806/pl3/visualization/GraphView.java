@@ -203,9 +203,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException(
 					"The weight of the edge from " + from + " to " + to + " cannot be 0.");
-		} else {
-			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 		}
+		edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 	}
 	
 	@Override
