@@ -42,6 +42,7 @@ public class PhyloView extends JPanel implements View {
 	private PhyloController phyloController;
 
 	private JScrollPane scroller;
+	private JLabel header;
 
 	/**
 	 * Phylo view constructs a Jtree object with our .nwk tree file.
@@ -73,7 +74,7 @@ public class PhyloView extends JPanel implements View {
 	 * 		the height of the panel
 	 */
 	private void setUI(int width, int height) {
-		JLabel header = new JLabel(WINDOW_TITLE);
+		header = new JLabel(WINDOW_TITLE);
 		header.setPreferredSize(new Dimension(width, 50));
 
 		scroller = new JScrollPane(jTree,
@@ -99,7 +100,7 @@ public class PhyloView extends JPanel implements View {
 		int height = ScreenSize.getInstance().getHeight() - 100;
 
 		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
-		scroller.repaint();
+		header.setPreferredSize(new Dimension(width, 50));
 	}
 
 	/**
