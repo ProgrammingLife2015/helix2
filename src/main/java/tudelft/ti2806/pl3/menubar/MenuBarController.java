@@ -131,7 +131,8 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "Controls", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "Controls",
+				JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
@@ -155,7 +156,8 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "About Me", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "About Me",
+				JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**

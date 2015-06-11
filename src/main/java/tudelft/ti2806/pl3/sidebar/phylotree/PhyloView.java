@@ -109,26 +109,30 @@ public class PhyloView extends JPanel implements View {
 	public void setListener() {
 		jTree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-		jTree.getSelectionModel().addTreeSelectionListener(
-				new TreeSelectionListener() {
-					@Override
-					public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
-						TreePath[] treePath = jTree.getSelectionPaths();
-						if (treePath != null) {
-							for (TreePath path : treePath) {
-								DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
-										.getLastPathComponent();
-								String selectName = select.toString();
-								if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
-										|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
-									selected.addAll(getChildsOfAncestor(select));
-								} else {
-									selected.add(select.toString());
-								}
-							}
-						}
+		jTree.getSelectionModel().addTreeSelectionListener(new TreeClassListener());
+	}
+
+	/**
+	 * Listener that listens for the tree selection.
+	 */
+	private class TreeClassListener implements TreeSelectionListener {
+		@Override
+		public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+			TreePath[] treePath = jTree.getSelectionPaths();
+			if (treePath != null) {
+				for (TreePath path : treePath) {
+					DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
+							.getLastPathComponent();
+					String selectName = select.toString();
+					if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
+							|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
+						selected.addAll(getChildsOfAncestor(select));
+					} else {
+						selected.add(select.toString());
 					}
-				});
+				}
+			}
+		}
 	}
 
 	/**
