@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
+import tudelft.ti2806.pl3.data.wrapper.operation.GetFirstCombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.UnwrapOnCollapse;
 import tudelft.ti2806.pl3.util.EdgeUtil;
