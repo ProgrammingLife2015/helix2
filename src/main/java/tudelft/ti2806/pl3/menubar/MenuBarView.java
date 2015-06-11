@@ -74,12 +74,12 @@ public class MenuBarView extends JMenuBar implements View {
 	 */
 	private JMenu setUpView() {
 		// ascii value of the shortcuts
-		final char plus = 43;
-		final char minus = 45;
-		final char r = "R".charAt(0);
-		final char right = "\u2192".charAt(0);
-		final char left = "\u2190".charAt(0);
-		final char g = "G".charAt(0);
+		final char plus = '+';
+		final char minus = '-';
+		final char r = 'R';
+		final char right = '\u2192';
+		final char left = '\u2190';
+		final char g = 'G';
 
 		JMenu viewMenu = new JMenu("View");
 		viewMenu.setMnemonic(KeyEvent.VK_V);
