@@ -1,12 +1,11 @@
 package tudelft.ti2806.pl3.controls;
 
-import org.graphstream.algorithm.Toolkit;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
-import tudelft.ti2806.pl3.detailedView.DetailView;
+import tudelft.ti2806.pl3.detailView.DetailView;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -46,23 +45,28 @@ public class MouseManager extends DefaultMouseManager {
 		super.mouseMoved(e);
 		int x = e.getX();
 		int y = e.getY();
+		mouseMoved(x, y);
+	}
+
+	public void mouseMoved(int x, int y) {
 		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - 5, y - 5, x + 5, y + 5);
-		System.out.println(graphicElements.size());
 		if (graphicElements.size() == 0) {
-			node = null;
-			view.remove(detailView);
-			view.updateUI();
+			removeDetailView();
 		} else {
 			GraphicElement element = graphicElements.get(0);
 			WrapperClone wrapper = element.getAttribute("node", WrapperClone.class);
 			if (node != wrapper) {
 				node = wrapper;
 				view.add(detailView, BorderLayout.WEST);
-				System.out.println(Toolkit.nodePointPosition(graph, node.getId() + ""));
 				detailView.setNode(node, x + 30, y);
 				view.updateUI();
-				System.out.println(node.getGenome());
 			}
 		}
+	}
+
+	public void removeDetailView() {
+		node = null;
+		view.remove(detailView);
+		view.updateUI();
 	}
 }

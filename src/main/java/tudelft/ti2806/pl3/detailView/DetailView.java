@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.detailedView;
+package tudelft.ti2806.pl3.detailView;
 
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 

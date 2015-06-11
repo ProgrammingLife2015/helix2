@@ -8,6 +8,7 @@ import org.graphstream.ui.swingViewer.Viewer;
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.controls.MouseManager;
+import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.graph.DataNode;
@@ -53,6 +54,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private Viewer viewer;
 	private View panel;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private MouseManager mouseManager;
 
 	private GraphController graphController;
 
@@ -111,8 +113,10 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * zoomLevel updates.
 	 */
 	private void generateViewer() {
-		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
 		panel = viewer.addDefaultView(false);
+		mouseManager = new MouseManager();
+		viewer.getDefaultView().setMouseManager(mouseManager);
 	}
 
 	/**
@@ -120,8 +124,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 	private void setGraphPropertys() {
 		final String stylesheet = "stylesheet.css";
-
-		viewer.getDefaultView().setMouseManager(new MouseManager());
 
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
@@ -142,20 +144,20 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				if (FixWrapper.ID != node.getId()) {
-					Node graphNode = graph.addNode(Integer.toString(node.getId()));
-					double y = node.getY() * someSize;
-					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
+				Node graphNode = graph.addNode(Integer.toString(node.getId()));
+				double y = node.getY() * someSize;
+				graphNode.setAttribute("xy", node.getX(), y);
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
 							.getSimpleName());
-					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-					graphNode.setAttribute("node", node);
-				}
+				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				graphNode.setAttribute("node", node);
+
 			});
 
-		for (Wrapper node : graphData) {
+		for (WrapperClone node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
-				if (FixWrapper.ID != node.getId() && FixWrapper.ID != to.getId()) {
+				WrapperClone clone = (WrapperClone) to;
+				if (node.getOriginalNode().getClass() != FixWrapper.class && clone.getOriginalNode().getClass() != FixWrapper.class) {
 					addNormalEdge(graph, node, to);
 				}
 			}
@@ -260,10 +262,11 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 *
 	 * @param node
 	 * 		The {@link DataNode} to move the view to
+	 * @param selected
 	 * @throws NodeNotFoundException
 	 * 		Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
 		float x = -1;
 		for (WrapperClone wrapperClone : graphData) {
 			if (wrapperClone.getDataNodes().contains(node)) {
@@ -277,5 +280,9 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			throw new NodeNotFoundException(
 					"The node " + node + " you are looking for cannot be found in the current graph.");
 		}
+	}
+
+	public void removeDetailView() {
+		mouseManager.removeDetailView();
 	}
 }

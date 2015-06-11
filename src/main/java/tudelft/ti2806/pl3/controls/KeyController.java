@@ -92,6 +92,8 @@ public class KeyController implements KeyListener {
 			float newViewCenter = oldViewCenter - move;
 			graphController.moveView(newViewCenter);
 		}
+
+		app.getGraphController().removeDetailView();
 	}
 	
 	/**
