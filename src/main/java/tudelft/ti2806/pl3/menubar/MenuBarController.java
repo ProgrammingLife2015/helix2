@@ -82,8 +82,12 @@ public class MenuBarController implements ActionListener, Controller {
 		application.stop();
 	}
 
+	private void readFolder() {
+		application.makeGraphFromFolder();
+	}
+
 	private void readGraphFile() {
-		application.makeGraph();
+		application.makeGraphFromFiles();
 	}
 
 	private void readNwkFile() {
@@ -175,7 +179,7 @@ public class MenuBarController implements ActionListener, Controller {
 					URI github = new URI("https://github.com/ProgrammingLife3/ProgrammingLife3");
 					Desktop.getDesktop().browse(github);
 				} catch (IOException | URISyntaxException exception) {
-					String message = "A error has occured!"
+					String message = "An error has occurred!"
 					 	+ " We are unable to display the GitHub link in your browser.";
 					displayError(message);
 				}
@@ -205,6 +209,9 @@ public class MenuBarController implements ActionListener, Controller {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
+			case "Open folder":
+				readFolder();
+				break;
 			case "Open node and edge file":
 				readGraphFile();
 				break;
