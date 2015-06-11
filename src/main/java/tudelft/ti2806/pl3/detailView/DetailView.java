@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.detailView;
 
-import tudelft.ti2806.pl3.data.label.GeneLabel;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
 import java.awt.Component;
