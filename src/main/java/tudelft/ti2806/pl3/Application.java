@@ -90,6 +90,8 @@ public class Application extends JFrame {
 		addWindowListener(windowController);
 		loadingObservers.add(new LoadingMouse(this));
 
+		this.setMinimumSize(new Dimension(800, 600));
+
 		this.setFocusable(true);
 		this.setVisible(true);
 	}
@@ -139,7 +141,6 @@ public class Application extends JFrame {
 	 */
 	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
-
 			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
 
 			final long startTime = System.currentTimeMillis();
@@ -153,32 +154,7 @@ public class Application extends JFrame {
 			findgenesController = new FindgenesController(gd, getGraphController());
 			findgenesController.setFrame(this);
 
-
-			this.addComponentListener(new ComponentAdapter() {
-				@Override
-				public void componentResized(ComponentEvent e) {
-					Rectangle bounds = new Rectangle(main.getWidth(), main.getHeight());
-
-					size.setWidth((int) bounds.getWidth());
-					size.setHeight((int) bounds.getHeight());
-					size.calculate();
-
-					sideBarView.getPanel().setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(),
-							size.getHeight());
-					graphView.getPanel().setBounds(0, 0, size.getWidth(),
-							size.getHeight() - size.getZoombarHeight());
-					zoomBarView.getPanel().setBounds(0, size.getHeight() - size.getZoombarHeight(),
-							size.getWidth(), size.getZoombarHeight());
-					phyloView.updateSize();
-					
-					phyloView.getPanel().repaint();
-					sideBarView.getPanel().repaint();
-					graphView.getPanel().repaint();
-					zoomBarView.getPanel().repaint();
-					main.repaint();
-
-				}
-			});
+			this.addComponentListener(resizeAdapter());
 
 			setZoomBarView(zoomBarView.getPanel());
 			setGraphView(graphView.getPanel());
@@ -323,6 +299,34 @@ public class Application extends JFrame {
 				size.getWidth(), size.getZoombarHeight());
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
+	}
+
+	/**
+	 * Creates an adapter that updates screen sizes for the components in the view.
+	 *
+	 * @return the adapter
+	 */
+	private ComponentAdapter resizeAdapter() {
+		return new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Rectangle bounds = new Rectangle(main.getWidth(), main.getHeight());
+
+				size.setWidth((int) bounds.getWidth());
+				size.setHeight((int) bounds.getHeight());
+				size.calculate();
+
+				sideBarView.getPanel().setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(),
+						size.getHeight());
+				graphView.getPanel().setBounds(0, 0, size.getWidth(),
+						size.getHeight() - size.getZoombarHeight());
+				zoomBarView.getPanel().setBounds(0, size.getHeight() - size.getZoombarHeight(),
+						size.getWidth(), size.getZoombarHeight());
+				phyloView.updateSize();
+
+				main.repaint();
+			}
+		};
 	}
 
 	public GraphController getGraphController() {
