@@ -22,6 +22,10 @@ import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
 import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
 
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -56,6 +60,7 @@ public class Application extends JFrame {
 	private GraphView graphView;
 	private SideBarView sideBarView;
 	private ZoomBarView zoomBarView;
+	private PhyloView phyloView;
 	private FindgenesController findgenesController;
 
 	/**
@@ -86,6 +91,8 @@ public class Application extends JFrame {
 		WindowController windowController = new WindowController(this);
 		addWindowListener(windowController);
 		loadingObservers.add(new LoadingMouse(this));
+
+		this.setMinimumSize(new Dimension(size.getMinimumWidth(), size.getMinimumHeight()));
 
 		this.setFocusable(true);
 		this.setVisible(true);
@@ -136,7 +143,6 @@ public class Application extends JFrame {
 	 */
 	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
-
 			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
 
 			final long startTime = System.currentTimeMillis();
@@ -149,6 +155,8 @@ public class Application extends JFrame {
 			zoomBarView = new ZoomBarView(getGraphController());
 			findgenesController = new FindgenesController(gd, getGraphController());
 			findgenesController.setFrame(this);
+
+			this.addComponentListener(resizeAdapter());
 
 			setZoomBarView(zoomBarView.getPanel());
 			setGraphView(graphView.getPanel());
@@ -199,7 +207,7 @@ public class Application extends JFrame {
 			sideBarView = new SideBarView();
 			sideBarView.addLoadingObserversList(loadingObservers);
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
-			PhyloView phyloView = new PhyloView(tree, getGraphController());
+			phyloView = new PhyloView(tree, getGraphController());
 			sideBarView.addToSideBarView(phyloView.getPanel());
 			setSideBarView(sideBarView.getPanel());
 
@@ -293,6 +301,34 @@ public class Application extends JFrame {
 				size.getWidth(), size.getZoombarHeight());
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
+	}
+
+	/**
+	 * Creates an adapter that updates screen sizes for the components in the view.
+	 *
+	 * @return the adapter
+	 */
+	private ComponentAdapter resizeAdapter() {
+		return new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Rectangle bounds = new Rectangle(main.getWidth(), main.getHeight());
+
+				size.setWidth((int) bounds.getWidth());
+				size.setHeight((int) bounds.getHeight());
+				size.calculate();
+
+				sideBarView.getPanel().setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(),
+						size.getHeight());
+				graphView.getPanel().setBounds(0, 0, size.getWidth(),
+						size.getHeight() - size.getZoombarHeight());
+				zoomBarView.getPanel().setBounds(0, size.getHeight() - size.getZoombarHeight(),
+						size.getWidth(), size.getZoombarHeight());
+				phyloView.updateSize();
+
+				main.repaint();
+			}
+		};
 	}
 
 	public GraphController getGraphController() {
