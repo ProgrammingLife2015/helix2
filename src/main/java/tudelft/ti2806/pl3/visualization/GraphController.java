@@ -56,6 +56,7 @@ public class GraphController implements Controller {
 		filters.put(name, filter);
 		filteredGraphModel.setFilters(filters.values());
 		filteredGraphModel.produceWrappedGraphData();
+		graphMoved();
 	}
 	
 	/**
