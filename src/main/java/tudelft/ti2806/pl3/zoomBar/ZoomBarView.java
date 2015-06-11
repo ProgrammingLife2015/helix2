@@ -98,8 +98,8 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	 */
 	public void moved() {
 		GraphView graphView = graphController.getGraphView();
-		float zoomCenter = graphController.getCurrentZoomCenter() +
-				graphView.getOffsetToCenter() * (float) graphView.getViewPercent();
+		float zoomCenter = graphController.getCurrentZoomCenter()
+				- graphView.getOffsetToCenter() * (float) graphView.getViewPercent();
 		float fraction = zoomCenter / (float) graphView.getGraphDimension();
 		x = (int) (fraction * ScreenSize.getInstance().getWidth());
 		width = (int) (graphView.getViewPercent() * ScreenSize.getInstance().getWidth());

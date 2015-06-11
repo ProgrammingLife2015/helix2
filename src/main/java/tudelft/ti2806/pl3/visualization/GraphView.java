@@ -163,15 +163,15 @@ public class GraphView
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-			if (FixWrapper.ID != node.getId()) {
-				Node graphNode = graph.addNode(Integer.toString(node.getId()));
-				double y = node.getY() * someSize;
-				graphNode.setAttribute("xy", node.getX(), y);
-				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
-						.getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-			}
-		});
+				if (FixWrapper.ID != node.getId()) {
+					Node graphNode = graph.addNode(Integer.toString(node.getId()));
+					double y = node.getY() * someSize;
+					graphNode.setAttribute("xy", node.getX(), y);
+					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
+							.getSimpleName());
+					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				}
+			});
 
 		for (Wrapper node : graphData) {
 			int i = 0;
@@ -251,10 +251,13 @@ public class GraphView
 		return viewer.getDefaultView().getCamera().getViewPercent();
 	}
 
-	public float getGraphUnitsToCenter() {
+	/**
+	 * Set the offset of the center of the graph to the left edge of the screen.
+	 */
+	public void setOffsetToCenter() {
 		Point3 point3 = viewer.getDefaultView().getCamera()
 				.transformPxToGu(0, ScreenSize.getInstance().getHeight() / 2);
-		return (float) point3.x;
+		offsetToCenter = (float) point3.x * -1;
 	}
 
 	public float getOffsetToCenter() {
@@ -324,8 +327,8 @@ public class GraphView
 	@Override
 	public void componentResized(ComponentEvent e) {
 		setZoomCenter(0);
-		offsetToCenter = getGraphUnitsToCenter();
-		setZoomCenter(offsetToCenter * -1);
+		setOffsetToCenter();
+		setZoomCenter(offsetToCenter);
 	}
 
 	@Override
