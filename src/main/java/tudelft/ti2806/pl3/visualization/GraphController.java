@@ -105,6 +105,7 @@ public class GraphController implements Controller {
 				/ getCurrentZoomLevel();
 		float newViewCenter = (float) (oldViewCenter - move);
 		moveView(newViewCenter);
+		graphMoved();
 	}
 
 	/**
@@ -116,6 +117,12 @@ public class GraphController implements Controller {
 				/ getCurrentZoomLevel();
 		float newViewCenter = (float) (oldViewCenter + move);
 		moveView(newViewCenter);
+		graphMoved();
+	}
+
+	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+		graphView.centerOnNode(node);
+		graphMoved();
 	}
 
 	public double getCurrentZoomLevel() {
@@ -128,11 +135,6 @@ public class GraphController implements Controller {
 
 	public double getGraphDimension() {
 		return graphView.getGraphDimension();
-	}
-
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
-		graphView.centerOnNode(node);
-		graphMoved();
 	}
 
 	public GraphView getGraphView() {
