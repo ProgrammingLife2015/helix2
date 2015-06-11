@@ -5,11 +5,14 @@ import tudelft.ti2806.pl3.View;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphView;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.Observable;
@@ -48,16 +51,31 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	 * 		graphics
 	 */
 	protected void paintComponent(Graphics g) {
+		drawHighlightBox(g);
+		drawInterest(g);
+	}
+
+	private void drawInterest(Graphics g) {
 		int height = getPreferredSize().height;
-		g.drawRect(x, 0, width, height);
-		g.setColor(Color.RED);
-		int i = 0;
 		float max = graphController.getMaxInterest();
+		int i = 0;
 		for (float v : graphController.getInterest()) {
-			int lineHeight = (int) ((v/max) * height);
-			g.drawLine(i, (lineHeight - height) / 2, i, (lineHeight - height) / 2 + lineHeight);
+			int lineHeight = (int) ((v/max) * (float) height);
+			int alpha = (int) ((v/max)*255);
+			g.setColor(new Color(255, 0, 0, alpha));
+			g.drawLine(i, (height - lineHeight) / 2, i, (height - lineHeight) / 2 + lineHeight);
 			i++;
 		}
+	}
+
+	private void drawHighlightBox(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		float thickness = 2;
+		Stroke oldStroke = g2.getStroke();
+		g2.setStroke(new BasicStroke(thickness));
+		int height = getPreferredSize().height;
+		g.drawRect(x, 1, width, height-1);
+		g2.setStroke(oldStroke);
 	}
 
 	/**
