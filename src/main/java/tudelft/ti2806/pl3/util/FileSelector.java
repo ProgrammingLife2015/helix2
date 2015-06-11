@@ -84,4 +84,34 @@ public class FileSelector {
 		}
 		throw new FileSelectorException();
 	}
+
+	/**
+	 * Filters the files from the folder on extension1 and extension2
+	 * @param folder with the files in it
+	 * @param extension1 to filter on, will be placed on index 0
+	 * @param extension2 to filter on, will be placed on index 1
+	 * @param extension3 to filter on, will be placed on index 2
+	 * @return Array of files
+	 */
+	public static File[] getFilesFromFolder(File folder, String extension1, String extension2,String extension3) {
+		File[] files = new File[3];
+
+		File[] extension1Files = folder.listFiles((dir, name) -> {
+					return name.endsWith(extension1);
+				}
+		);
+		File[] extension2Files = folder.listFiles((dir, name) -> {
+					return name.endsWith(extension2);
+				}
+		);
+		File[] extension3Files = folder.listFiles((dir, name) -> {
+					return name.endsWith(extension3);
+				}
+		);
+		files[0] = extension1Files[0];
+		files[1] = extension2Files[0];
+		files[2] = extension3Files[0];
+
+		return files;
+	}
 }

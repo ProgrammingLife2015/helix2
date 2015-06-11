@@ -106,18 +106,8 @@ public class Application extends JFrame {
 	public void makeGraphFromFolder() {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
-
-			File[] nodeFiles = folder.listFiles((dir, name) -> {
-					return name.endsWith(".node.graph");
-				}
-			);
-			File[] treeFiles = folder.listFiles((dir, name) -> {
-					return name.endsWith("nwk");
-				}
-			);
-			File edgeFile = new File(nodeFiles[0].getAbsolutePath().replace(".node", ".edge"));
-
-			makeGraph(nodeFiles[0], edgeFile, treeFiles[0]);
+			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph",".nwk");
+			makeGraph(files[0], files[1], files[2]);
 		} catch (FileSelectorException | NullPointerException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFolder();
