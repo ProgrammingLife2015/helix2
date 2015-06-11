@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.data.wrapper.operation.collapse;
 import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
+import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
@@ -26,6 +27,12 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
 		wrapper.addCollapse(getSpaceLeft(wrapper));
+	}
+	
+	@Override
+	public void calculate(VerticalWrapper wrapper, Wrapper container) {
+		super.calculate(wrapper, container);
+		wrapper.addCollapse(Float.MAX_VALUE);
 	}
 	
 	/**
