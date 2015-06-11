@@ -17,6 +17,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.Observable;
 import java.util.Observer;
+
 import javax.swing.JPanel;
 
 /**
@@ -45,12 +46,14 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	}
 
 	/**
-	 * Paint on the graphics
+	 * Paint on the graphics.
 	 *
 	 * @param g
 	 * 		graphics
 	 */
+	@Override
 	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		drawIndicator(g);
 		drawInterest(g);
 	}
@@ -66,7 +69,7 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 		float max = graphController.getMaxInterest();
 		int i = 0;
 		for (float v : graphController.getInterest()) {
-			int lineHeight = (int) ((v / max) * (float) height);
+			int lineHeight = (int) ((v / max) * height);
 			int alpha = (int) ((v / max) * 255);
 			g.setColor(new Color(255, 0, 0, alpha));
 			g.drawLine(i, (height - lineHeight) / 2, i, (height - lineHeight) / 2 + lineHeight);
