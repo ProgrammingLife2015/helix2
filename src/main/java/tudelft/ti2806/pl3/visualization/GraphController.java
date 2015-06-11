@@ -90,8 +90,8 @@ public class GraphController implements Controller {
 		return graphView.getZoomCenter();
 	}
 
-	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
-		graphView.centerOnNode(node, selected);
+	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+		graphView.centerOnNode(node);
 	}
 
 	public void removeDetailView() {

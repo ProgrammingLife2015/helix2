@@ -157,7 +157,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		for (WrapperClone node : graphData) {
 			for (Wrapper to : node.getOutgoing()) {
 				WrapperClone clone = (WrapperClone) to;
-				if (node.getOriginalNode().getClass() != FixWrapper.class && clone.getOriginalNode().getClass() != FixWrapper.class) {
+				if (node.getOriginalNode().getClass() != FixWrapper.class
+						&& clone.getOriginalNode().getClass() != FixWrapper.class) {
 					addNormalEdge(graph, node, to);
 				}
 			}
@@ -262,11 +263,10 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 *
 	 * @param node
 	 * 		The {@link DataNode} to move the view to
-	 * @param selected
 	 * @throws NodeNotFoundException
 	 * 		Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */
-	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
+	public void centerOnNode(DataNode node) throws NodeNotFoundException {
 		float x = -1;
 		for (WrapperClone wrapperClone : graphData) {
 			if (wrapperClone.getDataNodes().contains(node)) {
