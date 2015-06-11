@@ -20,6 +20,11 @@ public class ParserLastOpenedQueue {
 	private static final String saveName = "lastOpenedSave.txt";
 	public static final int limit = 5;
 
+	/**
+	 * Saves the output in a .txt file.
+	 * @param output to write
+	 * @throws IOException
+	 */
 	public static void saveLastOpened(LastOpenedQueue<File> output) throws IOException {
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
@@ -33,6 +38,11 @@ public class ParserLastOpenedQueue {
 		bufferedWriter.close();
 	}
 
+	/**
+	 * Reads the .txt file with name lastOpenedSave.txt.
+	 * @return Queue of the .txt file
+	 * @throws IOException
+	 */
 	public static LastOpenedQueue<File> readLastOpened() throws IOException {
 		LastOpenedQueue<File> result = new LastOpenedQueue<>(limit);
 		Path currentRelativePath = Paths.get("");

@@ -14,6 +14,12 @@ public class LastOpenedQueue<E> extends LinkedList<E> {
 		this.limit = limit;
 	}
 
+	/**
+	 * Adds element to the queue if its not already in it.
+	 * Only limit elements will be in the queue.
+	 * @param o object to add
+	 * @return true if added.
+	 */
 	@Override
 	public boolean add(E o) {
 		if (!this.contains(o)) {
