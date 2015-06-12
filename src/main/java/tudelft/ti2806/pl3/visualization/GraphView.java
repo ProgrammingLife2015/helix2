@@ -45,11 +45,6 @@ public class GraphView
 	 * using the half this size.
 	 */
 	private double zoomLevel = 1.0;
-	/**
-	 * The center position of the view.<br>
-	 * The position on the x axis.
-	 */
-	private float zoomCenter = 1;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
@@ -271,7 +266,6 @@ public class GraphView
 	 * 		the new center of view
 	 */
 	public void setZoomCenter(float zoomCenter) {
-		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
 
