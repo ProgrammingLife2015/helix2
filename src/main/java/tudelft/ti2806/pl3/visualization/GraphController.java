@@ -94,6 +94,7 @@ public class GraphController implements Controller {
 	public void resetZoom() {
 		zoomedGraphModel.setZoomLevel(DEFAULT_VIEW);
 		zoomedGraphModel.produceDataNodeWrapperList();
+		graphView.setZoomCenter(graphView.getOffsetToCenter());
 		graphMoved();
 	}
 
