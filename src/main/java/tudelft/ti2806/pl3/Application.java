@@ -67,7 +67,7 @@ public class Application extends JFrame {
 	 * Construct the main application view.
 	 */
 	public Application() {
-		super("Helix" + "\u00B2");
+		super("Helix²");
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -155,6 +155,8 @@ public class Application extends JFrame {
 			zoomBarView = new ZoomBarView(getGraphController());
 			findgenesController = new FindgenesController(gd, getGraphController());
 			findgenesController.setFrame(this);
+			graphView.addComponentListener(zoomBarView);
+			getGraphController().addGraphMovedListener(getZoomBarController());
 
 			this.addComponentListener(resizeAdapter());
 

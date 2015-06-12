@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ComputeInterestTest {
-	private static final float[] expectedResults = new float[] { 0f, 5f, 10f, 20f, 20f };
+	private static final float[] expectedResults = new float[] { 0f, 1f, 2f, 2f, 2f };
 	
 	@Test
 	public void test() throws IOException {
