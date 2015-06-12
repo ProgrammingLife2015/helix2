@@ -81,6 +81,7 @@ public class MenuBarView extends JMenuBar implements View {
 		final char left = '\u2190';
 		final char g = 'G';
 
+
 		JMenu viewMenu = new JMenu("View");
 		viewMenu.setMnemonic(KeyEvent.VK_V);
 
@@ -121,11 +122,14 @@ public class MenuBarView extends JMenuBar implements View {
 	}
 
 	private JMenu setUpHelp() {
+		final char f1 = 112;
+
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 
 		JMenuItem help = new JMenuItem("Controls");
 		help.setMnemonic(KeyEvent.VK_C);
+		help.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1,0));
 		JMenuItem about = new JMenuItem("About Me");
 		about.setMnemonic(KeyEvent.VK_A);
 

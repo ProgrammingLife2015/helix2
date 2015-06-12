@@ -62,8 +62,10 @@ public class MenuBarController implements ActionListener, Controller {
 			+ "Zooming in     \t+ \n"
 			+ "Zooming out    \t - \n"
 			+ "Reset the view \t R \n"
-			+ "Move the view to the left \t left arrow \n"
-			+ "Move the view to the right \t right arrow \n"
+			+ "Move the view to the left \t \u2190 \n"
+			+ "Move the view to the right \t \u2192 \n"
+			+ "Gene navigation window \t G \n"
+			+ "Hide/show phylogenetic tree window \t spacebar \n"
 			+ "\n"
 			+ "All of the menus can be controlled with the underlined letter, "
 			+ "hold the ALT key to activate this.";
