@@ -159,6 +159,12 @@ public class GraphController implements Controller {
 	}
 
 	public void graphMoved() {
+		if(graphView.getZoomCenter() < 0) {
+			graphView.setZoomCenter(0);
+		}
+		if(graphView.getZoomCenter() > graphView.getGraphDimension()) {
+			graphView.setZoomCenter((float) graphView.getGraphDimension());
+		}
 		graphMovedListenerList.forEach(GraphMovedListener::graphMoved);
 	}
 

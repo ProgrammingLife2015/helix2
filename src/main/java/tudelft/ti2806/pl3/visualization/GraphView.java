@@ -244,7 +244,7 @@ public class GraphView
 	}
 
 	public float getZoomCenter() {
-		return zoomCenter;
+		return (float) viewer.getDefaultView().getCamera().getViewCenter().x;
 	}
 
 	public double getViewPercent() {
