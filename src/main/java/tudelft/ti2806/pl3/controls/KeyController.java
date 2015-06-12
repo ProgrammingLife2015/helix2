@@ -85,7 +85,12 @@ public class KeyController implements KeyListener {
 		if (event.getKeyCode() == KeyEvent.VK_G) {
 			app.getFindgenesController().openDialog();
 		}
+
+		if (event.getKeyCode() == KeyEvent.VK_F1) {
+			app.getMenuBarController().displayControls();
+		}
 	}
+
 	
 	/**
 	 * KeyReleased is triggered when the key comes up.

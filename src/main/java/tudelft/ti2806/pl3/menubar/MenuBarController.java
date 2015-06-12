@@ -122,7 +122,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Displays the controls text in a {@link JTextPane}.
 	 */
-	private void displayControls() {
+	public void displayControls() {
 		JTextPane textPane = new JTextPane();
 		TabStop[] tabs = new TabStop[1];
 		tabs[0] = new TabStop(300, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
