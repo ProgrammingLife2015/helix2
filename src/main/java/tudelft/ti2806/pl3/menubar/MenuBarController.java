@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -34,6 +35,7 @@ import javax.swing.text.TabStop;
  */
 public class MenuBarController implements ActionListener, Controller {
 
+	private final MenuBarView menuBarView;
 	private Application application;
 
 	/**
@@ -76,6 +78,12 @@ public class MenuBarController implements ActionListener, Controller {
 	 */
 	public MenuBarController(Application application) {
 		this.application = application;
+		this.menuBarView = new MenuBarView();
+		menuBarView.addActionListener(this);
+	}
+
+	public JMenuBar getMenuBar() {
+		return menuBarView;
 	}
 
 	private void stop() {
