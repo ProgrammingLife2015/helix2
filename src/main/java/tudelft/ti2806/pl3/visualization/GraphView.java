@@ -8,6 +8,7 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
+
 import tudelft.ti2806.pl3.LoadingObservable;
 import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.ScreenSize;
@@ -154,7 +155,7 @@ public class GraphView
 		graph.clear();
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
-				/ ((double) panel.getBounds().width * zoomLevel / zoomedGraphModel
+				/ (panel.getBounds().width * zoomLevel / zoomedGraphModel
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
@@ -197,16 +198,15 @@ public class GraphView
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to, int i) throws EdgeZeroWeightException {
 		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(),
-				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
+				Integer.toString(from.getId()), Integer.toString(to.getId()));
 		int weight = from.getOutgoingWeight().get(i);
 		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException(
 					"The weight of the edge from " + from + " to " + to + " cannot be 0.");
-		} else {
-			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 		}
+		edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 	}
 	
 	@Override
