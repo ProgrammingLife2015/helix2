@@ -15,10 +15,10 @@ public class FileSelector {
 	private FileSelector() {
 	}
 
-	public static LastOpenedQueue<File> lastopened;
+	public static LastOpenedStack<File> lastopened;
 
-	public static void setLastOpened(LastOpenedQueue<File> lastOpenedQueue) {
-		lastopened = lastOpenedQueue;
+	public static void setLastOpened(LastOpenedStack<File> lastOpenedStack) {
+		lastopened = lastOpenedStack;
 	}
 
 	/**

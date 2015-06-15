@@ -10,12 +10,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * ParserLastOpenedQueue is  the parser vor LastOpenedQueue.
+ * ParserLastOpened is  the parser vor LastOpenedStack.
  * It can save the queue to the directory of the JAR.
  * It also read this data when the Application is started again.
  * Created by Kasper on 11-6-2015.
  */
-public class ParserLastOpenedQueue {
+public class ParserLastOpened {
 
 	private static final String saveName = "lastOpenedSave.txt";
 	public static final int limit = 5;
@@ -25,7 +25,7 @@ public class ParserLastOpenedQueue {
 	 * @param output to write
 	 * @throws IOException when saving goes wrong
 	 */
-	public static void saveLastOpened(LastOpenedQueue<File> output) throws IOException {
+	public static void saveLastOpened(LastOpenedStack<File> output) throws IOException {
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
 		File save = new File(s + File.separator + saveName);
@@ -43,8 +43,8 @@ public class ParserLastOpenedQueue {
 	 * @return Queue of the .txt file
 	 * @throws IOException when reading goes wrong
 	 */
-	public static LastOpenedQueue<File> readLastOpened() throws IOException {
-		LastOpenedQueue<File> result = new LastOpenedQueue<>(limit);
+	public static LastOpenedStack<File> readLastOpened() throws IOException {
+		LastOpenedStack<File> result = new LastOpenedStack<>(limit);
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
 		FileReader fileReader = new FileReader(s + File.separator + saveName);

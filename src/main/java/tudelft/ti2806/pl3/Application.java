@@ -14,8 +14,8 @@ import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.SideBarView;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloView;
 import tudelft.ti2806.pl3.util.FileSelector;
-import tudelft.ti2806.pl3.util.LastOpenedQueue;
-import tudelft.ti2806.pl3.util.ParserLastOpenedQueue;
+import tudelft.ti2806.pl3.util.LastOpenedStack;
+import tudelft.ti2806.pl3.util.ParserLastOpened;
 import tudelft.ti2806.pl3.util.TreeParser;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphView;
@@ -65,11 +65,11 @@ public class Application extends JFrame {
 		super("Helix" + "\u00B2");
 		// read the last opened files
 		try {
-			LastOpenedQueue<File> files = ParserLastOpenedQueue.readLastOpened();
+			LastOpenedStack<File> files = ParserLastOpened.readLastOpened();
 			FileSelector.setLastOpened(files);
 		} catch (IOException e) {
 			// the file is missing so there are no lastopened
-			FileSelector.setLastOpened(new LastOpenedQueue<>(ParserLastOpenedQueue.limit));
+			FileSelector.setLastOpened(new LastOpenedStack<>(ParserLastOpened.limit));
 		}
 
 		// set the size and save it in the singleton
@@ -223,7 +223,7 @@ public class Application extends JFrame {
 		// save data or do something else here
 		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
 			try {
-				ParserLastOpenedQueue.saveLastOpened(FileSelector.lastopened);
+				ParserLastOpened.saveLastOpened(FileSelector.lastopened);
 			} catch (IOException e) {
 				System.out.println("Unable to save the files");
 				e.printStackTrace();
