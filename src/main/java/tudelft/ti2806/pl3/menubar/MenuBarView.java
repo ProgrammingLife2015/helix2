@@ -69,8 +69,8 @@ public class MenuBarView extends JMenuBar implements View {
 		final char plus = '+';
 		final char minus = '-';
 		final char r = 'R';
-		final char right = '→';
-		final char left = '←';
+		final char right = '\u2192';
+		final char left = '\u2190';
 		final char g = 'G';
 
 		JMenu viewMenu = new JMenu("View");
