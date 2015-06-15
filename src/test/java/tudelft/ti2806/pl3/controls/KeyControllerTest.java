@@ -53,17 +53,6 @@ public class KeyControllerTest {
 	}
 
 	@Test
-	public void testMinus() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_MINUS);
-		when(application.getGraphController()).thenReturn(graphController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).zoomLevelDown();
-	}
-
-	@Test
 	public void testPlus() {
 		KeyController keyController = new KeyController(application);
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_EQUALS);

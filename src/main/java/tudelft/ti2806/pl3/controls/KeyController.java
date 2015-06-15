@@ -62,10 +62,6 @@ public class KeyController implements KeyListener {
 			app.getSideBarController().toggleSideBar();
 		}
 
-		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			app.getGraphController().zoomLevelDown();
-		}
-
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
 			app.getGraphController().zoomLevelUp();
 		}
