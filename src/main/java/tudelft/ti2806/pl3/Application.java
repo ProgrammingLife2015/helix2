@@ -172,6 +172,9 @@ public class Application extends JFrame implements ControllerContainer {
 		}
 	}
 
+	/**
+	 * Parses the phylogenetic tree through file selection and makes a sidebarview.
+	 */
 	public void makePhyloTree() {
 		makePhyloTree(null);
 	}

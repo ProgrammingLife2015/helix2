@@ -29,7 +29,7 @@ public class FindgenesController {
 	 * @param graphData
 	 * 		Contains the gene data
 	 */
-	public FindgenesController(Application cc, GraphDataRepository graphData) {
+	public FindgenesController(ControllerContainer cc, GraphDataRepository graphData) {
 		this.cc = cc;
 		this.graphData = graphData;
 	}
