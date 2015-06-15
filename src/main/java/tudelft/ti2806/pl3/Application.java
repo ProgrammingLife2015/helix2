@@ -143,7 +143,7 @@ public class Application extends JFrame {
 	 */
 	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
-			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
+			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");g
 
 			final long startTime = System.currentTimeMillis();
 

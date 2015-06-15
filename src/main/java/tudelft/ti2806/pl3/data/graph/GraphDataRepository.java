@@ -9,6 +9,7 @@ import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.label.EndGeneLabel;
 import tudelft.ti2806.pl3.data.label.GeneLabel;
 import tudelft.ti2806.pl3.data.label.StartGeneLabel;
+import tudelft.ti2806.pl3.data.meta.MetaParser;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -136,6 +137,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		addNodes(nodeList);
 		addEdges(parseEdges(edgesFile, nodeMap));
 		addGenomes(genomeList);
+		MetaParser.parseMeta(, genomeMap);
 
 		notifyLoadingObservers(false);
 	}
