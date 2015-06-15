@@ -63,6 +63,8 @@ public class Application extends JFrame {
 	private PhyloView phyloView;
 	private FindgenesController findgenesController;
 
+	private GraphDataRepository gd;
+
 	/**
 	 * Construct the main application view.
 	 */
@@ -151,7 +153,7 @@ public class Application extends JFrame {
 
 			final long startTime = System.currentTimeMillis();
 
-			GraphDataRepository gd = new GraphDataRepository();
+			gd = new GraphDataRepository();
 			gd.addLoadingObserversList(loadingObservers);
 			gd.parseGraph(nodeFile, edgeFile, metaFile, geneData);
 
@@ -217,7 +219,6 @@ public class Application extends JFrame {
 			sideBarView.addToSideBarView(phyloView.getPanel());
 			setSideBarView(sideBarView.getPanel());
 
-
 			sideBarView.getPanel().addKeyListener(keys);
 
 		} catch (FileSelectorException exception) {
@@ -231,18 +232,14 @@ public class Application extends JFrame {
 		}
 	}
 
-	public void loadMetaData(File input) {
+	public void loadMetaData() {
 		try {
-			File metaFile;
-			if (input == null) {
-				metaFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
-			} else {
-				metaFile = input;
-			}
-
-		} catch (FileSelectorException exception) {
+			File metaFile = FileSelector.selectFile("Select metadata file", this, ".txt");
+			gd.loadMetaData(metaFile);
+			System.out.println(gd.getGenomes().get(0).getAge());
+		} catch (FileSelectorException | FileNotFoundException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
-				loadMetaData(null);
+				loadMetaData();
 			}
 		}
 	}

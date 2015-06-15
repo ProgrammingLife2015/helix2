@@ -35,7 +35,8 @@ public class MetaParser {
 				br.readLine();
 			}
 			while (br.ready()) {
-				String[] data = br.readLine().split(" ");
+				String[] data = br.readLine().split("\t");
+				data[0] = data[0].replaceAll("-", "_");
 				if (genomeMap.containsKey(data[0])) {
 					Genome g = genomeMap.get(data[0]);
 

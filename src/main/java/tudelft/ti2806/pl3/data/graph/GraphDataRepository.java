@@ -158,6 +158,14 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		notifyLoadingObservers(false);
 	}
 
+	public void loadMetaData(File metaFile) throws FileNotFoundException {
+		Map<String, Genome> genomeMap = new HashMap<>();
+		for (Genome g : genomes) {
+			genomeMap.put(g.getIdentifier(), g);
+		}
+		MetaParser.parseMeta(metaFile, genomeMap);
+	}
+
 	/**
 	 * Parse the nodes file, creating nodes from the file its data.
 	 *
