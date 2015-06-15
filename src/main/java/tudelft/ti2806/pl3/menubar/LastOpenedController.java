@@ -63,6 +63,9 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 		return lastOpenedMenu;
 	}
 
+	/**
+	 * Update the menu with new last opened when change is notified.
+	 */
 	@Override
 	public void update() {
 		lastOpenedMenu.removeAll();
