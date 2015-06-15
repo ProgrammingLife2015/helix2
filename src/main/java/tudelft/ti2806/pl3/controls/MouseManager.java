@@ -16,6 +16,8 @@ import java.util.ArrayList;
  * Created by Mathieu Post on 8-6-15.
  */
 public class MouseManager extends DefaultMouseManager {
+	private static final int MARGIN = 5;
+
 	WrapperClone node = null;
 	DetailView detailView;
 
@@ -27,17 +29,6 @@ public class MouseManager extends DefaultMouseManager {
 	public void init(GraphicGraph graph, View view) {
 		super.init(graph, view);
 		view.setLayout(null);
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		super.mouseClicked(e);
-		int x = e.getX();
-		int y = e.getY();
-		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - 5, y - 5, x + 5, y + 5);
-		for (GraphicElement graphicElement : graphicElements) {
-			System.out.println(graphicElement);
-		}
 	}
 
 	@Override
@@ -56,7 +47,7 @@ public class MouseManager extends DefaultMouseManager {
 	 * 		y location of the mouse cursor.
 	 */
 	public void mouseMoved(int x, int y) {
-		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - 5, y - 5, x + 5, y + 5);
+		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
 		if (graphicElements.size() == 0) {
 			removeDetailView();
 		} else {
@@ -65,7 +56,7 @@ public class MouseManager extends DefaultMouseManager {
 			if (node != wrapper) {
 				node = wrapper;
 				view.add(detailView, BorderLayout.WEST);
-				detailView.setNode(node, x + 30, y);
+				detailView.setNode(node, x, y);
 				view.updateUI();
 			}
 		}

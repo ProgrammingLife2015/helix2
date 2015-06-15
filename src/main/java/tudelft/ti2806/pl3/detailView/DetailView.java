@@ -18,6 +18,9 @@ import javax.swing.JPanel;
  * @author mathieu
  */
 public class DetailView extends JPanel {
+	private static final int BORDER = 10;
+	private static final int MAX_ROWS = 5;
+	private static final int POSITION_OFFSET = 30;
 
 	/**
 	 * Constructs a DetailView and set a border and the preferred layout.
@@ -25,7 +28,7 @@ public class DetailView extends JPanel {
 	public DetailView() {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);
-		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		setBorder(BorderFactory.createEmptyBorder(BORDER, BORDER, BORDER, BORDER));
 	}
 
 	/**
@@ -83,13 +86,13 @@ public class DetailView extends JPanel {
 			String nextString = iterator.next();
 			if (filter != null && filter.equals(nextString)) {
 				filter = null;
-				if (i >= 5) {
+				if (i >= MAX_ROWS) {
 					add(nextString);
 					i++;
 					break;
 				}
 			}
-			if (i < 5) {
+			if (i < MAX_ROWS) {
 				add(nextString);
 				i++;
 			}
@@ -106,6 +109,7 @@ public class DetailView extends JPanel {
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 		Container parent = getParent();
+		x += POSITION_OFFSET;
 		if (parent != null) {
 			int parentWidth = parent.getWidth();
 			int parentHeight = parent.getHeight();
@@ -114,7 +118,7 @@ public class DetailView extends JPanel {
 			height = Math.min(height, parentHeight);
 
 			if (x > parentWidth - width) {
-				x -= width + 30;
+				x -= width + 2 * POSITION_OFFSET;
 			}
 			y = Math.min(y, parentHeight - height);
 		}
