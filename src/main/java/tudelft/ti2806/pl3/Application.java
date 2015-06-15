@@ -153,7 +153,7 @@ public class Application extends JFrame {
 
 			GraphDataRepository gd = new GraphDataRepository();
 			gd.addLoadingObserversList(loadingObservers);
-			gd.parseGraph(nodeFile, edgeFile, geneData);
+			gd.parseGraph(nodeFile, edgeFile, metaFile, geneData);
 
 			graphView = new GraphView(gd, loadingObservers);
 			zoomBarView = new ZoomBarView(getGraphController());
@@ -227,6 +227,22 @@ public class Application extends JFrame {
 		} catch (ParseException | IOException exception) {
 			if (confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
 				makePhyloTree();
+			}
+		}
+	}
+
+	public void loadMetaData(File input) {
+		try {
+			File metaFile;
+			if (input == null) {
+				metaFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+			} else {
+				metaFile = input;
+			}
+
+		} catch (FileSelectorException exception) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+				loadMetaData(null);
 			}
 		}
 	}
