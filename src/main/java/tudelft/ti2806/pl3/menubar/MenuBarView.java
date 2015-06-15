@@ -49,7 +49,7 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenuItem openNwk = new JMenuItem("Open .nwk file");
 		openNwk.setMnemonic(KeyEvent.VK_W);
 		JMenuItem openMeta = new JMenuItem("Open metadata file");
-		openNwk.setMnemonic(KeyEvent.VK_M);
+		openMeta.setMnemonic(KeyEvent.VK_M);
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setMnemonic(KeyEvent.VK_X);
 

@@ -159,11 +159,11 @@ public class GraphController implements Controller {
 		graphMovedListenerList.remove(graphMovedListener);
 	}
 
-	public void graphMoved() {
-		if(graphView.getZoomCenter() < 0) {
+	public void graphMoved() { //TODO: Needs JavaDoc
+		if (graphView.getZoomCenter() < 0) {
 			graphView.setZoomCenter(0);
 		}
-		if(graphView.getZoomCenter() > graphView.getGraphDimension()) {
+		if (graphView.getZoomCenter() > graphView.getGraphDimension()) {
 			graphView.setZoomCenter((float) graphView.getGraphDimension());
 		}
 		graphMovedListenerList.forEach(GraphMovedListener::graphMoved);
