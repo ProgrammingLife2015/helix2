@@ -13,17 +13,17 @@ import java.util.List;
  * Created by Boris Mattijssen on 20-05-15.
  */
 public class NoMorePlaceholdersTest extends WrapperOperation {
-	
-	public NoMorePlaceholdersTest(List<WrapperClone> dataNodeWrappers) {
-		for (WrapperClone d : dataNodeWrappers) {
-			d.getOutgoing().forEach(n -> n.calculate(this, d));
-			d.getIncoming().forEach(n -> n.calculate(this, d));
-		}
-	}
-	
-	@Override
-	public void calculate(WrapperPlaceholder p, Wrapper container) {
-		fail("Placeholder detected! Detected in via container " + container);
-	}
-	
+
+    public NoMorePlaceholdersTest(List<WrapperClone> dataNodeWrappers) {
+        for (WrapperClone d : dataNodeWrappers) {
+            d.getOutgoing().forEach(n -> n.calculate(this, d));
+            d.getIncoming().forEach(n -> n.calculate(this, d));
+        }
+    }
+
+    @Override
+    public void calculate(WrapperPlaceholder p, Wrapper container) {
+        fail("Placeholder detected! Detected in via container " + container);
+    }
+
 }

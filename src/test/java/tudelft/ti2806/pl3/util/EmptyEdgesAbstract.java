@@ -15,18 +15,18 @@ import java.util.List;
  */
 public abstract class EmptyEdgesAbstract {
 
-	protected List<Wrapper> nodes;
-	protected WrappedGraphData wrappedGraphData;
+    protected List<Wrapper> nodes;
+    protected WrappedGraphData wrappedGraphData;
 
-	public void loadWrappedGraphData(String file) throws IOException {
-		File nodesFile = new File("data/testdata/emptyEdges/" + file + ".node.graph");
-		File edgesFile = new File("data/testdata/emptyEdges/" + file + ".edge.graph");
-		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
-		GraphDataRepository graphDataRepository = new GraphDataRepository();
-		graphDataRepository.parseGraph(nodesFile, edgesFile, geneData);
-		wrappedGraphData = new WrappedGraphData(graphDataRepository.getNodes(), graphDataRepository.getEdges());
-		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
-		nodes = wrappedGraphData.getPositionedNodes();
-	}
+    public void loadWrappedGraphData(String file) throws IOException {
+        File nodesFile = new File("data/testdata/emptyEdges/" + file + ".node.graph");
+        File edgesFile = new File("data/testdata/emptyEdges/" + file + ".edge.graph");
+        GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
+        GraphDataRepository graphDataRepository = new GraphDataRepository();
+        graphDataRepository.parseGraph(nodesFile, edgesFile, geneData);
+        wrappedGraphData = new WrappedGraphData(graphDataRepository.getNodes(), graphDataRepository.getEdges());
+        EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
+        nodes = wrappedGraphData.getPositionedNodes();
+    }
 
 }

@@ -8,27 +8,26 @@ import tudelft.ti2806.pl3.Controller;
  */
 public class SideBarController implements Controller {
 
-	private SideBarView sideBarView;
+    private SideBarView sideBarView;
 
-	/**
-	 * Construct the side bar controller and add all filters to its view.
-	 *
-	 * @param sideBarView
-	 * 		the view that is controlled
-	 *
-	 */
-	public SideBarController(SideBarView sideBarView) {
-		this.sideBarView = sideBarView;
-	}
+    /**
+     * Construct the side bar controller and add all filters to its view.
+     *
+     * @param sideBarView
+     *         the view that is controlled
+     */
+    public SideBarController(SideBarView sideBarView) {
+        this.sideBarView = sideBarView;
+    }
 
-	/**
-	 * Show the sidebar if hidden, hide if shown.
-	 */
-	public void toggleSideBar() {
-		if (sideBarView.isVisible()) {
-			sideBarView.setVisible(false);
-		} else {
-			sideBarView.setVisible(true);
-		}
-	}
+    /**
+     * Show the sidebar if hidden, hide if shown.
+     */
+    public void toggleSideBar() {
+        if (sideBarView.isVisible()) {
+            sideBarView.setVisible(false);
+        } else {
+            sideBarView.setVisible(true);
+        }
+    }
 }

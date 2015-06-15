@@ -6,5 +6,5 @@ package tudelft.ti2806.pl3;
  */
 public interface LoadingObserver {
 
-	void update(LoadingObservable loadingObservable, Object arguments);
+    void update(LoadingObservable loadingObservable, Object arguments);
 }

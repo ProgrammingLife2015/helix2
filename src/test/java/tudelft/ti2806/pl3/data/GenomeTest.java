@@ -14,36 +14,36 @@ import org.junit.Test;
  */
 public class GenomeTest {
 
-	private Genome genome1;
-	private Genome genome2;
+    private Genome genome1;
+    private Genome genome2;
 
-	@Before
-	public void before() {
-		genome1 = new Genome("genome1");
-		genome2 = new Genome("genome2");
-	}
+    @Before
+    public void before() {
+        genome1 = new Genome("genome1");
+        genome2 = new Genome("genome2");
+    }
 
-	@Test
-	public void testEquals() {
-		assertTrue(genome1.equals(genome1));
-		assertFalse(genome1.equals(null));
-		assertFalse(genome1.equals(new Object()));
-		assertFalse(new Genome(null).equals(genome1));
-		assertFalse(genome1.equals(genome2));
+    @Test
+    public void testEquals() {
+        assertTrue(genome1.equals(genome1));
+        assertFalse(genome1.equals(null));
+        assertFalse(genome1.equals(new Object()));
+        assertFalse(new Genome(null).equals(genome1));
+        assertFalse(genome1.equals(genome2));
 
-		assertTrue(genome1.equals(new Genome("genome1")));
-	}
+        assertTrue(genome1.equals(new Genome("genome1")));
+    }
 
-	@Test
-	public void testHashCode() {
-		assertNotEquals(genome1.hashCode(), genome2.hashCode());
-		assertEquals(genome1.hashCode(), genome1.hashCode());
-	}
+    @Test
+    public void testHashCode() {
+        assertNotEquals(genome1.hashCode(), genome2.hashCode());
+        assertEquals(genome1.hashCode(), genome1.hashCode());
+    }
 
-	@Test
-	public void testGetIdentifier() {
-		assertEquals(genome1.getIdentifier(), "genome1");
-		assertNotEquals(genome1.getIdentifier(), genome2.getIdentifier());
-	}
-	
+    @Test
+    public void testGetIdentifier() {
+        assertEquals(genome1.getIdentifier(), "genome1");
+        assertNotEquals(genome1.getIdentifier(), genome2.getIdentifier());
+    }
+
 }

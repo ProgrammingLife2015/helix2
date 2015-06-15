@@ -8,18 +8,18 @@ import java.awt.Component;
  */
 public interface View {
 
-	/**
-	 * Getter for the view itself.
-	 *
-	 * @return Component
-	 */
-	Component getPanel();
+    /**
+     * Getter for the view itself.
+     *
+     * @return Component
+     */
+    Component getPanel();
 
-	/**
-	 * Getter for the controller of the view.
-	 *
-	 * @return Controller
-	 */
-	Controller getController();
+    /**
+     * Getter for the controller of the view.
+     *
+     * @return Controller
+     */
+    Controller getController();
 
 }

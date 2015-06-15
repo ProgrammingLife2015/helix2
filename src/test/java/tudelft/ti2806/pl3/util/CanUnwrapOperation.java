@@ -9,9 +9,9 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
  */
 public class CanUnwrapOperation extends WrapperOperation {
 
-	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
-		super.calculate(wrapper, container);
-		wrapper.setCanUnwrap(true);
-	}
+    public void calculate(HorizontalWrapper wrapper, Wrapper container) {
+        super.calculate(wrapper, container);
+        wrapper.setCanUnwrap(true);
+    }
 
 }

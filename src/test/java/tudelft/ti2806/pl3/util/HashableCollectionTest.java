@@ -15,42 +15,42 @@ import static junit.framework.Assert.assertTrue;
  */
 public class HashableCollectionTest {
 
-	private HashableCollection<Integer> hashableCollection;
+    private HashableCollection<Integer> hashableCollection;
 
-	@Test
-	public void testEquals() {
-		Collection<Integer> collection = new ArrayList<>();
-		collection.add(5);
-		collection.add(4);
-		collection.add(3);
+    @Test
+    public void testEquals() {
+        Collection<Integer> collection = new ArrayList<>();
+        collection.add(5);
+        collection.add(4);
+        collection.add(3);
 
-		Collection<Integer> collection2 = new ArrayList<>();
-		collection2.add(4);
-		collection2.add(3);
+        Collection<Integer> collection2 = new ArrayList<>();
+        collection2.add(4);
+        collection2.add(3);
 
-		hashableCollection = new HashableCollection<>(collection);
-		HashableCollection<Integer> nullhashCollection = new HashableCollection<>(null);
+        hashableCollection = new HashableCollection<>(collection);
+        HashableCollection<Integer> nullhashCollection = new HashableCollection<>(null);
 
-		assertTrue(hashableCollection.equals(hashableCollection));
-		assertFalse(hashableCollection.equals(null));
-		assertFalse(hashableCollection.equals(new Object()));
-		assertTrue(nullhashCollection.equals(new HashableCollection<Integer>(null)));
-		assertFalse(nullhashCollection.equals(new HashableCollection<>(collection)));
-		assertFalse(hashableCollection.equals(new HashableCollection<Integer>(null)));
-		assertFalse(hashableCollection.equals(new HashableCollection<>(collection2)));
+        assertTrue(hashableCollection.equals(hashableCollection));
+        assertFalse(hashableCollection.equals(null));
+        assertFalse(hashableCollection.equals(new Object()));
+        assertTrue(nullhashCollection.equals(new HashableCollection<Integer>(null)));
+        assertFalse(nullhashCollection.equals(new HashableCollection<>(collection)));
+        assertFalse(hashableCollection.equals(new HashableCollection<Integer>(null)));
+        assertFalse(hashableCollection.equals(new HashableCollection<>(collection2)));
 
-		assertTrue(hashableCollection.equals(new HashableCollection<>(collection)));
+        assertTrue(hashableCollection.equals(new HashableCollection<>(collection)));
 
-	}
+    }
 
-	@Test
-	public void testHashCode() {
-		Collection<Integer> collection = new ArrayList<>();
-		collection.add(5);
-		collection.add(4);
-		collection.add(3);
+    @Test
+    public void testHashCode() {
+        Collection<Integer> collection = new ArrayList<>();
+        collection.add(5);
+        collection.add(4);
+        collection.add(3);
 
-		hashableCollection = new HashableCollection<>(collection);
-		assertEquals(hashableCollection.hashCode(), 34754);
-	}
+        hashableCollection = new HashableCollection<>(collection);
+        assertEquals(hashableCollection.hashCode(), 34754);
+    }
 }

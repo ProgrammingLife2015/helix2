@@ -13,31 +13,31 @@ import static junit.framework.Assert.assertEquals;
  */
 public class EmptyEdgesFourNodeSpace extends EmptyEdgesAbstract {
 
-	@Before
-	public void before() throws IOException {
-		this.loadWrappedGraphData("fourNodeSpace");
-	}
+    @Before
+    public void before() throws IOException {
+        this.loadWrappedGraphData("fourNodeSpace");
+    }
 
-	@Test
-	public void testOutgoing() {
-		assertEquals(1, nodes.get(0).getOutgoing().size());
-		assertEquals(1, nodes.get(1).getOutgoing().size());
-		assertEquals(1, nodes.get(2).getOutgoing().size());
-		assertEquals(0, nodes.get(3).getOutgoing().size());
-		assertEquals(nodes.get(1), nodes.get(0).getOutgoing().get(0));
-		assertEquals(nodes.get(2), nodes.get(1).getOutgoing().get(0));
-		assertEquals(nodes.get(3), nodes.get(2).getOutgoing().get(0));
-	}
+    @Test
+    public void testOutgoing() {
+        assertEquals(1, nodes.get(0).getOutgoing().size());
+        assertEquals(1, nodes.get(1).getOutgoing().size());
+        assertEquals(1, nodes.get(2).getOutgoing().size());
+        assertEquals(0, nodes.get(3).getOutgoing().size());
+        assertEquals(nodes.get(1), nodes.get(0).getOutgoing().get(0));
+        assertEquals(nodes.get(2), nodes.get(1).getOutgoing().get(0));
+        assertEquals(nodes.get(3), nodes.get(2).getOutgoing().get(0));
+    }
 
-	@Test
-	public void testIncoming() {
-		assertEquals(0, nodes.get(0).getIncoming().size());
-		assertEquals(1, nodes.get(1).getIncoming().size());
-		assertEquals(1, nodes.get(2).getIncoming().size());
-		assertEquals(1, nodes.get(3).getIncoming().size());
-		assertEquals(nodes.get(0), nodes.get(1).getIncoming().get(0));
-		assertEquals(nodes.get(1), nodes.get(2).getIncoming().get(0));
-		assertEquals(nodes.get(2), nodes.get(3).getIncoming().get(0));
-	}
+    @Test
+    public void testIncoming() {
+        assertEquals(0, nodes.get(0).getIncoming().size());
+        assertEquals(1, nodes.get(1).getIncoming().size());
+        assertEquals(1, nodes.get(2).getIncoming().size());
+        assertEquals(1, nodes.get(3).getIncoming().size());
+        assertEquals(nodes.get(0), nodes.get(1).getIncoming().get(0));
+        assertEquals(nodes.get(1), nodes.get(2).getIncoming().get(0));
+        assertEquals(nodes.get(2), nodes.get(3).getIncoming().get(0));
+    }
 
 }

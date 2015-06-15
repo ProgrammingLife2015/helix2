@@ -16,60 +16,60 @@ import java.awt.event.MouseListener;
  */
 public class ZoomBarController implements Controller, GraphMovedListener, MouseListener {
 
-	private GraphController graphController;
-	private ZoomBarView zoomBarView;
+    private GraphController graphController;
+    private ZoomBarView zoomBarView;
 
-	/**
-	 * Construct a new controller for the zoom bar.
-	 *
-	 * @param graphController
-	 * 		instance of the graph controller to update its view
-	 */
-	@SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
-	public ZoomBarController(ZoomBarView zoomBarView, GraphController graphController) {
-		this.graphController = graphController;
-		this.zoomBarView = zoomBarView;
-		zoomBarView.addMouseListener(this);
-	}
+    /**
+     * Construct a new controller for the zoom bar.
+     *
+     * @param graphController
+     *         instance of the graph controller to update its view
+     */
+    @SuppressFBWarnings("URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD")
+    public ZoomBarController(ZoomBarView zoomBarView, GraphController graphController) {
+        this.graphController = graphController;
+        this.zoomBarView = zoomBarView;
+        zoomBarView.addMouseListener(this);
+    }
 
-	public GraphController getGraphController() {
-		return graphController;
-	}
+    public GraphController getGraphController() {
+        return graphController;
+    }
 
-	public ZoomBarView getZoomBarView() {
-		return zoomBarView;
-	}
+    public ZoomBarView getZoomBarView() {
+        return zoomBarView;
+    }
 
-	public void graphMoved() {
-		zoomBarView.moved();
-	}
+    public void graphMoved() {
+        zoomBarView.moved();
+    }
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		double size = graphController.getGraphView().getGraphDimension();
-		float factor = (float) e.getX()
-				/ (float) ScreenSize.getInstance().getWidth();
-		float newPos = (float) (factor * size);
-		graphController.moveView(newPos);
-	}
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        double size = graphController.getGraphView().getGraphDimension();
+        float factor = (float) e.getX()
+                / (float) ScreenSize.getInstance().getWidth();
+        float newPos = (float) (factor * size);
+        graphController.moveView(newPos);
+    }
 
-	@Override
-	public void mousePressed(MouseEvent e) {
+    @Override
+    public void mousePressed(MouseEvent e) {
 
-	}
+    }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
+    @Override
+    public void mouseReleased(MouseEvent e) {
 
-	}
+    }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
+    @Override
+    public void mouseEntered(MouseEvent e) {
 
-	}
+    }
 
-	@Override
-	public void mouseExited(MouseEvent e) {
+    @Override
+    public void mouseExited(MouseEvent e) {
 
-	}
+    }
 }

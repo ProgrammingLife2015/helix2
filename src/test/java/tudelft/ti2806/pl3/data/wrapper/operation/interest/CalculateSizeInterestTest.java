@@ -18,24 +18,24 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class CalculateSizeInterestTest {
-	
-	@Mock
-	Wrapper parent;
-	private final long wrapperSize = 100;
-	private final int wrapperInterest = 10;
-	
-	private CalculateSizeInterest calculateSizeInterest;
-	
-	@Before
-	public void before() {
-		calculateSizeInterest = new CalculateSizeInterest();
-	}
-	
-	@Test
-	public void testNodePosition() {
-		DataNodeWrapper nodePosition = mock(DataNodeWrapper.class);
-		when(nodePosition.getBasePairCount()).thenReturn(wrapperSize);
-		calculateSizeInterest.calculate(nodePosition, parent);
-		verify(nodePosition).multiplyInterest(wrapperInterest);
-	}
+
+    @Mock
+    Wrapper parent;
+    private final long wrapperSize = 100;
+    private final int wrapperInterest = 10;
+
+    private CalculateSizeInterest calculateSizeInterest;
+
+    @Before
+    public void before() {
+        calculateSizeInterest = new CalculateSizeInterest();
+    }
+
+    @Test
+    public void testNodePosition() {
+        DataNodeWrapper nodePosition = mock(DataNodeWrapper.class);
+        when(nodePosition.getBasePairCount()).thenReturn(wrapperSize);
+        calculateSizeInterest.calculate(nodePosition, parent);
+        verify(nodePosition).multiplyInterest(wrapperInterest);
+    }
 }

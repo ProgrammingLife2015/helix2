@@ -19,15 +19,15 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class WindowControllerTest {
 
-	@Mock
-	Application application;
+    @Mock
+    Application application;
 
-	@Test
-	public void testClosing() {
-		WindowController windowController = new WindowController(application);
-		WindowEvent windowEvent = mock(WindowEvent.class);
-		windowController.windowClosing(windowEvent);
+    @Test
+    public void testClosing() {
+        WindowController windowController = new WindowController(application);
+        WindowEvent windowEvent = mock(WindowEvent.class);
+        windowController.windowClosing(windowEvent);
 
-		verify(application, times(1)).stop();
-	}
+        verify(application, times(1)).stop();
+    }
 }

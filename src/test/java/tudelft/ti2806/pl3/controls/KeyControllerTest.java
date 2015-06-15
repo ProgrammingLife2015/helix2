@@ -23,66 +23,66 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class KeyControllerTest {
 
-	@Mock
-	Application application;
-	@Mock
-	KeyEvent keyEvent;
-	@Mock
-	GraphController graphController;
+    @Mock
+    Application application;
+    @Mock
+    KeyEvent keyEvent;
+    @Mock
+    GraphController graphController;
 
-	@Test
-	public void testEscape() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_ESCAPE);
+    @Test
+    public void testEscape() {
+        KeyController keyController = new KeyController(application);
+        when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_ESCAPE);
 
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).stop();
-	}
+        keyController.keyPressed(keyEvent);
+        verify(application, times(1)).stop();
+    }
 
-	@Test
-	public void testSpace() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_SPACE);
-		SideBarController sideBarController = mock(SideBarController.class);
-		when(application.getSideBarController()).thenReturn(sideBarController);
+    @Test
+    public void testSpace() {
+        KeyController keyController = new KeyController(application);
+        when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_SPACE);
+        SideBarController sideBarController = mock(SideBarController.class);
+        when(application.getSideBarController()).thenReturn(sideBarController);
 
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getSideBarController();
-		verify(sideBarController, times(1)).toggleSideBar();
-	}
+        keyController.keyPressed(keyEvent);
+        verify(application, times(1)).getSideBarController();
+        verify(sideBarController, times(1)).toggleSideBar();
+    }
 
-	@Test
-	public void testPlus() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_EQUALS);
-		when(application.getGraphController()).thenReturn(graphController);
+    @Test
+    public void testPlus() {
+        KeyController keyController = new KeyController(application);
+        when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_EQUALS);
+        when(application.getGraphController()).thenReturn(graphController);
 
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).zoomLevelUp();
-	}
+        keyController.keyPressed(keyEvent);
+        verify(application, times(1)).getGraphController();
+        verify(graphController, times(1)).zoomLevelUp();
+    }
 
-	@Test
-	public void testRight() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_RIGHT);
-		when(application.getGraphController()).thenReturn(graphController);
+    @Test
+    public void testRight() {
+        KeyController keyController = new KeyController(application);
+        when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_RIGHT);
+        when(application.getGraphController()).thenReturn(graphController);
 
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).moveRight();
-	}
+        keyController.keyPressed(keyEvent);
+        verify(application, times(1)).getGraphController();
+        verify(graphController, times(1)).moveRight();
+    }
 
-	@Test
-	public void testLeft() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_LEFT);
-		when(application.getGraphController()).thenReturn(graphController);
+    @Test
+    public void testLeft() {
+        KeyController keyController = new KeyController(application);
+        when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_LEFT);
+        when(application.getGraphController()).thenReturn(graphController);
 
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).moveLeft();
-	}
+        keyController.keyPressed(keyEvent);
+        verify(application, times(1)).getGraphController();
+        verify(graphController, times(1)).moveLeft();
+    }
 
 //	@Test
 //	public void testReset() {
@@ -107,23 +107,23 @@ public class KeyControllerTest {
 //		verify(findgenesController, times(1)).openDialog();
 //	}
 
-	@Test
-	public void testRelease() {
-		KeyController keyController = new KeyController(application);
-		keyController.release();
+    @Test
+    public void testRelease() {
+        KeyController keyController = new KeyController(application);
+        keyController.release();
 
-		verify(application, times(1)).removeKeyListener(keyController);
-	}
+        verify(application, times(1)).removeKeyListener(keyController);
+    }
 
-	@Test
-	public void testEmptyMethods() {
-		KeyController keyController = new KeyController(application);
+    @Test
+    public void testEmptyMethods() {
+        KeyController keyController = new KeyController(application);
 
-		keyController.keyReleased(keyEvent);
-		keyController.keyTyped(keyEvent);
+        keyController.keyReleased(keyEvent);
+        keyController.keyTyped(keyEvent);
 
-		verifyZeroInteractions(application);
-	}
+        verifyZeroInteractions(application);
+    }
 
 
 }
