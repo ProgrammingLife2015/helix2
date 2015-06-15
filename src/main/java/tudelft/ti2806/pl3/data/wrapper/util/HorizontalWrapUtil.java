@@ -59,7 +59,7 @@ public final class HorizontalWrapUtil {
 			nonWrappedNodesOrder.add(id);
 		}
 		List<CombineWrapper> combinedNodes = new ArrayList<>();
-		for (List<Wrapper> list : cutCombineableNodes(findCombineableNodes(parentLayer))) {
+		for (List<Wrapper> list : (findCombineableNodes(parentLayer))) {
 			HorizontalWrapper newNode = new HorizontalWrapper(list, canUnwrap);
 			combinedNodes.add(newNode);
 			for (Wrapper wrapper : list) {
