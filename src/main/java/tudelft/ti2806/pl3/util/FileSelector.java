@@ -61,8 +61,8 @@ public class FileSelector {
 			fileDialog.setDirectory(System.getProperty("user.dir"));
 			fileDialog.setVisible(true);
 			File[] files = fileDialog.getFiles();
+			System.setProperty("apple.awt.fileDialogForDirectories", "false");
 			if (files.length == 1) {
-				System.setProperty("apple.awt.fileDialogForDirectories", "false");
 				return files[0];
 			}
 		} else { // Other OS
