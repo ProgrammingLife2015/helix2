@@ -19,8 +19,8 @@ import nl.tudelft.ti2806.pl3.util.FileSelector;
 import nl.tudelft.ti2806.pl3.util.TreeParser;
 import nl.tudelft.ti2806.pl3.visualization.GraphController;
 import nl.tudelft.ti2806.pl3.visualization.GraphView;
-import nl.tudelft.ti2806.pl3.zoomBar.ZoomBarController;
-import nl.tudelft.ti2806.pl3.zoomBar.ZoomBarView;
+import nl.tudelft.ti2806.pl3.zoombar.ZoomBarController;
+import nl.tudelft.ti2806.pl3.zoombar.ZoomBarView;
 
 import java.awt.Component;
 import java.awt.Dimension;

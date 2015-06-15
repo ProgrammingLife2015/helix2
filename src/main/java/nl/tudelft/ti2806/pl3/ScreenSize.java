@@ -1,7 +1,7 @@
 package nl.tudelft.ti2806.pl3;
 
 import nl.tudelft.ti2806.pl3.sidebar.SideBarView;
-import nl.tudelft.ti2806.pl3.zoomBar.ZoomBarView;
+import nl.tudelft.ti2806.pl3.zoombar.ZoomBarView;
 
 /**
  * Singleton variable for the screensize. Since our app is fullscreen, the width
