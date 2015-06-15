@@ -103,9 +103,9 @@ public final class SpaceWrapUtil {
     static List<List<Wrapper>> filterCandidates(
             List<Pair<Integer, Pair<Wrapper, Wrapper>>> candidateList) {
         /*
-		 * The found group of nodes may not contain a smaller group of nodes, or
-		 * else we would duplicate them.
-		 */
+         * The found group of nodes may not contain a smaller group of nodes, or
+         * else we would duplicate them.
+         */
         Set<Wrapper> blackList = new HashSet<Wrapper>();
         List<List<Wrapper>> foundSets = new ArrayList<List<Wrapper>>();
         for (Pair<Integer, Pair<Wrapper, Wrapper>> candidate : candidateList) {
@@ -117,24 +117,24 @@ public final class SpaceWrapUtil {
 
             Set<Wrapper> rightGroup = new HashSet<Wrapper>();
             Set<Wrapper> leftGroup = new HashSet<Wrapper>();
-			/*
-			 * Each path from the startNode to the right must lead to the
-			 * endNode.
-			 */
+            /*
+             * Each path from the startNode to the right must lead to the
+             * endNode.
+             */
             if (!searchRight(startNode, rightGroup, candidate.getFirst(),
                     endNode, blackList)
-					/*
-					 * Each path from the endNode to the left must lead to the
-					 * startNode.
-					 */
+                    /*
+                     * Each path from the endNode to the left must lead to the
+                     * startNode.
+                     */
                     || !searchLeft(endNode, leftGroup, candidate.getFirst(),
                     startNode, blackList)) {
                 continue;
             }
-			/*
-			 * To fulfil the preconditions of CombineWrapper we sort the found
-			 * list on previousNodeCount.
-			 */
+            /*
+             * To fulfil the preconditions of CombineWrapper we sort the found
+             * list on previousNodeCount.
+             */
             rightGroup.add(startNode);
             rightGroup.add(endNode);
             List<Wrapper> foundList = new ArrayList<Wrapper>(rightGroup);
@@ -156,14 +156,14 @@ public final class SpaceWrapUtil {
     static List<Pair<Integer, Pair<Wrapper, Wrapper>>> computeAllCandidates(
             List<Wrapper> nodes) {
         List<Pair<Integer, Pair<Wrapper, Wrapper>>> candidateList = new ArrayList<>();
-		/*
-		 * If a node doesn't contain the same genomes, it is impossible for them
-		 * to be a candidate, because every node in the group between a
-		 * candidate pair should start and end at some point on the candidate
-		 * pair its nodes. A missing genome means there is an other path in or
-		 * out the group. Thats why we only use nodes with the same set of
-		 * genomes to create candidates.
-		 */
+        /*
+         * If a node doesn't contain the same genomes, it is impossible for them
+         * to be a candidate, because every node in the group between a
+         * candidate pair should start and end at some point on the candidate
+         * pair its nodes. A missing genome means there is an other path in or
+         * out the group. Thats why we only use nodes with the same set of
+         * genomes to create candidates.
+         */
         for (Pair<Set<Genome>, List<Wrapper>> bucket : getNodesByGenome(nodes)) {
             // There should be at least two nodes with the same genome list.
             if (bucket.getSecond().size() <= 1) {
@@ -193,10 +193,10 @@ public final class SpaceWrapUtil {
         Map<HashableCollection<Genome>, Pair<Set<Genome>, List<Wrapper>>> searchMap = new HashMap<>();
         for (Wrapper node : nodes) {
             Set<Genome> genome = node.getGenome();
-			/*
-			 * There should be at least two genomes on a node to be a end or
-			 * start node.
-			 */
+            /*
+             * There should be at least two genomes on a node to be a end or
+             * start node.
+             */
             if (genome.size() <= 1) {
                 continue;
             }

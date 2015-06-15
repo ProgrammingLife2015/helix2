@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.zoomBar;
+package tudelft.ti2806.pl3.zoombar;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.Controller;

@@ -76,8 +76,8 @@ public class MenuBarView extends JMenuBar implements View {
         // ascii value of the shortcuts
         final char plus = '+';
         final char minus = '-';
-        final char right = '\u2192';
-        final char left = '\u2190';
+        final char right = '\u2192'; // right arrow
+        final char left = '\u2190'; // left arrow
 
         JMenu viewMenu = new JMenu("View");
         viewMenu.setMnemonic(KeyEvent.VK_V);

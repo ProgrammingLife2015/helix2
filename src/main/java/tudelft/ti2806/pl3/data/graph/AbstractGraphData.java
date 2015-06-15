@@ -60,12 +60,4 @@ public abstract class AbstractGraphData {
      * @return returns the number of nodes on the longest path.
      */
     public abstract int getLongestNodePath();
-
-//	/**
-//	 * Get the length of the longest path on the graph, using the number of base
-//	 * pairs as distance measure.
-//	 * 
-//	 * @return the number of base pairs on the longest path on the graph.
-//	 */
-//	public abstract long getSize();
 }

@@ -68,7 +68,7 @@ public class MenuBarController implements ActionListener, Controller {
             + "Hide/show phylogenetic tree window \t spacebar \n"
             + "\n"
             + "All of the menus can be controlled with the underlined letter, "
-            + "hold the ALT key to activate this.";
+            + "hold the ALT key to activate this."; // squared character
 
     /**
      * Constructs a new controller for {@link MenuBarView}.

@@ -19,8 +19,8 @@ import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.TreeParser;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.visualization.GraphView;
-import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
-import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
+import tudelft.ti2806.pl3.zoombar.ZoomBarController;
+import tudelft.ti2806.pl3.zoombar.ZoomBarView;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -108,12 +108,12 @@ public class Application extends JFrame {
             File folder = FileSelector.selectFolder("Select data folder", this);
 
             File[] nodeFiles = folder.listFiles((dir, name) -> {
-                        return name.endsWith(".node.graph");
-                    }
+                    return name.endsWith(".node.graph");
+                }
             );
             File[] treeFiles = folder.listFiles((dir, name) -> {
-                        return name.endsWith("nwk");
-                    }
+                    return name.endsWith("nwk");
+                }
             );
             File edgeFile = new File(nodeFiles[0].getAbsolutePath().replace(".node", ".edge"));
 

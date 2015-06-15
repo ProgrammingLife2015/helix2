@@ -50,8 +50,8 @@ public class OrderedListUtil {
         int lastResultSize = -1;
         while (listsToMerge.size() > 0) {
             /*
-			 * If the result size doesn't grow, there is a conflict.
-			 */
+             * If the result size doesn't grow, there is a conflict.
+             */
             if (lastResultSize == result.size()) {
                 return null;
             }
@@ -66,13 +66,13 @@ public class OrderedListUtil {
                         }
                         listsToMerge.remove(i);
                     } else {
-						/*
-						 * Adds the last element to the result list. This
-						 * element is replaced on the lastElements list by the
-						 * new last element on the list from the listsToCombine
-						 * bound to this index. This last element again removed
-						 * from that list.
-						 */
+                        /*
+                         * Adds the last element to the result list. This
+                         * element is replaced on the lastElements list by the
+                         * new last element on the list from the listsToCombine
+                         * bound to this index. This last element again removed
+                         * from that list.
+                         */
                         Wrapper element = lastElements.set(i, listsToMerge
                                 .get(i).remove(size - 1));
                         if (!result.contains(element)) {

@@ -103,10 +103,10 @@ public final class HorizontalWrapUtil {
         }
         List<Wrapper> removeFromIterateList = new ArrayList<>();
         /*
-		 * Here we iterate over each element in iterateList and over each
-		 * element only once, because we keep track of a list of all elements we
-		 * iterate over.
-		 */
+         * Here we iterate over each element in iterateList and over each
+         * element only once, because we keep track of a list of all elements we
+         * iterate over.
+         */
         while (iterateList.size() > 0) {
             for (int startNodeId : iterateListOrder) {
                 Wrapper startNode = iterateList.get(startNodeId);

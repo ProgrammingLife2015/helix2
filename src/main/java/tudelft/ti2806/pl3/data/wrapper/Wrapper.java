@@ -29,13 +29,13 @@ public abstract class Wrapper implements Comparable<Wrapper> {
     float interest = 1f;
 
     /**
-     * @return the maximum number of base pairs that can be passed when following the graph from the
+     * The maximum number of base pairs that can be passed when following the graph from the
      * start of this node to its end.
      */
     public abstract long getBasePairCount();
 
     /**
-     * @return the distance between the start x and end x of this node.
+     * The distance between the start x and end x of this node.
      */
     public abstract int getWidth();
 

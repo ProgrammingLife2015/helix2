@@ -159,6 +159,9 @@ public class GraphController implements Controller {
         graphMovedListenerList.remove(graphMovedListener);
     }
 
+    /**
+     * Update the zoom center if graph moved.
+     */
     public void graphMoved() {
         if (graphView.getZoomCenter() < 0) {
             graphView.setZoomCenter(0);

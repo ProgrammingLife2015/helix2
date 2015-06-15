@@ -154,10 +154,10 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
         }
         /*
          * Because all nodes in the SpaceWrapper are connected at some point in
-		 * the chosen direction with one of the nodes out of the collapsed list,
-		 * we can assume that we can iterate until all remaining nodes are in
-		 * the list.
-		 */
+         * the chosen direction with one of the nodes out of the collapsed list,
+         * we can assume that we can iterate until all remaining nodes are in
+         * the list.
+         */
         for (int i = 0; i < remainingNodesSize; i++) {
             for (Wrapper node : passedNodes.get(i).getOutgoing()) {
                 if (remainingNodes.contains(node)) {
@@ -191,9 +191,9 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
         return OrderedListUtil.mergeOrderedLists(listsToCombine);
     }
 	
-	/*
-	 * Intersection method block
-	 */
+    /*
+     * Intersection method block
+     */
 
     /**
      * Counts the number of intersections in the given {@link SpaceWrapper}.
@@ -248,10 +248,10 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
         }
         return lines;
     }
-	
-	/*
-	 * Configuration block
-	 */
+
+    /*
+     * Configuration block
+     */
 
     /**
      * Calculates a best configuration of node orders by trying all possible
@@ -303,11 +303,11 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
             // The number of possible configurations for this target
             int factorialLength = MathUtil
                     .integerFactorial(pair.getSecond().length);
-			/*
-			 * The local configuration for this target is equal to the
-			 * orderConfiguration modulus the number of possible configurations
-			 * on this position.
-			 */
+            /*
+             * The local configuration for this target is equal to the
+             * orderConfiguration modulus the number of possible configurations
+             * on this position.
+             */
             applyOrderConfiguration(orderConfig % factorialLength,
                     pair.getFirst(), pair.getSecond());
             orderConfig /= factorialLength;
@@ -326,10 +326,10 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
         currentOrder.clear();
         currentOrder.addAll(newOrder);
     }
-	
-	/*
-	 * Direction block
-	 */
+
+    /*
+     * Direction block
+     */
 
     long getOptionCountFromLeftToRight(List<Wrapper> nodeList) {
         long out = 1;
