@@ -8,13 +8,12 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import java.util.Set;
 
 public class FixWrapper extends Wrapper {
-	public static int ID_COUNT = -1;
 	public final int id;
 	public static final String ID_STRING = "[FIX]";
 	private Set<Genome> genome;
 
-	public FixWrapper() {
-		id = ID_COUNT--;
+	public FixWrapper(int id) {
+		this.id = id;
 	}
 
 	@Override
