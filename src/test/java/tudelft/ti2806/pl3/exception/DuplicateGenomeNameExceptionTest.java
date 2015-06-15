@@ -12,15 +12,15 @@ import static junit.framework.Assert.assertEquals;
 public class DuplicateGenomeNameExceptionTest {
 
 
-	@Test
-	public void testDescriptionAndReason() {
-		String description = "testdescription";
-		String reason = "testreason";
-		String message = description + "\n" + reason;
-		try {
-			throw new DuplicateGenomeNameException(description, reason);
-		} catch (DuplicateGenomeNameException e) {
-			assertEquals(message, e.getMessage());
-		}
-	}
+    @Test
+    public void testDescriptionAndReason() {
+        String description = "testdescription";
+        String reason = "testreason";
+        String message = description + "\n" + reason;
+        try {
+            throw new DuplicateGenomeNameException(description, reason);
+        } catch (DuplicateGenomeNameException e) {
+            assertEquals(message, e.getMessage());
+        }
+    }
 }

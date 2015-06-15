@@ -5,7 +5,7 @@ package tudelft.ti2806.pl3.data.label;
  */
 public class GeneLabel extends Label {
 
-	public GeneLabel(String name) {
-		super(name);
-	}
+    public GeneLabel(String name) {
+        super(name);
+    }
 }

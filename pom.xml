@@ -119,7 +119,7 @@
         </executions>
         <configuration>
           <failOnViolation>false</failOnViolation>
-          <configLocation>checkstyle.xml</configLocation>
+          <configLocation>google_checks.xml</configLocation>
           <excludes>**/newick/**</excludes>
         </configuration>
       </plugin>

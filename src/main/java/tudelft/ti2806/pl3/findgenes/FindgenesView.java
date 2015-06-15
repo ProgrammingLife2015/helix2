@@ -11,16 +11,16 @@ import javax.swing.JComboBox;
  */
 public class FindgenesView extends JComboBox<Gene> {
 
-	/**
-	 * Construct the {@link JComboBox} and make it autocompletable.
-	 *
-	 * @param genes
-	 * 		The genes to select
-	 */
-	public FindgenesView(Gene[] genes) {
-		super(genes);
-		setEditable(true);
-		AutoCompleteDecorator.decorate(this);
-	}
+    /**
+     * Construct the {@link JComboBox} and make it autocompletable.
+     *
+     * @param genes
+     *         The genes to select
+     */
+    public FindgenesView(Gene[] genes) {
+        super(genes);
+        setEditable(true);
+        AutoCompleteDecorator.decorate(this);
+    }
 
 }

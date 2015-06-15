@@ -10,44 +10,45 @@ import java.util.Set;
  * Created by Boris Mattijssen on 18-05-15.
  */
 public class WrapperPlaceholder extends Wrapper {
-	public static final int ID = -2;
-	public static final String ID_STRING = "[PLACEHOLDER]";
+    public static final int ID = -2;
+    public static final String ID_STRING = "[PLACEHOLDER]";
 
-	@Override
-	public long getBasePairCount() {
-		return 0;
-	}
-	
-	@Override
-	public String getIdString() {
-		return ID_STRING;
-	}
+    @Override
+    public long getBasePairCount() {
+        return 0;
+    }
 
-	@Override public int getId() {
-		return ID;
-	}
+    @Override
+    public String getIdString() {
+        return ID_STRING;
+    }
 
-	@Override
-	public Set<Genome> getGenome() {
-		return null;
-	}
-	
-	@Override
-	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
-		wrapperOperation.calculate(this, container);
-	}
-	
-	@Override
-	public void collectDataNodes(Set<DataNode> set) {
-	}
-	
-	@Override
-	public void calculateX() {
-	}
-	
-	@Override
-	public int getWidth() {
-		return 0;
-	}
-	
+    @Override
+    public int getId() {
+        return ID;
+    }
+
+    @Override
+    public Set<Genome> getGenome() {
+        return null;
+    }
+
+    @Override
+    public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
+        wrapperOperation.calculate(this, container);
+    }
+
+    @Override
+    public void collectDataNodes(Set<DataNode> set) {
+    }
+
+    @Override
+    public void calculateX() {
+    }
+
+    @Override
+    public int getWidth() {
+        return 0;
+    }
+
 }

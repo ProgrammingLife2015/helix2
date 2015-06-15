@@ -19,30 +19,31 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class LoadingMouseTest {
 
-	@Mock
-	Application application;
-	@Mock
-	LoadingObservable loadingObservable;
+    @Mock
+    Application application;
+    @Mock
+    LoadingObservable loadingObservable;
 
 
-	@Test
-	public void testUpdateFalse() {
-		LoadingMouse loadingMouse = new LoadingMouse(application);
-		loadingMouse.update(loadingObservable, false);
+    @Test
+    public void testUpdateFalse() {
+        LoadingMouse loadingMouse = new LoadingMouse(application);
+        loadingMouse.update(loadingObservable, false);
 
-		verify(application, times(1)).setCursor(Cursor.getDefaultCursor());
-	}
-	@Test
-	public void testUpdateTrue() {
-		LoadingMouse loadingMouse = new LoadingMouse(application);
-		loadingMouse.update(loadingObservable, true);
+        verify(application, times(1)).setCursor(Cursor.getDefaultCursor());
+    }
 
-		verify(application, times(1)).setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    @Test
+    public void testUpdateTrue() {
+        LoadingMouse loadingMouse = new LoadingMouse(application);
+        loadingMouse.update(loadingObservable, true);
 
-		loadingMouse.update(loadingObservable, false);
-		verify(application, times(1)).setCursor(Cursor.getDefaultCursor());
+        verify(application, times(1)).setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-	}
+        loadingMouse.update(loadingObservable, false);
+        verify(application, times(1)).setCursor(Cursor.getDefaultCursor());
+
+    }
 
 
 }
