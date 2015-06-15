@@ -15,11 +15,4 @@ public interface View {
 	 */
 	Component getPanel();
 
-	/**
-	 * Getter for the controller of the view.
-	 *
-	 * @return Controller
-	 */
-	Controller getController();
-
 }
