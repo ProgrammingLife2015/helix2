@@ -35,11 +35,6 @@ public class WrapperPlaceholder extends Wrapper {
 	}
 
 	@Override
-	public Set<Label> getLabels() {
-		return null;
-	}
-
-	@Override
 	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
 	}
@@ -47,7 +42,11 @@ public class WrapperPlaceholder extends Wrapper {
 	@Override
 	public void collectDataNodes(Set<DataNode> set) {
 	}
-	
+
+	@Override
+	public void collectLabels(Set<Label> labels) {
+	}
+
 	@Override
 	public void calculateX() {
 	}

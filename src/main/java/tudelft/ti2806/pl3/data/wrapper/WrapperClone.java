@@ -26,6 +26,11 @@ public class WrapperClone extends Wrapper {
 		return dataNodes;
 	}
 
+	@Override
+	public void collectLabels(Set<Label> labels) {
+		dataNodes.forEach(n -> labels.addAll(n.getLabelList()));
+	}
+
 	public Wrapper getOriginalNode() {
 		return originalNode;
 	}

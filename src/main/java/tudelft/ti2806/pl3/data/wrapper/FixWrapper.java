@@ -36,20 +36,18 @@ public class FixWrapper extends Wrapper {
 	}
 
 	@Override
-	public Set<Label> getLabels() {
-		return null;
-	}
-
-	@Override
 	public void calculate(WrapperOperation operation, Wrapper container) {
 		operation.calculate(this, container);
 	}
 	
 	@Override
 	public void collectDataNodes(Set<DataNode> set) {
-
 	}
-	
+
+	@Override
+	public void collectLabels(Set<Label> labels) {
+	}
+
 	public void setGenome(Set<Genome> genome) {
 		this.genome = genome;
 	}
