@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.menubar;
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.util.FileSelector;
+import tudelft.ti2806.pl3.util.observers.Observer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,7 @@ import javax.swing.JMenu;
  * LastOpenedController is a ActionListener for the recent files submenu.
  * Created by Kasper on 11-6-2015.
  */
-public class LastOpenedController implements ActionListener, Controller {
+public class LastOpenedController implements ActionListener, Controller, Observer {
 
 	private Application application;
 	private final LastOpenedMenu lastOpenedMenu;
@@ -56,5 +57,12 @@ public class LastOpenedController implements ActionListener, Controller {
 
 	public JMenu getLastOpenedMenu() {
 		return lastOpenedMenu;
+	}
+
+	@Override
+	public void update() {
+		System.out.println("Now updating");
+		lastOpenedMenu.removeAll();
+		lastOpenedMenu.setRecentFiles();
 	}
 }

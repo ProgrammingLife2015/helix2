@@ -3,6 +3,10 @@ package tudelft.ti2806.pl3.util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import tudelft.ti2806.pl3.util.observers.Observer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,15 +15,19 @@ import static org.junit.Assert.assertTrue;
  * Test for LastOpenedStack
  * Created by Kasper on 15-6-2015.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class LastOpenedStackTest {
 
 	public LastOpenedStack<Integer> stack;
 	public int limit;
+	@Mock
+	Observer observer;
 
 	@Before
 	public void setUp() {
 		limit = 5;
 		stack = new LastOpenedStack<>(limit);
+		stack.addObserver(observer);
 	}
 
 	@Test

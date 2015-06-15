@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 /**
+ * LastOpenedMenu displays the files that were last opened.
  * Created by Kasper on 15-6-2015.
  */
 public class LastOpenedMenu extends JMenu {
@@ -18,13 +19,24 @@ public class LastOpenedMenu extends JMenu {
 		this.setRecentFiles();
 	}
 
-	private void setRecentFiles(){
+	/**
+	 * Set the files in the menu.
+	 */
+	public void setRecentFiles() {
 		for (File file : FileSelector.lastopened) {
+			System.out.println(file.toString());
 			JMenuItem recentfile = new JMenuItem(file.toString());
 			this.add(recentfile);
 		}
+		System.out.println();
 	}
 
+	/**
+	 * Add listener for the JMenuItems.
+	 *
+	 * @param listener
+	 * 		actionListener
+	 */
 	public void addActionListener(ActionListener listener) {
 		for (Component component : this.getMenuComponents()) {
 			if (component instanceof JMenuItem) {

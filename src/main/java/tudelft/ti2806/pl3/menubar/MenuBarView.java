@@ -152,4 +152,8 @@ public class MenuBarView extends JMenuBar implements View {
 	public MenuBarController getController() {
 		return menuBarController;
 	}
+
+	public LastOpenedController getLastOpenedController() {
+		return lastOpenedController;
+	}
 }

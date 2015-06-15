@@ -20,10 +20,10 @@ public interface Observable {
 	/**
 	 * Add multiple Observers to the Observable.
 	 *
-	 * @param observers
+	 * @param observer
 	 * 		observers to add
 	 */
-	void addObserversList(ArrayList<Observer> observers);
+	void addObserversList(ArrayList<Observer> observer);
 
 	/**
 	 * Delete the Observers.
@@ -34,11 +34,10 @@ public interface Observable {
 	void deleteObserver(Observer observer);
 
 	/**
-	 * Notify all the Observers with a message.
-	 *
-	 * @param arguments
-	 * 		to give to the Observer
+	 * Notify all the Observers
 	 */
-	void notifyObservers(Object arguments);
+	void notifyObservers();
+
+
 
 }

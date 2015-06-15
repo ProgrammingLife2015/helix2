@@ -92,6 +92,7 @@ public class Application extends JFrame {
 		// set menu bar
 		MenuBarView menuBarView = new MenuBarView(this);
 		setMenuBar(menuBarView.getPanel());
+		FileSelector.lastopened.addObserver(menuBarView.getLastOpenedController());
 		// set window controller
 		WindowController windowController = new WindowController(this);
 		addWindowListener(windowController);
