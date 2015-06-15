@@ -6,7 +6,9 @@ import tudelft.ti2806.pl3.util.FileSelector;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import javax.swing.JMenu;
 
 /**
  * LastOpenedController is a ActionListener for the recent files submenu.
@@ -15,10 +17,14 @@ import java.io.File;
 public class LastOpenedController implements ActionListener, Controller {
 
 	private Application application;
+	private final LastOpenedMenu lastOpenedMenu;
 
 	public LastOpenedController(Application application) {
 		super();
 		this.application = application;
+		this.lastOpenedMenu = new LastOpenedMenu("Open recent files");
+		lastOpenedMenu.setMnemonic(KeyEvent.VK_R);
+		lastOpenedMenu.addActionListener(this);
 	}
 
 	/**
@@ -46,5 +52,9 @@ public class LastOpenedController implements ActionListener, Controller {
 			application.makeGraph(files[0], files[1], files[2]);
 		}
 
+	}
+
+	public JMenu getLastOpenedMenu() {
+		return lastOpenedMenu;
 	}
 }

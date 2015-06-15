@@ -2,11 +2,9 @@ package tudelft.ti2806.pl3.menubar;
 
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.View;
-import tudelft.ti2806.pl3.util.FileSelector;
 
 import java.awt.Component;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -20,7 +18,6 @@ public class MenuBarView extends JMenuBar implements View {
 
 	private MenuBarController menuBarController;
 	private LastOpenedController lastOpenedController;
-
 
 	/**
 	 * Makes the view of the menubar.
@@ -55,17 +52,10 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setMnemonic(KeyEvent.VK_X);
 
-		JMenu recentfiles = new JMenu("Open recent files");
-		for (File file : FileSelector.lastopened) {
-			JMenuItem recentfile = new JMenuItem(file.toString());
-			recentfiles.add(recentfile);
-		}
-
-
 		fileMenu.add(openFolder);
 		fileMenu.add(openNode);
 		fileMenu.add(openNwk);
-		fileMenu.add(recentfiles);
+		fileMenu.add(lastOpenedController.getLastOpenedMenu());
 		fileMenu.addSeparator();
 		fileMenu.add(exit);
 
@@ -73,11 +63,6 @@ public class MenuBarView extends JMenuBar implements View {
 		for (Component component : fileMenu.getMenuComponents()) {
 			if (component instanceof JMenuItem) {
 				((JMenuItem) component).addActionListener(menuBarController);
-			}
-		}
-		for (Component component : recentfiles.getMenuComponents()) {
-			if (component instanceof JMenuItem) {
-				((JMenuItem) component).addActionListener(lastOpenedController);
 			}
 		}
 

@@ -76,6 +76,7 @@ public class MenuBarController implements ActionListener, Controller {
 	 */
 	public MenuBarController(Application application) {
 		this.application = application;
+
 	}
 
 	private void stop() {
