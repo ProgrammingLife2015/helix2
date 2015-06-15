@@ -65,7 +65,6 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 
 	@Override
 	public void update() {
-		System.out.println("Now updating");
 		lastOpenedMenu.removeAll();
 		lastOpenedMenu.setRecentFiles();
 		lastOpenedMenu.addActionListener(this);

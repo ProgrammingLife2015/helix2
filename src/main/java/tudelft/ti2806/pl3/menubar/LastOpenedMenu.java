@@ -24,11 +24,9 @@ public class LastOpenedMenu extends JMenu {
 	 */
 	public void setRecentFiles() {
 		for (File file : FileSelector.lastopened) {
-			System.out.println(file.toString());
 			JMenuItem recentfile = new JMenuItem(file.toString());
 			this.add(recentfile);
 		}
-		System.out.println();
 	}
 
 	/**
