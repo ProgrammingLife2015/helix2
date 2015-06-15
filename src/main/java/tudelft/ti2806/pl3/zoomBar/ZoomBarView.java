@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.zoombar;
+package tudelft.ti2806.pl3.zoomBar;
 
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;

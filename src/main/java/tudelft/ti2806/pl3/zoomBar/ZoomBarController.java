@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.zoombar;
+package tudelft.ti2806.pl3.zoomBar;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import tudelft.ti2806.pl3.Controller;
@@ -40,6 +40,7 @@ public class ZoomBarController implements Controller, GraphMovedListener, MouseL
         return zoomBarView;
     }
 
+    @Override
     public void graphMoved() {
         zoomBarView.moved();
     }
