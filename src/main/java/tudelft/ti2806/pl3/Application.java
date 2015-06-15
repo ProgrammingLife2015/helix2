@@ -10,6 +10,7 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
+import tudelft.ti2806.pl3.menubar.MenuBarController;
 import tudelft.ti2806.pl3.menubar.MenuBarView;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.SideBarView;
@@ -62,6 +63,7 @@ public class Application extends JFrame {
 	private ZoomBarView zoomBarView;
 	private PhyloView phyloView;
 	private FindgenesController findgenesController;
+	private MenuBarView menuBarView;
 
 	/**
 	 * Construct the main application view.
@@ -85,7 +87,7 @@ public class Application extends JFrame {
 		size.calculate();
 
 		// set menu bar
-		MenuBarView menuBarView = new MenuBarView(this);
+		menuBarView = new MenuBarView(this);
 		setMenuBar(menuBarView.getPanel());
 		// set window controller
 		WindowController windowController = new WindowController(this);
@@ -349,4 +351,7 @@ public class Application extends JFrame {
 		return findgenesController;
 	}
 
+	public MenuBarController getMenuBarController() {
+		return menuBarView.getController();
+	}
 }
