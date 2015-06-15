@@ -10,12 +10,12 @@ import tudelft.ti2806.pl3.util.HashableCollection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
- * An utility class to find and combine nodes which can be combined into
- * {@link HorizontalWrapper}.
+ * An utility class to find and combine nodes which can be combined into {@link HorizontalWrapper}.
  * 
  * @author Sam Smulders
  */
@@ -24,8 +24,7 @@ public final class HorizontalWrapUtil {
 	}
 	
 	/**
-	 * Constructs a {@link WrappedGraphData} instance which contains the
-	 * horizontal collapsed graph of the given graph.
+	 * Constructs a {@link WrappedGraphData} instance which contains the horizontal collapsed graph of the given graph.
 	 * 
 	 * @param original
 	 *            the original graph
@@ -33,10 +32,8 @@ public final class HorizontalWrapUtil {
 	 *         {@code null} if nothing could be collapsed
 	 */
 	@SuppressWarnings("CPD-START")
-	public static WrappedGraphData collapseGraph(WrappedGraphData original,
-			boolean canUnwrap) {
-		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes(),
-				canUnwrap);
+	public static WrappedGraphData collapseGraph(WrappedGraphData original, boolean canUnwrap) {
+		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes(), canUnwrap);
 		if (newLayer == null) {
 			return null;
 		}
@@ -44,18 +41,16 @@ public final class HorizontalWrapUtil {
 	}
 	
 	/**
-	 * Combines nodes vertically. Combines all {@link DataNode}s in the given
-	 * list of node into {@link VerticalWrapper}s, reconnects the
-	 * {@link VerticalWrapper}s in the graph and remove all {@link DataNode}s
-	 * which are combined from the graph.
+	 * Combines nodes vertically. Combines all {@link DataNode}s in the given list of node into {@link VerticalWrapper}
+	 * s, reconnects the {@link VerticalWrapper}s in the graph and remove all {@link DataNode}s which are combined from
+	 * the graph.
 	 * 
 	 * @param nodes
 	 *            the nodes to combine
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> parentLayer,
-			boolean canUnwrap) {
+	static List<Wrapper> combineNodes(List<Wrapper> parentLayer, boolean canUnwrap) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
 		List<Integer> nonWrappedNodesOrder = new ArrayList<>(parentLayer.size());
 		for (Wrapper node : parentLayer) {
@@ -64,7 +59,7 @@ public final class HorizontalWrapUtil {
 			nonWrappedNodesOrder.add(id);
 		}
 		List<CombineWrapper> combinedNodes = new ArrayList<>();
-		for (List<Wrapper> list : findCombineableNodes(parentLayer)) {
+		for (List<Wrapper> list : cutCombineableNodes(findCombineableNodes(parentLayer))) {
 			HorizontalWrapper newNode = new HorizontalWrapper(list, canUnwrap);
 			combinedNodes.add(newNode);
 			for (Wrapper wrapper : list) {
@@ -82,6 +77,47 @@ public final class HorizontalWrapUtil {
 			}
 		}
 		return WrapUtil.wrapAndReconnect(result, combinedNodes);
+	}
+	
+	/**
+	 * Searches for the wrappers closest to each other and only wraps those.
+	 * 
+	 * @param combineableNodes
+	 *            the nodes which are able to combine horizontally
+	 * @return the groups of nodes which are closest together out of the given node groups
+	 */
+	private static List<List<Wrapper>> cutCombineableNodes(List<List<Wrapper>> combineableNodes) {
+		List<List<Wrapper>> result = new ArrayList<>();
+		while (!combineableNodes.isEmpty()) {
+			Iterator<Wrapper> wrapperList = combineableNodes.remove(combineableNodes.size() - 1).iterator();
+			float distance = Float.MAX_VALUE;
+			List<Wrapper> list = new ArrayList<>();
+			
+			Wrapper prevWrapper = wrapperList.next();
+			
+			float prev = prevWrapper.getX();
+			list.add(prevWrapper);
+			boolean cut = false;
+			while (wrapperList.hasNext()) {
+				Wrapper wrapper = wrapperList.next();
+				float next = wrapper.getX();
+				if (distance < prev - next) {
+					cut = true;
+				} else {
+					if (cut || distance > prev - next) {
+						list = new ArrayList<>();
+						list.add(prevWrapper);
+						distance = prev - next;
+						cut = false;
+					}
+					list.add(wrapper);
+				}
+				prev = next;
+				prevWrapper = wrapper;
+			}
+			result.add(list);
+		}
+		return result;
 	}
 	
 	@SuppressWarnings("CPD-END")
@@ -103,9 +139,8 @@ public final class HorizontalWrapUtil {
 		}
 		List<Wrapper> removeFromIterateList = new ArrayList<>();
 		/*
-		 * Here we iterate over each element in iterateList and over each
-		 * element only once, because we keep track of a list of all elements we
-		 * iterate over.
+		 * Here we iterate over each element in iterateList and over each element only once, because we keep track of a
+		 * list of all elements we iterate over.
 		 */
 		while (iterateList.size() > 0) {
 			for (int startNodeId : iterateListOrder) {
@@ -118,8 +153,7 @@ public final class HorizontalWrapUtil {
 				foundGroup.add(startNode);
 				// Add all nodes to the right which can be combined.
 				Wrapper node = startNode;
-				while (node.getOutgoing().size() == 1
-						&& node.getOutgoing().get(0).getIncoming().size() == 1) {
+				while (node.getOutgoing().size() == 1 && node.getOutgoing().get(0).getIncoming().size() == 1) {
 					node = node.getOutgoing().get(0);
 					foundGroup.add(node);
 				}
@@ -127,9 +161,8 @@ public final class HorizontalWrapUtil {
 				node = startNode;
 				while (node.getIncoming().size() == 1
 						&& node.getIncoming().get(0).getOutgoing().size() == 1
-						&& new HashableCollection<>(node.getGenome())
-								.equals(new HashableCollection<>(node
-										.getIncoming().get(0).getGenome()))) {
+						&& new HashableCollection<>(node.getGenome()).equals(new HashableCollection<>(node
+								.getIncoming().get(0).getGenome()))) {
 					node = node.getIncoming().get(0);
 					foundGroup.add(0, node);
 				}
