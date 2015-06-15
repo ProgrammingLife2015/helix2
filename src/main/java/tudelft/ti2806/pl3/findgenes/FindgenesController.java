@@ -49,6 +49,7 @@ public class FindgenesController {
 
 		if (previousSelected != findgenesView.getSelectedItem()) {
 			boolean tryAgain = false;
+			previousSelected = findgenesView.getSelectedItem();
 			try {
 				Gene selected = (Gene) findgenesView.getSelectedItem();
 				DataNode node = graphData.getGeneToStartNodeMap().get(selected);

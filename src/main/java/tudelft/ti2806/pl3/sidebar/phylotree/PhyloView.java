@@ -41,6 +41,9 @@ public class PhyloView extends JPanel implements View {
 	private List<String> selected = new ArrayList<>();
 	private PhyloController phyloController;
 
+	private JScrollPane scroller;
+	private JLabel header;
+
 	/**
 	 * Phylo view constructs a Jtree object with our .nwk tree file.
 	 *
@@ -56,7 +59,7 @@ public class PhyloView extends JPanel implements View {
 		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
 
-		setUI(width, height);
+		setUserInterface(width, height);
 		setUpLook();
 		phyloController.expandTree();
 		setListener();
@@ -70,11 +73,11 @@ public class PhyloView extends JPanel implements View {
 	 * @param height
 	 * 		the height of the panel
 	 */
-	private void setUI(int width, int height) {
-		JLabel header = new JLabel(WINDOW_TITLE);
+	private void setUserInterface(int width, int height) {
+		header = new JLabel(WINDOW_TITLE);
 		header.setPreferredSize(new Dimension(width, 50));
 
-		JScrollPane scroller = new JScrollPane(jTree,
+		scroller = new JScrollPane(jTree,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
@@ -90,6 +93,17 @@ public class PhyloView extends JPanel implements View {
 		this.add(button);
 		button.setPreferredSize(new Dimension(200, 50));
 		setPreferredSize(new Dimension(width, height));
+	}
+
+	/**
+	 * Update the sizes of the panes relative to the application size.
+	 */
+	public void updateSize() {
+		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		int height = ScreenSize.getInstance().getHeight() - 100;
+
+		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
+		header.setPreferredSize(new Dimension(width, 50));
 	}
 
 	/**
@@ -109,26 +123,30 @@ public class PhyloView extends JPanel implements View {
 	public void setListener() {
 		jTree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-		jTree.getSelectionModel().addTreeSelectionListener(
-				new TreeSelectionListener() {
-					@Override
-					public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
-						TreePath[] treePath = jTree.getSelectionPaths();
-						if (treePath != null) {
-							for (TreePath path : treePath) {
-								DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
-										.getLastPathComponent();
-								String selectName = select.toString();
-								if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
-										|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
-									selected.addAll(getChildsOfAncestor(select));
-								} else {
-									selected.add(select.toString());
-								}
-							}
-						}
+		jTree.getSelectionModel().addTreeSelectionListener(new TreeClassListener());
+	}
+
+	/**
+	 * Listener that listens for the tree selection.
+	 */
+	private class TreeClassListener implements TreeSelectionListener {
+		@Override
+		public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+			TreePath[] treePath = jTree.getSelectionPaths();
+			if (treePath != null) {
+				for (TreePath path : treePath) {
+					DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
+							.getLastPathComponent();
+					String selectName = select.toString();
+					if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
+							|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
+						selected.addAll(getChildsOfAncestor(select));
+					} else {
+						selected.add(select.toString());
 					}
-				});
+				}
+			}
+		}
 	}
 
 	/**
