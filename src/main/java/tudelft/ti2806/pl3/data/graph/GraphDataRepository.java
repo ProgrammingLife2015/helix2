@@ -133,6 +133,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		the file of nodes to be read
 	 * @param edgesFile
 	 * 		the file of edges to be read
+	 * @param metaFile
+	 * 		the metadata file to be read
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
@@ -158,6 +160,14 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		notifyLoadingObservers(false);
 	}
 
+	/**
+	 * Load metadata into the graph after it has been constructed.
+	 *
+	 * @param metaFile
+	 * 		the metadata file to read
+	 * @throws FileNotFoundException
+	 * 		if the file cannot be found
+	 */
 	public void loadMetaData(File metaFile) throws FileNotFoundException {
 		Map<String, Genome> genomeMap = new HashMap<>();
 		for (Genome g : genomes) {

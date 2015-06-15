@@ -232,6 +232,9 @@ public class Application extends JFrame {
 		}
 	}
 
+	/**
+	 * Load the metadata from a separate file
+	 */
 	public void loadMetaData() {
 		try {
 			File metaFile = FileSelector.selectFile("Select metadata file", this, ".txt");
