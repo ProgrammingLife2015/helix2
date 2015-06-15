@@ -94,6 +94,10 @@ public class MenuBarController implements ActionListener, Controller {
 		application.makePhyloTree();
 	}
 
+	private void readMetaFile() {
+		application.loadMetaData();
+	}
+
 	private void zoomIn() {
 		application.getGraphController().zoomLevelUp();
 	}
@@ -219,6 +223,9 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case "Open .nwk file":
 				readNwkFile();
+				break;
+			case "Open metadata file":
+				readMetaFile();
 				break;
 			case "Exit":
 				stop();

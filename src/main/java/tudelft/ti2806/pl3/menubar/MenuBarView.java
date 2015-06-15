@@ -48,12 +48,15 @@ public class MenuBarView extends JMenuBar implements View {
 		openNode.setMnemonic(KeyEvent.VK_N);
 		JMenuItem openNwk = new JMenuItem("Open .nwk file");
 		openNwk.setMnemonic(KeyEvent.VK_W);
+		JMenuItem openMeta = new JMenuItem("Open metadata file");
+		openNwk.setMnemonic(KeyEvent.VK_M);
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setMnemonic(KeyEvent.VK_X);
 
 		fileMenu.add(openFolder);
 		fileMenu.add(openNode);
 		fileMenu.add(openNwk);
+		fileMenu.add(openMeta);
 		fileMenu.addSeparator();
 		fileMenu.add(exit);
 
