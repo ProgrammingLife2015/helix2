@@ -21,7 +21,7 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class ZoomBarView extends JPanel implements View, Observer {
-	public static final double ZOOM_BAR_FACTOR = 0.1;
+	public static final double ZOOMBAR_FACTOR = 0.1;
 
 	private int x = 0;
 	private int width = -1;
