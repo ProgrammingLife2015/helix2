@@ -17,7 +17,7 @@ import java.nio.file.Paths;
  */
 public class ParserLastOpened {
 
-	private static final String saveName = "lastOpenedSave.txt";
+	private static final String saveName = ".save-helix2.txt";
 	public static final int limit = 5;
 
 	/**
@@ -56,6 +56,7 @@ public class ParserLastOpened {
 			File readFile = new File(line);
 			result.addLast(readFile);
 		}
+		Runtime.getRuntime().exec("attrib +H " + saveName);
 
 		return result;
 	}
