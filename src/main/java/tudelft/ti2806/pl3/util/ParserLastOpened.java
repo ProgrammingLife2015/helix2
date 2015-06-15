@@ -36,6 +36,7 @@ public class ParserLastOpened {
 			bufferedWriter.newLine();
 		}
 		bufferedWriter.close();
+		Runtime.getRuntime().exec("attrib +H " + save.getPath());
 	}
 
 	/**
@@ -56,7 +57,6 @@ public class ParserLastOpened {
 			File readFile = new File(line);
 			result.addLast(readFile);
 		}
-		Runtime.getRuntime().exec("attrib +H " + saveName);
 
 		return result;
 	}
