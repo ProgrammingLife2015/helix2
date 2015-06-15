@@ -54,7 +54,7 @@ public class ParserLastOpened {
 
 		while ((line = bufferedReader.readLine()) != null) {
 			File readFile = new File(line);
-			result.add(readFile);
+			result.addLast(readFile);
 		}
 
 		return result;

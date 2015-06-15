@@ -40,14 +40,18 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 		File file = new File(chosenfile);
 		if (chosenfile.endsWith(".nwk")) {
 			// tree file
+			System.out.println("phylo tree");
+			FileSelector.lastopened.add(file);
 			application.makePhyloTree(file);
 		} else if (chosenfile.endsWith(".node.graph")) {
+			FileSelector.lastopened.add(file);
 			// node and edge file
 			File nodeFile = file;
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			application.makeGraph(nodeFile, edgeFile, null);
 
 		} else {
+			FileSelector.lastopened.add(file);
 			// must be folder
 			File[] files = FileSelector.getFilesFromFolder(file, ".node.graph", ".edge.graph", ".nwk");
 			application.makeGraph(files[0], files[1], files[2]);
@@ -64,5 +68,6 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 		System.out.println("Now updating");
 		lastOpenedMenu.removeAll();
 		lastOpenedMenu.setRecentFiles();
+		lastOpenedMenu.addActionListener(this);
 	}
 }
