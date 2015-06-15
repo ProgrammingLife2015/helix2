@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
@@ -53,17 +52,6 @@ public class KeyControllerTest {
 	}
 
 	@Test
-	public void testMinus() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_MINUS);
-		when(application.getGraphController()).thenReturn(graphController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).zoomLevelDown();
-	}
-
-	@Test
 	public void testPlus() {
 		KeyController keyController = new KeyController(application);
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_EQUALS);
@@ -96,28 +84,28 @@ public class KeyControllerTest {
 		verify(graphController, times(1)).moveLeft();
 	}
 
-	@Test
-	public void testReset() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_R);
-		when(application.getGraphController()).thenReturn(graphController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).resetZoom();
-	}
-
-	@Test
-	public void testGene() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_G);
-		FindgenesController findgenesController = mock(FindgenesController.class);
-		when(application.getFindgenesController()).thenReturn(findgenesController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getFindgenesController();
-		verify(findgenesController, times(1)).openDialog();
-	}
+//	@Test
+//	public void testReset() {
+//		KeyController keyController = new KeyController(application);
+//		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_R);
+//		when(application.getGraphController()).thenReturn(graphController);
+//
+//		keyController.keyPressed(keyEvent);
+//		verify(application, times(1)).getGraphController();
+//		verify(graphController, times(1)).resetZoom();
+//	}
+//
+//	@Test
+//	public void testGene() {
+//		KeyController keyController = new KeyController(application);
+//		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_G);
+//		FindgenesController findgenesController = mock(FindgenesController.class);
+//		when(application.getFindgenesController()).thenReturn(findgenesController);
+//
+//		keyController.keyPressed(keyEvent);
+//		verify(application, times(1)).getFindgenesController();
+//		verify(findgenesController, times(1)).openDialog();
+//	}
 
 	@Test
 	public void testRelease() {

@@ -120,7 +120,7 @@ public class GraphController implements Controller {
 	 * Zoom the graph one level up.
 	 */
 	public void zoomLevelUp() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() + 1);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() * 2);
 		zoomedGraphModel.produceDataNodeWrapperList();
 		graphMoved();
 	}
@@ -129,7 +129,7 @@ public class GraphController implements Controller {
 	 * Zoom the graph one level down.
 	 */
 	public void zoomLevelDown() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() - 1);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() / 2);
 		zoomedGraphModel.produceDataNodeWrapperList();
 		graphMoved();
 	}

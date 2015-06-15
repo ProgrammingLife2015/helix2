@@ -4,7 +4,7 @@ import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.visualization.GraphController;
-import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
+import tudelft.ti2806.pl3.zoombar.ZoomBarController;
 
 /**
  * Created by Boris Mattijssen on 14-06-15.

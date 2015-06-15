@@ -9,11 +9,12 @@ import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
+
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.visualization.GraphController;
-import tudelft.ti2806.pl3.zoomBar.ZoomBarController;
+import tudelft.ti2806.pl3.zoombar.ZoomBarController;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -94,6 +95,7 @@ public class Application extends JFrame implements ControllerContainer {
 		// set menu bar
 		MenuBarController menuBarController = new MenuBarController(this);
 		setMenuBar(menuBarController.getMenuBar());
+
 		// set window controller
 		WindowController windowController = new WindowController(this);
 		addWindowListener(windowController);
