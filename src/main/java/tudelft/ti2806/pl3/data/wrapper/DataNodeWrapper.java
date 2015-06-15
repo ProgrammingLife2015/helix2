@@ -8,7 +8,6 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,11 +77,6 @@ public class DataNodeWrapper extends Wrapper {
 	}
 
 	@Override
-	public Set<Label> getLabels() {
-		return new HashSet<>(node.getLabelList());
-	}
-
-	@Override
 	public Set<Genome> getGenome() {
 		return node.getCurrentGenomeSet();
 	}
@@ -96,7 +90,12 @@ public class DataNodeWrapper extends Wrapper {
 	public void collectDataNodes(Set<DataNode> set) {
 		set.add(node);
 	}
-	
+
+	@Override
+	public void collectLabels(Set<Label> labels) {
+		labels.addAll(node.getLabelList());
+	}
+
 	@Override
 	public void calculateX() {
 		this.x = this.getPreviousNodesCount();

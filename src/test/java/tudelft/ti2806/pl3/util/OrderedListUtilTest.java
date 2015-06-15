@@ -125,11 +125,6 @@ public class OrderedListUtilTest {
 		}
 
 		@Override
-		public Set<Label> getLabels() {
-			return null;
-		}
-
-		@Override
 		public void calculate(WrapperOperation wrapperSequencer,
 				Wrapper container) {
 		}
@@ -137,6 +132,11 @@ public class OrderedListUtilTest {
 		@Override
 		public void collectDataNodes(Set<DataNode> set) {
 
+		}
+
+		@Override
+		public void collectLabels(Set<Label> labels) {
+			return;
 		}
 
 		@Override

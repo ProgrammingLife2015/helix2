@@ -3,14 +3,11 @@ package tudelft.ti2806.pl3.data.wrapper;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.label.Label;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public abstract class CombineWrapper extends Wrapper {
 	protected List<Wrapper> nodeList;
-
-	private Set<Label> labels;
 	
 	private float collapse = 0;
 	
@@ -72,14 +69,8 @@ public abstract class CombineWrapper extends Wrapper {
 	}
 
 	@Override
-	public Set<Label> getLabels() {
-		if (labels == null) {
-			labels = new HashSet<>();
-			for (Wrapper node : getNodeList()) {
-				labels.addAll(node.getLabels());
-			}
-		}
-		return labels;
+	public void collectLabels(Set<Label> labels) {
+		nodeList.forEach(n -> n.collectLabels(labels));
 	}
 
 	@Override
