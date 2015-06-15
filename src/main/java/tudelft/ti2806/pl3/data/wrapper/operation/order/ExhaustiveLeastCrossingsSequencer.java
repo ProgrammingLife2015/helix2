@@ -91,7 +91,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
      * @param currentOrder
      *         the list of lists of which to store the original.
      * @return a list with as first value the list of the node and as second the
-     * orignal order of this list
+     * orignal order of this list.
      */
     List<Pair<List<Wrapper>, Wrapper[]>> getOrder(
             List<List<Wrapper>> currentOrder) {
@@ -153,7 +153,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
             }
         }
         /*
-		 * Because all nodes in the SpaceWrapper are connected at some point in
+         * Because all nodes in the SpaceWrapper are connected at some point in
 		 * the chosen direction with one of the nodes out of the collapsed list,
 		 * we can assume that we can iterate until all remaining nodes are in
 		 * the list.
