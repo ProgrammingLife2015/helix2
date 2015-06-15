@@ -110,14 +110,18 @@ public class Application extends JFrame {
 				}
 			);
 			File[] treeFiles = folder.listFiles((dir, name) -> {
-					return name.endsWith("nwk");
+					return name.endsWith(".nwk");
 				}
 			);
 			File edgeFile = new File(nodeFiles[0].getAbsolutePath().replace(".node", ".edge"));
+			File[] metaFiles = folder.listFiles((dir, name) -> {
+					return name.endsWith(".txt");
+				}
+			);
 
-			makeGraph(nodeFiles[0], edgeFile, treeFiles[0]);
+			makeGraph(nodeFiles[0], edgeFile, treeFiles[0], metaFiles[0]);
 		} catch (FileSelectorException | NullPointerException exception) {
-			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (confirm("Error!", "Some necessary files were not found. Want to try again?")) {
 				makeGraphFromFolder();
 			}
 		}
@@ -130,7 +134,7 @@ public class Application extends JFrame {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
 			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
-			makeGraph(nodeFile, edgeFile, null);
+			makeGraph(nodeFile, edgeFile, null, null);
 		} catch (FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFiles();
@@ -141,9 +145,9 @@ public class Application extends JFrame {
 	/**
 	 * Parses the graph files and makes a graphview.
 	 */
-	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+	private void makeGraph(File nodeFile, File edgeFile, File treeFile, File metaFile) {
 		try {
-			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");g
+			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
 
 			final long startTime = System.currentTimeMillis();
 
@@ -180,7 +184,7 @@ public class Application extends JFrame {
 			System.out.println("Loadtime: " + loadTime);
 		} catch (FileNotFoundException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
-				makeGraph(nodeFile, edgeFile, treeFile);
+				makeGraph(nodeFile, edgeFile, treeFile, metaFile);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

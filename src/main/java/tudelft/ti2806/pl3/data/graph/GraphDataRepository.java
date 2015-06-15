@@ -113,7 +113,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	/**
-	 * Parse a node and edge file of a graph into a {@code GraphData}.
+	 * Parse a node and edge file of a graph into a {@code GraphData} without metadata.
 	 *
 	 * @param nodesFile
 	 * 		the file of nodes to be read
@@ -123,6 +123,20 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public void parseGraph(File nodesFile, File edgesFile, GeneData geneData) throws FileNotFoundException {
+		parseGraph(nodesFile, edgesFile, null, geneData);
+	}
+
+	/**
+	 * Parse a node and edge file of a graph into a {@code GraphData} with metadata.
+	 *
+	 * @param nodesFile
+	 * 		the file of nodes to be read
+	 * @param edgesFile
+	 * 		the file of edges to be read
+	 * @throws FileNotFoundException
+	 * 		if the file is not found
+	 */
+	public void parseGraph(File nodesFile, File edgesFile, File metaFile, GeneData geneData) throws FileNotFoundException {
 		notifyLoadingObservers(true);
 		geneToStartNodeMap = new HashMap<>(geneData.getGenes().size());
 		genes = new ArrayList<>();
@@ -137,7 +151,9 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		addNodes(nodeList);
 		addEdges(parseEdges(edgesFile, nodeMap));
 		addGenomes(genomeList);
-		MetaParser.parseMeta(, genomeMap);
+		if (metaFile != null) {
+			MetaParser.parseMeta(metaFile, genomeMap);
+		}
 
 		notifyLoadingObservers(false);
 	}
