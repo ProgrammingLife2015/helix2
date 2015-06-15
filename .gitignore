@@ -60,3 +60,6 @@ hs_err_pid*
 !/data/testdata/*.graph
 
 !resources/pictures/*
+
+# save file
+.save-helix2.txt
