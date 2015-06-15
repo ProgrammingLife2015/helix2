@@ -29,6 +29,7 @@ public class ParserLastOpened {
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
 		File save = new File(s + File.separator + saveName);
+		Runtime.getRuntime().exec("attrib -H " + save.getPath());
 
 		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(save.getAbsoluteFile()));
 		for (File e : output) {
