@@ -59,7 +59,7 @@ public final class HorizontalWrapUtil {
 			nonWrappedNodesOrder.add(id);
 		}
 		List<CombineWrapper> combinedNodes = new ArrayList<>();
-		for (List<Wrapper> list : (findCombineableNodes(parentLayer))) {
+		for (List<Wrapper> list : findCombineableNodes(parentLayer)) {
 			HorizontalWrapper newNode = new HorizontalWrapper(list, canUnwrap);
 			combinedNodes.add(newNode);
 			for (Wrapper wrapper : list) {
@@ -86,7 +86,7 @@ public final class HorizontalWrapUtil {
 	 *            the nodes which are able to combine horizontally
 	 * @return the groups of nodes which are closest together out of the given node groups
 	 */
-	private static List<List<Wrapper>> cutCombineableNodes(List<List<Wrapper>> combineableNodes) {
+	static List<List<Wrapper>> cutCombineableNodes(List<List<Wrapper>> combineableNodes) {
 		List<List<Wrapper>> result = new ArrayList<>();
 		while (!combineableNodes.isEmpty()) {
 			Iterator<Wrapper> wrapperList = combineableNodes.remove(combineableNodes.size() - 1).iterator();
