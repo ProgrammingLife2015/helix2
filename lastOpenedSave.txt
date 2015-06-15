@@ -1,0 +1,3 @@
+/Users/tombrouws/context/ProgrammingLife3/data/10_strains_graph
+/Users/tombrouws/Downloads/671_strains_graph
+/Users/tombrouws/Downloads/100_strains_graph
