@@ -1,17 +1,13 @@
 package tudelft.ti2806.pl3.detailview;
 
-import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
