@@ -91,12 +91,14 @@ public class NodeCombineUtilTest {
 		pgd[1] = VerticalWrapUtil.collapseGraph(pgd[0]);
 		Assert.assertEquals(pgd[1].getPositionedNodes().size(), 3);
 		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[1], true);
-		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 1);
+		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 2);
+		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[2], true);
+        Assert.assertEquals(pgd[2].getPositionedNodes().size(), 1);
 		
 		// WrapUtil collapse test
 		WrappedGraphData graph = WrapUtil.collapseGraph(pgd[0]);
-		Assert.assertEquals(graph.getPositionedNodes().size(), 1);
-		Assert.assertEquals(graph.getLongestNodePath(), 0);
+		Assert.assertEquals(1, graph.getPositionedNodes().size());
+		Assert.assertEquals(0, graph.getLongestNodePath());
 	}
 	
 	@Test

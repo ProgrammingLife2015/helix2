@@ -47,7 +47,7 @@ public final class WrapUtil {
         if (graph.getPositionedNodes().size() > 1) {
             return applyFixNode(graph);
         }
-        return lastGraph;
+        return graph;
     }
     
     /**
