@@ -8,11 +8,9 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
-
-import tudelft.ti2806.pl3.LoadingObservable;
-import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.ScreenSize;
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -21,8 +19,8 @@ import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -37,7 +35,7 @@ import java.util.Observer;
  *
  */
 public class GraphView
-		implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable, ComponentListener {
+		implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
 	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
@@ -57,60 +55,22 @@ public class GraphView
 	private Viewer viewer;
 	private View panel;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
 
-	private GraphController graphController;
-
-	private FilteredGraphModel filteredGraphModel;
-	private ZoomedGraphModel zoomedGraphModel;
-
-	private AbstractGraphData abstractGraphData;
 	private float offsetToCenter = -1;
 	private boolean zoomCenterSet = false;
+	private ZoomedGraphModel zoomedGraphModel;
 
 	/**
-	 * Construct a GraphView with no LoadingObservers.
+	 * Construct a GraphView.
 	 *
-	 * @param abstractGraphData
-	 * 		GraphData to display
+	 * @param zoomedGraphModel
+	 * 		The zoomed graph model
 	 */
-	public GraphView(AbstractGraphData abstractGraphData) {
-		this(abstractGraphData, null);
-	}
-
-	/**
-	 * Construct a GraphView with LoadingObserver.
-	 *
-	 * @param abstractGraphData
-	 * 		GraphData to display
-	 * @param loadingObservers
-	 * 		Observers for loading
-	 */
-	public GraphView(AbstractGraphData abstractGraphData, ArrayList<LoadingObserver> loadingObservers) {
-		this.abstractGraphData = abstractGraphData;
-		// make graph
-		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
-		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
-		// add the loading observers
-		addLoadingObserversList(loadingObservers);
-		filteredGraphModel.addLoadingObserversList(loadingObservers);
-		zoomedGraphModel.addLoadingObserversList(loadingObservers);
-
-		init();
-		filteredGraphModel.addObserver(zoomedGraphModel);
-		zoomedGraphModel.addObserver(this);
-
-		this.graphController = new GraphController(this);
+	public GraphView(ZoomedGraphModel zoomedGraphModel) {
+		this.zoomedGraphModel = zoomedGraphModel;
 		graphData = new ArrayList<>();
-	}
-
-	/**
-	 * Makes a call to the viewer.
-	 */
-	public void init() {
-		notifyLoadingObservers(true);
 		generateViewer();
-		addComponentListener(this);
-		notifyLoadingObservers(false);
 	}
 	
 	/**
@@ -123,6 +83,14 @@ public class GraphView
 				Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		panel = viewer.addDefaultView(false);
 		removeDefaultKeys();
+		panel.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				setOffsetToCenter();
+				setZoomCenter(offsetToCenter);
+				notifyGraphLoadedListeners();
+			}
+		});
 	}
 
 	/**
@@ -155,7 +123,7 @@ public class GraphView
 		graph.clear();
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
-				/ (panel.getBounds().width * zoomLevel / zoomedGraphModel
+				/ ((double) panel.getBounds().width * zoomLevel / zoomedGraphModel
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
@@ -198,25 +166,21 @@ public class GraphView
 	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private void addNormalEdge(Graph graph, Wrapper from, Wrapper to, int i) throws EdgeZeroWeightException {
 		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(),
-				Integer.toString(from.getId()), Integer.toString(to.getId()));
+				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 		int weight = from.getOutgoingWeight().get(i);
-		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
+		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomes().size());
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException(
 					"The weight of the edge from " + from + " to " + to + " cannot be 0.");
+		} else {
+			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 		}
-		edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
 	}
 	
 	@Override
 	public Component getPanel() {
 		return panel;
-	}
-	
-	@Override
-	public GraphController getController() {
-		return graphController;
 	}
 
 	@Override
@@ -231,9 +195,19 @@ public class GraphView
 				e.printStackTrace();
 			}
 			zoom();
+			centerGraph();
 		}
 	}
-	
+
+	private void centerGraph() {
+		if (zoomCenterSet == false) {
+			setZoomCenter(0);
+			setOffsetToCenter();
+			setZoomCenter(offsetToCenter);
+			zoomCenterSet = true;
+		}
+	}
+
 	private void zoom() {
 		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
@@ -269,14 +243,6 @@ public class GraphView
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
 
-	public FilteredGraphModel getFilteredGraphModel() {
-		return filteredGraphModel;
-	}
-
-	public ZoomedGraphModel getZoomedGraphModel() {
-		return zoomedGraphModel;
-	}
-
 	/**
 	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently
 	 * drawn {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
@@ -303,43 +269,8 @@ public class GraphView
 		}
 	}
 
-
-	public void addComponentListener(ComponentListener componentListener) {
-		panel.addComponentListener(componentListener);
-	}
-
 	public double getGraphDimension() {
 		return viewer.getDefaultView().getCamera().getGraphDimension();
-	}
-
-	/**
-	 * When the graph was loaded.
-	 *
-	 * @param e
-	 * 		event
-	 */
-	@Override
-	public void componentResized(ComponentEvent e) {
-		if (zoomCenterSet == false) {
-			setZoomCenter(0);
-			setOffsetToCenter();
-			setZoomCenter(offsetToCenter);
-			zoomCenterSet = true;
-		}
-	}
-
-	@Override
-	public void componentMoved(ComponentEvent e) {
-
-	}
-
-	@Override
-	public void componentShown(ComponentEvent e) {
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent e) {
-
 	}
 
 	@Override
@@ -365,5 +296,17 @@ public class GraphView
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			loadingObserver.update(this, arguments);
 		}
+	}
+
+	public void addGraphLoadedListener(GraphLoadedListener listener) {
+		graphLoadedListeners.add(listener);
+	}
+
+	public void removeGraphLoadedListener(GraphLoadedListener listener) {
+		graphLoadedListeners.remove(listener);
+	}
+
+	public void notifyGraphLoadedListeners() {
+		graphLoadedListeners.forEach(GraphLoadedListener::graphLoaded);
 	}
 }

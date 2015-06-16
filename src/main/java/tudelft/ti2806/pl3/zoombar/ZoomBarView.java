@@ -1,9 +1,7 @@
-package tudelft.ti2806.pl3.zoomBar;
+package tudelft.ti2806.pl3.zoombar;
 
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;
-import tudelft.ti2806.pl3.visualization.GraphController;
-import tudelft.ti2806.pl3.visualization.GraphView;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -13,11 +11,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.JPanel;
 
 /**
@@ -25,24 +20,26 @@ import javax.swing.JPanel;
  * in on the graph. Created by Boris Mattijssen on 06-05-15.
  */
 @SuppressWarnings("serial")
-public class ZoomBarView extends JPanel implements View, ComponentListener, Observer {
+public class ZoomBarView extends JPanel implements View, Observer {
 	public static final double ZOOMBAR_FACTOR = 0.1;
-	private ZoomBarController zoomBarController;
-	private GraphController graphController;
 
 	private int x = 0;
-	private int width = 100;
+	private int width = -1;
+
+	private float maxInterest = 0;
+	private float[] interest = new float[0];
+	private float zoomCenter = 0;
+	private float viewPercent = 0;
+	private float graphWidth = 0;
+	private float offsetToCenter = 0;
 
 	/**
 	 * Construct a zoom bar view with a fixed height.
 	 */
-	public ZoomBarView(GraphController graphController) {
+	public ZoomBarView() {
 		this.setLayout(new BorderLayout());
-		this.graphController = graphController;
 		setPreferredSize(new Dimension(ScreenSize.getInstance().getWidth(),
 				ScreenSize.getInstance().getZoombarHeight()));
-		zoomBarController = new ZoomBarController(this, graphController);
-		graphController.getFilteredObservable().addObserver(this);
 	}
 
 	/**
@@ -66,11 +63,10 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	 */
 	private void drawInterest(Graphics g) {
 		int height = getPreferredSize().height;
-		float max = graphController.getMaxInterest();
 		int i = 0;
-		for (float v : graphController.getInterest()) {
-			int lineHeight = (int) ((v / max) * height);
-			int alpha = (int) ((v / max) * 255);
+		for (float v : interest) {
+			int lineHeight = (int) ((v / maxInterest) * height);
+			int alpha = (int) ((v / maxInterest) * 255);
 			g.setColor(new Color(255, 0, 0, alpha));
 			g.drawLine(i, (height - lineHeight) / 2, i, (height - lineHeight) / 2 + lineHeight);
 			i++;
@@ -84,25 +80,25 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	 * 		graphics
 	 */
 	private void drawIndicator(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		float thickness = 2;
-		Stroke oldStroke = g2.getStroke();
-		g2.setStroke(new BasicStroke(thickness));
-		int height = getPreferredSize().height;
-		g.drawRect(x, 1, width, height - 1);
-		g2.setStroke(oldStroke);
+		if (width > 0) {
+			Graphics2D g2 = (Graphics2D) g;
+			float thickness = 2;
+			Stroke oldStroke = g2.getStroke();
+			g2.setStroke(new BasicStroke(thickness));
+			int height = getPreferredSize().height;
+			g.drawRect(x, 1, width, height - 1);
+			g2.setStroke(oldStroke);
+		}
 	}
 
 	/**
 	 * When the graph was moved, the position of the square is recalculated.
 	 */
 	public void moved() {
-		GraphView graphView = graphController.getGraphView();
-		float zoomCenter = graphController.getCurrentZoomCenter()
-				- graphView.getOffsetToCenter() * (float) graphView.getViewPercent();
-		float fraction = zoomCenter / (float) graphView.getGraphDimension();
+		float zoomCenterWithOffset = zoomCenter	- offsetToCenter * viewPercent;
+		float fraction = zoomCenterWithOffset / graphWidth;
 		x = (int) (fraction * ScreenSize.getInstance().getWidth());
-		width = (int) (graphView.getViewPercent() * ScreenSize.getInstance().getWidth());
+		width = (int) (viewPercent * ScreenSize.getInstance().getWidth());
 		repaint();
 	}
 
@@ -112,32 +108,31 @@ public class ZoomBarView extends JPanel implements View, ComponentListener, Obse
 	}
 
 	@Override
-	public ZoomBarController getController() {
-		return zoomBarController;
-	}
-
-	@Override
 	public void update(Observable o, Object arg) {
 		repaint();
 	}
 
-	@Override
-	public void componentResized(ComponentEvent e) {
-		moved();
+	public void setMaxInterest(float maxInterest) {
+		this.maxInterest = maxInterest;
 	}
 
-	@Override
-	public void componentMoved(ComponentEvent e) {
-
+	public void setInterest(float[] interest) {
+		this.interest = interest;
 	}
 
-	@Override
-	public void componentShown(ComponentEvent e) {
-
+	public void setZoomCenter(float zoomCenter) {
+		this.zoomCenter = zoomCenter;
 	}
 
-	@Override
-	public void componentHidden(ComponentEvent e) {
+	public void setViewPercent(float viewPercent) {
+		this.viewPercent = viewPercent;
+	}
 
+	public void setGraphWidth(float graphWidth) {
+		this.graphWidth = graphWidth;
+	}
+
+	public void setOffsetToCenter(float offsetToCenter) {
+		this.offsetToCenter = offsetToCenter;
 	}
 }
