@@ -102,16 +102,16 @@ public class FileSelector {
 		File[] files = new File[3];
 
 		File[] extension1Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension1);
-				}
+				return name.endsWith(extension1);
+			}
 		);
 		File[] extension2Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension2);
-				}
+				return name.endsWith(extension2);
+			}
 		);
 		File[] extension3Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension3);
-				}
+				return name.endsWith(extension3);
+			}
 		);
 		files[0] = extension1Files[0];
 		files[1] = extension2Files[0];
