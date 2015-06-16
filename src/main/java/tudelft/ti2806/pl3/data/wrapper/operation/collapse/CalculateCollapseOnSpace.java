@@ -6,7 +6,6 @@ import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
-import tudelft.ti2806.pl3.util.DoneDeque;
 
 import java.util.Comparator;
 
@@ -45,24 +44,6 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
      */
     static float getMinSpaceLeft(CombineWrapper wrapper) {
         return getMinDistance(wrapper.getFirst(), wrapper.getLast());
-    }
-    
-    private float getAvgSpaceLeft(SpaceWrapper wrapper) {
-        float avg = 0;
-        DoneDeque<Wrapper> que = new DoneDeque<>(wrapper.getNodeList().size());
-        que.add(wrapper.getFirst());
-        int count = 0;
-        while (!que.isEmpty()) {
-            Wrapper next = que.poll();
-            for (Wrapper out : next.getOutgoing()) {
-                avg += out.getX() - next.getX();
-                if (out != wrapper.getLast()) {
-                    que.add(out);
-                }
-                count++;
-            }
-        }
-        return avg / count;
     }
     
     static float getCompensatedMinSpaceLeft(SpaceWrapper wrapper) {
