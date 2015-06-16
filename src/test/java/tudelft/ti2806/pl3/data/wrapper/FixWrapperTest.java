@@ -22,12 +22,13 @@ import static org.mockito.Mockito.verify;
 public class FixWrapperTest {
 	@Test
 	public void getTests() {
-		FixWrapper fixWrapper = new FixWrapper();
+		FixWrapper fixWrapper = new FixWrapper(-1);
+		assertEquals(-1, fixWrapper.getId());
 		assertEquals(0, fixWrapper.getBasePairCount());
 		assertEquals(0, fixWrapper.getWidth());
 		assertEquals(FixWrapper.ID_STRING, fixWrapper.getIdString());
 		assertNull(fixWrapper.getGenome());
-		Set<Genome> genome = new HashSet<Genome>();
+		Set<Genome> genome = new HashSet<>();
 		genome.add(new Genome(""));
 		fixWrapper.setGenome(genome);
 		assertEquals(genome, fixWrapper.getGenome());
@@ -40,14 +41,14 @@ public class FixWrapperTest {
 	
 	@Test
 	public void collectDataNodesTest() {
-		FixWrapper wrapper = new FixWrapper();
+		FixWrapper wrapper = new FixWrapper(-1);
 		wrapper.collectDataNodes(list);
 		Mockito.verifyZeroInteractions(list);
 	}
 	
 	@Test
 	public void operationTest() {
-		operationTest(new FixWrapper(), null);
+		operationTest(new FixWrapper(-1), null);
 	}
 	
 	private void operationTest(FixWrapper wrapper, Wrapper container) {

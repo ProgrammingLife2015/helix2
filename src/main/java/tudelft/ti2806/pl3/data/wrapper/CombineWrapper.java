@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.label.Label;
 
 import java.util.List;
 import java.util.Set;
@@ -66,7 +67,12 @@ public abstract class CombineWrapper extends Wrapper {
 	public int getId() {
 		return nodeList.get(0).getId();
 	}
-	
+
+	@Override
+	public void collectLabels(Set<Label> labels) {
+		nodeList.forEach(n -> n.collectLabels(labels));
+	}
+
 	@Override
 	public void collectDataNodes(Set<DataNode> set) {
 		nodeList.forEach(n -> n.collectDataNodes(set));

@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.data.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.Set;
@@ -49,7 +50,7 @@ public class SingleWrapper extends Wrapper {
 	public Set<Genome> getGenome() {
 		return this.target.getGenome();
 	}
-	
+
 	public Wrapper getNode() {
 		return this.target;
 	}
@@ -63,7 +64,12 @@ public class SingleWrapper extends Wrapper {
 	public void collectDataNodes(Set<DataNode> set) {
 		this.target.collectDataNodes(set);
 	}
-	
+
+	@Override
+	public void collectLabels(Set<Label> labels) {
+		target.collectLabels(labels);
+	}
+
 	@Override
 	public void calculateX() {
 		this.x = this.getNode().getX();

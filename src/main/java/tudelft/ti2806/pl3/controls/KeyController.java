@@ -62,10 +62,6 @@ public class KeyController implements KeyListener {
 			app.getSideBarController().toggleSideBar();
 		}
 
-		if (event.getKeyCode() == KeyEvent.VK_MINUS) {
-			app.getGraphController().zoomLevelDown();
-		}
-
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
 			app.getGraphController().zoomLevelUp();
 		}
@@ -78,14 +74,13 @@ public class KeyController implements KeyListener {
 			app.getGraphController().moveLeft();
 		}
 
-		if (event.getKeyCode() == KeyEvent.VK_R) {
-			app.getGraphController().resetZoom();
-		}
-
 		if (event.getKeyCode() == KeyEvent.VK_G) {
 			app.getFindgenesController().openDialog();
 		}
+
+		app.getGraphController().removeDetailView();
 	}
+
 	
 	/**
 	 * KeyReleased is triggered when the key comes up.

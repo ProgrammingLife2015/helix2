@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.data.wrapper;
 
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import tudelft.ti2806.pl3.util.DoneDeque;
 
@@ -24,6 +25,9 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	List<Wrapper> incoming = new ArrayList<>();
 	List<Wrapper> outgoing = new ArrayList<>();
 	List<Integer> outgoingWeight = new ArrayList<>();
+
+	private Set<Label> labels;
+	private Set<DataNode> dataNodeList;
 
 	int previousNodesCount = -1;
 	float interest = 1f;
@@ -106,12 +110,29 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	/**
 	 * Get all {@link DataNode}s in this node and its children.
 	 *
-	 * @return list of {@link DataNode}s
+	 * @return set of {@link DataNode}s
 	 */
 	public Set<DataNode> getDataNodes() {
-		Set<DataNode> dataNodeList = new HashSet<>();
-		collectDataNodes(dataNodeList);
+		if (dataNodeList == null) {
+			dataNodeList = new HashSet<>();
+			collectDataNodes(dataNodeList);
+		}
 		return dataNodeList;
+	}
+
+	public abstract void collectLabels(Set<Label> labels);
+
+	/**
+	 * Get all Labels in this node and its children.
+	 *
+	 * @return set of Labels
+	 */
+	public Set<Label> getLabels() {
+		if (dataNodeList == null) {
+			labels = new HashSet<>();
+			collectLabels(labels);
+		}
+		return labels;
 	}
 
 	public float getInterest() {

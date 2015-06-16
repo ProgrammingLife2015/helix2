@@ -35,6 +35,7 @@ public class KeyControllerTest {
 	public void testEscape() {
 		KeyController keyController = new KeyController(application);
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_ESCAPE);
+		when(application.getGraphController()).thenReturn(mock(GraphController.class));
 
 		keyController.keyPressed(keyEvent);
 		verify(application, times(1)).stop();
@@ -46,21 +47,11 @@ public class KeyControllerTest {
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_SPACE);
 		SideBarController sideBarController = mock(SideBarController.class);
 		when(application.getSideBarController()).thenReturn(sideBarController);
+		when(application.getGraphController()).thenReturn(mock(GraphController.class));
 
 		keyController.keyPressed(keyEvent);
 		verify(application, times(1)).getSideBarController();
 		verify(sideBarController, times(1)).toggleSideBar();
-	}
-
-	@Test
-	public void testMinus() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_MINUS);
-		when(application.getGraphController()).thenReturn(graphController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).zoomLevelDown();
 	}
 
 	@Test
@@ -70,7 +61,7 @@ public class KeyControllerTest {
 		when(application.getGraphController()).thenReturn(graphController);
 
 		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
+		verify(application, times(2)).getGraphController();
 		verify(graphController, times(1)).zoomLevelUp();
 	}
 
@@ -81,7 +72,7 @@ public class KeyControllerTest {
 		when(application.getGraphController()).thenReturn(graphController);
 
 		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
+		verify(application, times(2)).getGraphController();
 		verify(graphController, times(1)).moveRight();
 	}
 
@@ -92,19 +83,8 @@ public class KeyControllerTest {
 		when(application.getGraphController()).thenReturn(graphController);
 
 		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
+		verify(application, times(2)).getGraphController();
 		verify(graphController, times(1)).moveLeft();
-	}
-
-	@Test
-	public void testReset() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_R);
-		when(application.getGraphController()).thenReturn(graphController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getGraphController();
-		verify(graphController, times(1)).resetZoom();
 	}
 
 	@Test
@@ -113,6 +93,7 @@ public class KeyControllerTest {
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_G);
 		FindgenesController findgenesController = mock(FindgenesController.class);
 		when(application.getFindgenesController()).thenReturn(findgenesController);
+		when(application.getGraphController()).thenReturn(mock(GraphController.class));
 
 		keyController.keyPressed(keyEvent);
 		verify(application, times(1)).getFindgenesController();

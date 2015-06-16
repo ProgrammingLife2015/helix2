@@ -1,7 +1,7 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.LoadingObservable;
-import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.gene.Gene;
@@ -30,6 +30,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	private int longestnodepath;
 
 	private ArrayList<LoadingObserver> observers = new ArrayList<>();
+	private List<GraphParsedObserver> graphParsedObserver = new ArrayList<>();
 
 	/**
 	 * Construct a empty {@code GraphDataRepository}.
@@ -158,6 +159,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		}
 
 		notifyLoadingObservers(false);
+		notifyGraphParsedObservers();
 	}
 
 	/**
@@ -376,5 +378,17 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		for (LoadingObserver observer : observers) {
 			observer.update(this, loading);
 		}
+	}
+
+	public void addGraphParsedObserver(GraphParsedObserver o) {
+		graphParsedObserver.add(o);
+	}
+
+	public void removeGraphParsedObserver(GraphParsedObserver o) {
+		graphParsedObserver.remove(o);
+	}
+
+	public void notifyGraphParsedObservers() {
+		graphParsedObserver.forEach(GraphParsedObserver::graphParsed);
 	}
 }

@@ -1,4 +1,6 @@
-package tudelft.ti2806.pl3;
+package tudelft.ti2806.pl3.util.observable;
+
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.util.ArrayList;
 

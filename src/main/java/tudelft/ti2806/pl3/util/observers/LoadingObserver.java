@@ -1,4 +1,6 @@
-package tudelft.ti2806.pl3;
+package tudelft.ti2806.pl3.util.observers;
+
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
 
 /**
  * Interface for the Loading Observer

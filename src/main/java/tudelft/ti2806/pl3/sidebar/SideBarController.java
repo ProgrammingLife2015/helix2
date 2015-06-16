@@ -1,6 +1,12 @@
 package tudelft.ti2806.pl3.sidebar;
 
 import tudelft.ti2806.pl3.Controller;
+import tudelft.ti2806.pl3.ControllerContainer;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
+import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
+
+import java.awt.Component;
+import java.util.ArrayList;
 
 /**
  * Controller that controls the sidebar. The user can select options in the
@@ -9,16 +15,15 @@ import tudelft.ti2806.pl3.Controller;
 public class SideBarController implements Controller {
 
 	private SideBarView sideBarView;
+	private PhyloController phyloController;
 
 	/**
 	 * Construct the side bar controller and add all filters to its view.
-	 *
-	 * @param sideBarView
-	 * 		the view that is controlled
-	 *
 	 */
-	public SideBarController(SideBarView sideBarView) {
-		this.sideBarView = sideBarView;
+	public SideBarController(ControllerContainer cc) {
+		sideBarView = new SideBarView();
+		phyloController = new PhyloController(cc);
+		sideBarView.add(phyloController.getPanel());
 	}
 
 	/**
@@ -30,5 +35,17 @@ public class SideBarController implements Controller {
 		} else {
 			sideBarView.setVisible(true);
 		}
+	}
+
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		phyloController.addLoadingObserversList(loadingObservers);
+	}
+
+	public Component getPanel() {
+		return sideBarView.getPanel();
+	}
+
+	public PhyloController getPhyloController() {
+		return phyloController;
 	}
 }

@@ -8,24 +8,17 @@
   <name>app</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-		<dependency>
-			<groupId>NewickParser</groupId>
-			<artifactId>newick</artifactId>
-			<version>1.0-Fork</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/NewickParser.jar</systemPath>
-		</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>org.graphstream</groupId>
-          <artifactId>gs-core</artifactId>
-          <version>1.2</version>
-      </dependency>
+    <dependency>
+      <groupId>org.graphstream</groupId>
+      <artifactId>gs-core</artifactId>
+      <version>1.2</version>
+    </dependency>
     <dependency>
       <groupId>org.graphstream</groupId>
       <artifactId>gs-core</artifactId>
@@ -51,11 +44,11 @@
       <artifactId>mockito-all</artifactId>
       <version>1.9.5</version>
     </dependency>
-  <dependency>
+    <dependency>
       <groupId>org.swinglabs</groupId>
       <artifactId>swingx</artifactId>
       <version>1.6.1</version>
-  </dependency>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
