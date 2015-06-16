@@ -29,7 +29,7 @@ public class DialogUtil {
 	}
 
 	/**
-	 * Displays a message dialog with a given view.
+	 * Displays a question message dialog with a given view.
 	 *
 	 * @param view
 	 * 		to display
@@ -40,6 +40,14 @@ public class DialogUtil {
 		JOptionPane.showMessageDialog(null, view, title, JOptionPane.QUESTION_MESSAGE);
 	}
 
+	/**
+	 * Displays a plain message dialog with a given view
+	 *
+	 * @param view
+	 * 		to display
+	 * @param title
+	 * 		of the pop-up
+	 */
 	public static void displayMessageWithView(Component view, String title) {
 		JOptionPane.showMessageDialog(null, view, title, JOptionPane.PLAIN_MESSAGE);
 	}
