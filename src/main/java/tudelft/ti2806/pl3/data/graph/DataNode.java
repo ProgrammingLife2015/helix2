@@ -22,7 +22,7 @@ public class DataNode {
 	protected Set<Genome> currentGenomeSet;
 	protected final int refStartPoint;
 	protected final int refEndPoint;
-	protected final byte[] content;
+	protected final String content;
 	
 	protected List<Label> labelList;
 	
@@ -43,7 +43,7 @@ public class DataNode {
 	 *            the list of labels to add
 	 */
 	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
-			int refEndPoint, byte[] contentOfTheNode, List<Label> labelList) {
+			int refEndPoint, String contentOfTheNode, List<Label> labelList) {
 		this.nodeId = nodeId;
 		if (source == null) {
 			// TODO: Bad data, throw exception
@@ -58,7 +58,7 @@ public class DataNode {
 		if (contentOfTheNode == null) {
 			this.content = null;
 		} else {
-			this.content = contentOfTheNode.clone();
+			this.content = contentOfTheNode;
 		}
 		if (labelList == null) {
 			this.labelList = new ArrayList<>();
@@ -82,7 +82,7 @@ public class DataNode {
 	 *            the size of this {@code Node}
 	 */
 	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
-			int refEndPoint, byte[] contentOfTheNode) {
+			int refEndPoint, String contentOfTheNode) {
 		this(nodeId, source, refStartPoint, refEndPoint, contentOfTheNode, null);
 	}
 	
@@ -90,7 +90,7 @@ public class DataNode {
 	public String toString() {
 		return "SingleNode [nodeId=" + nodeId + ", source=" + source.toString()
 				+ ", refStartPoint=" + refStartPoint + ", refEndPoint="
-				+ refEndPoint + ", content.length=" + content.length
+				+ refEndPoint + ", content.length=" + content.length()
 				+ ", labelList.size=" + labelList.size() + "]";
 	}
 	
@@ -98,7 +98,7 @@ public class DataNode {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(content);
+		result = prime * result + content.hashCode();
 		result = prime * result + nodeId;
 		result = prime * result + refEndPoint;
 		result = prime * result + refStartPoint;
@@ -122,7 +122,7 @@ public class DataNode {
 		if (nodeId != other.nodeId) {
 			return false;
 		}
-		if (!Arrays.equals(content, other.content)) {
+		if (!content.equals(other.content)) {
 			return false;
 		}
 		if (refEndPoint != other.refEndPoint) {
@@ -161,7 +161,7 @@ public class DataNode {
 	}
 	
 	public long getBasePairCount() {
-		return content.length;
+		return content.length();
 	}
 	
 	public Set<Genome> getCurrentGenomeSet() {
@@ -176,7 +176,7 @@ public class DataNode {
 		return labelList;
 	}
 	
-	public byte[] getContent() {
+	public String getContent() {
 		return this.content;
 	}
 }

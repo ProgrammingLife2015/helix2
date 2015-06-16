@@ -225,7 +225,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 					parseGenomeIdentifiers(indexData[1].split(","), genomes),
 					Integer.parseInt(indexData[2]),
 					Integer.parseInt(indexData[3]),
-					BasePair.getBasePairString(br.readLine()));
+					br.readLine());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
