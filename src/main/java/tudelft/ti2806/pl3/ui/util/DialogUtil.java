@@ -26,5 +26,4 @@ public class DialogUtil {
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
 	}
-
 }
