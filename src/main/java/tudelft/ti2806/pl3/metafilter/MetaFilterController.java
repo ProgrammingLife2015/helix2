@@ -20,6 +20,7 @@ public class MetaFilterController {
 
     private final AbstractGraphData graphData;
     private final ControllerContainer cc;
+    private MetaFilterView metaFilterView;
 
     /**
      * Construct the controller and instantiate the view.
@@ -41,7 +42,9 @@ public class MetaFilterController {
      * gene.
      */
     public void openDialog() {
-        MetaFilterView metaFilterView = new MetaFilterView();
+        if(metaFilterView == null) {
+            metaFilterView = new MetaFilterView();
+        }
 
         JOptionPane
                 .showMessageDialog(null, metaFilterView, "Select options to filter on:", JOptionPane.QUESTION_MESSAGE);
