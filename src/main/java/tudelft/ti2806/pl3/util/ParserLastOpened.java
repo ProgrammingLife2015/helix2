@@ -22,8 +22,11 @@ public class ParserLastOpened {
 
 	/**
 	 * Saves the output in a .txt file.
-	 * @param output to write
-	 * @throws IOException when saving goes wrong
+	 *
+	 * @param output
+	 * 		to write
+	 * @throws IOException
+	 * 		when saving goes wrong
 	 */
 	public static void saveLastOpened(LastOpenedStack<File> output) throws IOException, InterruptedException {
 		String os = System.getProperty("os.name").toLowerCase();
@@ -31,7 +34,7 @@ public class ParserLastOpened {
 		String s = currentRelativePath.toAbsolutePath().toString();
 		File save = new File(s + File.separator + saveName);
 
-		if (os.contains("windows")){
+		if (os.contains("windows")) {
 			Process p = Runtime.getRuntime().exec("attrib -H " + saveName);
 			p.waitFor();
 		}
@@ -43,7 +46,7 @@ public class ParserLastOpened {
 		}
 		bufferedWriter.close();
 
-		if (os.contains("windows")){
+		if (os.contains("windows")) {
 			Process p = Runtime.getRuntime().exec("attrib +H " + saveName);
 			p.waitFor();
 		}
@@ -51,8 +54,10 @@ public class ParserLastOpened {
 
 	/**
 	 * Reads the .txt file with name lastOpenedSave.txt.
+	 *
 	 * @return Queue of the .txt file
-	 * @throws IOException when reading goes wrong
+	 * @throws IOException
+	 * 		when reading goes wrong
 	 */
 	public static LastOpenedStack<File> readLastOpened() throws IOException {
 		LastOpenedStack<File> result = new LastOpenedStack<>(limit);

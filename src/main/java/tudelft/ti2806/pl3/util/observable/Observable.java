@@ -34,7 +34,7 @@ public interface Observable {
 	void deleteObserver(Observer observer);
 
 	/**
-	 * Notify all the Observers
+	 * Notify all the Observers.
 	 */
 	void notifyObservers();
 
