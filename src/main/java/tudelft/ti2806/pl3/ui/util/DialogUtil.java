@@ -36,8 +36,12 @@ public class DialogUtil {
 	 * @param title
 	 * 		of the pop-up
 	 */
+	public static void displayQuestionMessageWithView(Component view, String title) {
+		JOptionPane.showMessageDialog(null, view, title, JOptionPane.QUESTION_MESSAGE);
+	}
+
 	public static void displayMessageWithView(Component view, String title) {
-		JOptionPane.showMessageDialog(null, view, "Select a gene:", JOptionPane.QUESTION_MESSAGE);
+		JOptionPane.showMessageDialog(null, view, title, JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
@@ -50,6 +54,16 @@ public class DialogUtil {
 	 */
 	public static void displayMessage(String title, String message) {
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
+	}
+
+	/**
+	 * Displays the user a error message.
+	 *
+	 * @param message
+	 * 		to displayed on the popup
+	 */
+	public static void displayError(String message, String title) {
+		JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
 	}
 
 }
