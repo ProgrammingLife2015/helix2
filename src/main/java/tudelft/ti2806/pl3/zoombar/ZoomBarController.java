@@ -8,15 +8,16 @@ import tudelft.ti2806.pl3.visualization.GraphLoadedListener;
 import tudelft.ti2806.pl3.visualization.GraphMovedListener;
 
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 
 /**
  * Controller that controls the zoom bar at the bottom of the screen.
  * The zoom bar is used to navigate through and zoom in on the graph.
  * Created by Boris Mattijssen on 06-05-15.
  */
-public class ZoomBarController implements Controller, GraphMovedListener, GraphLoadedListener, MouseListener {
+public class ZoomBarController implements Controller, GraphMovedListener, GraphLoadedListener {
 
 	private ZoomBarView zoomBarView;
 	private ControllerContainer cc;
@@ -31,7 +32,8 @@ public class ZoomBarController implements Controller, GraphMovedListener, GraphL
 	public ZoomBarController(ControllerContainer cc) {
 		this.cc = cc;
 		zoomBarView = new ZoomBarView();
-		zoomBarView.addMouseListener(this);
+		zoomBarView.addMouseListener(new ZoomBarMouseClicked());
+		zoomBarView.addMouseMotionListener(new ZoomBarMouseDragged());
 		cc.getGraphController().addGraphMovedListener(this);
 		cc.getGraphController().getGraphView().addGraphLoadedListener(this);
 		cc.getGraphController().getFilteredObservable().addObserver(zoomBarView);
@@ -63,33 +65,38 @@ public class ZoomBarController implements Controller, GraphMovedListener, GraphL
 		zoomBarView.moved();
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
+	/**
+	 * Navigate to the graph on the given mouse x position.
+	 *
+	 * @param mouseX
+	 * 		The mouse x position
+	 */
+	private void navigateInGraph(float mouseX) {
 		double size = cc.getGraphController().getGraphView().getGraphDimension();
-		float factor = (float) e.getX()
+		float factor = (float) mouseX
 				/ (float) ScreenSize.getInstance().getWidth();
 		float newPos = (float) (factor * size);
 		cc.getGraphController().moveView(newPos);
 	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-
+	/**
+	 * Class that handles the mouse click.
+	 */
+	private class ZoomBarMouseClicked extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			navigateInGraph(e.getX());
+		}
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
+	/**
+	 * Class that handles the mouse drag.
+	 */
+	private class ZoomBarMouseDragged extends MouseMotionAdapter {
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			navigateInGraph(e.getX());
+		}
 	}
 
 	public Component getPanel() {
