@@ -7,6 +7,9 @@
   <version>0.7</version>
   <name>app</name>
   <url>http://maven.apache.org</url>
+  <properties>
+    <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -14,11 +17,6 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>org.graphstream</groupId>
-          <artifactId>gs-core</artifactId>
-          <version>1.2</version>
-      </dependency>
     <dependency>
       <groupId>org.graphstream</groupId>
       <artifactId>gs-core</artifactId>
@@ -44,11 +42,11 @@
       <artifactId>mockito-all</artifactId>
       <version>1.9.5</version>
     </dependency>
-  <dependency>
-      <groupId>org.swinglabs</groupId>
-      <artifactId>swingx</artifactId>
-      <version>1.6.1</version>
-  </dependency>
+    <dependency>
+        <groupId>org.swinglabs</groupId>
+        <artifactId>swingx</artifactId>
+        <version>1.6.1</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
