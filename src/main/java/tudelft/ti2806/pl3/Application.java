@@ -5,6 +5,7 @@ import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.data.metafilter.MetaFilterController;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
@@ -59,6 +60,7 @@ public class Application extends JFrame implements ControllerContainer {
 	private SideBarController sideBarController;
 	private ZoomBarController zoomBarController;
 	private FindgenesController findgenesController;
+	private MetaFilterController metaFilterController;
 
 	private GraphDataRepository gd;
 
@@ -93,6 +95,7 @@ public class Application extends JFrame implements ControllerContainer {
 		sideBarController.addLoadingObserversList(loadingObservers);
 		zoomBarController = new ZoomBarController(this);
 		findgenesController = new FindgenesController(this, graphDataRepository);
+		metaFilterController = new MetaFilterController(this, graphDataRepository);
 	}
 
 	/**
@@ -365,6 +368,11 @@ public class Application extends JFrame implements ControllerContainer {
 	@Override
 	public FindgenesController getFindgenesController() {
 		return findgenesController;
+	}
+
+	@Override
+	public MetaFilterController getMetaFilterController() {
+		return metaFilterController;
 	}
 
 }

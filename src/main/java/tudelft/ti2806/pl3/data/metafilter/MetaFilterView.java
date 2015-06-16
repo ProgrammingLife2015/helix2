@@ -2,7 +2,6 @@ package tudelft.ti2806.pl3.data.metafilter;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import tudelft.ti2806.pl3.data.Gender;
-import tudelft.ti2806.pl3.data.gene.Gene;
 
 import javax.swing.*;
 
@@ -12,10 +11,14 @@ import javax.swing.*;
  */
 public class MetaFilterView extends JPanel {
 
-	public MetaFilterView(Gene[] genes) {
+	public MetaFilterView() {
 		JCheckBox hivStatus = new JCheckBox("HIV positive", true);
 		JTextField age = new JTextField("age");
 		JComboBox<Gender> gender = new JComboBox<>(Gender.values());
+
+		this.add(hivStatus);
+		this.add(age);
+		this.add(gender);
 		AutoCompleteDecorator.decorate(gender);
 	}
 

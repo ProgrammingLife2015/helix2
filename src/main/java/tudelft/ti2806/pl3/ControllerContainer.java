@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3;
 
+import tudelft.ti2806.pl3.data.metafilter.MetaFilterController;
 import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
@@ -20,5 +21,7 @@ public interface ControllerContainer {
 	SideBarController getSideBarController();
 
 	FindgenesController getFindgenesController();
+
+	MetaFilterController getMetaFilterController();
 
 }
