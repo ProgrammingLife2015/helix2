@@ -42,12 +42,12 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the About Me option in the Help menu.
 	 */
-	final String about = "Helix² is an interactive DNA sequence viewer. "
+	final String about = "Helixï¿½ is an interactive DNA sequence viewer. "
 			+ "It uses semantic zooming to only display relative information. \n"
 			+ "This application was created as part of an assignment"
 			+ "for the Context Project at TU Delft.\n"
 			+ "\n"
-			+ "Helix² was created by: \n"
+			+ "Helixï¿½ was created by: \n"
 			+ "- Tom Brouws\n"
 			+ "- Boris Mattijssen\n"
 			+ "- Mathieu Post\n"
@@ -59,7 +59,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	final String controls = "Helix² uses key shortcuts to make life easier. "
+	final String controls = "Helixï¿½ uses key shortcuts to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
 			+ "Zooming in     \t+ \n"
@@ -132,6 +132,8 @@ public class MenuBarController implements ActionListener, Controller {
 	private void showFindGenes() {
 		application.getFindgenesController().openDialog();
 	}
+
+	private void filterMetadata() { application.getMetaFilterController().openDialog(); }
 
 	public void setLastOpenedMenu(Component lastOpenedMenu){
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
@@ -262,6 +264,9 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case "Navigate to gene":
 				showFindGenes();
+				break;
+			case "Filter on metadata":
+				filterMetadata();
 				break;
 			case "Controls":
 				displayControls();
