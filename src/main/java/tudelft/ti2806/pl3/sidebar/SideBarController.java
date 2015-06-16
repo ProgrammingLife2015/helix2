@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class SideBarController implements Controller {
 
-	private SideBarView sideBarView;
+	private final SideBarView sideBarView;
 	private PhyloController phyloController;
 
 	/**
