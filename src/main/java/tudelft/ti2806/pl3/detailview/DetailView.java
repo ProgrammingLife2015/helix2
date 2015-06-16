@@ -65,6 +65,13 @@ public class DetailView extends JPanel {
 		setBounds(x, y, size.width, size.height);
 	}
 
+	/**
+	 * Adds a collection as a scrollable list to itself.
+	 * @param collection
+	 * 		the collection to be added as list.
+	 * @param title
+	 * 		if not null, this string will be added above the list as header.
+	 */
 	private void addList(Collection collection, String title) {
 		if (collection.size() == 0) {
 			return;
@@ -79,7 +86,9 @@ public class DetailView extends JPanel {
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		JScrollPane listScroller = new JScrollPane(list);
-		listScroller.setColumnHeaderView(new JLabel(title));
+		if (title != null) {
+			listScroller.setColumnHeaderView(new JLabel(title));
+		}
 		add(listScroller);
 	}
 
