@@ -9,7 +9,6 @@ import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +39,6 @@ public final class WrapUtil {
 		WrappedGraphData graph = original;
 		WrappedGraphData lastGraph = original;
 		while (graph != null) {
-			EdgeUtil.removeAllEmptyEdges(graph);
 			lastGraph = collapseGraphSimple(graph);
 			graph = SpaceWrapUtil.collapseGraph(lastGraph);
 		}
@@ -68,14 +66,12 @@ public final class WrapUtil {
 			graph = original;
 		}
 		while (graph != null) {
-			EdgeUtil.removeAllEmptyEdges(graph);
 			lastGraph = graph;
 			graph = HorizontalWrapUtil.collapseGraph(graph, true);
 			if (graph == null) {
 				graph = lastGraph;
 			} else {
 				lastGraph = graph;
-				EdgeUtil.removeAllEmptyEdges(graph);
 			}
 			graph = VerticalWrapUtil.collapseGraph(graph);
 		}

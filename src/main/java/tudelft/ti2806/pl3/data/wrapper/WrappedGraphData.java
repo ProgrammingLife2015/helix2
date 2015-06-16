@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class WrappedGraphData {
 		for (Wrapper wrapper : nodeWrappers) {
 			wrapper.calculateX();
 		}
+        EdgeUtil.removeAllEmptyEdges(this);
 	}
 	
 	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {
