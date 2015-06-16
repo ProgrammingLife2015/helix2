@@ -40,15 +40,29 @@ public class KeyControllerTest {
 	}
 
 	@Test
-	public void testSpace() {
+	public void testSpaceWithSideBar() {
 		KeyController keyController = new KeyController(application);
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_SPACE);
 		SideBarController sideBarController = mock(SideBarController.class);
 		when(application.getSideBarController()).thenReturn(sideBarController);
+		when(sideBarController.isLoaded()).thenReturn(true);
 
 		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getSideBarController();
+		verify(application, times(2)).getSideBarController();
+		verify(sideBarController, times(1)).isLoaded();
 		verify(sideBarController, times(1)).toggleSideBar();
+	}
+
+	@Test
+	public void testSpaceWithoutSidebar(){
+		KeyController keyController = new KeyController(application);
+		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_SPACE);
+		SideBarController sideBarController = mock(SideBarController.class);
+		when(application.getSideBarController()).thenReturn(sideBarController);
+		when(sideBarController.isLoaded()).thenReturn(false);
+
+//		keyController.keyPressed(keyEvent);
+//		verify(mock(DialogUtil.class)).displayError("Error!", "Please load the Phylogenetic tree file (.nwk) to display it.");
 	}
 
 	@Test

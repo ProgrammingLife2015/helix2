@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class SideBarController implements Controller {
 
-	private SideBarView sideBarView;
+	private final SideBarView sideBarView;
 	private PhyloController phyloController;
 
 	/**
@@ -47,5 +47,13 @@ public class SideBarController implements Controller {
 
 	public PhyloController getPhyloController() {
 		return phyloController;
+	}
+
+	/**
+	 * Check if the phylogenetic tree is loaded.
+	 * @return true if loaded.
+	 */
+	public boolean isLoaded() {
+		return phyloController.isLoaded();
 	}
 }

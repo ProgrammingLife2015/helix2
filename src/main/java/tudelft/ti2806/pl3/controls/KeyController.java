@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.controls;
 
 import tudelft.ti2806.pl3.Application;
+import tudelft.ti2806.pl3.ui.util.DialogUtil;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,9 +16,9 @@ public class KeyController implements KeyListener {
 
 	/**
 	 * Constructor removes the old keylisteners and makes our own.
-	 * 
+	 *
 	 * @param app
-	 *            that is controlled
+	 * 		that is controlled
 	 */
 	public KeyController(Application app) {
 		// remove the default keylistener
@@ -32,25 +33,25 @@ public class KeyController implements KeyListener {
 	public void release() {
 		app.removeKeyListener(this);
 	}
-	
+
 	/**
 	 * KeyTyped is triggered when the unicode character represented by this key
 	 * is sent by the keyboard to system input.
-	 * 
+	 *
 	 * @param event
-	 *            key that is typed
+	 * 		key that is typed
 	 */
-	
+
 	@Override
 	public void keyTyped(KeyEvent event) {
-		
+
 	}
-	
+
 	/**
 	 * KeyPressed is triggered when the key goes down.
-	 * 
+	 *
 	 * @param event
-	 *            key that is pressed
+	 * 		key that is pressed
 	 */
 	@Override
 	public void keyPressed(KeyEvent event) {
@@ -59,7 +60,13 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_SPACE) {
-			app.getSideBarController().toggleSideBar();
+			if (app.getSideBarController().isLoaded()) {
+				app.getSideBarController().toggleSideBar();
+			} else {
+				DialogUtil.displayError("Error!",
+						"Please load the Phylogenetic tree file (.nwk) to display it.");
+			}
+
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {
@@ -77,15 +84,15 @@ public class KeyController implements KeyListener {
 
 	}
 
-	
+
 	/**
 	 * KeyReleased is triggered when the key comes up.
-	 * 
+	 *
 	 * @param event
-	 *            key that is releases
+	 * 		key that is releases
 	 */
 	@Override
 	public void keyReleased(KeyEvent event) {
-		
+
 	}
 }
