@@ -29,8 +29,8 @@ public class CalculateNInterest extends WrapperOperation {
 		long totalCount = 0;
 		for (DataNode dataNode : wrapper.getDataNodes()) {
 			totalCount += dataNode.getBasePairCount();
-			for (byte b : dataNode.getContent()) {
-				if (b == BasePair.N.storeByte) {
+			for (char b : dataNode.getContent().toCharArray()) {
+				if (b == BasePair.N.name().charAt(0)) {
 					nCount += 1;
 				}
 			}
