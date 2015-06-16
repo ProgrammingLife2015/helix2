@@ -7,12 +7,13 @@ import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.util.HashableCollection;
+import tudelft.ti2806.pl3.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * An utility class to find and combine nodes which can be combined into {@link HorizontalWrapper}.
@@ -20,163 +21,163 @@ import java.util.Map;
  * @author Sam Smulders
  */
 public final class HorizontalWrapUtil {
-	private HorizontalWrapUtil() {
-	}
-	
-	/**
-	 * Constructs a {@link WrappedGraphData} instance which contains the horizontal collapsed graph of the given graph.
-	 * 
-	 * @param original
-	 *            the original graph
-	 * @return the collapsed version of the given graph <br>
-	 *         {@code null} if nothing could be collapsed
-	 */
-	@SuppressWarnings("CPD-START")
-	public static WrappedGraphData collapseGraph(WrappedGraphData original, boolean canUnwrap) {
-		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes(), canUnwrap);
-		if (newLayer == null) {
-			return null;
-		}
-		return new WrappedGraphData(newLayer);
-	}
-	
-	/**
-	 * Combines nodes vertically. Combines all {@link DataNode}s in the given list of node into {@link VerticalWrapper}
-	 * s, reconnects the {@link VerticalWrapper}s in the graph and remove all {@link DataNode}s which are combined from
-	 * the graph.
-	 * 
-	 * @param nodes
-	 *            the nodes to combine
-	 * @return the collapsed version of the given graph<br>
-	 *         {@code null} if nothing could be collapsed
-	 */
-	static List<Wrapper> combineNodes(List<Wrapper> parentLayer, boolean canUnwrap) {
-		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
-		List<Integer> nonWrappedNodesOrder = new ArrayList<>(parentLayer.size());
-		for (Wrapper node : parentLayer) {
-			int id = node.getId();
-			nonWrappedNodes.put(id, node);
-			nonWrappedNodesOrder.add(id);
-		}
-		List<CombineWrapper> combinedNodes = new ArrayList<>();
-		for (List<Wrapper> list : findCombineableNodes(parentLayer)) {
-			HorizontalWrapper newNode = new HorizontalWrapper(list, canUnwrap);
-			combinedNodes.add(newNode);
-			for (Wrapper wrapper : list) {
-				nonWrappedNodes.remove(wrapper.getId());
-			}
-		}
-		if (combinedNodes.size() == 0) {
-			return null;
-		}
-		List<Wrapper> result = new ArrayList<>(nonWrappedNodes.values().size());
-		for (int id : nonWrappedNodesOrder) {
-			Wrapper node = nonWrappedNodes.get(id);
-			if (node != null) {
-				result.add(node);
-			}
-		}
-		return WrapUtil.wrapAndReconnect(result, combinedNodes);
-	}
-	
-	/**
-	 * Searches for the wrappers closest to each other and only wraps those.
-	 * 
-	 * @param combineableNodes
-	 *            the nodes which are able to combine horizontally
-	 * @return the groups of nodes which are closest together out of the given node groups
-	 */
-	static List<List<Wrapper>> cutCombineableNodes(List<List<Wrapper>> combineableNodes) {
-		List<List<Wrapper>> result = new ArrayList<>();
-		while (!combineableNodes.isEmpty()) {
-			Iterator<Wrapper> wrapperList = combineableNodes.remove(combineableNodes.size() - 1).iterator();
-			float distance = Float.MAX_VALUE;
-			List<Wrapper> list = new ArrayList<>();
-			
-			Wrapper prevWrapper = wrapperList.next();
-			
-			float prev = prevWrapper.getX();
-			list.add(prevWrapper);
-			boolean cut = false;
-			while (wrapperList.hasNext()) {
-				Wrapper wrapper = wrapperList.next();
-				float next = wrapper.getX();
-				if (distance < prev - next) {
-					cut = true;
-				} else {
-					if (cut || distance > prev - next) {
-						list = new ArrayList<>();
-						list.add(prevWrapper);
-						distance = prev - next;
-						cut = false;
-					}
-					list.add(wrapper);
-				}
-				prev = next;
-				prevWrapper = wrapper;
-			}
-			result.add(list);
-		}
-		return result;
-	}
-	
-	@SuppressWarnings("CPD-END")
-	/**
-	 * Finds all groups of nodes which can be wrapped horizontal.
-	 * 
-	 * @param nodes
-	 *            the nodes on the graph
-	 * @return a list of horizontal wrap-able nodes.
-	 */
-	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
-		List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
-		Map<Integer, Wrapper> iterateList = new HashMap<>(nodes.size());
-		List<Integer> iterateListOrder = new ArrayList<>(nodes.size());
-		for (Wrapper node : nodes) {
-			int id = node.getId();
-			iterateList.put(id, node);
-			iterateListOrder.add(id);
-		}
-		List<Wrapper> removeFromIterateList = new ArrayList<>();
-		/*
-		 * Here we iterate over each element in iterateList and over each element only once, because we keep track of a
-		 * list of all elements we iterate over.
-		 */
-		while (iterateList.size() > 0) {
-			for (int startNodeId : iterateListOrder) {
-				Wrapper startNode = iterateList.get(startNodeId);
-				if (startNode == null) {
-					continue;
-				}
-				
-				List<Wrapper> foundGroup = new ArrayList<>();
-				foundGroup.add(startNode);
-				// Add all nodes to the right which can be combined.
-				Wrapper node = startNode;
-				while (node.getOutgoing().size() == 1 && node.getOutgoing().get(0).getIncoming().size() == 1) {
-					node = node.getOutgoing().get(0);
-					foundGroup.add(node);
-				}
-				// Add all nodes to the left which can be combined.
-				node = startNode;
-				while (node.getIncoming().size() == 1
-						&& node.getIncoming().get(0).getOutgoing().size() == 1
-						&& new HashableCollection<>(node.getGenome()).equals(new HashableCollection<>(node
-								.getIncoming().get(0).getGenome()))) {
-					node = node.getIncoming().get(0);
-					foundGroup.add(0, node);
-				}
-				removeFromIterateList.addAll(foundGroup);
-				if (foundGroup.size() > 1) {
-					foundCombineableNodes.add(foundGroup);
-					break;
-				}
-			}
-			for (Wrapper wrapper : removeFromIterateList) {
-				iterateList.remove(wrapper.getId());
-			}
-			removeFromIterateList.clear();
-		}
-		return foundCombineableNodes;
-	}
+    private HorizontalWrapUtil() {
+    }
+    
+    /**
+     * Constructs a {@link WrappedGraphData} instance which contains the horizontal collapsed graph of the given graph.
+     * 
+     * @param original
+     *            the original graph
+     * @return the collapsed version of the given graph <br>
+     *         {@code null} if nothing could be collapsed
+     */
+    public static WrappedGraphData collapseGraph(WrappedGraphData original, boolean canUnwrap) {
+        List<Wrapper> newLayer = combineNodes(original.getPositionedNodes(), canUnwrap);
+        if (newLayer == null) {
+            return null;
+        }
+        return new WrappedGraphData(newLayer);
+    }
+    
+    /**
+     * Combines nodes vertically. Combines all {@link DataNode}s in the given list of node into {@link VerticalWrapper}
+     * s, reconnects the {@link VerticalWrapper}s in the graph and remove all {@link DataNode}s which are combined from
+     * the graph.
+     * 
+     * @param nodes
+     *            the nodes to combine
+     * @return the collapsed version of the given graph<br>
+     *         {@code null} if nothing could be collapsed
+     */
+    static List<Wrapper> combineNodes(List<Wrapper> parentLayer, boolean canUnwrap) {
+        Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
+        List<Integer> nonWrappedNodesOrder = new ArrayList<>(parentLayer.size());
+        for (Wrapper node : parentLayer) {
+            int id = node.getId();
+            nonWrappedNodes.put(id, node);
+            nonWrappedNodesOrder.add(id);
+        }
+        List<CombineWrapper> combinedNodes = new ArrayList<>();
+        List<List<Wrapper>> combineAbleNodes = findCombineableNodes(parentLayer);
+        if (canUnwrap) {
+            combineAbleNodes = cutCombineableNodes(combineAbleNodes);
+        }
+        for (List<Wrapper> list : combineAbleNodes) {
+            HorizontalWrapper newNode = new HorizontalWrapper(list, canUnwrap);
+            combinedNodes.add(newNode);
+            for (Wrapper wrapper : list) {
+                nonWrappedNodes.remove(wrapper.getId());
+            }
+        }
+        if (combinedNodes.size() == 0) {
+            return null;
+        }
+        List<Wrapper> result = new ArrayList<>(nonWrappedNodes.values().size());
+        for (int id : nonWrappedNodesOrder) {
+            Wrapper node = nonWrappedNodes.get(id);
+            if (node != null) {
+                result.add(node);
+            }
+        }
+        return WrapUtil.wrapAndReconnect(result, combinedNodes);
+    }
+    
+    /**
+     * Searches for the wrappers closest to each other and only wraps those.
+     * 
+     * @param combineableNodes
+     *            the nodes which are able to combine horizontally
+     * @return the groups of nodes which are closest together out of the given node groups
+     */
+    static List<List<Wrapper>> cutCombineableNodes(List<List<Wrapper>> combineableNodes) {
+        List<List<Wrapper>> result = new ArrayList<>();
+        for (List<Wrapper> list : combineableNodes) {
+            cutHorizontalWrapper(list, result);
+        }
+        return result;
+    }
+    
+    private static void cutHorizontalWrapper(List<Wrapper> list, List<List<Wrapper>> result) {
+        List<Pair<Wrapper, Wrapper>> wrapperPairs = listToPairList(list);
+        List<Pair<Wrapper, Wrapper>> collect = wrapperPairs
+                .stream()
+                .sorted((e1, e2) -> Float.compare(e1.getFirst().getInterest() + e1.getSecond().getInterest(), e2
+                        .getFirst().getInterest() + e2.getSecond().getInterest())).collect(Collectors.toList());
+        while (!collect.isEmpty()) {
+            Pair<Wrapper, Wrapper> leastInteresting = collect.remove(0);
+            result.add(Pair.toList(leastInteresting));
+            collect = collect
+                    .stream()
+                    .filter(a -> !a.contains(leastInteresting.getFirst())
+                            && !a.contains(leastInteresting.getSecond())).collect(Collectors.toList());
+        }
+    }
+
+    private static <T> List<Pair<T, T>> listToPairList(List<T> list) {
+        List<Pair<T, T>> wrapperPairs = new ArrayList<>();
+        for (int i = list.size() - 1; i > 0; i--) {
+            wrapperPairs.add(new Pair<>(list.get(i - 1), list.get(i)));
+        }
+        return wrapperPairs;
+    }
+
+    /**
+     * Finds all groups of nodes which can be wrapped horizontal.
+     * 
+     * @param nodes
+     *            the nodes on the graph
+     * @return a list of horizontal wrap-able nodes.
+     */
+    static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
+        List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
+        Map<Integer, Wrapper> iterateList = new HashMap<>(nodes.size());
+        List<Integer> iterateListOrder = new ArrayList<>(nodes.size());
+        for (Wrapper node : nodes) {
+            int id = node.getId();
+            iterateList.put(id, node);
+            iterateListOrder.add(id);
+        }
+        List<Wrapper> removeFromIterateList = new ArrayList<>();
+        /*
+         * Here we iterate over each element in iterateList and over each element only once, because we keep track of a
+         * list of all elements we iterate over.
+         */
+        while (iterateList.size() > 0) {
+            for (int startNodeId : iterateListOrder) {
+                Wrapper startNode = iterateList.get(startNodeId);
+                if (startNode == null) {
+                    continue;
+                }
+                
+                List<Wrapper> foundGroup = new ArrayList<>();
+                foundGroup.add(startNode);
+                // Add all nodes to the right which can be combined.
+                Wrapper node = startNode;
+                while (node.getOutgoing().size() == 1 && node.getOutgoing().get(0).getIncoming().size() == 1) {
+                    node = node.getOutgoing().get(0);
+                    foundGroup.add(node);
+                }
+                // Add all nodes to the left which can be combined.
+                node = startNode;
+                while (node.getIncoming().size() == 1
+                        && node.getIncoming().get(0).getOutgoing().size() == 1
+                        && new HashableCollection<>(node.getGenome()).equals(new HashableCollection<>(node
+                                .getIncoming().get(0).getGenome()))) {
+                    node = node.getIncoming().get(0);
+                    foundGroup.add(0, node);
+                }
+                removeFromIterateList.addAll(foundGroup);
+                if (foundGroup.size() > 1) {
+                    foundCombineableNodes.add(foundGroup);
+                    break;
+                }
+            }
+            for (Wrapper wrapper : removeFromIterateList) {
+                iterateList.remove(wrapper.getId());
+            }
+            removeFromIterateList.clear();
+        }
+        return foundCombineableNodes;
+    }
 }
