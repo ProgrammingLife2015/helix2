@@ -48,4 +48,12 @@ public class SideBarController implements Controller {
 	public PhyloController getPhyloController() {
 		return phyloController;
 	}
+
+	/**
+	 * Check if the phylogenetic tree is loaded.
+	 * @return true if loaded.
+	 */
+	public boolean isLoaded() {
+		return phyloController.isLoaded();
+	}
 }

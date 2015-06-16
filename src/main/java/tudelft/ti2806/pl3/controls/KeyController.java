@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.controls;
 
 import tudelft.ti2806.pl3.Application;
+import tudelft.ti2806.pl3.ui.util.DialogUtil;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -59,7 +60,12 @@ public class KeyController implements KeyListener {
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_SPACE) {
-			app.getSideBarController().toggleSideBar();
+			if (app.getSideBarController().isLoaded()) {
+				app.getSideBarController().toggleSideBar();
+			} else {
+				DialogUtil.displayError("Error!", "Please load the Phylogenetic tree file (.nwk) to display it.");
+			}
+
 		}
 
 		if (event.getKeyCode() == KeyEvent.VK_EQUALS) {

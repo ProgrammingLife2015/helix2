@@ -31,6 +31,8 @@ public class PhyloController implements Controller, ActionListener, LoadingObser
 
 	private ArrayList<LoadingObserver> observers = new ArrayList<>();
 
+	private boolean loaded;
+
 	/**
 	 * Construct the controller.
 	 *
@@ -43,6 +45,7 @@ public class PhyloController implements Controller, ActionListener, LoadingObser
 		view = new PhyloView(phyloModel);
 		view.addButtonListener(this);
 		phyloModel.addObserver(view);
+		setLoaded(false);
 	}
 
 	public Component getPanel() {
@@ -78,6 +81,7 @@ public class PhyloController implements Controller, ActionListener, LoadingObser
 			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
 			phyloModel.setTree(tree);
 			notifyLoadingObservers(false);
+			setLoaded(true);
 		} catch (IOException e) {
 			if (DialogUtil.confirm("Parse error", "A random error occurred while "
 					+ "parsing the phylotree file. "
@@ -89,6 +93,14 @@ public class PhyloController implements Controller, ActionListener, LoadingObser
 
 	public PhyloView getView() {
 		return view;
+	}
+
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
+	}
+
+	public boolean isLoaded(){
+		return loaded;
 	}
 
 	@Override
