@@ -76,7 +76,8 @@ public class MouseManager extends DefaultMouseManager {
 	}
 
 	private WrapperClone getNodeAtPosition(int x, int y) {
-		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
+		ArrayList<GraphicElement> graphicElements =
+				view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
 		if (graphicElements.size() == 0) {
 			return null;
 		} else {
