@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.visualization;
 
+import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.util.observable.LoadingObservable;
 import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -107,6 +108,10 @@ public class ZoomedGraphModel extends Observable implements Observer,
 			collapsedNode = filteredGraphModel.getCollapsedNode();
 			produceDataNodeWrapperList();
 		}
+	}
+
+	public List<Genome> getGenomes() {
+		return filteredGraphModel.getGenomes();
 	}
 	
 	public Wrapper getWrappedCollapsedNode() {

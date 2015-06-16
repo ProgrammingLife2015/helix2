@@ -4,13 +4,15 @@ import newick.NewickParser;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;
 import tudelft.ti2806.pl3.util.Resources;
-import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +24,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -32,61 +35,62 @@ import javax.swing.tree.TreeSelectionModel;
  * <p>
  * Created by Kasper on 20-5-2015.
  */
-public class PhyloView extends JPanel implements View {
+public class PhyloView extends JPanel implements View, Observer {
 	private static final String WINDOW_TITLE = "Select Genomes";
 	private static final String BUTTON_LABEL_UPDATE = "Update";
 	private static final String ICON_BACTERIA = "pictures/bacteria_small.jpg";
 
+	public static final String LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
+	public static final String LABEL_COMMON_ANCESTOR = "Common ancestor";
+
 	private JTree jTree;
 	private List<String> selected = new ArrayList<>();
-	private PhyloController phyloController;
+
+	private JScrollPane scroller;
+	private JLabel header;
+	private PhyloModel phyloModel;
+
+	JButton button;
+	private JLabel emptyLabel = new JLabel("Please load a .nwk file");
 
 	/**
 	 * Phylo view constructs a Jtree object with our .nwk tree file.
-	 *
-	 * @param tree
-	 * 		Phylogenetic tree parsed by the NewickParser
-	 * @param graphController
-	 * 		Controller of the graph view
 	 */
-	public PhyloView(NewickParser.TreeNode tree, GraphController graphController) {
-		this.phyloController = new PhyloController(this, graphController);
-
-		jTree = new JTree(phyloController.parseTree(tree));
-		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
-		int height = ScreenSize.getInstance().getHeight() - 100;
-
-		setUI(width, height);
+	public PhyloView(PhyloModel phyloModel) {
+		this.phyloModel = phyloModel;
+		jTree = new JTree(new DefaultMutableTreeNode());
+		setUpUserInterface();
 		setUpLook();
-		phyloController.expandTree();
 		setListener();
 	}
 
+
 	/**
 	 * Setup the UI of the view.
-	 *
-	 * @param width
-	 * 		the width of the panel
-	 * @param height
-	 * 		the height of the panel
 	 */
-	private void setUI(int width, int height) {
-		JLabel header = new JLabel(WINDOW_TITLE);
+	private void setUpUserInterface() {
+		final int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		final int height = ScreenSize.getInstance().getHeight() - 100;
+
+		header = new JLabel(WINDOW_TITLE);
 		header.setPreferredSize(new Dimension(width, 50));
 
-		JScrollPane scroller = new JScrollPane(jTree,
+		scroller = new JScrollPane(jTree,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
 		scroller.setMinimumSize(new Dimension(width, height));
+		scroller.setVisible(false);
 
 		this.add(Box.createHorizontalGlue());
 		this.add(header);
 		add(Box.createVerticalGlue());
 		this.add(scroller);
+		this.add(emptyLabel);
 		add(Box.createVerticalGlue());
 
-		JButton button = createButton();
+		button = new JButton(BUTTON_LABEL_UPDATE);
+		button.setVisible(false);
 		this.add(button);
 		button.setPreferredSize(new Dimension(200, 50));
 		setPreferredSize(new Dimension(width, height));
@@ -102,6 +106,60 @@ public class PhyloView extends JPanel implements View {
 		jTree.setCellRenderer(renderer);
 	}
 
+	/**
+	 * Parse the tree file.
+	 *
+	 * @return Root node.
+	 */
+	private DefaultMutableTreeNode convertTree(NewickParser.TreeNode tree) {
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(LABEL_PHYLOGENETIC_TREE);
+		convertChildren(tree, root);
+
+		return root;
+	}
+
+	/**
+	 * Convert the children of a node. This method is recursive and constructs the
+	 * whole tree.
+	 *
+	 * @param tree
+	 * 		tree file root
+	 * @param root
+	 * 		JTree root
+	 */
+	private void convertChildren(NewickParser.TreeNode tree, DefaultMutableTreeNode root) {
+		for (NewickParser.TreeNode child : tree.getChildren()) {
+			DefaultMutableTreeNode childNode;
+			if (child.getName() == null) {
+				childNode = new DefaultMutableTreeNode(LABEL_COMMON_ANCESTOR);
+			} else {
+				childNode = new DefaultMutableTreeNode(child.getName());
+			}
+			root.add(childNode);
+			convertChildren(child, childNode);
+		}
+	}
+
+	/**
+	 * Expand the tree.
+	 */
+	private void expandTree() {
+		for (int i = 0; i < jTree.getRowCount(); i++) {
+			jTree.expandRow(i);
+		}
+	}
+
+	/**
+	 * Update the sizes of the panes relative to the application size.
+	 */
+	public void updateSize() {
+		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		int height = ScreenSize.getInstance().getHeight() - 100;
+
+		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
+		header.setPreferredSize(new Dimension(width, 50));
+	}
+
 
 	/**
 	 * Set up the listener for clicking on the phylogentic tree.
@@ -109,26 +167,45 @@ public class PhyloView extends JPanel implements View {
 	public void setListener() {
 		jTree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-		jTree.getSelectionModel().addTreeSelectionListener(
-				new TreeSelectionListener() {
-					@Override
-					public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
-						TreePath[] treePath = jTree.getSelectionPaths();
-						if (treePath != null) {
-							for (TreePath path : treePath) {
-								DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
-										.getLastPathComponent();
-								String selectName = select.toString();
-								if (selectName.equals(PhyloController.LABEL_COMMON_ANCESTOR)
-										|| selectName.equals(PhyloController.LABEL_PHYLOGENETIC_TREE)) {
-									selected.addAll(getChildsOfAncestor(select));
-								} else {
-									selected.add(select.toString());
-								}
-							}
-						}
+		jTree.getSelectionModel().addTreeSelectionListener(new TreeClassListener());
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
+		model.setRoot(convertTree(phyloModel.getTree()));
+		model.reload();
+		expandTree();
+		emptyLabel.setVisible(false);
+		scroller.setVisible(true);
+		button.setVisible(true);
+	}
+
+	public void addButtonListener(ActionListener listener) {
+		button.addActionListener(listener);
+	}
+
+	/**
+	 * Listener that listens for the tree selection.
+	 */
+	private class TreeClassListener implements TreeSelectionListener {
+		@Override
+		public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+			TreePath[] treePath = jTree.getSelectionPaths();
+			if (treePath != null) {
+				for (TreePath path : treePath) {
+					DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
+							.getLastPathComponent();
+					String selectName = select.toString();
+					if (selectName.equals(LABEL_COMMON_ANCESTOR)
+							|| selectName.equals(LABEL_PHYLOGENETIC_TREE)) {
+						selected.addAll(getChildsOfAncestor(select));
+					} else {
+						selected.add(select.toString());
 					}
-				});
+				}
+			}
+		}
 	}
 
 	/**
@@ -160,24 +237,13 @@ public class PhyloView extends JPanel implements View {
 		while (children.hasMoreElements()) {
 			DefaultMutableTreeNode next = (DefaultMutableTreeNode) children
 					.nextElement();
-			if (next.toString().equals(PhyloController.LABEL_COMMON_ANCESTOR)) {
+			if (next.toString().equals(LABEL_COMMON_ANCESTOR)) {
 				selected.addAll(getChildsOfAncestor(next));
 			} else {
 				selected.add(next.toString());
 			}
 		}
 		return selected;
-	}
-
-	/**
-	 * Create the submit button.
-	 *
-	 * @return the submit button
-	 */
-	private JButton createButton() {
-		JButton button = new JButton(BUTTON_LABEL_UPDATE);
-		button.addActionListener(phyloController);
-		return button;
 	}
 
 	/**
@@ -188,15 +254,6 @@ public class PhyloView extends JPanel implements View {
 	@Override
 	public Component getPanel() {
 		return this;
-	}
-
-	@Override
-	public PhyloController getController() {
-		return phyloController;
-	}
-
-	public JTree getjTree() {
-		return jTree;
 	}
 }
 

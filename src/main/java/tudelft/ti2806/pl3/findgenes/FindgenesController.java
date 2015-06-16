@@ -1,12 +1,13 @@
 package tudelft.ti2806.pl3.findgenes;
 
+import tudelft.ti2806.pl3.ControllerContainer;
 import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,28 +17,22 @@ import javax.swing.JOptionPane;
 public class FindgenesController {
 
 	private final AbstractGraphData graphData;
-	private final FindgenesView findgenesView;
-	private final GraphController graphController;
+	private final ControllerContainer cc;
 	private Object previousSelected;
-	private JFrame frame;
 
 	/**
 	 * Construct the controller and instantiate the view.
 	 *
+	 * @param cc
+	 * 		Reference to all controllers
 	 * @param graphData
 	 * 		Contains the gene data
-	 * @param graphController
-	 * 		Needed to navigate in the graph
 	 */
-	public FindgenesController(AbstractGraphData graphData, GraphController graphController) {
-		findgenesView = new FindgenesView(graphData.getGenes().toArray(new Gene[graphData.getGenes().size()]));
-		this.graphController = graphController;
+	public FindgenesController(ControllerContainer cc, GraphDataRepository graphData) {
+		this.cc = cc;
 		this.graphData = graphData;
 	}
 
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
-	}
 
 	/**
 	 * Opens the dialog which lets the user select a gene.<br>
@@ -45,25 +40,28 @@ public class FindgenesController {
 	 * gene.
 	 */
 	public void openDialog() {
-		JOptionPane.showMessageDialog(frame, findgenesView, "Select a gene:", JOptionPane.QUESTION_MESSAGE);
+		FindgenesView findgenesView = new FindgenesView(
+				graphData.getGenes().toArray(new Gene[graphData.getGenes().size()]));
+		JOptionPane.showMessageDialog(null, findgenesView, "Select a gene:", JOptionPane.QUESTION_MESSAGE);
 
 		if (previousSelected != findgenesView.getSelectedItem()) {
 			boolean tryAgain = false;
+			previousSelected = findgenesView.getSelectedItem();
 			try {
 				Gene selected = (Gene) findgenesView.getSelectedItem();
 				DataNode node = graphData.getGeneToStartNodeMap().get(selected);
 				if (node == null) {
-					JOptionPane.showMessageDialog(frame,
+					JOptionPane.showMessageDialog(null,
 							"Couldn't find the selected gene. Try again");
 					tryAgain = true;
 				} else {
-					graphController.centerOnNode(node);
+					cc.getGraphController().centerOnNode(node);
 				}
 			} catch (ClassCastException e) {
-				JOptionPane.showMessageDialog(frame, "Please select an existing gene. Try again");
+				JOptionPane.showMessageDialog(null, "Please select an existing gene. Try again");
 				tryAgain = true;
 			} catch (NodeNotFoundException e) {
-				JOptionPane.showMessageDialog(frame, "Couldn't find the node on the graph. Try again");
+				JOptionPane.showMessageDialog(null, "Couldn't find the node on the graph. Try again");
 				tryAgain = true;
 			}
 			if (tryAgain == true) {

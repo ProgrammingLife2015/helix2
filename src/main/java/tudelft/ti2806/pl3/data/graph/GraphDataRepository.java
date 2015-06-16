@@ -29,6 +29,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	private int longestnodepath;
 
 	private ArrayList<LoadingObserver> observers = new ArrayList<>();
+	private List<GraphParsedObserver> graphParsedObserver = new ArrayList<>();
 
 	/**
 	 * Construct a empty {@code GraphDataRepository}.
@@ -138,6 +139,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		addGenomes(genomeList);
 
 		notifyLoadingObservers(false);
+		notifyGraphParsedObservers();
 	}
 
 	/**
@@ -340,5 +342,17 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		for (LoadingObserver observer : observers) {
 			observer.update(this, loading);
 		}
+	}
+
+	public void addGraphParsedObserver(GraphParsedObserver o) {
+		graphParsedObserver.add(o);
+	}
+
+	public void removeGraphParsedObserver(GraphParsedObserver o) {
+		graphParsedObserver.remove(o);
+	}
+
+	public void notifyGraphParsedObservers() {
+		graphParsedObserver.forEach(GraphParsedObserver::graphParsed);
 	}
 }

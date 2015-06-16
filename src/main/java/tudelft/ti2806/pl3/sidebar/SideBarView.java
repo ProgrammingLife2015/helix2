@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class SideBarView extends JPanel implements View, LoadingObservable {
 	public static final double SIDEBAR_FACTOR = 0.40;
-	private SideBarController sideBarController;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 
 	/**
@@ -33,22 +32,12 @@ public class SideBarView extends JPanel implements View, LoadingObservable {
 				.getSidebarWidth(), ScreenSize.getInstance().getHeight()));
 		setMinimumSize(new Dimension(ScreenSize.getInstance()
 				.getSidebarWidth(), ScreenSize.getInstance().getHeight()));
-		sideBarController = new SideBarController(this);
 		notifyLoadingObservers(false);
-	}
-
-	public void addToSideBarView(Component view) {
-		this.add(view);
 	}
 
 	@Override
 	public Component getPanel() {
 		return this;
-	}
-
-	@Override
-	public SideBarController getController() {
-		return sideBarController;
 	}
 
 	@Override

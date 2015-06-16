@@ -1,64 +1,52 @@
 package tudelft.ti2806.pl3.sidebar.phylotree;
 
 import newick.NewickParser;
+import newick.ParseException;
 import tudelft.ti2806.pl3.Controller;
+import tudelft.ti2806.pl3.ControllerContainer;
+import tudelft.ti2806.pl3.LoadingObservable;
+import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
-import tudelft.ti2806.pl3.visualization.GraphController;
+import tudelft.ti2806.pl3.ui.util.DialogUtil;
+import tudelft.ti2806.pl3.util.TreeParser;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * Phylo controller controls the phylogentic tree view.
  * Created by Kasper on 20-5-2015.
  */
-public class PhyloController implements Controller,ActionListener {
-	public static final String LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
-	public static final String LABEL_COMMON_ANCESTOR = "Common ancestor";
+public class PhyloController implements Controller, ActionListener, LoadingObservable {
+
 
 	private PhyloView view;
-	private GraphController graphController;
+	private ControllerContainer cc;
+	private PhyloModel phyloModel;
 
-	public PhyloController(PhyloView view,GraphController graphController) {
-		this.view = view;
-		this.graphController = graphController;
-	}
+	private ArrayList<LoadingObserver> observers = new ArrayList<>();
 
 	/**
-	 * Parse the tree file.
+	 * Construct the controller.
 	 *
-	 * @return Root node.
+	 * @param cc
+	 * 		reference to all controllers
 	 */
-	public DefaultMutableTreeNode parseTree(NewickParser.TreeNode tree) {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(LABEL_PHYLOGENETIC_TREE);
-		parseChilds(tree, root);
-
-		return root;
+	public PhyloController(ControllerContainer cc) {
+		this.cc = cc;
+		phyloModel = new PhyloModel();
+		view = new PhyloView(phyloModel);
+		view.addButtonListener(this);
+		phyloModel.addObserver(view);
 	}
 
-	/**
-	 * Parse the childs of a node. This method is recursive and constructs the
-	 * whole tree.
-	 *
-	 * @param node
-	 * 		tree file root
-	 * @param root
-	 * 		JTree root
-	 */
-	private void parseChilds(NewickParser.TreeNode node,
-							 DefaultMutableTreeNode root) {
-		for (NewickParser.TreeNode child : node.getChildren()) {
-			DefaultMutableTreeNode childNode;
-			if (child.getName() == null) {
-				childNode = new DefaultMutableTreeNode(LABEL_COMMON_ANCESTOR);
-			} else {
-				childNode = new DefaultMutableTreeNode(child.getName());
-			}
-			root.add(childNode);
-			parseChilds(child, childNode);
-		}
+	public Component getPanel() {
+		return view;
 	}
 
 	/**
@@ -71,17 +59,59 @@ public class PhyloController implements Controller,ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		List<String> selected = view.getSelected();
 		if (selected.size() != 0) {
-			graphController.addFilter(GenomeFilter.NAME, new GenomeFilter(selected));
+			cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(selected));
 			view.resetSelected();
 		}
 	}
 
 	/**
-	 * Expand the tree.
+	 * Parse the file containing the newick tree.
+	 *
+	 * @param treeFile
+	 * 		the file
+	 * @throws ParseException
+	 * 		when the file was in incorrect file format
 	 */
-	public void expandTree() {
-		for (int i = 0; i < view.getjTree().getRowCount(); i++) {
-			view.getjTree().expandRow(i);
+	public void parseTree(File treeFile) throws ParseException {
+		try {
+			notifyLoadingObservers(true);
+			NewickParser.TreeNode tree = TreeParser.parseTreeFile(treeFile);
+			phyloModel.setTree(tree);
+			notifyLoadingObservers(false);
+		} catch (IOException e) {
+			if (DialogUtil.confirm("Parse error", "A random error occurred while "
+					+ "parsing the phylotree file. "
+					+ "Retrying could help. Would you like to try again now?")) {
+				parseTree(treeFile);
+			}
+		}
+	}
+
+	public PhyloView getView() {
+		return view;
+	}
+
+	@Override
+	public void addLoadingObserver(LoadingObserver loadingObserver) {
+		observers.add(loadingObserver);
+	}
+
+	@Override
+	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
+		for (LoadingObserver loadingObserver : loadingObservers) {
+			addLoadingObserver(loadingObserver);
+		}
+	}
+
+	@Override
+	public void deleteLoadingObserver(LoadingObserver loadingObserver) {
+		observers.remove(loadingObserver);
+	}
+
+	@Override
+	public void notifyLoadingObservers(Object loading) {
+		for (LoadingObserver observer : observers) {
+			observer.update(this, loading);
 		}
 	}
 }
