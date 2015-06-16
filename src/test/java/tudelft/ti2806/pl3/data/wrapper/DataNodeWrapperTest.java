@@ -22,7 +22,7 @@ public class DataNodeWrapperTest {
 	@Test
 	public void getterTests() {
 		Set<Genome> genomeSet = new HashSet<>();
-		DataNode node = new DataNode(0, genomeSet, 0, 1, new byte[] { 0 }, null);
+		DataNode node = new DataNode(0, genomeSet, 0, 1, "", null);
 		
 		DataNodeWrapper wrapper = new DataNodeWrapper(node);
 		assertEquals(node, wrapper.getNode());

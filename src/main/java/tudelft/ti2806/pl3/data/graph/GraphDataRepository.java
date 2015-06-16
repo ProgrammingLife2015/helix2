@@ -1,15 +1,10 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.util.observable.LoadingObservable;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
-import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.gene.GeneData;
-import tudelft.ti2806.pl3.data.label.EndGeneLabel;
-import tudelft.ti2806.pl3.data.label.GeneLabel;
-import tudelft.ti2806.pl3.data.label.Label;
-import tudelft.ti2806.pl3.data.label.StartGeneLabel;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
