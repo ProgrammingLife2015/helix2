@@ -8,6 +8,7 @@ import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.label.EndGeneLabel;
 import tudelft.ti2806.pl3.data.label.GeneLabel;
+import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.label.StartGeneLabel;
 
 import java.io.BufferedInputStream;
@@ -126,6 +127,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		notifyLoadingObservers(true);
 		geneToStartNodeMap = new HashMap<>(geneData.getGenes().size());
 		genes = new ArrayList<>();
+
 		Map<String, Genome> genomeMap = new HashMap<>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap, geneData);
 		genes.sort(Comparator.<Gene>naturalOrder());
@@ -188,16 +190,16 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		boolean started = false;
 		for (int i = start; i <= end; i++) {
 			if (started) {
-				node.addLabel(new GeneLabel(g.getName()));
+				node.addLabel(geneData.getLabel(g.getName()));
 			} else if (geneData.getGeneStart().containsKey(i)) {
 				g = geneData.getGeneStart().get(i);
 				geneToStartNodeMap.put(g, node);
 				genes.add(g);
-				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
+				node.addLabel(geneData.getStartLabel(g.getName()));
 				started = true;
 			} else if (geneData.getGeneEnd().containsKey(i)) {
 				g = geneData.getGeneEnd().get(i);
-				node.addLabel(new EndGeneLabel(g.getName(), g.getEnd()));
+				node.addLabel(geneData.getEndLabel(g.getName()));
 			}
 		}
 	}
