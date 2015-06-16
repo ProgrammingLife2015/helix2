@@ -27,7 +27,7 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
     @Override
     public void calculate(SpaceWrapper wrapper, Wrapper container) {
         super.calculate(wrapper, container);
-        wrapper.addCollapse(getAvgSpaceLeft(wrapper));
+        wrapper.addCollapse(getCompensatedMinSpaceLeft(wrapper));
     }
     
     @Override
@@ -43,7 +43,7 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
      *            the wrapper of which to determine if there is enough space to unfold it
      * @return a value of the average space between nodes.
      */
-    float getMinSpaceLeft(CombineWrapper wrapper) {
+    static float getMinSpaceLeft(CombineWrapper wrapper) {
         return getMinDistance(wrapper.getFirst(), wrapper.getLast());
     }
     
@@ -65,7 +65,24 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
         return avg / count;
     }
     
-    private float getMinDistance(Wrapper first, Wrapper last) {
+    static float getCompensatedMinSpaceLeft(SpaceWrapper wrapper) {
+        return 0.5f * ((wrapper.getLast().getX() - wrapper.getFirst().getX())
+                / (wrapper.getLast().getPreviousNodesCount() - wrapper.getFirst().getPreviousNodesCount())
+                + getMinSpaceLeft(wrapper));
+    }
+    
+    static int getShortestPath(Wrapper first, Wrapper last) {
+        int min = Integer.MAX_VALUE;
+        for (Wrapper wrapper : first.getOutgoing()) {
+            if (wrapper == last) {
+                return 1;
+            }
+            min = Math.min(min, getShortestPath(wrapper, last));
+        }
+        return min + 1;
+    }
+    
+    static float getMinDistance(Wrapper first, Wrapper last) {
         float min = Float.MAX_VALUE;
         for (Wrapper wrapper : first.getOutgoing()) {
             if (wrapper == last) {

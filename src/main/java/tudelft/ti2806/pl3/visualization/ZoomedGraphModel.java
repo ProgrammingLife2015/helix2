@@ -36,7 +36,7 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	/**
 	 * Minimum distance between nodes in pixels, can be overruled by {@link #MIN_NODE_COUNT}.
 	 */
-	private static final float MIN_NODE_DISTANCE = 10f;
+	private static final float MIN_NODE_DISTANCE = 40f;
 	private FilteredGraphModel filteredGraphModel;
 	private Wrapper collapsedNode;
 	private List<WrapperClone> dataNodeWrapperList;
