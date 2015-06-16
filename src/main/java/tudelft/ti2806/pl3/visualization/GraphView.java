@@ -10,9 +10,9 @@ import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 import tudelft.ti2806.pl3.util.observable.LoadingObservable;
 import tudelft.ti2806.pl3.util.observers.LoadingObserver;
+import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.graph.DataNode;
-import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
@@ -39,7 +39,7 @@ public class GraphView
 	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
-	 * be readable, each with {@link #basePairDisplayWidth} pixels to draw its
+	 * be readable, each with  pixels to draw its
 	 * value as text. A zoom level of 2.0 shows the graph with each base pair
 	 * using the half this size.
 	 */
@@ -55,6 +55,7 @@ public class GraphView
 	private Viewer viewer;
 	private View panel;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private MouseManager mouseManager;
 	private ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
 
 	private float offsetToCenter = -1;
@@ -79,9 +80,10 @@ public class GraphView
 	 * zoomLevel updates.
 	 */
 	private void generateViewer() {
-		viewer = new Viewer(graph,
-				Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_SWING_THREAD);
 		panel = viewer.addDefaultView(false);
+		mouseManager = new MouseManager();
+		viewer.getDefaultView().setMouseManager(mouseManager);
 		removeDefaultKeys();
 		panel.addComponentListener(new ComponentAdapter() {
 			@Override
@@ -106,7 +108,7 @@ public class GraphView
 	 * Sets the graph its drawing properties.
 	 */
 	private void setGraphPropertys() {
-		String stylesheet = "stylesheet.css";
+		final String stylesheet = "stylesheet.css";
 
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
@@ -127,20 +129,19 @@ public class GraphView
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				if (FixWrapper.ID != node.getId()) {
-					Node graphNode = graph.addNode(Integer.toString(node.getId()));
-					double y = node.getY() * someSize;
-					graphNode.setAttribute("xy", node.getX(), y);
-					graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
+				Node graphNode = graph.addNode(Integer.toString(node.getId()));
+				double y = node.getY() * someSize;
+				graphNode.setAttribute("xy", node.getX(), y);
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
 							.getSimpleName());
-					graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-				}
+				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				graphNode.setAttribute("node", node);
 			});
 
-		for (Wrapper node : graphData) {
+		for (WrapperClone node : graphData) {
 			int i = 0;
 			for (Wrapper to : node.getOutgoing()) {
-				if (FixWrapper.ID != node.getId() && FixWrapper.ID != to.getId()) {
+				if (node.getId() >= 0 && to.getId() >= 0) { // Exclude FixWrappers
 					addNormalEdge(graph, node, to, i);
 				}
 				i++;
@@ -308,5 +309,9 @@ public class GraphView
 
 	public void notifyGraphLoadedListeners() {
 		graphLoadedListeners.forEach(GraphLoadedListener::graphLoaded);
+	}
+
+	public void removeDetailView() {
+		mouseManager.removeDetailView();
 	}
 }

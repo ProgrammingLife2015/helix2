@@ -90,11 +90,11 @@ public final class WrapUtil {
 	 */
 	public static WrappedGraphData applyFixNode(WrappedGraphData graph) {
 		List<Wrapper> nodes = graph.getPositionedNodes();
-		FixWrapper startFix = new FixWrapper();
-		FixWrapper endFix = new FixWrapper();
+		FixWrapper startFix = new FixWrapper(-1);
+		FixWrapper endFix = new FixWrapper(-2);
 		startFix.getOutgoing().add(endFix);
 		endFix.getIncoming().add(startFix);
-		Set<Genome> genomeSet = new HashSet<Genome>();
+		Set<Genome> genomeSet = new HashSet<>();
 		for (Wrapper node : nodes) {
 			Set<Genome> genome = node.getGenome();
 			genomeSet.addAll(genome);

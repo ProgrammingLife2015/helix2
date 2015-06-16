@@ -241,4 +241,8 @@ public class GraphController implements Controller {
 	public float getOffsetToCenter() {
 		return graphView.getOffsetToCenter();
 	}
+
+	public void removeDetailView() {
+		graphView.removeDetailView();
+	}
 }
