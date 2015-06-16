@@ -8,11 +8,14 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
+import tudelft.ti2806.pl3.menubar.LastOpenedController;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
-
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.util.FileSelector;
+import tudelft.ti2806.pl3.util.LastOpenedStack;
+import tudelft.ti2806.pl3.util.ParserLastOpened;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.zoombar.ZoomBarController;
 
@@ -23,6 +26,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -60,7 +64,15 @@ public class Application extends JFrame implements ControllerContainer {
 	 * Construct the main application view.
 	 */
 	public Application() {
-		super("Helix²");
+		super("Helix" + "\u00B2");
+		// read the last opened files
+		try {
+			LastOpenedStack<File> files = ParserLastOpened.readLastOpened();
+			FileSelector.setLastOpened(files);
+		} catch (IOException e) {
+			// the file is missing so there are no lastopened
+			FileSelector.setLastOpened(new LastOpenedStack<>(ParserLastOpened.limit));
+		}
 
 		keys = new KeyController(this);
 		loadingObservers.add(new LoadingMouse(this));
@@ -94,6 +106,9 @@ public class Application extends JFrame implements ControllerContainer {
 
 		// set menu bar
 		MenuBarController menuBarController = new MenuBarController(this);
+		LastOpenedController lastOpenedController = new LastOpenedController(this);
+		menuBarController.setLastOpenedMenu(lastOpenedController.getLastOpenedMenu());
+		FileSelector.lastopened.addObserver(lastOpenedController);
 		setMenuBar(menuBarController.getMenuBar());
 
 		// set window controller
@@ -119,18 +134,8 @@ public class Application extends JFrame implements ControllerContainer {
 	public void makeGraphFromFolder() {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
-
-			File[] nodeFiles = folder.listFiles((dir, name) -> {
-					return name.endsWith(".node.graph");
-				}
-			);
-			File[] treeFiles = folder.listFiles((dir, name) -> {
-					return name.endsWith("nwk");
-				}
-			);
-			File edgeFile = new File(nodeFiles[0].getAbsolutePath().replace(".node", ".edge"));
-
-			makeGraph(nodeFiles[0], edgeFile, treeFiles[0]);
+			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph",".nwk");
+			makeGraph(files[0], files[1], files[2]);
 		} catch (FileSelectorException | NullPointerException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFolder();
@@ -144,7 +149,7 @@ public class Application extends JFrame implements ControllerContainer {
 	public void makeGraphFromFiles() {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
-			File edgeFile = new File(nodeFile.getAbsolutePath().replace(".node", ".edge"));
+			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			makeGraph(nodeFile, edgeFile, null);
 		} catch (FileSelectorException exception) {
 			if (confirm("Error!", "Your file was not found. Want to try again?")) {
@@ -156,7 +161,7 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Parses the graph files and makes a graphview.
 	 */
-	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+	public void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
 			final long startTime = System.currentTimeMillis();
 
@@ -213,6 +218,12 @@ public class Application extends JFrame implements ControllerContainer {
 	public void stop() {
 		// save data or do something else here
 		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
+			try {
+				ParserLastOpened.saveLastOpened(FileSelector.lastopened);
+			} catch (IOException | InterruptedException e) {
+				System.out.println("Unable to save the files");
+				e.printStackTrace();
+			}
 			this.dispose();
 			System.exit(0);
 		}

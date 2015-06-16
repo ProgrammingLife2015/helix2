@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.Controller;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -41,12 +42,12 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the About Me option in the Help menu.
 	 */
-	final String about = "HelixÂ² is an interactive DNA sequence viewer. "
+	final String about = "Helix² is an interactive DNA sequence viewer. "
 			+ "It uses semantic zooming to only display relative information. \n"
 			+ "This application was created as part of an assignment"
 			+ "for the Context Project at TU Delft.\n"
 			+ "\n"
-			+ "HelixÂ² was created by: \n"
+			+ "Helix² was created by: \n"
 			+ "- Tom Brouws\n"
 			+ "- Boris Mattijssen\n"
 			+ "- Mathieu Post\n"
@@ -58,7 +59,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	final String controls = "HelixÂ² uses key shortcuts to make life easier. "
+	final String controls = "Helix² uses key shortcuts to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
 			+ "Zooming in     \t+ \n"
@@ -126,6 +127,10 @@ public class MenuBarController implements ActionListener, Controller {
 
 	private void showFindGenes() {
 		application.getFindgenesController().openDialog();
+	}
+
+	public void setLastOpenedMenu(Component lastOpenedMenu){
+		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
 	/**
 	 * Displays the controls text in a {@link JTextPane}.

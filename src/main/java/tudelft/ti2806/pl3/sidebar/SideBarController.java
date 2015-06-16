@@ -2,7 +2,7 @@ package tudelft.ti2806.pl3.sidebar;
 
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.ControllerContainer;
-import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 
 import java.awt.Component;

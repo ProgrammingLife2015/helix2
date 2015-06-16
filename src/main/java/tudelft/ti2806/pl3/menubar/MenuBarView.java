@@ -80,7 +80,6 @@ public class MenuBarView extends JMenuBar implements View {
 		zoomIn.setMnemonic(KeyEvent.VK_I);
 		JMenuItem zoomOut = new JMenuItem("Zoom out");
 		zoomOut.setAccelerator(KeyStroke.getKeyStroke(minus));
-		zoomOut.setAccelerator(KeyStroke.getKeyStroke(minus));
 		zoomOut.setMnemonic(KeyEvent.VK_U);
 		JMenuItem moveLeft = new JMenuItem("Move left");
 		moveLeft.setAccelerator(KeyStroke.getKeyStroke(left));
@@ -120,6 +119,11 @@ public class MenuBarView extends JMenuBar implements View {
 		helpMenu.add(about);
 
 		return helpMenu;
+	}
+
+	public void setLastOpenedMenu(Component lastOpenedMenu) {
+		JMenu file = menus.get(0);
+		file.add(lastOpenedMenu, 3);
 	}
 
 	@Override

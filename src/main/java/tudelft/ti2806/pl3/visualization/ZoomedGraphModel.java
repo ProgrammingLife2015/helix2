@@ -1,8 +1,8 @@
 package tudelft.ti2806.pl3.visualization;
 
-import tudelft.ti2806.pl3.LoadingObservable;
-import tudelft.ti2806.pl3.LoadingObserver;
 import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
@@ -43,7 +43,7 @@ public class ZoomedGraphModel extends Observable implements Observer,
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	
 	private int zoomLevel = 1;
-
+	
 	/**
 	 * Construct a new ZoomedGraphModel, with a reference to the
 	 * {@link tudelft.ti2806.pl3.data.filter.Filter}.
@@ -142,6 +142,4 @@ public class ZoomedGraphModel extends Observable implements Observer,
 			loadingObserver.update(this, arguments);
 		}
 	}
-
-
 }
