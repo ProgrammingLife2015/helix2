@@ -12,7 +12,6 @@ import tudelft.ti2806.pl3.menubar.LastOpenedController;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
-import tudelft.ti2806.pl3.ui.util.DialogUtil;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.LastOpenedStack;
 import tudelft.ti2806.pl3.util.ParserLastOpened;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 /**
  * The main application view.
@@ -137,7 +137,7 @@ public class Application extends JFrame implements ControllerContainer {
 			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph",".nwk");
 			makeGraph(files[0], files[1], files[2]);
 		} catch (FileSelectorException | NullPointerException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFolder();
 			}
 		}
@@ -152,7 +152,7 @@ public class Application extends JFrame implements ControllerContainer {
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			makeGraph(nodeFile, edgeFile, null);
 		} catch (FileSelectorException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFiles();
 			}
 		}
@@ -173,7 +173,7 @@ public class Application extends JFrame implements ControllerContainer {
 			long loadTime = System.currentTimeMillis() - startTime;
 			System.out.println("Loadtime: " + loadTime);
 		} catch (FileNotFoundException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph(nodeFile, edgeFile, treeFile);
 			}
 		}
@@ -202,11 +202,11 @@ public class Application extends JFrame implements ControllerContainer {
 
 
 		} catch (FileSelectorException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (confirm("Error!", "Your file was not found. Want to try again?")) {
 				makePhyloTree();
 			}
 		} catch (ParseException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
+			if (confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
 				makePhyloTree();
 			}
 		}
@@ -217,7 +217,7 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public void stop() {
 		// save data or do something else here
-		if (DialogUtil.confirm("Exit", "Are you sure you want to exit the application? ")) {
+		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
 			try {
 				ParserLastOpened.saveLastOpened(FileSelector.lastopened);
 			} catch (IOException | InterruptedException e) {
@@ -227,6 +227,23 @@ public class Application extends JFrame implements ControllerContainer {
 			this.dispose();
 			System.exit(0);
 		}
+	}
+
+	/**
+	 * Asks the user to confirm his choose with a pop up.
+	 *
+	 * @param title
+	 * 		of the popup
+	 * @param message
+	 * 		in the popup
+	 * @return true if yes, false otherwise
+	 */
+	public boolean confirm(String title, String message) {
+		int answer = JOptionPane
+				.showConfirmDialog(main, message, title,
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+		return answer == JOptionPane.YES_OPTION;
 	}
 
 	/**
