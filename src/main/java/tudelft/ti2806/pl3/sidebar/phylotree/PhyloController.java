@@ -4,11 +4,11 @@ import newick.NewickParser;
 import newick.ParseException;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.ControllerContainer;
-import tudelft.ti2806.pl3.util.observable.LoadingObservable;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
 import tudelft.ti2806.pl3.util.TreeParser;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -99,7 +99,7 @@ public class PhyloController implements Controller, ActionListener, LoadingObser
 		this.loaded = loaded;
 	}
 
-	public boolean isLoaded(){
+	public boolean isLoaded() {
 		return loaded;
 	}
 
