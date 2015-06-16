@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.data.metafilter;
+package tudelft.ti2806.pl3.metafilter;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import tudelft.ti2806.pl3.data.Gender;

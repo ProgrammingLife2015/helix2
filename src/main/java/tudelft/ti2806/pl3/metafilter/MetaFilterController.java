@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.data.metafilter;
+package tudelft.ti2806.pl3.metafilter;
 
 import tudelft.ti2806.pl3.ControllerContainer;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
