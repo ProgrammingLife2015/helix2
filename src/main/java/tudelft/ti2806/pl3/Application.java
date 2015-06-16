@@ -220,7 +220,7 @@ public class Application extends JFrame implements ControllerContainer {
 		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
 			try {
 				ParserLastOpened.saveLastOpened(FileSelector.lastopened);
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
 				System.out.println("Unable to save the files");
 				e.printStackTrace();
 			}

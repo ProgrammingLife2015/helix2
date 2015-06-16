@@ -25,14 +25,15 @@ public class ParserLastOpened {
 	 * @param output to write
 	 * @throws IOException when saving goes wrong
 	 */
-	public static void saveLastOpened(LastOpenedStack<File> output) throws IOException {
+	public static void saveLastOpened(LastOpenedStack<File> output) throws IOException, InterruptedException {
 		String os = System.getProperty("os.name").toLowerCase();
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
 		File save = new File(s + File.separator + saveName);
 
 		if (os.contains("windows")){
-			Runtime.getRuntime().exec("attrib -H " + save.getPath());
+			Process p = Runtime.getRuntime().exec("attrib -H " + saveName);
+			p.waitFor();
 		}
 
 		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(save.getAbsoluteFile()));
@@ -43,7 +44,8 @@ public class ParserLastOpened {
 		bufferedWriter.close();
 
 		if (os.contains("windows")){
-			Runtime.getRuntime().exec("attrib +H " + save.getPath());
+			Process p = Runtime.getRuntime().exec("attrib +H " + saveName);
+			p.waitFor();
 		}
 	}
 
