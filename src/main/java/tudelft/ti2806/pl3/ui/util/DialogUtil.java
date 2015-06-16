@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.ui.util;
 
+import java.awt.Component;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,6 +26,30 @@ public class DialogUtil {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 		return answer == JOptionPane.YES_OPTION;
+	}
+
+	/**
+	 * Displays a message dialog with a given view.
+	 *
+	 * @param view
+	 * 		to display
+	 * @param title
+	 * 		of the pop-up
+	 */
+	public static void displayMessageWithView(Component view, String title) {
+		JOptionPane.showMessageDialog(null, view, "Select a gene:", JOptionPane.QUESTION_MESSAGE);
+	}
+
+	/**
+	 * Display a message dialog with text.
+	 *
+	 * @param title
+	 * 		of the pop-up
+	 * @param message
+	 * 		to display
+	 */
+	public static void displayMessage(String title, String message) {
+		JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
 	}
 
 }

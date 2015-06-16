@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
+import tudelft.ti2806.pl3.ui.util.DialogUtil;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import javax.swing.JOptionPane;
@@ -42,7 +43,7 @@ public class FindgenesController {
 	public void openDialog() {
 		FindgenesView findgenesView = new FindgenesView(
 				graphData.getGenes().toArray(new Gene[graphData.getGenes().size()]));
-		JOptionPane.showMessageDialog(null, findgenesView, "Select a gene:", JOptionPane.QUESTION_MESSAGE);
+		DialogUtil.displayMessageWithView(findgenesView,"Select a gene:");
 
 		if (previousSelected != findgenesView.getSelectedItem()) {
 			boolean tryAgain = false;
@@ -58,13 +59,11 @@ public class FindgenesController {
 					cc.getGraphController().centerOnNode(node);
 				}
 			} catch (ClassCastException e) {
-				JOptionPane.showMessageDialog(null, "Please select an existing gene. Try again");
-				tryAgain = true;
+				tryAgain = DialogUtil.confirm("Error!", "Please select an existing gene.");
 			} catch (NodeNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Couldn't find the node on the graph. Try again");
-				tryAgain = true;
+				tryAgain = DialogUtil.confirm("Error!", "Couldn't find the node on the graph. Please try again.");
 			}
-			if (tryAgain == true) {
+			if (tryAgain) {
 				openDialog();
 			}
 		}
