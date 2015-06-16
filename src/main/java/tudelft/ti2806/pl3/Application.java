@@ -172,7 +172,7 @@ public class Application extends JFrame implements ControllerContainer {
 		try {
 			final long startTime = System.currentTimeMillis();
 
-			graphController.parseGraph(nodeFile, edgeFile);
+			graphController.parseGraph(nodeFile, edgeFile, metaFile);
 
 			if (treeFile != null) {
 				makePhyloTree(treeFile);
