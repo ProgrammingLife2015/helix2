@@ -4,7 +4,6 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.label.Label;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.data.gene;
 
 import org.junit.Before;
 import org.junit.Test;
+import tudelft.ti2806.pl3.data.label.Label;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class GeneDataTest {
 	@Test
 	public void parseSingleGeneTest() {
 		ArrayList<Gene> genes = new ArrayList<>();
+		Map<String, Label> labelMap = new HashMap<>();
 		Map<Integer, Gene> geneStart = new HashMap<>();
 		Map<Integer, Gene> geneEnd = new HashMap<>();
 
@@ -65,7 +67,7 @@ public class GeneDataTest {
 		Integer start = 1110;
 		Integer end = 1581;
 		Gene gene = new Gene("Corndogp005", start, end);
-		GeneData.parseGene(line, genes, geneStart, geneEnd);
+		GeneData.parseGene(line, genes, geneStart, geneEnd, labelMap);
 		assertTrue(genes.get(0).equals(gene));
 		assertTrue(geneStart.get(start).equals(gene));
 		assertTrue(geneEnd.get(end).equals(gene));
