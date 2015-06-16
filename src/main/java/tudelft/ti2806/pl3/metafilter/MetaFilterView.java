@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.metafilter;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import tudelft.ti2806.pl3.data.Gender;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,24 +11,20 @@ import java.awt.*;
  */
 public class MetaFilterView extends JPanel {
 
-	private final JCheckBox hivStatus;
+	private final JComboBox<String> hivStatus;
 	private final JTextField age;
-	private final JComboBox<Gender> gender;
+	private final JComboBox<String> gender;
 
-	public boolean getHivStatus() {
-		return hivStatus.isEnabled();
+	public String getHivStatus() {
+		return (String) hivStatus.getSelectedItem();
 	}
 
-	public int getAge() { // TODO: check input
-		return Integer.parseInt(age.getText());
+	public String getAge() {
+		return age.getText();
 	}
 
-	public Gender getGender() {
-		if(gender.getSelectedItem().equals(Gender.FEMALE)) {
-			return Gender.FEMALE;
-		} else {
-			return Gender.MALE;
-		}
+	public String getGender() {
+		return (String) gender.getSelectedItem();
 	}
 
 	public String getStrainLocation() {
@@ -49,13 +44,14 @@ public class MetaFilterView extends JPanel {
 		GridLayout gridLayout = new GridLayout(5, 2);
 		this.setLayout(gridLayout);
 
-		hivStatus = new JCheckBox("HIV positive", true);
+		JLabel hivLabel = new JLabel("HIV status:");
+		hivStatus = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Positive", "Negative"}));
 
 		JLabel ageLabel = new JLabel("Age:");
 		age = new JTextField();
 
 		JLabel genderLabel = new JLabel("Gender:");
-		gender = new JComboBox<>(Gender.values());
+		gender = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Male", "Female"}));
 
 		JLabel locationLabel = new JLabel("Location:");
 		strainLocation = new JTextField();
@@ -63,10 +59,8 @@ public class MetaFilterView extends JPanel {
 		JLabel isolationDateLabel = new JLabel("Isolation date:");
 		isolationDate = new JTextField();
 
-		JLabel spacingLabel = new JLabel();
-
+		this.add(hivLabel);
 		this.add(hivStatus);
-		this.add(spacingLabel);
 		this.add(ageLabel);
 		this.add(age);
 		this.add(genderLabel);

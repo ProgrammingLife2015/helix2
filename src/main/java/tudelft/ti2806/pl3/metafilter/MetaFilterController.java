@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
 import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.ui.util.DialogUtil;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import javax.swing.*;
@@ -35,6 +36,31 @@ public class MetaFilterController {
         this.graphData = graphData;
     }
 
+    private Gender computeGender(String input) {
+        if (input.equals("Female")) {
+            return Gender.FEMALE;
+        } else if (input.equals("Male")) {
+            return Gender.MALE;
+        } else {
+            return null;
+        }
+    }
+
+    private boolean computeHivStatus(String input) {
+        if (input.equals("Positive")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int computeAge(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
 
     /**
      * Opens the dialog which lets the user select a gene.<br>
@@ -50,45 +76,36 @@ public class MetaFilterController {
                 .showMessageDialog(null, metaFilterView, "Select options to filter on:", JOptionPane.QUESTION_MESSAGE);
 
         List<String> genomeList = new ArrayList<>();
-        int selectedAge = metaFilterView.getAge();
-        Gender selectedGender = metaFilterView.getGender();
+        int selectedAge = computeAge(metaFilterView.getAge());
+        Gender selectedGender = computeGender(metaFilterView.getGender());
         String selectedLocation = metaFilterView.getStrainLocation();
         String selectedIsolationDate = metaFilterView.getIsolationDate();
-        boolean selectedHivStatus = metaFilterView.getHivStatus();
 
-        genomeList.addAll(graphData.getGenomes().stream().filter(genome -> genome.getAge() == selectedAge
-                && genome.getGender().equals(selectedGender)
-                && genome.getLocation().equals(selectedLocation)
-                && genome.getIsolationDate().equals(selectedIsolationDate)
-                && genome.getHivStatus() == selectedHivStatus).map(Genome::getIdentifier).collect(Collectors.toList()));
+        final boolean selectedHivStatus;
+        final boolean checkHiv;
+        if (metaFilterView.getHivStatus().equals("- None -")) {
+            checkHiv = false;
+            selectedHivStatus = false;
+        } else {
+            selectedHivStatus = computeHivStatus(metaFilterView.getHivStatus());
+            checkHiv = true;
+        }
+
+        genomeList.addAll(graphData.getGenomes().stream().filter(
+                genome -> (selectedAge == 0 || genome.getAge() == selectedAge)
+                        && (selectedGender == null || genome.getGender().equals(selectedGender))
+                        && (selectedLocation.equals("") || genome.getLocation().equals(selectedLocation))
+                        && (selectedIsolationDate.equals("") || genome.getIsolationDate().equals(selectedIsolationDate))
+                        && (!checkHiv || genome.getHivStatus() == selectedHivStatus)).map(
+                Genome::getIdentifier).collect(
+                Collectors.toList()));
 
         if (genomeList.size() != 0) {
             cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
+        } else {
+            if (DialogUtil.confirm("No genomes found", "No genomes are found for the selected metadata, want to enter new data?")) {
+                openDialog();
+            }
         }
-
-//		if (previousSelected != findgenesView.getSelectedItem()) {
-//			boolean tryAgain = false;
-//			previousSelected = findgenesView.getSelectedItem();
-//			try {
-//				Gene selected = (Gene) findgenesView.getSelectedItem();
-//				DataNode node = graphData.getGeneToStartNodeMap().get(selected);
-//				if (node == null) {
-//					JOptionPane.showMessageDialog(null,
-//							"Couldn't find the selected gene. Try again");
-//					tryAgain = true;
-//				} else {
-//					cc.getGraphController().centerOnNode(node);
-//				}
-//			} catch (ClassCastException e) {
-//				JOptionPane.showMessageDialog(null, "Please select an existing gene. Try again");
-//				tryAgain = true;
-//			} catch (NodeNotFoundException e) {
-//				JOptionPane.showMessageDialog(null, "Couldn't find the node on the graph. Try again");
-//				tryAgain = true;
-//			}
-//			if (tryAgain) {
-//				openDialog();
-//			}
-//		}
     }
 }
