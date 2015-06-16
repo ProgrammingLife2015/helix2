@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.Controller;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -34,17 +36,18 @@ import javax.swing.text.TabStop;
  */
 public class MenuBarController implements ActionListener, Controller {
 
+	private final MenuBarView menuBarView;
 	private Application application;
 
 	/**
 	 * Text that is displayed in the About Me option in the Help menu.
 	 */
-	final String about = "Helix\u00B2 is a interactive DNA sequence viewer. "
+	final String about = "Helix² is an interactive DNA sequence viewer. "
 			+ "It uses semantic zooming to only display relative information. \n"
-			+ "This application was created for as part of an assignment"
+			+ "This application was created as part of an assignment"
 			+ "for the Context Project at TU Delft.\n"
 			+ "\n"
-			+ "Helix\u00B2 was created by: \n"
+			+ "Helix² was created by: \n"
 			+ "- Tom Brouws\n"
 			+ "- Boris Mattijssen\n"
 			+ "- Mathieu Post\n"
@@ -56,14 +59,16 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	final String controls = "Helix\u00B2 uses key shortcut to make life easier. "
+	final String controls = "Helix² uses key shortcuts to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
 			+ "Zooming in     \t+ \n"
 			+ "Zooming out    \t - \n"
 			+ "Reset the view \t R \n"
-			+ "Move the view to the left \t left arrow \n"
-			+ "Move the view to the right \t right arrow \n"
+			+ "Move the view to the left \t \u2190 \n"
+			+ "Move the view to the right \t \u2192 \n"
+			+ "Gene navigation window \t G \n"
+			+ "Hide/show phylogenetic tree window \t spacebar \n"
 			+ "\n"
 			+ "All of the menus can be controlled with the underlined letter, "
 			+ "hold the ALT key to activate this.";
@@ -76,6 +81,12 @@ public class MenuBarController implements ActionListener, Controller {
 	 */
 	public MenuBarController(Application application) {
 		this.application = application;
+		this.menuBarView = new MenuBarView();
+		menuBarView.addActionListener(this);
+	}
+
+	public JMenuBar getMenuBar() {
+		return menuBarView;
 	}
 
 	private void stop() {
@@ -117,10 +128,14 @@ public class MenuBarController implements ActionListener, Controller {
 	private void showFindGenes() {
 		application.getFindgenesController().openDialog();
 	}
+
+	public void setLastOpenedMenu(Component lastOpenedMenu){
+		menuBarView.setLastOpenedMenu(lastOpenedMenu);
+	}
 	/**
 	 * Displays the controls text in a {@link JTextPane}.
 	 */
-	private void displayControls() {
+	public void displayControls() {
 		JTextPane textPane = new JTextPane();
 		TabStop[] tabs = new TabStop[1];
 		tabs[0] = new TabStop(300, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);

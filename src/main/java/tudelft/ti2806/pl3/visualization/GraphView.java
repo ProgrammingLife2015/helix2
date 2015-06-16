@@ -4,13 +4,14 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
-import tudelft.ti2806.pl3.LoadingObservable;
-import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.controls.MouseManager;
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
+import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
@@ -18,6 +19,8 @@ import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 
 import java.awt.Component;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -31,20 +34,16 @@ import java.util.Observer;
  * @author Sam Smulders
  *
  */
-public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
+public class GraphView
+		implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
 	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
-	 * be readable, each with {@link #basePairDisplayWidth} pixels to draw its
+	 * be readable, each with  pixels to draw its
 	 * value as text. A zoom level of 2.0 shows the graph with each base pair
 	 * using the half this size.
 	 */
 	private double zoomLevel = 1.0;
-	/**
-	 * The center position of the view.<br>
-	 * The position on the x axis.
-	 */
-	private float zoomCenter = 1;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
@@ -57,59 +56,22 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	private View panel;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private MouseManager mouseManager;
+	private ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
 
-	private GraphController graphController;
-
-	private FilteredGraphModel filteredGraphModel;
+	private float offsetToCenter = -1;
+	private boolean zoomCenterSet = false;
 	private ZoomedGraphModel zoomedGraphModel;
 
-	private AbstractGraphData abstractGraphData;
-
 	/**
-	 * Construct a GraphView with no LoadingObservers.
+	 * Construct a GraphView.
 	 *
-	 * @param abstractGraphData
-	 * 		GraphData to display
+	 * @param zoomedGraphModel
+	 * 		The zoomed graph model
 	 */
-	public GraphView(AbstractGraphData abstractGraphData) {
-		this(abstractGraphData, null);
-	}
-
-	/**
-	 * Construct a GraphView with LoadingObserver.
-	 *
-	 * @param abstractGraphData
-	 * 		GraphData to display
-	 * @param loadingObservers
-	 * 		Observers for loading
-	 */
-	public GraphView(AbstractGraphData abstractGraphData, ArrayList<LoadingObserver> loadingObservers) {
-		this.abstractGraphData = abstractGraphData;
-		// make graph
-		filteredGraphModel = new FilteredGraphModel(abstractGraphData);
-		zoomedGraphModel = new ZoomedGraphModel(filteredGraphModel);
-		// add the loading observers
-		addLoadingObserversList(loadingObservers);
-		filteredGraphModel.addLoadingObserversList(loadingObservers);
-		zoomedGraphModel.addLoadingObserversList(loadingObservers);
-
-		init();
-		filteredGraphModel.addObserver(zoomedGraphModel);
-		zoomedGraphModel.addObserver(this);
-
-		this.graphController = new GraphController(this);
+	public GraphView(ZoomedGraphModel zoomedGraphModel) {
+		this.zoomedGraphModel = zoomedGraphModel;
 		graphData = new ArrayList<>();
-	}
-
-	/**
-	 * Makes a call to the viewer.
-	 */
-	public void init() {
-		notifyLoadingObservers(true);
 		generateViewer();
-		// TODO: don't hardcode
-		setZoomCenter(600);
-		notifyLoadingObservers(false);
 	}
 	
 	/**
@@ -123,6 +85,14 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		mouseManager = new MouseManager();
 		viewer.getDefaultView().setMouseManager(mouseManager);
 		removeDefaultKeys();
+		panel.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				setOffsetToCenter();
+				setZoomCenter(offsetToCenter);
+				notifyGraphLoadedListeners();
+			}
+		});
 	}
 
 	/**
@@ -177,6 +147,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				i++;
 			}
 		}
+
 		notifyLoadingObservers(false);
 		return graph;
 	}
@@ -198,7 +169,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(),
 				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 		int weight = from.getOutgoingWeight().get(i);
-		float percent = ((float) weight) / ((float) abstractGraphData.getGenomes().size());
+		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomes().size());
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException(
@@ -211,11 +182,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	@Override
 	public Component getPanel() {
 		return panel;
-	}
-	
-	@Override
-	public GraphController getController() {
-		return graphController;
 	}
 
 	@Override
@@ -230,17 +196,44 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				e.printStackTrace();
 			}
 			zoom();
+			centerGraph();
 		}
 	}
-	
+
+	private void centerGraph() {
+		if (zoomCenterSet == false) {
+			setZoomCenter(0);
+			setOffsetToCenter();
+			setZoomCenter(offsetToCenter);
+			zoomCenterSet = true;
+		}
+	}
+
 	private void zoom() {
 		viewer.getDefaultView().getCamera().setViewPercent(1 / zoomLevel);
 	}
 
 	public float getZoomCenter() {
-		return zoomCenter;
+		return (float) viewer.getDefaultView().getCamera().getViewCenter().x;
 	}
-	
+
+	public double getViewPercent() {
+		return viewer.getDefaultView().getCamera().getViewPercent();
+	}
+
+	/**
+	 * Set the offset of the center of the graph to the left edge of the screen.
+	 */
+	public void setOffsetToCenter() {
+		Point3 point3 = viewer.getDefaultView().getCamera()
+				.transformPxToGu(0, (double) ScreenSize.getInstance().getHeight() / 2d);
+		offsetToCenter = (float) point3.x * -1;
+	}
+
+	public float getOffsetToCenter() {
+		return offsetToCenter;
+	}
+
 	/**
 	 * Moves the view to the given position on the x axis.
 	 *
@@ -248,16 +241,37 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * 		the new center of view
 	 */
 	public void setZoomCenter(float zoomCenter) {
-		this.zoomCenter = zoomCenter;
 		viewer.getDefaultView().getCamera().setViewCenter(zoomCenter, 0, 0);
 	}
 
-	public FilteredGraphModel getFilteredGraphModel() {
-		return filteredGraphModel;
+	/**
+	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently
+	 * drawn {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
+	 * {@link WrapperClone}.
+	 *
+	 * @param node
+	 * 		The {@link DataNode} to move the view to
+	 * @throws NodeNotFoundException
+	 * 		Thrown when the node cannot be found in all {@link WrapperClone}s
+	 */
+	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+		float x = -1;
+		for (WrapperClone wrapperClone : graphData) {
+			if (wrapperClone.getDataNodes().contains(node)) {
+				x = wrapperClone.getX();
+				break;
+			}
+		}
+		if (x != -1) {
+			setZoomCenter(x);
+		} else {
+			throw new NodeNotFoundException("The node " + node
+					+ " you are looking for cannot be found in the current graph.");
+		}
 	}
 
-	public ZoomedGraphModel getZoomedGraphModel() {
-		return zoomedGraphModel;
+	public double getGraphDimension() {
+		return viewer.getDefaultView().getCamera().getGraphDimension();
 	}
 
 	@Override
@@ -285,30 +299,16 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		}
 	}
 
-	/**
-	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently
-	 * drawn {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
-	 * {@link WrapperClone}.
-	 *
-	 * @param node
-	 * 		The {@link DataNode} to move the view to
-	 * @throws NodeNotFoundException
-	 * 		Thrown when the node cannot be found in all {@link WrapperClone}s
-	 */
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
-		float x = -1;
-		for (WrapperClone wrapperClone : graphData) {
-			if (wrapperClone.getDataNodes().contains(node)) {
-				x = wrapperClone.getX();
-				break;
-			}
-		}
-		if (x != -1) {
-			setZoomCenter(x);
-		} else {
-			throw new NodeNotFoundException("The node " + node
-					+ " you are looking for cannot be found in the current graph.");
-		}
+	public void addGraphLoadedListener(GraphLoadedListener listener) {
+		graphLoadedListeners.add(listener);
+	}
+
+	public void removeGraphLoadedListener(GraphLoadedListener listener) {
+		graphLoadedListeners.remove(listener);
+	}
+
+	public void notifyGraphLoadedListeners() {
+		graphLoadedListeners.forEach(GraphLoadedListener::graphLoaded);
 	}
 
 	public void removeDetailView() {

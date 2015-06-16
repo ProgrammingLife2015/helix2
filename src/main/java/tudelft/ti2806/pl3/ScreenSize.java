@@ -1,13 +1,16 @@
 package tudelft.ti2806.pl3;
 
 import tudelft.ti2806.pl3.sidebar.SideBarView;
-import tudelft.ti2806.pl3.zoomBar.ZoomBarView;
+import tudelft.ti2806.pl3.zoombar.ZoomBarView;
 
 /**
  * Singleton variable for the screensize. Since our app is fullscreen, the width
  * and height are different for every screen. Created by Kasper on 8-5-2015.
  */
 public class ScreenSize {
+
+	private static int minimumWidth = 800;
+	private static int minimumHeight = 600;
 	private static ScreenSize size;
 	private static int menubarHeight = 25;
 	private int width;
@@ -60,6 +63,15 @@ public class ScreenSize {
 	public int getMenubarHeight() {
 		return menubarHeight;
 	}
+
+	public static int getMinimumWidth() {
+		return minimumWidth;
+	}
+
+	public static int getMinimumHeight() {
+		return minimumHeight;
+	}
+
 
 	/**
 	 * Calculate the sizes of the windows.

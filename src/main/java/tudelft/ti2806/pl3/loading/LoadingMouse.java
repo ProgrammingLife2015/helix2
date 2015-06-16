@@ -1,8 +1,8 @@
 package tudelft.ti2806.pl3.loading;
 
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.LoadingObservable;
-import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.awt.Cursor;
 

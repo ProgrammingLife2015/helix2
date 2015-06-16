@@ -55,17 +55,6 @@ public class KeyControllerTest {
 	}
 
 	@Test
-	public void testMinus() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_MINUS);
-		when(application.getGraphController()).thenReturn(graphController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(2)).getGraphController();
-		verify(graphController, times(1)).zoomLevelDown();
-	}
-
-	@Test
 	public void testPlus() {
 		KeyController keyController = new KeyController(application);
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_EQUALS);
@@ -96,17 +85,6 @@ public class KeyControllerTest {
 		keyController.keyPressed(keyEvent);
 		verify(application, times(2)).getGraphController();
 		verify(graphController, times(1)).moveLeft();
-	}
-
-	@Test
-	public void testReset() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_R);
-		when(application.getGraphController()).thenReturn(graphController);
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(2)).getGraphController();
-		verify(graphController, times(1)).resetZoom();
 	}
 
 	@Test

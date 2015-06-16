@@ -8,13 +8,6 @@
   <name>app</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-		<dependency>
-			<groupId>NewickParser</groupId>
-			<artifactId>newick</artifactId>
-			<version>1.0-Fork</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/NewickParser.jar</systemPath>
-		</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -143,25 +136,25 @@
         </configuration>
       </plugin>
         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-            <version>3.0.1</version>
-            <configuration>
-                <effort>Max</effort>
-                <threshold>Low</threshold>
-                <xmlOutput>true</xmlOutput>
-                <failOnError>false</failOnError>
-                <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>analyze-compile</id>
-                    <phase>compile</phase>
-                    <goals>
-                        <goal>check</goal>
-                    </goals>
-                </execution>
-            </executions>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>3.0.1</version>
+          <configuration>
+            <effort>Max</effort>
+            <threshold>Low</threshold>
+            <xmlOutput>true</xmlOutput>
+            <failOnError>false</failOnError>
+            <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+          </configuration>
+          <executions>
+            <execution>
+              <id>analyze-compile</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
     </plugins>
     <resources>

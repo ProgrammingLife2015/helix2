@@ -1,10 +1,12 @@
 package tudelft.ti2806.pl3.menubar;
 
-import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,18 +18,14 @@ import javax.swing.KeyStroke;
  */
 public class MenuBarView extends JMenuBar implements View {
 
-	private MenuBarController menuBarController;
-
+	List<JMenu> menus;
 
 	/**
 	 * Makes the view of the menubar.
-	 *
-	 * @param application
-	 * 		to place the menubar in.
 	 */
-	public MenuBarView(Application application) {
+	public MenuBarView() {
 		super();
-		menuBarController = new MenuBarController(application);
+		menus = new ArrayList<>(3);
 		add(setUpFile());
 		add(setUpView());
 		add(setUpHelp());
@@ -40,6 +38,7 @@ public class MenuBarView extends JMenuBar implements View {
 	 */
 	private JMenu setUpFile() {
 		JMenu fileMenu = new JMenu("File");
+		menus.add(fileMenu);
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 
 		JMenuItem openFolder = new JMenuItem("Open folder");
@@ -57,13 +56,6 @@ public class MenuBarView extends JMenuBar implements View {
 		fileMenu.addSeparator();
 		fileMenu.add(exit);
 
-		// add action listener for every item
-		for (Component component : fileMenu.getMenuComponents()) {
-			if (component instanceof JMenuItem) {
-				((JMenuItem) component).addActionListener(menuBarController);
-			}
-		}
-
 		return fileMenu;
 	}
 
@@ -76,12 +68,11 @@ public class MenuBarView extends JMenuBar implements View {
 		// ascii value of the shortcuts
 		final char plus = '+';
 		final char minus = '-';
-		final char r = 'R';
 		final char right = '\u2192';
 		final char left = '\u2190';
-		final char g = 'G';
 
 		JMenu viewMenu = new JMenu("View");
+		menus.add(viewMenu);
 		viewMenu.setMnemonic(KeyEvent.VK_V);
 
 		JMenuItem zoomIn = new JMenuItem("Zoom in");
@@ -97,10 +88,10 @@ public class MenuBarView extends JMenuBar implements View {
 		moveRight.setAccelerator(KeyStroke.getKeyStroke(right));
 		moveRight.setMnemonic(KeyEvent.VK_R);
 		JMenuItem reset = new JMenuItem("Reset view");
-		reset.setAccelerator(KeyStroke.getKeyStroke(r));
+		reset.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,0));
 		reset.setMnemonic(KeyEvent.VK_S);
 		JMenuItem findGenes = new JMenuItem("Navigate to gene");
-		findGenes.setAccelerator(KeyStroke.getKeyStroke(g));
+		findGenes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,0));
 		findGenes.setMnemonic(KeyEvent.VK_G);
 
 		viewMenu.add(zoomIn);
@@ -110,35 +101,29 @@ public class MenuBarView extends JMenuBar implements View {
 		viewMenu.add(reset);
 		viewMenu.add(findGenes);
 
-		// add action listener for every item
-		for (Component component : viewMenu.getMenuComponents()) {
-			if (component instanceof JMenuItem) {
-				((JMenuItem) component).addActionListener(menuBarController);
-			}
-		}
-
 		return viewMenu;
 	}
 
 	private JMenu setUpHelp() {
 		JMenu helpMenu = new JMenu("Help");
+		menus.add(helpMenu);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 
 		JMenuItem help = new JMenuItem("Controls");
 		help.setMnemonic(KeyEvent.VK_C);
+		help.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 		JMenuItem about = new JMenuItem("About Me");
 		about.setMnemonic(KeyEvent.VK_A);
 
 		helpMenu.add(help);
 		helpMenu.add(about);
 
-		// add action listener for every item
-		// cast is safe since we only add JMenuItems
-		for (Component component : helpMenu.getMenuComponents()) {
-			((JMenuItem) component).addActionListener(menuBarController);
-		}
-
 		return helpMenu;
+	}
+
+	public void setLastOpenedMenu(Component lastOpenedMenu) {
+		JMenu file = menus.get(0);
+		file.add(lastOpenedMenu, 3);
 	}
 
 	@Override
@@ -146,8 +131,19 @@ public class MenuBarView extends JMenuBar implements View {
 		return this;
 	}
 
-	@Override
-	public MenuBarController getController() {
-		return menuBarController;
+	/**
+	 * Adds an action listener to all menu items.
+	 *
+	 * @param listener
+	 * 		the listener
+	 */
+	public void addActionListener(ActionListener listener) {
+		for (JMenu menu : menus) {
+			for (Component component : menu.getMenuComponents()) {
+				if (component instanceof JMenuItem) {
+					((JMenuItem) component).addActionListener(listener);
+				}
+			}
+		}
 	}
 }

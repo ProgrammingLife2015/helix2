@@ -1,17 +1,21 @@
 package tudelft.ti2806.pl3.visualization;
 
-import tudelft.ti2806.pl3.LoadingObservable;
-import tudelft.ti2806.pl3.LoadingObserver;
+import tudelft.ti2806.pl3.ScreenSize;
+import tudelft.ti2806.pl3.data.Genome;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.filter.Filter;
-import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
+import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.data.graph.GraphParsedObserver;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace;
 import tudelft.ti2806.pl3.data.wrapper.operation.interest.ComputeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
+import tudelft.ti2806.pl3.util.CollectInterest;
 import tudelft.ti2806.pl3.util.EdgeUtil;
 
 import java.util.ArrayList;
@@ -32,15 +36,18 @@ import java.util.Observable;
  * <li>Then it notifies the {@link tudelft.ti2806.pl3.visualization.ZoomedGraphModel}, which will produce the data for
  * the view. Created by Boris Mattijssen on 20-05-15.
  */
-public class FilteredGraphModel extends Observable implements LoadingObservable {
+public class FilteredGraphModel extends Observable implements LoadingObservable, GraphParsedObserver {
 
-	protected AbstractGraphData originalGraphData;
+	protected GraphDataRepository originalGraphData;
 	private Wrapper collapsedNode;
 	private Collection<Filter<DataNode>> filters;
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
 
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private CalculateCollapseOnSpace calculateCollapse;
+
+	private CollectInterest collectInterest;
+	private List<Genome> genomes;
 
 	/**
 	 * Construct the model containing the filtered data.<br>
@@ -50,9 +57,10 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 	 * @param originalGraphData
 	 *            The original graph data
 	 */
-	public FilteredGraphModel(AbstractGraphData originalGraphData) {
+	public FilteredGraphModel(GraphDataRepository originalGraphData) {
 		this.originalGraphData = originalGraphData;
 		filters = new ArrayList<>();
+		genomes = new ArrayList<>();
 		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
 		calculateCollapse = new CalculateCollapseOnSpace();
 	}
@@ -81,6 +89,8 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
 		ComputeInterest.compute(collapsedNode);
+		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
+		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
 		calculateCollapse.compute(collapsedNode);
 		setChanged();
 		notifyObservers();
@@ -156,5 +166,24 @@ public class FilteredGraphModel extends Observable implements LoadingObservable 
 
 	public CalculateCollapseOnSpace getCalculateCollapse() {
 		return calculateCollapse;
+	}
+
+	public float[] getInterest() {
+		return collectInterest.getInterest();
+	}
+
+
+	public float getMaxInterest() {
+		return collectInterest.getMaxInterest();
+	}
+
+	@Override
+	public void graphParsed() {
+		genomes = originalGraphData.getGenomes();
+		produceWrappedGraphData();
+	}
+
+	public List<Genome> getGenomes() {
+		return genomes;
 	}
 }
