@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.LoadingObservable;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
 
 import java.awt.Cursor;
 
