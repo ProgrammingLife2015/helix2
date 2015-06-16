@@ -121,6 +121,11 @@ public class MenuBarView extends JMenuBar implements View {
 		return helpMenu;
 	}
 
+	public void setLastOpenedMenu(Component lastOpenedMenu) {
+		JMenu file = menus.get(0);
+		file.add(lastOpenedMenu, 3);
+	}
+
 	@Override
 	public JMenuBar getPanel() {
 		return this;

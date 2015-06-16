@@ -8,15 +8,13 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
-
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.LastOpenedStack;
 import tudelft.ti2806.pl3.util.ParserLastOpened;
-import tudelft.ti2806.pl3.util.TreeParser;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.zoombar.ZoomBarController;
 
@@ -27,6 +25,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -158,7 +157,7 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Parses the graph files and makes a graphview.
 	 */
-	private void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+	public void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
 			final long startTime = System.currentTimeMillis();
 

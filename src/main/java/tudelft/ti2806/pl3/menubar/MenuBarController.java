@@ -36,6 +36,7 @@ import javax.swing.text.TabStop;
 public class MenuBarController implements ActionListener, Controller {
 
 	private final MenuBarView menuBarView;
+	private LastOpenedController lastOpenedController;
 	private Application application;
 
 	/**
@@ -81,6 +82,8 @@ public class MenuBarController implements ActionListener, Controller {
 	public MenuBarController(Application application) {
 		this.application = application;
 		this.menuBarView = new MenuBarView();
+		this.lastOpenedController = new LastOpenedController(application);
+		menuBarView.setLastOpenedMenu(lastOpenedController.getLastOpenedMenu());
 		menuBarView.addActionListener(this);
 	}
 

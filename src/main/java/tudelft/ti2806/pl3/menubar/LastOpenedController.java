@@ -38,6 +38,7 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 	public void actionPerformed(ActionEvent e) {
 		String chosenfile = e.getActionCommand();
 		File file = new File(chosenfile);
+
 		if (chosenfile.endsWith(".nwk")) {
 			// tree file
 			System.out.println("phylo tree");
