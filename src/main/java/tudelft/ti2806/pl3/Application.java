@@ -121,7 +121,7 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	private void setUpUi() {
-		this.addComponentListener(new ResizeAdapter(this).getResizer());
+		this.addComponentListener(new ResizeAdapter(this));
 		setZoomBarView();
 		setGraphView();
 		setSideBarView();
