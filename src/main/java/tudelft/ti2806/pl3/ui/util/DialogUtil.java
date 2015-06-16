@@ -4,6 +4,7 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 
 /**
+ * This class gives the user different kinds of pop-ups.
  * Created by Boris Mattijssen on 14-06-15.
  */
 public class DialogUtil {
