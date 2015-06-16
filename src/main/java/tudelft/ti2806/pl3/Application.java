@@ -8,6 +8,7 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
+import tudelft.ti2806.pl3.menubar.LastOpenedController;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
@@ -105,6 +106,9 @@ public class Application extends JFrame implements ControllerContainer {
 
 		// set menu bar
 		MenuBarController menuBarController = new MenuBarController(this);
+		LastOpenedController lastOpenedController = new LastOpenedController(this);
+		menuBarController.setLastOpenedMenu(lastOpenedController.getLastOpenedMenu());
+		FileSelector.lastopened.addObserver(lastOpenedController);
 		setMenuBar(menuBarController.getMenuBar());
 
 		// set window controller

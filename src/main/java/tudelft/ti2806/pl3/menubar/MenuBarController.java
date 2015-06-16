@@ -4,6 +4,7 @@ import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.Controller;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -82,8 +83,6 @@ public class MenuBarController implements ActionListener, Controller {
 	public MenuBarController(Application application) {
 		this.application = application;
 		this.menuBarView = new MenuBarView();
-		this.lastOpenedController = new LastOpenedController(application);
-		menuBarView.setLastOpenedMenu(lastOpenedController.getLastOpenedMenu());
 		menuBarView.addActionListener(this);
 	}
 
@@ -129,6 +128,10 @@ public class MenuBarController implements ActionListener, Controller {
 
 	private void showFindGenes() {
 		application.getFindgenesController().openDialog();
+	}
+
+	public void setLastOpenedMenu(Component lastOpenedMenu){
+		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
 	/**
 	 * Displays the controls text in a {@link JTextPane}.
