@@ -42,6 +42,7 @@ public class FindgenesController {
 	public void openDialog() {
 		FindgenesView findgenesView = new FindgenesView(
 				graphData.getGenes().toArray(new Gene[graphData.getGenes().size()]));
+
 		JOptionPane.showMessageDialog(null, findgenesView, "Select a gene:", JOptionPane.QUESTION_MESSAGE);
 
 		if (previousSelected != findgenesView.getSelectedItem()) {
