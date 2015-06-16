@@ -61,4 +61,6 @@ hs_err_pid*
 
 !resources/pictures/*
 
+#Helix^2 files
 lastOpenedSave.txt
+.save-helix2.txt
