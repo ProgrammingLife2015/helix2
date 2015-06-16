@@ -100,10 +100,13 @@ public class MetaFilterController {
                 Genome::getIdentifier).collect(
                 Collectors.toList()));
 
-        if (genomeList.size() != 0) {
+        if (genomeList.size() > 1) {
+            cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
+        } else if (genomeList.size() == 1) {
+            genomeList.add("TKK_REF");
             cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
         } else {
-            if (DialogUtil.confirm("No genomes found", "No genomes are found for the selected metadata, want to enter new data?")) {
+            if (DialogUtil.confirm("No genomes found", "Not at least two genomes are found for the selected metadata, want to enter new data?")) {
                 openDialog();
             }
         }
