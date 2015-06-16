@@ -74,7 +74,11 @@ public class KeyController implements KeyListener {
 			app.getGraphController().moveLeft();
 		}
 
+		if (event.getKeyCode() == KeyEvent.VK_G) {
+			app.getFindgenesController().openDialog();
+		}
 
+		app.getGraphController().removeDetailView();
 	}
 
 	
