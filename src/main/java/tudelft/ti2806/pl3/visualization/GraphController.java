@@ -100,7 +100,7 @@ public class GraphController implements Controller {
 	 */
 	public void addFilter(String name, Filter<DataNode> filter) {
 		filters.put(name, filter);
-		filteredGraphModel.setFilters(filters.values());
+		filteredGraphModel.setFilters(new ArrayList<>(filters.values()));
 		filteredGraphModel.produceWrappedGraphData();
 		graphMoved();
 	}

@@ -142,4 +142,8 @@ public class ZoomedGraphModel extends Observable implements Observer,
 			loadingObserver.update(this, arguments);
 		}
 	}
+
+	public int getGenomesCount() {
+		return filteredGraphModel.getGenomesCount();
+	}
 }
