@@ -215,4 +215,6 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 		this.previousNodesCount = max;
 		return max;
 	}
+
+    public abstract boolean contains(Wrapper originalNode);
 }

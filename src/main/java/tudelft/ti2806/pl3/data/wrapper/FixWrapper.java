@@ -65,4 +65,9 @@ public class FixWrapper extends Wrapper {
 	public void setX(int x) {
 		this.x = x;
 	}
+	
+	@Override
+    public boolean contains(Wrapper object) {
+        return false;
+    }
 }

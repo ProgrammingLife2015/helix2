@@ -90,4 +90,14 @@ public abstract class CombineWrapper extends Wrapper {
 	public boolean canUnwrap() {
 		return true;
 	}
+
+    @Override
+    public boolean contains(Wrapper object) {
+        for(Wrapper wrapper : this.nodeList){
+            if(object == wrapper || wrapper.contains(object)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
