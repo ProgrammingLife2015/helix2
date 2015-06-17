@@ -98,7 +98,7 @@ public final class HorizontalWrapUtil {
         return result;
     }
     
-    private static void cutHorizontalWrapper(List<Wrapper> list, List<List<Wrapper>> result) {
+    static void cutHorizontalWrapper(List<Wrapper> list, List<List<Wrapper>> result) {
         List<Pair<Wrapper, Wrapper>> wrapperPairs = listToPairList(list);
         List<Pair<Wrapper, Wrapper>> collect = wrapperPairs
                 .stream()

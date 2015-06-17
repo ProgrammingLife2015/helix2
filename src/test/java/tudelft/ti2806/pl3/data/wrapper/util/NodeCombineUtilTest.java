@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.data.wrapper.util;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -158,4 +161,27 @@ public class NodeCombineUtilTest {
 		Assert.assertEquals(1, WrapUtil.collapseGraph(original)
 				.getPositionedNodes().size(), 1);
 	}
+	
+	@Test
+    public void cutHorizontalTest() throws IOException {
+	    File nodesFile = new File("data/testdata/horizontalWrap.node.graph");
+        File edgesFile = new File("data/testdata/horizontalWrap.edge.graph");
+        GeneData geneData = GeneData
+                .parseGenes("data/testdata/TestGeneAnnotationsFile");
+        
+        GraphDataRepository gdr = new GraphDataRepository();
+        gdr.parseGraph(nodesFile, edgesFile, geneData);
+        WrappedGraphData original = new WrappedGraphData(gdr);
+        List<List<Wrapper>> result = new ArrayList<>();
+        HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
+        assertEquals(1, result.size());
+        result.clear();
+        original = HorizontalWrapUtil.collapseGraph(original, true);
+        HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
+        assertEquals(1, result.size());
+        original = HorizontalWrapUtil.collapseGraph(original, true);
+        result.clear();
+        HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
+        assertEquals(1, result.size());
+    }
 }
