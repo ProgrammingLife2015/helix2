@@ -42,7 +42,7 @@ public class DialogUtil {
 	}
 
 	/**
-	 * Displays a plain message dialog with a given view
+	 * Displays a plain message dialog with a given view.
 	 *
 	 * @param view
 	 * 		to display
