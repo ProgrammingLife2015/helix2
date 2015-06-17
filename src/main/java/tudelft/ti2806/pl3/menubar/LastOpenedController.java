@@ -20,6 +20,12 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 	private Application application;
 	private final LastOpenedMenu lastOpenedMenu;
 
+	/**
+	 * Construct a new LastOpenedController.
+	 *
+	 * @param application
+	 *      Reference to the application to open the files
+	 */
 	public LastOpenedController(Application application) {
 		super();
 		this.application = application;

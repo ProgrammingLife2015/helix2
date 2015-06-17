@@ -47,7 +47,8 @@ public class MouseManager extends DefaultMouseManager {
 	 * 		y location of the mouse cursor.
 	 */
 	public void mouseMoved(int x, int y) {
-		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
+		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(
+				x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
 		if (graphicElements.size() == 0) {
 			removeDetailView();
 		} else {
