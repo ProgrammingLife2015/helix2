@@ -141,6 +141,7 @@ public class MetaFilterController {
         if (genomeList.size() > 1) {
             cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
         } else if (genomeList.size() == 1) {
+            DialogUtil.displayMessage("One genome found", "Just one genome has been found for the selected metadata, TKK_REF has been added to the filter set.");
             genomeList.add("TKK_REF");
             cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
         } else {
