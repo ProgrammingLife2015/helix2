@@ -56,7 +56,7 @@ public class MetaFilterView extends JPanel {
 		this.add(hivLabel);
 		this.add(hivStatus);
 
-		JLabel ageLabel = new JLabel("Age:");
+		JLabel ageLabel = new JLabel("Age or age range:");
 		age = new JTextField();
 		this.add(ageLabel);
 		this.add(age);
