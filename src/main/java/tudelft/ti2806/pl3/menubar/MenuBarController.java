@@ -2,6 +2,7 @@ package tudelft.ti2806.pl3.menubar;
 
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.Controller;
+import tudelft.ti2806.pl3.ui.util.DialogUtil;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -17,7 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
@@ -158,8 +158,7 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "Controls",
-				JOptionPane.PLAIN_MESSAGE);
+		DialogUtil.displayMessageWithView(new JScrollPane(textPane), "Controls");
 	}
 
 	/**
@@ -183,8 +182,7 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		JOptionPane.showMessageDialog(application, new JScrollPane(textPane), "About Me",
-				JOptionPane.PLAIN_MESSAGE);
+		DialogUtil.displayMessageWithView(new JScrollPane(textPane), "About me");
 	}
 
 	/**
@@ -206,22 +204,12 @@ public class MenuBarController implements ActionListener, Controller {
 				} catch (IOException | URISyntaxException exception) {
 					String message = "An error has occurred!"
 					 	+ " We are unable to display the GitHub link in your browser.";
-					displayError(message);
+					DialogUtil.displayError(message,"Error!");
 				}
 			}
 		});
 		website.setForeground(new Color(0, 0, 248));
 		return website;
-	}
-
-	/**
-	 * Displays the user a error message.
-	 *
-	 * @param message
-	 * 		to displayed on the popup
-	 */
-	private void displayError(String message) {
-		JOptionPane.showMessageDialog(application, message, "Error!", JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**

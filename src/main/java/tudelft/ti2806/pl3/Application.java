@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 
 /**
  * The main application view.
@@ -164,7 +163,7 @@ public class Application extends JFrame implements ControllerContainer {
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			makeGraph(nodeFile, edgeFile, null, null);
 		} catch (FileSelectorException exception) {
-			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFiles();
 			}
 		}
@@ -186,7 +185,7 @@ public class Application extends JFrame implements ControllerContainer {
 			long loadTime = System.currentTimeMillis() - startTime;
 			System.out.println("Loadtime: " + loadTime);
 		} catch (FileNotFoundException exception) {
-			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph(nodeFile, edgeFile, treeFile, metaFile);
 			}
 		}
@@ -214,11 +213,11 @@ public class Application extends JFrame implements ControllerContainer {
 			getSideBarController().getPhyloController().parseTree(treeFile);
 
 		} catch (FileSelectorException exception) {
-			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makePhyloTree();
 			}
 		} catch (ParseException exception) {
-			if (confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
+			if (DialogUtil.confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
 				makePhyloTree();
 			}
 		}
@@ -233,7 +232,7 @@ public class Application extends JFrame implements ControllerContainer {
 			gd.loadMetaData(metaFile);
 			System.out.println(gd.getGenomes().get(0).getAge());
 		} catch (FileSelectorException | FileNotFoundException exception) {
-			if (confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				loadMetaData();
 			}
 		}
@@ -244,7 +243,7 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public void stop() {
 		// save data or do something else here
-		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
+		if (DialogUtil.confirm("Exit", "Are you sure you want to exit the application? ")) {
 			try {
 				ParserLastOpened.saveLastOpened(FileSelector.lastopened);
 			} catch (IOException | InterruptedException e) {
@@ -254,23 +253,6 @@ public class Application extends JFrame implements ControllerContainer {
 			this.dispose();
 			System.exit(0);
 		}
-	}
-
-	/**
-	 * Asks the user to confirm his choose with a pop up.
-	 *
-	 * @param title
-	 * 		of the popup
-	 * @param message
-	 * 		in the popup
-	 * @return true if yes, false otherwise
-	 */
-	public boolean confirm(String title, String message) {
-		int answer = JOptionPane
-				.showConfirmDialog(main, message, title,
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-		return answer == JOptionPane.YES_OPTION;
 	}
 
 	/**
