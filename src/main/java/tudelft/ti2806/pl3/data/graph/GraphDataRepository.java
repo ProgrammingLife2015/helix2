@@ -1,14 +1,10 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.util.observable.LoadingObservable;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
-import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.gene.GeneData;
-import tudelft.ti2806.pl3.data.label.EndGeneLabel;
-import tudelft.ti2806.pl3.data.label.GeneLabel;
-import tudelft.ti2806.pl3.data.label.StartGeneLabel;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -126,6 +122,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		notifyLoadingObservers(true);
 		geneToStartNodeMap = new HashMap<>(geneData.getGenes().size());
 		genes = new ArrayList<>();
+
 		Map<String, Genome> genomeMap = new HashMap<>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap, geneData);
 		genes.sort(Comparator.<Gene>naturalOrder());
@@ -188,16 +185,16 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		boolean started = false;
 		for (int i = start; i <= end; i++) {
 			if (started) {
-				node.addLabel(new GeneLabel(g.getName()));
+				node.addLabel(geneData.getLabel(g.getName()));
 			} else if (geneData.getGeneStart().containsKey(i)) {
 				g = geneData.getGeneStart().get(i);
 				geneToStartNodeMap.put(g, node);
 				genes.add(g);
-				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
+				node.addLabel(geneData.getStartLabel(g.getName()));
 				started = true;
 			} else if (geneData.getGeneEnd().containsKey(i)) {
 				g = geneData.getGeneEnd().get(i);
-				node.addLabel(new EndGeneLabel(g.getName(), g.getEnd()));
+				node.addLabel(geneData.getEndLabel(g.getName()));
 			}
 		}
 	}
@@ -223,7 +220,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 					parseGenomeIdentifiers(indexData[1].split(","), genomes),
 					Integer.parseInt(indexData[2]),
 					Integer.parseInt(indexData[3]),
-					BasePair.getBasePairString(br.readLine()));
+					br.readLine());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
