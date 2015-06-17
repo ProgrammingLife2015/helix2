@@ -9,8 +9,6 @@ import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
-import javax.swing.JOptionPane;
-
 /**
  * This controller controls the view that lets you select a gene from a list, and will navigate you to it in the graph.
  * Created by Boris Mattijssen on 30-05-15.
@@ -52,9 +50,7 @@ public class FindgenesController {
 				Gene selected = (Gene) findgenesView.getSelectedItem();
 				DataNode node = graphData.getGeneToStartNodeMap().get(selected);
 				if (node == null) {
-					JOptionPane.showMessageDialog(null,
-							"Couldn't find the selected gene. Try again");
-					tryAgain = true;
+					tryAgain = DialogUtil.confirm("Error!", "Couldn't find the selected gene. Please try again");
 				} else {
 					cc.getGraphController().centerOnNode(node);
 				}
