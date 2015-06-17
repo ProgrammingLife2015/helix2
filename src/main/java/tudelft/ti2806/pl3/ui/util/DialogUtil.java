@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
  * Created by Boris Mattijssen on 14-06-15.
  */
 public class DialogUtil {
+	static ConfirmOptionPane confirmOptionPane = new DefaultConfirmOptionPane();
 
 	private DialogUtil() {
 	}
@@ -22,11 +23,7 @@ public class DialogUtil {
 	 * @return the dialog
 	 */
 	public static boolean confirm(String title, String message) {
-		int answer = JOptionPane
-				.showConfirmDialog(null, message, title,
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-		return answer == JOptionPane.YES_OPTION;
+		return confirmOptionPane.showConfirmDialog(message, title);
 	}
 
 	/**
@@ -73,6 +70,10 @@ public class DialogUtil {
 	 */
 	public static void displayError(String message, String title) {
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+	}
+
+	public static void setConfirmOptionPane(ConfirmOptionPane pane) {
+		confirmOptionPane = pane;
 	}
 
 }
