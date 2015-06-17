@@ -42,7 +42,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the About Me option in the Help menu.
 	 */
-	final String about = "Helix² is an interactive DNA sequence viewer. "
+	static final String about = "Helix² is an interactive DNA sequence viewer. "
 			+ "It uses semantic zooming to only display relative information. \n"
 			+ "This application was created as part of an assignment"
 			+ "for the Context Project at TU Delft.\n"
@@ -59,7 +59,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	final String controls = "Helix² uses key shortcuts to make life easier. "
+	static final String controls = "Helix² uses key shortcuts to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
 			+ "Zooming in     \t+ \n"
@@ -136,6 +136,10 @@ public class MenuBarController implements ActionListener, Controller {
 	 * Displays the controls text in a {@link JTextPane}.
 	 */
 	public void displayControls() {
+		DialogUtil.displayMessageWithView(new JScrollPane(makeControls()), "Controls");
+	}
+
+	public JTextPane makeControls(){
 		JTextPane textPane = new JTextPane();
 		TabStop[] tabs = new TabStop[1];
 		tabs[0] = new TabStop(300, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
@@ -150,13 +154,17 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		DialogUtil.displayMessageWithView(new JScrollPane(textPane), "Controls");
+		return textPane;
 	}
 
 	/**
 	 * Displays the about me text in a {@link JTextPane}.
 	 */
 	public void displayAbout() {
+		DialogUtil.displayMessageWithView(new JScrollPane(makeAbout()), "About me");
+	}
+
+	public JTextPane makeAbout() {
 		StyleContext styleContext = new StyleContext();
 		DefaultStyledDocument doc = new DefaultStyledDocument(styleContext);
 		JTextPane textPane = new JTextPane(doc);
@@ -174,7 +182,7 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		DialogUtil.displayMessageWithView(new JScrollPane(textPane), "About me");
+		return textPane;
 	}
 
 	/**

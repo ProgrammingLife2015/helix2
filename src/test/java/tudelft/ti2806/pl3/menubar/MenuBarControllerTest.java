@@ -143,17 +143,20 @@ public class MenuBarControllerTest {
 		menuBarController.actionPerformed(actionEvent);
 
 
-		verify(application, times(1)).getGraphController();
+		verify(application, times(1)).getFindgenesController();
 		verify(findgenesController, times(1)).openDialog();
 	}
 
 	@Test
-	public void testActionControls() {
-		when(actionEvent.getActionCommand()).thenReturn("Controls");
-		menuBarController.actionPerformed(actionEvent);
-
-
+	public void testMakeControls() {
+		String controls = menuBarController.makeControls().getText();
+		assertEquals(MenuBarController.controls, controls);
 	}
 
+	@Test
+	public void testMakeAbout() {
+		String about = menuBarController.makeAbout().getText();
+		assertEquals(MenuBarController.about, about);
+	}
 
 }
