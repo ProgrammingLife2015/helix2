@@ -129,9 +129,10 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getFindgenesController().openDialog();
 	}
 
-	public void setLastOpenedMenu(Component lastOpenedMenu){
+	public void setLastOpenedMenu(Component lastOpenedMenu) {
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
+
 	/**
 	 * Displays the controls text in a {@link JTextPane}.
 	 */
@@ -139,7 +140,7 @@ public class MenuBarController implements ActionListener, Controller {
 		DialogUtil.displayMessageWithView(new JScrollPane(makeControls()), "Controls");
 	}
 
-	public JTextPane makeControls(){
+	public JTextPane makeControls() {
 		JTextPane textPane = new JTextPane();
 		TabStop[] tabs = new TabStop[1];
 		tabs[0] = new TabStop(300, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
@@ -203,8 +204,8 @@ public class MenuBarController implements ActionListener, Controller {
 					Desktop.getDesktop().browse(github);
 				} catch (IOException | URISyntaxException exception) {
 					String message = "An error has occurred!"
-					 	+ " We are unable to display the GitHub link in your browser.";
-					DialogUtil.displayError(message,"Error!");
+							+ " We are unable to display the GitHub link in your browser.";
+					DialogUtil.displayError(message, "Error!");
 				}
 			}
 		});
