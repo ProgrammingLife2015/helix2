@@ -130,11 +130,11 @@ public class MetaFilterController {
            genomeList = firstGenomeList.stream().map(Genome::getIdentifier).collect(Collectors.toList());
         } else if (selectedAge.getMinimumInteger() == 0) {
             genomeList.addAll(firstGenomeList.stream().filter(
-                    genome -> (selectedAge.getMaximumInteger() == genome.getAge())).map(Genome::getIdentifier).collect(
+                    genome -> selectedAge.getMaximumInteger() == genome.getAge()).map(Genome::getIdentifier).collect(
                     Collectors.toList()));
         } else {
             genomeList.addAll(firstGenomeList.stream().filter(
-                    genome -> (selectedAge.containsInteger(genome.getAge()))).map(Genome::getIdentifier).collect(
+                    genome -> selectedAge.containsInteger(genome.getAge())).map(Genome::getIdentifier).collect(
                     Collectors.toList()));
         }
 
