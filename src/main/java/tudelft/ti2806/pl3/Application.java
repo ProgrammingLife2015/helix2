@@ -163,15 +163,10 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public void makeGraph(File nodeFile, File edgeFile, File treeFile) {
 		try {
-			final long startTime = System.currentTimeMillis();
-
 			graphController.parseGraph(nodeFile, edgeFile);
 			if (treeFile != null) {
 				makePhyloTree(treeFile);
 			}
-
-			long loadTime = System.currentTimeMillis() - startTime;
-			System.out.println("Loadtime: " + loadTime);
 		} catch (FileNotFoundException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraph(nodeFile, edgeFile, treeFile);
