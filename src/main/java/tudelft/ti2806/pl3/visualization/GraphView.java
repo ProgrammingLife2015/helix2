@@ -8,15 +8,16 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
-import tudelft.ti2806.pl3.util.observable.LoadingObservable;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
-import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.ScreenSize;
+import tudelft.ti2806.pl3.controls.MouseManager;
+import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.awt.Component;
 import java.awt.event.ComponentAdapter;
@@ -61,6 +62,8 @@ public class GraphView
 	private float offsetToCenter = -1;
 	private boolean zoomCenterSet = false;
 	private ZoomedGraphModel zoomedGraphModel;
+
+	private Gene selectedGene = null;
 
 	/**
 	 * Construct a GraphView.
@@ -120,7 +123,7 @@ public class GraphView
 	 * 
 	 * @return a graph with all nodes from the given graphData
 	 */
-	public Graph generateGraph() throws EdgeZeroWeightException {
+	public Graph generateGraph() {
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
@@ -142,11 +145,17 @@ public class GraphView
 			int i = 0;
 			for (Wrapper to : node.getOutgoing()) {
 				if (node.getId() >= 0 && to.getId() >= 0) { // Exclude FixWrappers
-					addNormalEdge(graph, node, to, i);
+					try {
+						addNormalEdge(graph, node, to, i);
+					} catch (EdgeZeroWeightException e) {
+						e.printStackTrace();
+					}
 				}
 				i++;
 			}
 		}
+
+		colorGene();
 
 		notifyLoadingObservers(false);
 		return graph;
@@ -189,12 +198,7 @@ public class GraphView
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			zoomLevel = zoomedGraphModel.getZoomLevel();
-			try {
-				generateGraph();
-			} catch (EdgeZeroWeightException e) {
-				//TODO: show popup?
-				e.printStackTrace();
-			}
+			generateGraph();
 			zoom();
 			centerGraph();
 		}
@@ -250,23 +254,45 @@ public class GraphView
 	 * {@link WrapperClone}.
 	 *
 	 * @param node
-	 * 		The {@link DataNode} to move the view to
+	 * 		The {@link tudelft.ti2806.pl3.data.graph.DataNode} to move the view to
+	 * @param selected
+	 *      The gene to highlight on the graph
 	 * @throws NodeNotFoundException
 	 * 		Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
+		notifyLoadingObservers(true);
 		float x = -1;
+		selectedGene = selected;
+		colorGene();
 		for (WrapperClone wrapperClone : graphData) {
 			if (wrapperClone.getDataNodes().contains(node)) {
 				x = wrapperClone.getX();
 				break;
 			}
 		}
+		notifyLoadingObservers(false);
 		if (x != -1) {
 			setZoomCenter(x);
 		} else {
 			throw new NodeNotFoundException("The node " + node
 					+ " you are looking for cannot be found in the current graph.");
+		}
+	}
+
+	/**
+	 * Color the selected gene on the graph.
+	 */
+	private void colorGene() {
+		if (selectedGene != null) {
+			for (Node graphNode : graph.getNodeSet()) {
+				graphNode.removeAttribute("ui.style");
+				WrapperClone wrapper = graphNode.getAttribute("node", WrapperClone.class);
+				wrapper.getLabels().stream()
+						.filter(label -> label.getText().equals(selectedGene.getName()))
+						.forEach(label -> graphNode.addAttribute("ui.style",
+								"fill-color: red;"));
+			}
 		}
 	}
 

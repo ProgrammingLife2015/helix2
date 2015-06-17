@@ -56,12 +56,13 @@ public class FindgenesController {
 							"Couldn't find the selected gene. Try again");
 					tryAgain = true;
 				} else {
-					cc.getGraphController().centerOnNode(node);
+					cc.getGraphController().centerOnNode(node, selected);
 				}
 			} catch (ClassCastException e) {
 				tryAgain = DialogUtil.confirm("Error!", "Please select an existing gene.");
 			} catch (NodeNotFoundException e) {
-				tryAgain = DialogUtil.confirm("Error!", "Couldn't find the node on the graph. Please try again.");
+				tryAgain = DialogUtil.confirm("Error!", "Couldn't find the node on the graph. "
+						+ "Please try again.");
 			}
 			if (tryAgain) {
 				openDialog();

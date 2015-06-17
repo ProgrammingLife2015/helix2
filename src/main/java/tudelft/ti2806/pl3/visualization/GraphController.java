@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.Controller;
+import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.filter.Filter;
@@ -168,8 +169,8 @@ public class GraphController implements Controller {
 		graphMoved();
 	}
 
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
-		graphView.centerOnNode(node);
+	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
+		graphView.centerOnNode(node, selected);
 		graphMoved();
 	}
 
