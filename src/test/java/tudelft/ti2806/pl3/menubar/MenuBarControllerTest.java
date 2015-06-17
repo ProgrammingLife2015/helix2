@@ -155,8 +155,10 @@ public class MenuBarControllerTest {
 
 	@Test
 	public void testMakeAbout() {
-		String about = menuBarController.makeAbout().getText();
-		assertEquals(MenuBarController.about, about);
+		String expected = MenuBarController.about + "githublink";
+		String result = menuBarController.makeAbout().getText();
+		assertEquals(result.contains(expected),expected.contains(result));
+//		assertTrue(result.contains(expected));
 	}
 
 }
