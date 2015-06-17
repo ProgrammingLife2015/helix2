@@ -88,19 +88,6 @@ public class KeyControllerTest {
 	}
 
 	@Test
-	public void testGene() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_G);
-		FindgenesController findgenesController = mock(FindgenesController.class);
-		when(application.getFindgenesController()).thenReturn(findgenesController);
-		when(application.getGraphController()).thenReturn(mock(GraphController.class));
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getFindgenesController();
-		verify(findgenesController, times(1)).openDialog();
-	}
-
-	@Test
 	public void testRelease() {
 		KeyController keyController = new KeyController(application);
 		keyController.release();
