@@ -89,43 +89,43 @@ public class MenuBarController implements ActionListener, Controller {
 		return menuBarView;
 	}
 
-	public void stop() {
+	private void stop() {
 		application.stop();
 	}
 
-	public void readFolder() {
+	private void readFolder() {
 		application.makeGraphFromFolder();
 	}
 
-	public void readGraphFile() {
+	private void readGraphFile() {
 		application.makeGraphFromFiles();
 	}
 
-	public void readNwkFile() {
+	private void readNwkFile() {
 		application.makePhyloTree();
 	}
 
-	public void zoomIn() {
+	private void zoomIn() {
 		application.getGraphController().zoomLevelUp();
 	}
 
-	public void zoomOut() {
+	private void zoomOut() {
 		application.getGraphController().zoomLevelDown();
 	}
 
-	public void moveLeft() {
+	private void moveLeft() {
 		application.getGraphController().moveLeft();
 	}
 
-	public void moveRight() {
+	private void moveRight() {
 		application.getGraphController().moveRight();
 	}
 
-	public void resetView() {
+	private void resetView() {
 		application.getGraphController().resetZoom();
 	}
 
-	public void showFindGenes() {
+	private void showFindGenes() {
 		application.getFindgenesController().openDialog();
 	}
 
@@ -135,7 +135,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Displays the controls text in a {@link JTextPane}.
 	 */
-	public void displayControls() {
+	private void displayControls() {
 		DialogUtil.displayMessageWithView(new JScrollPane(makeControls()), "Controls");
 	}
 
@@ -160,7 +160,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Displays the about me text in a {@link JTextPane}.
 	 */
-	public void displayAbout() {
+	private void displayAbout() {
 		DialogUtil.displayMessageWithView(new JScrollPane(makeAbout()), "About me");
 	}
 
