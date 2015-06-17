@@ -225,7 +225,7 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	/**
-	 * Load the metadata from a separate file
+	 * Load the metadata from a separate file.
 	 */
 	public void loadMetaData() {
 		try {

@@ -98,24 +98,25 @@ public class FileSelector {
 	 * 		to filter on, will be placed on index 2
 	 * @return Array of files
 	 */
-	public static File[] getFilesFromFolder(File folder, String extension1, String extension2, String extension3, String extension4) {
+	public static File[] getFilesFromFolder(File folder, String extension1, String extension2,
+			String extension3, String extension4) {
 		File[] files = new File[4];
 
 		File[] extension1Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension1);
-				}
+				return name.endsWith(extension1);
+			}
 		);
 		File[] extension2Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension2);
-				}
+				return name.endsWith(extension2);
+			}
 		);
 		File[] extension3Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension3);
-				}
+				return name.endsWith(extension3);
+			}
 		);
 		File[] extension4Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension4);
-				}
+				return name.endsWith(extension4);
+			}
 		);
 
 		files[0] = extension1Files[0];

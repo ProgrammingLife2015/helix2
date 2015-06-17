@@ -133,7 +133,9 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getFindgenesController().openDialog();
 	}
 
-	private void filterMetadata() { application.getMetaFilterController().openDialog(); }
+	private void filterMetadata() {
+		application.getMetaFilterController().openDialog();
+	}
 
 	public void setLastOpenedMenu(Component lastOpenedMenu){
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);

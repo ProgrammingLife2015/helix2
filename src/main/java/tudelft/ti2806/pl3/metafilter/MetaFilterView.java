@@ -2,8 +2,12 @@ package tudelft.ti2806.pl3.metafilter;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
 
 /**
  * The view for filtering on metadata
@@ -38,6 +42,9 @@ public class MetaFilterView extends JPanel {
 	private final JTextField strainLocation;
 	private final JTextField isolationDate;
 
+	/**
+	 * Construct the view for the meta filter dialog.
+	 */
 	public MetaFilterView() {
 		super();
 
@@ -46,29 +53,29 @@ public class MetaFilterView extends JPanel {
 
 		JLabel hivLabel = new JLabel("HIV status:");
 		hivStatus = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Positive", "Negative"}));
+		this.add(hivLabel);
+		this.add(hivStatus);
 
 		JLabel ageLabel = new JLabel("Age:");
 		age = new JTextField();
+		this.add(ageLabel);
+		this.add(age);
 
 		JLabel genderLabel = new JLabel("Gender:");
 		gender = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Male", "Female"}));
+		this.add(genderLabel);
+		this.add(gender);
 
 		JLabel locationLabel = new JLabel("Location:");
 		strainLocation = new JTextField();
+		this.add(locationLabel);
+		this.add(strainLocation);
 
 		JLabel isolationDateLabel = new JLabel("Isolation date:");
 		isolationDate = new JTextField();
-
-		this.add(hivLabel);
-		this.add(hivStatus);
-		this.add(ageLabel);
-		this.add(age);
-		this.add(genderLabel);
-		this.add(gender);
-		this.add(locationLabel);
-		this.add(strainLocation);
 		this.add(isolationDateLabel);
 		this.add(isolationDate);
+
 		AutoCompleteDecorator.decorate(gender);
 	}
 
