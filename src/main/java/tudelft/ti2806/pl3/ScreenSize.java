@@ -9,10 +9,10 @@ import tudelft.ti2806.pl3.zoombar.ZoomBarView;
  */
 public class ScreenSize {
 
-	private static int minimumWidth = 800;
-	private static int minimumHeight = 600;
+	private int minimumWidth = 800;
+	private int minimumHeight = 600;
 	private static ScreenSize size;
-	private static int menubarHeight = 25;
+	private int menubarHeight = 25;
 	private int width;
 	private int height;
 	private int zoombarHeight;
