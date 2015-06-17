@@ -89,43 +89,43 @@ public class MenuBarController implements ActionListener, Controller {
 		return menuBarView;
 	}
 
-	private void stop() {
+	public void stop() {
 		application.stop();
 	}
 
-	private void readFolder() {
+	public void readFolder() {
 		application.makeGraphFromFolder();
 	}
 
-	private void readGraphFile() {
+	public void readGraphFile() {
 		application.makeGraphFromFiles();
 	}
 
-	private void readNwkFile() {
+	public void readNwkFile() {
 		application.makePhyloTree();
 	}
 
-	private void zoomIn() {
+	public void zoomIn() {
 		application.getGraphController().zoomLevelUp();
 	}
 
-	private void zoomOut() {
+	public void zoomOut() {
 		application.getGraphController().zoomLevelDown();
 	}
 
-	private void moveLeft() {
+	public void moveLeft() {
 		application.getGraphController().moveLeft();
 	}
 
-	private void moveRight() {
+	public void moveRight() {
 		application.getGraphController().moveRight();
 	}
 
-	private void resetView() {
+	public void resetView() {
 		application.getGraphController().resetZoom();
 	}
 
-	private void showFindGenes() {
+	public void showFindGenes() {
 		application.getFindgenesController().openDialog();
 	}
 
@@ -156,7 +156,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Displays the about me text in a {@link JTextPane}.
 	 */
-	private void displayAbout() {
+	public void displayAbout() {
 		StyleContext styleContext = new StyleContext();
 		DefaultStyledDocument doc = new DefaultStyledDocument(styleContext);
 		JTextPane textPane = new JTextPane(doc);
@@ -184,7 +184,7 @@ public class MenuBarController implements ActionListener, Controller {
 	 *
 	 * @return clickable JLabel with URL
 	 */
-	private JLabel website() {
+	public JLabel website() {
 		JLabel website = new JLabel("https://github.com/ProgrammingLife3/ProgrammingLife3");
 		website.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		website.addMouseListener(new MouseAdapter() {
