@@ -9,10 +9,10 @@ import tudelft.ti2806.pl3.zoombar.ZoomBarView;
  */
 public class ScreenSize {
 
-	private static int minimumWidth = 800;
-	private static int minimumHeight = 600;
+	public static int minimumWidth = 800;
+	public static int minimumHeight = 600;
 	private static ScreenSize size;
-	private static int menubarHeight = 25;
+	public static int menubarHeight = 25;
 	private int width;
 	private int height;
 	private int zoombarHeight;
@@ -92,13 +92,5 @@ public class ScreenSize {
 	 */
 	public int calculate(double percentage, int integer) {
 		return (int) (percentage * integer);
-	}
-
-	public int calculateHeight(double percentage) {
-		return calculate(percentage, height);
-	}
-
-	public int calculateWidth(double percentage) {
-		return calculate(percentage, width);
 	}
 }
