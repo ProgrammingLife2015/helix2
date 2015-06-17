@@ -145,7 +145,7 @@ public class MetaFilterController {
             cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
         } else {
             if (DialogUtil.confirm("No genomes found",
-                    "Not at least two genomes are found for the selected metadata, want to enter new data?")) {
+                    "No genomes are found for the selected metadata, want to enter new data?")) {
                 openDialog();
             }
         }
