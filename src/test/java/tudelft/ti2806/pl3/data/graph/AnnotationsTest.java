@@ -41,19 +41,19 @@ public class AnnotationsTest {
 
 	@Test
 	public void testGeneStart() throws Exception {
-		StartGeneLabel l = new StartGeneLabel("Corndogp002", 2609451);
+		StartGeneLabel l = new StartGeneLabel("RVBD_2744c.5 alanine rich protein", 3057261);
 		assertTrue(gd.getNodeByNodeId(35).getLabelList().contains(l));
 	}
 
 	@Test
 	public void testGeneEnd() throws Exception {
-		EndGeneLabel l = new EndGeneLabel("Corndogp002", 2609453);
+		EndGeneLabel l = new EndGeneLabel("RVBD_2744c.5 alanine rich protein", 3058073);
 		assertTrue(gd.getNodeByNodeId(1).getLabelList().contains(l));
 	}
 
 	@Test
 	public void testGene() throws Exception {
-		GeneLabel l = new GeneLabel("Corndogp002");
+		GeneLabel l = new GeneLabel("RVBD_2744c.5 alanine rich protein");
 		assertTrue(gd.getNodeByNodeId(35).getLabelList().contains(l));
 	}
 }

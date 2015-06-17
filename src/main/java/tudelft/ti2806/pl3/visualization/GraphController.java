@@ -77,7 +77,7 @@ public class GraphController implements Controller {
 	 */
 	public void parseGraph(File nodeFile, File edgeFile) throws FileNotFoundException {
 		try {
-			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
+			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef.gff");
 			graphDataRepository.parseGraph(nodeFile, edgeFile, geneData);
 			graphView.getPanel().setVisible(false);
 			graphView.getPanel().setVisible(true);

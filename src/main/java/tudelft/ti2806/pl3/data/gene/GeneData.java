@@ -114,10 +114,14 @@ public class GeneData {
 	protected static void parseGene(String line, ArrayList<Gene> genes, Map<Integer, Gene> geneStart,
 			Map<Integer, Gene> geneEnd) {
 		String[] tokens = line.split("\t");
-		Gene gene = new Gene(tokens[1], Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]));
-		genes.add(gene);
-		geneStart.put(Integer.parseInt(tokens[4]), gene);
-		geneEnd.put(Integer.parseInt(tokens[5]), gene);
+		if ("CDS".equals(tokens[2])) {
+			String[] attributes = tokens[8].split(";");
+			Gene gene = new Gene(attributes[3].replace("displayName=", ""),
+					Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
+			genes.add(gene);
+			geneStart.put(Integer.parseInt(tokens[3]), gene);
+			geneEnd.put(Integer.parseInt(tokens[4]), gene);
+		}
 	}
 
 }

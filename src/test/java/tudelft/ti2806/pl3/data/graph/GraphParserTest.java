@@ -34,7 +34,7 @@ public class GraphParserTest {
 				new HashMap<>());
 		Set<Genome> set = new HashSet<>(1);
 		set.add(new Genome("TKK_01_0029"));
-		assertTrue(node.equals(new DataNode(35, set, 2609451, 2609452,
+		assertTrue(node.equals(new DataNode(35, set, 3057261, 3057262,
 				new byte[]{BasePair.A.storeByte})));
 	}
 	

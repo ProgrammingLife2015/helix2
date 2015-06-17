@@ -44,9 +44,9 @@ public class GeneDataTest {
 	 */
 	@Test
 	public void parseGenesFirstGeneTest() {
-		Integer start = 2609323;
-		Integer end = 2609461;
-		Gene gene = new Gene("Corndogp001", start, end);
+		Integer start = 3057261;
+		Integer end = 3058073;
+		Gene gene = new Gene("RVBD_2744c.5 alanine rich protein", start, end);
 		assertTrue(geneData.getGenes().get(0).equals(gene));
 		assertTrue(geneData.getGeneStart().get(start).equals(gene));
 		assertTrue(geneData.getGeneEnd().get(end).equals(gene));
@@ -61,10 +61,11 @@ public class GeneDataTest {
 		Map<Integer, Gene> geneStart = new HashMap<>();
 		Map<Integer, Gene> geneEnd = new HashMap<>();
 
-		String line = "585\tCorndogp005\tchr\t-\t1110\t1581\t1110\t1581\t1\t1110,\t1581,\t5\tnone\tcmpl\tcmpl\t0,";
-		Integer start = 1110;
-		Integer end = 1581;
-		Gene gene = new Gene("Corndogp005", start, end);
+		String line = "MT_H37RV_BRD_V5\tnull\tCDS\t3057261\t3058073\t0.0\t-\t.\tcalhounClass=Gene;Name=alanine rich "
+				+ "protein;ID=7000008459999039;displayName=RVBD_2744c.5 alanine rich protein";
+		Integer start = 3057261;
+		Integer end = 3058073;
+		Gene gene = new Gene("RVBD_2744c.5 alanine rich protein", start, end);
 		GeneData.parseGene(line, genes, geneStart, geneEnd);
 		assertTrue(genes.get(0).equals(gene));
 		assertTrue(geneStart.get(start).equals(gene));
