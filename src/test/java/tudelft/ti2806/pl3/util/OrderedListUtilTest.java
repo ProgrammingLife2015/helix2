@@ -178,5 +178,10 @@ public class OrderedListUtilTest {
 			return 0;
 		}
 
+        @Override
+        public boolean contains(Wrapper originalNode) {
+            return false;
+        }
+
 	}
 }

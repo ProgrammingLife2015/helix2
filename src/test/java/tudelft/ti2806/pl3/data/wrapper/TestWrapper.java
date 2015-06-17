@@ -6,7 +6,6 @@ import tudelft.ti2806.pl3.data.label.Label;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 class TestWrapper extends Wrapper {
@@ -74,4 +73,9 @@ class TestWrapper extends Wrapper {
 	public void collectLabels(Set<Label> labels) {
 		return;
 	}
+
+    @Override
+    public boolean contains(Wrapper originalNode) {
+        return false;
+    }
 }
