@@ -7,6 +7,7 @@ import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -97,7 +98,7 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 		return avg / count;
 	}
 	
-	public class XComparator implements Comparator<Wrapper> {
+	public static class XComparator implements Comparator<Wrapper>, Serializable {
 		@Override
 		public int compare(Wrapper w1, Wrapper w2) {
 			return (int) Math.signum(w1.getX() - w2.getX());

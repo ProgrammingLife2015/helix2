@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,10 +80,10 @@ public class GeneData {
 		Reader reader;
 		try {
 			InputStream fileInputStream = Resources.getResourceAsStream(filename);
-			reader = new InputStreamReader(fileInputStream);
+			reader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
 		} catch (NullPointerException e) {
 			InputStream fileInputStream = new FileInputStream(filename);
-			reader = new InputStreamReader(fileInputStream);
+			reader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
 		}
 		BufferedReader bufferedReader = new BufferedReader(reader);
 

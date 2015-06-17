@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.exception.FileSelectorException;
+import tudelft.ti2806.pl3.util.observers.Observer;
 
 import java.awt.FileDialog;
 import java.io.File;
@@ -15,10 +16,22 @@ public class FileSelector {
 	private FileSelector() {
 	}
 
-	public static LastOpenedStack<File> lastopened;
+	private static LastOpenedStack<File> lastopened;
+
+	public static LastOpenedStack<File> getLastopened() {
+		return lastopened;
+	}
 
 	public static void setLastOpened(LastOpenedStack<File> lastOpenedStack) {
 		lastopened = lastOpenedStack;
+	}
+
+	public static void addLastOpened(File file) {
+		lastopened.add(file);
+	}
+
+	public static void addLastOpenedObserver(Observer observer) {
+		lastopened.addObserver(observer);
 	}
 
 	/**
@@ -62,7 +75,7 @@ public class FileSelector {
 	public static File selectFolder(String title, JFrame frame) throws FileSelectorException {
 
 		String os = System.getProperty("os.name").toLowerCase();
-		if (os.indexOf("mac") >= 0) { // OS X
+		if (os.contains("mac")) { // OS X
 			System.setProperty("apple.awt.fileDialogForDirectories", "true");
 			FileDialog fileDialog = new FileDialog(frame, title, FileDialog.LOAD);
 			fileDialog.setDirectory(System.getProperty("user.dir"));
@@ -102,16 +115,16 @@ public class FileSelector {
 		File[] files = new File[3];
 
 		File[] extension1Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension1);
-				}
+				return name.endsWith(extension1);
+			}
 		);
 		File[] extension2Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension2);
-				}
+				return name.endsWith(extension2);
+			}
 		);
 		File[] extension3Files = folder.listFiles((dir, name) -> {
-					return name.endsWith(extension3);
-				}
+				return name.endsWith(extension3);
+			}
 		);
 		files[0] = extension1Files[0];
 		files[1] = extension2Files[0];

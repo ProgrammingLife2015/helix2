@@ -3,9 +3,12 @@ package tudelft.ti2806.pl3.util;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -39,7 +42,8 @@ public class ParserLastOpened {
 			p.waitFor();
 		}
 
-		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(save.getAbsoluteFile()));
+		BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(save.getAbsoluteFile()), StandardCharsets.UTF_8));
 		for (File e : output) {
 			bufferedWriter.write(e.toString());
 			bufferedWriter.newLine();
@@ -63,8 +67,9 @@ public class ParserLastOpened {
 		LastOpenedStack<File> result = new LastOpenedStack<>(limit);
 		Path currentRelativePath = Paths.get("");
 		String s = currentRelativePath.toAbsolutePath().toString();
-		FileReader fileReader = new FileReader(s + File.separator + saveName);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(s + File.separator + saveName), StandardCharsets.UTF_8));
 
 		String line;
 
@@ -72,6 +77,8 @@ public class ParserLastOpened {
 			File readFile = new File(line);
 			result.addLast(readFile);
 		}
+
+		bufferedReader.close();
 
 		return result;
 	}

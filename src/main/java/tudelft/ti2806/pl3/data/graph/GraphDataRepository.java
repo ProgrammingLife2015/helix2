@@ -1,7 +1,5 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.util.observable.LoadingObservable;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.gene.Gene;
@@ -9,6 +7,8 @@ import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.label.EndGeneLabel;
 import tudelft.ti2806.pl3.data.label.GeneLabel;
 import tudelft.ti2806.pl3.data.label.StartGeneLabel;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -155,9 +156,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public Map<Integer, DataNode> parseNodes(File nodesFile, Map<String, Genome> genomeMap,
 			GeneData geneData) throws FileNotFoundException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				new BufferedInputStream(new FileInputStream(nodesFile))));
-		Map<Integer, DataNode> nodes = new HashMap<Integer, DataNode>();
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(nodesFile), StandardCharsets.UTF_8));
+		Map<Integer, DataNode> nodes = new HashMap<>();
 		try {
 			while (br.ready()) {
 				DataNode node = parseNode(br, genomeMap);
@@ -213,17 +213,23 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 			Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
-			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
+			String line = br.readLine();
+			if (line != null) {
+				indexData = line.replaceAll("[> ]", "").split("\\|");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		DataNode node = null;
 		try {
-			node = new DataNode(Integer.parseInt(indexData[0]),
-					parseGenomeIdentifiers(indexData[1].split(","), genomes),
-					Integer.parseInt(indexData[2]),
-					Integer.parseInt(indexData[3]),
-					BasePair.getBasePairString(br.readLine()));
+			String line = br.readLine();
+			if (line != null) {
+				node = new DataNode(Integer.parseInt(indexData[0]),
+						parseGenomeIdentifiers(indexData[1].split(","), genomes),
+						Integer.parseInt(indexData[2]),
+						Integer.parseInt(indexData[3]),
+						BasePair.getBasePairString(line));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -257,14 +263,17 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public List<Edge> parseEdges(File edgesFile, Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
-				new BufferedInputStream(new FileInputStream(edgesFile))));
-		List<Edge> list = new ArrayList<Edge>();
+				new BufferedInputStream(new FileInputStream(edgesFile)), StandardCharsets.UTF_8));
+		List<Edge> list = new ArrayList<>();
 		try {
 			while (br.ready()) {
-				String[] index = br.readLine().split(" ");
-				DataNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
-				DataNode nodeTo = nodes.get(Integer.parseInt(index[1]));
-				list.add(new Edge(nodeFrom, nodeTo));
+				String line = br.readLine();
+				if (line != null) {
+					String[] index = line.split(" ");
+					DataNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
+					DataNode nodeTo = nodes.get(Integer.parseInt(index[1]));
+					list.add(new Edge(nodeFrom, nodeTo));
+				}
 			}
 			br.close();
 		} catch (IOException e) {

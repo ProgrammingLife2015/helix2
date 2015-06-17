@@ -193,7 +193,7 @@ public class GraphView
 				generateGraph();
 			} catch (EdgeZeroWeightException e) {
 				//TODO: show popup?
-				e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 			zoom();
 			centerGraph();
@@ -201,7 +201,7 @@ public class GraphView
 	}
 
 	private void centerGraph() {
-		if (zoomCenterSet == false) {
+		if (!zoomCenterSet) {
 			setZoomCenter(0);
 			setOffsetToCenter();
 			setZoomCenter(offsetToCenter);

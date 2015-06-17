@@ -9,6 +9,7 @@ import tudelft.ti2806.pl3.exception.DuplicateGenomeNameException;
 import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -169,12 +170,17 @@ public final class SpaceWrapUtil {
 			if (bucket.getSecond().size() <= 1) {
 				continue;
 			}
-			List<Wrapper> nodeList = new ArrayList<Wrapper>(
+			List<Wrapper> nodeList = new ArrayList<>(
 					bucket.getSecond());
 			for (int i = bucket.getSecond().size() - 1; i > 0; i--) {
 				nodeList.remove(nodeList.size() - 1);
-				candidateList.add(newCandidatePair(bucket.getSecond().get(i),
-						nodeList.get(nodeList.size() - 1)));
+				try {
+					Pair<Integer, Pair<Wrapper, Wrapper>> candidatePair =
+							newCandidatePair(bucket.getSecond().get(i), nodeList.get(nodeList.size() - 1));
+					candidateList.add(candidatePair);
+				} catch (DuplicateGenomeNameException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		sortOnLenght(candidateList);
@@ -314,7 +320,7 @@ public final class SpaceWrapUtil {
 	 *             zero.
 	 */
 	static Pair<Integer, Pair<Wrapper, Wrapper>> newCandidatePair(
-			Wrapper node1, Wrapper node2) {
+			Wrapper node1, Wrapper node2) throws DuplicateGenomeNameException {
 		int distance = node1.getPreviousNodesCount()
 				- node2.getPreviousNodesCount();
 		if (distance > 1) {
@@ -324,18 +330,12 @@ public final class SpaceWrapUtil {
 			return new Pair<Integer, Pair<Wrapper, Wrapper>>(-distance,
 					new Pair<Wrapper, Wrapper>(node1, node2));
 		}
-		// TODO: Handle the exceptions correctly
-		try {
-			throw new DuplicateGenomeNameException(
-					"The graph consists of two genome with the same name.",
-					"Two posible routes are found with the same genome name, "
-							+ "or the order of the nodes was not correctly calculated."
-							+ "\nNodes:" + node1.getIdString() + " - "
-							+ node2.getIdString());
-		} catch (DuplicateGenomeNameException e) {
-			e.printStackTrace();
-		}
-		return null;
+		throw new DuplicateGenomeNameException(
+				"The graph consists of two genome with the same name.",
+				"Two posible routes are found with the same genome name, "
+						+ "or the order of the nodes was not correctly calculated."
+						+ "\nNodes:" + node1.getIdString() + " - "
+						+ node2.getIdString());
 	}
 	
 	/**
@@ -355,7 +355,7 @@ public final class SpaceWrapUtil {
 	 * between the nodes, which is given by the first value of each pair.
 	 */
 	static class LenghtPairSort implements
-			Comparator<Pair<Integer, Pair<Wrapper, Wrapper>>> {
+			Comparator<Pair<Integer, Pair<Wrapper, Wrapper>>>, Serializable {
 		@Override
 		public int compare(Pair<Integer, Pair<Wrapper, Wrapper>> o1,
 				Pair<Integer, Pair<Wrapper, Wrapper>> o2) {
