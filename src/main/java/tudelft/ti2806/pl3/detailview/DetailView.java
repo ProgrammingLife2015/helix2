@@ -7,7 +7,9 @@ import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -76,11 +78,12 @@ public class DetailView extends JPanel {
 		if (collection.size() == 0) {
 			return;
 		}
-		String[] array = new String[collection.size()];
+		Set<String> stringSet = new HashSet<>(collection.size());
 		Iterator iterator = collection.iterator();
 		for (int i = 0; i < collection.size(); i++) {
-			array[i] = iterator.next().toString();
+			stringSet.add(iterator.next().toString());
 		}
+		String[] array = stringSet.toArray(new String[stringSet.size()]);
 		Arrays.sort(array, comparator);
 		JList<Object> list = new JList<>(array);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
