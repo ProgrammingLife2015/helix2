@@ -117,6 +117,7 @@ public class FileSelector {
 					return name.endsWith(extension4);
 				}
 		);
+
 		files[0] = extension1Files[0];
 		files[1] = extension2Files[0];
 		files[2] = extension3Files[0];

@@ -13,6 +13,7 @@ import tudelft.ti2806.pl3.menubar.LastOpenedController;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
+import tudelft.ti2806.pl3.ui.util.DialogUtil;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.LastOpenedStack;
 import tudelft.ti2806.pl3.util.ParserLastOpened;
@@ -140,10 +141,14 @@ public class Application extends JFrame implements ControllerContainer {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
 
-			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph",".nwk", ".txt");
+			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph", ".nwk", ".txt");
 			makeGraph(files[0], files[1], files[2], files[3]);
-		} catch (FileSelectorException | NullPointerException exception) {
-			if (confirm("Error!", "Some necessary files were not found. Want to try again?")) {
+		} catch (ArrayIndexOutOfBoundsException exception) {
+			if (DialogUtil.confirm("Error!", "Some necessary files were not found. Want to select a new folder?")) {
+				makeGraphFromFolder();
+			}
+		} catch (FileSelectorException exception) {
+			if (DialogUtil.confirm("Error!", "You have not selected a folder, want to try again?")) {
 				makeGraphFromFolder();
 			}
 		}
