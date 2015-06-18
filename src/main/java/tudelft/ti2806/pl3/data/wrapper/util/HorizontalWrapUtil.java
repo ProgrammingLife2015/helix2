@@ -138,7 +138,6 @@ public final class HorizontalWrapUtil {
          * Here we iterate over each element in iterateList and over each element only once, because we keep track of a
          * list of all elements we iterate over.
          */
-        iterateList.stream().map(Wrapper::getId).forEach(System.out::println);
         while (iterateList.size() > 0) {
             Wrapper startNode = iterateList.iterator().next();
             
@@ -148,18 +147,6 @@ public final class HorizontalWrapUtil {
             // Add all nodes to the right which can be combined.
             Wrapper node = startNode;
             HashableCollection<Genome> genome = new HashableCollection<>(startNode.getGenome());
-            if(node.getId() == 4){
-                System.out.println(node.getOutgoing().size() == 1
-//                    && node.getOutgoing().get(0).getIncoming().size() == 1
-//                    && genome.equals(new HashableCollection<>(node.getOutgoing()
-//                            .get(0).getGenome())));
-                        );
-                System.out.println(node.getIncoming().size() == 1
-//                    && node.getIncoming().get(0).getOutgoing().size() == 1
-//                    && genome.equals(new HashableCollection<>(node.getIncoming()
-//                            .get(0).getGenome())));
-                        );
-            }
             while (node.getOutgoing().size() == 1
                     && node.getOutgoing().get(0).getIncoming().size() == 1
                     && genome.equals(new HashableCollection<>(node.getOutgoing()
@@ -183,14 +170,6 @@ public final class HorizontalWrapUtil {
                 iterateList.remove(wrapper);
             }
         }
-//        System.out.println(foundCombineableNodes.size());
-//        
-//        List<Wrapper> testList = new ArrayList<>();
-//        for (int i = 0; i < foundCombineableNodes.size(); i++) {
-//            testList.addAll(foundCombineableNodes.get(i));
-//        }
-//        System.out.println("@" + (testList.size() == new HashSet<>(testList).size()));
-        
         return foundCombineableNodes;
     }
 }

@@ -24,10 +24,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 
 /**
  * The GraphView is responsible for adding the nodes and edges to the graph, keeping the nodes and edges on the right
@@ -126,20 +124,6 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
                 / (panel.getBounds().width * zoomLevel / zoomedGraphModel.getWrappedCollapsedNode().getWidth())
                 / zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
         
-        for(Entry<Integer, Long> obj : graphData.stream().map(Wrapper::getId).collect(Collectors.groupingBy(e -> e, Collectors.counting())).entrySet()
-                .stream().filter(a -> a.getValue() != 1).collect(Collectors.toList())){
-            System.out.println(obj.getKey() + " - " +obj.getValue());
-            List<WrapperClone> b = graphData.stream().filter(a -> a.getId() == obj.getKey()).collect(Collectors.toList());
-            if(b.get(0).getOriginalNode().contains(b.get(1).getOriginalNode())){
-                new WrapperPrinter().calculate(b.get(0).getOriginalNode(), null);
-            } else 
-            if(b.get(1).getOriginalNode().contains(b.get(0).getOriginalNode())){
-                new WrapperPrinter().calculate(b.get(1).getOriginalNode(), null);
-            } else {
-                System.out.println("meh");
-            }
-            
-        }
         graphData.forEach(node -> {
             Node graphNode = this.graph.addNode(Integer.toString(node.getId()));
             double y = node.getY() * someSize;
