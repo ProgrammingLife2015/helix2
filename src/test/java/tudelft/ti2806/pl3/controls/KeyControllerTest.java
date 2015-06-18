@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
@@ -85,19 +84,6 @@ public class KeyControllerTest {
 		keyController.keyPressed(keyEvent);
 		verify(application, times(2)).getGraphController();
 		verify(graphController, times(1)).moveLeft();
-	}
-
-	@Test
-	public void testGene() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_G);
-		FindGenesController findGenesController = mock(FindGenesController.class);
-		when(application.getFindGenesController()).thenReturn(findGenesController);
-		when(application.getGraphController()).thenReturn(mock(GraphController.class));
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getFindGenesController();
-		verify(findGenesController, times(1)).openDialog();
 	}
 
 	@Test

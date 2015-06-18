@@ -99,10 +99,19 @@ public class MenuBarController implements ActionListener, Controller {
 	public void setLastOpenedMenu(Component lastOpenedMenu) {
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
+
 	/**
-	 * Displays the controls text in a {@link JTextPane}.
+	 * Displays the controls text in a {@link DialogUtil}.
 	 */
-	public void displayControls() {
+	private void displayControls() {
+		DialogUtil.displayMessageWithView(new JScrollPane(makeControls()), "Controls");
+	}
+
+	/**
+	 * Make a {@link JTextPane} with controls text.
+	 * @return JTextpane with control text.
+	 */
+	public JTextPane makeControls() {
 		JTextPane textPane = new JTextPane();
 		TabStop[] tabs = new TabStop[1];
 		tabs[0] = new TabStop(300, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
@@ -117,13 +126,21 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		DialogUtil.displayMessageWithView(new JScrollPane(textPane), Constants.MENU_HELP_CONTROLS);
+		return textPane;
 	}
 
 	/**
-	 * Displays the about me text in a {@link JTextPane}.
+	 * Displays the about me text in {@link DialogUtil}.
 	 */
 	private void displayAbout() {
+		DialogUtil.displayMessageWithView(new JScrollPane(makeAbout()), "About me");
+	}
+
+	/**
+	 * Make a {@link JTextPane} with about me text.
+	 * @return JTextpane with about me text.
+	 */
+	public JTextPane makeAbout() {
 		StyleContext styleContext = new StyleContext();
 		DefaultStyledDocument doc = new DefaultStyledDocument(styleContext);
 		JTextPane textPane = new JTextPane(doc);
@@ -141,7 +158,7 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		DialogUtil.displayMessageWithView(new JScrollPane(textPane), Constants.MENU_HELP_ABOUT);
+		return textPane;
 	}
 
 	/**
@@ -162,8 +179,8 @@ public class MenuBarController implements ActionListener, Controller {
 					Desktop.getDesktop().browse(github);
 				} catch (IOException | URISyntaxException exception) {
 					String message = "An error has occurred!"
-					 	+ " We are unable to display the GitHub link in your browser.";
-					DialogUtil.displayError(message,"Error!");
+							+ " We are unable to display the GitHub link in your browser.";
+					DialogUtil.displayError(message, "Error!");
 				}
 			}
 		});

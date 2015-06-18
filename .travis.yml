@@ -8,6 +8,8 @@ notifications:
   - http://octopull.rmhartog.me/api/travis/webhook
 before_install:
   - "[ \"$BUILD_PR_BRANCH\" = \"true\" ] && git checkout $TRAVIS_BRANCH && echo \"OCTOPULL_SHA=$(git rev-parse HEAD)\"; true"
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 env:
   - BUILD_PR_BRANCH=true
   - BUILD_PR_BRANCH=false

@@ -93,12 +93,4 @@ public class ScreenSize {
 	public int calculate(double percentage, int integer) {
 		return (int) (percentage * integer);
 	}
-
-	public int calculateHeight(double percentage) {
-		return calculate(percentage, height);
-	}
-
-	public int calculateWidth(double percentage) {
-		return calculate(percentage, width);
-	}
 }

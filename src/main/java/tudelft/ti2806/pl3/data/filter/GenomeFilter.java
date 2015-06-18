@@ -21,6 +21,11 @@ public class GenomeFilter implements Filter<DataNode> {
 		this.genomes = genomes;
 	}
 
+	@Override
+	public List<String> getGenomes() {
+		return genomes;
+	}
+
 	/**
 	 * Filter that removes all nodes that are not in the genome list.
 	 * It also removes the genomes from the node that should be filtered out.
@@ -43,5 +48,28 @@ public class GenomeFilter implements Filter<DataNode> {
 			}
 		}
 		nodes.removeAll(remove);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		GenomeFilter that = (GenomeFilter) o;
+
+		if (genomes != null ? !genomes.equals(that.genomes) : that.genomes != null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return genomes != null ? genomes.hashCode() : 0;
 	}
 }
