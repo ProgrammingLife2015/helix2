@@ -34,16 +34,16 @@ public class DeadEdgeUtilTest {
 		
 		Set<Genome> genome = new HashSet<>();
 		genome.add(new Genome("hi"));
-		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, new byte[0]),
-				new DataNode(1, genome, 0, 0, new byte[0]),
-				new DataNode(2, genome, 0, 0, new byte[0]),
-				new DataNode(3, genome, 0, 0, new byte[0]),
-				new DataNode(4, genome, 0, 0, new byte[0]),
-				new DataNode(5, genome, 0, 0, new byte[0]),
-				new DataNode(6, genome, 0, 0, new byte[0]),
-				new DataNode(7, genome, 0, 0, new byte[0]),
-				new DataNode(8, genome, 0, 0, new byte[0]),
-				new DataNode(9, genome, 0, 0, new byte[0]) };
+		nodes = new DataNode[] { new DataNode(0, genome, 0, 0, ""),
+				new DataNode(1, genome, 0, 0, ""),
+				new DataNode(2, genome, 0, 0, ""),
+				new DataNode(3, genome, 0, 0, ""),
+				new DataNode(4, genome, 0, 0, ""),
+				new DataNode(5, genome, 0, 0, ""),
+				new DataNode(6, genome, 0, 0, ""),
+				new DataNode(7, genome, 0, 0, ""),
+				new DataNode(8, genome, 0, 0, ""),
+				new DataNode(9, genome, 0, 0, "") };
 
 		for (DataNode node : nodes) {
 			nodeList.add(node);
