@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.ScrollListener;
@@ -215,6 +216,7 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Stop the application and exit.
 	 */
+	@SuppressFBWarnings({"DM_EXIT"})
 	public void stop() {
 		// save data or do something else here
 		if (this.confirm("Exit", "Are you sure you want to exit the application? ")) {
