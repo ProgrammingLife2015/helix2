@@ -173,7 +173,7 @@ public class GraphView
 				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 		int weight = from.getOutgoingWeight().get(i);
 		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomesCount());
-//		System.out.println(zoomedGraphModel.getGenomesCount());
+
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException(
