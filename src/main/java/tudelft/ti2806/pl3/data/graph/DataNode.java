@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.data.graph;
 
+import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.label.Label;
 
@@ -24,7 +25,8 @@ public class DataNode {
 	protected final String content;
 	
 	protected List<Label> labelList;
-	
+	private int nCounter;
+
 	/**
 	 * Initialise a {@code SingleNode}.
 	 *
@@ -44,25 +46,23 @@ public class DataNode {
 	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
 			int refEndPoint, String contentOfTheNode, List<Label> labelList) {
 		this.nodeId = nodeId;
-		if (source == null) {
-			// TODO: Bad data, throw exception
-			this.source = null;
-			this.currentGenomeSet = null;
-		} else {
-			this.source = new HashSet<>(source);
-			this.currentGenomeSet = new HashSet<>(source);
-		}
+		this.source = new HashSet<>(source);
+		this.currentGenomeSet = new HashSet<>(source);
 		this.refStartPoint = refStartPoint;
 		this.refEndPoint = refEndPoint;
-		if (contentOfTheNode == null) {
-			this.content = null;
-		} else {
-			this.content = contentOfTheNode;
-		}
+		this.content = contentOfTheNode;
 		if (labelList == null) {
 			this.labelList = new ArrayList<>();
 		} else {
 			this.labelList = labelList;
+		}
+
+		nCounter = 0;
+		char n = BasePair.N.name().charAt(0);
+		for (int i = 0; i < content.length(); i++ ) {
+			if (content.charAt(i) == n) {
+				nCounter++;
+			}
 		}
 	}
 	
@@ -95,15 +95,7 @@ public class DataNode {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + content.hashCode();
-		result = prime * result + nodeId;
-		result = prime * result + refEndPoint;
-		result = prime * result + refStartPoint;
-		result = prime * result + source.hashCode();
-		result = prime * result + labelList.hashCode();
-		return result;
+		return nodeId;
 	}
 	
 	@Override
@@ -161,6 +153,10 @@ public class DataNode {
 	
 	public long getBasePairCount() {
 		return content.length();
+	}
+
+	public long getNCount() {
+		return nCounter;
 	}
 	
 	public Set<Genome> getCurrentGenomeSet() {
