@@ -28,7 +28,7 @@ public class WrapperPlaceholderTest {
 	public void getterTests() {
 		Wrapper placeholder = new WrapperPlaceholder();
 		assertEquals(0, placeholder.getBasePairCount(), 0);
-		assertTrue(WrapperPlaceholder.ID_STRING == placeholder.getIdString());
+		assertTrue(WrapperPlaceholder.ID_STRING.equals(placeholder.getIdString()));
 		assertNull(placeholder.getGenome());
 		assertEquals(0, placeholder.getX(), 0);
 		placeholder.x = 1;

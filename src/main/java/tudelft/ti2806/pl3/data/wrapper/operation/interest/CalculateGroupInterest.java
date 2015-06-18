@@ -38,7 +38,7 @@ public class CalculateGroupInterest extends WrapperOperation {
 	@Override
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		if (isIntresting(wrapper)) {
+		if (isInteresting(wrapper)) {
 			wrapper.addInterest(interest);
 		}
 	}
@@ -46,7 +46,7 @@ public class CalculateGroupInterest extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		if (isIntresting(wrapper)) {
+		if (isInteresting(wrapper)) {
 			wrapper.addInterest(interest);
 		}
 	}
@@ -54,7 +54,7 @@ public class CalculateGroupInterest extends WrapperOperation {
 	@Override
 	public void calculate(SpaceWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		if (isIntresting(wrapper)) {
+		if (isInteresting(wrapper)) {
 			wrapper.addInterest(interest);
 		}
 	}
@@ -62,7 +62,7 @@ public class CalculateGroupInterest extends WrapperOperation {
 	@Override
 	public void calculate(SingleWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);
-		if (isIntresting(wrapper)) {
+		if (isInteresting(wrapper)) {
 			wrapper.addInterest(interest);
 		}
 	}
@@ -80,7 +80,9 @@ public class CalculateGroupInterest extends WrapperOperation {
 	 *         sets of genome<br>
 	 *         {@code false} else
 	 */
-	boolean isIntresting(Wrapper wrapper) {
+	// Suppress warnings, false positive unused method.
+	@SuppressWarnings("PMD.UnusedPrivateMethod")
+	private boolean isInteresting(Wrapper wrapper) {
 		Set<Genome> genome = wrapper.getGenome();
 		boolean foundFirst = false;
 		for (Set<Genome> group : groups) {

@@ -6,7 +6,7 @@ import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
+import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
 import tudelft.ti2806.pl3.menubar.LastOpenedController;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
@@ -44,12 +44,13 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	private static final Integer MIDDEL_LAYER = 50;
 	private static final Integer HIGHEST_LAYER = 100;
-	private final GraphDataRepository graphDataRepository;
 
-	private JLayeredPane main;
+	private final GraphDataRepository graphDataRepository;
+	private final JLayeredPane main;
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final KeyController keys;
+
 	private ScreenSize size;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
-	private KeyController keys;
 
 
 	/**
@@ -58,13 +59,13 @@ public class Application extends JFrame implements ControllerContainer {
 	private GraphController graphController;
 	private SideBarController sideBarController;
 	private ZoomBarController zoomBarController;
-	private FindgenesController findgenesController;
+	private FindGenesController findGenesController;
 
 	/**
 	 * Construct the main application view.
 	 */
 	public Application() {
-		super("Helix" + "\u00B2");
+		super(Constants.APP_NAME);
 		// read the last opened files
 		try {
 			LastOpenedStack<File> files = ParserLastOpened.readLastOpened();
@@ -90,7 +91,7 @@ public class Application extends JFrame implements ControllerContainer {
 		sideBarController = new SideBarController(this);
 		sideBarController.addLoadingObserversList(loadingObservers);
 		zoomBarController = new ZoomBarController(this);
-		findgenesController = new FindgenesController(this, graphDataRepository);
+		findGenesController = new FindGenesController(this, graphDataRepository);
 	}
 
 	/**
@@ -180,14 +181,14 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	/**
-	 * Parses the phylogenetic tree through file selection and makes a sidebarview.
+	 * Parses the phylogenetic tree through file selection and makes a SideBarView.
 	 */
 	public void makePhyloTree() {
 		makePhyloTree(null);
 	}
 
 	/**
-	 * Parses the phylogenetic tree through automatic selection and makes a sidebarview.
+	 * Parses the phylogenetic tree through automatic selection and makes a SideBarView.
 	 */
 	public void makePhyloTree(File input) {
 		try {
@@ -232,9 +233,9 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Add the sidebar view to the layout.
 	 */
-	public void setSideBarView() {
+	private void setSideBarView() {
 		Component view = getSideBarController().getPanel();
-		view.setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(), size.getHeight());
+		view.setBounds(0, size.getMenubarHeight(), size.getSideBarWidth(), size.getHeight());
 		main.add(view, HIGHEST_LAYER);
 		view.setVisible(true);
 		view.addKeyListener(keys);
@@ -242,12 +243,12 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	/**
-	 * Add the menubar view to the layout.
+	 * Add the JMenuBar view to the layout.
 	 *
 	 * @param view
-	 * 		the menubar view panel
+	 * 		the JMenuBar to set as menu.
 	 */
-	public void setMenuBar(JMenuBar view) {
+	private void setMenuBar(JMenuBar view) {
 		view.setBounds(0, 0, size.getWidth(), size.getMenubarHeight());
 		main.add(view, HIGHEST_LAYER);
 		view.setVisible(true);
@@ -256,10 +257,10 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Add the graph view to the layout.
 	 */
-	public void setGraphView() {
+	private void setGraphView() {
 		Component view = getGraphController().getPanel();
 		view.setBounds(0, 0, size.getWidth(),
-				size.getHeight() - size.getZoombarHeight());
+				size.getHeight() - size.getZoomBarHeight());
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
 		view.addKeyListener(keys);
@@ -269,10 +270,10 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Add the zoom bar view to the layout.
 	 */
-	public void setZoomBarView() {
+	private void setZoomBarView() {
 		Component view = getZoomBarController().getPanel();
-		view.setBounds(0, size.getHeight() - size.getZoombarHeight(),
-				size.getWidth(), size.getZoombarHeight());
+		view.setBounds(0, size.getHeight() - size.getZoomBarHeight(),
+				size.getWidth(), size.getZoomBarHeight());
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
 	}
@@ -293,12 +294,12 @@ public class Application extends JFrame implements ControllerContainer {
 				size.calculate();
 
 				getSideBarController().getPanel().setBounds(0, size.getMenubarHeight(),
-						size.getSidebarWidth(), size.getHeight());
+						size.getSideBarWidth(), size.getHeight());
 				getGraphController().getPanel().setBounds(0, 0, size.getWidth(),
-						size.getHeight() - size.getZoombarHeight());
+						size.getHeight() - size.getZoomBarHeight());
 				getZoomBarController().getPanel().setBounds(0,
-						size.getHeight() - size.getZoombarHeight(),
-						size.getWidth(), size.getZoombarHeight());
+						size.getHeight() - size.getZoomBarHeight(),
+						size.getWidth(), size.getZoomBarHeight());
 				getPhyloController().getView().updateSize();
 
 				main.repaint();
@@ -327,8 +328,8 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	@Override
-	public FindgenesController getFindgenesController() {
-		return findgenesController;
+	public FindGenesController getFindGenesController() {
+		return findGenesController;
 	}
 
 }

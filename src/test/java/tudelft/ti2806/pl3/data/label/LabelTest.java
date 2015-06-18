@@ -122,10 +122,6 @@ public class LabelTest {
 	public void nameTest() {
 		GeneLabel geneLabel1 = new GeneLabel("Gene1");
 		assertTrue(geneLabel1.getText().equals("Gene1"));
-
-		geneLabel1.setText("Gene2");
-		assertTrue(geneLabel1.getText().equals("Gene2"));
-		assertFalse(geneLabel1.getText().equals("Gene1"));
 	}
 
 	/**

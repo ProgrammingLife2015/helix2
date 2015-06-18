@@ -17,7 +17,7 @@ import javax.swing.JMenu;
  */
 public class LastOpenedController implements ActionListener, Controller, Observer {
 
-	private Application application;
+	private final Application application;
 	private final LastOpenedMenu lastOpenedMenu;
 
 	/**
@@ -28,7 +28,7 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 	public LastOpenedController(Application application) {
 		super();
 		this.application = application;
-		this.lastOpenedMenu = new LastOpenedMenu("Open recent files");
+		this.lastOpenedMenu = new LastOpenedMenu();
 		lastOpenedMenu.setMnemonic(KeyEvent.VK_R);
 		lastOpenedMenu.addActionListener(this);
 	}
@@ -42,24 +42,23 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String chosenfile = e.getActionCommand();
-		File file = new File(chosenfile);
+		File nodeFile = new File(chosenfile);
 
 		if (chosenfile.endsWith(".nwk")) {
-			// tree file
+			// tree nodeFile
 			System.out.println("phylo tree");
-			FileSelector.lastopened.add(file);
-			application.makePhyloTree(file);
+			FileSelector.lastopened.add(nodeFile);
+			application.makePhyloTree(nodeFile);
 		} else if (chosenfile.endsWith(".node.graph")) {
-			FileSelector.lastopened.add(file);
-			// node and edge file
-			File nodeFile = file;
+			FileSelector.lastopened.add(nodeFile);
+			// node and edge nodeFile
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
 			application.makeGraph(nodeFile, edgeFile, null);
 
 		} else {
-			FileSelector.lastopened.add(file);
+			FileSelector.lastopened.add(nodeFile);
 			// must be folder
-			File[] files = FileSelector.getFilesFromFolder(file, ".node.graph", ".edge.graph", ".nwk");
+			File[] files = FileSelector.getFilesFromFolder(nodeFile, ".node.graph", ".edge.graph", ".nwk");
 			application.makeGraph(files[0], files[1], files[2]);
 		}
 

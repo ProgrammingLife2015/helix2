@@ -11,7 +11,7 @@ import java.awt.event.MouseWheelListener;
  */
 public class ScrollListener implements MouseWheelListener {
 
-	private Application application;
+	private final Application application;
 
 	/**
 	 * Constructor a Listener.

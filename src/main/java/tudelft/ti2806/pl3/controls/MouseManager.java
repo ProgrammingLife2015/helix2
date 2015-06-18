@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class MouseManager extends DefaultMouseManager {
 	private static final int MARGIN = 5;
 
-	WrapperClone node = null;
-	DetailView detailView;
+	private final DetailView detailView;
+	private WrapperClone node = null;
 
 	public MouseManager() {
 		detailView = new DetailView();
@@ -46,8 +46,9 @@ public class MouseManager extends DefaultMouseManager {
 	 * @param y
 	 * 		y location of the mouse cursor.
 	 */
-	public void mouseMoved(int x, int y) {
-		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
+	private void mouseMoved(int x, int y) {
+		ArrayList<GraphicElement> graphicElements =
+				view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
 		if (graphicElements.size() == 0) {
 			removeDetailView();
 		} else {

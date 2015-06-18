@@ -29,7 +29,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * Phyloview is a view for the phylogenetic file. The user can select multiple
+ * PhyloView is a view for the phylogenetic file. The user can select multiple
  * genomes or common ancestors.
  *
  * <p>
@@ -69,7 +69,7 @@ public class PhyloView extends JPanel implements View, Observer {
 	 * Setup the UI of the view.
 	 */
 	private void setUpUserInterface() {
-		final int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		final int width = ScreenSize.getInstance().getSideBarWidth() - 10;
 		final int height = ScreenSize.getInstance().getHeight() - 100;
 
 		header = new JLabel(WINDOW_TITLE);
@@ -153,7 +153,7 @@ public class PhyloView extends JPanel implements View, Observer {
 	 * Update the sizes of the panes relative to the application size.
 	 */
 	public void updateSize() {
-		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		int width = ScreenSize.getInstance().getSideBarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
 
 		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));

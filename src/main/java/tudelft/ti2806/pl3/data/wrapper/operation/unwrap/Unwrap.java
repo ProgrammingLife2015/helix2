@@ -45,7 +45,7 @@ public abstract class Unwrap extends WrapperOperation {
 	
 	private Wrapper result;
 	private List<WrapperClone> wrapperClones;
-	Stack<Pair<WrapperPlaceholder, Wrapper>> stack;
+	private Stack<Pair<WrapperPlaceholder, Wrapper>> stack;
 	
 	/**
 	 * Construct the Unwrap operation.

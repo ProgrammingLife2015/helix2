@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.menubar;
 
 import tudelft.ti2806.pl3.Application;
+import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.Controller;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
 
@@ -31,47 +32,13 @@ import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
 /**
- * Controller for menubar view
+ * Controller for MenuBarView
  * Created by Kasper on 27-5-2015.
  */
 public class MenuBarController implements ActionListener, Controller {
 
 	private final MenuBarView menuBarView;
-	private Application application;
-
-	/**
-	 * Text that is displayed in the About Me option in the Help menu.
-	 */
-	final String about = "Helix² is an interactive DNA sequence viewer. "
-			+ "It uses semantic zooming to only display relative information. \n"
-			+ "This application was created as part of an assignment"
-			+ "for the Context Project at TU Delft.\n"
-			+ "\n"
-			+ "Helix� was created by: \n"
-			+ "- Tom Brouws\n"
-			+ "- Boris Mattijssen\n"
-			+ "- Mathieu Post\n"
-			+ "- Sam Smulders\n"
-			+ "- Kasper Wendel\n"
-			+ "\n"
-			+ "The code of this application is open source and can be found on GitHub: \n";
-
-	/**
-	 * Text that is displayed in the Controls option in the Help menu.
-	 */
-	final String controls = "Helix² uses key shortcuts to make life easier. "
-			+ "All the controls that can be used are listed below. \n"
-			+ "\n"
-			+ "Zooming in     \t+ \n"
-			+ "Zooming out    \t - \n"
-			+ "Reset the view \t R \n"
-			+ "Move the view to the left \t \u2190 \n"
-			+ "Move the view to the right \t \u2192 \n"
-			+ "Gene navigation window \t G \n"
-			+ "Hide/show phylogenetic tree window \t spacebar \n"
-			+ "\n"
-			+ "All of the menus can be controlled with the underlined letter, "
-			+ "hold the ALT key to activate this.";
+	private final Application application;
 
 	/**
 	 * Constructs a new controller for {@link MenuBarView}.
@@ -126,7 +93,7 @@ public class MenuBarController implements ActionListener, Controller {
 	}
 
 	private void showFindGenes() {
-		application.getFindgenesController().openDialog();
+		application.getFindGenesController().openDialog();
 	}
 
 	public void setLastOpenedMenu(Component lastOpenedMenu) {
@@ -145,12 +112,12 @@ public class MenuBarController implements ActionListener, Controller {
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.TabSet, tabSet);
 		textPane.setParagraphAttributes(aset, false);
 
-		textPane.setText(controls);
+		textPane.setText(Constants.INFO_CONTROLS);
 		textPane.setEditable(false);
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		DialogUtil.displayMessageWithView(new JScrollPane(textPane), "Controls");
+		DialogUtil.displayMessageWithView(new JScrollPane(textPane), Constants.MENU_HELP_CONTROLS);
 	}
 
 	/**
@@ -164,7 +131,7 @@ public class MenuBarController implements ActionListener, Controller {
 		Style webstyle = doc.addStyle("WebStyle", null);
 		StyleConstants.setComponent(webstyle, website());
 		try {
-			doc.insertString(0, about, null);
+			doc.insertString(0, Constants.INFO_ABOUT, null);
 			doc.insertString(doc.getLength(), "githublink", webstyle);
 		} catch (BadLocationException e) {
 			// this will not occur since the text is set on correct locations
@@ -174,7 +141,7 @@ public class MenuBarController implements ActionListener, Controller {
 		textPane.setBackground(new Color(240, 240, 240));
 		textPane.setPreferredSize(new Dimension(500, 200));
 
-		DialogUtil.displayMessageWithView(new JScrollPane(textPane), "About me");
+		DialogUtil.displayMessageWithView(new JScrollPane(textPane), Constants.MENU_HELP_ABOUT);
 	}
 
 	/**
@@ -185,13 +152,13 @@ public class MenuBarController implements ActionListener, Controller {
 	 * @return clickable JLabel with URL
 	 */
 	private JLabel website() {
-		JLabel website = new JLabel("https://github.com/ProgrammingLife3/ProgrammingLife3");
+		JLabel website = new JLabel(Constants.INFO_GITHUB_URL);
 		website.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		website.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					URI github = new URI("https://github.com/ProgrammingLife3/ProgrammingLife3");
+					URI github = new URI(Constants.INFO_GITHUB_URL);
 					Desktop.getDesktop().browse(github);
 				} catch (IOException | URISyntaxException exception) {
 					String message = "An error has occurred!"
@@ -214,40 +181,40 @@ public class MenuBarController implements ActionListener, Controller {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-			case "Open folder":
+			case Constants.MENU_FILE_OPEN_FOLDER:
 				readFolder();
 				break;
-			case "Open node and edge file":
+			case Constants.MENU_FILE_OPEN_GRAPH_FILES:
 				readGraphFile();
 				break;
-			case "Open .nwk file":
+			case Constants.MENU_FILE_OPEN_NWK_FILE:
 				readNwkFile();
 				break;
-			case "Exit":
+			case Constants.MENU_FILE_EXIT:
 				stop();
 				break;
-			case "Zoom in":
+			case Constants.MENU_VIEW_ZOOM_IN:
 				zoomIn();
 				break;
-			case "Zoom out":
+			case Constants.MENU_VIEW_ZOOM_OUT:
 				zoomOut();
 				break;
-			case "Move left":
+			case Constants.MENU_VIEW_MOVE_LEFT:
 				moveLeft();
 				break;
-			case "Move right":
+			case Constants.MENU_VIEW_MOVE_RIGHT:
 				moveRight();
 				break;
-			case "Reset view":
+			case Constants.MENU_VIEW_RESET:
 				resetView();
 				break;
-			case "Navigate to gene":
+			case Constants.MENU_VIEW_NAVIGATE_TO_GENE:
 				showFindGenes();
 				break;
-			case "Controls":
+			case Constants.MENU_HELP_CONTROLS:
 				displayControls();
 				break;
-			case "About Me":
+			case Constants.MENU_HELP_ABOUT:
 				displayAbout();
 				break;
 			default:

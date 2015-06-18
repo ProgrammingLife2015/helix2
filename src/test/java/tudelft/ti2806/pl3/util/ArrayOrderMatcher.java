@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class ArrayOrderMatcher extends BaseMatcher<Wrapper[]> {
 	
-	private Wrapper[] order;
+	private final Wrapper[] order;
 	
 	public ArrayOrderMatcher(Wrapper[] order) {
 		this.order = order;

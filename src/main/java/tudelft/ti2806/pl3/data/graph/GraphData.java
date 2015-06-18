@@ -66,9 +66,4 @@ public class GraphData extends AbstractGraphData {
 	public AbstractGraphData getOrigin() {
 		return origin;
 	}
-	
-	@Override
-	public int getLongestNodePath() {
-		return origin.getLongestNodePath();
-	}
 }

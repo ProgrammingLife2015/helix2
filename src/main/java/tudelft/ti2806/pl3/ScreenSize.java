@@ -4,30 +4,30 @@ import tudelft.ti2806.pl3.sidebar.SideBarView;
 import tudelft.ti2806.pl3.zoombar.ZoomBarView;
 
 /**
- * Singleton variable for the screensize. Since our app is fullscreen, the width
+ * Singleton object for the screen size. Since our app is fullscreen, the width
  * and height are different for every screen. Created by Kasper on 8-5-2015.
  */
 public class ScreenSize {
 
-	private static int minimumWidth = 800;
-	private static int minimumHeight = 600;
+	private static final int minimumWidth = 800;
+	private static final int minimumHeight = 600;
+	private static final int menubarHeight = 25;
 	private static ScreenSize size;
-	private static int menubarHeight = 25;
 	private int width;
 	private int height;
-	private int zoombarHeight;
-	private int sidebarWidth;
+	private int zoomBarHeight;
+	private int sideBarWidth;
 	
 	/**
 	 * Constructor.
 	 */
-	public ScreenSize() {
+	private ScreenSize() {
 	}
 	
 	/**
-	 * Get a unique screensize instance.
+	 * Get a unique ScreenSize instance.
 	 * 
-	 * @return screensize instance
+	 * @return ScreenSize instance
 	 */
 	public static synchronized ScreenSize getInstance() {
 		if (size == null) {
@@ -52,12 +52,12 @@ public class ScreenSize {
 		this.width = width;
 	}
 	
-	public int getZoombarHeight() {
-		return zoombarHeight;
+	public int getZoomBarHeight() {
+		return zoomBarHeight;
 	}
 	
-	public int getSidebarWidth() {
-		return sidebarWidth;
+	public int getSideBarWidth() {
+		return sideBarWidth;
 	}
 
 	public int getMenubarHeight() {
@@ -77,8 +77,8 @@ public class ScreenSize {
 	 * Calculate the sizes of the windows.
 	 */
 	public void calculate() {
-		zoombarHeight = calculate(ZoomBarView.ZOOMBAR_FACTOR, getHeight());
-		sidebarWidth = calculate(SideBarView.SIDEBAR_FACTOR, getWidth());
+		zoomBarHeight = calculate(ZoomBarView.ZOOMBAR_FACTOR, getHeight());
+		sideBarWidth = calculate(SideBarView.SIDEBAR_FACTOR, getWidth());
 	}
 	
 	/**
