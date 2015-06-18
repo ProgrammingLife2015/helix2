@@ -67,7 +67,7 @@ public class NodeCombineUtilTest {
 		Assert.assertEquals(newPgd.getPositionedNodes().size(), 9);
 	}
 	
-	private int[] getIdList(List<Wrapper> group) {
+	private static int[] getIdList(List<Wrapper> group) {
 		int[] idList = new int[group.size()];
 		for (int i = 0; i < group.size(); i++) {
 			idList[i] = ((DataNodeWrapper) group.get(i)).getNode().getId();
@@ -134,13 +134,13 @@ public class NodeCombineUtilTest {
 	public void privateConstructorTest() throws NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
 			InstantiationException {
-		new UtilTest<SpaceWrapUtil>(SpaceWrapUtil.class)
+		new UtilTest<>(SpaceWrapUtil.class)
 				.testConstructorIsPrivate();
-		new UtilTest<VerticalWrapUtil>(VerticalWrapUtil.class)
+		new UtilTest<>(VerticalWrapUtil.class)
 				.testConstructorIsPrivate();
-		new UtilTest<HorizontalWrapUtil>(HorizontalWrapUtil.class)
+		new UtilTest<>(HorizontalWrapUtil.class)
 				.testConstructorIsPrivate();
-		new UtilTest<WrapUtil>(WrapUtil.class).testConstructorIsPrivate();
+		new UtilTest<>(WrapUtil.class).testConstructorIsPrivate();
 	}
 	
 	@Test
