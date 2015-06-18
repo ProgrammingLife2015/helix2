@@ -35,6 +35,7 @@ public class MetaFilterController {
     public MetaFilterController(ControllerContainer cc, GraphDataRepository graphData) {
         this.cc = cc;
         this.graphData = graphData;
+        metaFilterView = new MetaFilterView();
     }
 
     /**
@@ -95,16 +96,10 @@ public class MetaFilterController {
      * gene.
      */
     public void openDialog() {
-        if (metaFilterView == null) {
-            metaFilterView = new MetaFilterView();
-        }
-
         JOptionPane
                 .showMessageDialog(null, metaFilterView, "Select options to filter on:", JOptionPane.QUESTION_MESSAGE);
 
         List<Genome> firstGenomeList = new ArrayList<>();
-        List<String> genomeList = new ArrayList<>();
-        IntRange selectedAge = computeAge(metaFilterView.getAge());
         Gender selectedGender = computeGender(metaFilterView.getGender());
         String selectedLocation = metaFilterView.getStrainLocation();
         String selectedIsolationDate = metaFilterView.getIsolationDate();
@@ -126,22 +121,48 @@ public class MetaFilterController {
                         && (!checkHiv || genome.getHivStatus() == selectedHivStatus)).collect(
                 Collectors.toList()));
 
+
+        filterGraph(filterOnAge(computeAge(metaFilterView.getAge()), firstGenomeList));
+    }
+
+    /**
+     * Filter the genome set on age or age range after other filters are applied.
+     *
+     * @param selectedAge
+     *         the selected age range
+     * @param genomes
+     *         the result set of earlier filters
+     * @return the final result set
+     */
+    private List<String> filterOnAge(IntRange selectedAge, List<Genome> genomes) {
+        List<String> genomeList = new ArrayList<>();
         if (selectedAge.getMaximumInteger() == 0) {
-           genomeList = firstGenomeList.stream().map(Genome::getIdentifier).collect(Collectors.toList());
+            genomeList = genomes.stream().map(Genome::getIdentifier).collect(Collectors.toList());
         } else if (selectedAge.getMinimumInteger() == 0) {
-            genomeList.addAll(firstGenomeList.stream().filter(
+            genomeList.addAll(genomes.stream().filter(
                     genome -> selectedAge.getMaximumInteger() == genome.getAge()).map(Genome::getIdentifier).collect(
                     Collectors.toList()));
         } else {
-            genomeList.addAll(firstGenomeList.stream().filter(
+            genomeList.addAll(genomes.stream().filter(
                     genome -> selectedAge.containsInteger(genome.getAge())).map(Genome::getIdentifier).collect(
                     Collectors.toList()));
         }
+        return genomeList;
+    }
 
+    /**
+     * Filter the graph on the result set from the query.
+     *
+     * @param genomeList
+     *         the result set
+     */
+    private void filterGraph(List<String> genomeList) {
         if (genomeList.size() > 1) {
             cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
         } else if (genomeList.size() == 1) {
-            DialogUtil.displayMessage("One genome found", "Just one genome has been found for the selected metadata, TKK_REF has been added to the filter set.");
+            DialogUtil.displayMessage("One genome found",
+                    "Just one genome has been found for the selected metadata, TKK_REF has been added to the filter " +
+                            "set.");
             genomeList.add("TKK_REF");
             cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(genomeList));
         } else {

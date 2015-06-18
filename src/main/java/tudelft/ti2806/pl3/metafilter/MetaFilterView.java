@@ -15,9 +15,11 @@ import java.awt.GridLayout;
  */
 public class MetaFilterView extends JPanel {
 
-	private final JComboBox<String> hivStatus;
-	private final JTextField age;
-	private final JComboBox<String> gender;
+	private JComboBox<String> hivStatus;
+	private JTextField age;
+	private JComboBox<String> gender;
+	private JTextField strainLocation;
+	private JTextField isolationDate;
 
 	public String getHivStatus() {
 		return (String) hivStatus.getSelectedItem();
@@ -39,9 +41,6 @@ public class MetaFilterView extends JPanel {
 		return isolationDate.getText();
 	}
 
-	private final JTextField strainLocation;
-	private final JTextField isolationDate;
-
 	/**
 	 * Construct the view for the meta filter dialog.
 	 */
@@ -51,32 +50,63 @@ public class MetaFilterView extends JPanel {
 		GridLayout gridLayout = new GridLayout(5, 2);
 		this.setLayout(gridLayout);
 
-		JLabel hivLabel = new JLabel("HIV status:");
-		hivStatus = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Positive", "Negative"}));
-		this.add(hivLabel);
-		this.add(hivStatus);
+		createHivStatusElements();
+		createAgeElements();
+		createGenderElements();
+		createLocationElements();
+		createIsolationDateElements();
 
-		JLabel ageLabel = new JLabel("Age or age range:");
-		age = new JTextField();
-		this.add(ageLabel);
-		this.add(age);
+		AutoCompleteDecorator.decorate(gender);
+	}
 
-		JLabel genderLabel = new JLabel("Gender:");
-		gender = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Male", "Female"}));
-		this.add(genderLabel);
-		this.add(gender);
-
-		JLabel locationLabel = new JLabel("Location:");
-		strainLocation = new JTextField();
-		this.add(locationLabel);
-		this.add(strainLocation);
-
+	/**
+	 * Create the isolation date elements.
+	 */
+	private void createIsolationDateElements() {
 		JLabel isolationDateLabel = new JLabel("Isolation date:");
 		isolationDate = new JTextField();
 		this.add(isolationDateLabel);
 		this.add(isolationDate);
+	}
 
-		AutoCompleteDecorator.decorate(gender);
+	/**
+	 * Create the location elements.
+	 */
+	private void createLocationElements() {
+		JLabel locationLabel = new JLabel("Location:");
+		strainLocation = new JTextField();
+		this.add(locationLabel);
+		this.add(strainLocation);
+	}
+
+	/**
+	 * Create the gender elements.
+	 */
+	private void createGenderElements() {
+		JLabel genderLabel = new JLabel("Gender:");
+		gender = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Male", "Female"}));
+		this.add(genderLabel);
+		this.add(gender);
+	}
+
+	/**
+	 * Create the age elements.
+	 */
+	private void createAgeElements() {
+		JLabel ageLabel = new JLabel("Age or age range:");
+		age = new JTextField();
+		this.add(ageLabel);
+		this.add(age);
+	}
+
+	/**
+	 * Create the hiv status elements.
+	 */
+	private void createHivStatusElements() {
+		JLabel hivLabel = new JLabel("HIV status:");
+		hivStatus = new JComboBox<>(new DefaultComboBoxModel(new String[] {"- None -", "Positive", "Negative"}));
+		this.add(hivLabel);
+		this.add(hivStatus);
 	}
 
 }

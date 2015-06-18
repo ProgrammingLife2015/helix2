@@ -62,8 +62,6 @@ public class Application extends JFrame implements ControllerContainer {
 	private FindgenesController findgenesController;
 	private MetaFilterController metaFilterController;
 
-	private GraphDataRepository gd;
-
 	/**
 	 * Construct the main application view.
 	 */
@@ -229,8 +227,7 @@ public class Application extends JFrame implements ControllerContainer {
 	public void loadMetaData() {
 		try {
 			File metaFile = FileSelector.selectFile("Select metadata file", this, ".txt");
-			gd.loadMetaData(metaFile);
-			System.out.println(gd.getGenomes().get(0).getAge());
+			graphDataRepository.loadMetaData(metaFile);
 		} catch (FileSelectorException | FileNotFoundException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				loadMetaData();
