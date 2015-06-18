@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.data.wrapper.util;
 
+import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
@@ -137,6 +138,7 @@ public final class HorizontalWrapUtil {
          * Here we iterate over each element in iterateList and over each element only once, because we keep track of a
          * list of all elements we iterate over.
          */
+        iterateList.stream().map(Wrapper::getId).forEach(System.out::println);
         while (iterateList.size() > 0) {
             Wrapper startNode = iterateList.iterator().next();
             
@@ -145,7 +147,23 @@ public final class HorizontalWrapUtil {
             
             // Add all nodes to the right which can be combined.
             Wrapper node = startNode;
-            while (node.getOutgoing().size() == 1 && node.getOutgoing().get(0).getIncoming().size() == 1) {
+            HashableCollection<Genome> genome = new HashableCollection<>(startNode.getGenome());
+            if(node.getId() == 4){
+                System.out.println(node.getOutgoing().size() == 1
+//                    && node.getOutgoing().get(0).getIncoming().size() == 1
+//                    && genome.equals(new HashableCollection<>(node.getOutgoing()
+//                            .get(0).getGenome())));
+                        );
+                System.out.println(node.getIncoming().size() == 1
+//                    && node.getIncoming().get(0).getOutgoing().size() == 1
+//                    && genome.equals(new HashableCollection<>(node.getIncoming()
+//                            .get(0).getGenome())));
+                        );
+            }
+            while (node.getOutgoing().size() == 1
+                    && node.getOutgoing().get(0).getIncoming().size() == 1
+                    && genome.equals(new HashableCollection<>(node.getOutgoing()
+                            .get(0).getGenome()))) {
                 node = node.getOutgoing().get(0);
                 foundGroup.add(node);
             }
@@ -153,25 +171,25 @@ public final class HorizontalWrapUtil {
             node = startNode;
             while (node.getIncoming().size() == 1
                     && node.getIncoming().get(0).getOutgoing().size() == 1
-                    && new HashableCollection<>(node.getGenome()).equals(new HashableCollection<>(node.getIncoming()
+                    && genome.equals(new HashableCollection<>(node.getIncoming()
                             .get(0).getGenome()))) {
                 node = node.getIncoming().get(0);
                 foundGroup.add(0, node);
             }
             if (foundGroup.size() > 1) {
                 foundCombineableNodes.add(foundGroup);
-                break;
             }
             for (Wrapper wrapper : foundGroup) {
                 iterateList.remove(wrapper);
             }
         }
-        
-        List<Wrapper> testList = new ArrayList<>();
-        for (int i = 0; i < foundCombineableNodes.size(); i++) {
-            testList.addAll(foundCombineableNodes.get(i));
-        }
-        System.out.println("@" + (testList.size() == new HashSet<>(testList).size()));
+//        System.out.println(foundCombineableNodes.size());
+//        
+//        List<Wrapper> testList = new ArrayList<>();
+//        for (int i = 0; i < foundCombineableNodes.size(); i++) {
+//            testList.addAll(foundCombineableNodes.get(i));
+//        }
+//        System.out.println("@" + (testList.size() == new HashSet<>(testList).size()));
         
         return foundCombineableNodes;
     }
