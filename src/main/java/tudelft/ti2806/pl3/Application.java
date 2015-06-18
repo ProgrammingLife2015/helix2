@@ -271,7 +271,7 @@ public class Application extends JFrame implements ControllerContainer {
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
 	}
-	
+
 	@Override
 	public GraphController getGraphController() {
 		return graphController;

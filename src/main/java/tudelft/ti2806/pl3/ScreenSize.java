@@ -64,11 +64,11 @@ public class ScreenSize {
 		return menubarHeight;
 	}
 
-	public static int getMinimumWidth() {
+	public int getMinimumWidth() {
 		return minimumWidth;
 	}
 
-	public static int getMinimumHeight() {
+	public int getMinimumHeight() {
 		return minimumHeight;
 	}
 

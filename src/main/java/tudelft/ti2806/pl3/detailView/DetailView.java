@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.detailView;
 
+import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
 import java.awt.Component;
@@ -45,7 +46,7 @@ public class DetailView extends JPanel {
 
 		Set<String> genomes = new HashSet<>();
 		node.getGenome().forEach(genome -> genomes.add(genome.getIdentifier()));
-		addLabels("Genomes:", genomes, "TKK_REF");
+		addLabels(Constants.DETAILVIEW_GENOMES, genomes, "TKK_REF");
 
 		if (node.getLabels().size() > 0) {
 			add(" ");
@@ -53,7 +54,7 @@ public class DetailView extends JPanel {
 
 		Set<String> labels = new HashSet<>();
 		node.getLabels().forEach(label -> labels.add(label.getText()));
-		addLabels("Labels:", labels);
+		addLabels(Constants.DETAILVIEW_LABELS, labels);
 
 		Dimension size = getPreferredSize();
 		setBounds(x, y, size.width, size.height);

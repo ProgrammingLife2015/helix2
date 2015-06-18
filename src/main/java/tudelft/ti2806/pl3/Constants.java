@@ -64,4 +64,6 @@ public class Constants {
 	public static final String MENU_HELP_ABOUT = "About " + APP_NAME;
 
 	public static final String DIALOG_ERROR = "Error!";
+	public static final String DETAILVIEW_GENOMES = "Genomes:";
+	public static final String DETAILVIEW_LABELS = "Labels:";
 }

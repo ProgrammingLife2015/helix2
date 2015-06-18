@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 
 /**
  * Creates an adapter that updates screen sizes for the components in the view.
+ *
  * <p>
  * Created by Kasper on 16-6-2015.
  */
@@ -41,9 +42,5 @@ public class ResizeAdapter extends ComponentAdapter {
 		application.getPhyloController().getView().updateSize();
 
 		application.repaint();
-	}
-
-	public ComponentAdapter getResizer() {
-		return this;
 	}
 }
