@@ -134,12 +134,16 @@ public class MenuBarController implements ActionListener, Controller {
 	}
 
 	/**
-	 * Displays the controls text in a {@link JTextPane}.
+	 * Displays the controls text in a {@link DialogUtil}.
 	 */
 	private void displayControls() {
 		DialogUtil.displayMessageWithView(new JScrollPane(makeControls()), "Controls");
 	}
 
+	/**
+	 * Make a {@link JTextPane} with controls text.
+	 * @return JTextpane with control text.
+	 */
 	public JTextPane makeControls() {
 		JTextPane textPane = new JTextPane();
 		TabStop[] tabs = new TabStop[1];
@@ -159,12 +163,16 @@ public class MenuBarController implements ActionListener, Controller {
 	}
 
 	/**
-	 * Displays the about me text in a {@link JTextPane}.
+	 * Displays the about me text in {@link DialogUtil}.
 	 */
 	private void displayAbout() {
 		DialogUtil.displayMessageWithView(new JScrollPane(makeAbout()), "About me");
 	}
 
+	/**
+	 * Make a {@link JTextPane} with about me text.
+	 * @return JTextpane with about me text.
+	 */
 	public JTextPane makeAbout() {
 		StyleContext styleContext = new StyleContext();
 		DefaultStyledDocument doc = new DefaultStyledDocument(styleContext);

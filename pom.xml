@@ -9,8 +9,6 @@
   <url>http://maven.apache.org</url>
   <properties>
     <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
-  </properties>
-  <properties>
     <powermock.version>1.6.1</powermock.version>
   </properties>
   <dependencies>

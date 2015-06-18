@@ -300,7 +300,7 @@ public class Application extends JFrame implements ControllerContainer {
 		return new Rectangle(main.getWidth(), main.getHeight());
 	}
 
-	public void repaint(){
+	public void repaint() {
 		main.repaint();
 	}
 

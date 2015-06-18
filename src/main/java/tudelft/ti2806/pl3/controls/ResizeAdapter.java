@@ -9,7 +9,7 @@ import java.awt.event.ComponentEvent;
 
 /**
  * Creates an adapter that updates screen sizes for the components in the view.
- *
+ * <p>
  * Created by Kasper on 16-6-2015.
  */
 public class ResizeAdapter extends ComponentAdapter {
@@ -20,7 +20,6 @@ public class ResizeAdapter extends ComponentAdapter {
 		super();
 		this.application = application;
 	}
-
 
 
 	@Override
@@ -44,7 +43,7 @@ public class ResizeAdapter extends ComponentAdapter {
 		application.repaint();
 	}
 
-	public ComponentAdapter getResizer(){
+	public ComponentAdapter getResizer() {
 		return this;
 	}
 }
