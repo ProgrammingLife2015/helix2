@@ -1,17 +1,22 @@
-package tudelft.ti2806.pl3.detailView;
+package tudelft.ti2806.pl3.detailview;
 
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 /**
  * This view is added when more details about a node are needed.
@@ -19,14 +24,26 @@ import javax.swing.JPanel;
  */
 public class DetailView extends JPanel {
 	private static final int BORDER = 10;
-	private static final int MAX_ROWS = 5;
 	private static final int POSITION_OFFSET = 30;
+	public static final String REF_GENOME = "REF";
+
+	/**
+	 * Custom string comparator to prioritize the TKK_REF genome string.
+	 */
+	private Comparator<String> comparator = (o1, o2) -> {
+		if (o1.contains(REF_GENOME)) {
+			return -1;
+		} else if (o2.contains(REF_GENOME)) {
+			return 1;
+		}
+		return o1.compareTo(o2);
+	};
 
 	/**
 	 * Constructs a DetailView and set a border and the preferred layout.
 	 */
 	public DetailView() {
-		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+		BoxLayout layout = new BoxLayout(this, BoxLayout.X_AXIS);
 		setLayout(layout);
 		setBorder(BorderFactory.createEmptyBorder(BORDER, BORDER, BORDER, BORDER));
 	}
@@ -43,67 +60,39 @@ public class DetailView extends JPanel {
 	public void setNode(WrapperClone node, int x, int y) {
 		removeAll();
 
-		Set<String> genomes = new HashSet<>();
-		node.getGenome().forEach(genome -> genomes.add(genome.getIdentifier()));
-		addLabels("Genomes:", genomes, "TKK_REF");
-
-		if (node.getLabels().size() > 0) {
-			add(" ");
-		}
-
-		Set<String> labels = new HashSet<>();
-		node.getLabels().forEach(label -> labels.add(label.getText()));
-		addLabels("Labels:", labels);
+		addList(node.getGenome(), "Genomes: ");
+		addList(node.getLabels(), "Labels: ");
 
 		Dimension size = getPreferredSize();
 		setBounds(x, y, size.width, size.height);
 	}
 
 	/**
-	 * Same as addLabels(String, Set, String) but without a filter.
-	 */
-	private void addLabels(String title, Set<String> set) {
-		addLabels(title, set, null);
-	}
-
-	/**
-	 * Add JLabels for every object in the given set.
+	 * Adds a collection as a scrollable list to itself.
+	 * @param collection
+	 * 		the collection to be added as list.
 	 * @param title
-	 * 		Label to be displayed above the list of labels.
-	 * @param set
-	 * 		The set of objects to be displayed in the list.
-	 * @param filter
-	 * 		A string that will always be displayed if found in the set.
+	 * 		if not null, this string will be added above the list as header.
 	 */
-	private void addLabels(String title, Set<String> set, String filter) {
-		if (set.size() > 0) {
-			add(title);
+	private void addList(Collection collection, String title) {
+		if (collection.size() == 0) {
+			return;
 		}
-
-		Iterator<String> iterator = set.iterator();
-		int i = 0;
-		while (iterator.hasNext()) {
-			String nextString = iterator.next();
-			if (filter != null && filter.equals(nextString)) {
-				filter = null;
-				if (i >= MAX_ROWS) {
-					add(nextString);
-					i++;
-					break;
-				}
-			}
-			if (i < MAX_ROWS) {
-				add(nextString);
-				i++;
-			}
+		Set<String> stringSet = new HashSet<>(collection.size());
+		Iterator iterator = collection.iterator();
+		for (int i = 0; i < collection.size(); i++) {
+			stringSet.add(iterator.next().toString());
 		}
-		if (i < set.size()) {
-			add("...");
+		String[] array = stringSet.toArray(new String[stringSet.size()]);
+		Arrays.sort(array, comparator);
+		JList<Object> list = new JList<>(array);
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane listScroller = new JScrollPane(list);
+		if (title != null) {
+			listScroller.setColumnHeaderView(new JLabel(title));
 		}
-	}
-
-	public Component add(String label) {
-		return super.add(new JLabel(label));
+		add(listScroller);
 	}
 
 	@Override
