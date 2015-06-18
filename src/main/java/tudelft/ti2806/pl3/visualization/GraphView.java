@@ -156,7 +156,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
                     try {
                         addNormalEdge(graph, node, to, i);
                     } catch (EdgeZeroWeightException e) {
-                        // e.printStackTrace();
+                         e.printStackTrace();
                     }
                 }
                 i++;

@@ -14,7 +14,8 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
 public class WrapperPrinter extends WrapperOperation {
 
-    private void print(CombineWrapper wrapper, Wrapper container) {
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
+    private void print(CombineWrapper wrapper) {
         System.out.println(wrapper+"{");
         for (Wrapper node : wrapper.getNodeList()) {
             calculate(node, wrapper);
@@ -24,17 +25,17 @@ public class WrapperPrinter extends WrapperOperation {
     
     @Override
     public void calculate(HorizontalWrapper wrapper, Wrapper container) {
-        print(wrapper, container);        
+        print(wrapper);        
     }
     
     @Override
     public void calculate(VerticalWrapper wrapper, Wrapper container) {
-        print(wrapper, container);
+        print(wrapper);
     }
 
     @Override
     public void calculate(SpaceWrapper wrapper, Wrapper container) {
-        print(wrapper, container);
+        print(wrapper);
     }
     
     @Override
