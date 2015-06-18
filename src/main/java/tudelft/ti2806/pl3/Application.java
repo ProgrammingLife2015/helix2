@@ -97,7 +97,7 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Make the window visible and set the sizes.
 	 */
-	public void setUpFrame() {
+	private void setUpFrame() {
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

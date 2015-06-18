@@ -50,15 +50,15 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		this.genomes = genomes;
 	}
 
-	public void addNodes(List<DataNode> nodes) {
+	public void setNodes(List<DataNode> nodes) {
 		this.nodes = nodes;
 	}
 
-	public void addEdges(List<Edge> edges) {
+	public void setEdges(List<Edge> edges) {
 		this.edges = edges;
 	}
 
-	public void addGenomes(List<Genome> genomes) {
+	public void setGenomes(List<Genome> genomes) {
 		this.genomes = genomes;
 	}
 
@@ -110,9 +110,9 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		List<Genome> genomeList = new ArrayList<>();
 		genomeList.addAll(genomeMap.values());
 
-		addNodes(nodeList);
-		addEdges(parseEdges(edgesFile, nodeMap));
-		addGenomes(genomeList);
+		setNodes(nodeList);
+		setEdges(parseEdges(edgesFile, nodeMap));
+		setGenomes(genomeList);
 
 		notifyLoadingObservers(false);
 		notifyGraphParsedObservers();
@@ -324,7 +324,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		graphParsedObserver.remove(o);
 	}
 
-	public void notifyGraphParsedObservers() {
+	private void notifyGraphParsedObservers() {
 		graphParsedObserver.forEach(GraphParsedObserver::graphParsed);
 	}
 }

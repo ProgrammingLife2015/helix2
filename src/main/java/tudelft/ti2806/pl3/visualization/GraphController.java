@@ -173,7 +173,7 @@ public class GraphController implements Controller {
 		graphMoved();
 	}
 
-	public double getCurrentZoomLevel() {
+	private double getCurrentZoomLevel() {
 		return zoomedGraphModel.getZoomLevel();
 	}
 
@@ -212,7 +212,7 @@ public class GraphController implements Controller {
 	/**
 	 * When the graph was moved.
 	 */
-	public void graphMoved() {
+	private void graphMoved() {
 		restrictViewCenter();
 		graphMovedListenerList.forEach(GraphMovedListener::graphMoved);
 	}

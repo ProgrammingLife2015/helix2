@@ -138,7 +138,7 @@ public class EdgeUtil {
 	 * 		type of both collections
 	 * @return the intersection between the two collections
 	 */
-	public static <T> Collection<T> intersection(Collection<T> collection1, Collection<T> collection2) {
+	private static <T> Collection<T> intersection(Collection<T> collection1, Collection<T> collection2) {
 		Collection<T> list = new ArrayList<T>();
 
 		for (T t : collection1) {
