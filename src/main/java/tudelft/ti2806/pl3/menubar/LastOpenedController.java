@@ -42,23 +42,22 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String chosenfile = e.getActionCommand();
-		File nodeFile = new File(chosenfile);
+		File file = new File(chosenfile);
 
 		if (chosenfile.endsWith(".nwk")) {
-			// tree nodeFile
+			// tree file
 			System.out.println("phylo tree");
-			FileSelector.lastopened.add(nodeFile);
-			application.makePhyloTree(nodeFile);
+			FileSelector.lastopened.add(file);
+			application.makePhyloTree(file);
 		} else if (chosenfile.endsWith(".node.graph")) {
-			FileSelector.lastopened.add(nodeFile);
-			// node and edge nodeFile
-			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
-			application.makeGraph(nodeFile, edgeFile, null);
+			FileSelector.lastopened.add(file);
+			File edgeFile = FileSelector.getOtherExtension(file, ".node.graph", ".edge.graph");
+			application.makeGraph(file, edgeFile, null);
 
 		} else {
-			FileSelector.lastopened.add(nodeFile);
+			FileSelector.lastopened.add(file);
 			// must be folder
-			File[] files = FileSelector.getFilesFromFolder(nodeFile, ".node.graph", ".edge.graph", ".nwk");
+			File[] files = FileSelector.getFilesFromFolder(file, ".node.graph", ".edge.graph", ".nwk");
 			application.makeGraph(files[0], files[1], files[2]);
 		}
 
