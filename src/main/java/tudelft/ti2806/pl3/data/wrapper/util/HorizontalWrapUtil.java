@@ -11,8 +11,10 @@ import tudelft.ti2806.pl3.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -102,18 +104,17 @@ public final class HorizontalWrapUtil {
         List<Pair<Wrapper, Wrapper>> wrapperPairs = listToPairList(list);
         List<Pair<Wrapper, Wrapper>> collect = wrapperPairs
                 .stream()
-                .sorted((e1, e2) -> Float.compare(e1.getFirst().getInterest() + e1.getSecond().getInterest(), e2
-                        .getFirst().getInterest() + e2.getSecond().getInterest())).collect(Collectors.toList());
+                .sorted((e1, e2) -> Float.compare(e2.getFirst().getInterest() + e2.getSecond().getInterest(), e1
+                        .getFirst().getInterest() + e1.getSecond().getInterest())).collect(Collectors.toList());
         while (!collect.isEmpty()) {
-            Pair<Wrapper, Wrapper> leastInteresting = collect.remove(0);
+            Pair<Wrapper, Wrapper> leastInteresting = collect.remove(collect.size() - 1);
             result.add(Pair.toList(leastInteresting));
-            collect = collect
-                    .stream()
-                    .filter(a -> !a.contains(leastInteresting.getFirst())
-                            && !a.contains(leastInteresting.getSecond())).collect(Collectors.toList());
+            collect = collect.stream()
+                    .filter(a -> !a.contains(leastInteresting.getFirst()) && !a.contains(leastInteresting.getSecond()))
+                    .collect(Collectors.toList());
         }
     }
-
+    
     private static <T> List<Pair<T, T>> listToPairList(List<T> list) {
         List<Pair<T, T>> wrapperPairs = new ArrayList<>();
         for (int i = list.size() - 1; i > 0; i--) {
@@ -121,7 +122,7 @@ public final class HorizontalWrapUtil {
         }
         return wrapperPairs;
     }
-
+    
     /**
      * Finds all groups of nodes which can be wrapped horizontal.
      * 
@@ -131,53 +132,47 @@ public final class HorizontalWrapUtil {
      */
     static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
         List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
-        Map<Integer, Wrapper> iterateList = new HashMap<>(nodes.size());
-        List<Integer> iterateListOrder = new ArrayList<>(nodes.size());
-        for (Wrapper node : nodes) {
-            int id = node.getId();
-            iterateList.put(id, node);
-            iterateListOrder.add(id);
-        }
-        List<Wrapper> removeFromIterateList = new ArrayList<>();
+        Set<Wrapper> iterateList = new HashSet<>(nodes);
         /*
          * Here we iterate over each element in iterateList and over each element only once, because we keep track of a
          * list of all elements we iterate over.
          */
         while (iterateList.size() > 0) {
-            for (int startNodeId : iterateListOrder) {
-                Wrapper startNode = iterateList.get(startNodeId);
-                if (startNode == null) {
-                    continue;
-                }
-                
-                List<Wrapper> foundGroup = new ArrayList<>();
-                foundGroup.add(startNode);
-                // Add all nodes to the right which can be combined.
-                Wrapper node = startNode;
-                while (node.getOutgoing().size() == 1 && node.getOutgoing().get(0).getIncoming().size() == 1) {
-                    node = node.getOutgoing().get(0);
-                    foundGroup.add(node);
-                }
-                // Add all nodes to the left which can be combined.
-                node = startNode;
-                while (node.getIncoming().size() == 1
-                        && node.getIncoming().get(0).getOutgoing().size() == 1
-                        && new HashableCollection<>(node.getGenome()).equals(new HashableCollection<>(node
-                                .getIncoming().get(0).getGenome()))) {
-                    node = node.getIncoming().get(0);
-                    foundGroup.add(0, node);
-                }
-                removeFromIterateList.addAll(foundGroup);
-                if (foundGroup.size() > 1) {
-                    foundCombineableNodes.add(foundGroup);
-                    break;
-                }
+            Wrapper startNode = iterateList.iterator().next();
+            
+            List<Wrapper> foundGroup = new ArrayList<>();
+            foundGroup.add(startNode);
+            
+            // Add all nodes to the right which can be combined.
+            Wrapper node = startNode;
+            while (node.getOutgoing().size() == 1 && node.getOutgoing().get(0).getIncoming().size() == 1) {
+                node = node.getOutgoing().get(0);
+                foundGroup.add(node);
             }
-            for (Wrapper wrapper : removeFromIterateList) {
-                iterateList.remove(wrapper.getId());
+            // Add all nodes to the left which can be combined.
+            node = startNode;
+            while (node.getIncoming().size() == 1
+                    && node.getIncoming().get(0).getOutgoing().size() == 1
+                    && new HashableCollection<>(node.getGenome()).equals(new HashableCollection<>(node.getIncoming()
+                            .get(0).getGenome()))) {
+                node = node.getIncoming().get(0);
+                foundGroup.add(0, node);
             }
-            removeFromIterateList.clear();
+            if (foundGroup.size() > 1) {
+                foundCombineableNodes.add(foundGroup);
+                break;
+            }
+            for (Wrapper wrapper : foundGroup) {
+                iterateList.remove(wrapper);
+            }
         }
+        
+        List<Wrapper> testList = new ArrayList<>();
+        for (int i = 0; i < foundCombineableNodes.size(); i++) {
+            testList.addAll(foundCombineableNodes.get(i));
+        }
+        System.out.println("@" + (testList.size() == new HashSet<>(testList).size()));
+        
         return foundCombineableNodes;
     }
 }

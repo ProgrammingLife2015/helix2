@@ -125,12 +125,20 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
         final double someSize = panel.getBounds().height
                 / (panel.getBounds().width * zoomLevel / zoomedGraphModel.getWrappedCollapsedNode().getWidth())
                 / zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
+        
         for(Entry<Integer, Long> obj : graphData.stream().map(Wrapper::getId).collect(Collectors.groupingBy(e -> e, Collectors.counting())).entrySet()
                 .stream().filter(a -> a.getValue() != 1).collect(Collectors.toList())){
             System.out.println(obj.getKey() + " - " +obj.getValue());
             List<WrapperClone> b = graphData.stream().filter(a -> a.getId() == obj.getKey()).collect(Collectors.toList());
-            System.out.println(b.get(0).getOriginalNode().contains(b.get(1).getOriginalNode()));
-            System.out.println(b.get(1).getOriginalNode().contains(b.get(0).getOriginalNode()));
+            if(b.get(0).getOriginalNode().contains(b.get(1).getOriginalNode())){
+                new WrapperPrinter().calculate(b.get(0).getOriginalNode(), null);
+            } else 
+            if(b.get(1).getOriginalNode().contains(b.get(0).getOriginalNode())){
+                new WrapperPrinter().calculate(b.get(1).getOriginalNode(), null);
+            } else {
+                System.out.println("meh");
+            }
+            
         }
         graphData.forEach(node -> {
             Node graphNode = this.graph.addNode(Integer.toString(node.getId()));
@@ -158,7 +166,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
         notifyLoadingObservers(false);
         return graph;
     }
-    
+
     /**
      * Adds an edge between two nodes.
      * 

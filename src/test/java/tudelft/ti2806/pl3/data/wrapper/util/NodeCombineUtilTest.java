@@ -10,6 +10,7 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.UnwrapOnCollapse;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 
 import java.io.File;
@@ -182,6 +183,10 @@ public class NodeCombineUtilTest {
         original = HorizontalWrapUtil.collapseGraph(original, true);
         result.clear();
         HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
+        original = HorizontalWrapUtil.collapseGraph(original, true);
         assertEquals(1, result.size());
+        UnwrapOnCollapse unwrap = new UnwrapOnCollapse(-1);
+        unwrap.compute(original.getPositionedNodes().get(0));
+        assertEquals(4, unwrap.getWrapperClones().size());
     }
 }
