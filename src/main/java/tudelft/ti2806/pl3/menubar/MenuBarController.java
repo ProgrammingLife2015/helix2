@@ -42,12 +42,12 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the About Me option in the Help menu.
 	 */
-	static final String about = "Helix² is an interactive DNA sequence viewer. "
+	static final String about = "Helix\u00B2 is an interactive DNA sequence viewer. "
 			+ "It uses semantic zooming to only display relative information. \n"
 			+ "This application was created as part of an assignment"
 			+ "for the Context Project at TU Delft.\n"
 			+ "\n"
-			+ "Helix² was created by: \n"
+			+ "Helix\u00B2 was created by: \n"
 			+ "- Tom Brouws\n"
 			+ "- Boris Mattijssen\n"
 			+ "- Mathieu Post\n"
@@ -59,7 +59,7 @@ public class MenuBarController implements ActionListener, Controller {
 	/**
 	 * Text that is displayed in the Controls option in the Help menu.
 	 */
-	static final String controls = "Helix² uses key shortcuts to make life easier. "
+	static final String controls = "Helix\u00B2 uses key shortcuts to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
 			+ "Zooming in     \t+ \n"

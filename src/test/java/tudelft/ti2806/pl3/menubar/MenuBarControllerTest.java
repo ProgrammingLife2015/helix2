@@ -149,15 +149,17 @@ public class MenuBarControllerTest {
 
 	@Test
 	public void testMakeControls() {
+		String expected = MenuBarController.controls;
 		String controls = menuBarController.makeControls().getText();
-		assertEquals(MenuBarController.controls, controls);
+		assertEquals(expected, controls);
 	}
 
 	@Test
 	public void testMakeAbout() {
 		String expected = MenuBarController.about + "githublink";
 		String result = menuBarController.makeAbout().getText();
-		assertEquals(result.contains(expected), expected.contains(result));
+		assertEquals(expected, result);
+		//assertEquals(result.contains(expected), expected.contains(result));
 	}
 
 }
