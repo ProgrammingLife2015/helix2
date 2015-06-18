@@ -67,7 +67,7 @@ public class DeadEdgeUtilTest {
 	
 	@Test
 	public void removeDeadEdgesTest() {
-		Edge deadEdge = new Edge(nodes[0], new DataNode(-1, null, 0, 0, null));
+		Edge deadEdge = new Edge(nodes[0], new DataNode(-1, new HashSet<>(), 0, 0, ""));
 		List<Edge> edgeList = gd.getEdgeListClone();
 		edgeList.add(deadEdge);
 		EdgeUtil.removeAllDeadEdges(edgeList, gd.getNodeListClone());
