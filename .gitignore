@@ -61,4 +61,5 @@ hs_err_pid*
 !/data/testdata/*/*.nwk
 !resources/pictures/*
 
+.save-helix2.txt
 lastOpenedSave.txt
