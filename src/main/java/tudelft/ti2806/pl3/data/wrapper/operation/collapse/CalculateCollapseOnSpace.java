@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.data.wrapper.operation.collapse;
 
-import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
@@ -42,14 +41,14 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
      *            the wrapper of which to determine if there is enough space to unfold it
      * @return a value of the average space between nodes.
      */
-    static float getMinSpaceLeft(CombineWrapper wrapper) {
+    static float getMinSpaceLeft(HorizontalWrapper wrapper) {
         return getMinDistance(wrapper.getFirst(), wrapper.getLast());
     }
     
     static float getCompensatedMinSpaceLeft(SpaceWrapper wrapper) {
-        return 0.5f * ((wrapper.getLast().getX() - wrapper.getFirst().getX())
-                / (wrapper.getLast().getPreviousNodesCount() - wrapper.getFirst().getPreviousNodesCount())
-                + getMinSpaceLeft(wrapper));
+        return 1.1f * ((wrapper.getLast().getX() - wrapper.getFirst().getX()) / (wrapper.getLast()
+                .getPreviousNodesCount() - wrapper.getFirst().getPreviousNodesCount())
+        /* + getMinSpaceLeft(wrapper) */);
     }
     
     static int getShortestPath(Wrapper first, Wrapper last) {
@@ -64,16 +63,11 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
     }
     
     static float getMinDistance(Wrapper first, Wrapper last) {
-        float min = Float.MAX_VALUE;
-        for (Wrapper wrapper : first.getOutgoing()) {
-            if (wrapper == last) {
-                min = Math.min(min, wrapper.getX() - first.getX());
-                continue;
-            }
-            min = Math.min(min, wrapper.getX() - first.getX());
-            min = Math.min(min, getMinDistance(wrapper, last));
+        Wrapper wrapper = first.getOutgoing().get(0);
+        if (wrapper == last) {
+            return wrapper.getX() - first.getX();
         }
-        return min;
+        return Math.min(wrapper.getX() - first.getX(), getMinDistance(wrapper, last));
     }
     
     public class XComparator implements Comparator<Wrapper> {
