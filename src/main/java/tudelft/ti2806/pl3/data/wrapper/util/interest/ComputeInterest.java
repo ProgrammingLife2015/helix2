@@ -28,8 +28,8 @@ public final class ComputeInterest {
         long totalCount = 0;
         for (DataNode dataNode : wrapper.getDataNodes()) {
             totalCount += dataNode.getBasePairCount();
-            for (byte b : dataNode.getContent()) {
-                if (b == BasePair.N.storeByte) {
+            for (String b : dataNode.getContent().split("")) {
+                if (b == BasePair.N.name()) {
                     nCount += 1;
                 }
             }
