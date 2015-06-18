@@ -80,8 +80,6 @@ public class CalculateGroupInterest extends WrapperOperation {
 	 *         sets of genome<br>
 	 *         {@code false} else
 	 */
-	// Suppress warnings, false positive unused method.
-	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private boolean isInteresting(Wrapper wrapper) {
 		Set<Genome> genome = wrapper.getGenome();
 		boolean foundFirst = false;
