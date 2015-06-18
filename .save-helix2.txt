@@ -1,0 +1,5 @@
+/Users/tombrouws/Downloads/100_strains_graph
+/Users/tombrouws/context/ProgrammingLife3/data/10_strains_graph
+/Users/tombrouws/Downloads/38_strains_graph
+/Users/tombrouws/context/ProgrammingLife3/data/10_strains_graph/metadata.txt
+/Users/tombrouws/Downloads/38_strains_graph/simple_graph.node.graph
