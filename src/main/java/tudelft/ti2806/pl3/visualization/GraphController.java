@@ -62,6 +62,7 @@ public class GraphController implements Controller {
 	}
 
 	public void addLoadingObservers(ArrayList<LoadingObserver> loadingObservers) {
+		graphDataRepository.addLoadingObserversList(loadingObservers);
 		filteredGraphModel.addLoadingObserversList(loadingObservers);
 		zoomedGraphModel.addLoadingObserversList(loadingObservers);
 	}
