@@ -2,6 +2,11 @@ package tudelft.ti2806.pl3.data;
 
 public class Genome {
 	private final String identifier;
+	private boolean hivStatus;
+	private int age;
+	private Gender gender;
+	private String location;
+	private String isolationDate;
 	
 	public Genome(String identifier) {
 		this.identifier = identifier;
@@ -45,5 +50,45 @@ public class Genome {
 
 	public String getIdentifier() {
 		return identifier;
+	}
+
+	public boolean getHivStatus() {
+		return hivStatus;
+	}
+
+	public void setHivStatus(boolean hivStatus) {
+		this.hivStatus = hivStatus;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getIsolationDate() {
+		return isolationDate;
+	}
+
+	public void setIsolationDate(String isolationDate) {
+		this.isolationDate = isolationDate;
 	}
 }

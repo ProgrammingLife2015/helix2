@@ -3,6 +3,7 @@ package tudelft.ti2806.pl3.data.graph;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.gene.GeneData;
+import tudelft.ti2806.pl3.data.meta.MetaParser;
 import tudelft.ti2806.pl3.util.observable.LoadingObservable;
 import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
@@ -88,7 +89,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	/**
-	 * Parse a node and edge file of a graph into a {@code GraphData}.
+	 * Parse a node and edge file of a graph into a {@code GraphData} without metadata.
 	 *
 	 * @param nodesFile
 	 * 		the file of nodes to be read
@@ -98,6 +99,22 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public void parseGraph(File nodesFile, File edgesFile, GeneData geneData) throws FileNotFoundException {
+		parseGraph(nodesFile, edgesFile, null, geneData);
+	}
+
+	/**
+	 * Parse a node and edge file of a graph into a {@code GraphData} with metadata.
+	 *
+	 * @param nodesFile
+	 * 		the file of nodes to be read
+	 * @param edgesFile
+	 * 		the file of edges to be read
+	 * @param metaFile
+	 * 		the metadata file to be read
+	 * @throws FileNotFoundException
+	 * 		if the file is not found
+	 */
+	public void parseGraph(File nodesFile, File edgesFile, File metaFile, GeneData geneData) throws FileNotFoundException {
 		notifyLoadingObservers(true);
 		geneToStartNodeMap = new HashMap<>(geneData.getGenes().size());
 		genes = new ArrayList<>();
@@ -113,9 +130,28 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		setNodes(nodeList);
 		setEdges(parseEdges(edgesFile, nodeMap));
 		setGenomes(genomeList);
+		if (metaFile != null) {
+			MetaParser.parseMeta(metaFile, genomeMap);
+		}
 
 		notifyLoadingObservers(false);
 		notifyGraphParsedObservers();
+	}
+
+	/**
+	 * Load metadata into the graph after it has been constructed.
+	 *
+	 * @param metaFile
+	 * 		the metadata file to read
+	 * @throws FileNotFoundException
+	 * 		if the file cannot be found
+	 */
+	public void loadMetaData(File metaFile) throws FileNotFoundException {
+		Map<String, Genome> genomeMap = new HashMap<>();
+		for (Genome g : genomes) {
+			genomeMap.put(g.getIdentifier(), g);
+		}
+		MetaParser.parseMeta(metaFile, genomeMap);
 	}
 
 	/**

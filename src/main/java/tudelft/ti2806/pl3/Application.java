@@ -6,6 +6,7 @@ import tudelft.ti2806.pl3.controls.ResizeAdapter;
 import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.metafilter.MetaFilterController;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
@@ -59,6 +60,7 @@ public class Application extends JFrame implements ControllerContainer {
 	private SideBarController sideBarController;
 	private ZoomBarController zoomBarController;
 	private FindGenesController findGenesController;
+	private MetaFilterController metaFilterController;
 
 	/**
 	 * Construct the main application view.
@@ -91,6 +93,7 @@ public class Application extends JFrame implements ControllerContainer {
 		sideBarController.addLoadingObserversList(loadingObservers);
 		zoomBarController = new ZoomBarController(this);
 		findGenesController = new FindGenesController(this, graphDataRepository);
+		metaFilterController = new MetaFilterController(this, graphDataRepository);
 	}
 
 	/**
@@ -134,10 +137,15 @@ public class Application extends JFrame implements ControllerContainer {
 	public void makeGraphFromFolder() {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
-			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph", ".nwk");
-			makeGraph(files[0], files[1], files[2]);
-		} catch (FileSelectorException | NullPointerException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+
+			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph", ".nwk", ".txt");
+			makeGraph(files[0], files[1], files[2], files[3]);
+		} catch (ArrayIndexOutOfBoundsException exception) {
+			if (DialogUtil.confirm("Error!", "Some necessary files were not found. Want to select a new folder?")) {
+				makeGraphFromFolder();
+			}
+		} catch (FileSelectorException exception) {
+			if (DialogUtil.confirm("Error!", "You have not selected a folder, want to try again?")) {
 				makeGraphFromFolder();
 			}
 		}
@@ -149,8 +157,9 @@ public class Application extends JFrame implements ControllerContainer {
 	public void makeGraphFromFiles() {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
+
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
-			makeGraph(nodeFile, edgeFile, null);
+			makeGraph(nodeFile, edgeFile, null, null);
 		} catch (FileSelectorException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFiles();
@@ -161,15 +170,16 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Parses the graph files and makes a graphview.
 	 */
-	public void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+	public void makeGraph(File nodeFile, File edgeFile, File treeFile, File metaFile) {
 		try {
-			graphController.parseGraph(nodeFile, edgeFile);
+			graphController.parseGraph(nodeFile, edgeFile, metaFile);
+
 			if (treeFile != null) {
 				makePhyloTree(treeFile);
 			}
 		} catch (FileNotFoundException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
-				makeGraph(nodeFile, edgeFile, treeFile);
+				makeGraph(nodeFile, edgeFile, treeFile, metaFile);
 			}
 		}
 	}
@@ -195,7 +205,6 @@ public class Application extends JFrame implements ControllerContainer {
 
 			getSideBarController().getPhyloController().parseTree(treeFile);
 
-
 		} catch (FileSelectorException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makePhyloTree();
@@ -203,6 +212,20 @@ public class Application extends JFrame implements ControllerContainer {
 		} catch (ParseException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
 				makePhyloTree();
+			}
+		}
+	}
+
+	/**
+	 * Load the metadata from a separate file.
+	 */
+	public void loadMetaData() {
+		try {
+			File metaFile = FileSelector.selectFile("Select metadata file", this, ".txt");
+			graphDataRepository.loadMetaData(metaFile);
+		} catch (FileSelectorException | FileNotFoundException exception) {
+			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+				loadMetaData();
 			}
 		}
 	}
@@ -303,6 +326,11 @@ public class Application extends JFrame implements ControllerContainer {
 
 	public void repaint() {
 		main.repaint();
+	}
+
+	@Override
+	public MetaFilterController getMetaFilterController() {
+		return metaFilterController;
 	}
 
 }
