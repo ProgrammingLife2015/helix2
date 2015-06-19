@@ -120,6 +120,11 @@ public class OrderedListUtilTest {
 		}
 		
 		@Override
+		public boolean canUnwrap() {
+			return false;
+		}
+
+		@Override
 		public Set<Genome> getGenome() {
 			return new HashSet<>();
 		}

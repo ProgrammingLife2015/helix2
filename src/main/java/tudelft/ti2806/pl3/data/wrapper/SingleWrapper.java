@@ -45,7 +45,12 @@ public class SingleWrapper extends Wrapper {
 	public int getId() {
 		return this.target.getId();
 	}
-	
+
+	@Override
+	public boolean canUnwrap() {
+		return false;
+	}
+
 	@Override
 	public Set<Genome> getGenome() {
 		return this.target.getGenome();

@@ -51,6 +51,11 @@ public class WrapperClone extends Wrapper {
 	}
 
 	@Override
+	public boolean canUnwrap() {
+		return originalNode.canUnwrap();
+	}
+
+	@Override
 	public Set<Genome> getGenome() {
 		return originalNode.getGenome();
 	}
