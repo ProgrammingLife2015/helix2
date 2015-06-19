@@ -47,6 +47,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	private final CalculateCollapseOnSpace calculateCollapse;
 	private final Map<List<Filter<DataNode>>, Integer> filtersToGenomesCountMap;
 
+	private WrappedGraphData wrappedGraphData;
 	private Wrapper collapsedNode;
 	private CollectInterest collectInterest;
 	private List<Genome> genomes;
@@ -89,7 +90,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
