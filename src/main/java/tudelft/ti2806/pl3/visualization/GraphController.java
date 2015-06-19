@@ -67,7 +67,7 @@ public class GraphController implements Controller {
 
 
 	/**
-	 * Parse a graph file.
+	 * Parse a graph file without metadata.
 	 *
 	 * @param nodeFile
 	 * 		the file containing node information
@@ -80,6 +80,33 @@ public class GraphController implements Controller {
 		try {
 			geneData = GeneData.parseGenes("geneAnnotationsRef.gff");
 			graphDataRepository.parseGraph(nodeFile, edgeFile, geneData);
+			graphView.getPanel().setVisible(false);
+			graphView.getPanel().setVisible(true);
+		} catch (IOException e) {
+			if (DialogUtil.confirm("Parse error", "A random error occurred while parsing the "
+					+ "gene annotations file. "
+					+ "Retrying could help. Would you like to try again now?")) {
+				parseGraph(nodeFile, edgeFile);
+			}
+		}
+	}
+
+	/**
+	 * Parse a graph file with metadata.
+	 *
+	 * @param nodeFile
+	 * 		the file containing node information
+	 * @param edgeFile
+	 * 		the file containing edge information
+	 * @param metaFile
+	 * 		the file containing metadata
+	 * @throws FileNotFoundException
+	 * 		when the file was not found
+	 */
+	public void parseGraph(File nodeFile, File edgeFile, File metaFile) throws FileNotFoundException {
+		try {
+			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
+			graphDataRepository.parseGraph(nodeFile, edgeFile, metaFile, geneData);
 			graphView.getPanel().setVisible(false);
 			graphView.getPanel().setVisible(true);
 		} catch (IOException e) {

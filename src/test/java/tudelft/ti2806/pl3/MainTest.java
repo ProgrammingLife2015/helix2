@@ -22,14 +22,14 @@ public class MainTest {
 		assertTrue(UIManager.getDefaults().getBoolean("Button.showMnemonics"));
 	}
 
-	@Test
-	public void testSize() {
-		Main.main(null);
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		Rectangle bounds = ge.getMaximumWindowBounds();
-
-		assertEquals((int) bounds.getWidth(), ScreenSize.getInstance().getWidth());
-		assertEquals((int)bounds.getHeight(),ScreenSize.getInstance().getHeight());
-	}
+//	@Test
+//	public void testSize() {
+//		Main.main(null);
+//		GraphicsEnvironment ge = GraphicsEnvironment
+//				.getLocalGraphicsEnvironment();
+//		Rectangle bounds = ge.getMaximumWindowBounds();
+//
+//		assertEquals((int) bounds.getWidth(), ScreenSize.getInstance().getWidth());
+//		assertEquals((int)bounds.getHeight(),ScreenSize.getInstance().getHeight());
+//	}
 }
