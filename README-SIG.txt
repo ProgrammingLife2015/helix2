@@ -6,7 +6,7 @@ Repository & source code can be found on:
 https://github.com/ProgrammingLife3/ProgrammingLife3
 
 - Newick Parser package.
-To parse the phylogenetic tree files (.nwk) that we given to us by our client, we used the Newick Parser written in JavaCC. This code can be found on https://bitbucket.org/djiao/a-lightweight-javacc-newick-parser. We tried including the .jar file from this newick parser in our own project jar but this was not possible. The only solution to get this parser working was to include in our own source code. It can be found under src/main/java/newick. Our own code is under sr/main/java/tudelft/ti2806/pl3.
+To parse the phylogenetic tree files (.nwk) that we given to us by our client, we used the Newick Parser written in JavaCC. This code can be found on https://bitbucket.org/djiao/a-lightweight-javacc-newick-parser. We tried including the .jar file from this newick parser in our own project jar but this was not possible. The only solution to get this parser working was to include in our own source code. It can be found under src/main/java/newick/*. Our own code is under sr/main/java/tudelft/ti2806/pl3/*.
 Please do not grade this newick package with, because this is not our code, and should be treated as a library.
 
 - Component balance property
