@@ -20,19 +20,15 @@ public abstract class CombineWrapper extends Wrapper {
 	}
 	
 	/**
-	 * CombineWrapper is an abstract class which should not be constructed
-	 * directly.
+	 * CombineWrapper is an abstract class which should not be constructed directly.
 	 * 
 	 * <p>
-	 * When a class extending this class is constructed, the given list should
-	 * fulfil the following conditions. <br>
+	 * When a class extending this class is constructed, the given list should fulfil the following conditions. <br>
 	 * Preconditions:<br>
 	 * <ul>
-	 * <li>The list should be sorted on previousNodesCount, with the smallest
-	 * value first and the largest last.
-	 * <li>All incoming nodes from outside the graph should never be an outgoing
-	 * node within the list. And the outgoing nodes from outside the graph
-	 * should never be an incoming node within the list.
+	 * <li>The list should be sorted on previousNodesCount, with the smallest value first and the largest last.
+	 * <li>All incoming nodes from outside the graph should never be an outgoing node within the list. And the outgoing
+	 * nodes from outside the graph should never be an incoming node within the list.
 	 * </ul>
 	 * 
 	 * @param nodeList
@@ -67,12 +63,12 @@ public abstract class CombineWrapper extends Wrapper {
 	public int getId() {
 		return nodeList.get(0).getId();
 	}
-
+	
 	@Override
 	public void collectLabels(Set<Label> labels) {
 		nodeList.forEach(n -> n.collectLabels(labels));
 	}
-
+	
 	@Override
 	public void collectDataNodes(Set<DataNode> set) {
 		nodeList.forEach(n -> n.collectDataNodes(set));
@@ -89,5 +85,15 @@ public abstract class CombineWrapper extends Wrapper {
 	
 	public boolean canUnwrap() {
 		return true;
+	}
+	
+	@Override
+	public boolean contains(Wrapper object) {
+		for (Wrapper wrapper : this.nodeList) {
+			if (object == wrapper || wrapper.contains(object)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
