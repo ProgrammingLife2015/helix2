@@ -32,7 +32,6 @@ public final class VerticalWrapUtil {
 	 * @return the collapsed version of the given graph <br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	@SuppressWarnings("CPD-START")
 	public static WrappedGraphData collapseGraph(WrappedGraphData original) {
 		List<Wrapper> newLayer = combineNodes(original.getPositionedNodes());
 		if (newLayer == null) {
@@ -42,7 +41,7 @@ public final class VerticalWrapUtil {
 	}
 	
 	/**
-	 * Combines nodes vertically. Combines all {@link DataNode}s in the given list of node into
+	 * Combines nodes vertically. Combines all wrappers in the given list of wrappers into
 	 * {@link VerticalWrapper}s, reconnects the {@link VerticalWrapper}s in the graph and remove
 	 * all {@link DataNode}s which are combined from
 	 * the graph.
@@ -55,53 +54,13 @@ public final class VerticalWrapUtil {
 	private static List<Wrapper> combineNodes(List<Wrapper> nodes) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		List<Integer> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
-		fillNonWrappedCollections(nodes, nonWrappedNodes, nonWrappedNodesOrder);
+		WrapUtil.fillNonWrappedCollections(nodes, nonWrappedNodes, nonWrappedNodesOrder);
 		List<CombineWrapper> combinedNodes = generateCombinedNodes(nodes, nonWrappedNodes);
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
-		List<Wrapper> result = collectNonWrappedNodes(nonWrappedNodes, nonWrappedNodesOrder);
+		List<Wrapper> result = WrapUtil.collectNonWrappedNodes(nonWrappedNodes, nonWrappedNodesOrder);
 		return WrapUtil.wrapAndReconnect(result, combinedNodes);
-	}
-	
-	/**
-	 * Fills the order list and map with the given order.
-	 * 
-	 * @param nodes
-	 *            the nodes to fill the map with
-	 * @param nonWrappedNodes
-	 *            the map to fill
-	 * @param nonWrappedNodesOrder
-	 *            the order list to fill
-	 */
-	private static void fillNonWrappedCollections(List<Wrapper> nodes, Map<Integer, Wrapper> nonWrappedNodes,
-			List<Integer> nonWrappedNodesOrder) {
-		for (Wrapper node : nodes) {
-			int id = node.getId();
-			nonWrappedNodes.put(id, node);
-			nonWrappedNodesOrder.add(id);
-		}
-	}
-	
-	/**
-	 * Collect non wrapped nodes from the maintained wrapper order and wrapper map.
-	 * 
-	 * @param nonWrappedNodes
-	 *            the map to fill the list with
-	 * @param nonWrappedNodesOrder
-	 *            the order to apply
-	 * @return a list with the non combined nodes in the previous order
-	 */
-	private static List<Wrapper> collectNonWrappedNodes(Map<Integer, Wrapper> nonWrappedNodes,
-			List<Integer> nonWrappedNodesOrder) {
-		List<Wrapper> result = new ArrayList<>(nonWrappedNodes.values().size());
-		for (int id : nonWrappedNodesOrder) {
-			Wrapper node = nonWrappedNodes.get(id);
-			if (node != null) {
-				result.add(node);
-			}
-		}
-		return result;
 	}
 	
 	/**
@@ -126,7 +85,6 @@ public final class VerticalWrapUtil {
 		return combinedNodes;
 	}
 	
-	@SuppressWarnings("CPD-END")
 	/**
 	 * Finds all nodes in the graph which could be combined vertically.
 	 *
