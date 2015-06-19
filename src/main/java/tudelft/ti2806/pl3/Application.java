@@ -2,7 +2,6 @@ package tudelft.ti2806.pl3;
 
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
-import tudelft.ti2806.pl3.controls.ResizeAdapter;
 import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
@@ -25,6 +24,8 @@ import tudelft.ti2806.pl3.zoombar.ZoomBarController;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -125,7 +126,7 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	private void setUpUi() {
-		this.addComponentListener(new ResizeAdapter(this));
+		this.addComponentListener(resizeAdapter());
 		setZoomBarView();
 		setGraphView();
 		setSideBarView();
@@ -295,6 +296,35 @@ public class Application extends JFrame implements ControllerContainer {
 		view.setVisible(true);
 	}
 
+	/**
+	 * Creates an adapter that updates screen sizes for the components in the view.
+	 *
+	 * @return the adapter
+	 */
+	private ComponentAdapter resizeAdapter() {
+		return new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Rectangle bounds = new Rectangle(main.getWidth(), main.getHeight());
+
+				size.setWidth((int) bounds.getWidth());
+				size.setHeight((int) bounds.getHeight());
+				size.calculate();
+
+				getSideBarController().getPanel().setBounds(0, size.getMenubarHeight(),
+						size.getSideBarWidth(), size.getHeight());
+				getGraphController().getPanel().setBounds(0, 0, size.getWidth(),
+						size.getHeight() - size.getZoomBarHeight());
+				getZoomBarController().getPanel().setBounds(0,
+						size.getHeight() - size.getZoomBarHeight(),
+						size.getWidth(), size.getZoomBarHeight());
+				getPhyloController().getView().updateSize();
+
+				main.repaint();
+			}
+		};
+	}
+
 	@Override
 	public GraphController getGraphController() {
 		return graphController;
@@ -320,17 +350,8 @@ public class Application extends JFrame implements ControllerContainer {
 		return findGenesController;
 	}
 
-	public Rectangle getBounds() {
-		return new Rectangle(main.getWidth(), main.getHeight());
-	}
-
-	public void repaint() {
-		main.repaint();
-	}
-
 	@Override
 	public MetaFilterController getMetaFilterController() {
 		return metaFilterController;
 	}
-
 }
