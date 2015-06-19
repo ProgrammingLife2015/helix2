@@ -96,6 +96,8 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getFindGenesController().openDialog();
 	}
 
+	private void toggleSideBar(){ application.getSideBarController().toggleSideBar();}
+
 	public void setLastOpenedMenu(Component lastOpenedMenu) {
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
@@ -234,6 +236,8 @@ public class MenuBarController implements ActionListener, Controller {
 			case Constants.MENU_HELP_ABOUT:
 				displayAbout();
 				break;
+			case Constants.MENU_VIEW_PYLO:
+				toggleSideBar();
 			default:
 				break;
 		}
