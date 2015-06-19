@@ -118,40 +118,77 @@ public final class WrapUtil {
 	 */
 	public static WrappedGraphData applyFixNode(WrappedGraphData graph) {
 		List<Wrapper> nodes = graph.getPositionedNodes();
+
 		FixWrapper startFix = new FixWrapper(-1);
 		FixWrapper endFix = new FixWrapper(-2);
+		
+		addFixNodesToGraph(nodes, startFix, endFix);
+		
+		WrappedGraphData wrappedGraph = collapseGraphSpacial(new WrappedGraphData(nodes));
+		
+		startFix.setX(-1);
+		endFix.setX(wrappedGraph.getPositionedNodes().get(0).getWidth() + 1);
+		
+		return wrappedGraph;
+	}
+	
+	/**
+	 * Adds the {@link FixWrapper}s to the given node list and connects them.
+	 * 
+	 * @param nodes
+	 *            the nodes in the remaining layer
+	 * @param startFix
+	 *            the {@link FixWrapper} on the left
+	 * @param endFix
+	 *            the {@link FixWrapper} on the right
+	 *            
+	 */
+	private static void addFixNodesToGraph(List<Wrapper> nodes, FixWrapper startFix, FixWrapper endFix) {
 		startFix.getOutgoing().add(endFix);
 		endFix.getIncoming().add(startFix);
 		Set<Genome> genomeSet = new HashSet<>();
-		for (Wrapper node : nodes) {
-			Set<Genome> genome = node.getGenome();
-			genomeSet.addAll(genome);
-			final Set<Genome> set = new HashSet<>();
-			node.getIncoming().stream().map(Wrapper::getGenome)
-					.forEach(set::addAll);
-			if (set.size() != genome.size() || !set.containsAll(genome)) {
-				node.getIncoming().add(startFix);
-				startFix.getOutgoing().add(node);
-			}
-			set.clear();
-			node.getOutgoing().stream().map(Wrapper::getGenome)
-					.forEach(set::addAll);
-			if (set.size() != genome.size() || !set.containsAll(genome)) {
-				node.getOutgoing().add(endFix);
-				endFix.getIncoming().add(node);
-			}
-		}
+		
+		connectFixNodes(genomeSet, nodes, startFix, endFix);
+		
 		startFix.setGenome(genomeSet);
 		endFix.setGenome(genomeSet);
 		
 		nodes.add(startFix);
 		nodes.add(endFix);
-		WrappedGraphData wrappedGraph = collapseGraphSpacial(new WrappedGraphData(nodes));
-		startFix.setX(-1);
-		endFix.setX(wrappedGraph.getPositionedNodes().get(0).getWidth() + 1);
-		return wrappedGraph;
 	}
-	
+
+	/**
+	 * Connects the {@link FixWrapper}s to the graph.
+	 * 
+	 * @param genomeSet
+	 *            the set of genomes the fix wrappers should connect
+	 * @param nodes
+	 *            the nodes in the remaining layer
+	 * @param startFix
+	 *            the {@link FixWrapper} on the left
+	 * @param endFix
+	 *            the {@link FixWrapper} on the right
+	 */
+	private static void connectFixNodes(Set<Genome> genomeSet, List<Wrapper> nodes, FixWrapper startFix,
+			FixWrapper endFix) {
+		for (Wrapper node : nodes) {
+			Set<Genome> genome = node.getGenome();
+			genomeSet.addAll(genome);
+			final Set<Genome> set = new HashSet<>();
+			node.getIncoming().stream().map(Wrapper::getGenome).forEach(set::addAll);
+			if (set.size() != genome.size() || !set.containsAll(genome)) {
+				node.getIncoming().add(startFix);
+				startFix.getOutgoing().add(node);
+			}
+			set.clear();
+			node.getOutgoing().stream().map(Wrapper::getGenome).forEach(set::addAll);
+			if (set.size() != genome.size() || !set.containsAll(genome)) {
+				node.getOutgoing().add(endFix);
+				endFix.getIncoming().add(node);
+			}
+		}
+	}
+
 	/**
 	 * Wraps a list into a new layer and reconnects the new layer.
 	 * 
@@ -179,23 +216,49 @@ public final class WrapUtil {
 	 * @param map
 	 *            a map mapping all nodes from the previous layer to the new layer
 	 */
-	private static void reconnectLayer(List<Wrapper> nonCombinedNodes,
-			List<CombineWrapper> combinedNodes, Map<Wrapper, Wrapper> map) {
+	static void reconnectLayer(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes,
+			Map<Wrapper, Wrapper> map) {
+		reconnectNonCombinedNodes(nonCombinedNodes, map);
+		reconnectCombinedNodes(combinedNodes, map);
+	}
+
+	/**
+	 * Reconnects the nodes which where not combined to the given layer.
+	 * 
+	 * @param nonCombinedNodes
+	 *            the nodes that are not combined
+	 * @param map
+	 *            a map mapping all nodes from the previous layer to the new layer
+	 */
+	private static void reconnectNonCombinedNodes(List<Wrapper> nonCombinedNodes, Map<Wrapper, Wrapper> map) {
 		for (Wrapper node : nonCombinedNodes) {
 			Wrapper newWrapper = map.get(node);
-			node.getIncoming().stream().filter(in -> !newWrapper.getIncoming().contains(map.get(in))).forEach(in
-					-> newWrapper.getIncoming().add(map.get(in)));
-			node.getOutgoing().stream().filter(out -> !newWrapper.getOutgoing().contains(map.get(out))).forEach(out
-					-> newWrapper.getOutgoing().add(map.get(out)));
-		}
-		for (CombineWrapper comNode : combinedNodes) {
-			comNode.getFirst().getIncoming().stream().filter(in -> !comNode.getIncoming().contains(map.get(in)))
-					.forEach(in -> comNode.getIncoming().add(map.get(in)));
-			comNode.getLast().getOutgoing().stream().filter(out -> !comNode.getOutgoing().contains(map.get(out)))
-					.forEach(out -> comNode.getOutgoing().add(map.get(out)));
+			node.getIncoming().stream().filter(in -> !newWrapper.getIncoming().contains(map.get(in)))
+			.forEach(in -> newWrapper.getIncoming().add(map.get(in)));
+			node.getOutgoing().stream().filter(out -> !newWrapper.getOutgoing().contains(map.get(out)))
+			.forEach(out -> newWrapper.getOutgoing().add(map.get(out)));
 		}
 	}
-	
+
+
+	/**
+	 * Reconnects the nodes which where combined to the given layer.
+	 * 
+	 * @param combinedNodes
+	 *            the nodes that are combined, and are already of the new layer
+	 * @param map
+	 *            a map mapping all nodes from the previous layer to the new layer
+	 */
+	private static void reconnectCombinedNodes(List<CombineWrapper> combinedNodes, Map<Wrapper, Wrapper> map) {
+		for (CombineWrapper comNode : combinedNodes) {
+			comNode.getFirst().getIncoming().stream().filter(in -> !comNode.getIncoming()
+					.contains(map.get(in))) .forEach(in -> comNode.getIncoming().add(map.get(in)));
+			comNode.getLast().getOutgoing().stream().filter(out -> !comNode.getOutgoing()
+					.contains(map.get(out))) .forEach(out -> comNode.getOutgoing()
+							.add(map.get(out)));
+		}
+	}
+
 	/**
 	 * Creates a new layer from the given nodes and creates a map mapping all nodes from the previous layer 
 	 * to the new layer.
