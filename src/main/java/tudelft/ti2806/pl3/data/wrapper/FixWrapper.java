@@ -8,7 +8,7 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 import java.util.Set;
 
 public class FixWrapper extends Wrapper {
-	public final int id;
+	private final int id;
 	public static final String ID_STRING = "[FIX]";
 	private Set<Genome> genome;
 	

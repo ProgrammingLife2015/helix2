@@ -17,57 +17,19 @@ import java.util.Set;
  *
  */
 public class DataNode {
-	protected final int nodeId;
-	protected final Set<Genome> source;
-	protected Set<Genome> currentGenomeSet;
-	protected final int refStartPoint;
-	protected final int refEndPoint;
-	protected final String content;
-	
-	protected List<Label> labelList;
+
+	private final int nodeId;
+	private final Set<Genome> source;
+	private Set<Genome> currentGenomeSet;
+	private final int refStartPoint;
+	private final int refEndPoint;
+	private final String content;
+	private final List<Label> labelList = new ArrayList<>();
+
 	private int nCounter;
 
 	/**
-	 * Initialise a {@code SingleNode}.
-	 *
-	 * @param nodeId
-	 *            the id of the node
-	 * @param source
-	 *            the names of the genomes where this piece is coming from
-	 * @param refStartPoint
-	 *            the start index on the genome
-	 * @param refEndPoint
-	 *            the end index on the genome
-	 * @param contentOfTheNode
-	 *            the size of this {@code Node}
-	 * @param labelList
-	 *            the list of labels to add
-	 */
-	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
-			int refEndPoint, String contentOfTheNode, List<Label> labelList) {
-		this.nodeId = nodeId;
-		this.source = new HashSet<>(source);
-		this.currentGenomeSet = new HashSet<>(source);
-		this.refStartPoint = refStartPoint;
-		this.refEndPoint = refEndPoint;
-		this.content = contentOfTheNode;
-		if (labelList == null) {
-			this.labelList = new ArrayList<>();
-		} else {
-			this.labelList = labelList;
-		}
-
-		nCounter = 0;
-		char n = BasePair.N.name().charAt(0);
-		for (int i = 0; i < content.length(); i++ ) {
-			if (content.charAt(i) == n) {
-				nCounter++;
-			}
-		}
-	}
-	
-	/**
-	 * Initialise a {@code SingleNode}.
+	 * Initialise a {@code DataNode}.
 	 *
 	 * @param nodeId
 	 *            the id of the node
@@ -82,7 +44,21 @@ public class DataNode {
 	 */
 	public DataNode(int nodeId, Set<Genome> source, int refStartPoint,
 			int refEndPoint, String contentOfTheNode) {
-		this(nodeId, source, refStartPoint, refEndPoint, contentOfTheNode, null);
+		this.nodeId = nodeId;
+		this.source = new HashSet<>(source);
+		this.currentGenomeSet = new HashSet<>(source);
+		this.refStartPoint = refStartPoint;
+		this.refEndPoint = refEndPoint;
+
+		this.content = contentOfTheNode;
+
+		nCounter = 0;
+		char n = BasePair.N.name().charAt(0);
+		for (int i = 0; i < content.length(); i++ ) {
+			if (content.charAt(i) == n) {
+				nCounter++;
+			}
+		}
 	}
 	
 	@Override

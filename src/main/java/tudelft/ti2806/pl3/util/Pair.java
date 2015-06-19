@@ -22,8 +22,8 @@ public class Pair<U, T> {
 		return list;
 	}
 	
-	public final U first;
-	public final T second;
+	private final U first;
+	private final T second;
 	
 	public Pair(U first, T second) {
 		this.first = first;

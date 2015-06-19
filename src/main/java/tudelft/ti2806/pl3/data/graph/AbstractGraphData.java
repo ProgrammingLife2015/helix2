@@ -52,20 +52,4 @@ public abstract class AbstractGraphData {
 	public List<DataNode> getNodeListClone() {
 		return new ArrayList<>(nodes);
 	}
-	
-	/**
-	 * Get the number of nodes on the longest path on the graph, using the
-	 * number of nodes as distance measure.
-	 * 
-	 * @return returns the number of nodes on the longest path.
-	 */
-	public abstract int getLongestNodePath();
-	
-//	/**
-//	 * Get the length of the longest path on the graph, using the number of base
-//	 * pairs as distance measure.
-//	 * 
-//	 * @return the number of base pairs on the longest path on the graph.
-//	 */
-//	public abstract long getSize();
 }

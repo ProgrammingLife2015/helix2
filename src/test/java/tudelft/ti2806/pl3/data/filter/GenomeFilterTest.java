@@ -37,8 +37,8 @@ public class GenomeFilterTest {
 	DataNode node3;
 	@Mock
 	DataNode node4;
-	GenomeFilter genomeFilter;
-	List<DataNode> nodeList;
+	private GenomeFilter genomeFilter;
+	private List<DataNode> nodeList;
 	
 	/**
 	 * Setup the genomes, nodes and lists. We stub the genomes and nodes to only

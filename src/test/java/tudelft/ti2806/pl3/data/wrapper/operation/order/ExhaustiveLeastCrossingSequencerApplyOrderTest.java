@@ -1,14 +1,11 @@
 package tudelft.ti2806.pl3.data.wrapper.operation.order;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
@@ -27,14 +24,13 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	private static final int EXPECTED_APPLY_ORDER_TEST_GRAPH_OUTGOING_SIZE = 12;
 	private static final int EXPECTED_ALWAYS_CROSS_TEST_GRAPH_OUTGOING_SIZE = 24;
 	
-	ExhaustiveLeastCrossingsSequencer testObject = new ExhaustiveLeastCrossingsSequencer(
-			0);
+	private final ExhaustiveLeastCrossingsSequencer testObject = new ExhaustiveLeastCrossingsSequencer(0);
 	
 	@Mock
 	SpaceWrapper mockedSpaceWrapper;
 	
 	@Test
-	public void maxIterationTest() throws FileNotFoundException {
+	public void maxIterationTest() {
 		testObject.calculate(mockedSpaceWrapper, null);
 		Mockito.verify(mockedSpaceWrapper, Mockito.times(2)).getNodeList();
 	}
@@ -47,7 +43,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	 * @throws FileNotFoundException
 	 *             if test file was not found
 	 */
-	public SpaceWrapper applyOrderTestData() throws IOException {
+	private SpaceWrapper applyOrderTestData() throws IOException {
 		File nodesFile = new File("data/testdata/applyOrderTest.node.graph");
 		File edgesFile = new File("data/testdata/applyOrderTest.edge.graph");
 		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
@@ -82,7 +78,7 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 	 * @throws FileNotFoundException
 	 *             if test file was not found
 	 */
-	public SpaceWrapper alwaysCrossTestData() throws IOException {
+	private SpaceWrapper alwaysCrossTestData() throws IOException {
 		File nodesFile = new File("data/testdata/alwaysCrossTest.node.graph");
 		File edgesFile = new File("data/testdata/alwaysCrossTest.edge.graph");
 		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
@@ -165,28 +161,6 @@ public class ExhaustiveLeastCrossingSequencerApplyOrderTest {
 		testObject.applyConfigurationToOrder(bestConfig, order);
 		testObject.applyOrderToY(alwaysCrossTestGraphWrapper);
 		Assert.assertEquals(1, testObject.countIntersections(alwaysCrossTestGraphWrapper));
-	}
-	
-	private void displayGraph(SpaceWrapper alwaysCrossTestGraphWrapper) {
-		Graph graph = new SingleGraph("");
-		for (Wrapper node : alwaysCrossTestGraphWrapper.getNodeList()) {
-			graph.addNode(node.getIdString()).setAttribute("xy",
-					node.getPreviousNodesCount(), node.getY());
-		}
-		for (Wrapper node : alwaysCrossTestGraphWrapper.getNodeList()) {
-			for (Wrapper to : node.getOutgoing()) {
-				graph.addEdge(node.getIdString() + "-" + to.getIdString(),
-						node.getIdString(), to.getIdString());
-			}
-		}
-		graph.display(false);
-		while (true) {
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	@Test

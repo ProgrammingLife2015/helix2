@@ -16,7 +16,7 @@ public class StartGeneLabel extends Label {
 			return false;
 		}
 
-		if (!super.equals((Label) o)) {
+		if (!super.equals(o)) {
 			return false;
 		}
 		StartGeneLabel that = (StartGeneLabel) o;

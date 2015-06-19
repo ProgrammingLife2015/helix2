@@ -10,8 +10,8 @@ package tudelft.ti2806.pl3.exception;
 @SuppressWarnings("serial")
 public class DuplicateGenomeNameException extends Exception {
 	
-	public DuplicateGenomeNameException(String discription, String reason) {
-		super(discription + "\n" + reason);
+	public DuplicateGenomeNameException(String description, String reason) {
+		super(description + "\n" + reason);
 	}
 	
 }

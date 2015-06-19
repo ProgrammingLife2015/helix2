@@ -29,13 +29,13 @@ public class HashableCollectionTest {
 		collection2.add(3);
 
 		hashableCollection = new HashableCollection<>(collection);
-		HashableCollection<Integer> nullhashCollection = new HashableCollection<>(null);
+		HashableCollection<Integer> nullHashCollection = new HashableCollection<>(null);
 
 		assertTrue(hashableCollection.equals(hashableCollection));
 		assertFalse(hashableCollection.equals(null));
 		assertFalse(hashableCollection.equals(new Object()));
-		assertTrue(nullhashCollection.equals(new HashableCollection<Integer>(null)));
-		assertFalse(nullhashCollection.equals(new HashableCollection<>(collection)));
+		assertTrue(nullHashCollection.equals(new HashableCollection<Integer>(null)));
+		assertFalse(nullHashCollection.equals(new HashableCollection<>(collection)));
 		assertFalse(hashableCollection.equals(new HashableCollection<Integer>(null)));
 		assertFalse(hashableCollection.equals(new HashableCollection<>(collection2)));
 

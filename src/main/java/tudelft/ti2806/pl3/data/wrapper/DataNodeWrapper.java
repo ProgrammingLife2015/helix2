@@ -40,7 +40,7 @@ public class DataNodeWrapper extends Wrapper {
 	public static List<Wrapper> newNodePositionList(List<DataNode> nodeList,
 			List<Edge> edgeList) {
 		// Construct list
-		Map<Integer, DataNodeWrapper> map = new HashMap<Integer, DataNodeWrapper>();
+		Map<Integer, DataNodeWrapper> map = new HashMap<>();
 		for (DataNode node : nodeList) {
 			map.put(node.getId(), new DataNodeWrapper(node));
 		}
@@ -51,7 +51,7 @@ public class DataNodeWrapper extends Wrapper {
 			from.outgoing.add(to);
 			to.incoming.add(from);
 		}
-		return new ArrayList<Wrapper>(map.values());
+		return new ArrayList<>(map.values());
 	}
 	
 	public DataNodeWrapper(DataNode node) {

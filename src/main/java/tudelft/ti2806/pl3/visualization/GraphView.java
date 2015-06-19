@@ -11,6 +11,7 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.controls.MouseManager;
+import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
@@ -35,7 +36,10 @@ import java.util.Observer;
  *
  */
 public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
-	/**
+
+	private static final float EDGE_THICKNESS_SCALE = 10f;
+
+    /**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should be readable, each with pixels to draw its
 	 * value as text. A zoom level of 2.0 shows the graph with each base pair using the half this size.
@@ -48,17 +52,20 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 	
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("Graph");
+	private final Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private MouseManager mouseManager;
-	private ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
-	
+
+	private final ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
+
 	private float offsetToCenter = -1;
 	private boolean zoomCenterSet = false;
-	private ZoomedGraphModel zoomedGraphModel;
-	
+	private final ZoomedGraphModel zoomedGraphModel;
+
+	private Gene selectedGene = null;
+
 	/**
 	 * Construct a GraphView.
 	 *
@@ -113,15 +120,14 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	
 	/**
 	 * Generates a Graph from the current graphData.
-	 * 
-	 * @return a graph with all nodes from the given graphData
 	 */
-	public Graph generateGraph() {
+	public void generateGraph() {
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
-				/ (panel.getBounds().width * zoomLevel / zoomedGraphModel.getWrappedCollapsedNode().getWidth())
+				/ (panel.getBounds().width * zoomLevel / zoomedGraphModel
+				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		
 		graphData.forEach(node -> {
@@ -146,9 +152,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				i++;
 			}
 		}
-		
+		colorGene();
 		notifyLoadingObservers(false);
-		return graph;
 	}
 	
 	/**
@@ -168,12 +173,13 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(), Integer.toString(from.getId()),
 				Integer.toString(to.getId()), true);
 		int weight = from.getOutgoingWeight().get(i);
-		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomes().size());
+		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomesCount());
+
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException("The weight of the edge from " + from + " to " + to + " cannot be 0.");
 		} else {
-			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
+			edge.addAttribute("ui.style", "size: " + (percent * EDGE_THICKNESS_SCALE) + "px;");
 		}
 	}
 	
@@ -194,7 +200,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	}
 	
 	private void centerGraph() {
-		if (zoomCenterSet == false) {
+		if (!zoomCenterSet) {
 			setZoomCenter(0);
 			setOffsetToCenter();
 			setZoomCenter(offsetToCenter);
@@ -238,23 +244,29 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	}
 	
 	/**
-	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently drawn
-	 * {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
+	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently
+	 * drawn  {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
 	 * {@link WrapperClone}.
 	 *
 	 * @param node
 	 *            The {@link DataNode} to move the view to
+	 * @param selected
+	 *      The gene to highlight on the graph
 	 * @throws NodeNotFoundException
 	 *             Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
+		notifyLoadingObservers(true);
 		float x = -1;
+		selectedGene = selected;
+		colorGene();
 		for (WrapperClone wrapperClone : graphData) {
 			if (wrapperClone.getDataNodes().contains(node)) {
 				x = wrapperClone.getX();
 				break;
 			}
 		}
+		notifyLoadingObservers(false);
 		if (x != -1) {
 			setZoomCenter(x);
 		} else {
@@ -262,7 +274,23 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 					+ " you are looking for cannot be found in the current graph.");
 		}
 	}
-	
+
+	/**
+	 * Color the selected gene on the graph.
+	 */
+	private void colorGene() {
+		if (selectedGene != null) {
+			for (Node graphNode : graph.getNodeSet()) {
+				graphNode.removeAttribute("ui.style");
+				WrapperClone wrapper = graphNode.getAttribute("node", WrapperClone.class);
+				wrapper.getLabels().stream()
+						.filter(label -> label.getText().equals(selectedGene.getName()))
+						.forEach(label -> graphNode.addAttribute("ui.style",
+								"fill-color: red;"));
+			}
+		}
+	}
+
 	public double getGraphDimension() {
 		return viewer.getDefaultView().getCamera().getGraphDimension();
 	}

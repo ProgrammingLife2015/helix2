@@ -1,3 +1,4 @@
-#bin	name	chrom	strand	txStart	txEnd	cdsStart	cdsEnd	exonCount	exonStarts	exonEnds	score	name2	cdsStartStat	cdsEndStat	exonFrames
-585	Corndogp001	chr	-	2609323	2609461	2609323	2609461	1	2609323,	2609461,	1	none	cmpl	cmpl	0,
-585	Corndogp002	chr	-	2609451	2609453	2609451	2609453	1	2609451,	2609453,	2	none	cmpl	cmpl	0,
+MT_H37RV_BRD_V5	null	tRNA	386201	386274	0.0	-	.	calhounClass=TrnascanHit;Name=tRNA-Gly;ID=7000008460171276;displayName=tRNA-Gly
+MT_H37RV_BRD_V5	null	CDS	3057261	3058073	0.0	-	.	calhounClass=Gene;Name=alanine rich protein;ID=7000008459999039;displayName=RVBD_2744c.5 alanine rich protein
+MT_H37RV_BRD_V5	null	CDS	453231	454373	0.0	-	.	calhounClass=Gene;Name=xanthine dehydrogenase accessory factor;ID=7000008460015828;displayName=RVBD_0376c.5 xanthine dehydrogenase accessory factor
+MT_H37RV_BRD_V5	null	CRISPR	692028	692050	0.0	+	.	calhounClass=GenericFeature;Name=region_1000;ID=7000008459897070;displayName=region_1000

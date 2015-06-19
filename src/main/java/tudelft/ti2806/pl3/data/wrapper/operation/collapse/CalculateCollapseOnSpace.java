@@ -6,8 +6,6 @@ import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
 
-import java.util.Comparator;
-
 /**
  * Computes the collapse value, based on the space left between nodes when unwrapped.
  * 
@@ -69,12 +67,5 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 			return wrapper.getX() - first.getX();
 		}
 		return Math.min(wrapper.getX() - first.getX(), getMinDistance(wrapper, last));
-	}
-	
-	public class XComparator implements Comparator<Wrapper> {
-		@Override
-		public int compare(Wrapper w1, Wrapper w2) {
-			return (int) Math.signum(w1.getX() - w2.getX());
-		}
 	}
 }

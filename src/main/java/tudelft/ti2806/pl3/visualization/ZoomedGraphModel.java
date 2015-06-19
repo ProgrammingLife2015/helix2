@@ -38,9 +38,10 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 */
 	private static final float MIN_NODE_DISTANCE = 60f;
 	private FilteredGraphModel filteredGraphModel;
+
 	private Wrapper collapsedNode;
 	private List<WrapperClone> dataNodeWrapperList;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	
 	private int zoomLevel = 1;
 	private int graphWidth;
@@ -139,5 +140,9 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 		for (LoadingObserver loadingObserver : this.loadingObservers) {
 			loadingObserver.update(this, arguments);
 		}
+	}
+
+	public int getGenomesCount() {
+		return filteredGraphModel.getGenomesCount();
 	}
 }

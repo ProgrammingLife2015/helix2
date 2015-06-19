@@ -2,11 +2,13 @@ package tudelft.ti2806.pl3;
 
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
+import tudelft.ti2806.pl3.controls.ResizeAdapter;
 import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
+import tudelft.ti2806.pl3.metafilter.MetaFilterController;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
+import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
 import tudelft.ti2806.pl3.menubar.LastOpenedController;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
@@ -23,8 +25,6 @@ import tudelft.ti2806.pl3.zoombar.ZoomBarController;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -44,12 +44,13 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	private static final Integer MIDDEL_LAYER = 50;
 	private static final Integer HIGHEST_LAYER = 100;
-	private final GraphDataRepository graphDataRepository;
 
-	private JLayeredPane main;
+	private final GraphDataRepository graphDataRepository;
+	private final JLayeredPane main;
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final KeyController keys;
+
 	private ScreenSize size;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
-	private KeyController keys;
 
 
 	/**
@@ -58,13 +59,14 @@ public class Application extends JFrame implements ControllerContainer {
 	private GraphController graphController;
 	private SideBarController sideBarController;
 	private ZoomBarController zoomBarController;
-	private FindgenesController findgenesController;
+	private FindGenesController findGenesController;
+	private MetaFilterController metaFilterController;
 
 	/**
 	 * Construct the main application view.
 	 */
 	public Application() {
-		super("Helix" + "\u00B2");
+		super(Constants.APP_NAME);
 		// read the last opened files
 		try {
 			LastOpenedStack<File> files = ParserLastOpened.readLastOpened();
@@ -90,13 +92,14 @@ public class Application extends JFrame implements ControllerContainer {
 		sideBarController = new SideBarController(this);
 		sideBarController.addLoadingObserversList(loadingObservers);
 		zoomBarController = new ZoomBarController(this);
-		findgenesController = new FindgenesController(this, graphDataRepository);
+		findGenesController = new FindGenesController(this, graphDataRepository);
+		metaFilterController = new MetaFilterController(this, graphDataRepository);
 	}
 
 	/**
 	 * Make the window visible and set the sizes.
 	 */
-	public void setUpFrame() {
+	private void setUpFrame() {
 		// set the size and save it in the singleton
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -122,7 +125,7 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	private void setUpUi() {
-		this.addComponentListener(resizeAdapter());
+		this.addComponentListener(new ResizeAdapter(this));
 		setZoomBarView();
 		setGraphView();
 		setSideBarView();
@@ -134,10 +137,15 @@ public class Application extends JFrame implements ControllerContainer {
 	public void makeGraphFromFolder() {
 		try {
 			File folder = FileSelector.selectFolder("Select data folder", this);
-			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph",".nwk");
-			makeGraph(files[0], files[1], files[2]);
-		} catch (FileSelectorException | NullPointerException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+
+			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph", ".nwk", ".txt");
+			makeGraph(files[0], files[1], files[2], files[3]);
+		} catch (ArrayIndexOutOfBoundsException exception) {
+			if (DialogUtil.confirm("Error!", "Some necessary files were not found. Want to select a new folder?")) {
+				makeGraphFromFolder();
+			}
+		} catch (FileSelectorException exception) {
+			if (DialogUtil.confirm("Error!", "You have not selected a folder, want to try again?")) {
 				makeGraphFromFolder();
 			}
 		}
@@ -149,8 +157,9 @@ public class Application extends JFrame implements ControllerContainer {
 	public void makeGraphFromFiles() {
 		try {
 			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
+
 			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
-			makeGraph(nodeFile, edgeFile, null);
+			makeGraph(nodeFile, edgeFile, null, null);
 		} catch (FileSelectorException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makeGraphFromFiles();
@@ -161,33 +170,29 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Parses the graph files and makes a graphview.
 	 */
-	public void makeGraph(File nodeFile, File edgeFile, File treeFile) {
+	public void makeGraph(File nodeFile, File edgeFile, File treeFile, File metaFile) {
 		try {
-			final long startTime = System.currentTimeMillis();
+			graphController.parseGraph(nodeFile, edgeFile, metaFile);
 
-			graphController.parseGraph(nodeFile, edgeFile);
 			if (treeFile != null) {
 				makePhyloTree(treeFile);
 			}
-
-			long loadTime = System.currentTimeMillis() - startTime;
-			System.out.println("Loadtime: " + loadTime);
 		} catch (FileNotFoundException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
-				makeGraph(nodeFile, edgeFile, treeFile);
+				makeGraph(nodeFile, edgeFile, treeFile, metaFile);
 			}
 		}
 	}
 
 	/**
-	 * Parses the phylogenetic tree through file selection and makes a sidebarview.
+	 * Parses the phylogenetic tree through file selection and makes a SideBarView.
 	 */
 	public void makePhyloTree() {
 		makePhyloTree(null);
 	}
 
 	/**
-	 * Parses the phylogenetic tree through automatic selection and makes a sidebarview.
+	 * Parses the phylogenetic tree through automatic selection and makes a SideBarView.
 	 */
 	public void makePhyloTree(File input) {
 		try {
@@ -200,7 +205,6 @@ public class Application extends JFrame implements ControllerContainer {
 
 			getSideBarController().getPhyloController().parseTree(treeFile);
 
-
 		} catch (FileSelectorException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
 				makePhyloTree();
@@ -208,6 +212,20 @@ public class Application extends JFrame implements ControllerContainer {
 		} catch (ParseException exception) {
 			if (DialogUtil.confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
 				makePhyloTree();
+			}
+		}
+	}
+
+	/**
+	 * Load the metadata from a separate file.
+	 */
+	public void loadMetaData() {
+		try {
+			File metaFile = FileSelector.selectFile("Select metadata file", this, ".txt");
+			graphDataRepository.loadMetaData(metaFile);
+		} catch (FileSelectorException | FileNotFoundException exception) {
+			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+				loadMetaData();
 			}
 		}
 	}
@@ -232,9 +250,9 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Add the sidebar view to the layout.
 	 */
-	public void setSideBarView() {
+	private void setSideBarView() {
 		Component view = getSideBarController().getPanel();
-		view.setBounds(0, size.getMenubarHeight(), size.getSidebarWidth(), size.getHeight());
+		view.setBounds(0, size.getMenubarHeight(), size.getSideBarWidth(), size.getHeight());
 		main.add(view, HIGHEST_LAYER);
 		view.setVisible(true);
 		view.addKeyListener(keys);
@@ -242,12 +260,12 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	/**
-	 * Add the menubar view to the layout.
+	 * Add the JMenuBar view to the layout.
 	 *
 	 * @param view
-	 * 		the menubar view panel
+	 * 		the JMenuBar to set as menu.
 	 */
-	public void setMenuBar(JMenuBar view) {
+	private void setMenuBar(JMenuBar view) {
 		view.setBounds(0, 0, size.getWidth(), size.getMenubarHeight());
 		main.add(view, HIGHEST_LAYER);
 		view.setVisible(true);
@@ -256,10 +274,10 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Add the graph view to the layout.
 	 */
-	public void setGraphView() {
+	private void setGraphView() {
 		Component view = getGraphController().getPanel();
 		view.setBounds(0, 0, size.getWidth(),
-				size.getHeight() - size.getZoombarHeight());
+				size.getHeight() - size.getZoomBarHeight());
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
 		view.addKeyListener(keys);
@@ -269,41 +287,12 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Add the zoom bar view to the layout.
 	 */
-	public void setZoomBarView() {
+	private void setZoomBarView() {
 		Component view = getZoomBarController().getPanel();
-		view.setBounds(0, size.getHeight() - size.getZoombarHeight(),
-				size.getWidth(), size.getZoombarHeight());
+		view.setBounds(0, size.getHeight() - size.getZoomBarHeight(),
+				size.getWidth(), size.getZoomBarHeight());
 		main.add(view, MIDDEL_LAYER);
 		view.setVisible(true);
-	}
-
-	/**
-	 * Creates an adapter that updates screen sizes for the components in the view.
-	 *
-	 * @return the adapter
-	 */
-	private ComponentAdapter resizeAdapter() {
-		return new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				Rectangle bounds = new Rectangle(main.getWidth(), main.getHeight());
-
-				size.setWidth((int) bounds.getWidth());
-				size.setHeight((int) bounds.getHeight());
-				size.calculate();
-
-				getSideBarController().getPanel().setBounds(0, size.getMenubarHeight(),
-						size.getSidebarWidth(), size.getHeight());
-				getGraphController().getPanel().setBounds(0, 0, size.getWidth(),
-						size.getHeight() - size.getZoombarHeight());
-				getZoomBarController().getPanel().setBounds(0,
-						size.getHeight() - size.getZoombarHeight(),
-						size.getWidth(), size.getZoombarHeight());
-				getPhyloController().getView().updateSize();
-
-				main.repaint();
-			}
-		};
 	}
 
 	@Override
@@ -327,8 +316,21 @@ public class Application extends JFrame implements ControllerContainer {
 	}
 
 	@Override
-	public FindgenesController getFindgenesController() {
-		return findgenesController;
+	public FindGenesController getFindGenesController() {
+		return findGenesController;
+	}
+
+	public Rectangle getBounds() {
+		return new Rectangle(main.getWidth(), main.getHeight());
+	}
+
+	public void repaint() {
+		main.repaint();
+	}
+
+	@Override
+	public MetaFilterController getMetaFilterController() {
+		return metaFilterController;
 	}
 
 }

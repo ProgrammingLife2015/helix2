@@ -120,7 +120,7 @@ public class NodeCombineUtilTest {
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(HorizontalWrapUtil.collapseGraph(original, true));
 		List<List<Wrapper>> combineableNodes = SpaceWrapUtil
-				.findCombineableNodes(original.getPositionedNodes());
+				.findCombinableNodes(original.getPositionedNodes());
 		Assert.assertEquals(combineableNodes.size(), 1);
 		WrappedGraphData nwgd = SpaceWrapUtil.collapseGraph(original);
 		Assert.assertEquals(nwgd.getPositionedNodes().size(), 3);

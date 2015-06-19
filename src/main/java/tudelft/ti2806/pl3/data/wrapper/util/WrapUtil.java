@@ -109,8 +109,8 @@ public final class WrapUtil {
 	
 	/**
 	 * Adds a node to the end and start of the graph, connecting to all genome endings on the graph, to make a last
-	 * {@link SpaceWrapper} by the {@link SpaceWrapUtil} possible. And by that fixing the graph, making it possible to
-	 * wrap the graph to one single node.
+	 * {@link SpaceWrapper} by the {@link SpaceWrapUtil} possible. And by that fixing the graph, making it possible 
+	 * to wrap the graph to one single node.
 	 * 
 	 * @param graph
 	 *            the graph to fix
@@ -127,13 +127,15 @@ public final class WrapUtil {
 			Set<Genome> genome = node.getGenome();
 			genomeSet.addAll(genome);
 			final Set<Genome> set = new HashSet<>();
-			node.getIncoming().stream().map(Wrapper::getGenome).forEach(a -> set.addAll(a));
+			node.getIncoming().stream().map(Wrapper::getGenome)
+					.forEach(set::addAll);
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getIncoming().add(startFix);
 				startFix.getOutgoing().add(node);
 			}
 			set.clear();
-			node.getOutgoing().stream().map(Wrapper::getGenome).forEach(a -> set.addAll(a));
+			node.getOutgoing().stream().map(Wrapper::getGenome)
+					.forEach(set::addAll);
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getOutgoing().add(endFix);
 				endFix.getIncoming().add(node);
@@ -159,7 +161,8 @@ public final class WrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a list containing a new layer over the previous layer
 	 */
-	protected static List<Wrapper> wrapAndReconnect(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes) {
+	protected static List<Wrapper> wrapAndReconnect(List<Wrapper> nonCombinedNodes,
+			List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes, combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
 		List<Wrapper> list = new ArrayList<>(new HashSet<>(map.values()));
@@ -207,8 +210,8 @@ public final class WrapUtil {
 	}
 	
 	/**
-	 * Creates a new layer from the given nodes and creates a map mapping all nodes from the previous layer to the new
-	 * layer.
+	 * Creates a new layer from the given nodes and creates a map mapping all nodes from the previous layer 
+	 * to the new layer.
 	 * 
 	 * @param nonCombinedNodes
 	 *            the nodes that are not combined
@@ -216,7 +219,8 @@ public final class WrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a map mapping all nodes from the previous layer to the new layer
 	 */
-	static Map<Wrapper, Wrapper> wrapList(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes) {
+	static Map<Wrapper, Wrapper> wrapList(List<Wrapper> nonCombinedNodes,
+			List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = new HashMap<>();
 		for (Wrapper node : nonCombinedNodes) {
 			SingleWrapper newWrapper = new SingleWrapper(node);

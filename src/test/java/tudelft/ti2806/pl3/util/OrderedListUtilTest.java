@@ -29,7 +29,7 @@ public class OrderedListUtilTest {
 	 *             when an exception is thrown
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		listsToCombine = new ArrayList<>(5);
 		ordersToTest = new ArrayList<>(5);
 		List<Wrapper> list = new ArrayList<>(3);
@@ -64,14 +64,17 @@ public class OrderedListUtilTest {
 	}
 	
 	@Test
-	public void mergeSuccesTest() {
-		List<Wrapper> list = OrderedListUtil.mergeOrderedLists(listsToCombine);
-		ArrayOrderMatcher matcher = new ArrayOrderMatcher(list.toArray(new Wrapper[8]));
+	public void mergeSuccessTest() {
+		List<Wrapper> list = OrderedListUtil
+				.mergeOrderedLists(listsToCombine);
+		ArrayOrderMatcher matcher = new ArrayOrderMatcher(
+				list.toArray(new Wrapper[8]));
 		for (Wrapper[] order : ordersToTest) {
 			Assert.assertThat(order, matcher);
 		}
 		// Test for the Matcher itself
-		Assert.assertThat(new Wrapper[] { new TestWrapper("B"), new TestWrapper("A") }, new IsNot<>(matcher));
+		Assert.assertThat(new Wrapper[] { new TestWrapper("B"),
+				new TestWrapper("A") }, new IsNot<>(matcher));
 	}
 	
 	@Test
@@ -127,12 +130,10 @@ public class OrderedListUtilTest {
 		
 		@Override
 		public void collectDataNodes(Set<DataNode> set) {
-			
 		}
 		
 		@Override
 		public void collectLabels(Set<Label> labels) {
-			return;
 		}
 		
 		@Override
