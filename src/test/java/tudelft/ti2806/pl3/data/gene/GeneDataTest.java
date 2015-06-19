@@ -1,17 +1,18 @@
 package tudelft.ti2806.pl3.data.gene;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.label.Label;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class GeneDataTest {
 
@@ -62,8 +63,8 @@ public class GeneDataTest {
 		Map<String, Label> labelMap = new HashMap<>();
 		Map<Integer, Gene> geneStart = new HashMap<>();
 		Map<Integer, Gene> geneEnd = new HashMap<>();
-
-		String line = "585	Corndogp005	chr	-	1110	1581	1110	1581	1	1110,	1581,	5	none	cmpl	cmpl	0,";
+		
+		String line = "585\tCorndogp005\tchr\t-\t1110\t1581\t1110\t1581\t1\t1110,\t1581,\t5\tnone\tcmpl\tcmpl\t0,"; 
 		Integer start = 1110;
 		Integer end = 1581;
 		Gene gene = new Gene("Corndogp005", start, end);
