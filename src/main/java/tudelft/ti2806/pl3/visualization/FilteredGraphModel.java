@@ -12,7 +12,7 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
-import tudelft.ti2806.pl3.util.CollectInterest;
+import tudelft.ti2806.pl3.data.wrapper.util.interest.CollectInterest;
 import tudelft.ti2806.pl3.util.CollectionUtil;
 import tudelft.ti2806.pl3.util.EdgeUtil;
 import tudelft.ti2806.pl3.util.observable.LoadingObservable;
