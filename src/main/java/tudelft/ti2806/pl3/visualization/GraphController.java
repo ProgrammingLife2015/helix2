@@ -57,7 +57,7 @@ public class GraphController implements Controller {
 	}
 
 	/**
-	 * Add Listeners to the correct models
+	 * Add Listeners to the correct models.
 	 */
 	private void addListeners() {
 		graphDataRepository.addGraphParsedObserver(filteredGraphModel);
@@ -214,7 +214,7 @@ public class GraphController implements Controller {
 		graphMoved();
 	}
 
-	public void calculateCollectInterest(){
+	public void calculateCollectInterest() {
 		filteredGraphModel.calculateCollectInterest();
 	}
 

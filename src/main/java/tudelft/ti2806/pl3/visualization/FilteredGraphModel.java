@@ -28,8 +28,6 @@ import java.util.Set;
 
 /**
  * This model filters the original graph data, based on the filter selections.
- *
- * <p>
  * Every time a new filter is added:
  * <li>It first makes a clone of the original graph data.
  * <li>Then it passes this clone to the filters and retrieves the filtered data.
@@ -59,7 +57,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	 * filtered data.
 	 *
 	 * @param originalGraphData
-	 *            The original graph data
+	 * 		The original graph data
 	 */
 	public FilteredGraphModel(GraphDataRepository originalGraphData) {
 		this.originalGraphData = originalGraphData;
@@ -105,7 +103,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	/**
 	 * Calculate the CollectInterest based on the current screensize width.
 	 */
-	public void calculateCollectInterest(){
+	public void calculateCollectInterest() {
 		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
 		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
 	}
@@ -114,7 +112,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	 * Apply all filters.
 	 *
 	 * @param list
-	 *            the list of nodes to be filtered
+	 * 		the list of nodes to be filtered
 	 */
 	public void filter(List<DataNode> list) {
 		for (Filter<DataNode> filter : filters) {
@@ -169,9 +167,9 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 
 	/**
 	 * Count the genomes in the filtered data.
-	 * @return
-	 *      returns the amount of genomes in the original data set when no filters are applied,
-	 *      otherwise it calculates the amount of genomes in the filtered data and returns it.
+	 *
+	 * @return returns the amount of genomes in the original data set when no filters are applied,
+	 *		otherwise it calculates the amount of genomes in the filtered data and returns it.
 	 */
 	public int getGenomesCount() {
 		if (filters.size() > 0) {

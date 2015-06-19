@@ -98,4 +98,8 @@ public class Constants {
 	public static final String PHYLO_BUTTON_LABEL_UPDATE = "Update";
 	public static final String PHYLO_LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
 	public static final String PHYLO_LABEL_COMMON_ANCESTOR = "Common ancestor";
+
+	// MetaFilter view constants
+	public static final String META_VIEW_TITLE = "Select options to filter on";
+
 }

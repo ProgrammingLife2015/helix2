@@ -108,7 +108,7 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getMetaFilterController().openDialog();
 	}
 
-	public void setLastOpenedMenu(Component lastOpenedMenu){
+	public void setLastOpenedMenu(Component lastOpenedMenu) {
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
 
