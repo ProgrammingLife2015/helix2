@@ -111,25 +111,6 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	}
 
 	/**
-	 * Finds all the edges on the graph which have one or two nodes which are not on the graph.
-	 *
-	 * @param edgeList
-	 *            the list of edges in the graph
-	 * @param nodeList
-	 *            the list of nodes in the graph
-	 * @return a list of all dead edges
-	 */
-	private static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
-		List<Edge> removeList = new ArrayList<>();
-		for (Edge edge : edgeList) {
-			if (!nodeList.contains(edge.getFrom()) || !nodeList.contains(edge.getTo())) {
-				removeList.add(edge);
-			}
-		}
-		return removeList;
-	}
-
-	/**
 	 * Apply all filters.
 	 *
 	 * @param list
