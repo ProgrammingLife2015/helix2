@@ -23,8 +23,10 @@ import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import java.awt.Component;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -38,8 +40,8 @@ import java.util.Observer;
 public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
 
 	private static final float EDGE_THICKNESS_SCALE = 10f;
-
-    /**
+	
+	/**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should be readable, each with pixels to draw its
 	 * value as text. A zoom level of 2.0 shows the graph with each base pair using the half this size.
@@ -126,18 +128,18 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		graph.clear();
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
-				/ (panel.getBounds().width * zoomLevel / zoomedGraphModel
-				.getWrappedCollapsedNode().getWidth())
-				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
-		
+			/ (panel.getBounds().width * zoomLevel / zoomedGraphModel.getWrappedCollapsedNode().getWidth())
+			/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-			Node graphNode = this.graph.addNode(Integer.toString(node.getId()));
-			double y = node.getY() * someSize;
-			graphNode.setAttribute("xy", node.getX(), y);
-			graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
-			graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
-			graphNode.setAttribute("node", node);
-		});
+				Node graphNode = graph.addNode(Integer.toString(node.getId()));
+				double y = node.getY() * someSize;
+				graphNode.setAttribute("xy", node.getX(), y);
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
+				graphNode.addAttribute("ui.label",
+					NumberFormat.getNumberInstance(Locale.US)
+					.format(node.getOriginalNode().getBasePairCount()));
+				graphNode.setAttribute("node", node);
+			});
 		
 		for (WrapperClone node : graphData) {
 			int i = 0;
@@ -174,7 +176,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				Integer.toString(to.getId()), true);
 		int weight = from.getOutgoingWeight().get(i);
 		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomesCount());
-
+		
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException("The weight of the edge from " + from + " to " + to + " cannot be 0.");
