@@ -140,7 +140,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 						NumberFormat.getNumberInstance(Locale.US)
 								.format(node.getOriginalNode().getBasePairCount()));
 				graphNode.setAttribute("node", node);
-		});
+			}
+		);
 		
 		for (WrapperClone node : graphData) {
 			int i = 0;
