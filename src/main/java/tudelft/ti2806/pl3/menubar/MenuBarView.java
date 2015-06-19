@@ -95,7 +95,7 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenuItem phylo = new JMenuItem(Constants.MENU_VIEW_PYLO);
 		phylo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0));
 		phylo.setMnemonic(KeyEvent.VK_P);
-		JMenuItem filterMetadata = new JMenuItem("Filter on metadata");
+		JMenuItem filterMetadata = new JMenuItem(Constants.MENU_VIEW_METADATA);
 		filterMetadata.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,0));
 		filterMetadata.setMnemonic(KeyEvent.VK_F);
 
