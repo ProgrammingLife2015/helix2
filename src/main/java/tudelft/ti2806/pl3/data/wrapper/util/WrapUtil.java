@@ -100,14 +100,14 @@ public final class WrapUtil {
 			genomeSet.addAll(genome);
 			final Set<Genome> set = new HashSet<>();
 			node.getIncoming().stream().map(Wrapper::getGenome)
-					.forEach(a -> set.addAll(a));
+					.forEach(set::addAll);
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getIncoming().add(startFix);
 				startFix.getOutgoing().add(node);
 			}
 			set.clear();
 			node.getOutgoing().stream().map(Wrapper::getGenome)
-					.forEach(a -> set.addAll(a));
+					.forEach(set::addAll);
 			if (set.size() != genome.size() || !set.containsAll(genome)) {
 				node.getOutgoing().add(endFix);
 				endFix.getIncoming().add(node);
@@ -133,7 +133,7 @@ public final class WrapUtil {
 			List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes, combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
-		List<Wrapper> list = new ArrayList<Wrapper>(new HashSet<Wrapper>(
+		List<Wrapper> list = new ArrayList<>(new HashSet<>(
 				map.values()));
 		Collections.sort(list);
 		return list;
@@ -192,7 +192,7 @@ public final class WrapUtil {
 	 */
 	static Map<Wrapper, Wrapper> wrapList(List<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
-		Map<Wrapper, Wrapper> map = new HashMap<Wrapper, Wrapper>();
+		Map<Wrapper, Wrapper> map = new HashMap<>();
 		for (Wrapper node : nonCombinedNodes) {
 			SingleWrapper newWrapper = new SingleWrapper(node);
 			map.put(node, newWrapper);

@@ -11,6 +11,7 @@ import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
 
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.controls.MouseManager;
+import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
@@ -52,17 +53,20 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 	
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("Graph");
+	private final Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private MouseManager mouseManager;
-	private ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
-	
+
+	private final ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
+
 	private float offsetToCenter = -1;
 	private boolean zoomCenterSet = false;
-	private ZoomedGraphModel zoomedGraphModel;
-	
+	private final ZoomedGraphModel zoomedGraphModel;
+
+	private Gene selectedGene = null;
+
 	/**
 	 * Construct a GraphView.
 	 *
@@ -117,10 +121,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	
 	/**
 	 * Generates a Graph from the current graphData.
-	 * 
-	 * @return a graph with all nodes from the given graphData
 	 */
-	public Graph generateGraph() throws EdgeZeroWeightException {
+	public void generateGraph() {
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
@@ -142,14 +144,17 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			int i = 0;
 			for (Wrapper to : node.getOutgoing()) {
 				if (node.getId() >= 0 && to.getId() >= 0) { // Exclude FixWrappers
-					addNormalEdge(graph, node, to, i);
+					try {
+						addNormalEdge(graph, node, to, i);
+					} catch (EdgeZeroWeightException e) {
+						e.printStackTrace();
+					}
 				}
 				i++;
 			}
 		}
-		
+		colorGene();
 		notifyLoadingObservers(false);
-		return graph;
 	}
 	
 	/**
@@ -189,19 +194,14 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 		if (o == zoomedGraphModel) {
 			graphData = zoomedGraphModel.getDataNodeWrapperList();
 			zoomLevel = zoomedGraphModel.getZoomLevel();
-			try {
-				generateGraph();
-			} catch (EdgeZeroWeightException e) {
-				// TODO: show popup?
-				e.printStackTrace();
-			}
+			generateGraph();
 			zoom();
 			centerGraph();
 		}
 	}
 	
 	private void centerGraph() {
-		if (zoomCenterSet == false) {
+		if (!zoomCenterSet) {
 			setZoomCenter(0);
 			setOffsetToCenter();
 			setZoomCenter(offsetToCenter);
@@ -250,18 +250,28 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * {@link WrapperClone}.
 	 *
 	 * @param node
+<<<<<<< HEAD
 	 *            The {@link DataNode} to move the view to
+=======
+	 * 		The {@link tudelft.ti2806.pl3.data.graph.DataNode} to move the view to
+	 * @param selected
+	 *      The gene to highlight on the graph
+>>>>>>> master
 	 * @throws NodeNotFoundException
 	 *             Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
+	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
+		notifyLoadingObservers(true);
 		float x = -1;
+		selectedGene = selected;
+		colorGene();
 		for (WrapperClone wrapperClone : graphData) {
 			if (wrapperClone.getDataNodes().contains(node)) {
 				x = wrapperClone.getX();
 				break;
 			}
 		}
+		notifyLoadingObservers(false);
 		if (x != -1) {
 			setZoomCenter(x);
 		} else {
@@ -269,7 +279,23 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 					+ " you are looking for cannot be found in the current graph.");
 		}
 	}
-	
+
+	/**
+	 * Color the selected gene on the graph.
+	 */
+	private void colorGene() {
+		if (selectedGene != null) {
+			for (Node graphNode : graph.getNodeSet()) {
+				graphNode.removeAttribute("ui.style");
+				WrapperClone wrapper = graphNode.getAttribute("node", WrapperClone.class);
+				wrapper.getLabels().stream()
+						.filter(label -> label.getText().equals(selectedGene.getName()))
+						.forEach(label -> graphNode.addAttribute("ui.style",
+								"fill-color: red;"));
+			}
+		}
+	}
+
 	public double getGraphDimension() {
 		return viewer.getDefaultView().getCamera().getGraphDimension();
 	}

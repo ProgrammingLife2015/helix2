@@ -23,6 +23,6 @@ public class MathUtilTest {
 	public void privateConstructorTest() throws NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
 			InstantiationException {
-		new UtilTest<MathUtil>(MathUtil.class).testConstructorIsPrivate();
+		new UtilTest<>(MathUtil.class).testConstructorIsPrivate();
 	}
 }

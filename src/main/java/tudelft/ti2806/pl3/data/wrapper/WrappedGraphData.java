@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class WrappedGraphData {
 	
-	private List<Wrapper> nodeWrappers;
+	private final List<Wrapper> nodeWrappers;
 	private final int longestNodePath;
 	
 	/**
