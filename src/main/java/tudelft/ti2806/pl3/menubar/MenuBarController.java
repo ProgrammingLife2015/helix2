@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
@@ -72,6 +73,10 @@ public class MenuBarController implements ActionListener, Controller {
 		application.makePhyloTree();
 	}
 
+	private void readMetaFile() {
+		application.loadMetaData();
+	}
+
 	private void zoomIn() {
 		application.getGraphController().zoomLevelUp();
 	}
@@ -100,7 +105,11 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getSideBarController().toggleSideBar();
 	}
 
-	public void setLastOpenedMenu(Component lastOpenedMenu) {
+	private void filterMetadata() {
+		application.getMetaFilterController().openDialog();
+	}
+
+	public void setLastOpenedMenu(Component lastOpenedMenu){
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
 
@@ -213,6 +222,9 @@ public class MenuBarController implements ActionListener, Controller {
 			case Constants.MENU_FILE_OPEN_NWK_FILE:
 				readNwkFile();
 				break;
+			case Constants.MENU_FILE_OPEN_META_FILE:
+				readMetaFile();
+				break;
 			case Constants.MENU_FILE_EXIT:
 				stop();
 				break;
@@ -233,6 +245,9 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case Constants.MENU_VIEW_NAVIGATE_TO_GENE:
 				showFindGenes();
+				break;
+			case Constants.MENU_VIEW_METADATA:
+				filterMetadata();
 				break;
 			case Constants.MENU_HELP_CONTROLS:
 				displayControls();

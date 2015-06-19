@@ -55,6 +55,7 @@ public class Constants {
 	public static final String MENU_FILE_OPEN_FOLDER = "Open folder";
 	public static final String MENU_FILE_OPEN_GRAPH_FILES = "Open graph files";
 	public static final String MENU_FILE_OPEN_NWK_FILE = "Open .nwk file";
+	public static final String MENU_FILE_OPEN_META_FILE = "Open metadata file";
 	public static final String MENU_FILE_OPEN_RECENTS = "Open recent files";
 	public static final String MENU_FILE_EXIT = "Exit";
 
@@ -65,6 +66,7 @@ public class Constants {
 	public static final String MENU_VIEW_MOVE_RIGHT = "Move right";
 	public static final String MENU_VIEW_RESET = "Reset view";
 	public static final String MENU_VIEW_NAVIGATE_TO_GENE = "Navigate to gene";
+	public static final String MENU_VIEW_METADATA = "Filter on metadata";
 	public static final String MENU_VIEW_PYLO = "Phylogenetic view";
 
 	public static final String MENU_HELP = "Help";

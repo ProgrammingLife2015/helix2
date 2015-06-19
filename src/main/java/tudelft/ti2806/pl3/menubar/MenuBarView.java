@@ -48,12 +48,15 @@ public class MenuBarView extends JMenuBar implements View {
 		openNode.setMnemonic(KeyEvent.VK_N);
 		JMenuItem openNwk = new JMenuItem(Constants.MENU_FILE_OPEN_NWK_FILE);
 		openNwk.setMnemonic(KeyEvent.VK_W);
+		JMenuItem openMeta = new JMenuItem("Open metadata file");
+		openMeta.setMnemonic(KeyEvent.VK_M);
 		JMenuItem exit = new JMenuItem(Constants.MENU_FILE_EXIT);
 		exit.setMnemonic(KeyEvent.VK_X);
 
 		fileMenu.add(openFolder);
 		fileMenu.add(openNode);
 		fileMenu.add(openNwk);
+		fileMenu.add(openMeta);
 		fileMenu.addSeparator();
 		fileMenu.add(exit);
 
@@ -92,6 +95,9 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenuItem phylo = new JMenuItem(Constants.MENU_VIEW_PYLO);
 		phylo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0));
 		phylo.setMnemonic(KeyEvent.VK_P);
+		JMenuItem filterMetadata = new JMenuItem("Filter on metadata");
+		filterMetadata.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,0));
+		filterMetadata.setMnemonic(KeyEvent.VK_F);
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
@@ -99,6 +105,7 @@ public class MenuBarView extends JMenuBar implements View {
 		viewMenu.add(moveRight);
 		viewMenu.add(reset);
 		viewMenu.add(findGenes);
+		viewMenu.add(filterMetadata);
 		viewMenu.add(phylo);
 
 		return viewMenu;
