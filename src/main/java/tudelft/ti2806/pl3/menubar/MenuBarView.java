@@ -89,6 +89,9 @@ public class MenuBarView extends JMenuBar implements View {
 		JMenuItem findGenes = new JMenuItem(Constants.MENU_VIEW_NAVIGATE_TO_GENE);
 		findGenes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,0));
 		findGenes.setMnemonic(KeyEvent.VK_G);
+		JMenuItem phylo = new JMenuItem(Constants.MENU_VIEW_PYLO);
+		phylo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0));
+		phylo.setMnemonic(KeyEvent.VK_P);
 
 		viewMenu.add(zoomIn);
 		viewMenu.add(zoomOut);
@@ -96,6 +99,7 @@ public class MenuBarView extends JMenuBar implements View {
 		viewMenu.add(moveRight);
 		viewMenu.add(reset);
 		viewMenu.add(findGenes);
+		viewMenu.add(phylo);
 
 		return viewMenu;
 	}

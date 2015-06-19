@@ -59,6 +59,7 @@ public class Constants {
 	public static final String MENU_VIEW_MOVE_RIGHT = "Move right";
 	public static final String MENU_VIEW_RESET = "Reset view";
 	public static final String MENU_VIEW_NAVIGATE_TO_GENE = "Navigate to gene";
+	public static final String MENU_VIEW_PYLO = "Show Phylogenetic view";
 
 	public static final String MENU_HELP = "Help";
 	public static final String MENU_HELP_CONTROLS = "Controls";
