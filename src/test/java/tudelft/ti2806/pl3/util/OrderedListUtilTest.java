@@ -65,16 +65,13 @@ public class OrderedListUtilTest {
 	
 	@Test
 	public void mergeSuccesTest() {
-		List<Wrapper> list = OrderedListUtil
-				.mergeOrderedLists(listsToCombine);
-		ArrayOrderMatcher matcher = new ArrayOrderMatcher(
-				list.toArray(new Wrapper[8]));
+		List<Wrapper> list = OrderedListUtil.mergeOrderedLists(listsToCombine);
+		ArrayOrderMatcher matcher = new ArrayOrderMatcher(list.toArray(new Wrapper[8]));
 		for (Wrapper[] order : ordersToTest) {
 			Assert.assertThat(order, matcher);
 		}
 		// Test for the Matcher itself
-		Assert.assertThat(new Wrapper[] { new TestWrapper("B"),
-				new TestWrapper("A") }, new IsNot<>(matcher));
+		Assert.assertThat(new Wrapper[] { new TestWrapper("B"), new TestWrapper("A") }, new IsNot<>(matcher));
 	}
 	
 	@Test
@@ -87,8 +84,7 @@ public class OrderedListUtilTest {
 	}
 	
 	@Test
-	public void utilConstructorTest() throws NoSuchMethodException,
-			IllegalAccessException, InvocationTargetException,
+	public void utilConstructorTest() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
 			InstantiationException {
 		new UtilTest<>(OrderedListUtil.class).testConstructorIsPrivate();
 	}
@@ -114,31 +110,31 @@ public class OrderedListUtilTest {
 		public String getIdString() {
 			return null;
 		}
-
-		@Override public int getId() {
+		
+		@Override
+		public int getId() {
 			return 0;
 		}
-
+		
 		@Override
 		public Set<Genome> getGenome() {
 			return new HashSet<>();
 		}
-
+		
 		@Override
-		public void calculate(WrapperOperation wrapperSequencer,
-				Wrapper container) {
+		public void calculate(WrapperOperation wrapperSequencer, Wrapper container) {
 		}
-
+		
 		@Override
 		public void collectDataNodes(Set<DataNode> set) {
-
+			
 		}
-
+		
 		@Override
 		public void collectLabels(Set<Label> labels) {
 			return;
 		}
-
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -168,20 +164,20 @@ public class OrderedListUtilTest {
 			}
 			return true;
 		}
-
+		
 		@Override
 		public void calculateX() {
 		}
-
+		
 		@Override
 		public int getWidth() {
 			return 0;
 		}
-
-        @Override
-        public boolean contains(Wrapper originalNode) {
-            return false;
-        }
-
+		
+		@Override
+		public boolean contains(Wrapper originalNode) {
+			return false;
+		}
+		
 	}
 }

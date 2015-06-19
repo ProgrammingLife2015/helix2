@@ -138,7 +138,7 @@ public class GeneData {
 	 */
 	protected static void parseGene(String line, ArrayList<Gene> genes, Map<Integer, Gene> geneStart,
 			Map<Integer, Gene> geneEnd, Map<String, Label> geneMap) {
-		String[] tokens = line.split("\t");
+		String[] tokens = line.split("	");
 		Gene gene = new Gene(tokens[1], Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]));
 		genes.add(gene);
 		geneMap.put(gene.getName(), new GeneLabel(gene.getName()));

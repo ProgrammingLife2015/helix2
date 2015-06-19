@@ -33,8 +33,8 @@ public class HashableCollection<T> {
 		if (obj == null) {
 			return false;
 		}
-		if (this.hashCode() != obj.hashCode()){
-		    return false;
+		if (this.hashCode() != obj.hashCode()) {
+			return false;
 		}
 		if (getClass() != obj.getClass()) {
 			return false;

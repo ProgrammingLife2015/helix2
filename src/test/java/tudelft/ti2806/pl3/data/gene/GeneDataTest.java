@@ -63,7 +63,7 @@ public class GeneDataTest {
 		Map<Integer, Gene> geneStart = new HashMap<>();
 		Map<Integer, Gene> geneEnd = new HashMap<>();
 
-		String line = "585\tCorndogp005\tchr\t-\t1110\t1581\t1110\t1581\t1\t1110,\t1581,\t5\tnone\tcmpl\tcmpl\t0,";
+		String line = "585	Corndogp005	chr	-	1110	1581	1110	1581	1	1110,	1581,	5	none	cmpl	cmpl	0,";
 		Integer start = 1110;
 		Integer end = 1581;
 		Gene gene = new Gene("Corndogp005", start, end);

@@ -97,7 +97,7 @@ public class NodeCombineUtilTest {
 		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[1], true);
 		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 2);
 		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[2], true);
-        Assert.assertEquals(pgd[2].getPositionedNodes().size(), 1);
+		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 1);
 		
 		// WrapUtil collapse test
 		WrappedGraphData graph = WrapUtil.collapseGraph(pgd[0]);
