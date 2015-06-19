@@ -137,7 +137,7 @@ public class GraphView
 				graphNode.setAttribute("xy", node.getX(), y);
 				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
 							.getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				graphNode.addAttribute("ui.label", node.getOriginalNode().getBasePairCount());
 				graphNode.setAttribute("node", node);
 			});
 
