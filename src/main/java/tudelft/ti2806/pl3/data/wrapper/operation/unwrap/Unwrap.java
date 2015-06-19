@@ -152,8 +152,8 @@ public abstract class Unwrap extends WrapperOperation {
 	@Override
 	public void calculate(VerticalWrapper node, Wrapper placeholder) {
 		List<Wrapper> nodeWrapperList = node.getNodeList();
-		for (int i = 0; i < nodeWrapperList.size(); i++) {
-			Wrapper curr = createNewNode(nodeWrapperList.get(i));
+		for (Wrapper aNodeWrapperList : nodeWrapperList) {
+			Wrapper curr = createNewNode(aNodeWrapperList);
 			for (Wrapper incoming : placeholder.getIncoming()) {
 				incoming.getOutgoing().remove(placeholder);
 				incoming.getOutgoing().add(curr);
@@ -212,22 +212,16 @@ public abstract class Unwrap extends WrapperOperation {
 		}
 		for (Map.Entry<Wrapper, Wrapper> referencePlaceholderMap : referencePlaceholderMapper
 				.entrySet()) {
-			for (Wrapper outgoing : referencePlaceholderMap.getKey()
-					.getOutgoing()) {
-				// only add if outgoing is in this SpaceWrapper
-				if (referencePlaceholderMapper.get(outgoing) != null) {
-					referencePlaceholderMap.getValue().getOutgoing()
-							.add(referencePlaceholderMapper.get(outgoing));
-				}
-			}
-			for (Wrapper incoming : referencePlaceholderMap.getKey()
-					.getIncoming()) {
-				// only add if incoming is in this SpaceWrapper
-				if (referencePlaceholderMapper.get(incoming) != null) {
-					referencePlaceholderMap.getValue().getIncoming()
-							.add(referencePlaceholderMapper.get(incoming));
-				}
-			}
+			// only add if outgoing is in this SpaceWrapper
+			referencePlaceholderMap.getKey()
+					.getOutgoing().stream().filter(outgoing -> referencePlaceholderMapper.get(outgoing) != null)
+					.forEach(outgoing -> referencePlaceholderMap.getValue().getOutgoing()
+							.add(referencePlaceholderMapper.get(outgoing)));
+			// only add if incoming is in this SpaceWrapper
+			referencePlaceholderMap.getKey()
+					.getIncoming().stream().filter(incoming -> referencePlaceholderMapper.get(incoming) != null)
+					.forEach(incoming -> referencePlaceholderMap.getValue().getIncoming()
+							.add(referencePlaceholderMapper.get(incoming)));
 		}
 		for (Wrapper outgoing : placeholder.getOutgoing()) {
 			outgoing.getIncoming().remove(placeholder);

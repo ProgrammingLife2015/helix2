@@ -309,9 +309,6 @@ public final class SpaceWrapUtil {
 	 * @param node2
 	 *            a candidate node
 	 * @return an ordered candidate pair
-	 * @throws DuplicateGenomeNameException
-	 *             if the distance between two nodes with the same genome is
-	 *             zero.
 	 */
 	private static Pair<Integer, Pair<Wrapper, Wrapper>> newCandidatePair(
 			Wrapper node1, Wrapper node2) {

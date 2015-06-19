@@ -9,7 +9,7 @@ import javax.swing.JComboBox;
  * The view for selecting a gene to navigate to.
  * Created by Boris Mattijssen on 30-05-15.
  */
-public class FindgenesView extends JComboBox<Gene> {
+class FindGenesView extends JComboBox<Gene> {
 
 	/**
 	 * Construct the {@link JComboBox} and make it autocompletable.
@@ -17,7 +17,7 @@ public class FindgenesView extends JComboBox<Gene> {
 	 * @param genes
 	 * 		The genes to select
 	 */
-	public FindgenesView(Gene[] genes) {
+	public FindGenesView(Gene[] genes) {
 		super(genes);
 		setEditable(true);
 		AutoCompleteDecorator.decorate(this);

@@ -42,18 +42,16 @@ import java.util.Set;
  */
 public class FilteredGraphModel extends Observable implements LoadingObservable, GraphParsedObserver {
 
-	private GraphDataRepository originalGraphData;
+	private final GraphDataRepository originalGraphData;
+	private final PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
+	private final ArrayList<LoadingObserver> loadingObservers;
+	private final CalculateCollapseOnSpace calculateCollapse;
+	private final Map<List<Filter<DataNode>>, Integer> filtersToGenomesCountMap;
+
 	private Wrapper collapsedNode;
-	private List<Filter<DataNode>> filters;
-	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
-
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
-	private CalculateCollapseOnSpace calculateCollapse;
-
 	private CollectInterest collectInterest;
 	private List<Genome> genomes;
-
-	private Map<List<Filter<DataNode>>, Integer> filtersToGenomesCountMap;
+	private List<Filter<DataNode>> filters;
 
 	/**
 	 * Construct the model containing the filtered data.<br>
@@ -65,11 +63,12 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	 */
 	public FilteredGraphModel(GraphDataRepository originalGraphData) {
 		this.originalGraphData = originalGraphData;
-		filters = new ArrayList<>();
-		genomes = new ArrayList<>();
-		filtersToGenomesCountMap = new HashMap<>();
-		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
-		calculateCollapse = new CalculateCollapseOnSpace();
+		this.filters = new ArrayList<>();
+		this.genomes = new ArrayList<>();
+		this.loadingObservers = new ArrayList<>();
+		this.filtersToGenomesCountMap = new HashMap<>();
+		this.positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
+		this.calculateCollapse = new CalculateCollapseOnSpace();
 	}
 
 	public void setFilters(List<Filter<DataNode>> filters) {
@@ -105,37 +104,6 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	}
 
 	/**
-	 * Removes all edges of which one or both of their nodes is not on the originalWrappedGraphData.
-	 *
-	 * @param edgeList
-	 *            the list of edges in the originalWrappedGraphData
-	 * @param nodeList
-	 *            the list of nodes in the originalWrappedGraphData
-	 */
-	static void removeAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
-		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
-	}
-
-	/**
-	 * Finds all the edges on the graph which have one or two nodes which are not on the graph.
-	 *
-	 * @param edgeList
-	 *            the list of edges in the graph
-	 * @param nodeList
-	 *            the list of nodes in the graph
-	 * @return a list of all dead edges
-	 */
-	private static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
-		List<Edge> removeList = new ArrayList<>();
-		for (Edge edge : edgeList) {
-			if (!nodeList.contains(edge.getFrom()) || !nodeList.contains(edge.getTo())) {
-				removeList.add(edge);
-			}
-		}
-		return removeList;
-	}
-
-	/**
 	 * Apply all filters.
 	 *
 	 * @param list
@@ -159,9 +127,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 
 	@Override

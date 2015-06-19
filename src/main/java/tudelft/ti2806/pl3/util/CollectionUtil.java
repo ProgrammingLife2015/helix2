@@ -25,7 +25,7 @@ public class CollectionUtil {
 	 * @return the intersection between the two collections
 	 */
 	public static <T> Collection<T> intersection(Collection<T> collection1, Collection<T> collection2) {
-		return collection1.stream().filter(t -> collection2.contains(t)).collect(Collectors.toList());
+		return collection1.stream().filter(collection2::contains).collect(Collectors.toList());
 	}
 
 	/**
@@ -40,6 +40,6 @@ public class CollectionUtil {
 	 * @return the intersection between the two collections
 	 */
 	public static <T> Set<T> intersectionListSet(List<T> collection1, Set<T> collection2) {
-		return collection1.stream().filter(t -> collection2.contains(t)).collect(Collectors.toSet());
+		return collection1.stream().filter(collection2::contains).collect(Collectors.toSet());
 	}
 }

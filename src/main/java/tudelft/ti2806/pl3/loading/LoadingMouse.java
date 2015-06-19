@@ -14,7 +14,7 @@ import java.awt.Cursor;
  * Created by Kasper on 28-5-2015.
  */
 public class LoadingMouse implements LoadingObserver {
-	private Application application;
+	private final Application application;
 	
 	/**
 	 * Constructs a new LoadingMouse for the {@link Application}.

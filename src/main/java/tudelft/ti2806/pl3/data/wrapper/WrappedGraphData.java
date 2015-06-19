@@ -29,9 +29,7 @@ public class WrappedGraphData {
 	public WrappedGraphData(List<Wrapper> nodeWrappers) {
 		this.nodeWrappers = nodeWrappers;
 		this.longestNodePath = Wrapper.computeLongestPaths(this.nodeWrappers);
-		for (Wrapper wrapper : nodeWrappers) {
-			wrapper.calculateX();
-		}
+		nodeWrappers.forEach(tudelft.ti2806.pl3.data.wrapper.Wrapper::calculateX);
 	}
 	
 	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {

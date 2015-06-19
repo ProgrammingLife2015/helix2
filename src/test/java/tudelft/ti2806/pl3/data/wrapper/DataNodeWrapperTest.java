@@ -33,10 +33,6 @@ public class DataNodeWrapperTest {
 		wrapper.collectDataNodes(dataNodeSet);
 		assertEquals(1, dataNodeSet.size());
 		assertEquals(node, dataNodeSet.iterator().next());
-		wrapper.previousNodesCount = 1;
-		wrapper.calculateX();
-		assertEquals(1, wrapper.getX(), 0);
-		assertEquals(1, wrapper.getWidth(), 0);
 	}
 	
 	@Test

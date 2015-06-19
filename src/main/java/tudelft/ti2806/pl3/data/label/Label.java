@@ -6,14 +6,14 @@ package tudelft.ti2806.pl3.data.label;
  */
 public abstract class Label {
 
-	private String text;
+	private final String text;
 
 	/**
 	 * Constructs an instance of the label.
 	 * @param s
 	 * 			the String label to set
 	 */
-	public Label(String s) {
+	Label(String s) {
 		if (s != null) {
 			text = s;
 		} else {
@@ -32,13 +32,13 @@ public abstract class Label {
 
 		Label label = (Label) o;
 
-		return !(text != null ? !text.equals(label.text) : label.text != null);
+		return !(!text.equals(label.text));
 
 	}
 
 	@Override
 	public int hashCode() {
-		return text != null ? text.hashCode() : 0;
+		return text.hashCode();
 	}
 
 	public String getText() {

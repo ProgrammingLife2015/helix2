@@ -102,7 +102,7 @@ public class GraphView
 	 * Remove the default keys from the GraphStream library, since we use our own.
 	 * There is no other way than this to do it.
 	 */
-	public void removeDefaultKeys() {
+	private void removeDefaultKeys() {
 		DefaultShortcutManager listener = (DefaultShortcutManager)this.getPanel().getKeyListeners()[0];
 		listener.release();
 	}
@@ -224,7 +224,7 @@ public class GraphView
 	/**
 	 * Set the offset of the center of the graph to the left edge of the screen.
 	 */
-	public void setOffsetToCenter() {
+	private void setOffsetToCenter() {
 		Point3 point3 = viewer.getDefaultView().getCamera()
 				.transformPxToGu(0, ScreenSize.getInstance().getHeight() / 2d);
 		offsetToCenter = (float) point3.x * -1;
@@ -282,9 +282,7 @@ public class GraphView
 
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 
 	@Override
@@ -307,7 +305,7 @@ public class GraphView
 		graphLoadedListeners.remove(listener);
 	}
 
-	public void notifyGraphLoadedListeners() {
+	private void notifyGraphLoadedListeners() {
 		graphLoadedListeners.forEach(GraphLoadedListener::graphLoaded);
 	}
 

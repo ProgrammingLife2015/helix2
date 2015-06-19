@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
  */
 public class KeyController implements KeyListener {
 
-	private Application app;
+	private final Application app;
 
 	/**
 	 * Constructor removes the old keylisteners and makes our own.

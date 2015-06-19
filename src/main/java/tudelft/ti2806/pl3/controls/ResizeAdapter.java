@@ -15,7 +15,7 @@ import java.awt.event.ComponentEvent;
  */
 public class ResizeAdapter extends ComponentAdapter {
 
-	private Application application;
+	private final Application application;
 
 	public ResizeAdapter(Application application) {
 		super();

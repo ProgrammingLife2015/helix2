@@ -90,7 +90,7 @@ public class ScreenSize {
 	 *            size of the dimension
 	 * @return percentage*size rounded to nearest integer
 	 */
-	public int calculate(double percentage, int integer) {
+	private int calculate(double percentage, int integer) {
 		return (int) (percentage * integer);
 	}
 }

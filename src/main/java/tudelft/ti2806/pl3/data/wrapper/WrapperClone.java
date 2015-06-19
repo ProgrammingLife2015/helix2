@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class WrapperClone extends Wrapper {
 
-	private Set<DataNode> dataNodes;
+	private final Set<DataNode> dataNodes;
 	private Set<Label> labels;
 	private final Wrapper originalNode;
 
@@ -77,7 +77,7 @@ public class WrapperClone extends Wrapper {
 
 	@Override
 	public void calculateX() {
-		this.x = originalNode.getX();
+		this.setX(originalNode.getX());
 	}
 
 	@Override

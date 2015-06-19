@@ -61,8 +61,6 @@ public class LastOpenedStack<E> extends LinkedList<E> implements Observable {
 
 	@Override
 	public void notifyObservers() {
-		for (Observer observer : observers) {
-			observer.update();
-		}
+		observers.forEach(tudelft.ti2806.pl3.util.observers.Observer::update);
 	}
 }

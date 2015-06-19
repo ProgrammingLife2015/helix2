@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * An utility class to find and combine nodes which can be combined into
@@ -110,12 +111,7 @@ public final class VerticalWrapUtil {
 			}
 			list.add(node);
 		}
-		List<List<Wrapper>> combineAbleNodes = new ArrayList<>();
-		for (List<Wrapper> list : map.values()) {
-			if (list.size() > 1) {
-				combineAbleNodes.add(list);
-			}
-		}
-		return combineAbleNodes;
+		return map.values().stream().filter(list -> list.size() > 1)
+				.collect(Collectors.toList());
 	}
 }

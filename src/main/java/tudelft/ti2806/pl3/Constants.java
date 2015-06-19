@@ -63,7 +63,21 @@ public class Constants {
 	public static final String MENU_HELP_CONTROLS = "Controls";
 	public static final String MENU_HELP_ABOUT = "About " + APP_NAME;
 
-	public static final String DIALOG_ERROR = "Error!";
+	public static final String DIALOG_TITLE_ERROR = "Error!";
+	public static final String DIALOG_TITLE_EXIT = "Exit";
+	public static final String DIALOG_FILE_NOT_FOUND = "Your file was not found. Want to try again?";
+	public static final String DIALOG_FILE_FORMATTED_INCORRECTLY = "Your file was not formatted correctly. Want to try again?";
+	public static final String DIALOG_EXIT = "Are you sure you want to exit the application? ";
+	public static final String DIALOG_SELECT_PHYLOTREE_FILE = "Select phylogenetic tree file";
+	public static final String DIALOG_SELECT_NODE_FILE = "Select node file";
+	public static final String DIALOG_SELECT_DATA_FOLDER = "Select data folder";
+	public static final String DIALOG_FAIL_SAVE_FILES = "Unable to save the last opened files";
+
 	public static final String DETAILVIEW_GENOMES = "Genomes:";
 	public static final String DETAILVIEW_LABELS = "Labels:";
+
+	public static final String EXTENSION_PHYLOTREE = ".nwk";
+	public static final String EXTENSION_GRAPH = ".graph";
+	public static final String EXTENSION_NODE = ".node" + EXTENSION_GRAPH;
+	public static final String EXTENSION_EDGE = ".edge" + EXTENSION_GRAPH;
 }

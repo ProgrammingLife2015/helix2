@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public class SideBarController implements Controller {
 
-	private SideBarView sideBarView;
-	private PhyloController phyloController;
+	private final SideBarView sideBarView;
+	private final PhyloController phyloController;
 
 	/**
 	 * Construct the side bar controller and add all filters to its view.

@@ -54,7 +54,7 @@ public class FixWrapper extends Wrapper {
 	
 	@Override
 	public void calculateX() {
-		this.x = this.getPreviousNodesCount();
+		this.setX(this.getPreviousNodesCount());
 	}
 	
 	@Override

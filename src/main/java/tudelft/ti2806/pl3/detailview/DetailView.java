@@ -26,12 +26,12 @@ import javax.swing.ListSelectionModel;
 public class DetailView extends JPanel {
 	private static final int BORDER = 10;
 	private static final int POSITION_OFFSET = 30;
-	public static final String REF_GENOME = "REF";
+	private static final String REF_GENOME = "REF";
 
 	/**
-	 * Custom string comparator to prioritize the TKK_REF genome string.
+	 * Custom string comparator to prioritize the reference genome.
 	 */
-	private Comparator<String> comparator = (o1, o2) -> {
+	private final Comparator<String> comparator = (o1, o2) -> {
 		if (o1.contains(REF_GENOME)) {
 			return -1;
 		} else if (o2.contains(REF_GENOME)) {

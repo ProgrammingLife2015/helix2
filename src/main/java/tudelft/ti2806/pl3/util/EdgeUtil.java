@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * An utility class to find and/or remove dead edges from a {@link GraphData}
@@ -91,12 +92,8 @@ public class EdgeUtil {
 		for (DataNode node : nodeList) {
 			nodeMap.put(node.getId(), node);
 		}
-		for (Edge edge : edgeList) {
-			if (!nodeMap.containsKey(edge.getFrom().getId())
-					|| !nodeMap.containsKey(edge.getTo().getId())) {
-				removeList.add(edge);
-			}
-		}
+		removeList.addAll(edgeList.stream().filter(edge -> !nodeMap.containsKey(edge.getFrom().getId())
+				|| !nodeMap.containsKey(edge.getTo().getId())).collect(Collectors.toList()));
 		return removeList;
 	}
 

@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by Boris Mattijssen on 18-05-15.
  */
 public class WrapperPlaceholder extends Wrapper {
-	public static final int ID = -2;
+	private static final int ID = -2;
 	public static final String ID_STRING = "[PLACEHOLDER]";
 
 	@Override
