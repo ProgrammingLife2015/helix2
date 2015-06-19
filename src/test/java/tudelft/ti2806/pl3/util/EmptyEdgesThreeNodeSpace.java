@@ -3,7 +3,6 @@ package tudelft.ti2806.pl3.util;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;

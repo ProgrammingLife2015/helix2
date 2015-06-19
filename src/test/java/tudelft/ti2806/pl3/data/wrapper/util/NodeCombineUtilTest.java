@@ -1,5 +1,7 @@
 package tudelft.ti2806.pl3.data.wrapper.util;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,12 +10,14 @@ import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
+import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.UnwrapOnCollapse;
 import tudelft.ti2806.pl3.testutil.UtilTest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,7 +67,7 @@ public class NodeCombineUtilTest {
 		Assert.assertEquals(newPgd.getPositionedNodes().size(), 9);
 	}
 	
-	private int[] getIdList(List<Wrapper> group) {
+	private static int[] getIdList(List<Wrapper> group) {
 		int[] idList = new int[group.size()];
 		for (int i = 0; i < group.size(); i++) {
 			idList[i] = ((DataNodeWrapper) group.get(i)).getNode().getId();
@@ -91,12 +95,14 @@ public class NodeCombineUtilTest {
 		pgd[1] = VerticalWrapUtil.collapseGraph(pgd[0]);
 		Assert.assertEquals(pgd[1].getPositionedNodes().size(), 3);
 		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[1], true);
+		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 2);
+		pgd[2] = HorizontalWrapUtil.collapseGraph(pgd[2], true);
 		Assert.assertEquals(pgd[2].getPositionedNodes().size(), 1);
 		
 		// WrapUtil collapse test
 		WrappedGraphData graph = WrapUtil.collapseGraph(pgd[0]);
-		Assert.assertEquals(graph.getPositionedNodes().size(), 1);
-		Assert.assertEquals(graph.getLongestNodePath(), 0);
+		Assert.assertEquals(1, graph.getPositionedNodes().size());
+		Assert.assertEquals(0, graph.getLongestNodePath());
 	}
 	
 	@Test
@@ -114,7 +120,7 @@ public class NodeCombineUtilTest {
 		Assert.assertNull(VerticalWrapUtil.collapseGraph(original));
 		Assert.assertNull(HorizontalWrapUtil.collapseGraph(original, true));
 		List<List<Wrapper>> combineableNodes = SpaceWrapUtil
-				.findCombineableNodes(original.getPositionedNodes());
+				.findCombinableNodes(original.getPositionedNodes());
 		Assert.assertEquals(combineableNodes.size(), 1);
 		WrappedGraphData nwgd = SpaceWrapUtil.collapseGraph(original);
 		Assert.assertEquals(nwgd.getPositionedNodes().size(), 3);
@@ -128,13 +134,13 @@ public class NodeCombineUtilTest {
 	public void privateConstructorTest() throws NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
 			InstantiationException {
-		new UtilTest<SpaceWrapUtil>(SpaceWrapUtil.class)
+		new UtilTest<>(SpaceWrapUtil.class)
 				.testConstructorIsPrivate();
-		new UtilTest<VerticalWrapUtil>(VerticalWrapUtil.class)
+		new UtilTest<>(VerticalWrapUtil.class)
 				.testConstructorIsPrivate();
-		new UtilTest<HorizontalWrapUtil>(HorizontalWrapUtil.class)
+		new UtilTest<>(HorizontalWrapUtil.class)
 				.testConstructorIsPrivate();
-		new UtilTest<WrapUtil>(WrapUtil.class).testConstructorIsPrivate();
+		new UtilTest<>(WrapUtil.class).testConstructorIsPrivate();
 	}
 	
 	@Test
@@ -156,4 +162,31 @@ public class NodeCombineUtilTest {
 		Assert.assertEquals(1, WrapUtil.collapseGraph(original)
 				.getPositionedNodes().size(), 1);
 	}
+	
+	@Test
+    public void cutHorizontalTest() throws IOException {
+	    File nodesFile = new File("data/testdata/horizontalWrap.node.graph");
+        File edgesFile = new File("data/testdata/horizontalWrap.edge.graph");
+        GeneData geneData = GeneData
+                .parseGenes("data/testdata/TestGeneAnnotationsFile");
+        
+        GraphDataRepository gdr = new GraphDataRepository();
+        gdr.parseGraph(nodesFile, edgesFile, geneData);
+        WrappedGraphData original = new WrappedGraphData(gdr);
+        List<List<Wrapper>> result = new ArrayList<>();
+        HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
+        assertEquals(1, result.size());
+        result.clear();
+        original = HorizontalWrapUtil.collapseGraph(original, true);
+        HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
+        assertEquals(1, result.size());
+        original = HorizontalWrapUtil.collapseGraph(original, true);
+        result.clear();
+        HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
+        original = HorizontalWrapUtil.collapseGraph(original, true);
+        assertEquals(1, result.size());
+        UnwrapOnCollapse unwrap = new UnwrapOnCollapse(-1);
+        unwrap.compute(original.getPositionedNodes().get(0));
+        assertEquals(4, unwrap.getWrapperClones().size());
+    }
 }

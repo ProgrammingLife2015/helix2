@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.sidebar.phylotree;
 
 import newick.NewickParser;
+import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.View;
 import tudelft.ti2806.pl3.util.Resources;
@@ -29,19 +30,15 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * Phyloview is a view for the phylogenetic file. The user can select multiple
+ * PhyloView is a view for the phylogenetic file. The user can select multiple
  * genomes or common ancestors.
  *
  * <p>
  * Created by Kasper on 20-5-2015.
  */
 public class PhyloView extends JPanel implements View, Observer {
-	private static final String WINDOW_TITLE = "Select Genomes";
-	private static final String BUTTON_LABEL_UPDATE = "Update";
-	private static final String ICON_BACTERIA = "pictures/bacteria_small.jpg";
 
-	public static final String LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
-	public static final String LABEL_COMMON_ANCESTOR = "Common ancestor";
+	private static final String ICON_BACTERIA = "pictures/bacteria_small.jpg";
 
 	private JTree jTree;
 	private List<String> selected = new ArrayList<>();
@@ -69,10 +66,10 @@ public class PhyloView extends JPanel implements View, Observer {
 	 * Setup the UI of the view.
 	 */
 	private void setUpUserInterface() {
-		final int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		final int width = ScreenSize.getInstance().getSideBarWidth() - 10;
 		final int height = ScreenSize.getInstance().getHeight() - 100;
 
-		header = new JLabel(WINDOW_TITLE);
+		header = new JLabel(Constants.PHYLO_WINDOW_TITLE);
 		header.setPreferredSize(new Dimension(width, 50));
 
 		scroller = new JScrollPane(jTree,
@@ -89,7 +86,7 @@ public class PhyloView extends JPanel implements View, Observer {
 		this.add(emptyLabel);
 		add(Box.createVerticalGlue());
 
-		button = new JButton(BUTTON_LABEL_UPDATE);
+		button = new JButton(Constants.PHYLO_BUTTON_LABEL_UPDATE);
 		button.setVisible(false);
 		this.add(button);
 		button.setPreferredSize(new Dimension(200, 50));
@@ -112,7 +109,7 @@ public class PhyloView extends JPanel implements View, Observer {
 	 * @return Root node.
 	 */
 	private DefaultMutableTreeNode convertTree(NewickParser.TreeNode tree) {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(LABEL_PHYLOGENETIC_TREE);
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Constants.PHYLO_LABEL_PHYLOGENETIC_TREE);
 		convertChildren(tree, root);
 
 		return root;
@@ -131,7 +128,7 @@ public class PhyloView extends JPanel implements View, Observer {
 		for (NewickParser.TreeNode child : tree.getChildren()) {
 			DefaultMutableTreeNode childNode;
 			if (child.getName() == null) {
-				childNode = new DefaultMutableTreeNode(LABEL_COMMON_ANCESTOR);
+				childNode = new DefaultMutableTreeNode(Constants.PHYLO_LABEL_COMMON_ANCESTOR);
 			} else {
 				childNode = new DefaultMutableTreeNode(child.getName());
 			}
@@ -153,7 +150,7 @@ public class PhyloView extends JPanel implements View, Observer {
 	 * Update the sizes of the panes relative to the application size.
 	 */
 	public void updateSize() {
-		int width = ScreenSize.getInstance().getSidebarWidth() - 10;
+		int width = ScreenSize.getInstance().getSideBarWidth() - 10;
 		int height = ScreenSize.getInstance().getHeight() - 100;
 
 		scroller.setPreferredSize(new Dimension(width, (int) (height / 1.1)));
@@ -197,8 +194,8 @@ public class PhyloView extends JPanel implements View, Observer {
 					DefaultMutableTreeNode select = (DefaultMutableTreeNode) path
 							.getLastPathComponent();
 					String selectName = select.toString();
-					if (selectName.equals(LABEL_COMMON_ANCESTOR)
-							|| selectName.equals(LABEL_PHYLOGENETIC_TREE)) {
+					if (selectName.equals(Constants.PHYLO_LABEL_COMMON_ANCESTOR)
+							|| selectName.equals(Constants.PHYLO_LABEL_PHYLOGENETIC_TREE)) {
 						selected.addAll(getChildsOfAncestor(select));
 					} else {
 						selected.add(select.toString());
@@ -237,7 +234,7 @@ public class PhyloView extends JPanel implements View, Observer {
 		while (children.hasMoreElements()) {
 			DefaultMutableTreeNode next = (DefaultMutableTreeNode) children
 					.nextElement();
-			if (next.toString().equals(LABEL_COMMON_ANCESTOR)) {
+			if (next.toString().equals(Constants.PHYLO_LABEL_COMMON_ANCESTOR)) {
 				selected.addAll(getChildsOfAncestor(next));
 			} else {
 				selected.add(next.toString());

@@ -17,11 +17,11 @@ import java.util.List;
  * Created by Mathieu Post on 19-5-15.
  */
 public class GraphDataTest {
-	GraphData graphData;
-	AbstractGraphData abstractGraphData;
-	List<DataNode> nodeList = new ArrayList<>();
-	List<Edge> edgeList = new ArrayList<>();
-	List<Genome> genomeList = new ArrayList<>();
+	private GraphData graphData;
+	private AbstractGraphData abstractGraphData;
+	private final List<DataNode> nodeList = new ArrayList<>();
+	private final List<Edge> edgeList = new ArrayList<>();
+	private final List<Genome> genomeList = new ArrayList<>();
 	
 	/**
 	 * Runs before each test.
@@ -30,18 +30,12 @@ public class GraphDataTest {
 	 *             if an exception is thrown
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		abstractGraphData = mock(AbstractGraphData.class);
 		when(abstractGraphData.getNodeListClone()).thenReturn(nodeList);
 		when(abstractGraphData.getEdgeListClone()).thenReturn(edgeList);
 		when(abstractGraphData.getGenomeClone()).thenReturn(genomeList);
-		when(abstractGraphData.getLongestNodePath()).thenReturn(99);
 		graphData = new GraphData(abstractGraphData);
-	}
-	
-	@After
-	public void tearDown() throws Exception {
-		
 	}
 	
 	@Test
@@ -62,10 +56,5 @@ public class GraphDataTest {
 	@Test
 	public void testGetOrigin() throws Exception {
 		assertEquals(abstractGraphData, graphData.getOrigin());
-	}
-	
-	@Test
-	public void testGetLongestNodePath() throws Exception {
-		assertEquals(99, graphData.getLongestNodePath());
 	}
 }

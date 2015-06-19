@@ -5,8 +5,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
-import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.KeyEvent;
@@ -42,19 +40,6 @@ public class KeyControllerTest {
 	}
 
 	@Test
-	public void testSpace() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_SPACE);
-		SideBarController sideBarController = mock(SideBarController.class);
-		when(application.getSideBarController()).thenReturn(sideBarController);
-		when(application.getGraphController()).thenReturn(mock(GraphController.class));
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getSideBarController();
-		verify(sideBarController, times(1)).toggleSideBar();
-	}
-
-	@Test
 	public void testPlus() {
 		KeyController keyController = new KeyController(application);
 		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_EQUALS);
@@ -85,19 +70,6 @@ public class KeyControllerTest {
 		keyController.keyPressed(keyEvent);
 		verify(application, times(2)).getGraphController();
 		verify(graphController, times(1)).moveLeft();
-	}
-
-	@Test
-	public void testGene() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_G);
-		FindgenesController findgenesController = mock(FindgenesController.class);
-		when(application.getFindgenesController()).thenReturn(findgenesController);
-		when(application.getGraphController()).thenReturn(mock(GraphController.class));
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getFindgenesController();
-		verify(findgenesController, times(1)).openDialog();
 	}
 
 	@Test

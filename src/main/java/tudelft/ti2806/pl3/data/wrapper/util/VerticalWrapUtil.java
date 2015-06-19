@@ -52,7 +52,7 @@ public final class VerticalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> nodes) {
+	private static List<Wrapper> combineNodes(List<Wrapper> nodes) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		List<Integer> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
 		for (Wrapper node : nodes) {

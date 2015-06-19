@@ -1,16 +1,13 @@
 package tudelft.ti2806.pl3.data;
 
 public enum BasePair {
-	N(0, -1), T(1, 0), U(2, 0), C(3, 1), A(4, 2), G(5, 3);
+	N(-1), T(0), U(0), C(1), A(2), G(3);
 	
 	private final int value;
-	public final byte storeByte;
-	private static BasePair[] storeByteToBasePair = new BasePair[] { N, T, U, C, A, G };
 	public static final int MAX_GENE = 4;
 	
-	BasePair(int storeByte, int value) {
+	BasePair(int value) {
 		this.value = value;
-		this.storeByte = (byte) storeByte;
 	}
 	
 	/**
@@ -47,22 +44,6 @@ public enum BasePair {
 	}
 	
 	/**
-	 * Reads a string and translates it into a byte array.
-	 *
-	 * @param string
-	 *            string of basePair characters
-	 * @return an array of basePairs
-	 */
-	public static byte[] getBasePairString(String string) {
-		String[] charArray = string.split("");
-		byte[] array = new byte[charArray.length];
-		for (int i = 0; i < charArray.length; i++) {
-			array[i] = valueOf(charArray[i]).storeByte;
-		}
-		return array;
-	}
-	
-	/**
 	 * Reads a string and translates it into a basePair array.
 	 *
 	 * @param string
@@ -70,15 +51,11 @@ public enum BasePair {
 	 * @return an array of basePairs
 	 */
 	public static BasePair[] toEnumString(String string) {
-		byte[] str = getBasePairString(string);
-		BasePair[] result = new BasePair[str.length];
-		for (int i = 0; i < str.length; i++) {
-			result[i] = getBasePair(str[i]);
+		String[] chars = string.split("");
+		BasePair[] result = new BasePair[chars.length];
+		for (int i = 0; i < chars.length; i++) {
+			result[i] = BasePair.valueOf(chars[i]);
 		}
 		return result;
-	}
-	
-	private static BasePair getBasePair(byte pair) {
-		return storeByteToBasePair[pair];
 	}
 }

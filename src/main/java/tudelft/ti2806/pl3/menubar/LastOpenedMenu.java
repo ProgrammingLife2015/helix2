@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.menubar;
 
+import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.util.FileSelector;
 
 import java.awt.Component;
@@ -14,8 +15,8 @@ import javax.swing.JMenuItem;
  */
 public class LastOpenedMenu extends JMenu {
 
-	public LastOpenedMenu(String name) {
-		super(name);
+	public LastOpenedMenu() {
+		super(Constants.MENU_FILE_OPEN_RECENTS);
 		this.setRecentFiles();
 	}
 

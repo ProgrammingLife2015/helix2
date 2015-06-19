@@ -10,7 +10,7 @@ public class NewickParser implements NewickParserConstants {
                 private List<TreeNode> children;
                 private double weight;
                 private String name;
-                public TreeNode() { this.children = new ArrayList<TreeNode>(); }
+                public TreeNode() { this.children = new ArrayList<>(); }
                 public void addChild(TreeNode child) { this.children.add(child); }
                 public List<TreeNode> getChildren() { return this.children; }
                 public void setWeight(double weight) { this.weight = weight; }
@@ -18,7 +18,7 @@ public class NewickParser implements NewickParserConstants {
                 public void setName(String name) { this.name = name; }
                 public String getName() { return name; }
                 public List<TreeNode> getLeaves() {
-                        List<TreeNode> leaves = new ArrayList<TreeNode>();
+                        List<TreeNode> leaves = new ArrayList<>();
                         if (children.size() == 0) leaves.add(this);
                         else for (TreeNode child: children) leaves.addAll(child.getLeaves());
                         return leaves;
@@ -274,7 +274,7 @@ public class NewickParser implements NewickParserConstants {
       return (jj_ntk = jj_nt.kind);
   }
 
-  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
+  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<>();
   private int[] jj_expentry;
   private int jj_kind = -1;
 

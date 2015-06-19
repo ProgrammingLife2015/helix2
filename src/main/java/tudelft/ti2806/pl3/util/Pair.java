@@ -1,8 +1,10 @@
 package tudelft.ti2806.pl3.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Combines two types together as one type. Makes it possible to create return
- * types, keys or values with two types.
+ * Combines two types together as one type. Makes it possible to create return types, keys or values with two types.
  * 
  * @author Sam Smulders
  *
@@ -12,8 +14,16 @@ package tudelft.ti2806.pl3.util;
  *            the second type
  */
 public class Pair<U, T> {
-	public final U first;
-	public final T second;
+	
+	public static <T> List<T> toList(Pair<T, T> pair) {
+		List<T> list = new ArrayList<>(2);
+		list.add(pair.getFirst());
+		list.add(pair.getSecond());
+		return list;
+	}
+	
+	private final U first;
+	private final T second;
 	
 	public Pair(U first, T second) {
 		this.first = first;
@@ -65,6 +75,10 @@ public class Pair<U, T> {
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean contains(Object object) {
+		return first.equals(object) || second.equals(object);
 	}
 	
 	@Override

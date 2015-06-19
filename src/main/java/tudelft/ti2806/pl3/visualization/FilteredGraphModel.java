@@ -2,8 +2,6 @@ package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.util.observable.LoadingObservable;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
@@ -12,16 +10,21 @@ import tudelft.ti2806.pl3.data.graph.GraphParsedObserver;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace;
-import tudelft.ti2806.pl3.data.wrapper.operation.interest.ComputeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.CollectInterest;
+import tudelft.ti2806.pl3.util.CollectionUtil;
 import tudelft.ti2806.pl3.util.EdgeUtil;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
+import java.util.Set;
 
 /**
  * This model filters the original graph data, based on the filter selections.
@@ -38,9 +41,9 @@ import java.util.Observable;
  */
 public class FilteredGraphModel extends Observable implements LoadingObservable, GraphParsedObserver {
 
-	protected GraphDataRepository originalGraphData;
+	private GraphDataRepository originalGraphData;
 	private Wrapper collapsedNode;
-	private Collection<Filter<DataNode>> filters;
+	private List<Filter<DataNode>> filters;
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
 
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
@@ -48,6 +51,8 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 
 	private CollectInterest collectInterest;
 	private List<Genome> genomes;
+
+	private Map<List<Filter<DataNode>>, Integer> filtersToGenomesCountMap;
 
 	/**
 	 * Construct the model containing the filtered data.<br>
@@ -61,11 +66,12 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 		this.originalGraphData = originalGraphData;
 		filters = new ArrayList<>();
 		genomes = new ArrayList<>();
+		filtersToGenomesCountMap = new HashMap<>();
 		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
 		calculateCollapse = new CalculateCollapseOnSpace();
 	}
 
-	public void setFilters(Collection<Filter<DataNode>> filters) {
+	public void setFilters(List<Filter<DataNode>> filters) {
 		this.filters = filters;
 	}
 
@@ -88,10 +94,10 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
-		ComputeInterest.compute(collapsedNode);
+
 		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
 		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
-		calculateCollapse.compute(collapsedNode);
+		calculateCollapse.calculate(collapsedNode, null);
 		setChanged();
 		notifyObservers();
 		notifyLoadingObservers(false);
@@ -118,7 +124,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	 *            the list of nodes in the graph
 	 * @return a list of all dead edges
 	 */
-	static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
+	private static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
 		List<Edge> removeList = new ArrayList<>();
 		for (Edge edge : edgeList) {
 			if (!nodeList.contains(edge.getFrom()) || !nodeList.contains(edge.getTo())) {
@@ -185,5 +191,33 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 
 	public List<Genome> getGenomes() {
 		return genomes;
+	}
+
+	/**
+	 * Count the genomes in the filtered data.
+	 * @return
+	 *      returns the amount of genomes in the original data set when no filters are applied,
+	 *      otherwise it calculates the amount of genomes in the filtered data and returns it.
+	 */
+	public int getGenomesCount() {
+		if (filters.size() > 0) {
+			if (filtersToGenomesCountMap.get(filters) == null) {
+				if (filters.size() == 1) {
+					filtersToGenomesCountMap.put(filters,
+							filters.iterator().next().getGenomes().size());
+				} else if (filters.size() > 1) {
+					Set<String> filteredGenomes = new HashSet<>(
+							filters.iterator().next().getGenomes());
+					for (Filter<DataNode> filter : filters) {
+						filteredGenomes = CollectionUtil.intersectionListSet(
+								filter.getGenomes(), filteredGenomes);
+					}
+					filtersToGenomesCountMap.put(filters, filteredGenomes.size());
+				}
+			}
+			return filtersToGenomesCountMap.get(filters);
+		} else {
+			return genomes.size();
+		}
 	}
 }

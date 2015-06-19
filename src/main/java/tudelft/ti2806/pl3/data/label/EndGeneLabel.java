@@ -16,7 +16,7 @@ public class EndGeneLabel extends Label {
 			return false;
 		}
 
-		if (!super.equals((Label) o)) {
+		if (!super.equals(o)) {
 			return false;
 		}
 		EndGeneLabel that = (EndGeneLabel) o;

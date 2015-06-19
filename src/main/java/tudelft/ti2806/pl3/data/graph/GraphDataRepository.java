@@ -1,16 +1,12 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.gene.GeneData;
-import tudelft.ti2806.pl3.data.label.EndGeneLabel;
-import tudelft.ti2806.pl3.data.label.GeneLabel;
-import tudelft.ti2806.pl3.data.label.StartGeneLabel;
+import tudelft.ti2806.pl3.data.meta.MetaParser;
 import tudelft.ti2806.pl3.util.observable.LoadingObservable;
 import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class GraphDataRepository extends AbstractGraphData implements LoadingObservable {
-	private int longestnodepath;
 
 	private ArrayList<LoadingObserver> observers = new ArrayList<>();
 	private List<GraphParsedObserver> graphParsedObserver = new ArrayList<>();
@@ -51,40 +46,20 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
 			List<Genome> genomes) {
-		this(nodes,edges,genomes,null);
-	}
-
-	/**
-	 * TODO: THIS CONSTRUCTOR IS ONLY USED FOR TESTING.
-	 * Construct a instance of {@code GraphDataRepository}.
-	 *
-	 * @param nodes
-	 * 		the nodes of the graph
-	 * @param edges
-	 * 		the edges of the graph
-	 * @param genomes
-	 * 		all {@link Genome} that are present in the graph
-	 * @param geneToStartNodeMap
-	 *      all genes mapped to their start node ({@link DataNode})
-	 */
-	public GraphDataRepository(List<DataNode> nodes, List<Edge> edges,
-			List<Genome> genomes, HashMap<Gene, DataNode> geneToStartNodeMap) {
 		this.nodes = nodes;
 		this.edges = edges;
 		this.genomes = genomes;
-		this.observers = new ArrayList<>();
-		this.geneToStartNodeMap = geneToStartNodeMap;
 	}
 
-	public void addNodes(List<DataNode> nodes) {
+	public void setNodes(List<DataNode> nodes) {
 		this.nodes = nodes;
 	}
 
-	public void addEdges(List<Edge> edges) {
+	public void setEdges(List<Edge> edges) {
 		this.edges = edges;
 	}
 
-	public void addGenomes(List<Genome> genomes) {
+	public void setGenomes(List<Genome> genomes) {
 		this.genomes = genomes;
 	}
 
@@ -114,7 +89,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	}
 
 	/**
-	 * Parse a node and edge file of a graph into a {@code GraphData}.
+	 * Parse a node and edge file of a graph into a {@code GraphData} without metadata.
 	 *
 	 * @param nodesFile
 	 * 		the file of nodes to be read
@@ -124,23 +99,59 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * 		if the file is not found
 	 */
 	public void parseGraph(File nodesFile, File edgesFile, GeneData geneData) throws FileNotFoundException {
+		parseGraph(nodesFile, edgesFile, null, geneData);
+	}
+
+	/**
+	 * Parse a node and edge file of a graph into a {@code GraphData} with metadata.
+	 *
+	 * @param nodesFile
+	 * 		the file of nodes to be read
+	 * @param edgesFile
+	 * 		the file of edges to be read
+	 * @param metaFile
+	 * 		the metadata file to be read
+	 * @throws FileNotFoundException
+	 * 		if the file is not found
+	 */
+	public void parseGraph(File nodesFile, File edgesFile, File metaFile, GeneData geneData) throws FileNotFoundException {
 		notifyLoadingObservers(true);
 		geneToStartNodeMap = new HashMap<>(geneData.getGenes().size());
 		genes = new ArrayList<>();
+
 		Map<String, Genome> genomeMap = new HashMap<>();
 		Map<Integer, DataNode> nodeMap = parseNodes(nodesFile, genomeMap, geneData);
 		genes.sort(Comparator.<Gene>naturalOrder());
-		List<DataNode> nodeList = new ArrayList<DataNode>();
+		List<DataNode> nodeList = new ArrayList<>();
 		nodeList.addAll(nodeMap.values());
 		List<Genome> genomeList = new ArrayList<>();
 		genomeList.addAll(genomeMap.values());
 
-		addNodes(nodeList);
-		addEdges(parseEdges(edgesFile, nodeMap));
-		addGenomes(genomeList);
+		setNodes(nodeList);
+		setEdges(parseEdges(edgesFile, nodeMap));
+		setGenomes(genomeList);
+		if (metaFile != null) {
+			MetaParser.parseMeta(metaFile, genomeMap);
+		}
 
 		notifyLoadingObservers(false);
 		notifyGraphParsedObservers();
+	}
+
+	/**
+	 * Load metadata into the graph after it has been constructed.
+	 *
+	 * @param metaFile
+	 * 		the metadata file to read
+	 * @throws FileNotFoundException
+	 * 		if the file cannot be found
+	 */
+	public void loadMetaData(File metaFile) throws FileNotFoundException {
+		Map<String, Genome> genomeMap = new HashMap<>();
+		for (Genome g : genomes) {
+			genomeMap.put(g.getIdentifier(), g);
+		}
+		MetaParser.parseMeta(metaFile, genomeMap);
 	}
 
 	/**
@@ -181,7 +192,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @param geneData
 	 * 		the gene annotation dataset
 	 */
-	protected void addRefLabels(DataNode node, GeneData geneData) {
+	private void addRefLabels(DataNode node, GeneData geneData) {
 		int start = node.getRefStartPoint();
 		int end = node.getRefEndPoint();
 		Gene g = null;
@@ -189,16 +200,16 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		boolean started = false;
 		for (int i = start; i <= end; i++) {
 			if (started) {
-				node.addLabel(new GeneLabel(g.getName()));
+				node.addLabel(geneData.getLabel(g.getName()));
 			} else if (geneData.getGeneStart().containsKey(i)) {
 				g = geneData.getGeneStart().get(i);
 				geneToStartNodeMap.put(g, node);
 				genes.add(g);
-				node.addLabel(new StartGeneLabel(g.getName(), g.getStart()));
+				node.addLabel(geneData.getStartLabel(g.getName()));
 				started = true;
 			} else if (geneData.getGeneEnd().containsKey(i)) {
 				g = geneData.getGeneEnd().get(i);
-				node.addLabel(new EndGeneLabel(g.getName(), g.getEnd()));
+				node.addLabel(geneData.getEndLabel(g.getName()));
 			}
 		}
 	}
@@ -223,14 +234,11 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		}
 		DataNode node = null;
 		try {
-			String line = br.readLine();
-			if (line != null) {
-				node = new DataNode(Integer.parseInt(indexData[0]),
-						parseGenomeIdentifiers(indexData[1].split(","), genomes),
-						Integer.parseInt(indexData[2]),
-						Integer.parseInt(indexData[3]),
-						BasePair.getBasePairString(line));
-			}
+			node = new DataNode(Integer.parseInt(indexData[0]),
+					parseGenomeIdentifiers(indexData[1].split(","), genomes),
+					Integer.parseInt(indexData[2]),
+					Integer.parseInt(indexData[3]),
+					br.readLine());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -264,7 +272,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 */
 	public List<Edge> parseEdges(File edgesFile, Map<Integer, DataNode> nodes) throws FileNotFoundException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
-				new BufferedInputStream(new FileInputStream(edgesFile)), StandardCharsets.UTF_8));
+				new FileInputStream(edgesFile), StandardCharsets.UTF_8));
 		List<Edge> list = new ArrayList<>();
 		try {
 			while (br.ready()) {
@@ -310,6 +318,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @return the found edge<br>
 	 * {@code null} if there is no node with this id in the graph
 	 */
+	// TODO This is never used, can it be deleted?
 	public Edge getEdge(int fromId, int toId) {
 		for (Edge edge : edges) {
 			if (edge.getFrom().getId() == fromId
@@ -323,11 +332,6 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	@Override
 	public AbstractGraphData getOrigin() {
 		return this;
-	}
-
-	@Override
-	public int getLongestNodePath() {
-		return longestnodepath;
 	}
 
 	@Override
@@ -362,7 +366,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		graphParsedObserver.remove(o);
 	}
 
-	public void notifyGraphParsedObservers() {
+	private void notifyGraphParsedObservers() {
 		graphParsedObserver.forEach(GraphParsedObserver::graphParsed);
 	}
 }

@@ -1,13 +1,9 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import tudelft.ti2806.pl3.data.BasePair;
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.data.gene.GeneData;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -21,9 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.junit.Assert.assertTrue;
+
 public class GraphParserTest {
-	private File simpleNodeGraphFile = new File("data/testdata/TestNodeGraphFile");
-	private File simpleEdgeGraphFile = new File("data/testdata/TestEdgeFraphFile");
+	private final File simpleNodeGraphFile = new File("data/testdata/TestNodeGraphFile");
+	private final File simpleEdgeGraphFile = new File("data/testdata/TestEdgeGraphFile");
 	
 	@Test
 	public void parseNodeTest() throws FileNotFoundException {
@@ -34,8 +32,8 @@ public class GraphParserTest {
 				new HashMap<>());
 		Set<Genome> set = new HashSet<>(1);
 		set.add(new Genome("TKK_01_0029"));
-		assertTrue(node.equals(new DataNode(35, set, 2609451, 2609452,
-				new byte[]{BasePair.A.storeByte})));
+		assertTrue(node.equals(new DataNode(35, set, 3057261, 3057262,
+				BasePair.A.name())));
 	}
 	
 	@Test

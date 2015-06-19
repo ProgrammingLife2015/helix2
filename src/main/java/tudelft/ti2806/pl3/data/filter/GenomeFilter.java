@@ -15,10 +15,15 @@ import java.util.stream.Collectors;
  */
 public class GenomeFilter implements Filter<DataNode> {
 	public static final String NAME = "genome";
-	protected final List<String> genomes;
+	private final List<String> genomes;
 	
 	public GenomeFilter(List<String> genomes) {
 		this.genomes = genomes;
+	}
+
+	@Override
+	public List<String> getGenomes() {
+		return genomes;
 	}
 
 	/**
@@ -43,5 +48,28 @@ public class GenomeFilter implements Filter<DataNode> {
 			}
 		}
 		nodes.removeAll(remove);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		GenomeFilter that = (GenomeFilter) o;
+
+		if (genomes != null ? !genomes.equals(that.genomes) : that.genomes != null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return genomes != null ? genomes.hashCode() : 0;
 	}
 }

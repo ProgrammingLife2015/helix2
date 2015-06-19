@@ -11,7 +11,7 @@ import java.util.Collection;
  *            the collection its type
  */
 public class HashableCollection<T> {
-	Collection<T> collection;
+	private final Collection<T> collection;
 	
 	public HashableCollection(Collection<T> list) {
 		this.collection = list;
@@ -33,17 +33,16 @@ public class HashableCollection<T> {
 		if (obj == null) {
 			return false;
 		}
+		if (this.hashCode() != obj.hashCode()) {
+			return false;
+		}
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
 		@SuppressWarnings("unchecked")
 		HashableCollection<T> other = (HashableCollection<T>) obj;
 		if (collection == null) {
-			if (other.collection == null) {
-				return true;
-			} else {
-				return false;
-			}
+			return other.collection == null;
 		} else {
 			if (other.collection == null) {
 				return false;

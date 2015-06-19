@@ -36,7 +36,7 @@ public class HorizontalWrapper extends CombineWrapper {
 	public void setCanUnwrap(boolean canUnwrap) {
 		this.canUnwrap = canUnwrap;
 	}
-	
+
 	@Override
 	public long getBasePairCount() {
 		long sum = 0;

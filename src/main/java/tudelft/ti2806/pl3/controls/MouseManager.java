@@ -4,8 +4,9 @@ import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
+
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
-import tudelft.ti2806.pl3.detailView.DetailView;
+import tudelft.ti2806.pl3.detailview.DetailView;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
  */
 public class MouseManager extends DefaultMouseManager {
 	private static final int MARGIN = 5;
-
-	WrapperClone node = null;
-	DetailView detailView;
+	private final DetailView detailView;
+	private WrapperClone node = null;
+	private boolean clicked = false;
 
 	public MouseManager() {
 		detailView = new DetailView();
@@ -32,8 +33,27 @@ public class MouseManager extends DefaultMouseManager {
 	}
 
 	@Override
+	public void mouseClicked(MouseEvent e) {
+		super.mouseClicked(e);
+		int x = e.getX();
+		int y = e.getY();
+
+		WrapperClone clickedNode = getNodeAtPosition(x, y);
+		if (clickedNode == null) {
+			clicked = false;
+			removeDetailView();
+		} else {
+			clicked = true;
+			showDetailView(clickedNode, x, y);
+		}
+	}
+
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		super.mouseMoved(e);
+		if (clicked) {
+			return;
+		}
 		int x = e.getX();
 		int y = e.getY();
 		mouseMoved(x, y);
@@ -47,18 +67,22 @@ public class MouseManager extends DefaultMouseManager {
 	 * 		y location of the mouse cursor.
 	 */
 	public void mouseMoved(int x, int y) {
-		ArrayList<GraphicElement> graphicElements = view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
-		if (graphicElements.size() == 0) {
+		node = getNodeAtPosition(x, y);
+		if (node == null) {
 			removeDetailView();
 		} else {
+			showDetailView(node, x, y);
+		}
+	}
+
+	private WrapperClone getNodeAtPosition(int x, int y) {
+		ArrayList<GraphicElement> graphicElements =
+				view.allNodesOrSpritesIn(x - MARGIN, y - MARGIN, x + MARGIN, y + MARGIN);
+		if (graphicElements.size() == 0) {
+			return null;
+		} else {
 			GraphicElement element = graphicElements.get(0);
-			WrapperClone wrapper = element.getAttribute("node", WrapperClone.class);
-			if (node != wrapper) {
-				node = wrapper;
-				view.add(detailView, BorderLayout.WEST);
-				detailView.setNode(node, x, y);
-				view.updateUI();
-			}
+			return element.getAttribute("node", WrapperClone.class);
 		}
 	}
 
@@ -68,6 +92,12 @@ public class MouseManager extends DefaultMouseManager {
 	public void removeDetailView() {
 		node = null;
 		view.remove(detailView);
+		view.updateUI();
+	}
+
+	private void showDetailView(WrapperClone node, int x, int y) {
+		view.add(detailView, BorderLayout.WEST);
+		detailView.setNode(node, x, y);
 		view.updateUI();
 	}
 }
