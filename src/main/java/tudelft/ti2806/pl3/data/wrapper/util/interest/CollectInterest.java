@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.data.wrapper.operation.interest;
+package tudelft.ti2806.pl3.data.wrapper.util.interest;
 
 import tudelft.ti2806.pl3.data.wrapper.DataNodeWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
@@ -35,12 +35,9 @@ public class CollectInterest {
 		for (Wrapper wrapper : wrappers) {
 			int index = (int) Math.min(this.domain - 1, (wrapper.getX() / width) * this.domain);
 			this.interest[index] += wrapper.getInterest();
-//			System.out.println(wrapper.getInterest());
 		}
 		for (int i = 0; i < this.interest.length; i++) {
-//			System.out.print(this.interest[i]+"->");
-			this.interest[i] = (float) Math.sqrt(this.interest[i]);
-//			System.out.println(this.interest[i]);
+			this.interest[i] = (this.interest[i]);
 			this.maxInterest = Math.max(this.maxInterest, this.interest[i]);
 		}
 	}

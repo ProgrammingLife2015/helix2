@@ -8,13 +8,13 @@ import java.util.List;
 public final class ComputeInterest {
 	private ComputeInterest() {
 	}
-
+	
 	public static void compute(List<Wrapper> wrappers) {
 		for (Wrapper wrapper : wrappers) {
 			wrapper.addInterest((float) (Math.sqrt(wrapper.getBasePairCount() * wrapper.getGenome().size()) * computeRation(wrapper)));
 		}
 	}
-
+	
 	/**
 	 * Computes the ratio of N's in the {@link DataNode}s within the given wrapper.
 	 *
