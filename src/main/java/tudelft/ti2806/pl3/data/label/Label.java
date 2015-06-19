@@ -31,9 +31,7 @@ public abstract class Label {
 		}
 
 		Label label = (Label) o;
-
-		return !(!text.equals(label.text));
-
+		return text.equals(label.text);
 	}
 
 	@Override
