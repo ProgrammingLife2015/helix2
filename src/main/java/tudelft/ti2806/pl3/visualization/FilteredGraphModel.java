@@ -52,6 +52,8 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	private CollectInterest collectInterest;
 	private List<Genome> genomes;
 
+	private WrappedGraphData wrappedGraphData;
+
 	private Map<List<Filter<DataNode>>, Integer> filtersToGenomesCountMap;
 
 	/**
@@ -90,17 +92,24 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
 
-		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
-		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
 		calculateCollapse.calculate(collapsedNode, null);
+		calculateCollectInterest();
 		setChanged();
 		notifyObservers();
 		notifyLoadingObservers(false);
+	}
+
+	/**
+	 * Calculate the CollectInterest based on the current screensize width.
+	 */
+	public void calculateCollectInterest(){
+		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
+		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
 	}
 
 	/**
