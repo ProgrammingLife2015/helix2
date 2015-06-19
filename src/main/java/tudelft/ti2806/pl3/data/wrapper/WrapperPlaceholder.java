@@ -13,7 +13,7 @@ import java.util.Set;
 public class WrapperPlaceholder extends Wrapper {
 	public static final int ID = -2;
 	public static final String ID_STRING = "[PLACEHOLDER]";
-
+	
 	@Override
 	public long getBasePairCount() {
 		return 0;
@@ -23,17 +23,17 @@ public class WrapperPlaceholder extends Wrapper {
 	public String getIdString() {
 		return ID_STRING;
 	}
-
+	
 	@Override
 	public int getId() {
 		return ID;
 	}
-
+	
 	@Override
 	public Set<Genome> getGenome() {
 		return null;
 	}
-
+	
 	@Override
 	public void calculate(WrapperOperation wrapperOperation, Wrapper container) {
 		wrapperOperation.calculate(this, container);
@@ -42,11 +42,11 @@ public class WrapperPlaceholder extends Wrapper {
 	@Override
 	public void collectDataNodes(Set<DataNode> set) {
 	}
-
+	
 	@Override
 	public void collectLabels(Set<Label> labels) {
 	}
-
+	
 	@Override
 	public void calculateX() {
 	}
@@ -56,4 +56,8 @@ public class WrapperPlaceholder extends Wrapper {
 		return 0;
 	}
 	
+	@Override
+	public boolean contains(Wrapper object) {
+		return false;
+	}
 }

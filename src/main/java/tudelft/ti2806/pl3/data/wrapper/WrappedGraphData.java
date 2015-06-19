@@ -4,13 +4,14 @@ import tudelft.ti2806.pl3.data.graph.AbstractGraphData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.Edge;
 import tudelft.ti2806.pl3.data.graph.GraphData;
+import tudelft.ti2806.pl3.data.wrapper.util.interest.ComputeInterest;
 
 import java.util.List;
 
 /**
- * The {@link WrappedGraphData} is a {@link GraphData} class which also keeps
- * track of a {@link List}<{@link DataNodeWrapper}>. {@link WrappedGraphData}
- * instance never loses any nodes or edges which are given by initialisation.
+ * The {@link WrappedGraphData} is a {@link GraphData} class which also keeps track of a {@link List}<
+ * {@link DataNodeWrapper}>. {@link WrappedGraphData} instance never loses any nodes or edges which are given by
+ * initialisation.
  * 
  * @author Sam Smulders
  *
@@ -29,9 +30,14 @@ public class WrappedGraphData {
 	public WrappedGraphData(List<Wrapper> nodeWrappers) {
 		this.nodeWrappers = nodeWrappers;
 		this.longestNodePath = Wrapper.computeLongestPaths(this.nodeWrappers);
+		init();
+	}
+	
+	private void init() {
 		for (Wrapper wrapper : nodeWrappers) {
 			wrapper.calculateX();
 		}
+		ComputeInterest.compute(nodeWrappers);
 	}
 	
 	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {
