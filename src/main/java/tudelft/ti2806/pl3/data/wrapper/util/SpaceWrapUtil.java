@@ -173,8 +173,9 @@ public final class SpaceWrapUtil {
 					bucket.getSecond());
 			for (int i = bucket.getSecond().size() - 1; i > 0; i--) {
 				nodeList.remove(nodeList.size() - 1);
-				candidateList.add(newCandidatePair(bucket.getSecond().get(i),
-						nodeList.get(nodeList.size() - 1)));
+				Pair<Integer, Pair<Wrapper, Wrapper>> candidatePair =
+						newCandidatePair(bucket.getSecond().get(i), nodeList.get(nodeList.size() - 1));
+				candidateList.add(candidatePair);
 			}
 		}
 		sortOnLength(candidateList);

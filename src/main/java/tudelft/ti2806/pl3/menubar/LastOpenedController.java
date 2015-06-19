@@ -46,18 +46,17 @@ public class LastOpenedController implements ActionListener, Controller, Observe
 
 		if (chosenfile.endsWith(".nwk")) {
 			// tree file
-			FileSelector.lastopened.add(file);
+			FileSelector.addLastOpened(file);
 			application.makePhyloTree(file);
 		} else if (chosenfile.endsWith(".node.graph")) {
-			FileSelector.lastopened.add(file);
+			FileSelector.addLastOpened(file);
 			File edgeFile = FileSelector.getOtherExtension(file, ".node.graph", ".edge.graph");
-			application.makeGraph(file, edgeFile, null);
-
+			application.makeGraph(file, edgeFile, null, null);
 		} else {
-			FileSelector.lastopened.add(file);
+			FileSelector.addLastOpened(file);
 			// must be folder
-			File[] files = FileSelector.getFilesFromFolder(file, ".node.graph", ".edge.graph", ".nwk");
-			application.makeGraph(files[0], files[1], files[2]);
+			File[] files = FileSelector.getFilesFromFolder(file, ".node.graph", ".edge.graph", ".nwk", ".txt");
+			application.makeGraph(files[0], files[1], files[2], files[3]);
 		}
 
 	}

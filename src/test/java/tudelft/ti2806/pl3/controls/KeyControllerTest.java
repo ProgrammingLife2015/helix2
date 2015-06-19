@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.KeyEvent;
@@ -38,19 +37,6 @@ public class KeyControllerTest {
 
 		keyController.keyPressed(keyEvent);
 		verify(application, times(1)).stop();
-	}
-
-	@Test
-	public void testSpace() {
-		KeyController keyController = new KeyController(application);
-		when(keyEvent.getKeyCode()).thenReturn(KeyEvent.VK_SPACE);
-		SideBarController sideBarController = mock(SideBarController.class);
-		when(application.getSideBarController()).thenReturn(sideBarController);
-		when(application.getGraphController()).thenReturn(mock(GraphController.class));
-
-		keyController.keyPressed(keyEvent);
-		verify(application, times(1)).getSideBarController();
-		verify(sideBarController, times(1)).toggleSideBar();
 	}
 
 	@Test

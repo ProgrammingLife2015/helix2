@@ -77,6 +77,11 @@ public class DataNodeWrapper extends Wrapper {
 	}
 
 	@Override
+	public boolean canUnwrap() {
+		return false;
+	}
+
+	@Override
 	public Set<Genome> getGenome() {
 		return node.getCurrentGenomeSet();
 	}
@@ -105,4 +110,9 @@ public class DataNodeWrapper extends Wrapper {
 	public int getWidth() {
 		return 1;
 	}
+	
+	@Override
+    public boolean contains(Wrapper object) {
+        return false;
+    }
 }

@@ -72,6 +72,10 @@ public class MenuBarController implements ActionListener, Controller {
 		application.makePhyloTree();
 	}
 
+	private void readMetaFile() {
+		application.loadMetaData();
+	}
+
 	private void zoomIn() {
 		application.getGraphController().zoomLevelUp();
 	}
@@ -96,7 +100,15 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getFindGenesController().openDialog();
 	}
 
-	public void setLastOpenedMenu(Component lastOpenedMenu) {
+	private void toggleSideBar() {
+		application.getSideBarController().toggleSideBar();
+	}
+
+	private void filterMetadata() {
+		application.getMetaFilterController().openDialog();
+	}
+
+	public void setLastOpenedMenu(Component lastOpenedMenu){
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
 	}
 
@@ -109,6 +121,7 @@ public class MenuBarController implements ActionListener, Controller {
 
 	/**
 	 * Make a {@link JTextPane} with controls text.
+	 *
 	 * @return JTextpane with control text.
 	 */
 	public JTextPane makeControls() {
@@ -138,6 +151,7 @@ public class MenuBarController implements ActionListener, Controller {
 
 	/**
 	 * Make a {@link JTextPane} with about me text.
+	 *
 	 * @return JTextpane with about me text.
 	 */
 	public JTextPane makeAbout() {
@@ -207,6 +221,9 @@ public class MenuBarController implements ActionListener, Controller {
 			case Constants.MENU_FILE_OPEN_NWK_FILE:
 				readNwkFile();
 				break;
+			case Constants.MENU_FILE_OPEN_META_FILE:
+				readMetaFile();
+				break;
 			case Constants.MENU_FILE_EXIT:
 				stop();
 				break;
@@ -228,11 +245,17 @@ public class MenuBarController implements ActionListener, Controller {
 			case Constants.MENU_VIEW_NAVIGATE_TO_GENE:
 				showFindGenes();
 				break;
+			case Constants.MENU_VIEW_METADATA:
+				filterMetadata();
+				break;
 			case Constants.MENU_HELP_CONTROLS:
 				displayControls();
 				break;
 			case Constants.MENU_HELP_ABOUT:
 				displayAbout();
+				break;
+			case Constants.MENU_VIEW_PYLO:
+				toggleSideBar();
 				break;
 			default:
 				break;

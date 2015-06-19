@@ -37,13 +37,13 @@ public class LastOpenedControllerTest {
 
 	@Before
 	public void setUp() {
-		FileSelector.lastopened = new LastOpenedStack<>(5);
+		FileSelector.setLastOpened(new LastOpenedStack<>(5));
 		lastOpenedController = new LastOpenedController(application);
 	}
 
 	@Test
 	public void testGetLastOpened() {
-		FileSelector.lastopened.add(new File("testfile"));
+		FileSelector.addLastOpened(new File("testfile"));
 		JMenu menu = lastOpenedController.getLastOpenedMenu();
 		assertEquals("Open recent files", menu.getText());
 	}
@@ -65,7 +65,7 @@ public class LastOpenedControllerTest {
 
 		File nodefile = new File(path);
 		File edgefile = new File(nodefile.getAbsolutePath().replace("node", "edge"));
-		verify(application, times(1)).makeGraph(nodefile, edgefile, null);
+		verify(application, times(1)).makeGraph(nodefile, edgefile, null, null);
 	}
 
 	@Test
@@ -77,13 +77,14 @@ public class LastOpenedControllerTest {
 		File nodefile = new File(path + "/test.node.graph");
 		File edgefile = new File(path + "/test.edge.graph");
 		File nwkfile = new File(path + "/test.nwk");
+		File metaFile = new File(path + "/meta.txt");
 
-		verify(application, times(1)).makeGraph(nodefile, edgefile, nwkfile);
+		verify(application, times(1)).makeGraph(nodefile, edgefile, nwkfile, metaFile);
 	}
 
 	@Test
 	public void testUpdate() {
-		FileSelector.lastopened.add(new File("beforeupdate"));
+		FileSelector.addLastOpened(new File("beforeupdate"));
 		LastOpenedController lastOpenedController = new LastOpenedController(application);
 
 		for (Component component : lastOpenedController.getLastOpenedMenu().getMenuComponents()) {
@@ -91,8 +92,8 @@ public class LastOpenedControllerTest {
 			assertEquals("beforeupdate", item.getText());
 		}
 
-		FileSelector.lastopened = new LastOpenedStack<>(5);
-		FileSelector.lastopened.add(new File("afterupdate"));
+		FileSelector.setLastOpened(new LastOpenedStack<>(5));
+		FileSelector.addLastOpened(new File("afterupdate"));
 
 		lastOpenedController.update();
 

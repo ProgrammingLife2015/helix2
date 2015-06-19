@@ -10,7 +10,6 @@ import tudelft.ti2806.pl3.data.graph.GraphParsedObserver;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace;
-import tudelft.ti2806.pl3.data.wrapper.operation.interest.ComputeInterest;
 import tudelft.ti2806.pl3.data.wrapper.operation.yposition.PositionNodeYOnGenomeSpace;
 import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 import tudelft.ti2806.pl3.util.CollectInterest;
@@ -94,10 +93,10 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
-		ComputeInterest.compute(collapsedNode);
+
 		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
 		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
-		calculateCollapse.compute(collapsedNode);
+		calculateCollapse.calculate(collapsedNode, null);
 		setChanged();
 		notifyObservers();
 		notifyLoadingObservers(false);

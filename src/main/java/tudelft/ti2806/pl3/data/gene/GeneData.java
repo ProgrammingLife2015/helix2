@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,18 @@ public class GeneData {
 	 * Mapping from end index to the actual gene.
 	 */
 	private final Map<Integer, Gene> geneEnd;
+
+	private static final char COMMENT_IDENTIFIER = '#';
+	private static final String TAB = "\t";
+	private static final String GENE_ATTRIBUTE_DELIMITER = ";";
+	private static final String GENE_DISPLAY_NAME_IDENTIFIER = "displayName=";
+	private static final String GENE_TYPE = "CDS";
+
+	private static final int GENE_TYPE_POSITION = 2;
+	private static final int GENE_ATTRIBUTES_POSITION = 8;
+	private static final int GENE_REF_START_POSITION = 3;
+	private static final int GENE_REF_END_POSITION = 4;
+	private static final int GENE_ATTRIBUTE_DISPLAY_NAME_POSITION = 3;
 
 	/**
 	 * Initialize class with a list of genes and a mapping from their start and
@@ -100,10 +113,10 @@ public class GeneData {
 		Reader reader;
 		try {
 			InputStream fileInputStream = Resources.getResourceAsStream(filename);
-			reader = new InputStreamReader(fileInputStream);
+			reader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
 		} catch (NullPointerException e) {
 			InputStream fileInputStream = new FileInputStream(filename);
-			reader = new InputStreamReader(fileInputStream);
+			reader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
 		}
 		BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -111,7 +124,7 @@ public class GeneData {
 		// Read File Line By Line
 		while ((line = bufferedReader.readLine()) != null) {
 			// don't parse comments
-			if (line.charAt(0) != '#') {
+			if (line.charAt(0) != COMMENT_IDENTIFIER) {
 				parseGene(line, genes, geneStart, geneEnd, geneMap);
 			}
 		}
@@ -134,14 +147,22 @@ public class GeneData {
 	 */
 	protected static void parseGene(String line, ArrayList<Gene> genes, Map<Integer, Gene> geneStart,
 			Map<Integer, Gene> geneEnd, Map<String, Label> geneMap) {
-		String[] tokens = line.split("\t");
-		Gene gene = new Gene(tokens[1], Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]));
-		genes.add(gene);
-		geneMap.put(gene.getName(), new GeneLabel(gene.getName()));
-		geneMap.put(PREFIX_GENE_START + gene.getName(), new StartGeneLabel(gene.getName(), gene.getStart()));
-		geneMap.put(PREFIX_GENE_END + gene.getName(), new EndGeneLabel(gene.getName(), gene.getEnd()));
-		geneStart.put(Integer.parseInt(tokens[4]), gene);
-		geneEnd.put(Integer.parseInt(tokens[5]), gene);
+		String[] tokens = line.split(TAB);
+		if (GENE_TYPE.equals(tokens[GENE_TYPE_POSITION])) {
+			String[] attributes = tokens[GENE_ATTRIBUTES_POSITION].split(GENE_ATTRIBUTE_DELIMITER);
+			Gene gene = new Gene(
+					attributes[GENE_ATTRIBUTE_DISPLAY_NAME_POSITION]
+						.replace(GENE_DISPLAY_NAME_IDENTIFIER, ""),
+					Integer.parseInt(tokens[GENE_REF_START_POSITION]),
+					Integer.parseInt(tokens[GENE_REF_END_POSITION])
+			);
+			genes.add(gene);
+			geneMap.put(gene.getName(), new GeneLabel(gene.getName()));
+			geneMap.put(PREFIX_GENE_START + gene.getName(), new StartGeneLabel(gene.getName(), gene.getStart()));
+			geneMap.put(PREFIX_GENE_END + gene.getName(), new EndGeneLabel(gene.getName(), gene.getEnd()));
+			geneStart.put(Integer.parseInt(tokens[GENE_REF_START_POSITION]), gene);
+			geneEnd.put(Integer.parseInt(tokens[GENE_REF_END_POSITION]), gene);
+		}
 	}
 
 }
