@@ -1,6 +1,8 @@
 HELIX2 
 
-ProgrammingLife3 - Helix2 
+Context			Programming Life
+Group number	3
+Group			programminglfe3
 
 Repository & source code can be found on:
 https://github.com/ProgrammingLife3/ProgrammingLife3
@@ -13,7 +15,7 @@ Please do not grade this newick package with, because this is not our code, and 
 We scored 0.6 on the component balance property at the last SIG grading. Since our project consists of loading multiple data strains and combine them to make a single graph, we need big data structures. That's why our data package is that big, it contains all the classes that hold data and classes that wrap nodes to achieve semantic zooming. After this low grade we reconsidered our package structure and came to the conclusion that moving classes and packages to balance the components doesn't make any sense, except for a ui package. It's more logical to put all of the data classes in the data package with the result that this package may be bigger than others.
 
 Contact:
-Tom Brouws 		T.H.Brouws@tudelft.nl
+Tom Brouws 			T.H.Brouws@tudelft.nl
 Boris Mattijssen 	borismattijssen@gmail.com
 Mathieu Post 		mathieupost@gmail.com
 Sam Smulders 		s.smulders@student.tudelft.nl
