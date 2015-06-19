@@ -7,7 +7,7 @@
 <!--
     Checkstyle-Configuration: Copy of Google Checks
     Description: 
-Checkstyle configurartion that checks the Google coding conventions (https://google-styleguide.googlecode.com/svn-history/r130/trunk/javaguide.html).
+Checkstyle configuration that checks the Google coding conventions (https://google-styleguide.googlecode.com/svn-history/r130/trunk/javaguide.html).
 -->
 <module name="Checker">
   <property name="severity" value="warning"/>

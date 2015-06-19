@@ -13,14 +13,14 @@ import java.util.Set;
  */
 public class DoneDeque<T> {
 
-	private Set<T> done;
-	private T[] values;
+	private final Set<T> done;
+	private final T[] values;
 	private int read = 0;
 	private int add = 0;
 
 	@SuppressWarnings("unchecked")
 	public DoneDeque(int cap) {
-		done = new HashSet<T>(cap);
+		done = new HashSet<>(cap);
 		values = (T[]) new Object[cap];
 	}
 

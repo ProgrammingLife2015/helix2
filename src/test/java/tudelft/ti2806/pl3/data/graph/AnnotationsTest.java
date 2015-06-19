@@ -1,6 +1,5 @@
 package tudelft.ti2806.pl3.data.graph;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import tudelft.ti2806.pl3.data.gene.GeneData;
@@ -16,10 +15,10 @@ import static org.junit.Assert.assertTrue;
  * Created by tombrouws on 28/05/15.
  */
 public class AnnotationsTest {
-	private File simpleNodeGraphFile = new File("data/testdata/TestNodeGraphFile");
-	private File simpleEdgeGraphFile = new File("data/testdata/TestEdgeFraphFile");
-	GraphDataRepository gd;
-	GeneData geneData;
+	private final File simpleNodeGraphFile = new File("data/testdata/TestNodeGraphFile");
+	private final File simpleEdgeGraphFile = new File("data/testdata/TestEdgeGraphFile");
+	private GraphDataRepository gd;
+	private GeneData geneData;
 
 	/**
 	 * Runs before each test.
@@ -32,11 +31,6 @@ public class AnnotationsTest {
 		geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		gd = new GraphDataRepository();
 		gd.parseGraph(simpleNodeGraphFile, simpleEdgeGraphFile, geneData);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-
 	}
 
 	@Test

@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 

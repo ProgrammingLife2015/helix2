@@ -37,8 +37,8 @@ public class GenomeFilterTest {
 	DataNode node3;
 	@Mock
 	DataNode node4;
-	GenomeFilter genomeFilter;
-	List<DataNode> nodeList;
+	private GenomeFilter genomeFilter;
+	private List<DataNode> nodeList;
 	
 	/**
 	 * Setup the genomes, nodes and lists. We stub the genomes and nodes to only
@@ -57,10 +57,10 @@ public class GenomeFilterTest {
 		set1.add(genome2);
 		set2.add(genome2);
 		set3.add(genome1);
-		DataNode node1 = new DataNode(1, set1, 0, 0, new byte[] {});
-		DataNode node2 = new DataNode(2, set2, 0, 0, new byte[] {});
-		DataNode node3 = new DataNode(3, set3, 0, 0, new byte[] {});
-		DataNode node4 = new DataNode(4, set4, 0, 0, new byte[] {});
+		DataNode node1 = new DataNode(1, set1, 0, 0, "");
+		DataNode node2 = new DataNode(2, set2, 0, 0, "");
+		DataNode node3 = new DataNode(3, set3, 0, 0, "");
+		DataNode node4 = new DataNode(4, set4, 0, 0, "");
 		
 		nodeList = new ArrayList<>();
 		nodeList.add(node1);

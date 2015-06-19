@@ -18,8 +18,8 @@ import static org.junit.Assert.assertTrue;
 @RunWith(MockitoJUnitRunner.class)
 public class LastOpenedStackTest {
 
-	public LastOpenedStack<Integer> stack;
-	public int limit;
+	private LastOpenedStack<Integer> stack;
+	private int limit;
 	@Mock
 	Observer observer;
 

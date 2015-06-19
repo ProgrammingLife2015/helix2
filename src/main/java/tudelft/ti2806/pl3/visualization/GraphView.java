@@ -8,6 +8,7 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
+
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.data.gene.Gene;
@@ -37,7 +38,9 @@ import java.util.Observer;
  */
 public class GraphView
 		implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
-	/**
+	private static final float EDGE_THICKNESS_SCALE = 10f;
+
+    /**
 	 * The zoomLevel used to draw the graph.<br>
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should
 	 * be readable, each with  pixels to draw its
@@ -52,16 +55,16 @@ public class GraphView
 	 */
 	
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("Graph");
+	private final Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private MouseManager mouseManager;
-	private ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
+	private final ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
 
 	private float offsetToCenter = -1;
 	private boolean zoomCenterSet = false;
-	private ZoomedGraphModel zoomedGraphModel;
+	private final ZoomedGraphModel zoomedGraphModel;
 
 	private Gene selectedGene = null;
 
@@ -120,15 +123,13 @@ public class GraphView
 	
 	/**
 	 * Generates a Graph from the current graphData.
-	 * 
-	 * @return a graph with all nodes from the given graphData
 	 */
-	public Graph generateGraph() {
+	public void generateGraph() {
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
 		final double someSize = panel.getBounds().height
-				/ ((double) panel.getBounds().width * zoomLevel / zoomedGraphModel
+				/ (panel.getBounds().width * zoomLevel / zoomedGraphModel
 				.getWrappedCollapsedNode().getWidth())
 				/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
@@ -158,7 +159,6 @@ public class GraphView
 		colorGene();
 
 		notifyLoadingObservers(false);
-		return graph;
 	}
 	
 	/**
@@ -178,13 +178,14 @@ public class GraphView
 		Edge edge = graph.addEdge(from.getId() + "-" + to.getId(),
 				Integer.toString(from.getId()), Integer.toString(to.getId()), true);
 		int weight = from.getOutgoingWeight().get(i);
-		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomes().size());
+		float percent = ((float) weight) / ((float) zoomedGraphModel.getGenomesCount());
+
 		if (weight == 0) {
 			edge.addAttribute("ui.label", "fix me!");
 			throw new EdgeZeroWeightException(
 					"The weight of the edge from " + from + " to " + to + " cannot be 0.");
 		} else {
-			edge.addAttribute("ui.style", "size: " + (percent * 5f) + "px;");
+			edge.addAttribute("ui.style", "size: " + (percent * EDGE_THICKNESS_SCALE) + "px;");
 		}
 	}
 	
@@ -205,7 +206,7 @@ public class GraphView
 	}
 
 	private void centerGraph() {
-		if (zoomCenterSet == false) {
+		if (!zoomCenterSet) {
 			setZoomCenter(0);
 			setOffsetToCenter();
 			setZoomCenter(offsetToCenter);
@@ -230,7 +231,7 @@ public class GraphView
 	 */
 	public void setOffsetToCenter() {
 		Point3 point3 = viewer.getDefaultView().getCamera()
-				.transformPxToGu(0, (double) ScreenSize.getInstance().getHeight() / 2d);
+				.transformPxToGu(0, ScreenSize.getInstance().getHeight() / 2d);
 		offsetToCenter = (float) point3.x * -1;
 	}
 

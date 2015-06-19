@@ -58,8 +58,8 @@ hs_err_pid*
 /local/*
 !/data/testdata/
 !/data/testdata/*.graph
-
+!/data/testdata/*/*.nwk
 !resources/pictures/*
 
-lastOpenedSave.txt
 .save-helix2.txt
+lastOpenedSave.txt

@@ -23,8 +23,8 @@ public class PairTest {
 	 */
 	@Before
 	public void before() {
-		two = new Integer(2);
-		three = new Integer(3);
+		two = 2;
+		three = 3;
 		pair = new Pair<>(two, three);
 	}
 
@@ -54,14 +54,14 @@ public class PairTest {
 
 		Pair<Integer, Integer> equal = new Pair<>(two, three);
 		Pair<Integer, Integer> equal2 = new Pair<>(two, two);
-		Pair<Integer, Integer> diffelement = new Pair<>(three, two);
-		Pair<Integer, Integer> firstnull = new Pair<>(null, two);
-		Pair<Integer, Integer> secondnull = new Pair<>(two, null);
+		Pair<Integer, Integer> diffElement = new Pair<>(three, two);
+		Pair<Integer, Integer> firstNull = new Pair<>(null, two);
+		Pair<Integer, Integer> secondNull = new Pair<>(two, null);
 
 		assertTrue(pair.equals(equal));
-		assertFalse(pair.equals(diffelement));
-		assertFalse(firstnull.equals(diffelement));
-		assertFalse(secondnull.equals(equal));
+		assertFalse(pair.equals(diffElement));
+		assertFalse(firstNull.equals(diffElement));
+		assertFalse(secondNull.equals(equal));
 		assertFalse(equal.equals(equal2));
 
 

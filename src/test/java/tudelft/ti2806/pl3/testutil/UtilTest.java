@@ -8,16 +8,14 @@ import java.lang.reflect.Modifier;
 
 public class UtilTest<T> {
 	
-	private Class<T> classs;
+	private final Class<T> clazz;
 	
-	public UtilTest(Class<T> classs) {
-		this.classs = classs;
+	public UtilTest(Class<T> clazz) {
+		this.clazz = clazz;
 	}
 	
 	/**
 	 * Tests if a constructor is private. TODO
-	 * 
-	 * @param class
 	 * 
 	 * @throws NoSuchMethodException
 	 * @throws IllegalAccessException
@@ -27,7 +25,7 @@ public class UtilTest<T> {
 	public void testConstructorIsPrivate() throws NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
 			InstantiationException {
-		Constructor<T> constructor = classs.getDeclaredConstructor();
+		Constructor<T> constructor = clazz.getDeclaredConstructor();
 		Assert.assertTrue(Modifier.isPrivate(constructor.getModifiers()));
 		constructor.setAccessible(true);
 		Assert.assertNotNull(constructor.newInstance());

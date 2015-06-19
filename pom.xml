@@ -7,7 +7,23 @@
   <version>0.7</version>
   <name>app</name>
   <url>http://maven.apache.org</url>
+  <properties>
+    <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+    <powermock.version>1.6.1</powermock.version>
+  </properties>
   <dependencies>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -15,9 +31,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.graphstream</groupId>
-      <artifactId>gs-core</artifactId>
-      <version>1.2</version>
+      <groupId>com.github.stefanbirkner</groupId>
+      <artifactId>system-rules</artifactId>
+      <version>1.3.0</version>
     </dependency>
     <dependency>
       <groupId>org.graphstream</groupId>
@@ -39,11 +55,11 @@
       <artifactId>findbugs</artifactId>
       <version>3.0.1</version>
     </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>1.9.5</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.mockito</groupId>-->
+      <!--<artifactId>mockito-all</artifactId>-->
+      <!--<version>1.9.5</version>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>org.swinglabs</groupId>
       <artifactId>swingx</artifactId>
@@ -119,7 +135,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.2</version>
+        <version>3.4</version>
         <executions>
           <execution>
             <goals>

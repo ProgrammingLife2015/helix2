@@ -10,7 +10,7 @@ import java.util.Map;
  * GraphData parses the data as nodes,edges and genomes.
  */
 public class GraphData extends AbstractGraphData {
-	AbstractGraphData origin;
+	private AbstractGraphData origin;
 	
 	/**
 	 * Constructs an instance of {@code GraphData}.
@@ -65,10 +65,5 @@ public class GraphData extends AbstractGraphData {
 	@Override
 	public AbstractGraphData getOrigin() {
 		return origin;
-	}
-	
-	@Override
-	public int getLongestNodePath() {
-		return origin.getLongestNodePath();
 	}
 }

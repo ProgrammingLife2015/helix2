@@ -82,7 +82,7 @@ public class SingleWrapperUnwrapTest {
 		assertTrue(left instanceof WrapperClone);
 		assertEquals(0, left.getIncoming().size());
 		assertEquals(1, left.getOutgoing().size());
-		assertTrue(((WrapperClone) left).getDataNodes().contains(
+		assertTrue(left.getDataNodes().contains(
 				dataNode1));
 	}
 	
@@ -96,9 +96,9 @@ public class SingleWrapperUnwrapTest {
 		assertTrue(leftMiddle instanceof WrapperClone);
 		assertEquals(1, leftMiddle.getIncoming().size());
 		assertEquals(1, leftMiddle.getOutgoing().size());
-		assertTrue(((WrapperClone) leftMiddle).getDataNodes().contains(
+		assertTrue(leftMiddle.getDataNodes().contains(
 				dataNode2));
-		assertTrue(((WrapperClone) leftMiddle.getIncoming().get(0))
+		assertTrue(leftMiddle.getIncoming().get(0)
 				.getDataNodes().contains(dataNode1));
 	}
 	
@@ -112,9 +112,9 @@ public class SingleWrapperUnwrapTest {
 		assertTrue(rightMiddle instanceof WrapperClone);
 		assertEquals(1, rightMiddle.getIncoming().size());
 		assertEquals(0, rightMiddle.getOutgoing().size());
-		assertTrue(((WrapperClone) rightMiddle).getDataNodes().contains(
+		assertTrue(rightMiddle.getDataNodes().contains(
 				dataNode3));
-		assertTrue(((WrapperClone) rightMiddle.getIncoming().get(0))
+		assertTrue(rightMiddle.getIncoming().get(0)
 				.getDataNodes().contains(dataNode2));
 	}
 	

@@ -1,6 +1,6 @@
 package tudelft.ti2806.pl3;
 
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
+import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.visualization.GraphController;
@@ -19,6 +19,6 @@ public interface ControllerContainer {
 
 	SideBarController getSideBarController();
 
-	FindgenesController getFindgenesController();
+	FindGenesController getFindGenesController();
 
 }

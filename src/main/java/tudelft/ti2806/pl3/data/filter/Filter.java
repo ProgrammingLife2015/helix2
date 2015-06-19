@@ -13,6 +13,8 @@ import java.util.List;
  *            the element type to filter
  */
 public interface Filter<T> {
-	
+
+	List<String> getGenomes();
+
 	void filter(List<T> list);
 }

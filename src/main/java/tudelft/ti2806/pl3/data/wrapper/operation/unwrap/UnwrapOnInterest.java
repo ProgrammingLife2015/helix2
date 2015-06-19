@@ -8,6 +8,7 @@ import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
  * @author Sam Smulders
  */
 public class UnwrapOnInterest extends Unwrap {
+	//TODO this is never used. Can this be deleted?
 	
 	private final int interestCondition;
 	

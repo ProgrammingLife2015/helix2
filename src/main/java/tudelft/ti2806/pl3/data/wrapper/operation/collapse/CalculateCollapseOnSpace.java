@@ -65,8 +65,6 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	 * @param wrapper
 	 *            the wrapper
 	 */
-	// Suppress warnings, false positive unused method.
-	@SuppressWarnings("PMD.UnusedPrivateMethod")
 	private void addToList(CombineWrapper wrapper) {
 		for (int i = wrapper.getNodeList().size(); i > 1; i--) {
 			list.add(wrapper.getCollapse());
@@ -81,7 +79,7 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	 *            unfold it
 	 * @return a value of the average space between nodes.
 	 */
-	float getSpaceLeft(CombineWrapper wrapper) {
+	private float getSpaceLeft(CombineWrapper wrapper) {
 		List<Wrapper> list = new ArrayList<>(wrapper.getNodeList());
 		Collections.sort(list, new XComparator());
 		float avg = 0;
@@ -97,7 +95,7 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 		return avg / count;
 	}
 	
-	public class XComparator implements Comparator<Wrapper> {
+	private class XComparator implements Comparator<Wrapper> {
 		@Override
 		public int compare(Wrapper w1, Wrapper w2) {
 			return (int) Math.signum(w1.getX() - w2.getX());
