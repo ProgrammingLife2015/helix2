@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 
 /**
  * Creates an adapter that updates screen sizes for the components in the view.
+ *
  * <p>
  * Created by Kasper on 16-6-2015.
  */
@@ -32,18 +33,14 @@ public class ResizeAdapter extends ComponentAdapter {
 		size.calculate();
 
 		application.getSideBarController().getPanel().setBounds(0, size.getMenubarHeight(),
-				size.getSidebarWidth(), size.getHeight());
+				size.getSideBarWidth(), size.getHeight());
 		application.getGraphController().getPanel().setBounds(0, 0, size.getWidth(),
-				size.getHeight() - size.getZoombarHeight());
+				size.getHeight() - size.getZoomBarHeight());
 		application.getZoomBarController().getPanel().setBounds(0,
-				size.getHeight() - size.getZoombarHeight(),
-				size.getWidth(), size.getZoombarHeight());
+				size.getHeight() - size.getZoomBarHeight(),
+				size.getWidth(), size.getZoomBarHeight());
 		application.getPhyloController().getView().updateSize();
 
 		application.repaint();
-	}
-
-	public ComponentAdapter getResizer() {
-		return this;
 	}
 }

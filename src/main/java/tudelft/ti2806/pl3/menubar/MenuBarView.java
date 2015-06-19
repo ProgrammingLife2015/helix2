@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.menubar;
 
+import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.View;
 
 import java.awt.Component;
@@ -18,7 +19,7 @@ import javax.swing.KeyStroke;
  */
 public class MenuBarView extends JMenuBar implements View {
 
-	List<JMenu> menus;
+	private final List<JMenu> menus;
 
 	/**
 	 * Makes the view of the menubar.
@@ -37,17 +38,17 @@ public class MenuBarView extends JMenuBar implements View {
 	 * @return JMenu file
 	 */
 	private JMenu setUpFile() {
-		JMenu fileMenu = new JMenu("File");
+		JMenu fileMenu = new JMenu(Constants.MENU_FILE);
 		menus.add(fileMenu);
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 
-		JMenuItem openFolder = new JMenuItem("Open folder");
+		JMenuItem openFolder = new JMenuItem(Constants.MENU_FILE_OPEN_FOLDER);
 		openFolder.setMnemonic(KeyEvent.VK_O);
-		JMenuItem openNode = new JMenuItem("Open node and edge file");
+		JMenuItem openNode = new JMenuItem(Constants.MENU_FILE_OPEN_GRAPH_FILES);
 		openNode.setMnemonic(KeyEvent.VK_N);
-		JMenuItem openNwk = new JMenuItem("Open .nwk file");
+		JMenuItem openNwk = new JMenuItem(Constants.MENU_FILE_OPEN_NWK_FILE);
 		openNwk.setMnemonic(KeyEvent.VK_W);
-		JMenuItem exit = new JMenuItem("Exit");
+		JMenuItem exit = new JMenuItem(Constants.MENU_FILE_EXIT);
 		exit.setMnemonic(KeyEvent.VK_X);
 
 		fileMenu.add(openFolder);
@@ -65,32 +66,27 @@ public class MenuBarView extends JMenuBar implements View {
 	 * @return JMenu view
 	 */
 	private JMenu setUpView() {
-		// ascii value of the shortcuts
-		final char plus = '+';
-		final char minus = '-';
-		final char right = '\u2192';
-		final char left = '\u2190';
 
-		JMenu viewMenu = new JMenu("View");
+		JMenu viewMenu = new JMenu(Constants.MENU_VIEW);
 		menus.add(viewMenu);
 		viewMenu.setMnemonic(KeyEvent.VK_V);
 
-		JMenuItem zoomIn = new JMenuItem("Zoom in");
-		zoomIn.setAccelerator(KeyStroke.getKeyStroke(plus));
+		JMenuItem zoomIn = new JMenuItem(Constants.MENU_VIEW_ZOOM_IN);
+		zoomIn.setAccelerator(KeyStroke.getKeyStroke(Constants.PLUS));
 		zoomIn.setMnemonic(KeyEvent.VK_I);
-		JMenuItem zoomOut = new JMenuItem("Zoom out");
-		zoomOut.setAccelerator(KeyStroke.getKeyStroke(minus));
+		JMenuItem zoomOut = new JMenuItem(Constants.MENU_VIEW_ZOOM_OUT);
+		zoomOut.setAccelerator(KeyStroke.getKeyStroke(Constants.MINUS));
 		zoomOut.setMnemonic(KeyEvent.VK_U);
-		JMenuItem moveLeft = new JMenuItem("Move left");
-		moveLeft.setAccelerator(KeyStroke.getKeyStroke(left));
+		JMenuItem moveLeft = new JMenuItem(Constants.MENU_VIEW_MOVE_LEFT);
+		moveLeft.setAccelerator(KeyStroke.getKeyStroke(Constants.ARROW_LEFT));
 		moveLeft.setMnemonic(KeyEvent.VK_L);
-		JMenuItem moveRight = new JMenuItem("Move right");
-		moveRight.setAccelerator(KeyStroke.getKeyStroke(right));
+		JMenuItem moveRight = new JMenuItem(Constants.MENU_VIEW_MOVE_RIGHT);
+		moveRight.setAccelerator(KeyStroke.getKeyStroke(Constants.ARROW_RIGHT));
 		moveRight.setMnemonic(KeyEvent.VK_R);
-		JMenuItem reset = new JMenuItem("Reset view");
+		JMenuItem reset = new JMenuItem(Constants.MENU_VIEW_RESET);
 		reset.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,0));
 		reset.setMnemonic(KeyEvent.VK_S);
-		JMenuItem findGenes = new JMenuItem("Navigate to gene");
+		JMenuItem findGenes = new JMenuItem(Constants.MENU_VIEW_NAVIGATE_TO_GENE);
 		findGenes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,0));
 		findGenes.setMnemonic(KeyEvent.VK_G);
 
@@ -105,14 +101,14 @@ public class MenuBarView extends JMenuBar implements View {
 	}
 
 	private JMenu setUpHelp() {
-		JMenu helpMenu = new JMenu("Help");
+		JMenu helpMenu = new JMenu(Constants.MENU_HELP);
 		menus.add(helpMenu);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 
-		JMenuItem help = new JMenuItem("Controls");
+		JMenuItem help = new JMenuItem(Constants.MENU_HELP_CONTROLS);
 		help.setMnemonic(KeyEvent.VK_C);
 		help.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-		JMenuItem about = new JMenuItem("About Me");
+		JMenuItem about = new JMenuItem(Constants.MENU_HELP_ABOUT);
 		about.setMnemonic(KeyEvent.VK_A);
 
 		helpMenu.add(help);

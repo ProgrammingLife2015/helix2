@@ -84,7 +84,7 @@ public class EdgeUtil {
 	 * 		the list of nodes in the graph
 	 * @return a list of all dead edges
 	 */
-	public static List<Edge> getAllDeadEdges(List<Edge> edgeList,
+	private static List<Edge> getAllDeadEdges(List<Edge> edgeList,
 			List<DataNode> nodeList) {
 		List<Edge> removeList = new ArrayList<>();
 		Map<Integer, DataNode> nodeMap = new HashMap<>(nodeList.size());
@@ -127,5 +127,4 @@ public class EdgeUtil {
 			}
 		}
 	}
-
 }

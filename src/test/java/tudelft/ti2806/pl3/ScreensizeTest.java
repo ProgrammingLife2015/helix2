@@ -22,14 +22,14 @@ public class ScreensizeTest {
 		screenSize.setWidth(testWidth);
 
 		assertEquals(testWidth, screenSize.getWidth());
-		assertEquals(ScreenSize.getMinimumWidth(),ScreenSize.minimumWidth);
+		assertEquals(800, screenSize.getMinimumWidth());
 	}
 	@Test
 	public void testHeight() {
 		screenSize.setHeight(testHeight);
 
 		assertEquals(testHeight, screenSize.getHeight());
-		assertEquals(ScreenSize.getMinimumHeight(),ScreenSize.minimumHeight);
+		assertEquals(600, screenSize.getMinimumHeight());
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class ScreensizeTest {
 		screenSize.setHeight(testHeight);
 		screenSize.calculate();
 		int zoombarheight = (int) (ZoomBarView.ZOOMBAR_FACTOR * testHeight);
-		assertEquals(zoombarheight, screenSize.getZoombarHeight());
+		assertEquals(zoombarheight, screenSize.getZoomBarHeight());
 
 	}
 
@@ -46,12 +46,12 @@ public class ScreensizeTest {
 		screenSize.setWidth(testWidth);
 		screenSize.calculate();
 		int sidebarwidth = (int) (SideBarView.SIDEBAR_FACTOR * testWidth);
-		assertEquals(sidebarwidth, screenSize.getSidebarWidth());
+		assertEquals(sidebarwidth, screenSize.getSideBarWidth());
 	}
 
 	@Test
 	public void testMenubarHeight() {
-		assertEquals(ScreenSize.menubarHeight, screenSize.getMenubarHeight());
+		assertEquals(25, screenSize.getMenubarHeight());
 	}
 
 

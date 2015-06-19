@@ -54,16 +54,16 @@ public class GraphView
 	 */
 	
 	private List<WrapperClone> graphData;
-	private Graph graph = new SingleGraph("Graph");
+	private final Graph graph = new SingleGraph("Graph");
 	private Viewer viewer;
 	private View panel;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	private MouseManager mouseManager;
-	private ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
+	private final ArrayList<GraphLoadedListener> graphLoadedListeners = new ArrayList<>();
 
 	private float offsetToCenter = -1;
 	private boolean zoomCenterSet = false;
-	private ZoomedGraphModel zoomedGraphModel;
+	private final ZoomedGraphModel zoomedGraphModel;
 
 	/**
 	 * Construct a GraphView.
@@ -120,10 +120,8 @@ public class GraphView
 	
 	/**
 	 * Generates a Graph from the current graphData.
-	 * 
-	 * @return a graph with all nodes from the given graphData
 	 */
-	public Graph generateGraph() throws EdgeZeroWeightException {
+	private void generateGraph() throws EdgeZeroWeightException {
 		notifyLoadingObservers(true);
 		graph.clear();
 		setGraphPropertys();
@@ -150,9 +148,7 @@ public class GraphView
 				i++;
 			}
 		}
-
 		notifyLoadingObservers(false);
-		return graph;
 	}
 	
 	/**
@@ -205,7 +201,7 @@ public class GraphView
 	}
 
 	private void centerGraph() {
-		if (zoomCenterSet == false) {
+		if (!zoomCenterSet) {
 			setZoomCenter(0);
 			setOffsetToCenter();
 			setZoomCenter(offsetToCenter);

@@ -3,7 +3,7 @@ package tudelft.ti2806.pl3;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
+import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
@@ -28,7 +28,7 @@ public class ApplicationTest {
 		Application application = new Application();
 
 		assertEquals(application.getGraphController().getClass(), GraphController.class);
-		assertEquals(application.getFindgenesController().getClass(), FindgenesController.class);
+		assertEquals(application.getFindGenesController().getClass(), FindGenesController.class);
 		assertEquals(application.getPhyloController().getClass(), PhyloController.class);
 		assertEquals(application.getZoomBarController().getClass(), ZoomBarController.class);
 		assertEquals(application.getSideBarController().getClass(), SideBarController.class);

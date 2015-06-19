@@ -8,10 +8,10 @@ package tudelft.ti2806.pl3.math;
  * @author Sam Smulders
  */
 public class Line {
-	public final float x1;
-	public final float x2;
-	public final float slope;
-	public final float constant;
+	private final float x1;
+	private final float x2;
+	private final float slope;
+	private final float constant;
 	
 	/**
 	 * Initialise a line in the form y = {@link #slope}*x + {@link #constant}.<br>
@@ -109,23 +109,23 @@ public class Line {
 	 *            the other line
 	 * @return the x of intersection
 	 */
-	public float getXOfIntersection(Line other) {
+	private float getXOfIntersection(Line other) {
 		return (other.constant - this.constant) / (this.slope - other.slope);
 	}
 	
 	/**
 	 * Calculates the y for the given x on the line.
 	 * 
-	 * @param xvalue
+	 * @param x
 	 *            the x position on the line
 	 * @return the belonging y position on the given x position.
 	 */
-	public float getY(float xvalue) {
-		return this.constant + xvalue * this.slope;
+	public float getY(float x) {
+		return this.constant + x * this.slope;
 	}
 	
 	private float calculateSlope(float y1, float y2) {
-		return ((float) (y2 - y1)) / (x2 - x1);
+		return (y2 - y1) / (x2 - x1);
 	}
 	
 	private float calculateConstant(float y1) {

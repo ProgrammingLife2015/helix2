@@ -17,9 +17,8 @@ import java.util.ArrayList;
  */
 public class MouseManager extends DefaultMouseManager {
 	private static final int MARGIN = 5;
-
+	private final DetailView detailView;
 	private WrapperClone node = null;
-	private DetailView detailView;
 	private boolean clicked = false;
 
 	public MouseManager() {

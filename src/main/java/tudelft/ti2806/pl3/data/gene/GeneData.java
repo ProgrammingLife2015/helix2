@@ -50,7 +50,7 @@ public class GeneData {
 	 * @param geneEnd
 	 * 		A mapping from all end indices to genes
 	 */
-	public GeneData(ArrayList<Gene> genes, Map<Integer, Gene> geneStart,
+	private GeneData(ArrayList<Gene> genes, Map<Integer, Gene> geneStart,
 			Map<Integer, Gene> geneEnd, Map<String, Label> labelMap) {
 		this.genes = genes;
 		this.labelMap = labelMap;

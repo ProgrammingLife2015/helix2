@@ -31,7 +31,7 @@ import java.util.Set;
 public class CalculateGroupInterestTest {
 	
 	private CalculateGroupInterest groupInterest;
-	private int group1Interest = 10;
+	private final int group1Interest = 10;
 	
 	private Set<Genome> interestingSet;
 	private Set<Genome> notInterestingSet;

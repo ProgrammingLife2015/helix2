@@ -32,6 +32,6 @@ public class FindgenesControllerTest {
 
 	@Test
 	public void testConstructor() {
-		FindgenesController findgenesController = new FindgenesController(cc, graphData);
+		FindGenesController findgenesController = new FindGenesController(cc, graphData);
 	}
 }

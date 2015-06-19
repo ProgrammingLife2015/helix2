@@ -39,7 +39,7 @@ public class ZoomBarView extends JPanel implements View, Observer {
 	public ZoomBarView() {
 		this.setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(ScreenSize.getInstance().getWidth(),
-				ScreenSize.getInstance().getZoombarHeight()));
+				ScreenSize.getInstance().getZoomBarHeight()));
 	}
 
 	/**

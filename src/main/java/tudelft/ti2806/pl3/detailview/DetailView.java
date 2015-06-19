@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3.detailview;
 
+import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 
 import java.awt.Container;
@@ -60,8 +61,8 @@ public class DetailView extends JPanel {
 	public void setNode(WrapperClone node, int x, int y) {
 		removeAll();
 
-		addList(node.getGenome(), "Genomes: ");
-		addList(node.getLabels(), "Labels: ");
+		addList(node.getGenome(), Constants.DETAILVIEW_GENOMES);
+		addList(node.getLabels(), Constants.DETAILVIEW_LABELS);
 
 		Dimension size = getPreferredSize();
 		setBounds(x, y, size.width, size.height);

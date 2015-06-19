@@ -1,22 +1,19 @@
 package tudelft.ti2806.pl3.data.wrapper;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import tudelft.ti2806.pl3.data.graph.DataNode;
-import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Tests for the {@link WrapperClone}.

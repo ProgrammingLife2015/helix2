@@ -41,12 +41,12 @@ public class OrderedListUtil {
 	 */
 	public static List<Wrapper> mergeOrderedLists(
 			List<List<Wrapper>> listsToMerge) {
-		List<Wrapper> lastElements = new ArrayList<Wrapper>(
+		List<Wrapper> lastElements = new ArrayList<>(
 				listsToMerge.size());
 		for (List<Wrapper> list : listsToMerge) {
 			lastElements.add(list.remove(list.size() - 1));
 		}
-		List<Wrapper> result = new ArrayList<Wrapper>();
+		List<Wrapper> result = new ArrayList<>();
 		int lastResultSize = -1;
 		while (listsToMerge.size() > 0) {
 			/*
@@ -97,7 +97,7 @@ public class OrderedListUtil {
 	 *         {@code lists}<br>
 	 *         {@code false} otherwise
 	 */
-	static boolean listContainsElement(List<List<Wrapper>> lists,
+	private static boolean listContainsElement(List<List<Wrapper>> lists,
 			Wrapper element) {
 		for (List<Wrapper> list : lists) {
 			if (list.contains(element)) {

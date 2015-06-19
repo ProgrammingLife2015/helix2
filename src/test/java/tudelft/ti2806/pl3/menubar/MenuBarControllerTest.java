@@ -6,7 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
-import tudelft.ti2806.pl3.findgenes.FindgenesController;
+import tudelft.ti2806.pl3.Constants;
+import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.ActionEvent;
@@ -45,7 +46,7 @@ public class MenuBarControllerTest {
 
 	@Test
 	public void testActionOpenFolder() {
-		when(actionEvent.getActionCommand()).thenReturn("Open folder");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_FILE_OPEN_FOLDER);
 		menuBarController.actionPerformed(actionEvent);
 
 		verify(application, times(1)).makeGraphFromFolder();
@@ -53,7 +54,7 @@ public class MenuBarControllerTest {
 
 	@Test
 	public void testActionOpenNodeEdgeFile() {
-		when(actionEvent.getActionCommand()).thenReturn("Open node and edge file");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_FILE_OPEN_GRAPH_FILES);
 		menuBarController.actionPerformed(actionEvent);
 
 		verify(application, times(1)).makeGraphFromFiles();
@@ -61,7 +62,7 @@ public class MenuBarControllerTest {
 
 	@Test
 	public void testActionOpenNwk() {
-		when(actionEvent.getActionCommand()).thenReturn("Open .nwk file");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_FILE_OPEN_NWK_FILE);
 		menuBarController.actionPerformed(actionEvent);
 
 		verify(application, times(1)).makePhyloTree();
@@ -69,7 +70,7 @@ public class MenuBarControllerTest {
 
 	@Test
 	public void testActionExit() {
-		when(actionEvent.getActionCommand()).thenReturn("Exit");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_FILE_EXIT);
 		menuBarController.actionPerformed(actionEvent);
 
 		verify(application, times(1)).stop();
@@ -78,7 +79,7 @@ public class MenuBarControllerTest {
 	@Test
 	public void testActionZoomIn() {
 		GraphController graphController = mock(GraphController.class);
-		when(actionEvent.getActionCommand()).thenReturn("Zoom in");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_VIEW_ZOOM_IN);
 		when(application.getGraphController()).thenReturn(graphController);
 		menuBarController.actionPerformed(actionEvent);
 
@@ -90,7 +91,7 @@ public class MenuBarControllerTest {
 	@Test
 	public void testActionZoomOut() {
 		GraphController graphController = mock(GraphController.class);
-		when(actionEvent.getActionCommand()).thenReturn("Zoom out");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_VIEW_ZOOM_OUT);
 		when(application.getGraphController()).thenReturn(graphController);
 		menuBarController.actionPerformed(actionEvent);
 
@@ -102,7 +103,7 @@ public class MenuBarControllerTest {
 	@Test
 	public void testActionMoveLeft() {
 		GraphController graphController = mock(GraphController.class);
-		when(actionEvent.getActionCommand()).thenReturn("Move left");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_VIEW_MOVE_LEFT);
 		when(application.getGraphController()).thenReturn(graphController);
 		menuBarController.actionPerformed(actionEvent);
 
@@ -114,7 +115,7 @@ public class MenuBarControllerTest {
 	@Test
 	public void testActionMoveRight() {
 		GraphController graphController = mock(GraphController.class);
-		when(actionEvent.getActionCommand()).thenReturn("Move right");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_VIEW_MOVE_RIGHT);
 		when(application.getGraphController()).thenReturn(graphController);
 		menuBarController.actionPerformed(actionEvent);
 
@@ -126,7 +127,7 @@ public class MenuBarControllerTest {
 	@Test
 	public void testActionResetZoom() {
 		GraphController graphController = mock(GraphController.class);
-		when(actionEvent.getActionCommand()).thenReturn("Reset view");
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_VIEW_RESET);
 		when(application.getGraphController()).thenReturn(graphController);
 		menuBarController.actionPerformed(actionEvent);
 
@@ -137,27 +138,28 @@ public class MenuBarControllerTest {
 
 	@Test
 	public void testActionShowFindGenes() {
-		FindgenesController findgenesController = mock(FindgenesController.class);
-		when(actionEvent.getActionCommand()).thenReturn("Navigate to gene");
-		when(application.getFindgenesController()).thenReturn(findgenesController);
+		FindGenesController findgenesController = mock(FindGenesController.class);
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_VIEW_NAVIGATE_TO_GENE);
+		when(application.getFindGenesController()).thenReturn(findgenesController);
 		menuBarController.actionPerformed(actionEvent);
 
 
-		verify(application, times(1)).getFindgenesController();
+		verify(application, times(1)).getFindGenesController();
 		verify(findgenesController, times(1)).openDialog();
 	}
 
 	@Test
 	public void testMakeControls() {
-		String expected = MenuBarController.controls;
+		String expected = Constants.INFO_CONTROLS;
 		String controls = menuBarController.makeControls().getText();
 		assertEquals(expected, controls);
 	}
 
 	@Test
 	public void testMakeAbout() {
-		String expected = MenuBarController.about + "githublink";
+		String expected = Constants.INFO_ABOUT + "githublink";
 		String result = menuBarController.makeAbout().getText();
+		assertEquals(expected, result);
 		assertEquals(result.contains(expected), expected.contains(result));
 	}
 
