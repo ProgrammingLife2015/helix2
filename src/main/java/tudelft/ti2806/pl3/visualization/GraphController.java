@@ -9,6 +9,7 @@ import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
 import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.awt.Component;
@@ -55,13 +56,23 @@ public class GraphController implements Controller {
 		graphView = new GraphView(zoomedGraphModel);
 	}
 
+	/**
+	 * Add Listeners to the correct models
+	 */
 	private void addListeners() {
 		graphDataRepository.addGraphParsedObserver(filteredGraphModel);
 		filteredGraphModel.addObserver(zoomedGraphModel);
 		zoomedGraphModel.addObserver(graphView);
 	}
 
+	/**
+	 * Add the {@link LoadingObserver} to the models and graphdata repository which are {@link LoadingObservable}.
+	 *
+	 * @param loadingObservers
+	 * 		which observer loading process.
+	 */
 	public void addLoadingObservers(ArrayList<LoadingObserver> loadingObservers) {
+		graphDataRepository.addLoadingObserversList(loadingObservers);
 		filteredGraphModel.addLoadingObserversList(loadingObservers);
 		zoomedGraphModel.addLoadingObserversList(loadingObservers);
 	}
