@@ -96,7 +96,9 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getFindGenesController().openDialog();
 	}
 
-	private void toggleSideBar(){ application.getSideBarController().toggleSideBar();}
+	private void toggleSideBar() {
+		application.getSideBarController().toggleSideBar();
+	}
 
 	public void setLastOpenedMenu(Component lastOpenedMenu) {
 		menuBarView.setLastOpenedMenu(lastOpenedMenu);
@@ -111,6 +113,7 @@ public class MenuBarController implements ActionListener, Controller {
 
 	/**
 	 * Make a {@link JTextPane} with controls text.
+	 *
 	 * @return JTextpane with control text.
 	 */
 	public JTextPane makeControls() {
@@ -140,6 +143,7 @@ public class MenuBarController implements ActionListener, Controller {
 
 	/**
 	 * Make a {@link JTextPane} with about me text.
+	 *
 	 * @return JTextpane with about me text.
 	 */
 	public JTextPane makeAbout() {
@@ -238,6 +242,7 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case Constants.MENU_VIEW_PYLO:
 				toggleSideBar();
+				break;
 			default:
 				break;
 		}
