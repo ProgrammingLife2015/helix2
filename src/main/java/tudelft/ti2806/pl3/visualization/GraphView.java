@@ -38,6 +38,7 @@ import java.util.Observer;
  *
  */
 public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterface, LoadingObservable {
+
 	private static final float EDGE_THICKNESS_SCALE = 10f;
 	
 	/**
@@ -245,18 +246,14 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	}
 	
 	/**
-	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently drawn
-	 * {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
+	 * Centers the graph on a specific node. It passes a {@link DataNode} and then looks in the list of currently
+	 * drawn  {@link WrapperClone}s, which one contains this {@link DataNode} and then sets the zoom center on this
 	 * {@link WrapperClone}.
 	 *
 	 * @param node
-<<<<<<< HEAD
 	 *            The {@link DataNode} to move the view to
-=======
-	 * 		The {@link tudelft.ti2806.pl3.data.graph.DataNode} to move the view to
 	 * @param selected
 	 *      The gene to highlight on the graph
->>>>>>> master
 	 * @throws NodeNotFoundException
 	 *             Thrown when the node cannot be found in all {@link WrapperClone}s
 	 */

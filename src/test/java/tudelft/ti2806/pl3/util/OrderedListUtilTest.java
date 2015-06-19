@@ -87,23 +87,21 @@ public class OrderedListUtilTest {
 	}
 	
 	@Test
-	public void utilConstructorTest() throws NoSuchMethodException,
-			IllegalAccessException, InvocationTargetException,
+	public void utilConstructorTest() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
 			InstantiationException {
-		//noinspection unchecked
-		new UtilTest(OrderedListUtil.class).testConstructorIsPrivate();
+		new UtilTest<>(OrderedListUtil.class).testConstructorIsPrivate();
 	}
 	
 	private static class TestWrapper extends Wrapper {
 		private String name;
 		
-		private TestWrapper(String name) {
+		TestWrapper(String name) {
 			this.name = name;
 		}
 		
 		@Override
 		public String toString() {
-			return name;
+			return this.name;
 		}
 		
 		@Override
@@ -115,34 +113,34 @@ public class OrderedListUtilTest {
 		public String getIdString() {
 			return null;
 		}
-
-		@Override public int getId() {
+		
+		@Override
+		public int getId() {
 			return 0;
 		}
-
+		
 		@Override
 		public Set<Genome> getGenome() {
-			return new HashSet<Genome>();
+			return new HashSet<>();
 		}
-
+		
 		@Override
-		public void calculate(WrapperOperation wrapperSequencer,
-				Wrapper container) {
+		public void calculate(WrapperOperation wrapperSequencer, Wrapper container) {
 		}
-
+		
 		@Override
 		public void collectDataNodes(Set<DataNode> set) {
 		}
-
+		
 		@Override
 		public void collectLabels(Set<Label> labels) {
 		}
-
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
 			return result;
 		}
 		
@@ -158,24 +156,29 @@ public class OrderedListUtilTest {
 				return false;
 			}
 			TestWrapper other = (TestWrapper) obj;
-			if (name == null) {
+			if (this.name == null) {
 				if (other.name != null) {
 					return false;
 				}
-			} else if (!name.equals(other.name)) {
+			} else if (!this.name.equals(other.name)) {
 				return false;
 			}
 			return true;
 		}
-
+		
 		@Override
 		public void calculateX() {
 		}
-
+		
 		@Override
 		public int getWidth() {
 			return 0;
 		}
-
+		
+		@Override
+		public boolean contains(Wrapper originalNode) {
+			return false;
+		}
+		
 	}
 }
