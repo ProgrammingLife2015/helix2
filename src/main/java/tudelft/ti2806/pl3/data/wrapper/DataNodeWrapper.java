@@ -110,4 +110,9 @@ public class DataNodeWrapper extends Wrapper {
 	public int getWidth() {
 		return 1;
 	}
+	
+	@Override
+    public boolean contains(Wrapper object) {
+        return false;
+    }
 }

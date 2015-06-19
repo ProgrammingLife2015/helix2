@@ -1,14 +1,15 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.Controller;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.filter.Filter;
+import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.awt.Component;
 import java.io.File;
@@ -34,6 +35,7 @@ public class GraphController implements Controller {
 	 * Percentage of the screen that is moved.
 	 */
 	private static final double MOVE_FACTOR = 10.0;
+	private static final float ZOOM_STEP_SIZE = 1.5f;
 
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -77,7 +79,7 @@ public class GraphController implements Controller {
 	 */
 	public void parseGraph(File nodeFile, File edgeFile) throws FileNotFoundException {
 		try {
-			geneData = GeneData.parseGenes("geneAnnotationsRef");
+			geneData = GeneData.parseGenes("geneAnnotationsRef.gff");
 			graphDataRepository.parseGraph(nodeFile, edgeFile, geneData);
 			graphView.getPanel().setVisible(false);
 			graphView.getPanel().setVisible(true);
@@ -104,7 +106,7 @@ public class GraphController implements Controller {
 	 */
 	public void parseGraph(File nodeFile, File edgeFile, File metaFile) throws FileNotFoundException {
 		try {
-			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
+			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef.gff");
 			graphDataRepository.parseGraph(nodeFile, edgeFile, metaFile, geneData);
 			graphView.getPanel().setVisible(false);
 			graphView.getPanel().setVisible(true);
@@ -112,7 +114,7 @@ public class GraphController implements Controller {
 			if (DialogUtil.confirm("Parse error", "A random error occurred while parsing the "
 					+ "gene annotations file. "
 					+ "Retrying could help. Would you like to try again now?")) {
-				parseGraph(nodeFile, edgeFile);
+				parseGraph(nodeFile, edgeFile, metaFile);
 			}
 		}
 	}
@@ -148,7 +150,7 @@ public class GraphController implements Controller {
 	 * Zoom the graph one level up.
 	 */
 	public void zoomLevelUp() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() * 2);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() * ZOOM_STEP_SIZE);
 		zoomedGraphModel.produceDataNodeWrapperList();
 		graphMoved();
 	}
@@ -157,7 +159,7 @@ public class GraphController implements Controller {
 	 * Zoom the graph one level down.
 	 */
 	public void zoomLevelDown() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() / 2);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() / ZOOM_STEP_SIZE);
 		zoomedGraphModel.produceDataNodeWrapperList();
 		graphMoved();
 	}
@@ -196,8 +198,8 @@ public class GraphController implements Controller {
 		graphMoved();
 	}
 
-	public void centerOnNode(DataNode node) throws NodeNotFoundException {
-		graphView.centerOnNode(node);
+	public void centerOnNode(DataNode node, Gene selected) throws NodeNotFoundException {
+		graphView.centerOnNode(node, selected);
 		graphMoved();
 	}
 

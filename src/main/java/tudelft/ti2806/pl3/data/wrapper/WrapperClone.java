@@ -22,7 +22,8 @@ public class WrapperClone extends Wrapper {
 		this.originalNode = originalNode;
 	}
 
-	public Set<DataNode> getDataNodes() {
+	@Override
+    public Set<DataNode> getDataNodes() {
 		return dataNodes;
 	}
 
@@ -89,4 +90,9 @@ public class WrapperClone extends Wrapper {
 	public int getWidth() {
 		return originalNode.getWidth();
 	}
+	
+	@Override
+    public boolean contains(Wrapper object) {
+        return this.originalNode.contains(object);
+    }
 }

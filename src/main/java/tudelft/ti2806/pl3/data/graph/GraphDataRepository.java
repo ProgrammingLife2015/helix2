@@ -225,7 +225,10 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 			Map<String, Genome> genomes) {
 		String[] indexData = new String[0];
 		try {
-			indexData = br.readLine().replaceAll("[> ]", "").split("\\|");
+			String line = br.readLine();
+			if (line != null) {
+				indexData = line.replaceAll("[> ]", "").split("\\|");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -273,10 +276,13 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		List<Edge> list = new ArrayList<>();
 		try {
 			while (br.ready()) {
-				String[] index = br.readLine().split(" ");
-				DataNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
-				DataNode nodeTo = nodes.get(Integer.parseInt(index[1]));
-				list.add(new Edge(nodeFrom, nodeTo));
+				String line = br.readLine();
+				if (line != null) {
+					String[] index = line.split(" ");
+					DataNode nodeFrom = nodes.get(Integer.parseInt(index[0]));
+					DataNode nodeTo = nodes.get(Integer.parseInt(index[1]));
+					list.add(new Edge(nodeFrom, nodeTo));
+				}
 			}
 			br.close();
 		} catch (IOException e) {

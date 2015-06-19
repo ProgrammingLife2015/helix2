@@ -55,7 +55,7 @@ public class SingleWrapper extends Wrapper {
 	public Set<Genome> getGenome() {
 		return this.target.getGenome();
 	}
-
+	
 	public Wrapper getNode() {
 		return this.target;
 	}
@@ -69,12 +69,12 @@ public class SingleWrapper extends Wrapper {
 	public void collectDataNodes(Set<DataNode> set) {
 		this.target.collectDataNodes(set);
 	}
-
+	
 	@Override
 	public void collectLabels(Set<Label> labels) {
 		target.collectLabels(labels);
 	}
-
+	
 	@Override
 	public void calculateX() {
 		this.x = this.getNode().getX();
@@ -83,5 +83,10 @@ public class SingleWrapper extends Wrapper {
 	@Override
 	public int getWidth() {
 		return this.getNode().getWidth();
+	}
+	
+	@Override
+	public boolean contains(Wrapper object) {
+		return object == this.target || this.target.contains(object);
 	}
 }
