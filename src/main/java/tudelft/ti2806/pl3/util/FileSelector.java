@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3.util;
 
 import tudelft.ti2806.pl3.exception.FileSelectorException;
+import tudelft.ti2806.pl3.util.observers.Observer;
 
 import java.awt.FileDialog;
 import java.io.File;
@@ -17,10 +18,22 @@ public class FileSelector {
 	private FileSelector() {
 	}
 
-	public static LastOpenedStack<File> lastopened;
+	private static LastOpenedStack<File> lastopened;
+
+	public static LastOpenedStack<File> getLastopened() {
+		return lastopened;
+	}
 
 	public static void setLastOpened(LastOpenedStack<File> lastOpenedStack) {
 		lastopened = lastOpenedStack;
+	}
+
+	public static void addLastOpened(File file) {
+		lastopened.add(file);
+	}
+
+	public static void addLastOpenedObserver(Observer observer) {
+		lastopened.addObserver(observer);
 	}
 
 	/**

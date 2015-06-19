@@ -8,7 +8,6 @@ import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.DefaultShortcutManager;
-
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.data.gene.Gene;
@@ -131,15 +130,15 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 			/ (panel.getBounds().width * zoomLevel / zoomedGraphModel.getWrappedCollapsedNode().getWidth())
 			/ zoomedGraphModel.getWrappedCollapsedNode().getGenome().size();
 		graphData.forEach(node -> {
-				Node graphNode = graph.addNode(Integer.toString(node.getId()));
-				double y = node.getY() * someSize;
-				graphNode.setAttribute("xy", node.getX(), y);
-				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
-				graphNode.addAttribute("ui.label",
+			Node graphNode = graph.addNode(Integer.toString(node.getId()));
+			double y = node.getY() * someSize;
+			graphNode.setAttribute("xy", node.getX(), y);
+			graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
+			graphNode.addAttribute("ui.label",
 					NumberFormat.getNumberInstance(Locale.US)
-					.format(node.getOriginalNode().getBasePairCount()));
-				graphNode.setAttribute("node", node);
-			});
+							.format(node.getOriginalNode().getBasePairCount()));
+			graphNode.setAttribute("node", node);
+		});
 		
 		for (WrapperClone node : graphData) {
 			int i = 0;

@@ -1,5 +1,6 @@
 package tudelft.ti2806.pl3;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import newick.ParseException;
 import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.ScrollListener;
@@ -112,7 +113,7 @@ public class Application extends JFrame implements ControllerContainer {
 		MenuBarController menuBarController = new MenuBarController(this);
 		LastOpenedController lastOpenedController = new LastOpenedController(this);
 		menuBarController.setLastOpenedMenu(lastOpenedController.getLastOpenedMenu());
-		FileSelector.lastopened.addObserver(lastOpenedController);
+		FileSelector.addLastOpenedObserver(lastOpenedController);
 		setMenuBar(menuBarController.getMenuBar());
 
 		// set window controller
@@ -234,11 +235,12 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * Stop the application and exit.
 	 */
+	@SuppressFBWarnings({"DM_EXIT"})
 	public void stop() {
 		// save data or do something else here
 		if (DialogUtil.confirm("Exit", "Are you sure you want to exit the application? ")) {
 			try {
-				ParserLastOpened.saveLastOpened(FileSelector.lastopened);
+				ParserLastOpened.saveLastOpened(FileSelector.getLastopened());
 			} catch (IOException | InterruptedException e) {
 				System.out.println("Unable to save the files");
 				e.printStackTrace();
