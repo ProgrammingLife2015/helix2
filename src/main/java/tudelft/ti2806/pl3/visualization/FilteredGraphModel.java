@@ -88,7 +88,6 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
 
-//		ComputeInterest.compute(collapsedNode);
 		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
 		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
 		calculateCollapse.calculate(collapsedNode, null);
