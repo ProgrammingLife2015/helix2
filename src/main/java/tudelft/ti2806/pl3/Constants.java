@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3;
 
 /**
+ * Constants contains every string used in the GUI.
  * Created by Mathieu Post on 17-6-15.
  */
 public class Constants {
@@ -10,6 +11,7 @@ public class Constants {
 	public static final char MINUS = '-';
 	public static final char ARROW_RIGHT = '\u2192';
 	public static final char ARROW_LEFT = '\u2190';
+	public static final String SPACE = "Space";
 
 	// Name of the application.
 	public static final String APP_NAME = "Helix" + POWER;
@@ -28,7 +30,11 @@ public class Constants {
 			+ "- Kasper Wendel\n"
 			+ "\n"
 			+ "The code of this application is open source and can be found on GitHub: \n";
-	public static final String INFO_CONTROLS = APP_NAME + " uses key shortcuts to make life easier. "
+	public static final String INFO_CONTROLS = "To achieve semantic zooming " + APP_NAME
+			+ " combines nodes to new nodes, we call it wrapping."
+			+ "When a node has a square icon it means that it can unwrap to more nodes. "
+			+ "If it has a circle icon it's fully unwrapped.\n"
+			+ APP_NAME + " uses key shortcuts to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
 			+ "Zooming in     \t " + PLUS + " \n"
@@ -37,10 +43,11 @@ public class Constants {
 			+ "Move the view to the left \t " + ARROW_LEFT + " \n"
 			+ "Move the view to the right \t " + ARROW_RIGHT + " \n"
 			+ "Gene navigation window \t G \n"
-			+ "Hide/show phylogenetic tree window \t spacebar \n"
+			+ "Hide/show phylogenetic tree window \t " + SPACE + " \n"
 			+ "\n"
 			+ "All of the menus can be controlled with the underlined letter, "
 			+ "hold the ALT key to activate this.";
+
 	public static final String INFO_GITHUB_URL = "https://github.com/ProgrammingLife3/ProgrammingLife3";
 
 	// Menu constants.
@@ -60,6 +67,7 @@ public class Constants {
 	public static final String MENU_VIEW_RESET = "Reset view";
 	public static final String MENU_VIEW_NAVIGATE_TO_GENE = "Navigate to gene";
 	public static final String MENU_VIEW_METADATA = "Filter on metadata";
+	public static final String MENU_VIEW_PYLO = "Phylogenetic view";
 
 	public static final String MENU_HELP = "Help";
 	public static final String MENU_HELP_CONTROLS = "Controls";
@@ -68,4 +76,10 @@ public class Constants {
 	public static final String DIALOG_ERROR = "Error!";
 	public static final String DETAILVIEW_GENOMES = "Genomes:";
 	public static final String DETAILVIEW_LABELS = "Labels:";
+
+	// Phylogenetic view constants.
+	public static final String PHYLO_WINDOW_TITLE = "Select Genomes";
+	public static final String PHYLO_BUTTON_LABEL_UPDATE = "Update";
+	public static final String PHYLO_LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
+	public static final String PHYLO_LABEL_COMMON_ANCESTOR = "Common ancestor";
 }

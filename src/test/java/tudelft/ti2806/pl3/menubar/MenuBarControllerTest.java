@@ -15,6 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import tudelft.ti2806.pl3.Application;
 import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.findgenes.FindGenesController;
+import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.visualization.GraphController;
 
 import java.awt.event.ActionEvent;
@@ -150,6 +151,17 @@ public class MenuBarControllerTest {
 	}
 
 	@Test
+	public void testActionSideBar() {
+		SideBarController sideBarController = mock(SideBarController.class);
+		when(actionEvent.getActionCommand()).thenReturn(Constants.MENU_VIEW_PYLO);
+		when(application.getSideBarController()).thenReturn(sideBarController);
+		menuBarController.actionPerformed(actionEvent);
+
+		verify(application, times(1)).getSideBarController();
+		verify(sideBarController, times(1)).toggleSideBar();
+	}
+
+	@Test
 	public void testMakeControls() {
 		String expected = Constants.INFO_CONTROLS;
 		String controls = menuBarController.makeControls().getText();
@@ -160,8 +172,9 @@ public class MenuBarControllerTest {
 	public void testMakeAbout() {
 		String expected = Constants.INFO_ABOUT + "githublink";
 		String result = menuBarController.makeAbout().getText();
-//		assertEquals(expected, result);
-//		assertEquals(result.contains(expected), expected.contains(result));
+		// this test is not working
+		//assertEquals(expected, result);
+		//assertEquals(result.contains(expected), expected.contains(result));
 	}
 
 }
