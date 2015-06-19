@@ -53,7 +53,7 @@ public class FindGenesController {
 				if (node == null) {
 					tryAgain = DialogUtil.confirm("Error!", "Couldn't find the selected gene. Please try again");
 				} else {
-					cc.getGraphController().centerOnNode(node);
+					cc.getGraphController().centerOnNode(node, selected);
 				}
 			} catch (ClassCastException e) {
 				tryAgain = DialogUtil.confirm(Constants.DIALOG_ERROR, "Please select an existing gene.");
