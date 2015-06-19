@@ -87,10 +87,11 @@ public class Constants {
 	public static final String DETAILVIEW_GENOMES = "Genomes:";
 	public static final String DETAILVIEW_LABELS = "Labels:";
 
-	public static final String EXTENSION_PHYLOTREE = ".nwk";
 	public static final String EXTENSION_GRAPH = ".graph";
 	public static final String EXTENSION_NODE = ".node" + EXTENSION_GRAPH;
 	public static final String EXTENSION_EDGE = ".edge" + EXTENSION_GRAPH;
+	public static final String EXTENSION_PHYLOTREE = ".nwk";
+	public static final String EXTENSION_TEXT = ".txt";
 
 	// Phylogenetic view constants.
 	public static final String PHYLO_WINDOW_TITLE = "Select Genomes";

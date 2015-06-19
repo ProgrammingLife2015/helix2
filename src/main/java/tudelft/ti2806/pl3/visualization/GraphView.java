@@ -136,6 +136,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				if (node.canUnwrap()) {
 					graphNode.addAttribute("ui.class", "BOX");
 				}
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
 				graphNode.addAttribute("ui.label",
 						NumberFormat.getNumberInstance(Locale.US)
 								.format(node.getOriginalNode().getBasePairCount()));

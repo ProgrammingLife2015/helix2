@@ -84,7 +84,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	public List<Integer> getOutgoingWeight() {
 		return outgoingWeight;
 	}
-	
+
 	public abstract String getIdString();
 	
 	public abstract int getId();
