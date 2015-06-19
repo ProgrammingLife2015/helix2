@@ -43,8 +43,7 @@ public class GraphController implements Controller {
 	public GraphController(GraphDataRepository graphDataRepository) {
 		this.graphDataRepository = graphDataRepository;
 		graphMovedListenerList = new ArrayList<>();
-		geneData = new GeneData();
-		
+
 		initMvc();
 		addListeners();
 	}
