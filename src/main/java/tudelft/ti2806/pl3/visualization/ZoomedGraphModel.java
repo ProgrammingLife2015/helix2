@@ -63,12 +63,12 @@ public class ZoomedGraphModel extends Observable implements Observer,
 	/**
 	 * Sets the zoom level, only if the zoom level is larger then 0.
 	 *
-	 * @param f
+	 * @param zoomLevel
 	 *            the new zoom level
 	 */
-	public void setZoomLevel(float f) {
-		if (f >= 1) {
-			this.zoomLevel = f;
+	public void setZoomLevel(float zoomLevel) {
+		if (zoomLevel >= 1) {
+			this.zoomLevel = zoomLevel;
 		}
 	}
 	
