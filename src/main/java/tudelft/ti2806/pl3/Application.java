@@ -311,6 +311,7 @@ public class Application extends JFrame implements ControllerContainer {
 				size.setHeight((int) bounds.getHeight());
 				size.calculate();
 
+				// resize all the views.
 				getSideBarController().getPanel().setBounds(0, size.getMenubarHeight(),
 						size.getSideBarWidth(), size.getHeight());
 				getGraphController().getPanel().setBounds(0, 0, size.getWidth(),
@@ -319,6 +320,10 @@ public class Application extends JFrame implements ControllerContainer {
 						size.getHeight() - size.getZoomBarHeight(),
 						size.getWidth(), size.getZoomBarHeight());
 				getPhyloController().getView().updateSize();
+
+				// recalculate the zoombar interestingness.
+				getGraphController().calculateCollectInterest();
+				getZoomBarController().graphLoaded();
 
 				main.repaint();
 			}

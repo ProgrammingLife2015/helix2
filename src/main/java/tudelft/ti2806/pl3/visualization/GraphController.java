@@ -203,6 +203,10 @@ public class GraphController implements Controller {
 		graphMoved();
 	}
 
+	public void calculateCollectInterest(){
+		filteredGraphModel.calculateCollectInterest();
+	}
+
 	private double getCurrentZoomLevel() {
 		return zoomedGraphModel.getZoomLevel();
 	}
