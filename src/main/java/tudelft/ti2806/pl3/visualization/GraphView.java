@@ -46,7 +46,7 @@ public class GraphView
 	 * value as text. A zoom level of 2.0 shows the graph with each base pair
 	 * using the half this size.
 	 */
-	private double zoomLevel = 1.0;
+	private float zoomLevel = 1.0f;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
