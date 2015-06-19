@@ -1,17 +1,18 @@
 package tudelft.ti2806.pl3.data.gene;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.label.Label;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class GeneDataTest {
 
@@ -68,6 +69,7 @@ public class GeneDataTest {
 		Integer start = 3057261;
 		Integer end = 3058073;
 		Gene gene = new Gene("RVBD_2744c.5 alanine rich protein", start, end);
+
 		GeneData.parseGene(line, genes, geneStart, geneEnd, labelMap);
 		assertTrue(genes.get(0).equals(gene));
 		assertTrue(geneStart.get(start).equals(gene));
