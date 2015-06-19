@@ -48,8 +48,6 @@ public class Constants {
 			+ "All of the menus can be controlled with the underlined letter, "
 			+ "hold the ALT key to activate this.";
 
-	// vierkant can unwrap
-	// rond unwrapped
 	public static final String INFO_GITHUB_URL = "https://github.com/ProgrammingLife3/ProgrammingLife3";
 
 	// Menu constants.
