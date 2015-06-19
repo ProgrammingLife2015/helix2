@@ -31,7 +31,7 @@ public class WrapperPlaceholderTest {
 		assertTrue(WrapperPlaceholder.ID_STRING.equals(placeholder.getIdString()));
 		assertNull(placeholder.getGenome());
 		assertEquals(0, placeholder.getX(), 0);
-		placeholder.x = 1;
+		placeholder.setX(1);
 		placeholder.calculateX();
 		assertEquals(1, placeholder.getX(), 0);
 		assertEquals(0, placeholder.getWidth());

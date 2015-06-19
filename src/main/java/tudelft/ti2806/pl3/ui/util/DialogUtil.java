@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
  * Created by Boris Mattijssen on 14-06-15.
  */
 public class DialogUtil {
-	static ConfirmOptionPane confirmOptionPane = new DefaultConfirmOptionPane();
+	private static ConfirmOptionPane confirmOptionPane = new DefaultConfirmOptionPane();
 
 	private DialogUtil() {
 	}

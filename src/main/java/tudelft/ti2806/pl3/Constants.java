@@ -6,11 +6,11 @@ package tudelft.ti2806.pl3;
  */
 public class Constants {
 	// Special chars
-	public static final char POWER = '\u00B2';
+	public static final char POWER = '\u00B2'; // Power of 2 character (^2).
 	public static final char PLUS = '+';
 	public static final char MINUS = '-';
-	public static final char ARROW_RIGHT = '\u2192';
-	public static final char ARROW_LEFT = '\u2190';
+	public static final char ARROW_RIGHT = '\u2192'; // Arrow to the right character.
+	public static final char ARROW_LEFT = '\u2190'; // Arrow to the left character.
 	public static final String SPACE = "Space";
 
 	// Name of the application.
@@ -73,13 +73,33 @@ public class Constants {
 	public static final String MENU_HELP_CONTROLS = "Controls";
 	public static final String MENU_HELP_ABOUT = "About " + APP_NAME;
 
-	public static final String DIALOG_ERROR = "Error!";
+	public static final String DIALOG_TITLE_ERROR = "Error!";
+	public static final String DIALOG_TITLE_EXIT = "Exit";
+	public static final String DIALOG_FILE_NOT_FOUND = "Your file was not found. Want to try again?";
+	public static final String DIALOG_FILE_FORMATTED_INCORRECTLY = "Your file was not formatted correctly. "
+			+ "Want to try again?";
+	public static final String DIALOG_EXIT = "Are you sure you want to exit the application? ";
+	public static final String DIALOG_SELECT_PHYLOTREE_FILE = "Select phylogenetic tree file";
+	public static final String DIALOG_SELECT_NODE_FILE = "Select node file";
+	public static final String DIALOG_SELECT_DATA_FOLDER = "Select data folder";
+	public static final String DIALOG_FAIL_SAVE_FILES = "Unable to save the last opened files";
+
 	public static final String DETAILVIEW_GENOMES = "Genomes:";
 	public static final String DETAILVIEW_LABELS = "Labels:";
+
+	public static final String EXTENSION_GRAPH = ".graph";
+	public static final String EXTENSION_NODE = ".node" + EXTENSION_GRAPH;
+	public static final String EXTENSION_EDGE = ".edge" + EXTENSION_GRAPH;
+	public static final String EXTENSION_PHYLOTREE = ".nwk";
+	public static final String EXTENSION_TEXT = ".txt";
 
 	// Phylogenetic view constants.
 	public static final String PHYLO_WINDOW_TITLE = "Select Genomes";
 	public static final String PHYLO_BUTTON_LABEL_UPDATE = "Update";
 	public static final String PHYLO_LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
 	public static final String PHYLO_LABEL_COMMON_ANCESTOR = "Common ancestor";
+
+	// MetaFilter view constants
+	public static final String META_VIEW_TITLE = "Select options to filter on";
+
 }

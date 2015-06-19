@@ -78,7 +78,7 @@ public final class WrapUtil {
 	 * @return A {@link WrappedGraphData} instance with the most collapsed graph found, with only using vertical and
 	 *         horizontal options.
 	 */
-	public static WrappedGraphData collapseGraphVertical(WrappedGraphData original) {
+	private static WrappedGraphData collapseGraphVertical(WrappedGraphData original) {
 		WrappedGraphData lastGraph = original;
 		WrappedGraphData graph = original;
 		while (graph != null) {
@@ -161,8 +161,7 @@ public final class WrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a list containing a new layer over the previous layer
 	 */
-	protected static List<Wrapper> wrapAndReconnect(List<Wrapper> nonCombinedNodes,
-			List<CombineWrapper> combinedNodes) {
+	static List<Wrapper> wrapAndReconnect(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes, combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
 		List<Wrapper> list = new ArrayList<>(new HashSet<>(map.values()));
@@ -180,32 +179,20 @@ public final class WrapUtil {
 	 * @param map
 	 *            a map mapping all nodes from the previous layer to the new layer
 	 */
-	static void reconnectLayer(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes,
-			Map<Wrapper, Wrapper> map) {
+	private static void reconnectLayer(List<Wrapper> nonCombinedNodes,
+			List<CombineWrapper> combinedNodes, Map<Wrapper, Wrapper> map) {
 		for (Wrapper node : nonCombinedNodes) {
 			Wrapper newWrapper = map.get(node);
-			for (Wrapper in : node.getIncoming()) {
-				if (!newWrapper.getIncoming().contains(map.get(in))) {
-					newWrapper.getIncoming().add(map.get(in));
-				}
-			}
-			for (Wrapper out : node.getOutgoing()) {
-				if (!newWrapper.getOutgoing().contains(map.get(out))) {
-					newWrapper.getOutgoing().add(map.get(out));
-				}
-			}
+			node.getIncoming().stream().filter(in -> !newWrapper.getIncoming().contains(map.get(in))).forEach(in
+					-> newWrapper.getIncoming().add(map.get(in)));
+			node.getOutgoing().stream().filter(out -> !newWrapper.getOutgoing().contains(map.get(out))).forEach(out
+					-> newWrapper.getOutgoing().add(map.get(out)));
 		}
 		for (CombineWrapper comNode : combinedNodes) {
-			for (Wrapper in : comNode.getFirst().getIncoming()) {
-				if (!comNode.getIncoming().contains(map.get(in))) {
-					comNode.getIncoming().add(map.get(in));
-				}
-			}
-			for (Wrapper out : comNode.getLast().getOutgoing()) {
-				if (!comNode.getOutgoing().contains(map.get(out))) {
-					comNode.getOutgoing().add(map.get(out));
-				}
-			}
+			comNode.getFirst().getIncoming().stream().filter(in -> !comNode.getIncoming().contains(map.get(in)))
+					.forEach(in -> comNode.getIncoming().add(map.get(in)));
+			comNode.getLast().getOutgoing().stream().filter(out -> !comNode.getOutgoing().contains(map.get(out)))
+					.forEach(out -> comNode.getOutgoing().add(map.get(out)));
 		}
 	}
 	
@@ -219,7 +206,7 @@ public final class WrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a map mapping all nodes from the previous layer to the new layer
 	 */
-	static Map<Wrapper, Wrapper> wrapList(List<Wrapper> nonCombinedNodes,
+	private static Map<Wrapper, Wrapper> wrapList(List<Wrapper> nonCombinedNodes,
 			List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = new HashMap<>();
 		for (Wrapper node : nonCombinedNodes) {

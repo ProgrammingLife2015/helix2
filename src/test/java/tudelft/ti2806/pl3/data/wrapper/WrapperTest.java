@@ -32,7 +32,7 @@ public class WrapperTest {
 		wrapper.addInterest(1);
 		assertEquals(2, wrapper.getInterest(), 0f);
 		assertEquals(0, wrapper.getX(), 0);
-		wrapper.x = 1;
+		wrapper.setX(1);
 		assertEquals(1, wrapper.getX(), 0);
 		assertEquals(0, wrapper.getY(), 0);
 		wrapper.setY(1);

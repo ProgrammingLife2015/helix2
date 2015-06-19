@@ -126,9 +126,7 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 	
 	@Override

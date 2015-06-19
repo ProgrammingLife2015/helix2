@@ -13,6 +13,7 @@ Checkstyle configuration that checks the Google coding conventions (https://goog
   <property name="severity" value="warning"/>
   <property name="charset" value="UTF-8"/>
   <module name="TreeWalker">
+    <property name="tabWidth" value="4"/>
     <module name="OuterTypeFilename"/>
     <module name="LineLength">
       <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
@@ -99,10 +100,10 @@ Checkstyle configuration that checks the Google coding conventions (https://goog
       <message key="ws.illegalFollow" value="GenericWhitespace ''{0}'' should followed by whitespace."/>
     </module>
     <module name="Indentation">
-      <property name="basicOffset" value="8"/>
-      <property name="caseIndent" value="8"/>
+      <property name="basicOffset" value="4"/>
+      <property name="caseIndent" value="4"/>
       <property name="throwsIndent" value="1"/>
-      <property name="arrayInitIndent" value="16"/>
+      <property name="arrayInitIndent" value="8"/>
       <property name="lineWrappingIndentation" value="1"/>
     </module>
     <module name="AbbreviationAsWordInName">

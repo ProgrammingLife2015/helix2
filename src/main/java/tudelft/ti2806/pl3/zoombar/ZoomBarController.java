@@ -19,8 +19,8 @@ import java.awt.event.MouseMotionAdapter;
  */
 public class ZoomBarController implements Controller, GraphMovedListener, GraphLoadedListener {
 
-	private ZoomBarView zoomBarView;
-	private ControllerContainer cc;
+	private final ZoomBarView zoomBarView;
+	private final ControllerContainer cc;
 
 	/**
 	 * Construct a new controller for the zoom bar.

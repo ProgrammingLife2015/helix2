@@ -60,18 +60,14 @@ public class FixWrapper extends Wrapper {
 	
 	@Override
 	public void calculateX() {
-		this.x = this.getPreviousNodesCount();
+		this.setX(this.getPreviousNodesCount());
 	}
 	
 	@Override
 	public int getWidth() {
 		return 0;
 	}
-	
-	public void setX(int x) {
-		this.x = x;
-	}
-	
+
 	@Override
 	public boolean contains(Wrapper object) {
 		return false;

@@ -23,13 +23,13 @@ import java.util.Map;
 import java.util.Observable;
 
 public class GraphController implements Controller {
-	private List<GraphMovedListener> graphMovedListenerList;
+	private static final int DEFAULT_VIEW = 1;
+	private final GraphDataRepository graphDataRepository;
+	private final List<GraphMovedListener> graphMovedListenerList;
+	private final Map<String, Filter<DataNode>> filters = new HashMap<>();
 	private FilteredGraphModel filteredGraphModel;
 	private ZoomedGraphModel zoomedGraphModel;
 	private GraphView graphView;
-	private GraphDataRepository graphDataRepository;
-	private Map<String, Filter<DataNode>> filters = new HashMap<>();
-	private static final int DEFAULT_VIEW = 1;
 	private GeneData geneData;
 
 	/**
@@ -57,7 +57,7 @@ public class GraphController implements Controller {
 	}
 
 	/**
-	 * Add Listeners to the correct models
+	 * Add Listeners to the correct models.
 	 */
 	private void addListeners() {
 		graphDataRepository.addGraphParsedObserver(filteredGraphModel);
@@ -214,7 +214,7 @@ public class GraphController implements Controller {
 		graphMoved();
 	}
 
-	public void calculateCollectInterest(){
+	public void calculateCollectInterest() {
 		filteredGraphModel.calculateCollectInterest();
 	}
 

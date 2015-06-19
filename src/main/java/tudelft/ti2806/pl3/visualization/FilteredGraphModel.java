@@ -28,8 +28,6 @@ import java.util.Set;
 
 /**
  * This model filters the original graph data, based on the filter selections.
- *
- * <p>
  * Every time a new filter is added:
  * <li>It first makes a clone of the original graph data.
  * <li>Then it passes this clone to the filters and retrieves the filtered data.
@@ -41,20 +39,17 @@ import java.util.Set;
  */
 public class FilteredGraphModel extends Observable implements LoadingObservable, GraphParsedObserver {
 
-	private GraphDataRepository originalGraphData;
-	private Wrapper collapsedNode;
-	private List<Filter<DataNode>> filters;
-	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
-
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
-	private CalculateCollapseOnSpace calculateCollapse;
-
-	private CollectInterest collectInterest;
-	private List<Genome> genomes;
+	private final GraphDataRepository originalGraphData;
+	private final PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
+	private final ArrayList<LoadingObserver> loadingObservers;
+	private final CalculateCollapseOnSpace calculateCollapse;
+	private final Map<List<Filter<DataNode>>, Integer> filtersToGenomesCountMap;
 
 	private WrappedGraphData wrappedGraphData;
-
-	private Map<List<Filter<DataNode>>, Integer> filtersToGenomesCountMap;
+	private Wrapper collapsedNode;
+	private CollectInterest collectInterest;
+	private List<Genome> genomes;
+	private List<Filter<DataNode>> filters;
 
 	/**
 	 * Construct the model containing the filtered data.<br>
@@ -62,15 +57,16 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	 * filtered data.
 	 *
 	 * @param originalGraphData
-	 *            The original graph data
+	 * 		The original graph data
 	 */
 	public FilteredGraphModel(GraphDataRepository originalGraphData) {
 		this.originalGraphData = originalGraphData;
-		filters = new ArrayList<>();
-		genomes = new ArrayList<>();
-		filtersToGenomesCountMap = new HashMap<>();
-		positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
-		calculateCollapse = new CalculateCollapseOnSpace();
+		this.filters = new ArrayList<>();
+		this.genomes = new ArrayList<>();
+		this.loadingObservers = new ArrayList<>();
+		this.filtersToGenomesCountMap = new HashMap<>();
+		this.positionNodeYOnGenomeSpace = new PositionNodeYOnGenomeSpace();
+		this.calculateCollapse = new CalculateCollapseOnSpace();
 	}
 
 	public void setFilters(List<Filter<DataNode>> filters) {
@@ -107,47 +103,16 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	/**
 	 * Calculate the CollectInterest based on the current screensize width.
 	 */
-	public void calculateCollectInterest(){
+	public void calculateCollectInterest() {
 		collectInterest = new CollectInterest(ScreenSize.getInstance().getWidth());
 		collectInterest.calculate(wrappedGraphData.getPositionedNodes());
-	}
-
-	/**
-	 * Removes all edges of which one or both of their nodes is not on the originalWrappedGraphData.
-	 *
-	 * @param edgeList
-	 *            the list of edges in the originalWrappedGraphData
-	 * @param nodeList
-	 *            the list of nodes in the originalWrappedGraphData
-	 */
-	static void removeAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
-		edgeList.removeAll(getAllDeadEdges(edgeList, nodeList));
-	}
-
-	/**
-	 * Finds all the edges on the graph which have one or two nodes which are not on the graph.
-	 *
-	 * @param edgeList
-	 *            the list of edges in the graph
-	 * @param nodeList
-	 *            the list of nodes in the graph
-	 * @return a list of all dead edges
-	 */
-	private static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
-		List<Edge> removeList = new ArrayList<>();
-		for (Edge edge : edgeList) {
-			if (!nodeList.contains(edge.getFrom()) || !nodeList.contains(edge.getTo())) {
-				removeList.add(edge);
-			}
-		}
-		return removeList;
 	}
 
 	/**
 	 * Apply all filters.
 	 *
 	 * @param list
-	 *            the list of nodes to be filtered
+	 * 		the list of nodes to be filtered
 	 */
 	public void filter(List<DataNode> list) {
 		for (Filter<DataNode> filter : filters) {
@@ -167,9 +132,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 
 	@Override
@@ -204,9 +167,9 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 
 	/**
 	 * Count the genomes in the filtered data.
-	 * @return
-	 *      returns the amount of genomes in the original data set when no filters are applied,
-	 *      otherwise it calculates the amount of genomes in the filtered data and returns it.
+	 *
+	 * @return returns the amount of genomes in the original data set when no filters are applied,
+	 *		otherwise it calculates the amount of genomes in the filtered data and returns it.
 	 */
 	public int getGenomesCount() {
 		if (filters.size() > 0) {

@@ -21,13 +21,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class CombineWrapperTest {
 	private static final String INNER_ID_STRING_REGDEX = "[\\[][A-Za-z0-9]*[\\]]";
-	
+
 	@Test
 	public void combineWrapperGetTests() {
 		Wrapper wrapper1 = new TestWrapper(1);
 		Wrapper wrapper2 = new TestWrapper(2);
 		Wrapper wrapper3 = new TestWrapper(3);
-		
+
 		// Test node list
 		List<Wrapper> wrappers = new ArrayList<>(3);
 		wrappers.add(wrapper1);
@@ -45,10 +45,10 @@ public class CombineWrapperTest {
 		wrapper.collectDataNodes(set);
 		assertNotNull(set);
 		
-		wrapper1.x = 0;
-		wrapper2.x = 1;
-		wrapper3.x = 2;
-		
+		wrapper1.setX(0);
+		wrapper2.setX(1);
+		wrapper3.setX(2);
+
 		wrapper.calculateX();
 		
 		assertEquals(1, wrapper.getX(), 0);
@@ -73,7 +73,7 @@ public class CombineWrapperTest {
 		public Set<Genome> getGenome() {
 			return null;
 		}
-		
+
 		@Override
 		public void calculate(WrapperOperation wrapperSequencer,
 				Wrapper container) {

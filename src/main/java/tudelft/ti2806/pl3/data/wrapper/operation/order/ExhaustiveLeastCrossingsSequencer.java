@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Searches for the order with the least number of edge crossings, to increase
@@ -54,9 +55,9 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		for (Wrapper node : wrapper.getNodeList()) {
 			calculate(node, wrapper);
 		}
-		long posibleConfigurations = getOptionCountFromLeftToRight(wrapper
+		long possibleConfigurations = getOptionCountFromLeftToRight(wrapper
 				.getNodeList());
-		if (posibleConfigurations > maxIterations) {
+		if (possibleConfigurations > maxIterations) {
 			// TODO: leave default order or use genetic algorithm?
 			return;
 		}
@@ -64,7 +65,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 				.getNodeList());
 		List<Pair<List<Wrapper>, Wrapper[]>> order = getOrder(currentOrder);
 		int bestConfig = calculateBestConfig(wrapper,
-				(int) posibleConfigurations, order);
+				(int) possibleConfigurations, order);
 		applyConfigurationToOrder(bestConfig, order);
 	}
 	
@@ -91,7 +92,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 * @param currentOrder
 	 *            the list of lists of which to store the original.
 	 * @return a list with as first value the list of the node and as second the
-	 *         orignal order of this list
+	 *         original order of this list
 	 */
 	List<Pair<List<Wrapper>, Wrapper[]>> getOrder(
 			List<List<Wrapper>> currentOrder) {
@@ -240,10 +241,8 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		List<Line> lines = new ArrayList<>();
 		for (int i = wrapper.getNodeList().size() - 2; i >= 1; i--) {
 			Wrapper from = wrapper.getNodeList().get(i);
-			for (Wrapper to : from.getOutgoing()) {
-				lines.add(new Line(from.getX(), from.getY(), to
-						.getX(), to.getY()));
-			}
+			lines.addAll(from.getOutgoing().stream().map(to -> new Line(from.getX(), from.getY(), to
+					.getX(), to.getY())).collect(Collectors.toList()));
 		}
 		return lines;
 	}

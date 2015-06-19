@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
  * LastOpenedMenu displays the files that were last opened.
  * Created by Kasper on 15-6-2015.
  */
-public class LastOpenedMenu extends JMenu {
+class LastOpenedMenu extends JMenu {
 
 	public LastOpenedMenu() {
 		super(Constants.MENU_FILE_OPEN_RECENTS);

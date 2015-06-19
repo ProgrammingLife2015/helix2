@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class CombineWrapper extends Wrapper {
-	protected List<Wrapper> nodeList;
+	final List<Wrapper> nodeList;
 	
 	private float collapse = 0;
 	
@@ -53,9 +53,7 @@ public abstract class CombineWrapper extends Wrapper {
 	@Override
 	public String getIdString() {
 		StringBuilder str = new StringBuilder("{");
-		for (Wrapper node : nodeList) {
-			str.append("[" + node.getIdString() + "]");
-		}
+		nodeList.forEach(node -> str.append("[").append(node.getIdString()).append("]"));
 		return str.toString() + "}";
 	}
 	
@@ -76,11 +74,12 @@ public abstract class CombineWrapper extends Wrapper {
 	
 	@Override
 	public void calculateX() {
-		this.x = 0f;
+		int x = 0;
 		for (Wrapper node : this.getNodeList()) {
-			this.x += node.getX();
+			x += node.getX();
 		}
-		this.x /= this.getNodeList().size();
+		x /= this.getNodeList().size();
+		this.setX(x);
 	}
 
 	@Override

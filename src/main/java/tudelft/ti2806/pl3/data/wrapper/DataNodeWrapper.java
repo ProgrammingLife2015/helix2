@@ -22,7 +22,7 @@ import java.util.Set;
  *
  */
 public class DataNodeWrapper extends Wrapper {
-	private DataNode node;
+	private final DataNode node;
 	
 	/**
 	 * Construct a list with connected and fully initialised
@@ -48,8 +48,8 @@ public class DataNodeWrapper extends Wrapper {
 		for (Edge edge : edgeList) {
 			DataNodeWrapper from = map.get(edge.getFromId());
 			DataNodeWrapper to = map.get(edge.getToId());
-			from.outgoing.add(to);
-			to.incoming.add(from);
+			from.getOutgoing().add(to);
+			to.getIncoming().add(from);
 		}
 		return new ArrayList<>(map.values());
 	}
@@ -103,7 +103,7 @@ public class DataNodeWrapper extends Wrapper {
 
 	@Override
 	public void calculateX() {
-		this.x = this.getPreviousNodesCount();
+		setX(this.getPreviousNodesCount());
 	}
 	
 	@Override

@@ -51,16 +51,17 @@ public final class HorizontalWrapUtil {
 	 * @return the collapsed version of the given graph<br>
 	 *         {@code null} if nothing could be collapsed
 	 */
-	static List<Wrapper> combineNodes(List<Wrapper> parentLayer, boolean canUnwrap) {
-		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(parentLayer.size());
-		List<Integer> nonWrappedNodesOrder = new ArrayList<>(parentLayer.size());
-		for (Wrapper node : parentLayer) {
+	private static List<Wrapper> combineNodes(List<Wrapper> nodes,
+			boolean canUnwrap) {
+		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
+		List<Integer> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
+		for (Wrapper node : nodes) {
 			int id = node.getId();
 			nonWrappedNodes.put(id, node);
 			nonWrappedNodesOrder.add(id);
 		}
 		List<CombineWrapper> combinedNodes = new ArrayList<>();
-		List<List<Wrapper>> combineAbleNodes = findCombineableNodes(parentLayer);
+		List<List<Wrapper>> combineAbleNodes = findCombineableNodes(nodes);
 		if (canUnwrap) {
 			combineAbleNodes = cutCombineableNodes(combineAbleNodes);
 		}

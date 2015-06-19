@@ -40,15 +40,15 @@ public class PhyloView extends JPanel implements View, Observer {
 
 	private static final String ICON_BACTERIA = "pictures/bacteria_small.jpg";
 
-	private JTree jTree;
+	private final JTree jTree;
 	private List<String> selected = new ArrayList<>();
 
 	private JScrollPane scroller;
 	private JLabel header;
-	private PhyloModel phyloModel;
+	private final PhyloModel phyloModel;
 
-	JButton button;
-	private JLabel emptyLabel = new JLabel("Please load a .nwk file");
+	private JButton button;
+	private final JLabel emptyLabel = new JLabel("Please load a .nwk file");
 
 	/**
 	 * Phylo view constructs a Jtree object with our .nwk tree file.
@@ -161,7 +161,7 @@ public class PhyloView extends JPanel implements View, Observer {
 	/**
 	 * Set up the listener for clicking on the phylogentic tree.
 	 */
-	public void setListener() {
+	private void setListener() {
 		jTree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 		jTree.getSelectionModel().addTreeSelectionListener(new TreeClassListener());

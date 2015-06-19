@@ -14,7 +14,13 @@ import java.util.List;
  *            the second type
  */
 public class Pair<U, T> {
-	
+
+	/**
+	 * This method makes a List from a Pair.
+	 * @param pair pair
+	 * @param <T> type
+	 * @return list of pair
+	 */
 	public static <T> List<T> toList(Pair<T, T> pair) {
 		List<T> list = new ArrayList<>(2);
 		list.add(pair.getFirst());
