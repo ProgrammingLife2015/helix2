@@ -105,7 +105,7 @@ public class GraphController implements Controller {
 	 */
 	public void parseGraph(File nodeFile, File edgeFile, File metaFile) throws FileNotFoundException {
 		try {
-			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef");
+			GeneData geneData = GeneData.parseGenes("geneAnnotationsRef.gff");
 			graphDataRepository.parseGraph(nodeFile, edgeFile, metaFile, geneData);
 			graphView.getPanel().setVisible(false);
 			graphView.getPanel().setVisible(true);
@@ -113,7 +113,7 @@ public class GraphController implements Controller {
 			if (DialogUtil.confirm("Parse error", "A random error occurred while parsing the "
 					+ "gene annotations file. "
 					+ "Retrying could help. Would you like to try again now?")) {
-				parseGraph(nodeFile, edgeFile);
+				parseGraph(nodeFile, edgeFile, metaFile);
 			}
 		}
 	}
