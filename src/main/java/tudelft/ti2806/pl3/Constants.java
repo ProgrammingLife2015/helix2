@@ -1,6 +1,7 @@
 package tudelft.ti2806.pl3;
 
 /**
+ * Constants contains every string used in the GUI.
  * Created by Mathieu Post on 17-6-15.
  */
 public class Constants {
@@ -66,4 +67,10 @@ public class Constants {
 	public static final String DIALOG_ERROR = "Error!";
 	public static final String DETAILVIEW_GENOMES = "Genomes:";
 	public static final String DETAILVIEW_LABELS = "Labels:";
+
+	// Phylogenetic view constants.
+	public static final String PHYLO_WINDOW_TITLE = "Select Genomes";
+	public static final String PHYLO_BUTTON_LABEL_UPDATE = "Update";
+	public static final String PHYLO_LABEL_PHYLOGENETIC_TREE = "Phylogenetic tree";
+	public static final String PHYLO_LABEL_COMMON_ANCESTOR = "Common ancestor";
 }
