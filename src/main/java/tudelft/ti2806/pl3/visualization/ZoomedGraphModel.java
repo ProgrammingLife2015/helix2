@@ -1,13 +1,13 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.data.Genome;
-import tudelft.ti2806.pl3.util.observable.LoadingObservable;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.Unwrap;
 import tudelft.ti2806.pl3.data.wrapper.operation.unwrap.UnwrapOnCollapse;
 import tudelft.ti2806.pl3.util.EdgeUtil;
+import tudelft.ti2806.pl3.util.observable.LoadingObservable;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class ZoomedGraphModel extends Observable implements Observer,
 	private List<WrapperClone> dataNodeWrapperList;
 	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	
-	private int zoomLevel = 1;
+	private float zoomLevel = 1;
 	
 	/**
 	 * Construct a new ZoomedGraphModel, with a reference to the
@@ -63,16 +63,16 @@ public class ZoomedGraphModel extends Observable implements Observer,
 	/**
 	 * Sets the zoom level, only if the zoom level is larger then 0.
 	 *
-	 * @param zoomLevel
+	 * @param f
 	 *            the new zoom level
 	 */
-	public void setZoomLevel(int zoomLevel) {
-		if (zoomLevel > 0) {
-			this.zoomLevel = zoomLevel;
+	public void setZoomLevel(float f) {
+		if (f > 0) {
+			this.zoomLevel = f;
 		}
 	}
 	
-	public int getZoomLevel() {
+	public float getZoomLevel() {
 		return zoomLevel;
 	}
 	
@@ -89,7 +89,7 @@ public class ZoomedGraphModel extends Observable implements Observer,
 	 */
 	public void produceDataNodeWrapperList() {
 		notifyLoadingObservers(true);
-		int nodeCount = Math.min(MIN_NODE_COUNT * zoomLevel, filteredGraphModel
+		int nodeCount = (int) Math.min(MIN_NODE_COUNT * zoomLevel, filteredGraphModel
 				.getCalculateCollapse().getCollapses().size() - 1);
 		Unwrap unwrap = new UnwrapOnCollapse(filteredGraphModel
 				.getCalculateCollapse().getCollapses().get(nodeCount));

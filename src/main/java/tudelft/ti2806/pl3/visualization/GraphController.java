@@ -1,7 +1,6 @@
 package tudelft.ti2806.pl3.visualization;
 
 import tudelft.ti2806.pl3.Controller;
-import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.gene.GeneData;
@@ -9,6 +8,7 @@ import tudelft.ti2806.pl3.data.graph.DataNode;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.exception.NodeNotFoundException;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
+import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 
 import java.awt.Component;
 import java.io.File;
@@ -34,6 +34,7 @@ public class GraphController implements Controller {
 	 * Percentage of the screen that is moved.
 	 */
 	private static final double MOVE_FACTOR = 10.0;
+	private static final float ZOOM_STEP_SIZE = 1.5f;
 
 	/**
 	 * Initialise an instance of GraphControler.<br>
@@ -121,7 +122,7 @@ public class GraphController implements Controller {
 	 * Zoom the graph one level up.
 	 */
 	public void zoomLevelUp() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() * 2);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() * ZOOM_STEP_SIZE);
 		zoomedGraphModel.produceDataNodeWrapperList();
 		graphMoved();
 	}
@@ -130,7 +131,7 @@ public class GraphController implements Controller {
 	 * Zoom the graph one level down.
 	 */
 	public void zoomLevelDown() {
-		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() / 2);
+		zoomedGraphModel.setZoomLevel(zoomedGraphModel.getZoomLevel() / ZOOM_STEP_SIZE);
 		zoomedGraphModel.produceDataNodeWrapperList();
 		graphMoved();
 	}
