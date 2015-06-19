@@ -31,6 +31,11 @@ public class FixWrapper extends Wrapper {
 	}
 
 	@Override
+	public boolean canUnwrap() {
+		return false;
+	}
+
+	@Override
 	public Set<Genome> getGenome() {
 		return genome;
 	}

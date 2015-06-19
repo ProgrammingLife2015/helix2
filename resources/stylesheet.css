@@ -24,17 +24,8 @@ node:selected {
     size: 25;
 }
 
-node.HorizontalWrapper {
+node.BOX {
     shape: box;
-}
-
-node.SpaceWrapper {
-    shape: diamond;
-    size: 20;
-}
-
-node.VerticalWrapper {
-    shape: cross;
 }
 
 node.FixWrapper {

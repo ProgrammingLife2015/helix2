@@ -89,6 +89,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 
 	public abstract int getId();
 
+	public abstract boolean canUnwrap();
+
 	public abstract Set<Genome> getGenome();
 
 	public abstract void calculate(WrapperOperation wrapperSequencer, Wrapper container);

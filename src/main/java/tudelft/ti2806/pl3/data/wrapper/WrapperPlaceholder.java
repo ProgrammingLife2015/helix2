@@ -30,6 +30,11 @@ public class WrapperPlaceholder extends Wrapper {
 	}
 
 	@Override
+	public boolean canUnwrap() {
+		return true;
+	}
+
+	@Override
 	public Set<Genome> getGenome() {
 		return null;
 	}

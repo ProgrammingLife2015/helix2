@@ -133,9 +133,10 @@ public class GraphView
 				Node graphNode = graph.addNode(Integer.toString(node.getId()));
 				double y = node.getY() * someSize;
 				graphNode.setAttribute("xy", node.getX(), y);
-				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass()
-							.getSimpleName());
-				graphNode.addAttribute("ui.label", node.getOriginalNode().getWidth());
+				if (node.canUnwrap()) {
+					graphNode.addAttribute("ui.class", "BOX");
+				}
+				graphNode.addAttribute("ui.label", node.getWidth());
 				graphNode.setAttribute("node", node);
 			});
 
