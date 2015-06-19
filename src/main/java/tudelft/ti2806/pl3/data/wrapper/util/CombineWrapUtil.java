@@ -24,7 +24,7 @@ public final class CombineWrapUtil {
 	 *            the nodes that are combined, and are already of the new layer
 	 * @return a list containing a new layer over the previous layer
 	 */
-	static List<Wrapper> wrapAndReconnect(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes) {
+	public static List<Wrapper> wrapAndReconnect(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes) {
 		Map<Wrapper, Wrapper> map = wrapList(nonCombinedNodes, combinedNodes);
 		reconnectLayer(nonCombinedNodes, combinedNodes, map);
 		List<Wrapper> list = new ArrayList<>(new HashSet<>(map.values()));
@@ -42,7 +42,7 @@ public final class CombineWrapUtil {
 	 * @param map
 	 *            a map mapping all nodes from the previous layer to the new layer
 	 */
-	static void reconnectLayer(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes,
+	public static void reconnectLayer(List<Wrapper> nonCombinedNodes, List<CombineWrapper> combinedNodes,
 			Map<Wrapper, Wrapper> map) {
 		reconnectNonCombinedNodes(nonCombinedNodes, map);
 		reconnectCombinedNodes(combinedNodes, map);
@@ -108,45 +108,5 @@ public final class CombineWrapUtil {
 			}
 		}
 		return map;
-	}
-	
-	/**
-	 * Fills the order list and map with the given order.
-	 * 
-	 * @param nodes
-	 *            the nodes to fill the map with
-	 * @param nonWrappedNodes
-	 *            the map to fill
-	 * @param nonWrappedNodesOrder
-	 *            the order list to fill
-	 */
-	static void fillNonWrappedCollections(List<Wrapper> nodes, Map<Integer, Wrapper> nonWrappedNodes,
-			List<Integer> nonWrappedNodesOrder) {
-		for (Wrapper node : nodes) {
-			int id = node.getId();
-			nonWrappedNodes.put(id, node);
-			nonWrappedNodesOrder.add(id);
-		}
-	}
-	
-	/**
-	 * Collect non wrapped nodes from the maintained wrapper order and wrapper map.
-	 * 
-	 * @param nonWrappedNodes
-	 *            the map to fill the list with
-	 * @param nonWrappedNodesOrder
-	 *            the order to apply
-	 * @return a list with the non combined nodes in the previous order
-	 */
-	static List<Wrapper> collectNonWrappedNodes(Map<Integer, Wrapper> nonWrappedNodes,
-			List<Integer> nonWrappedNodesOrder) {
-		List<Wrapper> result = new ArrayList<>(nonWrappedNodes.values().size());
-		for (int id : nonWrappedNodesOrder) {
-			Wrapper node = nonWrappedNodes.get(id);
-			if (node != null) {
-				result.add(node);
-			}
-		}
-		return result;
 	}
 }

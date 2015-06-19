@@ -54,12 +54,12 @@ public final class VerticalWrapUtil {
 	private static List<Wrapper> combineNodes(List<Wrapper> nodes) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		List<Integer> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
-		CombineWrapUtil.fillNonWrappedCollections(nodes, nonWrappedNodes, nonWrappedNodesOrder);
+		OrderedListRebuildUtil.fillNonWrappedCollections(nodes, nonWrappedNodes, nonWrappedNodesOrder);
 		List<CombineWrapper> combinedNodes = generateCombinedNodes(nodes, nonWrappedNodes);
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
-		List<Wrapper> result = CombineWrapUtil.collectNonWrappedNodes(nonWrappedNodes, nonWrappedNodesOrder);
+		List<Wrapper> result = OrderedListRebuildUtil.collectNonWrappedNodes(nonWrappedNodes, nonWrappedNodesOrder);
 		return CombineWrapUtil.wrapAndReconnect(result, combinedNodes);
 	}
 	
