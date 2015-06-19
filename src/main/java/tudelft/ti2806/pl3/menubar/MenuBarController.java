@@ -39,7 +39,6 @@ import javax.swing.text.TabStop;
 public class MenuBarController implements ActionListener, Controller {
 
 	private final MenuBarView menuBarView;
-
 	private final Application application;
 
 	/**
@@ -102,6 +101,10 @@ public class MenuBarController implements ActionListener, Controller {
 		application.getFindGenesController().openDialog();
 	}
 
+	private void toggleSideBar() {
+		application.getSideBarController().toggleSideBar();
+	}
+
 	private void filterMetadata() {
 		application.getMetaFilterController().openDialog();
 	}
@@ -119,6 +122,7 @@ public class MenuBarController implements ActionListener, Controller {
 
 	/**
 	 * Make a {@link JTextPane} with controls text.
+	 *
 	 * @return JTextpane with control text.
 	 */
 	public JTextPane makeControls() {
@@ -148,6 +152,7 @@ public class MenuBarController implements ActionListener, Controller {
 
 	/**
 	 * Make a {@link JTextPane} with about me text.
+	 *
 	 * @return JTextpane with about me text.
 	 */
 	public JTextPane makeAbout() {
@@ -249,6 +254,9 @@ public class MenuBarController implements ActionListener, Controller {
 				break;
 			case Constants.MENU_HELP_ABOUT:
 				displayAbout();
+				break;
+			case Constants.MENU_VIEW_PYLO:
+				toggleSideBar();
 				break;
 			default:
 				break;
