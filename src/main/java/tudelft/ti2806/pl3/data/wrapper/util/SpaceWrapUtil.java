@@ -71,7 +71,7 @@ public final class SpaceWrapUtil {
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
-		return WrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
+		return CombineWrapUtil.wrapAndReconnect(nonWrappedNodes, combinedNodes);
 	}
 	
 	/**

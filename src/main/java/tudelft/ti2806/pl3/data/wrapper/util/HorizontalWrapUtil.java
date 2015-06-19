@@ -55,14 +55,14 @@ public final class HorizontalWrapUtil {
 			boolean canUnwrap) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		List<Integer> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
-		WrapUtil.fillNonWrappedCollections(nodes, nonWrappedNodes, nonWrappedNodesOrder);
+		CombineWrapUtil.fillNonWrappedCollections(nodes, nonWrappedNodes, nonWrappedNodesOrder);
 		
 		List<CombineWrapper> combinedNodes = generateCombinedNodes(nodes, canUnwrap, nonWrappedNodes);
 		if (combinedNodes.size() == 0) {
 			return null;
 		}
-		List<Wrapper> result = WrapUtil.collectNonWrappedNodes(nonWrappedNodes, nonWrappedNodesOrder);
-		return WrapUtil.wrapAndReconnect(result, combinedNodes);
+		List<Wrapper> result = CombineWrapUtil.collectNonWrappedNodes(nonWrappedNodes, nonWrappedNodesOrder);
+		return CombineWrapUtil.wrapAndReconnect(result, combinedNodes);
 	}
 
 	/**
