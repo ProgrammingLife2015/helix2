@@ -43,7 +43,7 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	private List<WrapperClone> dataNodeWrapperList;
 	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	
-	private int zoomLevel = 1;
+	private float zoomLevel = 1;
 	private int graphWidth;
 	
 	/**
@@ -66,13 +66,13 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 * @param zoomLevel
 	 *            the new zoom level
 	 */
-	public void setZoomLevel(int zoomLevel) {
-		if (zoomLevel > 0) {
+	public void setZoomLevel(float zoomLevel) {
+		if (zoomLevel >= 1) {
 			this.zoomLevel = zoomLevel;
 		}
 	}
 	
-	public int getZoomLevel() {
+	public float getZoomLevel() {
 		return this.zoomLevel;
 	}
 	
@@ -87,6 +87,7 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 */
 	public void produceDataNodeWrapperList() {
 		notifyLoadingObservers(true);
+
 		float condition = Math.min((this.graphWidth * MIN_NODE_DISTANCE)
 				/ (ScreenSize.getInstance().getWidth() * this.zoomLevel),
 				new GetFirstCombineWrapper().compute(this.collapsedNode).getCollapse());

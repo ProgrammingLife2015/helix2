@@ -46,7 +46,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 * A zoom level of 1.0 shows the graph 1:1, so that every base pair should be readable, each with pixels to draw its
 	 * value as text. A zoom level of 2.0 shows the graph with each base pair using the half this size.
 	 */
-	private double zoomLevel = 1.0;
+	private float zoomLevel = 1.0f;
 	
 	/**
 	 * The css style sheet used drawing the graph.<br>
