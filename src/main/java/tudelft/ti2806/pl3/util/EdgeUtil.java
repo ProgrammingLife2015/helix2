@@ -84,7 +84,7 @@ public class EdgeUtil {
 	 * 		the list of nodes in the graph
 	 * @return a list of all dead edges
 	 */
-	public static List<Edge> getAllDeadEdges(List<Edge> edgeList,
+	private static List<Edge> getAllDeadEdges(List<Edge> edgeList,
 			List<DataNode> nodeList) {
 		List<Edge> removeList = new ArrayList<>();
 		Map<Integer, DataNode> nodeMap = new HashMap<>(nodeList.size());
@@ -120,33 +120,11 @@ public class EdgeUtil {
 			Set<Genome> genomes = new HashSet<>(wrapperClone.getGenome());
 			Collections.sort(wrapperClone.getOutgoing());
 			for (Wrapper outgoing : wrapperClone.getOutgoing()) {
-				Collection<Genome> intersection = intersection(outgoing.getGenome(), genomes);
+				Collection<Genome> intersection = CollectionUtil.intersection(
+						outgoing.getGenome(), genomes);
 				wrapperClone.getOutgoingWeight().add(intersection.size());
 				genomes.removeAll(intersection);
 			}
 		}
-	}
-
-	/**
-	 * Calculates the intersection between two collections.
-	 *
-	 * @param collection1
-	 * 		collection 1
-	 * @param collection2
-	 * 		collection 2
-	 * @param <T>
-	 * 		type of both collections
-	 * @return the intersection between the two collections
-	 */
-	public static <T> Collection<T> intersection(Collection<T> collection1, Collection<T> collection2) {
-		Collection<T> list = new ArrayList<T>();
-
-		for (T t : collection1) {
-			if (collection2.contains(t)) {
-				list.add(t);
-			}
-		}
-
-		return list;
 	}
 }

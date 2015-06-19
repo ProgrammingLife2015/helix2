@@ -8,10 +8,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 /**
- * Let the user select the correct node and egdes files.
+ * Let the user select the correct node and edges files.
  * Created by Kasper on 7-5-15.
  */
 public class FileSelector {
+	private static final String APPLE_AWT_FILE_DIALOG_FOR_DIRECTORIES = "apple.awt.fileDialogForDirectories";
+
 	private FileSelector() {
 	}
 
@@ -62,13 +64,13 @@ public class FileSelector {
 	public static File selectFolder(String title, JFrame frame) throws FileSelectorException {
 
 		String os = System.getProperty("os.name").toLowerCase();
-		if (os.indexOf("mac") >= 0) { // OS X
-			System.setProperty("apple.awt.fileDialogForDirectories", "true");
+		if (os.contains("mac")) { // OS X
+			System.setProperty(APPLE_AWT_FILE_DIALOG_FOR_DIRECTORIES, "true");
 			FileDialog fileDialog = new FileDialog(frame, title, FileDialog.LOAD);
 			fileDialog.setDirectory(System.getProperty("user.dir"));
 			fileDialog.setVisible(true);
 			File[] files = fileDialog.getFiles();
-			System.setProperty("apple.awt.fileDialogForDirectories", "false");
+			System.setProperty(APPLE_AWT_FILE_DIALOG_FOR_DIRECTORIES, "false");
 			if (files.length == 1) {
 				lastopened.add(files[0]);
 				return files[0];
@@ -90,39 +92,22 @@ public class FileSelector {
 	 *
 	 * @param folder
 	 * 		with the files in it
-	 * @param extension1
-	 * 		to filter on, will be placed on index 0
-	 * @param extension2
-	 * 		to filter on, will be placed on index 1
-	 * @param extension3
-	 * 		to filter on, will be placed on index 2
+	 * @param extensions
+	 * 		to filter on.
 	 * @return Array of files
 	 */
-	public static File[] getFilesFromFolder(File folder, String extension1, String extension2,
-			String extension3, String extension4) {
-		File[] files = new File[4];
+	public static File[] getFilesFromFolder(File folder, String... extensions) {
+		File[] files = new File[extensions.length];
 
-		File[] extension1Files = folder.listFiles((dir, name) -> {
-				return name.endsWith(extension1);
-			}
-		);
-		File[] extension2Files = folder.listFiles((dir, name) -> {
-				return name.endsWith(extension2);
-			}
-		);
-		File[] extension3Files = folder.listFiles((dir, name) -> {
-				return name.endsWith(extension3);
-			}
-		);
-		File[] extension4Files = folder.listFiles((dir, name) -> {
-				return name.endsWith(extension4);
-			}
-		);
+		File[][] fileExtensions = new File[extensions.length][];
+		for (int i = 0; i < extensions.length; i++) {
+			String extension = extensions[i];
+			fileExtensions[i] = folder.listFiles((dir, name) -> { return name.endsWith(extension); });
+		}
 
-		files[0] = extension1Files[0];
-		files[1] = extension2Files[0];
-		files[2] = extension3Files[0];
-		files[3] = extension4Files[0];
+		for (int i = 0; i < files.length; i++) {
+			files[i] = fileExtensions[i][0];
+		}
 
 		return files;
 	}

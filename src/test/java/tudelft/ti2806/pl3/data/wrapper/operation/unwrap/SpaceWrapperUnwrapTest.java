@@ -95,7 +95,7 @@ public class SpaceWrapperUnwrapTest {
 		assertTrue(left instanceof WrapperClone);
 		assertEquals(0, left.getIncoming().size());
 		assertEquals(2, left.getOutgoing().size());
-		assertTrue(((WrapperClone) left).getDataNodes().contains(dataNode1));
+		assertTrue(left.getDataNodes().contains(dataNode1));
 	}
 	
 	/**
@@ -108,8 +108,8 @@ public class SpaceWrapperUnwrapTest {
 		assertTrue(top instanceof WrapperClone);
 		assertEquals(1, top.getIncoming().size());
 		assertEquals(1, top.getOutgoing().size());
-		assertTrue(((WrapperClone) top).getDataNodes().contains(dataNode2));
-		assertTrue(((WrapperClone) top.getIncoming().get(0)).getDataNodes().contains(dataNode1));
+		assertTrue(top.getDataNodes().contains(dataNode2));
+		assertTrue(top.getIncoming().get(0).getDataNodes().contains(dataNode1));
 	}
 	
 	/**
@@ -120,11 +120,11 @@ public class SpaceWrapperUnwrapTest {
 	public void testMiddleNode() {
 		Wrapper middle = unwrap.getResult().getOutgoing().get(1);
 		assertTrue(middle instanceof WrapperClone);
-		assertTrue(((WrapperClone) middle).getDataNodes().contains(dataNode3));
+		assertTrue(middle.getDataNodes().contains(dataNode3));
 		assertEquals(2, middle.getIncoming().size());
 		assertEquals(1, middle.getOutgoing().size());
-		assertTrue(((WrapperClone) middle.getIncoming().get(0)).getDataNodes().contains(dataNode1));
-		assertTrue(((WrapperClone) middle.getIncoming().get(1)).getDataNodes().contains(dataNode2));
+		assertTrue(middle.getIncoming().get(0).getDataNodes().contains(dataNode1));
+		assertTrue(middle.getIncoming().get(1).getDataNodes().contains(dataNode2));
 	}
 	
 	/**
@@ -138,8 +138,8 @@ public class SpaceWrapperUnwrapTest {
 		assertTrue(right instanceof WrapperClone);
 		assertEquals(1, right.getIncoming().size());
 		assertEquals(0, right.getOutgoing().size());
-		assertTrue(((WrapperClone) right).getDataNodes().contains(dataNode4));
-		assertTrue(((WrapperClone) right.getIncoming().get(0)).getDataNodes().contains(dataNode3));
+		assertTrue(right.getDataNodes().contains(dataNode4));
+		assertTrue(right.getIncoming().get(0).getDataNodes().contains(dataNode3));
 	}
 	
 	/**

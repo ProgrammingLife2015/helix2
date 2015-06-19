@@ -29,42 +29,42 @@ public class OrderedListUtilTest {
 	 *             when an exception is thrown
 	 */
 	@Before
-	public void setUp() throws Exception {
-		listsToCombine = new ArrayList<List<Wrapper>>(5);
-		ordersToTest = new ArrayList<Wrapper[]>(5);
-		List<Wrapper> list = new ArrayList<Wrapper>(3);
+	public void setUp() {
+		listsToCombine = new ArrayList<>(5);
+		ordersToTest = new ArrayList<>(5);
+		List<Wrapper> list = new ArrayList<>(3);
 		list.add(new TestWrapper("A"));
 		list.add(new TestWrapper("B"));
 		list.add(new TestWrapper("C"));
 		listsToCombine.add(list);
 		ordersToTest.add(list.toArray(new Wrapper[3]));
-		list = new ArrayList<Wrapper>(4);
+		list = new ArrayList<>(4);
 		list.add(new TestWrapper("A"));
 		list.add(new TestWrapper("X"));
 		list.add(new TestWrapper("C"));
 		list.add(new TestWrapper("D"));
 		listsToCombine.add(list);
 		ordersToTest.add(list.toArray(new Wrapper[4]));
-		list = new ArrayList<Wrapper>(3);
+		list = new ArrayList<>(3);
 		list.add(new TestWrapper("E"));
 		list.add(new TestWrapper("F"));
 		list.add(new TestWrapper("G"));
 		listsToCombine.add(list);
 		ordersToTest.add(list.toArray(new Wrapper[3]));
-		list = new ArrayList<Wrapper>(3);
+		list = new ArrayList<>(3);
 		list.add(new TestWrapper("A"));
 		list.add(new TestWrapper("F"));
 		list.add(new TestWrapper("D"));
 		listsToCombine.add(list);
 		ordersToTest.add(list.toArray(new Wrapper[3]));
-		list = new ArrayList<Wrapper>(1);
+		list = new ArrayList<>(1);
 		list.add(new TestWrapper("P"));
 		listsToCombine.add(list);
 		ordersToTest.add(list.toArray(new Wrapper[1]));
 	}
 	
 	@Test
-	public void mergeSuccesTest() {
+	public void mergeSuccessTest() {
 		List<Wrapper> list = OrderedListUtil
 				.mergeOrderedLists(listsToCombine);
 		ArrayOrderMatcher matcher = new ArrayOrderMatcher(
@@ -74,12 +74,12 @@ public class OrderedListUtilTest {
 		}
 		// Test for the Matcher itself
 		Assert.assertThat(new Wrapper[] { new TestWrapper("B"),
-				new TestWrapper("A") }, new IsNot<Wrapper[]>(matcher));
+				new TestWrapper("A") }, new IsNot<>(matcher));
 	}
 	
 	@Test
 	public void mergeFailTest() {
-		List<Wrapper> list = new ArrayList<Wrapper>(2);
+		List<Wrapper> list = new ArrayList<>(2);
 		list.add(new TestWrapper("D"));
 		list.add(new TestWrapper("A"));
 		listsToCombine.add(list);
@@ -90,6 +90,7 @@ public class OrderedListUtilTest {
 	public void utilConstructorTest() throws NoSuchMethodException,
 			IllegalAccessException, InvocationTargetException,
 			InstantiationException {
+		//noinspection unchecked
 		new UtilTest(OrderedListUtil.class).testConstructorIsPrivate();
 	}
 	
@@ -131,12 +132,10 @@ public class OrderedListUtilTest {
 
 		@Override
 		public void collectDataNodes(Set<DataNode> set) {
-
 		}
 
 		@Override
 		public void collectLabels(Set<Label> labels) {
-			return;
 		}
 
 		@Override

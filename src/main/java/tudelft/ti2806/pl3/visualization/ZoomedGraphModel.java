@@ -37,10 +37,10 @@ public class ZoomedGraphModel extends Observable implements Observer,
 		LoadingObservable {
 	
 	private static final int MIN_NODE_COUNT = 20;
-	private FilteredGraphModel filteredGraphModel;
+	private final FilteredGraphModel filteredGraphModel;
 	private Wrapper collapsedNode;
 	private List<WrapperClone> dataNodeWrapperList;
-	private ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
+	private final ArrayList<LoadingObserver> loadingObservers = new ArrayList<>();
 	
 	private int zoomLevel = 1;
 	
@@ -141,5 +141,9 @@ public class ZoomedGraphModel extends Observable implements Observer,
 		for (LoadingObserver loadingObserver : loadingObservers) {
 			loadingObserver.update(this, arguments);
 		}
+	}
+
+	public int getGenomesCount() {
+		return filteredGraphModel.getGenomesCount();
 	}
 }
