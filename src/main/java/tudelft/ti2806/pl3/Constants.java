@@ -5,11 +5,11 @@ package tudelft.ti2806.pl3;
  */
 public class Constants {
 	// Special chars
-	public static final char POWER = '\u00B2';
+	public static final char POWER = '\u00B2'; // Power of 2 character (^2).
 	public static final char PLUS = '+';
 	public static final char MINUS = '-';
-	public static final char ARROW_RIGHT = '\u2192';
-	public static final char ARROW_LEFT = '\u2190';
+	public static final char ARROW_RIGHT = '\u2192'; // Arrow to the right character.
+	public static final char ARROW_LEFT = '\u2190'; // Arrow to the left character.
 
 	// Name of the application.
 	public static final String APP_NAME = "Helix" + POWER;
@@ -66,7 +66,8 @@ public class Constants {
 	public static final String DIALOG_TITLE_ERROR = "Error!";
 	public static final String DIALOG_TITLE_EXIT = "Exit";
 	public static final String DIALOG_FILE_NOT_FOUND = "Your file was not found. Want to try again?";
-	public static final String DIALOG_FILE_FORMATTED_INCORRECTLY = "Your file was not formatted correctly. Want to try again?";
+	public static final String DIALOG_FILE_FORMATTED_INCORRECTLY = "Your file was not formatted correctly. "
+			+ "Want to try again?";
 	public static final String DIALOG_EXIT = "Are you sure you want to exit the application? ";
 	public static final String DIALOG_SELECT_PHYLOTREE_FILE = "Select phylogenetic tree file";
 	public static final String DIALOG_SELECT_NODE_FILE = "Select node file";
