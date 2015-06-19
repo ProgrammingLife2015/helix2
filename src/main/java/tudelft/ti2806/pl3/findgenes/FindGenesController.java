@@ -40,15 +40,15 @@ public class FindGenesController {
 	 * gene.
 	 */
 	public void openDialog() {
-		FindgenesView findgenesView = new FindgenesView(
+		FindGenesView findGenesView = new FindGenesView(
 				graphData.getGenes().toArray(new Gene[graphData.getGenes().size()]));
-		DialogUtil.displayQuestionMessageWithView(findgenesView,"Select a gene:");
+		DialogUtil.displayQuestionMessageWithView(findGenesView,"Select a gene:");
 
-		if (previousSelected != findgenesView.getSelectedItem()) {
+		if (previousSelected != findGenesView.getSelectedItem()) {
 			boolean tryAgain = false;
-			previousSelected = findgenesView.getSelectedItem();
+			previousSelected = findGenesView.getSelectedItem();
 			try {
-				Gene selected = (Gene) findgenesView.getSelectedItem();
+				Gene selected = (Gene) findGenesView.getSelectedItem();
 				DataNode node = graphData.getGeneToStartNodeMap().get(selected);
 				if (node == null) {
 					tryAgain = DialogUtil.confirm("Error!", "Couldn't find the selected gene. Please try again");
@@ -56,9 +56,9 @@ public class FindGenesController {
 					cc.getGraphController().centerOnNode(node, selected);
 				}
 			} catch (ClassCastException e) {
-				tryAgain = DialogUtil.confirm(Constants.DIALOG_ERROR, "Please select an existing gene.");
+				tryAgain = DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, "Please select an existing gene.");
 			} catch (NodeNotFoundException e) {
-				tryAgain = DialogUtil.confirm(Constants.DIALOG_ERROR,
+				tryAgain = DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR,
 						"Couldn't find the node on the graph. Please try again.");
 			}
 			if (tryAgain) {

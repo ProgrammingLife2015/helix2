@@ -82,6 +82,11 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 * <p>
 	 * It first construct a list of all interests in the graph<br>
 	 * It will then determine the amount of nodes to display<br>
+<<<<<<< HEAD
+	 * It will then use the {@link tudelft.ti2806.pl3.data.wrapper.operation.collapse.CalculateCollapseOnSpace}
+	 * operation to collapse all nodes for which no space is left on the screen. <br>
+=======
+>>>>>>> master
 	 * It will then unwrap these nodes and calculate the weight of all edges
 	 * then it will notify the view.
 	 */
@@ -126,9 +131,7 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 	
 	@Override

@@ -24,8 +24,8 @@ import java.util.Set;
 
 public class GraphDataRepository extends AbstractGraphData implements LoadingObservable {
 
-	private ArrayList<LoadingObserver> observers = new ArrayList<>();
-	private List<GraphParsedObserver> graphParsedObserver = new ArrayList<>();
+	private final ArrayList<LoadingObserver> observers = new ArrayList<>();
+	private final List<GraphParsedObserver> graphParsedObserver = new ArrayList<>();
 
 	/**
 	 * Construct a empty {@code GraphDataRepository}.
@@ -308,27 +308,6 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 		return null;
 	}
 
-	/**
-	 * Search for the edge in the graph with the given from and to id.
-	 *
-	 * @param fromId
-	 * 		the id of the from node on the edge
-	 * @param toId
-	 * 		the id of the to node on the edge
-	 * @return the found edge<br>
-	 * {@code null} if there is no node with this id in the graph
-	 */
-	// TODO This is never used, can it be deleted?
-	public Edge getEdge(int fromId, int toId) {
-		for (Edge edge : edges) {
-			if (edge.getFrom().getId() == fromId
-					&& edge.getTo().getId() == toId) {
-				return edge;
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public AbstractGraphData getOrigin() {
 		return this;
@@ -341,9 +320,7 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 
 	@Override

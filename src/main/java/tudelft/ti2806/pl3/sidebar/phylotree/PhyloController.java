@@ -25,11 +25,11 @@ import java.util.List;
 public class PhyloController implements Controller, ActionListener, LoadingObservable {
 
 
-	private PhyloView view;
-	private ControllerContainer cc;
-	private PhyloModel phyloModel;
+	private final PhyloView view;
+	private final ControllerContainer cc;
+	private final PhyloModel phyloModel;
 
-	private ArrayList<LoadingObserver> observers = new ArrayList<>();
+	private final ArrayList<LoadingObserver> observers = new ArrayList<>();
 
 	/**
 	 * Construct the controller.
@@ -98,9 +98,7 @@ public class PhyloController implements Controller, ActionListener, LoadingObser
 
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 
 	@Override

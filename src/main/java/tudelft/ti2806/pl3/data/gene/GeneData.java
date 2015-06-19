@@ -21,24 +21,24 @@ import java.util.Map;
  * Class containing all gene data.
  */
 public class GeneData {
-	public static final String PREFIX_GENE_START = "_start_";
-	public static final String PREFIX_GENE_END = "_end_";
+	private static final String PREFIX_GENE_START = "_start_";
+	private static final String PREFIX_GENE_END = "_end_";
 
 	/**
 	 * List of all genes.
 	 */
-	private ArrayList<Gene> genes;
-	private Map<String, Label> labelMap;
+	private final ArrayList<Gene> genes;
+	private final Map<String, Label> labelMap;
 
 	/**
 	 * Mapping from start index to the actual gene.
 	 */
-	private Map<Integer, Gene> geneStart;
+	private final Map<Integer, Gene> geneStart;
 
 	/**
 	 * Mapping from end index to the actual gene.
 	 */
-	private Map<Integer, Gene> geneEnd;
+	private final Map<Integer, Gene> geneEnd;
 
 	private static final char COMMENT_IDENTIFIER = '#';
 	private static final String TAB = "\t";
@@ -73,10 +73,6 @@ public class GeneData {
 
 	public ArrayList<Gene> getGenes() {
 		return genes;
-	}
-
-	public Map<String, Label> getLabelMap() {
-		return labelMap;
 	}
 
 	public Label getLabel(String key) {

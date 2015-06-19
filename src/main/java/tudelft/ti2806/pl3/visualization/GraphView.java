@@ -136,13 +136,14 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				if (node.canUnwrap()) {
 					graphNode.addAttribute("ui.class", "BOX");
 				}
+				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
 				graphNode.addAttribute("ui.label",
 						NumberFormat.getNumberInstance(Locale.US)
 								.format(node.getOriginalNode().getBasePairCount()));
 				graphNode.setAttribute("node", node);
 			}
 		);
-		
+
 		for (WrapperClone node : graphData) {
 			int i = 0;
 			for (Wrapper to : node.getOutgoing()) {
@@ -227,7 +228,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	/**
 	 * Set the offset of the center of the graph to the left edge of the screen.
 	 */
-	public void setOffsetToCenter() {
+	private void setOffsetToCenter() {
 		Point3 point3 = viewer.getDefaultView().getCamera()
 				.transformPxToGu(0, ScreenSize.getInstance().getHeight() / 2d);
 		offsetToCenter = (float) point3.x * -1;
@@ -306,9 +307,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	
 	@Override
 	public void addLoadingObserversList(ArrayList<LoadingObserver> loadingObservers) {
-		for (LoadingObserver loadingObserver : loadingObservers) {
-			addLoadingObserver(loadingObserver);
-		}
+		loadingObservers.forEach(this::addLoadingObserver);
 	}
 	
 	@Override
@@ -330,8 +329,8 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	public void removeGraphLoadedListener(GraphLoadedListener listener) {
 		graphLoadedListeners.remove(listener);
 	}
-	
-	public void notifyGraphLoadedListeners() {
+
+	private void notifyGraphLoadedListeners() {
 		graphLoadedListeners.forEach(GraphLoadedListener::graphLoaded);
 	}
 	

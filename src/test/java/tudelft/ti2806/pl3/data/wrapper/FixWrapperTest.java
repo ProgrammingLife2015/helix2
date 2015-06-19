@@ -33,7 +33,7 @@ public class FixWrapperTest {
 		fixWrapper.setGenome(genome);
 		assertEquals(genome, fixWrapper.getGenome());
 		fixWrapper.calculateX();
-		assertEquals(fixWrapper.previousNodesCount, fixWrapper.getX(), 0);
+		assertEquals(fixWrapper.getPreviousNodesCount(), fixWrapper.getX(), 0);
 	}
 	
 	@Mock

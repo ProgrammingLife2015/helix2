@@ -18,20 +18,20 @@ import java.util.Set;
  */
 @SuppressWarnings("EQ_COMPARETO_USE_OBJECT_EQUALS")
 public abstract class Wrapper implements Comparable<Wrapper> {
-	
-	float y;
-	float x;
-	
-	List<Wrapper> incoming = new ArrayList<>();
-	List<Wrapper> outgoing = new ArrayList<>();
-	List<Integer> outgoingWeight = new ArrayList<>();
-	
+
+	private float y;
+	private float x;
+
+	private List<Wrapper> incoming = new ArrayList<>();
+	private List<Wrapper> outgoing = new ArrayList<>();
+	private List<Integer> outgoingWeight = new ArrayList<>();
+
 	private Set<Label> labels;
 	private Set<DataNode> dataNodeList;
-	
-	int previousNodesCount = -1;
-	float interest = 1f;
-	
+
+	private int previousNodesCount = -1;
+	private float interest = 1f;
+
 	/**
 	 * @return the maximum number of base pairs that can be passed when following the graph from the start of this node
 	 *         to its end.
@@ -58,7 +58,11 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	public void setY(float y) {
 		this.y = y;
 	}
-	
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
 	public abstract void calculateX();
 	
 	public List<Wrapper> getIncoming() {
@@ -80,11 +84,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	public List<Integer> getOutgoingWeight() {
 		return outgoingWeight;
 	}
-	
-	public void setOutgoingWeight(List<Integer> outgoingWeight) {
-		this.outgoingWeight = outgoingWeight;
-	}
-	
+
 	public abstract String getIdString();
 	
 	public abstract int getId();
@@ -159,11 +159,7 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	public static int computeLongestPaths(List<Wrapper> nodeWrappers) {
 		DoneDeque<Wrapper> leftToRight = new DoneDeque<>(nodeWrappers.size());
 		// Find all first wrappers
-		for (Wrapper wrapper : nodeWrappers) {
-			if (wrapper.getIncoming().size() == 0) {
-				leftToRight.add(wrapper);
-			}
-		}
+		nodeWrappers.stream().filter(wrapper -> wrapper.getIncoming().size() == 0).forEach(leftToRight::add);
 		int max = 0;
 		DoneDeque<Wrapper> rightToLeft = new DoneDeque<>(nodeWrappers.size());
 		// Calculate all previous node counts from left to right
@@ -173,22 +169,16 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 			if (wrapper.getOutgoing().size() == 0) {
 				rightToLeft.addAll(wrapper.getIncoming());
 			} else {
-				for (Wrapper out : wrapper.getOutgoing()) {
-					if (leftToRight.doneAll(out.getIncoming())) {
-						leftToRight.add(out);
-					}
-				}
+				wrapper.getOutgoing().stream().filter(out -> leftToRight.doneAll(out.getIncoming()))
+						.forEach(leftToRight::add);
 			}
 			max = Math.max(wrapper.calculatePreviousNodesCount(), max);
 		}
 		// Improve all previous node counts from right to left
 		while (!rightToLeft.isEmpty()) {
 			Wrapper wrapper = rightToLeft.poll();
-			for (Wrapper in : wrapper.getIncoming()) {
-				if (rightToLeft.doneAll(in.getOutgoing())) {
-					rightToLeft.add(in);
-				}
-			}
+			wrapper.getIncoming().stream().filter(in -> rightToLeft.doneAll(in.getOutgoing()))
+					.forEach(rightToLeft::add);
 			wrapper.shiftPreviousNodeCount();
 		}
 		return max;

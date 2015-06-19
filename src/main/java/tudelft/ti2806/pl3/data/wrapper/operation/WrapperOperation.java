@@ -47,8 +47,8 @@ public abstract class WrapperOperation {
 	 * Executes the operation for {@link HorizontalWrapper}.
 	 * 
 	 * <p>
-	 * The public method just calls the {@link #calculate(Wrapper)} for each
-	 * {@link Wrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(HorizontalWrapper, Wrapper)} for each
+	 * {@link Wrapper} within this {@link HorizontalWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
@@ -67,8 +67,8 @@ public abstract class WrapperOperation {
 	 * Executes the operation for {@link VerticalWrapper}.
 	 * 
 	 * <p>
-	 * The public method just calls the {@link #calculate(Wrapper)} for each
-	 * {@link Wrapper} within this {@link CombineWrapper}.
+	 * The public method just calls the {@link #calculate(VerticalWrapper, Wrapper)} for each
+	 * {@link Wrapper} within this {@link VerticalWrapper}.
 	 * 
 	 * @param wrapper
 	 *            the node to perform the operation on
@@ -87,9 +87,9 @@ public abstract class WrapperOperation {
 	 * Executes the operation for {@link SpaceWrapper}.
 	 * 
 	 * <p>
-	 * The public method just calls the {@link #calculate(Wrapper)} for each
-	 * {@link Wrapper} within this {@link CombineWrapper}.
-	 * 
+	 * The public method just calls the {@link #calculate(SpaceWrapper, Wrapper)} for each
+	 * {@link Wrapper} within this {@link SpaceWrapper}.
+	 *
 	 * @param wrapper
 	 *            the node to perform the operation on
 	 * @param container
@@ -107,7 +107,7 @@ public abstract class WrapperOperation {
 	 * Executes the operation for {@link SingleWrapper}.
 	 * 
 	 * <p>
-	 * The public method just calls the {@link #calculate(Wrapper)} for the
+	 * The public method just calls the {@link #calculate(SingleWrapper, Wrapper)} for the
 	 * {@link Wrapper} within this {@link SingleWrapper}.
 	 * 
 	 * @param wrapper

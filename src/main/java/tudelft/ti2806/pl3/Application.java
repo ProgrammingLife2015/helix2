@@ -6,12 +6,12 @@ import tudelft.ti2806.pl3.controls.KeyController;
 import tudelft.ti2806.pl3.controls.ScrollListener;
 import tudelft.ti2806.pl3.controls.WindowController;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
-import tudelft.ti2806.pl3.metafilter.MetaFilterController;
 import tudelft.ti2806.pl3.exception.FileSelectorException;
 import tudelft.ti2806.pl3.findgenes.FindGenesController;
 import tudelft.ti2806.pl3.loading.LoadingMouse;
 import tudelft.ti2806.pl3.menubar.LastOpenedController;
 import tudelft.ti2806.pl3.menubar.MenuBarController;
+import tudelft.ti2806.pl3.metafilter.MetaFilterController;
 import tudelft.ti2806.pl3.sidebar.SideBarController;
 import tudelft.ti2806.pl3.sidebar.phylotree.PhyloController;
 import tudelft.ti2806.pl3.ui.util.DialogUtil;
@@ -44,7 +44,7 @@ public class Application extends JFrame implements ControllerContainer {
 	/**
 	 * The value of the layers used in the view.
 	 */
-	private static final Integer MIDDEL_LAYER = 50;
+	private static final Integer MIDDLE_LAYER = 50;
 	private static final Integer HIGHEST_LAYER = 100;
 
 	private final GraphDataRepository graphDataRepository;
@@ -74,7 +74,7 @@ public class Application extends JFrame implements ControllerContainer {
 			LastOpenedStack<File> files = ParserLastOpened.readLastOpened();
 			FileSelector.setLastOpened(files);
 		} catch (IOException e) {
-			// the file is missing so there are no lastopened
+			// the file is missing so there are no last opened.
 			FileSelector.setLastOpened(new LastOpenedStack<>(ParserLastOpened.limit));
 		}
 
@@ -138,16 +138,16 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public void makeGraphFromFolder() {
 		try {
-			File folder = FileSelector.selectFolder("Select data folder", this);
-
-			File[] files = FileSelector.getFilesFromFolder(folder, ".node.graph", ".edge.graph", ".nwk", ".txt");
+			File folder = FileSelector.selectFolder(Constants.DIALOG_SELECT_DATA_FOLDER, this);
+			File[] files = FileSelector.getFilesFromFolder(folder, Constants.EXTENSION_NODE,
+					Constants.EXTENSION_EDGE, Constants.EXTENSION_PHYLOTREE, Constants.EXTENSION_TEXT);
 			makeGraph(files[0], files[1], files[2], files[3]);
 		} catch (ArrayIndexOutOfBoundsException exception) {
-			if (DialogUtil.confirm("Error!", "Some necessary files were not found. Want to select a new folder?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, "Some necessary files were not found. Want to select a new folder?")) {
 				makeGraphFromFolder();
 			}
 		} catch (FileSelectorException exception) {
-			if (DialogUtil.confirm("Error!", "You have not selected a folder, want to try again?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, "You have not selected a folder, want to try again?")) {
 				makeGraphFromFolder();
 			}
 		}
@@ -158,19 +158,19 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public void makeGraphFromFiles() {
 		try {
-			File nodeFile = FileSelector.selectFile("Select node file", this, ".node.graph");
-
-			File edgeFile = FileSelector.getOtherExtension(nodeFile, ".node.graph", ".edge.graph");
+			File nodeFile = FileSelector.selectFile(Constants.DIALOG_SELECT_NODE_FILE, this, Constants.EXTENSION_NODE);
+			File edgeFile = FileSelector.getOtherExtension(nodeFile,
+					Constants.EXTENSION_EDGE, Constants.EXTENSION_NODE);
 			makeGraph(nodeFile, edgeFile, null, null);
 		} catch (FileSelectorException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, Constants.DIALOG_FILE_NOT_FOUND)) {
 				makeGraphFromFiles();
 			}
 		}
 	}
 
 	/**
-	 * Parses the graph files and makes a graphview.
+	 * Parses the graph files and makes a GraphView.
 	 */
 	public void makeGraph(File nodeFile, File edgeFile, File treeFile, File metaFile) {
 		try {
@@ -180,7 +180,7 @@ public class Application extends JFrame implements ControllerContainer {
 				makePhyloTree(treeFile);
 			}
 		} catch (FileNotFoundException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, Constants.DIALOG_FILE_NOT_FOUND)) {
 				makeGraph(nodeFile, edgeFile, treeFile, metaFile);
 			}
 		}
@@ -200,7 +200,8 @@ public class Application extends JFrame implements ControllerContainer {
 		try {
 			File treeFile;
 			if (input == null) {
-				treeFile = FileSelector.selectFile("Select phylogenetic tree file", this, ".nwk");
+				treeFile = FileSelector.selectFile(Constants.DIALOG_SELECT_PHYLOTREE_FILE, this,
+						Constants.EXTENSION_PHYLOTREE);
 			} else {
 				treeFile = input;
 			}
@@ -208,11 +209,11 @@ public class Application extends JFrame implements ControllerContainer {
 			getSideBarController().getPhyloController().parseTree(treeFile);
 
 		} catch (FileSelectorException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not found. Want to try again?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, Constants.DIALOG_FILE_NOT_FOUND)) {
 				makePhyloTree();
 			}
 		} catch (ParseException exception) {
-			if (DialogUtil.confirm("Error!", "Your file was not formatted correctly. Want to try again?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, Constants.DIALOG_FILE_FORMATTED_INCORRECTLY)) {
 				makePhyloTree();
 			}
 		}
@@ -238,11 +239,11 @@ public class Application extends JFrame implements ControllerContainer {
 	@SuppressFBWarnings({"DM_EXIT"})
 	public void stop() {
 		// save data or do something else here
-		if (DialogUtil.confirm("Exit", "Are you sure you want to exit the application? ")) {
+		if (DialogUtil.confirm(Constants.DIALOG_TITLE_EXIT, Constants.DIALOG_EXIT)) {
 			try {
 				ParserLastOpened.saveLastOpened(FileSelector.getLastopened());
 			} catch (IOException | InterruptedException e) {
-				System.out.println("Unable to save the files");
+				DialogUtil.displayError(Constants.DIALOG_TITLE_ERROR, Constants.DIALOG_FAIL_SAVE_FILES);
 				e.printStackTrace();
 			}
 			this.dispose();
@@ -281,7 +282,7 @@ public class Application extends JFrame implements ControllerContainer {
 		Component view = getGraphController().getPanel();
 		view.setBounds(0, 0, size.getWidth(),
 				size.getHeight() - size.getZoomBarHeight());
-		main.add(view, MIDDEL_LAYER);
+		main.add(view, MIDDLE_LAYER);
 		view.setVisible(true);
 		view.addKeyListener(keys);
 		view.addMouseWheelListener(new ScrollListener(this));
@@ -294,7 +295,7 @@ public class Application extends JFrame implements ControllerContainer {
 		Component view = getZoomBarController().getPanel();
 		view.setBounds(0, size.getHeight() - size.getZoomBarHeight(),
 				size.getWidth(), size.getZoomBarHeight());
-		main.add(view, MIDDEL_LAYER);
+		main.add(view, MIDDLE_LAYER);
 		view.setVisible(true);
 	}
 

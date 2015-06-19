@@ -18,7 +18,7 @@ public class HorizontalWrapper extends CombineWrapper {
 	private boolean canUnwrap = true;
 	
 	/**
-	 * An collection of {@link SNodes} which can be used as a single SNode.
+	 * An collection of {@link Wrapper} which can be used as a single SNode.
 	 * 
 	 * @param nodePosList
 	 *            a connected and sorted list of edges.

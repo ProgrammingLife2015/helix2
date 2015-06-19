@@ -45,12 +45,11 @@ public class DoneDeque<T> {
 	 * 		all elements to add
 	 */
 	public void addAll(Collection<T> collection) {
-		for (T element : collection) {
-			if (!done.contains(element)) {
+		collection.stream().filter(element -> !done.contains(element)).forEach(element -> {
 				done.add(element);
 				values[add++] = element;
 			}
-		}
+		);
 	}
 
 	/**

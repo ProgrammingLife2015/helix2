@@ -66,7 +66,7 @@ public class MouseManager extends DefaultMouseManager {
 	 * @param y
 	 * 		y location of the mouse cursor.
 	 */
-	public void mouseMoved(int x, int y) {
+	private void mouseMoved(int x, int y) {
 		node = getNodeAtPosition(x, y);
 		if (node == null) {
 			removeDetailView();

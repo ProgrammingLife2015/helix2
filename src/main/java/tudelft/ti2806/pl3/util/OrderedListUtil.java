@@ -5,6 +5,7 @@ import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * An utility class to merge ordered lists.
@@ -43,9 +44,8 @@ public class OrderedListUtil {
 			List<List<Wrapper>> listsToMerge) {
 		List<Wrapper> lastElements = new ArrayList<>(
 				listsToMerge.size());
-		for (List<Wrapper> list : listsToMerge) {
-			lastElements.add(list.remove(list.size() - 1));
-		}
+		lastElements
+				.addAll(listsToMerge.stream().map(list -> list.remove(list.size() - 1)).collect(Collectors.toList()));
 		List<Wrapper> result = new ArrayList<>();
 		int lastResultSize = -1;
 		while (listsToMerge.size() > 0) {

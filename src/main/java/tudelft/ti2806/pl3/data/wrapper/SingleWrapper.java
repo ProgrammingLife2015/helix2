@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class SingleWrapper extends Wrapper {
 	
-	private Wrapper target;
+	private final Wrapper target;
 	
 	/**
 	 * Constructor of {@link SingleWrapper}. Uses the target of the target when it is wrapping an other
@@ -77,7 +77,7 @@ public class SingleWrapper extends Wrapper {
 	
 	@Override
 	public void calculateX() {
-		this.x = this.getNode().getX();
+		this.setX(this.getNode().getX());
 	}
 	
 	@Override
