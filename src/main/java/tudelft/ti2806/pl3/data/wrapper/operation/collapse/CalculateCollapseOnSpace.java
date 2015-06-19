@@ -14,6 +14,8 @@ import java.util.Comparator;
  * @author Sam Smulders
  */
 public class CalculateCollapseOnSpace extends WrapperOperation {
+	private static final float SPACE_COMPENSATION = 1.1f;
+	
 	@Override
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		if (wrapper.canUnwrap()) {
@@ -46,9 +48,8 @@ public class CalculateCollapseOnSpace extends WrapperOperation {
 	}
 	
 	static float getCompensatedMinSpaceLeft(SpaceWrapper wrapper) {
-		return 1.1f * ((wrapper.getLast().getX() - wrapper.getFirst().getX()) / (wrapper.getLast()
-				.getPreviousNodesCount() - wrapper.getFirst().getPreviousNodesCount())
-		/* + getMinSpaceLeft(wrapper) */);
+		return SPACE_COMPENSATION * ((wrapper.getLast().getX() - wrapper.getFirst().getX()) / (wrapper.getLast()
+				.getPreviousNodesCount() - wrapper.getFirst().getPreviousNodesCount()));
 	}
 	
 	static int getShortestPath(Wrapper first, Wrapper last) {
