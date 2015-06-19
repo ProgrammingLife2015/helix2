@@ -61,5 +61,9 @@ hs_err_pid*
 !/data/testdata/*/*.nwk
 !resources/pictures/*
 
+<<<<<<< HEAD
+.save-helix2.txt
+=======
 .save-helix2.txt
 lastOpenedSave.txt
+>>>>>>> master

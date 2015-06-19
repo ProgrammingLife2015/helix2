@@ -81,7 +81,7 @@ public class VerticalWrappedUnwrapTest {
 		assertTrue(left instanceof WrapperClone);
 		assertEquals(0, left.getIncoming().size());
 		assertEquals(2, left.getOutgoing().size());
-		assertTrue(((WrapperClone) left).getDataNodes().contains(dataNode1));
+		assertTrue(left.getDataNodes().contains(dataNode1));
 	}
 	
 	@Test
@@ -90,8 +90,8 @@ public class VerticalWrappedUnwrapTest {
 		assertTrue(top instanceof WrapperClone);
 		assertEquals(1, top.getIncoming().size());
 		assertEquals(1, top.getOutgoing().size());
-		assertTrue(((WrapperClone) top).getDataNodes().contains(dataNode2));
-		assertTrue(((WrapperClone) top.getIncoming().get(0)).getDataNodes().contains(dataNode1));
+		assertTrue(top.getDataNodes().contains(dataNode2));
+		assertTrue(top.getIncoming().get(0).getDataNodes().contains(dataNode1));
 	}
 	
 	@Test
@@ -100,8 +100,8 @@ public class VerticalWrappedUnwrapTest {
 		assertTrue(bottom instanceof WrapperClone);
 		assertEquals(1, bottom.getIncoming().size());
 		assertEquals(1, bottom.getOutgoing().size());
-		assertTrue(((WrapperClone) bottom).getDataNodes().contains(dataNode3));
-		assertTrue(((WrapperClone) bottom.getIncoming().get(0)).getDataNodes().contains(dataNode1));
+		assertTrue(bottom.getDataNodes().contains(dataNode3));
+		assertTrue(bottom.getIncoming().get(0).getDataNodes().contains(dataNode1));
 	}
 	
 	@Test
@@ -111,9 +111,9 @@ public class VerticalWrappedUnwrapTest {
 		assertTrue(right1 instanceof WrapperClone);
 		assertEquals(2, right1.getIncoming().size());
 		assertEquals(0, right1.getOutgoing().size());
-		assertTrue(((WrapperClone) right1).getDataNodes().contains(dataNode4));
-		assertTrue(((WrapperClone) right1.getIncoming().get(0)).getDataNodes().contains(dataNode2));
-		assertTrue(((WrapperClone) right1.getIncoming().get(1)).getDataNodes().contains(dataNode3));
+		assertTrue(right1.getDataNodes().contains(dataNode4));
+		assertTrue(right1.getIncoming().get(0).getDataNodes().contains(dataNode2));
+		assertTrue(right1.getIncoming().get(1).getDataNodes().contains(dataNode3));
 	}
 	
 	@Test
@@ -123,9 +123,9 @@ public class VerticalWrappedUnwrapTest {
 		assertTrue(right2 instanceof WrapperClone);
 		assertEquals(2, right2.getIncoming().size());
 		assertEquals(0, right2.getOutgoing().size());
-		assertTrue(((WrapperClone) right2).getDataNodes().contains(dataNode4));
-		assertTrue(((WrapperClone) right2.getIncoming().get(0)).getDataNodes().contains(dataNode2));
-		assertTrue(((WrapperClone) right2.getIncoming().get(1)).getDataNodes().contains(dataNode3));
+		assertTrue(right2.getDataNodes().contains(dataNode4));
+		assertTrue(right2.getIncoming().get(0).getDataNodes().contains(dataNode2));
+		assertTrue(right2.getIncoming().get(1).getDataNodes().contains(dataNode3));
 	}
 	
 	/**

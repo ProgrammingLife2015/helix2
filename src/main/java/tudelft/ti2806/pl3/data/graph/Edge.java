@@ -7,8 +7,8 @@ public class Edge {
 		this.to = to;
 	}
 	
-	protected DataNode from;
-	protected DataNode to;
+	private final DataNode from;
+	private final DataNode to;
 	
 	public DataNode getFrom() {
 		return from;

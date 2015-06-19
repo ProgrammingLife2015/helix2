@@ -12,8 +12,8 @@ package tudelft.ti2806.pl3.util;
  *            the second type
  */
 public class Pair<U, T> {
-	public final U first;
-	public final T second;
+	private final U first;
+	private final T second;
 	
 	public Pair(U first, T second) {
 		this.first = first;

@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
  * Controls the application window Created by Kasper on 9-5-2015.
  */
 public class WindowController extends WindowAdapter {
-	private Application app;
+	private final Application app;
 	
 	/**
 	 * Constructor.

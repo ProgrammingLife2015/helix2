@@ -11,8 +11,8 @@ import java.util.LinkedList;
  * Created by Kasper on 11-6-2015.
  */
 public class LastOpenedStack<E> extends LinkedList<E> implements Observable {
-	private int limit;
-	private ArrayList<Observer> observers = new ArrayList<>();
+	private final int limit;
+	private final ArrayList<Observer> observers = new ArrayList<>();
 
 	public LastOpenedStack(int limit) {
 		super();

@@ -1,5 +1,5 @@
 <FindBugsFilter>
-<Match>
-    <Package name="[\s\S]*newick[\s\S]*"/>
-</Match>
+    <Match>
+        <Package name="[\s\S]*newick[\s\S]*"/>
+    </Match>
 </FindBugsFilter>

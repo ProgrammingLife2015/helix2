@@ -72,6 +72,5 @@ class TestWrapper extends Wrapper {
 
 	@Override
 	public void collectLabels(Set<Label> labels) {
-		return;
 	}
 }

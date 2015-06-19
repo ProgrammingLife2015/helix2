@@ -65,7 +65,7 @@ public class LastOpenedControllerTest {
 
 		File nodefile = new File(path);
 		File edgefile = new File(nodefile.getAbsolutePath().replace("node", "edge"));
-		verify(application, times(1)).makeGraph(nodefile, edgefile, null);
+		verify(application, times(1)).makeGraph(nodefile, edgefile, null, null);
 	}
 
 	@Test
@@ -77,8 +77,9 @@ public class LastOpenedControllerTest {
 		File nodefile = new File(path + "/test.node.graph");
 		File edgefile = new File(path + "/test.edge.graph");
 		File nwkfile = new File(path + "/test.nwk");
+		File metaFile = new File(path + "/meta.txt");
 
-		verify(application, times(1)).makeGraph(nodefile, edgefile, nwkfile);
+		verify(application, times(1)).makeGraph(nodefile, edgefile, nwkfile, metaFile);
 	}
 
 	@Test

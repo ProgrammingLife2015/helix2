@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public class FilteredGraphModel extends Observable implements LoadingObservable, GraphParsedObserver {
 
-	protected GraphDataRepository originalGraphData;
+	private GraphDataRepository originalGraphData;
 	private Wrapper collapsedNode;
 	private List<Filter<DataNode>> filters;
 	private PositionNodeYOnGenomeSpace positionNodeYOnGenomeSpace;
@@ -125,7 +125,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 	 *            the list of nodes in the graph
 	 * @return a list of all dead edges
 	 */
-	static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
+	private static List<Edge> getAllDeadEdges(List<Edge> edgeList, List<DataNode> nodeList) {
 		List<Edge> removeList = new ArrayList<>();
 		for (Edge edge : edgeList) {
 			if (!nodeList.contains(edge.getFrom()) || !nodeList.contains(edge.getTo())) {

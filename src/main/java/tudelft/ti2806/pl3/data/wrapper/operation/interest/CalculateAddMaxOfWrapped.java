@@ -16,6 +16,7 @@ import tudelft.ti2806.pl3.data.wrapper.operation.WrapperOperation;
  *
  */
 public class CalculateAddMaxOfWrapped extends WrapperOperation {
+	// TODO this is never used. Can it be deleted?
 	@Override
 	public void calculate(HorizontalWrapper wrapper, Wrapper container) {
 		super.calculate(wrapper, container);

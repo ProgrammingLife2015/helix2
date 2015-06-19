@@ -31,7 +31,7 @@ import java.util.Set;
  * @author Sam Smulders
  */
 public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
-	// TODO: Temp. solution. Is a problem with a node count of (1/AFJUSTMENT).
+	// TODO: Temp. solution. Is a problem with a node count of (1/ADJUSTMENT).
 	private static final float ADJUSTMENT = 0.01f;
 	private final int maxIterations;
 	
@@ -76,7 +76,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 * @return a list with a the outgoing node list of every node
 	 */
 	List<List<Wrapper>> getOutgoingLists(List<Wrapper> nodes) {
-		List<List<Wrapper>> list = new ArrayList<List<Wrapper>>();
+		List<List<Wrapper>> list = new ArrayList<>();
 		for (int i = nodes.size() - 2; i >= 0; i--) {
 			list.add(nodes.get(i).getOutgoing());
 		}
@@ -101,7 +101,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 			for (int i = list.size() - 1; i >= 0; i--) {
 				connections[i] = list.get(i);
 			}
-			order.add(new Pair<List<Wrapper>, Wrapper[]>(list,
+			order.add(new Pair<>(list,
 					connections));
 		}
 		return order;
@@ -130,7 +130,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		if (list == null) {
 			return false;
 		}
-		Set<Wrapper> remainingNodes = new HashSet<Wrapper>(
+		Set<Wrapper> remainingNodes = new HashSet<>(
 				wrapper.getNodeList());
 		remainingNodes.removeAll(list);
 		
@@ -139,7 +139,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		remainingNodes.remove(firstNode);
 		
 		int remainingNodesSize = remainingNodes.size();
-		List<Wrapper> passedNodes = new ArrayList<Wrapper>(
+		List<Wrapper> passedNodes = new ArrayList<>(
 				remainingNodesSize);
 		int adjustment = 0;
 		for (int i = list.size() - 1; i >= 0; i--) {
@@ -179,12 +179,12 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 *            the wrapper of which its node order should be calculated
 	 * @return {@code null} if there is a conflict in node order
 	 */
-	List<Wrapper> collapseIntoList(SpaceWrapper wrapper) {
-		List<List<Wrapper>> listsToCombine = new ArrayList<List<Wrapper>>();
+	private List<Wrapper> collapseIntoList(SpaceWrapper wrapper) {
+		List<List<Wrapper>> listsToCombine = new ArrayList<>();
 		for (int n = wrapper.getNodeList().size() - 2; n >= 0; n--) {
 			Wrapper node = wrapper.getNodeList().get(n);
 			if (node.getOutgoing().size() > 1) {
-				listsToCombine.add(new ArrayList<Wrapper>(node
+				listsToCombine.add(new ArrayList<>(node
 						.getOutgoing()));
 			}
 		}
@@ -206,7 +206,7 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		return countIntersections(getLinesForSpaceWrapperIntersectionTest(wrapper));
 	}
 	
-	int countIntersections(List<Line> lines) {
+	private int countIntersections(List<Line> lines) {
 		int count = 0;
 		for (int x = lines.size() - 1; x >= 1; x--) {
 			for (int y = x - 1; y >= 0; y--) {
@@ -236,8 +236,8 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 	 * @return a list of lines, representing the nodes within the
 	 *         {@link SpaceWrapper}.
 	 */
-	List<Line> getLinesForSpaceWrapperIntersectionTest(SpaceWrapper wrapper) {
-		List<Line> lines = new ArrayList<Line>();
+	private List<Line> getLinesForSpaceWrapperIntersectionTest(SpaceWrapper wrapper) {
+		List<Line> lines = new ArrayList<>();
 		for (int i = wrapper.getNodeList().size() - 2; i >= 1; i--) {
 			Wrapper from = wrapper.getNodeList().get(i);
 			for (Wrapper to : from.getOutgoing()) {
@@ -312,10 +312,9 @@ public class ExhaustiveLeastCrossingsSequencer extends WrapperOperation {
 		}
 	}
 	
-	void applyOrderConfiguration(int localConfiguration,
+	private void applyOrderConfiguration(int localConfiguration,
 			List<Wrapper> currentOrder, Wrapper[] dictionary) {
-		List<Wrapper> newOrder = new ArrayList<Wrapper>(
-				dictionary.length);
+		List<Wrapper> newOrder = new ArrayList<>(dictionary.length);
 		newOrder.add(dictionary[0]);
 		for (int i = 1; i < dictionary.length; i++) {
 			newOrder.add(localConfiguration % (i + 1), dictionary[i]);
