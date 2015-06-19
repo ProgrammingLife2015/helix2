@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
@@ -62,13 +63,13 @@ public class MenuBarController implements ActionListener, Controller {
 	final String controls = "Helix² uses key shortcuts to make life easier. "
 			+ "All the controls that can be used are listed below. \n"
 			+ "\n"
-			+ "Zooming in     	+ \n"
-			+ "Zooming out    	 - \n"
-			+ "Reset the view 	 R \n"
-			+ "Move the view to the left 	 \u2190 \n"
-			+ "Move the view to the right 	 \u2192 \n"
-			+ "Gene navigation window 	 G \n"
-			+ "Hide/show phylogenetic tree window 	 spacebar \n"
+			+ "Zooming in     \t+ \n"
+			+ "Zooming out    \t - \n"
+			+ "Reset the view \t R \n"
+			+ "Move the view to the left \t \u2190 \n"
+			+ "Move the view to the right \t \u2192 \n"
+			+ "Gene navigation window \t G \n"
+			+ "Hide/show phylogenetic tree window \t spacebar \n"
 			+ "\n"
 			+ "All of the menus can be controlled with the underlined letter, "
 			+ "hold the ALT key to activate this.";
