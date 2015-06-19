@@ -37,7 +37,7 @@ public class CollectInterest {
 			this.interest[index] += wrapper.getInterest();
 		}
 		for (int i = 0; i < this.interest.length; i++) {
-			this.interest[i] = (this.interest[i]);
+			this.interest[i] = this.interest[i];
 			this.maxInterest = Math.max(this.maxInterest, this.interest[i]);
 		}
 	}
