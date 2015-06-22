@@ -88,7 +88,7 @@ public class FilteredGraphModel extends Observable implements LoadingObservable,
 		filter(resultNodes);
 		List<Edge> resultEdges = originalGraphData.getEdgeListClone();
 		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
-		wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges, originalGraphData.getGenomes().size());
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		positionNodeYOnGenomeSpace.calculate(collapsedNode, null);
