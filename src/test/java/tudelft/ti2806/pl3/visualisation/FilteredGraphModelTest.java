@@ -1,7 +1,11 @@
 package tudelft.ti2806.pl3.visualisation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.Genome;
 import tudelft.ti2806.pl3.data.filter.Filter;
 import tudelft.ti2806.pl3.data.filter.GenomeFilter;
@@ -21,14 +25,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class FilteredGraphModelTest {
 
 	private List<DataNode> resultNodes;
 	private List<Edge> resultEdges;
 	private final String genomeToFilter = "B";
+	private int genomeCount;
 
 	@Before
 	public void before() throws IOException {
@@ -48,6 +50,7 @@ public class FilteredGraphModelTest {
 		resultNodes = graphDataRepository.getNodeListClone();
 		filteredGraphModel.filter(resultNodes);
 		resultEdges = graphDataRepository.getEdgeListClone();
+		genomeCount = graphDataRepository.getGenomes().size();
 	}
 
 	@Test
@@ -78,7 +81,7 @@ public class FilteredGraphModelTest {
 	@Test
 	public void testEmptyEdges() {
 		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges, genomeCount);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		List<Wrapper> nodes = wrappedGraphData.getPositionedNodes();
 		assertEquals(1, nodes.get(0).getOutgoing().size());
@@ -93,7 +96,7 @@ public class FilteredGraphModelTest {
 	@Test
 	public void testEmptyEdgesIncoming() {
 		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges, genomeCount);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		List<Wrapper> nodes = wrappedGraphData.getPositionedNodes();
 		assertEquals(0, nodes.get(0).getIncoming().size());
@@ -108,7 +111,7 @@ public class FilteredGraphModelTest {
 	@Test
 	public void testCollapse() {
 		EdgeUtil.removeAllDeadEdges(resultEdges, resultNodes);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges);
+		WrappedGraphData wrappedGraphData = new WrappedGraphData(resultNodes, resultEdges, genomeCount);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		Wrapper collapsedNode = WrapUtil.collapseGraph(wrappedGraphData).getPositionedNodes().get(0);
 		assertTrue(collapsedNode instanceof HorizontalWrapper);

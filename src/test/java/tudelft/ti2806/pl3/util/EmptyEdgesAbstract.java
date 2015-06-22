@@ -23,7 +23,7 @@ public abstract class EmptyEdgesAbstract {
 		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		GraphDataRepository graphDataRepository = new GraphDataRepository();
 		graphDataRepository.parseGraph(nodesFile, edgesFile, geneData);
-		wrappedGraphData = new WrappedGraphData(graphDataRepository.getNodes(), graphDataRepository.getEdges());
+		wrappedGraphData = new WrappedGraphData(graphDataRepository);
 		EdgeUtil.removeAllEmptyEdges(wrappedGraphData);
 		nodes = wrappedGraphData.getPositionedNodes();
 	}
