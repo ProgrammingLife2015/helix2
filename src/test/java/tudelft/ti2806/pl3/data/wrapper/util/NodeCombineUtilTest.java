@@ -175,16 +175,12 @@ public class NodeCombineUtilTest {
         WrappedGraphData original = new WrappedGraphData(gdr);
         List<List<Wrapper>> result = new ArrayList<>();
         HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
-        assertEquals(1, result.size());
+        assertEquals(2, result.size());
         result.clear();
         original = HorizontalWrapUtil.collapseGraph(original, true);
         HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
         assertEquals(1, result.size());
         original = HorizontalWrapUtil.collapseGraph(original, true);
-        result.clear();
-        HorizontalWrapUtil.cutHorizontalWrapper(original.getPositionedNodes(), result);
-        original = HorizontalWrapUtil.collapseGraph(original, true);
-        assertEquals(1, result.size());
         UnwrapOnCollapse unwrap = new UnwrapOnCollapse(-1);
         unwrap.compute(original.getPositionedNodes().get(0));
         assertEquals(4, unwrap.getWrapperClones().size());

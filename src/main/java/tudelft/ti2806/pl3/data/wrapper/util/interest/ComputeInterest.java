@@ -24,7 +24,7 @@ public final class ComputeInterest {
 			}
 			wrapper.addInterest((float) (Math.sqrt(wrapper.getBasePairCount()
 					* wrapper.getGenome().size()) * computeRation(wrapper)
-					* (1 + wrapper.getLabels().size())));
+					* (wrapper.getLabels() != null ? 1 + wrapper.getLabels().size() : 1)));
 		}
 	}
 	
