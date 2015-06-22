@@ -55,11 +55,27 @@ public final class HorizontalWrapUtil {
 			boolean canUnwrap) {
 		Map<Integer, Wrapper> nonWrappedNodes = new HashMap<>(nodes.size());
 		List<Integer> nonWrappedNodesOrder = new ArrayList<>(nodes.size());
-		for (Wrapper node : nodes) {
-			int id = node.getId();
-			nonWrappedNodes.put(id, node);
-			nonWrappedNodesOrder.add(id);
+		OrderedListRebuildUtil.fillNonWrappedCollections(nodes, nonWrappedNodes, nonWrappedNodesOrder);
+		
+		List<CombineWrapper> combinedNodes = generateCombinedNodes(nodes, canUnwrap, nonWrappedNodes);
+		if (combinedNodes.size() == 0) {
+			return null;
 		}
+		List<Wrapper> result = OrderedListRebuildUtil.collectNonWrappedNodes(nonWrappedNodes, nonWrappedNodesOrder);
+		return CombineWrapUtil.wrapAndReconnect(result, combinedNodes);
+	}
+
+	/**
+	 * Generate combined nodes from the given set of nodes.
+	 * 
+	 * @param nodes
+	 *            the nodes to combine
+	 * @param nonWrappedNodes
+	 *            the map to maintain
+	 * @return a list of {@link CombineWrapper}s
+	 */
+	private static List<CombineWrapper> generateCombinedNodes(List<Wrapper> nodes, boolean canUnwrap,
+			Map<Integer, Wrapper> nonWrappedNodes) {
 		List<CombineWrapper> combinedNodes = new ArrayList<>();
 		List<List<Wrapper>> combineAbleNodes = findCombineableNodes(nodes);
 		if (canUnwrap) {
@@ -72,17 +88,7 @@ public final class HorizontalWrapUtil {
 				nonWrappedNodes.remove(wrapper.getId());
 			}
 		}
-		if (combinedNodes.size() == 0) {
-			return null;
-		}
-		List<Wrapper> result = new ArrayList<>(nonWrappedNodes.values().size());
-		for (int id : nonWrappedNodesOrder) {
-			Wrapper node = nonWrappedNodes.get(id);
-			if (node != null) {
-				result.add(node);
-			}
-		}
-		return WrapUtil.wrapAndReconnect(result, combinedNodes);
+		return combinedNodes;
 	}
 
 	/**
@@ -139,10 +145,7 @@ public final class HorizontalWrapUtil {
 			iterateList.put(id, node);
 			iterateListOrder.add(id);
 		}
-		List<Wrapper> removeFromIterateList = new ArrayList<>();
 
-//		List<List<Wrapper>> foundCombineableNodes = new ArrayList<>();
-//		Set<Wrapper> iterateList = new HashSet<>(nodes);
 		/*
 		 * Here we iterate over each element in iterateList and over each element only once, because we keep track of a
 		 * list of all elements we iterate over.
@@ -157,36 +160,63 @@ public final class HorizontalWrapUtil {
 				List<Wrapper> foundGroup = new ArrayList<>();
 				foundGroup.add(startNode);
 
-				// Add all nodes to the right which can be combined.
-				Wrapper node = startNode;
 				HashableCollection<Genome> genome = new HashableCollection<>(startNode.getGenome());
-				while (node.getOutgoing().size() == 1
-						&& node.getOutgoing().get(0).getIncoming().size() == 1
-						&& genome.equals(new HashableCollection<>(node.getOutgoing()
-								.get(0).getGenome()))) {
-					node = node.getOutgoing().get(0);
-					foundGroup.add(node);
+				combineRight(startNode, foundGroup, genome);
+				combineLeft(startNode, foundGroup, genome);
+
+				for (Wrapper wrapper : foundGroup) {
+					iterateList.remove(wrapper.getId());
 				}
-				// Add all nodes to the left which can be combined.
-				node = startNode;
-				while (node.getIncoming().size() == 1
-						&& node.getIncoming().get(0).getOutgoing().size() == 1
-						&& genome.equals(new HashableCollection<>(node.getIncoming()
-								.get(0).getGenome()))) {
-					node = node.getIncoming().get(0);
-					foundGroup.add(0, node);
-				}
-				removeFromIterateList.addAll(foundGroup);
 				if (foundGroup.size() > 1) {
 					foundCombineableNodes.add(foundGroup);
-					break;
+					continue;
 				}
 			}
-			for (Wrapper wrapper : removeFromIterateList) {
-				iterateList.remove(wrapper.getId());
-			}
-			removeFromIterateList.clear();
 		}
 		return foundCombineableNodes;
+	}
+
+	/**
+	 * Adds nodes to the combine list from the startNode to the right.
+	 * 
+	 * @param startNode
+	 *            the node to start from
+	 * @param foundGroup
+	 *            the list to add found nodes on
+	 * @param genome
+	 *            a set of genomes which should be equal for each found node
+	 */
+	private static void combineRight(Wrapper startNode, List<Wrapper> foundGroup,
+			HashableCollection<Genome> genome) {
+		Wrapper node = startNode;
+		while (node.getOutgoing().size() == 1
+				&& node.getOutgoing().get(0).getIncoming().size() == 1
+				&& genome.equals(new HashableCollection<>(node.getOutgoing()
+						.get(0).getGenome()))) {
+			node = node.getOutgoing().get(0);
+			foundGroup.add(node);
+		}
+	}
+
+	/**
+	 * Adds nodes to the combine list from the startNode to the left.
+	 * 
+	 * @param startNode
+	 *            the node to start from
+	 * @param foundGroup
+	 *            the list to add found nodes on
+	 * @param genome
+	 *            a set of genomes which should be equal for each found node
+	 */
+	private static void combineLeft(Wrapper startNode, List<Wrapper> foundGroup,
+			HashableCollection<Genome> genome) {
+		Wrapper node = startNode;
+		while (node.getIncoming().size() == 1
+				&& node.getIncoming().get(0).getOutgoing().size() == 1
+				&& genome.equals(new HashableCollection<>(node.getIncoming()
+						.get(0).getGenome()))) {
+			node = node.getIncoming().get(0);
+			foundGroup.add(0, node);
+		}
 	}
 }
