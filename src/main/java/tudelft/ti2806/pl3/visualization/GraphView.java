@@ -134,7 +134,7 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 				double y = node.getY() * someSize;
 				graphNode.setAttribute("xy", node.getX(), y);
 				if (node.canUnwrap()) {
-					graphNode.addAttribute("ui.class", "BOX");
+					graphNode.addAttribute("ui.style", "shape: box;");
 				}
 				graphNode.addAttribute("ui.class", node.getOriginalNode().getClass().getSimpleName());
 				graphNode.addAttribute("ui.label",
