@@ -146,7 +146,7 @@ public final class WrapUtil {
 		
 		nodes.add(startFix);
 		nodes.add(endFix);
-		WrappedGraphData wrappedGraph = collapseGraphSpacial(new WrappedGraphData(nodes));
+		WrappedGraphData wrappedGraph = collapseGraphSpacial(new WrappedGraphData(nodes, graph.getGenomeSize()));
 		startFix.setX(-1);
 		endFix.setX(wrappedGraph.getPositionedNodes().get(0).getWidth() + 1);
 		return wrappedGraph;

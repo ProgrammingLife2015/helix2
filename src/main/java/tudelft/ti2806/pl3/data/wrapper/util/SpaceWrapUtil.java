@@ -47,7 +47,7 @@ public final class SpaceWrapUtil {
 		if (newLayer == null) {
 			return null;
 		}
-		return new WrappedGraphData(newLayer);
+		return new WrappedGraphData(newLayer, original.getGenomeSize());
 	}
 	
 	/**
