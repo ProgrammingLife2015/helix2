@@ -71,7 +71,6 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public Application() {
 		super(Constants.APP_NAME);
-		setDefaultLookAndFeelDecorated(true);
 		this.setIconImage(new ImageIcon(Resources.getResource("pictures/helix2.png")).getImage());
 		// read the last opened files
 		try {
