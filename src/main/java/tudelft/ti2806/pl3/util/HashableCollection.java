@@ -43,10 +43,9 @@ public class HashableCollection<T> {
 		HashableCollection<T> other = (HashableCollection<T>) obj;
 		if (collection == null) {
 			return other.collection == null;
-		} else {
-			if (other.collection == null) {
-				return false;
-			}
+		}
+		if (other.collection == null) {
+			return false;
 		}
 		if (collection.size() != other.collection.size()) {
 			return false;
