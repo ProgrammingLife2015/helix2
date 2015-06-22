@@ -1,7 +1,10 @@
 package tudelft.ti2806.pl3.util;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import tudelft.ti2806.pl3.data.gene.GeneData;
 import tudelft.ti2806.pl3.data.graph.GraphDataRepository;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
@@ -12,8 +15,6 @@ import tudelft.ti2806.pl3.data.wrapper.util.WrapUtil;
 
 import java.io.File;
 import java.io.IOException;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Boris Mattijssen on 09-06-15.
@@ -36,8 +37,7 @@ public class EdgeWeightTest {
 		GeneData geneData = GeneData.parseGenes("data/testdata/TestGeneAnnotationsFile");
 		GraphDataRepository graphDataRepository = new GraphDataRepository();
 		graphDataRepository.parseGraph(nodesFile, edgesFile, geneData);
-		WrappedGraphData wrappedGraphData = new WrappedGraphData(graphDataRepository.getNodes(),
-				graphDataRepository.getEdges());
+		WrappedGraphData wrappedGraphData = new WrappedGraphData(graphDataRepository);
 		Wrapper collapsedNode = WrapUtil.collapseGraph(wrappedGraphData)
 				.getPositionedNodes().get(0);
 		new CanUnwrapOperation().calculate(collapsedNode, null);

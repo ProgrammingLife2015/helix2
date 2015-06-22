@@ -37,7 +37,7 @@ public final class VerticalWrapUtil {
 		if (newLayer == null) {
 			return null;
 		}
-		return new WrappedGraphData(newLayer);
+		return new WrappedGraphData(newLayer, original.getGenomeSize());
 	}
 	
 	/**

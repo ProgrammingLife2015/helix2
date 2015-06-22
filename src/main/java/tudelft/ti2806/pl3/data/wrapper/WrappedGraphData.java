@@ -20,16 +20,20 @@ public class WrappedGraphData {
 	
 	private final List<Wrapper> nodeWrappers;
 	private final int longestNodePath;
+	private int genomeSize;
 	
 	/**
 	 * Initialises an instance of {@link WrappedGraphData}.
 	 * 
 	 * @param nodeWrappers
 	 *            the nodes in the instance
+	 * @param genomeSize
+	 *            genome count withing the graph data
 	 */
-	public WrappedGraphData(List<Wrapper> nodeWrappers) {
+	public WrappedGraphData(List<Wrapper> nodeWrappers, int genomeSize) {
 		this.nodeWrappers = nodeWrappers;
 		this.longestNodePath = Wrapper.computeLongestPaths(this.nodeWrappers);
+		this.genomeSize = genomeSize;
 		init();
 	}
 	
@@ -37,15 +41,15 @@ public class WrappedGraphData {
 		for (Wrapper wrapper : nodeWrappers) {
 			wrapper.calculateX();
 		}
-		ComputeInterest.compute(nodeWrappers);
+		ComputeInterest.compute(nodeWrappers, genomeSize);
 	}
 	
-	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges) {
-		this(DataNodeWrapper.newNodePositionList(nodes, edges));
+	public WrappedGraphData(List<DataNode> nodes, List<Edge> edges, int genomeSize) {
+		this(DataNodeWrapper.newNodePositionList(nodes, edges), genomeSize);
 	}
 	
 	public WrappedGraphData(AbstractGraphData gd) {
-		this(gd.getNodes(), gd.getEdges());
+		this(gd.getNodes(), gd.getEdges(), gd.getGenomes().size());
 	}
 	
 	public List<Wrapper> getPositionedNodes() {
@@ -54,6 +58,10 @@ public class WrappedGraphData {
 	
 	public int getLongestNodePath() {
 		return longestNodePath;
+	}
+	
+	public int getGenomeSize() {
+		return genomeSize;
 	}
 	
 }
