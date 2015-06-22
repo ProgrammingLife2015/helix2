@@ -143,11 +143,18 @@ public class Application extends JFrame implements ControllerContainer {
 					Constants.EXTENSION_EDGE, Constants.EXTENSION_PHYLOTREE, Constants.EXTENSION_TEXT);
 			makeGraph(files[0], files[1], files[2], files[3]);
 		} catch (ArrayIndexOutOfBoundsException exception) {
-			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, "Some necessary files were not found. Want to select a new folder?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, "Some necessary files were not found.\n"
+					+ "Please select a folder that contains the following files:\n"
+					+ "- node file (.node.graph)\n"
+					+ "- edge file (.edge.graph)\n"
+					+ "- phylogenetic file (.nwk)\n"
+					+ "- metadata file (.txt)\n\n"
+					+ "Want to select a new folder?")) {
 				makeGraphFromFolder();
 			}
 		} catch (FileSelectorException exception) {
-			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, "You have not selected a folder, want to try again?")) {
+			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, "You have not selected a folder, "
+					+ "want to try again?")) {
 				makeGraphFromFolder();
 			}
 		}
