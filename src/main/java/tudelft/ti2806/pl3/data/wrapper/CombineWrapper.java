@@ -96,4 +96,13 @@ public abstract class CombineWrapper extends Wrapper {
 		}
 		return false;
 	}
+
+	@Override
+	public String getBasePairString() {
+		String result = "";
+		for (Wrapper wrapper : nodeList) {
+			result += wrapper.getBasePairString();
+		}
+		return result;
+	}
 }

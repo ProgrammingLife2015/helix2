@@ -179,7 +179,12 @@ public class OrderedListUtilTest {
 		public int getWidth() {
 			return 0;
 		}
-		
+
+		@Override
+		public String getBasePairString() {
+			return null;
+		}
+
 		@Override
 		public boolean contains(Wrapper originalNode) {
 			return false;

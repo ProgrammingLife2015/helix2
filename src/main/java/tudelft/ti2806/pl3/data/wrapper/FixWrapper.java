@@ -69,6 +69,11 @@ public class FixWrapper extends Wrapper {
 	}
 
 	@Override
+	public String getBasePairString() {
+		return null;
+	}
+
+	@Override
 	public boolean contains(Wrapper object) {
 		return false;
 	}

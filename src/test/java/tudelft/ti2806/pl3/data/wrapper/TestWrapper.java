@@ -42,7 +42,12 @@ class TestWrapper extends Wrapper {
 	public int getWidth() {
 		return 1;
 	}
-	
+
+	@Override
+	public String getBasePairString() {
+		return null;
+	}
+
 	@Override
 	public void calculateX() {
 	}
