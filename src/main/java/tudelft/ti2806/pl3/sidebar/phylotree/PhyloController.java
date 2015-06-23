@@ -58,7 +58,14 @@ public class PhyloController implements Controller, ActionListener, LoadingObser
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		List<String> selected = view.getSelected();
-		if (selected.size() != 0) {
+		if (selected.size() > 1) {
+			cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(selected));
+			view.resetSelected();
+		} else if(selected.size() == 1) {
+			DialogUtil.displayMessage("One genome found",
+					"Just one genome has been selected, TKK_REF has been added to the filter "
+							+ "set.");
+			selected.add("TKK_REF");
 			cc.getGraphController().addFilter(GenomeFilter.NAME, new GenomeFilter(selected));
 			view.resetSelected();
 		}
