@@ -42,7 +42,7 @@
 	<dict>
 		<key>ClassPath</key>
 		<array>
-			<string>$JAVAROOT/Helix2-0.7-jar-with-dependencies.jar</string>
+			<string>$JAVAROOT/Helix2.jar</string>
 		</array>
 		<key>JVMVersion</key>
 		<string>1.5+</string>

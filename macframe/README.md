@@ -1,1 +1,1 @@
-Helix2.app is a native Mac OS X executable structure which can be used to create a Helix<sup>2</sup> Mac app. To create an executable, simply copy the compiled .jar file into Helix2.app/Contents/Resources/Java
+Helix2.app is a native Mac OS X executable structure which can be used to create a Helix<sup>2</sup> Mac app. To create an executable, simply rename the compiled .jar file to Helix2.jar and copy it into Helix2.app/Contents/Resources/Java
