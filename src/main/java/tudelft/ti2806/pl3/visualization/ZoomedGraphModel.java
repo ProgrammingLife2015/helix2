@@ -37,6 +37,8 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 * Minimum distance between nodes in pixels, can be overruled by {@link #MIN_NODE_COUNT}.
 	 */
 	private static final float MIN_NODE_DISTANCE = 60f;
+	private static final float MIN_ZOOM_LEVEL = 1;
+	private static final float MAX_ZOOM_LEVEL = 1000;
 	private FilteredGraphModel filteredGraphModel;
 
 	private Wrapper collapsedNode;
@@ -67,8 +69,12 @@ public class ZoomedGraphModel extends Observable implements Observer, LoadingObs
 	 *            the new zoom level
 	 */
 	public void setZoomLevel(float zoomLevel) {
-		if (zoomLevel >= 1) {
-			this.zoomLevel = zoomLevel;
+		this.zoomLevel = zoomLevel;
+		if (zoomLevel < MIN_ZOOM_LEVEL) {
+			this.zoomLevel = MIN_ZOOM_LEVEL;
+		}
+		if (zoomLevel > MAX_ZOOM_LEVEL) {
+			this.zoomLevel = MAX_ZOOM_LEVEL;
 		}
 	}
 	
