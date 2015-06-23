@@ -4,7 +4,7 @@
   <groupId>tudelft.ti2806.pl3</groupId>
   <artifactId>Helix2</artifactId>
   <packaging>jar</packaging>
-  <version>0.7</version>
+  <version>1.0</version>
   <name>app</name>
   <url>http://maven.apache.org</url>
   <properties>
