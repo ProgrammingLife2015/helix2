@@ -61,11 +61,10 @@ public class GenomeFilter implements Filter<DataNode> {
 
 		GenomeFilter that = (GenomeFilter) o;
 
-		if (genomes != null ? !genomes.equals(that.genomes) : that.genomes != null) {
-			return false;
+		if (this.genomes == null) {
+			return that.genomes == null; 
 		}
-
-		return true;
+		return genomes.equals(that.genomes);
 	}
 
 	@Override
