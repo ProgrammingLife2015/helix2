@@ -18,6 +18,7 @@ import tudelft.ti2806.pl3.ui.util.DialogUtil;
 import tudelft.ti2806.pl3.util.FileSelector;
 import tudelft.ti2806.pl3.util.LastOpenedStack;
 import tudelft.ti2806.pl3.util.ParserLastOpened;
+import tudelft.ti2806.pl3.util.Resources;
 import tudelft.ti2806.pl3.util.observers.LoadingObserver;
 import tudelft.ti2806.pl3.visualization.GraphController;
 import tudelft.ti2806.pl3.zoombar.ZoomBarController;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
@@ -69,6 +71,8 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public Application() {
 		super(Constants.APP_NAME);
+
+		this.setIconImage(new ImageIcon(Resources.getResource("pictures/helix64.png")).getImage());
 		// read the last opened files
 		try {
 			LastOpenedStack<File> files = ParserLastOpened.readLastOpened();

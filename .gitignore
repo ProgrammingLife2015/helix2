@@ -59,6 +59,7 @@ hs_err_pid*
 !/data/testdata/
 !/data/testdata/*.graph
 !/data/testdata/*/*.nwk
+!resources/pictures/
 !resources/pictures/*
 
 #Helix^2 files
