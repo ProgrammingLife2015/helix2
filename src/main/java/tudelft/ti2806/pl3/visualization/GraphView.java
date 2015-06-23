@@ -12,6 +12,7 @@ import tudelft.ti2806.pl3.ScreenSize;
 import tudelft.ti2806.pl3.controls.MouseManager;
 import tudelft.ti2806.pl3.data.gene.Gene;
 import tudelft.ti2806.pl3.data.graph.DataNode;
+import tudelft.ti2806.pl3.data.wrapper.FixWrapper;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
 import tudelft.ti2806.pl3.exception.EdgeZeroWeightException;
@@ -285,13 +286,16 @@ public class GraphView implements Observer, tudelft.ti2806.pl3.View, ViewInterfa
 	 */
 	private void colorGene() {
 		if (selectedGene != null) {
+			String fixWrapper = FixWrapper.class.getSimpleName();
 			for (Node graphNode : graph.getNodeSet()) {
-				graphNode.removeAttribute("ui.style");
+				if (!fixWrapper.equals(graphNode.getAttribute("ui.class"))) {
+					graphNode.removeAttribute("ui.class");
+				}
 				WrapperClone wrapper = graphNode.getAttribute("node", WrapperClone.class);
 				wrapper.getLabels().stream()
 						.filter(label -> label.getText().equals(selectedGene.getName()))
-						.forEach(label -> graphNode.addAttribute("ui.style",
-								"fill-color: red;"));
+						.forEach(label -> graphNode.addAttribute("ui.class",
+								"SELECTED"));
 			}
 		}
 	}
