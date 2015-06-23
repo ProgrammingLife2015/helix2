@@ -32,7 +32,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
@@ -56,7 +55,6 @@ public class Application extends JFrame implements ControllerContainer {
 
 	private ScreenSize size;
 
-
 	/**
 	 * The controllers of the application.
 	 */
@@ -71,8 +69,7 @@ public class Application extends JFrame implements ControllerContainer {
 	 */
 	public Application() {
 		super(Constants.APP_NAME);
-
-		this.setIconImage(new ImageIcon(Resources.getResource("pictures/helix64.png")).getImage());
+		this.setIconImages(Resources.getIcons());
 		// read the last opened files
 		try {
 			LastOpenedStack<File> files = ParserLastOpened.readLastOpened();
