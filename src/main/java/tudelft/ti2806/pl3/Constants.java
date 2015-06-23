@@ -43,6 +43,7 @@ public class Constants {
 			+ "Move the view to the left \t " + ARROW_LEFT + " \n"
 			+ "Move the view to the right \t " + ARROW_RIGHT + " \n"
 			+ "Gene navigation window \t G \n"
+			+ "Filter on metadata window \t F \n"
 			+ "Hide/show phylogenetic tree window \t " + SPACE + " \n"
 			+ "\n"
 			+ "All of the menus can be controlled with the underlined letter, "
