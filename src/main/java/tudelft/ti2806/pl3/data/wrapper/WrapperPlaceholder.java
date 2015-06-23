@@ -60,7 +60,12 @@ public class WrapperPlaceholder extends Wrapper {
 	public int getWidth() {
 		return 0;
 	}
-	
+
+	@Override
+	public String getBasePairString() {
+		return null;
+	}
+
 	@Override
 	public boolean contains(Wrapper object) {
 		return false;

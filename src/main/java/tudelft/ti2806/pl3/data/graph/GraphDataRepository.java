@@ -114,7 +114,8 @@ public class GraphDataRepository extends AbstractGraphData implements LoadingObs
 	 * @throws FileNotFoundException
 	 * 		if the file is not found
 	 */
-	public void parseGraph(File nodesFile, File edgesFile, File metaFile, GeneData geneData) throws FileNotFoundException {
+	public void parseGraph(File nodesFile, File edgesFile, File metaFile, GeneData geneData)
+			throws FileNotFoundException {
 		notifyLoadingObservers(true);
 		geneToStartNodeMap = new HashMap<>(geneData.getGenes().size());
 		genes = new ArrayList<>();

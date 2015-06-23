@@ -90,7 +90,12 @@ public class WrapperClone extends Wrapper {
 	public int getWidth() {
 		return originalNode.getWidth();
 	}
-	
+
+	@Override
+	public String getBasePairString() {
+		return originalNode.getBasePairString();
+	}
+
 	@Override
     public boolean contains(Wrapper object) {
         return this.originalNode.contains(object);
