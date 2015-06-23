@@ -84,7 +84,12 @@ public class SingleWrapper extends Wrapper {
 	public int getWidth() {
 		return this.getNode().getWidth();
 	}
-	
+
+	@Override
+	public String getBasePairString() {
+		return target.getBasePairString();
+	}
+
 	@Override
 	public boolean contains(Wrapper object) {
 		return object == this.target || this.target.contains(object);

@@ -42,6 +42,8 @@ public abstract class Wrapper implements Comparable<Wrapper> {
 	 * @return the distance between the start x and end x of this node.
 	 */
 	public abstract int getWidth();
+
+	public abstract String getBasePairString();
 	
 	public int getPreviousNodesCount() {
 		return previousNodesCount;

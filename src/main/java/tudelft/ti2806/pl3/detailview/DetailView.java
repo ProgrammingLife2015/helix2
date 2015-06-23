@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.detailview;
+package tudelft.ti2806.pl3.detailView;
 
 import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
@@ -27,6 +27,7 @@ public class DetailView extends JPanel {
 	private static final int BORDER = 10;
 	private static final int POSITION_OFFSET = 30;
 	private static final String REF_GENOME = "REF";
+	private static final int MAX_BASEPAIR_LENGTH = 10;
 
 	/**
 	 * Custom string comparator to prioritize the reference genome.
@@ -44,9 +45,9 @@ public class DetailView extends JPanel {
 	 * Constructs a DetailView and set a border and the preferred layout.
 	 */
 	public DetailView() {
-		BoxLayout layout = new BoxLayout(this, BoxLayout.X_AXIS);
+		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);
-		setBorder(BorderFactory.createEmptyBorder(BORDER, BORDER, BORDER, BORDER));
+		setBorder(BorderFactory.createEmptyBorder(0, BORDER, BORDER, BORDER));
 	}
 
 	/**
@@ -61,11 +62,33 @@ public class DetailView extends JPanel {
 	public void setNode(WrapperClone node, int x, int y) {
 		removeAll();
 
+		addLabels(node);
 		addList(node.getGenome(), Constants.DETAILVIEW_GENOMES);
 		addList(node.getLabels(), Constants.DETAILVIEW_LABELS);
 
 		Dimension size = getPreferredSize();
 		setBounds(x, y, size.width, size.height);
+	}
+
+	/**
+	 * Adds labels for the node id and the base pair string if the node can not be unwrapped.
+	 * @param node
+	 * 		The node for which the id and base pair string should be added.
+	 */
+	public void addLabels(WrapperClone node) {
+		if (!node.canUnwrap()) {
+			JLabel label = new JLabel("Node id: " + node.getIdString());
+			label.setBorder(BorderFactory.createEmptyBorder(BORDER, 0, BORDER, 0));
+			add(label);
+			String basePairString = node.getBasePairString();
+			int length = basePairString.length();
+			if (length > MAX_BASEPAIR_LENGTH) {
+				basePairString = basePairString.substring(0, MAX_BASEPAIR_LENGTH / 2) + "..."
+						+ basePairString.substring(length - MAX_BASEPAIR_LENGTH / 2);
+			}
+			add(new JLabel("Base pairs:"));
+			add(new JLabel(basePairString));
+		}
 	}
 
 	/**
@@ -93,6 +116,7 @@ public class DetailView extends JPanel {
 		if (title != null) {
 			listScroller.setColumnHeaderView(new JLabel(title));
 		}
+		listScroller.setBorder(BorderFactory.createEmptyBorder(BORDER, 0, 0, 0));
 		add(listScroller);
 	}
 
