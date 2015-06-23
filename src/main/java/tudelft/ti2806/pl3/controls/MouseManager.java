@@ -6,7 +6,7 @@ import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
 
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
-import tudelft.ti2806.pl3.detailView.DetailView;
+import tudelft.ti2806.pl3.detailview.DetailView;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
