@@ -21,7 +21,8 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class ZoomBarView extends JPanel implements View, Observer {
-	public static final double ZOOMBAR_FACTOR = 0.1;
+	public static final double ZOOM_BAR_FACTOR = 0.1;
+	private static final int INDICATOR_MIN_WIDTH = 5;
 
 	private int x = 0;
 	private int width = -1;
@@ -81,8 +82,8 @@ public class ZoomBarView extends JPanel implements View, Observer {
 	 */
 	private void drawIndicator(Graphics g) {
 		if (width != -1) {
-			if (width < 5) {
-				width = 5;
+			if (width < INDICATOR_MIN_WIDTH) {
+				width = INDICATOR_MIN_WIDTH;
 			}
 			Graphics2D g2 = (Graphics2D) g;
 			float thickness = 2;

@@ -36,7 +36,7 @@ public class ScreensizeTest {
 	public void testCalculateZoombar() {
 		screenSize.setHeight(testHeight);
 		screenSize.calculate();
-		int zoombarheight = (int) (ZoomBarView.ZOOMBAR_FACTOR * testHeight);
+		int zoombarheight = (int) (ZoomBarView.ZOOM_BAR_FACTOR * testHeight);
 		assertEquals(zoombarheight, screenSize.getZoomBarHeight());
 
 	}

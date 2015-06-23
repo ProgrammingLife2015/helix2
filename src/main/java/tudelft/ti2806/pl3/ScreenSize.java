@@ -77,7 +77,7 @@ public class ScreenSize {
 	 * Calculate the sizes of the windows.
 	 */
 	public void calculate() {
-		zoomBarHeight = calculate(ZoomBarView.ZOOMBAR_FACTOR, getHeight());
+		zoomBarHeight = calculate(ZoomBarView.ZOOM_BAR_FACTOR, getHeight());
 		sideBarWidth = calculate(SideBarView.SIDEBAR_FACTOR, getWidth());
 	}
 	
