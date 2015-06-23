@@ -52,13 +52,16 @@ public class Gene implements Comparable<Gene> {
 
 		Gene gene = (Gene) obj;
 
-		if (end != gene.end) {
+		if (this.end != gene.end) {
 			return false;
 		}
-		if (start != gene.start) {
+		if (this.start != gene.start) {
 			return false;
 		}
-		return !(name != null ? !name.equals(gene.name) : gene.name != null);
+		if (this.name == null) {
+			return gene.name == null;
+		}
+		return this.name.equals(gene.name);
 	}
 
 	/**
