@@ -167,7 +167,7 @@ public class Application extends JFrame implements ControllerContainer {
 		try {
 			File nodeFile = FileSelector.selectFile(Constants.DIALOG_SELECT_NODE_FILE, this, Constants.EXTENSION_NODE);
 			File edgeFile = FileSelector.getOtherExtension(nodeFile,
-					Constants.EXTENSION_EDGE, Constants.EXTENSION_NODE);
+					Constants.EXTENSION_NODE, Constants.EXTENSION_EDGE);
 			makeGraph(nodeFile, edgeFile, null, null);
 		} catch (FileSelectorException exception) {
 			if (DialogUtil.confirm(Constants.DIALOG_TITLE_ERROR, Constants.DIALOG_FILE_NOT_FOUND)) {
