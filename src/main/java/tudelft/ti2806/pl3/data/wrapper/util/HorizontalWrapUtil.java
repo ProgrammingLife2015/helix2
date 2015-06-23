@@ -7,11 +7,11 @@ import tudelft.ti2806.pl3.data.wrapper.HorizontalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -160,7 +160,7 @@ public final class HorizontalWrapUtil {
 				List<Wrapper> foundGroup = new ArrayList<>();
 				foundGroup.add(startNode);
 
-				HashableCollection<Genome> genome = new HashableCollection<>(startNode.getGenome());
+				HashSet<Genome> genome = (HashSet<Genome>) startNode.getGenome();
 				combineRight(startNode, foundGroup, genome);
 				combineLeft(startNode, foundGroup, genome);
 
@@ -187,12 +187,11 @@ public final class HorizontalWrapUtil {
 	 *            a set of genomes which should be equal for each found node
 	 */
 	private static void combineRight(Wrapper startNode, List<Wrapper> foundGroup,
-			HashableCollection<Genome> genome) {
+			HashSet<Genome> genome) {
 		Wrapper node = startNode;
 		while (node.getOutgoing().size() == 1
 				&& node.getOutgoing().get(0).getIncoming().size() == 1
-				&& genome.equals(new HashableCollection<>(node.getOutgoing()
-						.get(0).getGenome()))) {
+				&& genome.equals(node.getOutgoing().get(0).getGenome())) {
 			node = node.getOutgoing().get(0);
 			foundGroup.add(node);
 		}
@@ -209,12 +208,11 @@ public final class HorizontalWrapUtil {
 	 *            a set of genomes which should be equal for each found node
 	 */
 	private static void combineLeft(Wrapper startNode, List<Wrapper> foundGroup,
-			HashableCollection<Genome> genome) {
+			HashSet<Genome> genome) {
 		Wrapper node = startNode;
 		while (node.getIncoming().size() == 1
 				&& node.getIncoming().get(0).getOutgoing().size() == 1
-				&& genome.equals(new HashableCollection<>(node.getIncoming()
-						.get(0).getGenome()))) {
+				&& genome.equals(node.getIncoming().get(0).getGenome())) {
 			node = node.getIncoming().get(0);
 			foundGroup.add(0, node);
 		}

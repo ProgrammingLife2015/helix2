@@ -6,7 +6,6 @@ import tudelft.ti2806.pl3.data.wrapper.SpaceWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
 import tudelft.ti2806.pl3.exception.DuplicateGenomeNameException;
-import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 
 import java.util.ArrayList;
@@ -195,7 +194,7 @@ public final class SpaceWrapUtil {
 	 * @return a collection of buckets
 	 */
 	private static Collection<Pair<Set<Genome>, List<Wrapper>>> getNodesByGenome(List<Wrapper> nodes) {
-		Map<HashableCollection<Genome>, Pair<Set<Genome>, List<Wrapper>>> searchMap = new HashMap<>();
+		Map<Set<Genome>, Pair<Set<Genome>, List<Wrapper>>> searchMap = new HashMap<>();
 		for (Wrapper node : nodes) {
 			Set<Genome> genome = node.getGenome();
 			/*
@@ -204,10 +203,10 @@ public final class SpaceWrapUtil {
 			if (genome.size() <= 1) {
 				continue;
 			}
-			Pair<Set<Genome>, List<Wrapper>> pair = searchMap.get(new HashableCollection<>(genome));
+			Pair<Set<Genome>, List<Wrapper>> pair = searchMap.get(genome);
 			if (pair == null) {
 				pair = new Pair<>(genome, new ArrayList<>());
-				searchMap.put(new HashableCollection<>(genome), pair);
+				searchMap.put(genome, pair);
 			}
 			pair.getSecond().add(node);
 		}

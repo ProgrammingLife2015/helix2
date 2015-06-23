@@ -5,7 +5,6 @@ import tudelft.ti2806.pl3.data.wrapper.CombineWrapper;
 import tudelft.ti2806.pl3.data.wrapper.VerticalWrapper;
 import tudelft.ti2806.pl3.data.wrapper.WrappedGraphData;
 import tudelft.ti2806.pl3.data.wrapper.Wrapper;
-import tudelft.ti2806.pl3.util.HashableCollection;
 import tudelft.ti2806.pl3.util.Pair;
 
 import java.util.ArrayList;
@@ -95,15 +94,13 @@ public final class VerticalWrapUtil {
 	 * @return a list of edges which could be combined
 	 */
 	static List<List<Wrapper>> findCombineableNodes(List<Wrapper> nodes) {
-		Map<Pair<HashableCollection<Wrapper>, HashableCollection<Wrapper>>,List<Wrapper>> map
+		Map<Pair<List<Wrapper>, List<Wrapper>>,List<Wrapper>> map
 			= new HashMap<>();
 		for (Wrapper node : nodes) {
-			List<Wrapper> list = map.get(new Pair<>(new HashableCollection<>(node.getIncoming()),
-					new HashableCollection<>(node.getOutgoing())));
+			List<Wrapper> list = map.get(new Pair<>(node.getIncoming(), node.getOutgoing()));
 			if (list == null) {
 				list = new ArrayList<>();
-				map.put(new Pair<>(new HashableCollection<>(node.getIncoming()),
-						new HashableCollection<>(node.getOutgoing())), list);
+				map.put(new Pair<>(node.getIncoming(), node.getOutgoing()), list);
 			}
 			list.add(node);
 		}
