@@ -34,6 +34,8 @@ public class ZoomedGraphModelTest {
 		zoomedGraphModel.setZoomLevel(5);
 		assertEquals(5, zoomedGraphModel.getZoomLevel(), 0);
 		zoomedGraphModel.setZoomLevel(-1);
-		assertEquals(5, zoomedGraphModel.getZoomLevel(), 0);
+		assertEquals(1, zoomedGraphModel.getZoomLevel(), 0);
+		zoomedGraphModel.setZoomLevel(1001);
+		assertEquals(1000, zoomedGraphModel.getZoomLevel(), 0);
 	}
 }

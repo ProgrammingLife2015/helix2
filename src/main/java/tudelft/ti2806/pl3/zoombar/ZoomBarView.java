@@ -80,7 +80,10 @@ public class ZoomBarView extends JPanel implements View, Observer {
 	 * 		graphics
 	 */
 	private void drawIndicator(Graphics g) {
-		if (width > 0) {
+		if (width != -1) {
+			if (width < 5) {
+				width = 5;
+			}
 			Graphics2D g2 = (Graphics2D) g;
 			float thickness = 2;
 			Stroke oldStroke = g2.getStroke();
