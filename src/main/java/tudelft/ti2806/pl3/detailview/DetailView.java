@@ -1,4 +1,4 @@
-package tudelft.ti2806.pl3.detailView;
+package tudelft.ti2806.pl3.detailview;
 
 import tudelft.ti2806.pl3.Constants;
 import tudelft.ti2806.pl3.data.wrapper.WrapperClone;
@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
