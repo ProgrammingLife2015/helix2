@@ -31,3 +31,7 @@ node.BOX {
 node.FixWrapper {
     visibility-mode: hidden;
 }
+
+node.SELECTED {
+    fill-color: red;
+}
