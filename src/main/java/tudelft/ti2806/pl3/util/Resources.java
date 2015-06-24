@@ -20,6 +20,10 @@ public class Resources {
 		return Resources.class.getClassLoader().getResourceAsStream(file);
 	}
 
+	/**
+	 * Retrieve a list of icons with all available resolutions.
+	 * @return a list of icons.
+	 */
 	public static List<Image> getIcons() {
 		List<Integer> list = Arrays.asList(16, 20, 24, 32, 48, 64, 128, 256, 512);
 		return list.stream().map(integer -> new ImageIcon(getResource("pictures/helix" + integer + ".png")).getImage())
