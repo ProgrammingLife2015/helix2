@@ -32,9 +32,6 @@ public final class WrapUtil {
 			graph = lastGraph;
 		}
 		graph = collapseGraphSpacial(graph);
-		if (graph == null) {
-			graph = lastGraph;
-		}
 		if (graph.getPositionedNodes().size() > 1) {
 			return applyFixNode(graph);
 		}
