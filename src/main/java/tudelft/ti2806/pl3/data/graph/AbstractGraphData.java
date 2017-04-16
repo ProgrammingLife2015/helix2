@@ -32,7 +32,9 @@ public abstract class AbstractGraphData {
 	 * @return a clone of the genomes list of this graph
 	 */
 	public List<Genome> getGenomeClone() {
-		return new ArrayList<>(genomes);
+		List<Genome> clone = new ArrayList<>(genomes.size());
+		clone.addAll(genomes);
+		return clone;
 	}
 	
 	/**
@@ -41,7 +43,9 @@ public abstract class AbstractGraphData {
 	 * @return a clone of the edge list of this graph
 	 */
 	public List<Edge> getEdgeListClone() {
-		return new ArrayList<>(edges);
+		List<Edge> clone = new ArrayList<>(edges.size());
+		clone.addAll(edges);
+		return clone;
 	}
 	
 	/**
@@ -50,6 +54,8 @@ public abstract class AbstractGraphData {
 	 * @return a clone of the node list
 	 */
 	public List<DataNode> getNodeListClone() {
-		return new ArrayList<>(nodes);
+		List<DataNode> clone = new ArrayList<>(nodes.size());
+		clone.addAll(nodes);
+		return clone;
 	}
 }
